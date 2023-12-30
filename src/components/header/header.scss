@@ -1,0 +1,24 @@
+@import '../../common/styles.scss';
+
+.header {
+    height: $header-height;
+    align-items: center;
+    padding: 0 1.5rem;
+    justify-content: space-between;
+    border-bottom: $border;
+
+    .heading {
+        font-size: 1.25rem;
+        height: 1rem;
+    }
+
+    .logo,
+    .menuIcon {
+        font-size: 2rem;
+        margin-right: 0.75rem;
+    }
+
+    .menuIcon {
+        color: #1976d2;
+    }
+}

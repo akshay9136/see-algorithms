@@ -1,0 +1,14 @@
+.login,
+.register {
+    width: 300px;
+
+    .formInput {
+        margin: 1rem 0 !important;
+        width: 100%;
+    }
+    .formFooter {
+        button {
+            margin: 1rem 0;
+        }
+    }
+}

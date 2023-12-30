@@ -1,0 +1,67 @@
+@import '~bootstrap/scss/bootstrap';
+@import './common/styles.scss';
+
+.App {
+    height: 100%;
+    overflow: hidden;
+    font-size: 16px;
+}
+
+.layout {
+    height: $layout-height;
+
+    .container {
+        height: 100%;
+        overflow-x: auto;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        padding: 0;
+        .content {
+            padding: 1.5rem;
+        }
+    }
+}
+
+.drawer {
+    @include sider;
+    .paper,
+    .backdrop {
+        @include sider;
+    }
+}
+
+.sortNumbers {
+    width: max-content;
+}
+
+.sortNumbers,
+.drawGraph {
+    table {
+        border-collapse: separate;
+        border-spacing: 0.5rem;
+        font-weight: 600;
+        font-size: 1rem;
+        td {
+            width: 3.5rem;
+            height: 3rem;
+            text-align: center;
+            border-radius: 4px;
+        }
+    }
+}
+
+.drawGraph,
+.dsInput {
+    width: max-content;
+    height: max-content;
+
+    .resizable {
+        border: thin solid;
+        margin: 1rem 0;
+        min-width: 700px;
+        height: 500px;
+        resize: both;
+        overflow: auto;
+    }
+}
