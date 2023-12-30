@@ -50,33 +50,34 @@ export default function QuickSort() {
             await wait(delay);
         }
         if (i < end && arr[i] > arr[end]) {
+            bgcolor(`#box${i}`, Colors.sorted);
+            await wait(500);
             await swap(i, end);
-            await Promise.all([
-                bgcolor(`#box${end}`, Colors.white, 0),
-                bgcolor(`#box${i}`, Colors.sorted, 0)
-            ]);
+            await wait(500);
+            bgcolor(`#box${end}`, Colors.white);
         } else {
-            await bgcolor(`#box${i}`, Colors.white, 0);
+            bgcolor(`#box${i}`, Colors.white);
+            i = end;
         }
-        await wait(delay);
         return i;
     };
 
     const quickSort = async (start, end) => {
         if (start >= end) {
-            await bgcolor(`#box${start}`, Colors.sorted);
+            bgcolor(`#box${start}`, Colors.sorted);
             return;
         }
         const pivot = await divide(start, end);
-        await quickSort(start, pivot - 1);
-        await quickSort(pivot + 1, end);
         await wait(delay);
+        await quickSort(start, pivot - 1);
+        await wait(delay);
+        await quickSort(pivot + 1, end);
     };
 
     const handleStart = (values) => {
         setNumbers(values);
         arr = values.slice();
-        setTimeout(quickSort, 1000, 0, arr.length - 1);
+        setTimeout(quickSort, delay, 0, arr.length - 1);
     };
 
     const handleStop = () => setNumbers([]);
