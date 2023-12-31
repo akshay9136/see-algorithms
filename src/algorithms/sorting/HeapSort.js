@@ -20,7 +20,7 @@ export default function HeapSort() {
             const parent = Tree.node(j);
             Tree.insert(arr[i], parent, i % 2 === 1);
         }
-        await wait(1000);
+        await wait(1500);
         const k = Math.floor(n / 2) - 1;
         for (let i = k; i >= 0; i--) {
             await heapify(Tree.node(i));
@@ -33,7 +33,7 @@ export default function HeapSort() {
                 await Tree.swapNodes(first, last);
             }
             await bgcolor(`#node${last.index}`, Colors.sorted);
-            await wait(delay);
+            await wait(1000);
             await heapify(Tree.node(0), i);
             await wait(delay);
         }
@@ -74,7 +74,7 @@ export default function HeapSort() {
         setNumbers(values);
         arr = values.slice();
         Tree = binaryTree(animator);
-        setTimeout(heapSort, 1000);
+        setTimeout(heapSort, 1500);
     };
 
     const handleStop = () => {
