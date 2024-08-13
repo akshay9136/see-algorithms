@@ -1,45 +1,37 @@
-import { makeVar } from '@apollo/client';
-
-export const userAuthVar = makeVar(null);
-
-export const categoriesVar = makeVar([
+export const categories = [
     {
-        catName: 'Sorting',
+        catname: 'Sorting',
         algorithms: [
-            { algoName: 'Bubble Sort', pathId: 'bubble-sort' },
-            { algoName: 'Insertion Sort', pathId: 'insertion-sort' },
-            { algoName: 'Selection Sort', pathId: 'selection-sort' },
-            { algoName: 'Radix Sort', pathId: 'radix-sort' },
-            { algoName: 'Heap Sort', pathId: 'heap-sort' },
-            { algoName: 'Merge Sort', pathId: 'merge-sort' },
-            { algoName: 'Quick Sort', pathId: 'quick-sort' },
+            'BubbleSort',
+            'InsertionSort',
+            'SelectionSort',
+            'RadixSort',
+            'HeapSort',
+            'MergeSort',
+            'QuickSort',
         ],
     },
     {
-        catName: 'Graph',
+        catname: 'Graph',
         algorithms: [
-            { algoName: 'Depth First Search', pathId: 'dfs' },
-            { algoName: 'Breadth First Search', pathId: 'bfs' },
-            { algoName: "Prim's MST", pathId: 'prims' },
-            { algoName: "Kruskal's MST", pathId: 'kruskals' },
-            { algoName: "Dijkstra's Shortest Path", pathId: 'dijkstras' },
-            { algoName: 'Topological Sorting', pathId: 'top-sort' },
+            'DFS',
+            'BFS',
+            'PrimsMST',
+            'KruskalsMST',
+            'Dijkstra',
+            'TopSort',
         ],
     },
     {
-        catName: 'Data Structures',
+        catname: 'Data Structures',
         algorithms: [
-            { algoName: 'Binary Search Tree', pathId: 'bst' },
-            { algoName: 'Binary Heap', pathId: 'binary-heap' },
-            { algoName: 'Circular Queue', pathId: 'circular-queue' },
+            'BST',
+            'BinaryHeap',
+            'CircularQueue',
         ],
     },
     {
-        catName: 'Other',
-        algorithms: [
-            { algoName: 'Convex Hull', pathId: 'convex-hull' },
-        ],
+        catname: 'Other',
+        algorithms: ['ConvexHull'],
     }
-]);
-
-export const dataArrayVar = makeVar([]);
+];

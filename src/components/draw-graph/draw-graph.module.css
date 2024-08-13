@@ -1,0 +1,23 @@
+.toolbar {
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.toolbar .title {
+    font-size: 1rem;
+    position: absolute;
+    left: 0;
+}
+.toolbar .source {
+    width: 90px;
+    margin-left: 1rem;
+}
+.toolbar button {
+    margin-left: 1rem;
+}
+
+.plane {
+    width: calc(100% - 5px);
+    height: calc(100% - 5px);
+}

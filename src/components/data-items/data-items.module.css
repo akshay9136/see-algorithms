@@ -1,0 +1,23 @@
+.dataItems {
+    height: 100%;
+    overflow: auto;
+    border-left: 1px solid #e5e5e5;
+    width: 20%;
+    min-width: max-content;
+}
+
+.listHeader {
+    border-bottom: 1px solid #e5e5e5;
+    background-color: white;
+}
+
+.deleteIcon {
+    position: relative;
+    left: 1.5rem;
+    color: #f44336;
+}
+
+.blur {
+    opacity: 0.5;
+    pointer-events: none;
+}

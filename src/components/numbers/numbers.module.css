@@ -1,0 +1,45 @@
+.inputNumbers {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.inputNumbers .label {
+  font-size: 1rem;
+  width: max-content;
+}
+
+.inputNumbers .number {
+  width: 2.5rem;
+  margin-right: 0.5rem;
+}
+
+.inputNumbers .select {
+  width: 4rem;
+}
+
+.numbox {
+  width: 52px;
+  height: 40px;
+  border: 2px solid;
+  border-radius: 4px;
+  margin: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.node {
+  width: 40px;
+  height: 35px;
+  margin: 0 5px;
+  position: absolute;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.edge {
+  height: 2px;
+  position: absolute;
+  transform-origin: 0 0;
+}

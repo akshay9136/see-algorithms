@@ -1,0 +1,22 @@
+.header {
+    height: 3.75rem;
+    align-items: center;
+    padding: 0 1.5rem;
+    justify-content: space-between;
+    border-bottom: thin solid #e5e5e5;
+}
+
+.heading {
+    font-size: 1.25rem;
+    height: 1rem;
+}
+
+.logo,
+.menuIcon {
+    font-size: 2rem;
+    margin-right: 0.75rem;
+}
+
+.menuIcon {
+    color: #1976d2;
+}

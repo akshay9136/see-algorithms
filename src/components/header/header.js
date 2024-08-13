@@ -1,17 +1,17 @@
 import React from 'react';
 import { MenuOpen, GitHub } from '@mui/icons-material';
-import './header.scss';
+import styles from './header.module.css';
 
 function Header(props) {
     return (
-        <div className="header d-flex">
+        <div className={`${styles.header} d-flex`}>
             <div className="d-flex align-items-center">
                 <MenuOpen
                     onClick={() => props.toggleMenu()}
-                    className="d-md-none d-sm-block menuIcon"
+                    className={`d-md-none d-sm-block ${styles.menuIcon}`}
                     color="primary"
                 />
-                <h5 className="heading">SEE ALGORITHMS</h5>
+                <h5 className={styles.heading}>SEE ALGORITHMS</h5>
             </div>
             <div>
                 <GitHub

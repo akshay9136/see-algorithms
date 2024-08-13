@@ -1,72 +1,74 @@
-import React from 'react';
-import { List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import React, { useContext } from 'react';
+import {
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material';
 import { Category, MeetingRoom } from '@mui/icons-material';
-import { useHistory } from 'react-router-dom';
-import './sider.scss';
+import { useRouter } from 'next/router';
+import styles from './sider.module.css';
 import { showMenu } from '../menu/menu';
-import { useReactiveVar } from '@apollo/client';
-import { categoriesVar, userAuthVar } from '../../common/cache';
+import { Algorithms } from '@/common/constants';
+import AppContext from '@/common/context';
 
 function Sider(props) {
-    const categories = useReactiveVar(categoriesVar);
-    const userAuth = useReactiveVar(userAuthVar);
-    const history = useHistory();
+  const { categories, userAuth, setContext } = useContext(AppContext);
+  const router = useRouter();
 
-    const handleSelect = ({ value, data }) => {
-        const params = new URLSearchParams(data).toString();
-        history.push(`${value}?${params}`);
-        props.onClose();
-    };
+  const handleSelect = ({ catname, value }) => {
+    const key = catname.split(' ').join('-').toLowerCase();
+    router.push(`/${key}/${value}`);
+    props.onClose();
+  };
 
-    const getMenuOptions = (e) => ({
-        anchorEl: e.currentTarget,
-        anchorOrigin: { vertical: 'center', horizontal: 'center' },
-        onSelect: handleSelect,
-    });
+  const getMenuOptions = (e) => ({
+    anchorEl: e.currentTarget,
+    anchorOrigin: { vertical: 'center', horizontal: 'center' },
+    onSelect: handleSelect,
+  });
 
-    return (
-        <List className="sider">
-            {categories.map(({ catName, algorithms }) => (
-                <ListItemButton
-                    key={catName}
-                    className="listItem"
-                    onClick={(e) => {
-                        showMenu({
-                            ...getMenuOptions(e),
-                            menuItems: algorithms.map(
-                                ({ algoName, pathId }) => ({
-                                    label: algoName,
-                                    value: pathId,
-                                    data: { algoName, catName },
-                                })
-                            ),
-                        });
-                    }}
-                >
-                    <ListItemIcon>
-                        <Category className="listItemIcon" />
-                    </ListItemIcon>
-                    <ListItemText primary={catName} className="listItemText" />
-                </ListItemButton>
-            ))}
-            {userAuth && (
-                <ListItemButton
-                    className="listItem logout"
-                    onClick={() => {
-                        userAuthVar(null);
-                        localStorage.removeItem('userAuth');
-                        props.onClose();
-                        history.push('/');
-                    }}
-                >
-                    <ListItemIcon>
-                        <MeetingRoom className="listItemIcon" />
-                    </ListItemIcon>
-                    <ListItemText primary="Logout" className="listItemText" />
-                </ListItemButton>
-            )}
-        </List>
-    );
+  return (
+    <List className={styles.sider}>
+      {categories.map(({ catname, algorithms }) => (
+        <ListItemButton
+          key={catname}
+          className={styles.listItem}
+          onClick={(e) => {
+            showMenu({
+              ...getMenuOptions(e),
+              menuItems: algorithms.map((algoId) => ({
+                label: Algorithms[algoId],
+                value: algoId,
+                catname,
+              })),
+            });
+          }}
+        >
+          <ListItemIcon>
+            <Category className={styles.listItemIcon} />
+          </ListItemIcon>
+          <ListItemText primary={catname} className={styles.listItemText} />
+        </ListItemButton>
+      ))}
+      {userAuth && (
+        <ListItemButton
+          className={`${styles.listItem} ${styles.logout}`}
+          onClick={() => {
+            setContext({ userAuth: null });
+            localStorage.removeItem('userAuth');
+            props.onClose();
+            history.push('/');
+          }}
+        >
+          <ListItemIcon>
+            <MeetingRoom className={styles.listItemIcon} />
+          </ListItemIcon>
+          <ListItemText primary="Logout" className={styles.listItemText} />
+        </ListItemButton>
+      )}
+    </List>
+  );
 }
 
 export default Sider;

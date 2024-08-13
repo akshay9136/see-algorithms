@@ -1,0 +1,87 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+:root {
+  --header-height: 60px;
+  --layout-height: calc(100% - 60px);
+  --border: thin solid #e5e5e5;
+}
+
+.App {
+  height: 100%;
+  overflow: hidden;
+  font-size: 16px;
+}
+
+.contentRow {
+  height: var(--layout-height);
+  flex-wrap: nowrap;
+}
+
+.container {
+  height: 100%;
+  min-width: max-content;
+  overflow-x: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  padding: 0;
+}
+
+.content {
+  padding: 1rem 1.5rem;
+}
+
+.drawer {
+  top: var(--header-height) !important;
+  height: var(--layout-height);
+}
+
+.drawer .paper,
+.drawer .backdrop {
+  top: var(--header-height) !important;
+  height: var(--layout-height);
+}
+
+.sortNumbers {
+  width: max-content;
+}
+
+.insertionSort,
+.selectionSort {
+  padding-top: 3.5rem;
+}
+
+.heapSort {
+  position: relative;
+}
+
+.sortNumbers table,
+.drawGraph table {
+  border-collapse: separate;
+  border-spacing: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.sortNumbers table td,
+.drawGraph table td {
+  width: 3.5rem;
+  height: 2.5rem;
+  text-align: center;
+  border-radius: 4px;
+}
+
+.drawGraph,
+.dsInput {
+  width: max-content;
+  height: max-content;
+}
+
+.drawGraph .resizable {
+  border: thin solid;
+  margin: 1rem 0;
+  min-width: 700px;
+  height: 500px;
+  resize: both;
+  overflow: auto;
+}
