@@ -49,7 +49,7 @@ export default function App({ Component, pageProps }) {
         <Sider onClose={() => setMenuVisible(false)} />
       </Drawer>
       <Head>
-        <title>SEE ALGORITHMS</title>
+        <title>{Algorithms[algoId] || 'SEE ALGORITHMS'}</title>
         <meta name="description" content="Visualization of Algorithms" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />

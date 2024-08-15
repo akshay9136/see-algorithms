@@ -24,11 +24,11 @@ export default function SelectionSort() {
             tx(`#box${j}`, -k * 60, 0.2 * k),
         ]);
         await Promise.all([ty(`#box${i}`, 0, 0.5), ty(`#box${j}`, 0, 0.5)]);
-        await Promise.all([tx(`#box${i}`, 0, 0), tx(`#box${j}`, 0, 0)]);
         let num = arr[i];
         arr[i] = arr[j];
         arr[j] = num;
         setNumbers(arr.slice());
+        await Promise.all([tx(`#box${i}`, 0, 0), tx(`#box${j}`, 0, 0)]);
     };
 
     const sortNumbers = try_(async () => {

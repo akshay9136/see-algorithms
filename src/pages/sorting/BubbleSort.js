@@ -13,11 +13,11 @@ export default function BubbleSort() {
 
     const swapNumbers = async (a, b) => {
         await Promise.all([tx(`#box${a}`, 60, 0.5), tx(`#box${b}`, -60, 0.5)]);
-        await Promise.all([tx(`#box${a}`, 0, 0), tx(`#box${b}`, 0, 0)]);
         let num = arr[a];
         arr[a] = arr[b];
         arr[b] = num;
         setNumbers(arr.slice());
+        await Promise.all([tx(`#box${a}`, 0, 0), tx(`#box${b}`, 0, 0)]);
     };
 
     const compare = async (a, b) => {

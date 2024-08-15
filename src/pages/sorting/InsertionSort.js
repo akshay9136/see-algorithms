@@ -38,10 +38,9 @@ export default function InsertionSort() {
             }
             await ty(`#box${i}`, 0, 0.5);
             await bgcolor(`#box${i}`, Colors.sorted);
-            await wait(delay);
-            for (let k = j + 1; k <= i; k++) tx(`#box${k}`, 0, 0);
             setNumbers(arr.slice());
-            await wait(delay);
+            for (let k = j + 1; k <= i; k++) tx(`#box${k}`, 0, 0);
+            await wait(delay * 2);
         }
     });
 
