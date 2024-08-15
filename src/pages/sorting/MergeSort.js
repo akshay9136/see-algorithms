@@ -37,11 +37,10 @@ export default function MergeSort() {
             s === q ? q++ : p++;
             r++;
         }
-        const _tmp = tmp.map((_, i) => {
+        tmp.forEach((_, i) => {
             arr[start + i] = tmp[i];
-            return tx(`#box${start + i}`, 0, 0);
+            tx(`#box${start + i}`, 0, 0);
         });
-        await Promise.all(_tmp);
         setNumbers(arr.slice());
         await wait(delay);
         for (let i = 0; i < tmp.length; i++) {

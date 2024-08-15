@@ -20,11 +20,11 @@ export default function QuickSort() {
             tx(`#box${b}`, -d * 60, 0.5),
         ]);
         await Promise.all([ty(`#box${a}`, 0), ty(`#box${b}`, 0)]);
-        await Promise.all([tx(`#box${a}`, 0, 0), tx(`#box${b}`, 0, 0)]);
         const num = arr[a];
         arr[a] = arr[b];
         arr[b] = num;
         setNumbers(arr.slice());
+        await Promise.all([tx(`#box${a}`, 0, 0), tx(`#box${b}`, 0, 0)]);
     };
 
     const divide = async (start, end) => {
