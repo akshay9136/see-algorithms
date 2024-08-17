@@ -1,6 +1,6 @@
 {
   "name": "see-algorithms",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -21,6 +21,7 @@
     "jquery": "^3.7.1",
     "lodash.debounce": "^4.0.8",
     "next": "14.2.5",
+    "next-seo": "^6.5.0",
     "next-sitemap": "^4.2.3",
     "react": "^18",
     "react-dom": "^18"

@@ -1,7 +1,7 @@
 import '@/styles/globals.css';
 import '@/styles/app.css';
 import { useEffect, useState } from 'react';
-import { Grid, Drawer } from '@mui/material';
+import { Drawer } from '@mui/material';
 import Header from '../components/header/header';
 import Sider from '../components/sider/sider';
 import Toast from '../components/toast/toast';
@@ -10,12 +10,12 @@ import AppContext, { initialState } from '../common/context';
 import DataItems from '../components/data-items/data-items';
 import { Algorithms } from '@/common/constants';
 import { useRouter } from 'next/router';
-import Head from 'next/head';
+import { NextSeo } from 'next-seo';
 
 export default function App({ Component, pageProps }) {
   const [state, setState] = useState(initialState);
   const [menuVisible, setMenuVisible] = useState(false);
-  const { savedData } = state;
+  const { theory, savedData } = state;
   const router = useRouter();
   const algoId = router.pathname.split('/')[2];
 
@@ -48,24 +48,22 @@ export default function App({ Component, pageProps }) {
       >
         <Sider onClose={() => setMenuVisible(false)} />
       </Drawer>
-      <Head>
-        <title>{Algorithms[algoId] || 'SEE ALGORITHMS'}</title>
-        <meta name="description" content="Visualization of Algorithms" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Grid container className="contentRow">
-        <Grid item xs={2} className="d-none d-md-block">
+      <NextSeo
+        title={`SEE ALGORITHMS - ${Algorithms[algoId] || 'Visualization of Algorithms'}`}
+        description="Learn basic algorithms by visualzing them through interactive animations."
+      />
+      <div container className="d-flex contentRow">
+        <div className="d-none d-md-block" style={{ width: '20%', maxWidth: 300 }}>
           <Sider onClose={() => {}} />
-        </Grid>
-        <Grid item xs className="container m-0">
-          <div className="content">
+        </div>
+        <div className="content m-0">
+          <div style={{ padding: '1rem 1.5rem' }}>
             <h5 className="mb-3">{Algorithms[algoId]}</h5>
             <Component {...pageProps} />
           </div>
           {savedData.length > 0 && <DataItems />}
-        </Grid>
-      </Grid>
+        </div>
+      </div>
     </AppContext.Provider>
   );
 }

@@ -2,7 +2,6 @@ html,
 body,
 #__next {
   height: 100%;
-  min-width: max-content;
 }
 
 @media only screen and (min-width: 1920px) {
