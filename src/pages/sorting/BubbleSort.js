@@ -2,30 +2,27 @@ import React, { useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
 import { Numbox, SortNumbers } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { try_, wait } from '@/common/utils';
+import { bgcolor, try_, wait } from '@/common/utils';
 
-var arr, delay = 500;
+var arr, delay = 800;
 
 export default function BubbleSort() {
     const [numbers, setNumbers] = useState([]);
-    const [scope, { bgcolor, tx }] = useAnimator();
+    const [scope, { tx }] = useAnimator();
+
     if (!numbers.length) arr = undefined;
 
-    const swapNumbers = async (a, b) => {
-        await Promise.all([tx(`#box${a}`, 60, 0.5), tx(`#box${b}`, -60, 0.5)]);
-        let num = arr[a];
-        arr[a] = arr[b];
-        arr[b] = num;
+    const swapNumbers = async (u, v) => {
+        await Promise.all([tx(`#box${u}`, 60, 0.5), tx(`#box${v}`, -60, 0.5)]);
+        arr.swap(u, v);
         setNumbers(arr.slice());
-        await Promise.all([tx(`#box${a}`, 0, 0), tx(`#box${b}`, 0, 0)]);
+        await Promise.all([tx(`#box${u}`, 0, 0), tx(`#box${v}`, 0, 0)]);
     };
 
-    const compare = async (a, b) => {
-        await Promise.all([
-            bgcolor(`#box${a}`, Colors.compare),
-            bgcolor(`#box${b}`, Colors.compare),
-            a > 0 ? bgcolor(`#box${a - 1}`, Colors.white) : Promise.resolve(),
-        ]);
+    const compare = async (u, v) => {
+        bgcolor(`#box${u}`, Colors.compare);
+        bgcolor(`#box${v}`, Colors.compare);
+        if (u > 0) bgcolor(`#box${u - 1}`, Colors.white);
         await wait(delay);
     };
 
@@ -40,10 +37,8 @@ export default function BubbleSort() {
                 }
             }
             let k = n - i;
-            await Promise.all([
-                bgcolor(`#box${k - 1}`, Colors.white),
-                bgcolor(`#box${k}`, Colors.sorted),
-            ]);
+            bgcolor(`#box${k - 1}`, Colors.white);
+            bgcolor(`#box${k}`, Colors.sorted);
             await wait(delay);
         }
         bgcolor(`#box${0}`, Colors.sorted);

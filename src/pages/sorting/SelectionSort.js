@@ -2,33 +2,19 @@ import React, { useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
 import { Numbox, SortNumbers } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { try_, wait } from '@/common/utils';
+import { bgcolor, try_, wait } from '@/common/utils';
 
-var arr, delay = 500;
+var arr, delay = 700;
 
 export default function SelectionSort() {
     const [numbers, setNumbers] = useState([]);
-    const [scope, { bgcolor, tx, ty }] = useAnimator();
+    const [scope, { tx, ty }] = useAnimator();
+
     if (!numbers.length) arr = undefined;
 
     const pickNumber = async (i) => {
-        await bgcolor(`#box${i}`, Colors.compare);
         await ty(`#box${i}`, -50, 0.5);
         await wait(delay);
-    };
-
-    const swapNumbers = async (i, j) => {
-        let k = j - i;
-        await Promise.all([
-            tx(`#box${i}`, k * 60, 0.2 * k),
-            tx(`#box${j}`, -k * 60, 0.2 * k),
-        ]);
-        await Promise.all([ty(`#box${i}`, 0, 0.5), ty(`#box${j}`, 0, 0.5)]);
-        let num = arr[i];
-        arr[i] = arr[j];
-        arr[j] = num;
-        setNumbers(arr.slice());
-        await Promise.all([tx(`#box${i}`, 0, 0), tx(`#box${j}`, 0, 0)]);
     };
 
     const sortNumbers = try_(async () => {
@@ -60,6 +46,18 @@ export default function SelectionSort() {
         bgcolor(`#box${n - 1}`, Colors.sorted);
     });
 
+    const swapNumbers = async (i, j) => {
+        let k = j - i;
+        await Promise.all([
+            tx(`#box${i}`, k * 60, 0.2 * k),
+            tx(`#box${j}`, -k * 60, 0.2 * k),
+        ]);
+        await Promise.all([ty(`#box${i}`, 0, 0.5), ty(`#box${j}`, 0, 0.5)]);
+        arr.swap(i, j);
+        setNumbers(arr.slice());
+        await Promise.all([tx(`#box${i}`, 0, 0), tx(`#box${j}`, 0, 0)]);
+    };
+
     const handleStart = (values) => {
         setNumbers(values);
         arr = values.slice();
@@ -70,7 +68,7 @@ export default function SelectionSort() {
 
     return (
         <SortNumbers onStart={handleStart} onStop={handleStop}>
-            <div className="d-flex selectionSort" ref={scope}>
+            <div className="d-flex pt-5" ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}

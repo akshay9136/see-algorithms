@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
 import { Numbox, SortNumbers } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { wait } from '@/common/utils';
+import { bgcolor, wait } from '@/common/utils';
 
-var arr, delay = 500;
+var arr, delay = 1000;
 
 export default function MergeSort() {
     const [numbers, setNumbers] = useState([]);
-    const [scope, { bgcolor, tx, ty, txy }] = useAnimator();
+    const [scope, { tx, ty, txy }] = useAnimator();
+
     if (!numbers.length) arr = undefined;
 
     const getMergeIndex = (p, q, mid, end) => {
@@ -26,25 +27,23 @@ export default function MergeSort() {
                 bgcolor(`#box${i}`, Colors.white);
             }
         });
-        await wait(1000);
+        await wait(delay);
         let p = start, q = mid + 1;
         let r = start, tmp = [];
         while (r <= end) {
             let s = getMergeIndex(p, q, mid, end);
             tmp.push(arr[s]);
-            await txy(`#box${s}`, 60 * (r - s), 60);
-            await bgcolor(`#box${s}`, Colors.sorted);
+            await txy(`#box${s}`, 60 * (r - s), 60, 0.5);
             s === q ? q++ : p++;
             r++;
         }
-        tmp.forEach((_, i) => {
-            arr[start + i] = tmp[i];
-            tx(`#box${start + i}`, 0, 0);
-        });
+        tmp.forEach((_, i) => (arr[start + i] = tmp[i]));
         setNumbers(arr.slice());
         await wait(delay);
         for (let i = 0; i < tmp.length; i++) {
             await ty(`#box${start + i}`, 0);
+            bgcolor(`#box${start + i}`, Colors.sorted);
+            await wait(100);
         }
     };
 
@@ -56,6 +55,10 @@ export default function MergeSort() {
         await merge(start, mid, end);
         await wait(delay);
     };
+
+    useEffect(() =>{
+        numbers.forEach((_, i) => tx(`#box${i}`, 0, 0));
+    }, [numbers]);
 
     const handleStart = (values) => {
         setNumbers(values);

@@ -143,3 +143,5 @@ export const wait = (t) => {
 };
 
 export const try_ = (fn) => () => fn().catch(() => {});
+
+export const bgcolor = (id, color) => $(id).css('background-color', color);

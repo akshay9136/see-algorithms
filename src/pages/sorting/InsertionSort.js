@@ -1,26 +1,27 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
 import { Numbox, SortNumbers } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { try_, wait } from '@/common/utils';
+import { bgcolor, try_, wait } from '@/common/utils';
 
-var arr, delay = 500;
+var arr, delay = 800;
 
 export default function InsertionSort() {
     const [numbers, setNumbers] = useState([]);
-    const [scope, { bgcolor, tx, ty }] = useAnimator();
+    const [scope, { tx, ty }] = useAnimator();
+
     if (!numbers.length) arr = undefined;
 
     const pickNumber = async (i) => {
-        await bgcolor(`#box${i}`, Colors.compare);
+        bgcolor(`#box${i}`, Colors.compare);
         await wait(delay);
         await ty(`#box${i}`, -50, 0.5);
         await wait(delay);
     };
 
     const sortNumbers = try_(async () => {
-        await bgcolor(`#box${0}`, Colors.sorted);
+        bgcolor(`#box${0}`, Colors.sorted);
         await wait(delay);
         for (let i = 1; i < arr.length; i++) {
             await pickNumber(i);
@@ -37,12 +38,15 @@ export default function InsertionSort() {
                 await tx(`#box${i}`, -k * 60, k * 0.2);
             }
             await ty(`#box${i}`, 0, 0.5);
-            await bgcolor(`#box${i}`, Colors.sorted);
-            for (let k = j + 1; k <= i; k++) tx(`#box${k}`, 0, 0);
+            bgcolor(`#box${i}`, Colors.sorted);
             setNumbers(arr.slice());
-            await wait(delay * 2);
+            await wait(delay);
         }
     });
+
+    useEffect(() => {
+        numbers.forEach((_, i) => tx(`#box${i}`, 0, 0));
+    }, [numbers]);
 
     const handleStart = (values) => {
         setNumbers(values);
@@ -54,7 +58,7 @@ export default function InsertionSort() {
 
     return (
         <SortNumbers onStart={handleStart} onStop={handleStop}>
-            <div className="d-flex insertionSort" ref={scope}>
+            <div className="d-flex pt-5" ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}

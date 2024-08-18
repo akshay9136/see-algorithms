@@ -52,7 +52,7 @@ export default function App({ Component, pageProps }) {
         title={`SEE ALGORITHMS - ${Algorithms[algoId] || 'Visualization of Algorithms'}`}
         description="Learn basic algorithms by visualzing them through interactive animations."
       />
-      <div container className="d-flex contentRow">
+      <div className="d-flex contentRow">
         <div className="d-none d-md-block" style={{ width: '20%', maxWidth: 300 }}>
           <Sider onClose={() => {}} />
         </div>
@@ -66,4 +66,10 @@ export default function App({ Component, pageProps }) {
       </div>
     </AppContext.Provider>
   );
+}
+
+Array.prototype.swap = function (u, v) {
+  let num = this[u];
+  this[u] = this[v];
+  this[v] = num;
 }

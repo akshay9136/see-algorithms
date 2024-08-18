@@ -42,11 +42,6 @@
   width: max-content;
 }
 
-.insertionSort,
-.selectionSort {
-  padding-top: 3.5rem;
-}
-
 .heapSort {
   position: relative;
 }

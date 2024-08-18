@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
 import { Numbox, SortNumbers } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { wait } from '@/common/utils';
+import { bgcolor, wait } from '@/common/utils';
 
-var arr,
-    delay = 1000;
+var arr, delay = 1000;
 
 export default function QuickSort() {
     const [numbers, setNumbers] = useState([]);
-    const [scope, { bgcolor, tx, ty }] = useAnimator();
+    const [scope, { tx, ty }] = useAnimator();
+
     if (!numbers.length) arr = undefined;
 
     const swap = async (a, b) => {
@@ -20,9 +20,7 @@ export default function QuickSort() {
             tx(`#box${b}`, -d * 60, 0.5),
         ]);
         await Promise.all([ty(`#box${a}`, 0), ty(`#box${b}`, 0)]);
-        const num = arr[a];
-        arr[a] = arr[b];
-        arr[b] = num;
+        arr.swap(a, b);
         setNumbers(arr.slice());
         await Promise.all([tx(`#box${a}`, 0, 0), tx(`#box${b}`, 0, 0)]);
     };
@@ -84,7 +82,7 @@ export default function QuickSort() {
 
     return (
         <SortNumbers onStart={handleStart} onStop={handleStop}>
-            <div className="d-flex pt-4" ref={scope}>
+            <div className="d-flex pt-5" ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}
