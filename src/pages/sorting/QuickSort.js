@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
 import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { bgcolor, wait } from '@/common/utils';
+import { wait } from '@/common/utils';
 
 var arr, delay = 1000;
 
 export default function QuickSort() {
     const [numbers, setNumbers] = useState([]);
-    const [scope, { tx, ty }] = useAnimator();
+    const [scope, { tx, ty, bgcolor }] = useAnimator();
 
     if (!numbers.length) arr = undefined;
 
