@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
-import { Numbox, SortNumbers } from '@/components/numbers';
+import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { bgcolor, try_, wait } from '@/common/utils';
+import { try_, wait } from '@/common/utils';
 
-var arr, delay = 700;
+var arr, delay = 500;
 
 export default function SelectionSort() {
     const [numbers, setNumbers] = useState([]);
-    const [scope, { tx, ty }] = useAnimator();
+    const [scope, { tx, ty, bgcolor }] = useAnimator();
 
     if (!numbers.length) arr = undefined;
 
@@ -23,8 +23,8 @@ export default function SelectionSort() {
             await pickNumber(i);
             let k = i;
             for (let j = i + 1; j < n; j++) {
-                bgcolor(`#box${j}`, Colors.compare);
                 bgcolor(`#box${j - 1}`, Colors.white);
+                bgcolor(`#box${j}`, Colors.compare);
                 await wait(delay);
                 if (arr[j] < arr[k]) {
                     ty(`#box${k}`, 0, 0.5);
@@ -67,12 +67,13 @@ export default function SelectionSort() {
     const handleStop = () => setNumbers([]);
 
     return (
-        <SortNumbers onStart={handleStart} onStop={handleStop}>
+        <div>
+            <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="d-flex pt-5" ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}
             </div>
-        </SortNumbers>
+        </div>
     );
 }

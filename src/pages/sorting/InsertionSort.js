@@ -1,15 +1,14 @@
-
 import React, { useEffect, useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
-import { Numbox, SortNumbers } from '@/components/numbers';
+import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { bgcolor, try_, wait } from '@/common/utils';
+import { try_, wait } from '@/common/utils';
 
 var arr, delay = 800;
 
 export default function InsertionSort() {
     const [numbers, setNumbers] = useState([]);
-    const [scope, { tx, ty }] = useAnimator();
+    const [scope, { tx, ty, bgcolor }] = useAnimator();
 
     if (!numbers.length) arr = undefined;
 
@@ -38,7 +37,7 @@ export default function InsertionSort() {
                 await tx(`#box${i}`, -k * 60, k * 0.2);
             }
             await ty(`#box${i}`, 0, 0.5);
-            bgcolor(`#box${i}`, Colors.sorted);
+            await bgcolor(`#box${i}`, Colors.sorted);
             setNumbers(arr.slice());
             await wait(delay);
         }
@@ -57,12 +56,13 @@ export default function InsertionSort() {
     const handleStop = () => setNumbers([]);
 
     return (
-        <SortNumbers onStart={handleStart} onStop={handleStop}>
+        <div>
+            <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="d-flex pt-5" ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}
             </div>
-        </SortNumbers>
+        </div>
     );
 }

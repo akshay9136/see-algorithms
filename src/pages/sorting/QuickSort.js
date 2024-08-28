@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
-import { Numbox, SortNumbers } from '@/components/numbers';
+import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
 import { bgcolor, wait } from '@/common/utils';
 
@@ -81,12 +81,13 @@ export default function QuickSort() {
     const handleStop = () => setNumbers([]);
 
     return (
-        <SortNumbers onStart={handleStart} onStop={handleStop}>
+        <div>
+            <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="d-flex pt-5" ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}
             </div>
-        </SortNumbers>
+        </div>
     );
 }

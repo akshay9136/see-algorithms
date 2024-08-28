@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
-import { Numbox, SortNumbers } from '@/components/numbers';
+import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { bgcolor, wait } from '@/common/utils';
+import { wait } from '@/common/utils';
 
 var arr, delay = 1000;
 
 export default function MergeSort() {
     const [numbers, setNumbers] = useState([]);
-    const [scope, { tx, ty, txy }] = useAnimator();
+    const [scope, { tx, ty, txy, bgcolor }] = useAnimator();
 
     if (!numbers.length) arr = undefined;
 
@@ -43,7 +43,6 @@ export default function MergeSort() {
         for (let i = 0; i < tmp.length; i++) {
             await ty(`#box${start + i}`, 0);
             bgcolor(`#box${start + i}`, Colors.sorted);
-            await wait(100);
         }
     };
 
@@ -69,12 +68,13 @@ export default function MergeSort() {
     const handleStop = () => setNumbers([]);
 
     return (
-        <SortNumbers onStart={handleStart} onStop={handleStop}>
+        <div>
+            <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="d-flex pt-4" ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}
             </div>
-        </SortNumbers>
+        </div>
     );
 }

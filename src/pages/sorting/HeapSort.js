@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Edge, Node, SortNumbers } from '@/components/numbers';
+import { Edge, InputNumbers, Node } from '@/components/numbers';
 import useAnimator from '@/hooks/useAnimator';
 import binaryTree from '@/common/binaryTree';
 import { Colors } from '@/common/constants';
@@ -83,7 +83,8 @@ export default function HeapSort() {
     };
 
     return (
-        <SortNumbers onStart={handleStart} onStop={handleStop}>
+        <div>
+            <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="heapSort" ref={scope}>
                 {numbers.slice(0, -1).map((_, i) => (
                     <Edge key={i} index={i} />
@@ -97,6 +98,6 @@ export default function HeapSort() {
                     />
                 ))}
             </div>
-        </SortNumbers>
+        </div>
     );
 }

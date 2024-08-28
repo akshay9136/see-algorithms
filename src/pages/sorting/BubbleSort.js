@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
-import { Numbox, SortNumbers } from '@/components/numbers';
+import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { bgcolor, try_, wait } from '@/common/utils';
+import { try_, wait } from '@/common/utils';
 
 var arr, delay = 800;
 
 export default function BubbleSort() {
     const [numbers, setNumbers] = useState([]);
-    const [scope, { tx }] = useAnimator();
+    const [scope, { tx, bgcolor }] = useAnimator();
 
     if (!numbers.length) arr = undefined;
 
@@ -53,12 +53,13 @@ export default function BubbleSort() {
     const handleStop = () => setNumbers([]);
 
     return (
-        <SortNumbers onStart={handleStart} onStop={handleStop}>
+        <div>
+            <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="d-flex pt-4" ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}
             </div>
-        </SortNumbers>
+        </div>
     );
 }

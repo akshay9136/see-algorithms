@@ -2,14 +2,7 @@ import InputNumbers from './numbers';
 import { motion } from 'framer-motion';
 import styles from './numbers.module.css';
 
-export function SortNumbers(props) {
-  return (
-    <div className={styles.sortNumbers}>
-      <InputNumbers {...props} />
-      {props.children}
-    </div>
-  );
-}
+export { InputNumbers };
 
 export function Numbox({ index, value, ...rest }) {
   return (

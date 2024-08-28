@@ -58,7 +58,7 @@ export default function App({ Component, pageProps }) {
         </div>
         <div className="content m-0">
           <div style={{ padding: '1rem 1.5rem' }}>
-            <h5 className="mb-3">{Algorithms[algoId]}</h5>
+            {algoId && <h5 className="my-3">{Algorithms[algoId]}</h5>}
             <Component {...pageProps} />
           </div>
           {savedData.length > 0 && <DataItems />}
