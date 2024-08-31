@@ -49,11 +49,32 @@ export default function App({ Component, pageProps }) {
         <Sider onClose={() => setMenuVisible(false)} />
       </Drawer>
       <NextSeo
-        title={`SEE ALGORITHMS - ${Algorithms[algoId] || 'Visualization of Algorithms'}`}
+        title={`SEE ALGORITHMS - ${
+          Algorithms[algoId] || 'Visualization of Algorithms'
+        }`}
         description="Learn basic algorithms by visualzing them through interactive animations."
+        additionalMetaTags={[
+          {
+            name: 'keywords',
+            content: [
+              'algorithms',
+              'interactive animations',
+              'learning',
+              'visualization',
+              'sorting',
+              'searching',
+              'data structures',
+              'computer science',
+              'programming',
+            ].join(),
+          },
+        ]}
       />
       <div className="d-flex contentRow">
-        <div className="d-none d-md-block" style={{ width: '20%', maxWidth: 300 }}>
+        <div
+          className="d-none d-md-block"
+          style={{ width: '20%', maxWidth: 300 }}
+        >
           <Sider onClose={() => {}} />
         </div>
         <div className="content m-0">
@@ -72,4 +93,4 @@ Array.prototype.swap = function (u, v) {
   let num = this[u];
   this[u] = this[v];
   this[v] = num;
-}
+};

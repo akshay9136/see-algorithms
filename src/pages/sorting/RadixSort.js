@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { createTable } from '@/common/utils';
-import Numbers from '@/components/numbers/numbers';
+import Numbers from '@/components/numbers/input-numbers';
 import Timer from '@/common/timer';
 
 var a, n, cells;
@@ -136,6 +136,17 @@ function RadixSort() {
 
     return (
         <div className="sortNumbers">
+            <section>
+                <p>
+                    <strong>Radix Sort</strong> organizes numbers by sorting
+                    them digit by digit. It starts with the least significant
+                    digit (rightmost) and works to the most significant digit
+                    (leftmost). Numbers are placed into buckets based on each
+                    digit&apos;s value, then collected back together in order.
+                    This process is repeated for each digit, leading to a sorted
+                    list.
+                </p>
+            </section>
             <Numbers onStart={start} onStop={stop} />
             <table id="tbl" />
             <br />

@@ -3,6 +3,7 @@ import useAnimator from '@/hooks/useAnimator';
 import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
 import { try_, wait } from '@/common/utils';
+import Link from 'next/link';
 
 var arr, delay = 500;
 
@@ -67,13 +68,26 @@ export default function SelectionSort() {
     const handleStop = () => setNumbers([]);
 
     return (
-        <div>
+        <>
+            <section>
+                <p>
+                    <strong>Selection Sort</strong> is like a choosy person
+                    picking the best apples. It scans the unsorted section,
+                    selects the smallest item, and places it at the correct
+                    position. This process repeats until the entire list is
+                    sorted. Selection sort minimizes the number of swaps needed
+                    compared to{' '}
+                    <Link href="/sorting/BubbleSort">Bubble Sort</Link>, which
+                    makes it useful when the cost of moving items is high, but
+                    finding the smallest item is easy.
+                </p>
+            </section>
             <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="d-flex pt-5" ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}
             </div>
-        </div>
+        </>
     );
 }

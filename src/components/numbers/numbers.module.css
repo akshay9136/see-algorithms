@@ -1,11 +1,12 @@
 .inputNumbers {
   display: flex;
   align-items: center;
-  margin-bottom: 2rem;
+  margin: 2rem 0;
 }
 
 .inputNumbers .label {
   font-size: 1rem;
+  font-weight: 600;
   width: max-content;
 }
 

@@ -38,10 +38,6 @@
   height: var(--layout-height);
 }
 
-.sortNumbers {
-  width: max-content;
-}
-
 .heapSort {
   position: relative;
 }

@@ -81,13 +81,25 @@ export default function QuickSort() {
     const handleStop = () => setNumbers([]);
 
     return (
-        <div>
+        <>
+            <section>
+                <p>
+                    <strong>Quick Sort</strong> is the speedster of sorting
+                    algorithms. It picks a <strong>pivot</strong> element and
+                    then arranges the rest of the elements into two groups:
+                    those less than the pivot and those greater. By recursively
+                    sorting these groups, Quick Sort efficiently sorts even the
+                    largest datasets. It&apos;s the perfect blend of strategy
+                    and speed, making it one of the most popular sorting
+                    techniques.
+                </p>
+            </section>
             <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="d-flex pt-5" ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}
             </div>
-        </div>
+        </>
     );
 }

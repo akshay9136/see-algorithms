@@ -1,4 +1,4 @@
-import InputNumbers from './numbers';
+import InputNumbers from './input-numbers';
 import { motion } from 'framer-motion';
 import styles from './numbers.module.css';
 

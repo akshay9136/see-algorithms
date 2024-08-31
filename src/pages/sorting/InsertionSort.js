@@ -56,13 +56,25 @@ export default function InsertionSort() {
     const handleStop = () => setNumbers([]);
 
     return (
-        <div>
+        <>
+            <section>
+                <p>
+                    Ever organized a hand of playing cards? Then you already
+                    know <strong>Insertion Sort</strong>! This algorithm takes
+                    each element from the unsorted part and slides it into its
+                    correct position in the sorted part. It&apos;s like placing
+                    a new card in the right spot of a sorted hand, making it
+                    intuitive and efficient for small datasets. Insertion Sort
+                    is all about building a sorted list one element at a time,
+                    just like a skilled card player.
+                </p>
+            </section>
             <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="d-flex pt-5" ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}
             </div>
-        </div>
+        </>
     );
 }

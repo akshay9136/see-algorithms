@@ -53,13 +53,25 @@ export default function BubbleSort() {
     const handleStop = () => setNumbers([]);
 
     return (
-        <div>
+        <>
+            <section>
+                <p>
+                    Imagine a gentle giant sorting a stack of books by
+                    repeatedly passing through the stack and swapping adjacent
+                    books if they&apos;re out of order.{' '}
+                    <strong>Bubble Sort</strong> is a simple yet effective
+                    method for small datasets, making sure each element rises to
+                    its proper place, like bubbles in a soda. Not the fastest,
+                    but Bubble Sort is a friendly introduction to the concept of
+                    sorting.
+                </p>
+            </section>
             <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="d-flex pt-4" ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}
             </div>
-        </div>
+        </>
     );
 }

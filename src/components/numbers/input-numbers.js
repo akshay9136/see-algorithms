@@ -55,10 +55,10 @@ function InputNumbers(props) {
 
   return (
     <div className={styles.inputNumbers}>
-      <span className={styles.label}>
+      <label className={styles.label}>
         {!values.length ? "Select number of elements: " : "Enter numbers: "}
         &nbsp;
-      </span>
+      </label>
       {!values.length ? (
         <Select onChange={handleSelect} className={styles.select} size="small">
           <MenuItem></MenuItem>

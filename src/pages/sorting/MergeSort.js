@@ -55,7 +55,7 @@ export default function MergeSort() {
         await wait(delay);
     };
 
-    useEffect(() =>{
+    useEffect(() => {
         numbers.forEach((_, i) => tx(`#box${i}`, 0, 0));
     }, [numbers]);
 
@@ -68,13 +68,24 @@ export default function MergeSort() {
     const handleStop = () => setNumbers([]);
 
     return (
-        <div>
+        <>
+            <section>
+                <p>
+                    Think of <strong>Merge Sort</strong> as a master chef who
+                    splits the ingredients, cooks each part perfectly, and then
+                    combines them into a delicious dish. This algorithm divides
+                    the list into smaller sub-lists, sorts them individually,
+                    and merges them back together in order. It&apos;s highly
+                    efficient, handling even large datasets with grace and
+                    speed, thanks to its divide-and-conquer approach.
+                </p>
+            </section>
             <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="d-flex pt-4" ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}
             </div>
-        </div>
+        </>
     );
 }
