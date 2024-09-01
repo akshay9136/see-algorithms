@@ -54,6 +54,7 @@ function DrawGraph(props) {
 
   const handleClear = () => {
     clearGraph();
+    $('#numTable').html('');
     drawGraph(config());
     setContext({ playStatus: 0 });
   };
