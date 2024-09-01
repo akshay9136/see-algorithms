@@ -1,7 +1,8 @@
 .inputNumbers {
   display: flex;
   align-items: center;
-  margin: 2rem 0;
+  margin-bottom: 1rem;
+  padding: 1rem 0;
 }
 
 .inputNumbers .label {

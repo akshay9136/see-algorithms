@@ -83,7 +83,7 @@ function createTable(m, n, id) {
             cell.setAttribute('class', 'cell');
             row.appendChild(cell);
         }
-        $(`#${id || 'tbl'}`).append(row);
+        $(`#${id || 'numTable'}`).append(row);
     }
 }
 

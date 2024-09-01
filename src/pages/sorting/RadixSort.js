@@ -96,7 +96,7 @@ function RadixSort() {
         a = [...values];
         n = a.length;
         createTable(1, n);
-        createTable(2, 10, 'bkt');
+        createTable(2, 10, 'bkts');
         cells = document.querySelectorAll('.cell');
         for (let i = 0; i < n; i++) {
             cells[i].textContent = a[i];
@@ -127,15 +127,15 @@ function RadixSort() {
     const stop = () => {
         Timer.clear();
         try {
-            document.getElementById('tbl').innerHTML = '';
-            document.getElementById('bkt').innerHTML = '';
+            document.getElementById('numTable').innerHTML = '';
+            document.getElementById('bkts').innerHTML = '';
         } catch (e) {}
     };
 
     useEffect(() => () => stop(), []);
 
     return (
-        <div className="sortNumbers">
+        <>
             <section>
                 <p>
                     <strong>Radix Sort</strong> organizes numbers by sorting
@@ -148,11 +148,11 @@ function RadixSort() {
                 </p>
             </section>
             <Numbers onStart={start} onStop={stop} />
-            <table id="tbl" />
+            <table id="numTable" className="numTable" />
             <br />
             <br />
-            <table id="bkt" />
-        </div>
+            <table id="bkts" className="numTable" />
+        </>
     );
 }
 

@@ -83,7 +83,7 @@ export default function SelectionSort() {
                 </p>
             </section>
             <InputNumbers onStart={handleStart} onStop={handleStop} />
-            <div className="d-flex pt-5" ref={scope}>
+            <div className="d-flex py-5 mb-4" ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}

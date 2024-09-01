@@ -70,7 +70,7 @@ export default function InsertionSort() {
                 </p>
             </section>
             <InputNumbers onStart={handleStart} onStop={handleStop} />
-            <div className="d-flex pt-5" ref={scope}>
+            <div className="d-flex py-5" ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}

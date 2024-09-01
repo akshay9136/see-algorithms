@@ -175,7 +175,7 @@ function DrawGraph(props) {
         </svg>
       </div>
       <div className="spaceAround">
-        <table id="tbl" />
+        <table id="numTable" className="numTable" />
       </div>
     </Spinner>
   );

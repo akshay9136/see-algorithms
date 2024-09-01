@@ -42,16 +42,15 @@
   position: relative;
 }
 
-.sortNumbers table,
-.drawGraph table {
+.numTable {
   border-collapse: separate;
   border-spacing: 0.5rem;
   font-weight: 600;
   font-size: 1rem;
+  width: max-content;
 }
 
-.sortNumbers table td,
-.drawGraph table td {
+.numTable td {
   width: 3.5rem;
   height: 2.8rem;
   text-align: center;

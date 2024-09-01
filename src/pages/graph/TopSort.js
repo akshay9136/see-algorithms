@@ -28,7 +28,7 @@ var ind, stack, k;
 var delay = 500;
 
 function start() {
-    $('#tbl').html('');
+    $('#numTable').html('');
     n = Graph.totalPoints();
     createTable(1, n);
     cells = document.querySelectorAll('.cell');

@@ -67,7 +67,7 @@ export default function BubbleSort() {
                 </p>
             </section>
             <InputNumbers onStart={handleStart} onStop={handleStop} />
-            <div className="d-flex pt-4" ref={scope}>
+            <div className="d-flex py-4" ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}

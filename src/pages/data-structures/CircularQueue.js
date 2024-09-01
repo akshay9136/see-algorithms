@@ -12,6 +12,7 @@ export default function CircularQueue(props) {
     useEffect(() => {
         rear = 5;
         size = rear - front;
+        document.querySelector('#numTable').innerHTML = '';
         createTable(3, n);
         cells = document.querySelectorAll('.cell');
         cells[front].textContent = 'Front';
@@ -27,7 +28,7 @@ export default function CircularQueue(props) {
     }, []);
 
     return (
-        <div className="sortNumbers">
+        <>
             <section>
                 <p>
                     <strong>Circular Queue</strong> allows efficient use of
@@ -41,15 +42,13 @@ export default function CircularQueue(props) {
                 </p>
             </section>
             <DSInput {...props} buttons={buttons} />
-            <table id="tbl" />
-        </div>
+            <table id="numTable" className="numTable" />
+        </>
     );
 }
 
-var cells,
-    n = 12;
-var front = 0,
-    rear;
+var cells, n = 12;
+var front = 0, rear;
 var size;
 
 export function enqueue(num) {
