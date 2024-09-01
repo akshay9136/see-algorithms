@@ -18,8 +18,7 @@ function DrawGraph(props) {
   const [source, setSource] = useState('A');
   const router = useRouter();
   const algoId = router.pathname.split('/')[2];
-  // const payload = { algoId, skipQuery: !userAuth || !algoId };
-  // const { saveAlgoData, loading } = useSavedData(payload);
+  // const { saveAlgoData, loading } = useSavedData(algoId);
 
   const validate = () => {
     let np = Graph.totalPoints();
@@ -64,7 +63,7 @@ function DrawGraph(props) {
       case 0:
         if (validate()) {
           $('#plane').off();
-          props.start(source.charCodeAt(0) - 65);
+          props.onStart(source.charCodeAt(0) - 65);
           setContext({ playStatus: 1 });
         }
         break;
@@ -105,7 +104,7 @@ function DrawGraph(props) {
   return (
     <Spinner className="drawGraph" spinning={false}>
       <div className={'d-flex flex-wrap ' + styles.toolbar}>
-        <span className={styles.title}>Draw Graph</span>
+        <h5 className={styles.title}>Draw Graph</h5>
         {!props.isDAG && (
           <Fragment>
             {!props.isMST && (

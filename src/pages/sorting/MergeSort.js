@@ -75,7 +75,7 @@ export default function MergeSort() {
                     splits the ingredients, cooks each part perfectly, and then
                     combines them into a delicious dish. This algorithm divides
                     the list into smaller sub-lists, sorts them individually,
-                    and merges them back together in order. It&apos;s highly
+                    and merges them back together in order. It is highly
                     efficient, handling even large datasets with grace and
                     speed, thanks to its divide-and-conquer approach.
                 </p>

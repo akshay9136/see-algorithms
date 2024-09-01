@@ -58,7 +58,7 @@ export default function BubbleSort() {
                 <p>
                     Imagine a gentle giant sorting a stack of books by
                     repeatedly passing through the stack and swapping adjacent
-                    books if they&apos;re out of order.{' '}
+                    books if they are out of order.{' '}
                     <strong>Bubble Sort</strong> is a simple yet effective
                     method for small datasets, making sure each element rises to
                     its proper place, like bubbles in a soda. Not the fastest,

@@ -7,7 +7,25 @@ import { Colors } from '@/common/constants';
 import { isNumber } from '@/common/utils';
 
 export default function KruskalsMST(props) {
-    return <DrawGraph {...props} start={start} isMST={true} customSource={false} />;
+    return (
+        <>
+            <section>
+                <p>
+                    <strong>Kruskal&apos;s Algorithm</strong> builds a Minimum
+                    Spanning Tree (MST) by sorting all edges and adding them in
+                    order of increasing weight, ensuring no cycles are formed.
+                    It is efficient for sparse graphs and uses a union-find data
+                    structure to manage connected components.
+                </p>
+            </section>
+            <DrawGraph
+                {...props}
+                onStart={start}
+                isMST={true}
+                customSource={false}
+            />
+        </>
+    );
 }
 
 var parent;

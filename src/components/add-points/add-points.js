@@ -51,7 +51,7 @@ function AddPoints(props) {
   return (
     <div className="drawGraph">
       <div className={'d-flex flex-wrap ' + styles.toolbar}>
-        <span className={styles.title}>Add Points</span>
+        <h5 className={styles.title}>Add Points</h5>
         <Button
           variant="contained"
           startIcon={playStatus > 0 ? <Pause /> : <PlayArrow />}

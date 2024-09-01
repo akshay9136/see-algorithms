@@ -7,7 +7,20 @@ import Timer from '@/common/timer';
 import { Colors } from '@/common/constants';
 
 export default function BFS(props) {
-    return <DrawGraph {...props} start={start} />;
+    return (
+        <>
+            <section>
+                <p>
+                    <strong>Breadth First Search</strong> (BFS) explores a graph
+                    level by level, starting at a node and visiting all its
+                    neighbors before moving on to the next level. It uses a
+                    queue to manage nodes. BFS is ideal for finding the shortest
+                    path in an unweighted graph and for checking connectivity.
+                </p>
+            </section>
+            <DrawGraph {...props} onStart={start} />
+        </>
+    );
 }
 
 var queue;

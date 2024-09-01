@@ -7,7 +7,20 @@ import Timer from '@/common/timer';
 import { Colors } from '@/common/constants';
 
 export default function TopSort(props) {
-    return <DrawGraph {...props} start={start} isDAG={true} />;
+    return (
+        <>
+            <section>
+                <p>
+                    <strong>Topological sorting</strong> is an ordering of nodes
+                    in a directed acyclic graph (DAG) where each node appears
+                    before all the nodes it points to. It is like creating a list
+                    of tasks, ensuring that each task comes after any tasks it
+                    depends on.
+                </p>
+            </section>
+            <DrawGraph {...props} onStart={start} isDAG={true} />
+        </>
+    );
 }
 
 var cells, n;

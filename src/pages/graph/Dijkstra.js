@@ -5,9 +5,26 @@ import DrawGraph from '@/components/draw-graph/draw-graph';
 import $ from 'jquery';
 import Timer from '@/common/timer';
 import { Colors } from '@/common/constants';
+import Link from 'next/link';
 
 export default function Dijkstra(props) {
-    return <DrawGraph {...props} start={start} weighted={true} />;
+    return (
+        <>
+            <section>
+                <p>
+                    <strong>Dijkstra&apos;s Algorithm</strong> finds the
+                    shortest path from a source node to all other nodes in a
+                    graph with non-negative weights. It uses a{' '}
+                    <Link href="/data-structures/BinaryHeap">
+                        priority queue
+                    </Link>{' '}
+                    to explore nodes in order of increasing distance. This
+                    algorithm is widely used in routing and navigation systems.
+                </p>
+            </section>
+            <DrawGraph {...props} onStart={start} weighted={true} />
+        </>
+    );
 }
 
 var n, w;

@@ -62,8 +62,8 @@ export default function InsertionSort() {
                     Ever organized a hand of playing cards? Then you already
                     know <strong>Insertion Sort</strong>! This algorithm takes
                     each element from the unsorted part and slides it into its
-                    correct position in the sorted part. It&apos;s like placing
-                    a new card in the right spot of a sorted hand, making it
+                    correct position in the sorted part. It is like placing a
+                    new card in the right spot of a sorted hand, making it
                     intuitive and efficient for small datasets. Insertion Sort
                     is all about building a sorted list one element at a time,
                     just like a skilled card player.

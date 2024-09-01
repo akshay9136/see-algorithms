@@ -13,6 +13,7 @@ export default function BinaryHeap(props) {
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
     const { bgcolor } = animator;
+    if (!numbers.length) arr = [];
 
     const input = async (num) => {
         arr.push(num);
@@ -49,9 +50,21 @@ export default function BinaryHeap(props) {
     ];
 
     return (
-        <div className="dsInput">
+        <>
+            <section>
+                <p>
+                    A <strong>Binary Search Tree</strong> (BST) is like a
+                    well-organized library where each book (node) has a clear
+                    place based on its value. In a BST, each node has up to two
+                    children: the left child holds smaller values, and the right
+                    child holds larger values. This structure allows for
+                    efficient searching, adding, and removing of books, as you
+                    can quickly navigate left or right to find or insert a book
+                    in its proper place.
+                </p>
+            </section>
             <DSInput {...props} buttons={buttons} />
-            <div ref={scope}>
+            <div ref={scope} style={{ position: 'relative' }}>
                 {numbers.slice(0, -1).map((_, i) => (
                     <Edge key={i} index={i} />
                 ))}
@@ -64,6 +77,6 @@ export default function BinaryHeap(props) {
                     />
                 ))}
             </div>
-        </div>
+        </>
     );
 }

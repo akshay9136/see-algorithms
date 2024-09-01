@@ -13,6 +13,7 @@ export default function BinaryHeap(props) {
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
     const { bgcolor } = animator;
+    if (!numbers.length) arr = [];
 
     const input = async (num) => {
         arr.push(num);
@@ -50,9 +51,22 @@ export default function BinaryHeap(props) {
     ];
 
     return (
-        <div className="dsInput">
+        <>
+            <section>
+                <p>
+                    A <strong>Binary Heap </strong>is like a priority queue in a
+                    bustling airport, where the most important passengers
+                    (highest or lowest priority) are always at the front. It is
+                    a complete binary tree where each parent node is either
+                    greater than or less than its child nodes, depending on
+                    whether it is a max-heap (highest value at the top) or a
+                    min-heap (lowest value at the top). This arrangement makes
+                    it easy to quickly access and remove the highest or lowest
+                    priority element.
+                </p>
+            </section>
             <DSInput {...props} buttons={buttons} />
-            <div ref={scope}>
+            <div ref={scope} style={{ position: 'relative' }}>
                 {numbers.slice(0, -1).map((_, i) => (
                     <Edge key={i} index={i} />
                 ))}
@@ -65,6 +79,6 @@ export default function BinaryHeap(props) {
                     />
                 ))}
             </div>
-        </div>
+        </>
     );
 }

@@ -7,7 +7,21 @@ import Timer from '@/common/timer';
 import { Colors } from '@/common/constants';
 
 export default function DFS(props) {
-    return <DrawGraph {...props} start={start} />;
+    return (
+        <>
+            <section>
+                <p>
+                    <strong>Depth First Search</strong> (DFS) explores a graph
+                    by starting at a node and going as deep as possible along
+                    each path before <strong>backtracking</strong>. It uses a
+                    stack to keep track of the path. DFS is useful for tasks
+                    like finding connected components and solving puzzles where
+                    exploring all paths is necessary.
+                </p>
+            </section>
+            <DrawGraph {...props} onStart={start} />
+        </>
+    );
 }
 
 var stack;

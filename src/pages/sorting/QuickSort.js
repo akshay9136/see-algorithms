@@ -89,9 +89,8 @@ export default function QuickSort() {
                     then arranges the rest of the elements into two groups:
                     those less than the pivot and those greater. By recursively
                     sorting these groups, Quick Sort efficiently sorts even the
-                    largest datasets. It&apos;s the perfect blend of strategy
-                    and speed, making it one of the most popular sorting
-                    techniques.
+                    largest datasets. It is perfect blend of strategy and speed,
+                    making it one of the most popular sorting techniques.
                 </p>
             </section>
             <InputNumbers onStart={handleStart} onStop={handleStop} />

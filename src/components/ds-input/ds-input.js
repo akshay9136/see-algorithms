@@ -34,9 +34,9 @@ function DSInput(props) {
 
   return (
     <div className={styles.inputNumbers + ' mb-0'}>
-      <span className="label">Enter a number: &nbsp;</span>
+      <label className={styles.label}>Enter a number: &nbsp;</label>
       <Input value={number} onChange={handleInput} className={styles.number} />
-      <div>
+      <div className="d-flex" style={{ width: 'max-content' }}>
         {props.buttons.map((btn, i) => (
           <Button
             key={i}

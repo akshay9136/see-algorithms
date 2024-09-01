@@ -7,7 +7,20 @@ import Timer from '@/common/timer';
 import { Colors } from '@/common/constants';
 
 export default function PrimsMST(props) {
-    return <DrawGraph {...props} start={start} isMST={true} />;
+    return (
+        <>
+            <section>
+                <p>
+                    <strong>Prim&apos;s Algorithm</strong> builds a Minimum
+                    Spanning Tree (MST) by starting from any node and adding the
+                    smallest edge that connects the tree to a new node,
+                    repeating until all nodes are included. It is used for
+                    optimizing network designs like computer and road networks.
+                </p>
+            </section>
+            <DrawGraph {...props} onStart={start} isMST={true} />
+        </>
+    );
 }
 
 var n, w;
