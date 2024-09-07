@@ -102,7 +102,7 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
         },
         insert(value, parent, isLeft = true) {
             if (!root) {
-                const [x, y] = [300, 60];
+                const [x, y] = [300, 50];
                 root = { value, index: 0, key: 0, x, y };
                 txy(`#node${0}`, x, y);
                 animate(`#node${0}`, { opacity: 1 });

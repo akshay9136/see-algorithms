@@ -45,6 +45,7 @@
 .numGrid {
   font-weight: 600;
   font-size: 1rem;
+  margin-bottom: 1rem;
   width: max-content;
 }
 
@@ -73,7 +74,9 @@
   border: thin solid;
   margin: 1rem 0;
   min-width: 700px;
+  width: 700px;
   height: 500px;
   resize: both;
   overflow: auto;
+  position: relative;
 }

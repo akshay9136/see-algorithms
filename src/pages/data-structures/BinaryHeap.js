@@ -66,7 +66,7 @@ export default function BinaryHeap(props) {
                 </p>
             </section>
             <DSInput {...props} buttons={buttons} />
-            <div ref={scope} style={{ position: 'relative' }}>
+            <div ref={scope} className="resizable">
                 {numbers.slice(0, -1).map((_, i) => (
                     <Edge key={i} index={i} />
                 ))}
