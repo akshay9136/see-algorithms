@@ -42,19 +42,25 @@
   position: relative;
 }
 
-.numTable {
-  border-collapse: separate;
-  border-spacing: 0.5rem;
+.numGrid {
   font-weight: 600;
   font-size: 1rem;
   width: max-content;
 }
 
-.numTable td {
+.numGrid .cell {
   width: 3.5rem;
-  height: 2.8rem;
+  min-height: 2.8rem;
+  max-height: fit-content;
   text-align: center;
   border-radius: 4px;
+  margin-right: 8px;
+  padding-top: 8px;
+  display: inline;
+}
+
+.alphaGrid .cell {
+  width: 3rem;
 }
 
 .drawGraph {

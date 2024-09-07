@@ -44,9 +44,6 @@ function start(source) {
     queue = [source];
     prev = [];
     Timer.timeout(() => {
-        for (let i = 0; i < n; i++) {
-            if (i !== source) $('.vlbl').eq(i).text('∞');
-        }
         $('.vrtx').eq(source).attr('stroke', Colors.visited);
         $('.vrtx').eq(source).attr('fill', Colors.visited);
         Timer.timeout(dijkstra, delay, source);
@@ -63,7 +60,6 @@ function dijkstra(i) {
                 d[j] = d[i] + w[i][j];
                 $('.edge').eq(ei).attr('stroke', Colors.enqueue);
                 $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
-                $('.vlbl').eq(j).text(d[j]);
                 if (prev[j] !== undefined) {
                     let ej = Graph.edgeIndex(prev[j], j);
                     $('.edge').eq(ej).attr('stroke', Colors.rejected);

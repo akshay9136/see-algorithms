@@ -47,9 +47,8 @@ const Graph = {
         steps = [];
     },
 
-    stringify(props) {
-        const data = { points, segments, matrix, steps, directed, ...props };
-        return JSON.stringify(data);
+    skeleton() {
+        return { points, segments, matrix, steps, directed };
     },
 
     initialize(data) {

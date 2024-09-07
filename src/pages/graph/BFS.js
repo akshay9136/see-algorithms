@@ -1,5 +1,5 @@
 import React from 'react';
-import { isNumber, spanEdge } from '@/common/utils';
+import { appendCell, isNumber, spanEdge } from '@/common/utils';
 import Graph from '@/common/graph';
 import DrawGraph from '@/components/draw-graph/draw-graph';
 import $ from 'jquery';
@@ -18,7 +18,12 @@ export default function BFS(props) {
                     path in an unweighted graph and for checking connectivity.
                 </p>
             </section>
-            <DrawGraph {...props} onStart={start} />
+            <DrawGraph
+                {...props}
+                onStart={start}
+                onClear={() => $('#visited').html('')}
+            />
+            <div id="visited" className="d-flex numGrid alphaGrid" />
         </>
     );
 }
@@ -35,6 +40,7 @@ function start(source) {
     Timer.timeout(() => {
         $('.vrtx').eq(i).attr('stroke', Colors.visited);
         $('.vrtx').eq(i).attr('fill', Colors.visited);
+        appendCell('#visited', String.fromCharCode(65 + i));
         Timer.timeout(visit, delay, 0);
     }, delay * 2);
 }
@@ -70,18 +76,6 @@ function bfs() {
 
 function dequeue() {
     $('.vrtx').eq(i).attr('fill', Colors.visited);
-    let j;
-    let n = Graph.totalPoints();
-    for (j = 0; j < n; j++) {
-        let ei = Graph.edgeIndex(i, j);
-        if (isNumber(ei)) {
-            if (v.indexOf(j) === -1 || queue.indexOf(j) > -1) {
-                Timer.timeout(visit, delay, 0);
-                break;
-            }
-        }
-    }
-    if (j === n) {
-        Timer.timeout(bfs, delay);
-    }
+    appendCell('#visited', String.fromCharCode(65 + i));
+    Timer.timeout(visit, delay, 0);
 }

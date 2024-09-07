@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import DSInput from '@/components/ds-input/ds-input';
 import { showToast } from '@/components/toast/toast';
-import { createTable, randomInt } from '@/common/utils';
+import { createGrid, randomInt } from '@/common/utils';
 
 const buttons = [
     { text: 'Enqueue', onClick: enqueue, validate: true },
@@ -12,8 +12,10 @@ export default function CircularQueue(props) {
     useEffect(() => {
         rear = 5;
         size = rear - front;
-        document.querySelector('#numTable').innerHTML = '';
-        createTable(3, n);
+        document.querySelector('#queue').innerHTML = '';
+        createGrid(n, '#queue');
+        createGrid(n, '#queue');
+        createGrid(n, '#queue');
         cells = document.querySelectorAll('.cell');
         cells[front].textContent = 'Front';
         cells[n + n + rear].textContent = 'Rear';
@@ -42,7 +44,7 @@ export default function CircularQueue(props) {
                 </p>
             </section>
             <DSInput {...props} buttons={buttons} />
-            <table id="numTable" className="numTable" />
+            <div id="queue" className="numGrid" />
         </>
     );
 }

@@ -1,24 +1,35 @@
 import React from 'react';
-import { fromDistance, createTable, isNumber } from '@/common/utils';
+import {
+    fromDistance,
+    isNumber,
+    createGrid,
+} from '@/common/utils';
 import Graph, { Point } from '@/common/graph';
 import DrawGraph from '@/components/draw-graph/draw-graph';
 import $ from 'jquery';
 import Timer from '@/common/timer';
 import { Colors } from '@/common/constants';
+import { createGraph } from '@/helpers/drawGraph';
 
 export default function TopSort(props) {
     return (
         <>
             <section>
                 <p>
-                    <strong>Topological sorting</strong> is an ordering of nodes
-                    in a directed acyclic graph (DAG) where each node appears
-                    before all the nodes it points to. It is like creating a list
-                    of tasks, ensuring that each task comes after any tasks it
-                    depends on.
+                    <strong>Topological Sort</strong> is an ordering of nodes in
+                    a directed acyclic graph (DAG) where each node appears
+                    before all the nodes it points to. It is like creating a
+                    list of tasks, ensuring that each task comes after any tasks
+                    it depends on.
                 </p>
             </section>
-            <DrawGraph {...props} onStart={start} isDAG={true} />
+            <DrawGraph
+                {...props}
+                onStart={start}
+                onClear={() => $('#visited').html('')}
+                isDAG={true}
+            />
+            <div id="visited" className="numGrid alphaGrid" />
         </>
     );
 }
@@ -28,9 +39,8 @@ var ind, stack, k;
 var delay = 500;
 
 function start() {
-    $('#numTable').html('');
     n = Graph.totalPoints();
-    createTable(1, n);
+    createGrid(n, '#visited');
     cells = document.querySelectorAll('.cell');
     for (let i = 0; i < n; i++) {
         cells[i].setAttribute('style', 'border:2px solid; width:3rem;');
@@ -76,7 +86,7 @@ function topsort() {
             Timer.timeout(fall, delay, i);
         }
     } else {
-        document.getElementById('clear').click();
+        createGraph(Graph.skeleton());
     }
 }
 
@@ -105,7 +115,7 @@ function fall(i) {
     } else {
         let np = Graph.totalPoints();
         cells[np - n].textContent = String.fromCharCode(65 + i);
-        cells[np - n].setAttribute('bgcolor', Colors.visited);
+        cells[np - n].style.backgroundColor = Colors.visited;
         $(`.vgrp:eq(${i})`).css('visibility', 'hidden');
         n--;
         Timer.timeout(topsort, delay);

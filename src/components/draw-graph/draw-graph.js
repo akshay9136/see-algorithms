@@ -53,8 +53,8 @@ function DrawGraph(props) {
   });
 
   const handleClear = () => {
+    props.onClear?.();
     clearGraph();
-    $('#numTable').html('');
     drawGraph(config());
     setContext({ playStatus: 0 });
   };
@@ -94,12 +94,6 @@ function DrawGraph(props) {
     $('#plane').off();
     drawGraph(config());
     setContext({ isDirGraph: !isDirGraph });
-  };
-
-  const saveGraph = () => {
-    // const costMatrix = getCostMatrix();
-    // const data = Graph.stringify({ costMatrix, ...config() });
-    // saveAlgoData({ algoId, data });
   };
 
   return (
@@ -145,7 +139,7 @@ function DrawGraph(props) {
         >
           {playStatus > 0 ? 'Pause' : 'Play'}
         </Button>
-        <Button variant="contained" onClick={handleClear} id="clear">
+        <Button variant="contained" onClick={handleClear}>
           Clear
         </Button>
         {userAuth && (
@@ -174,9 +168,6 @@ function DrawGraph(props) {
             </marker>
           </defs>
         </svg>
-      </div>
-      <div className="spaceAround">
-        <table id="numTable" className="numTable" />
       </div>
     </Spinner>
   );

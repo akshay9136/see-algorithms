@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { createTable } from '@/common/utils';
+import { createGrid } from '@/common/utils';
 import Numbers from '@/components/numbers/input-numbers';
 import Timer from '@/common/timer';
 
@@ -41,12 +41,13 @@ function bucket() {
     if (k < n) {
         let j = Math.floor(a[k] / exp) % 10;
         b[j]++;
-        cells[k].setAttribute('bgcolor', '#ffe57f');
+        cells[k].style.backgroundColor = '#ffe57f';
         Timer.timeout(() => {
-            cells[k].removeAttribute('bgcolor');
+            cells[k].style.backgroundColor = 'white';
             cells[k].firstChild.setAttribute(
                 'style',
-                `margin-top:4px;
+                `
+                margin-top:5px;
                 background-color:#ffe57f;
                 border:thin solid;
                 border-radius:4px;`
@@ -76,7 +77,7 @@ function combine(j) {
         if (bkt.childNodes.length > 0) {
             bkt.firstChild.removeAttribute('style');
             cells[k].innerHTML = bkt.firstChild.outerHTML;
-            cells[k].setAttribute('bgcolor', '#ffe57f');
+            cells[k].style.backgroundColor = '#ffe57f';
             k--;
             bkt.removeChild(bkt.firstChild);
             Timer.timeout(combine, delay, j);
@@ -85,7 +86,7 @@ function combine(j) {
         }
     } else {
         for (let i = 0; i < n; i++) {
-            cells[i].removeAttribute('bgcolor');
+            cells[i].style.backgroundColor = 'white';
         }
         Timer.timeout(radixSort, delay);
     }
@@ -95,8 +96,9 @@ function RadixSort() {
     const start = (values) => {
         a = [...values];
         n = a.length;
-        createTable(1, n);
-        createTable(2, 10, 'bkts');
+        createGrid(n, '#numbers');
+        createGrid(10, '#buckets');
+        createGrid(10, '#buckets');
         cells = document.querySelectorAll('.cell');
         for (let i = 0; i < n; i++) {
             cells[i].textContent = a[i];
@@ -116,7 +118,12 @@ function RadixSort() {
             );
             cells[n + i].setAttribute(
                 'style',
-                'padding:0; text-align:center; vertical-align:bottom;'
+                `
+                padding:0;
+                display:flex;
+                flex-direction:column;
+                justify-content:flex-end;
+                margin-bottom:7px;`
             );
         }
         exp = 1;
@@ -127,8 +134,8 @@ function RadixSort() {
     const stop = () => {
         Timer.clear();
         try {
-            document.getElementById('numTable').innerHTML = '';
-            document.getElementById('bkts').innerHTML = '';
+            document.getElementById('numbers').innerHTML = '';
+            document.getElementById('buckets').innerHTML = '';
         } catch (e) {}
     };
 
@@ -148,10 +155,9 @@ function RadixSort() {
                 </p>
             </section>
             <Numbers onStart={start} onStop={stop} />
-            <table id="numTable" className="numTable" />
+            <div id="numbers" className="numGrid mb-5" />
             <br />
-            <br />
-            <table id="bkts" className="numTable" />
+            <div id="buckets" className="numGrid" />
         </>
     );
 }

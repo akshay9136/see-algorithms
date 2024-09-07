@@ -7,7 +7,7 @@ import Timer from '../common/timer';
 
 export function createGraph(data) {
     clearGraph();
-    let { points, segments, matrix, steps, directed, costMatrix, weighted, acyclic } = data;
+    let { points, segments, matrix, steps, directed, costMatrix } = data;
     points.forEach((p, i) => {
         addVertex(p, String.fromCharCode(65 + i));
     });
@@ -20,12 +20,11 @@ export function createGraph(data) {
             $('.edge:last').attr('y2', y);
             $('.edge:last').attr('marker-end', 'url(#arrow)');
         }
-        if (weighted) {
+        if (costMatrix) {
             addCost(p, q, costMatrix[i][j]);
         }
     });
     Graph.initialize(data);
-    drawGraph({ weighted, acyclic });
 }
 
 export function clearGraph() {

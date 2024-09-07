@@ -75,16 +75,19 @@ function fromDistance(start, end, distance) {
     return { x: end.x - deltaX, y: end.y - deltaY };
 }
 
-function createTable(m, n, id) {
-    for (let i = 0; i < m; i++) {
-        let row = document.createElement('tr');
-        for (let j = 0; j < n; j++) {
-            let cell = document.createElement('td');
-            cell.setAttribute('class', 'cell');
-            row.appendChild(cell);
-        }
-        $(`#${id || 'numTable'}`).append(row);
+function createGrid(n, id) {
+    let row = document.createElement('div');
+    row.setAttribute('class', 'd-flex');
+    for (let j = 0; j < n; j++) {
+        let cell = document.createElement('div');
+        cell.setAttribute('class', 'cell');
+        row.appendChild(cell);
     }
+    $(id).append(row);
+}
+
+function appendCell(rowId, val) {
+    $(rowId).append(`<div class="cell" style="border:2px solid;">${val}</div>`);
 }
 
 function getCostMatrix() {
@@ -129,7 +132,8 @@ export {
     addEdge,
     cloneEdge,
     fromDistance,
-    createTable,
+    createGrid,
+    appendCell,
     getCostMatrix,
     spanEdge,
 };
