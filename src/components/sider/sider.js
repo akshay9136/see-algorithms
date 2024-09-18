@@ -1,9 +1,5 @@
 import React, { useContext } from 'react';
-import {
-  List,
-  ListItemButton,
-  ListItemText,
-} from '@mui/material';
+import { List, ListItemButton } from '@mui/material';
 import styles from './sider.module.css';
 import { Algorithms } from '@/common/constants';
 import AppContext from '@/common/context';
@@ -13,8 +9,8 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Link from 'next/link';
 
-function Sider(props) {
-  const { categories, setContext } = useContext(AppContext);
+function Sider() {
+  const { categories } = useContext(AppContext);
 
   const getPathname = (catname, algoId) => {
     const category = catname.split(' ').join('-').toLowerCase();
@@ -25,7 +21,10 @@ function Sider(props) {
     <div className={styles.sider}>
       {categories.map(({ catname, algorithms }) => (
         <Accordion key={catname} disableGutters>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />} className={styles.category}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            className={styles.category}
+          >
             {catname}
           </AccordionSummary>
           <AccordionDetails>
@@ -36,7 +35,7 @@ function Sider(props) {
                   component={Link}
                   href={getPathname(catname, algoId)}
                 >
-                  <ListItemText secondary={Algorithms[algoId]} />
+                  {Algorithms[algoId]}
                 </ListItemButton>
               ))}
             </List>

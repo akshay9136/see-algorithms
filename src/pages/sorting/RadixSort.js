@@ -122,7 +122,7 @@ function RadixSort() {
                 padding:0;
                 display:flex;
                 flex-direction:column;
-                justify-content:end;
+                justify-content:flex-end;
                 margin-bottom:7px;`
             );
         }

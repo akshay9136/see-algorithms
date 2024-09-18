@@ -20,4 +20,5 @@
 .plane {
     width: calc(100% - 5px);
     height: calc(100% - 5px);
+    background-color: white;
 }

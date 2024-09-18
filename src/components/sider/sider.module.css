@@ -3,9 +3,13 @@
     height: 100%;
     position: relative;
     overflow-y: auto;
+    border-right: var(--thin-border);
 }
 
 .category {
     background-color: aliceblue;
+    font-size: 1rem;
     font-weight: 500;
+    padding-left: 1.5rem;
+    border-bottom: var(--thin-border);
 }

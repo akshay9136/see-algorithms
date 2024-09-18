@@ -3,7 +3,7 @@
 :root {
   --header-height: 60px;
   --layout-height: calc(100% - 60px);
-  --border: thin solid #e5e5e5;
+  --thin-border: thin solid #e5e5e5;
 }
 
 .contentRow {

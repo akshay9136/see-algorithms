@@ -1,13 +1,13 @@
 .header {
-    height: 3.75rem;
+    height: var(--header-height);
     align-items: center;
     padding: 0 1.5rem;
     justify-content: space-between;
-    border-bottom: thin solid #e5e5e5;
+    border-bottom: var(--thin-border);
 }
 
 .heading {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     height: 1rem;
 }
 
