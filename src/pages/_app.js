@@ -5,7 +5,6 @@ import { Drawer } from '@mui/material';
 import Header from '../components/header/header';
 import Sider from '../components/sider/sider';
 import Toast from '../components/toast/toast';
-import Menu from '../components/menu/menu';
 import AppContext, { initialState } from '../common/context';
 import DataItems from '../components/data-items/data-items';
 import { Algorithms } from '@/common/constants';
@@ -14,8 +13,8 @@ import { NextSeo } from 'next-seo';
 
 export default function App({ Component, pageProps }) {
   const [state, setState] = useState(initialState);
+  const { savedData } = state;
   const [menuVisible, setMenuVisible] = useState(false);
-  const { theory, savedData } = state;
   const router = useRouter();
   const algoId = router.pathname.split('/')[2];
 
@@ -31,10 +30,13 @@ export default function App({ Component, pageProps }) {
     }
   }, []);
 
+  useEffect(() => {
+    setMenuVisible(false);
+  }, [router.pathname]);
+
   return (
     <AppContext.Provider value={{ ...state, setContext }}>
       <Toast />
-      <Menu />
       <Header toggleMenu={() => setMenuVisible(!menuVisible)} />
       <Drawer
         anchor="left"
@@ -46,7 +48,7 @@ export default function App({ Component, pageProps }) {
           backdrop: { className: 'backdrop' },
         }}
       >
-        <Sider onClose={() => setMenuVisible(false)} />
+        <Sider />
       </Drawer>
       <NextSeo
         title={`SEE ALGORITHMS - ${
@@ -73,9 +75,9 @@ export default function App({ Component, pageProps }) {
       <div className="d-flex contentRow">
         <div
           className="d-none d-md-block"
-          style={{ width: '20%', maxWidth: 300 }}
+          style={{ width: 'max-content', minWidth: 240 }}
         >
-          <Sider onClose={() => {}} />
+          <Sider />
         </div>
         <div className="content m-0">
           <div style={{ padding: '1rem 1.5rem' }}>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
 import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { try_, wait } from '@/common/utils';
+import { try_, sleep } from '@/common/utils';
 import Link from 'next/link';
 
 var arr, delay = 500;
@@ -15,7 +15,7 @@ export default function SelectionSort() {
 
     const pickNumber = async (i) => {
         await ty(`#box${i}`, -50, 0.5);
-        await wait(delay);
+        await sleep(delay);
     };
 
     const sortNumbers = try_(async () => {
@@ -26,7 +26,7 @@ export default function SelectionSort() {
             for (let j = i + 1; j < n; j++) {
                 bgcolor(`#box${j - 1}`, Colors.white);
                 bgcolor(`#box${j}`, Colors.compare);
-                await wait(delay);
+                await sleep(delay);
                 if (arr[j] < arr[k]) {
                     ty(`#box${k}`, 0, 0.5);
                     await pickNumber(j);
@@ -34,7 +34,7 @@ export default function SelectionSort() {
                 }
             }
             bgcolor(`#box${n - 1}`, Colors.white);
-            await wait(delay);
+            await sleep(delay);
             if (k > i) {
                 await ty(`#box${i}`, 50, 0.5);
                 await swapNumbers(i, k);
@@ -42,7 +42,7 @@ export default function SelectionSort() {
                 await ty(`#box${k}`, 0, 0.5);
             }
             bgcolor(`#box${i}`, Colors.sorted);
-            await wait(1000);
+            await sleep(1000);
         }
         bgcolor(`#box${n - 1}`, Colors.sorted);
     });

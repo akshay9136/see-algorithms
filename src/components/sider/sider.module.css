@@ -1,22 +1,11 @@
 .sider {
     width: 100%;
-    color: white;
-    background-color: #115293;
     height: 100%;
     position: relative;
+    overflow-y: auto;
 }
 
-.listItemIcon {
-    fill: white;
-}
-.listItemText {
-    margin-left: -1rem;
-}
-.listItem:hover {
-    background-color: #1976d2;
-}
-
-.logout {
-    position: absolute;
-    bottom: 1rem;
+.category {
+    background-color: aliceblue;
+    font-weight: 500;
 }

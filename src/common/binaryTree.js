@@ -1,5 +1,6 @@
 import { Colors } from './constants';
 import { Point } from './graph';
+import { sleep } from './utils';
 
 const dx = 40, dy = 60;
 
@@ -84,7 +85,6 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
     };
 
     return Object.freeze({
-        root: () => root,
         node: (i) => arr[i],
         size: () => arr.length,
         findNode,
@@ -100,7 +100,7 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
                 txy(`#node${b.index}`, b.x, b.y, 1),
             ]);
         },
-        insert(value, parent, isLeft = true) {
+        insert(value, parent, isLeft) {
             if (!root) {
                 const [x, y] = [300, 50];
                 root = { value, index: 0, key: 0, x, y };
@@ -121,6 +121,10 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
             animate(`#node${node.index}`, { opacity: 1 });
             bgcolor(`#edge${ei}`, Colors.stroke);
             return node;
+        },
+        root(_root) {
+            if (_root) root = _root;
+            return root;
         },
     });
 }

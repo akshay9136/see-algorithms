@@ -142,7 +142,7 @@ export const isNumber = (x) => !isNaN(parseInt(x));
 
 export const randomInt = () => Math.floor(Math.random() * 99) + 1;
 
-export const wait = (t) => {
+export const sleep = (t) => {
     return new Promise((resolve) => setTimeout(resolve, t));
 };
 

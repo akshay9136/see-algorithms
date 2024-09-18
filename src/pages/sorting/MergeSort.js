@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
 import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { wait } from '@/common/utils';
+import { sleep } from '@/common/utils';
 
 var arr, delay = 1000;
 
@@ -27,7 +27,7 @@ export default function MergeSort() {
                 bgcolor(`#box${i}`, Colors.white);
             }
         });
-        await wait(delay);
+        await sleep(delay);
         let p = start, q = mid + 1;
         let r = start, tmp = [];
         while (r <= end) {
@@ -39,7 +39,7 @@ export default function MergeSort() {
         }
         tmp.forEach((_, i) => (arr[start + i] = tmp[i]));
         setNumbers(arr.slice());
-        await wait(delay);
+        await sleep(delay);
         for (let i = 0; i < tmp.length; i++) {
             await ty(`#box${start + i}`, 0);
             bgcolor(`#box${start + i}`, Colors.sorted);
@@ -52,7 +52,7 @@ export default function MergeSort() {
         await mergeSort(start, mid);
         await mergeSort(mid + 1, end);
         await merge(start, mid, end);
-        await wait(delay);
+        await sleep(delay);
     };
 
     useEffect(() => {

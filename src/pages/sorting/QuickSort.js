@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
 import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { wait } from '@/common/utils';
+import { sleep } from '@/common/utils';
 
 var arr, delay = 1000;
 
@@ -27,12 +27,12 @@ export default function QuickSort() {
 
     const divide = async (start, end) => {
         bgcolor(`#box${end}`, Colors.sorted);
-        await wait(delay);
+        await sleep(delay);
         let i = start,
             j = end - 1;
         bgcolor(`#box${i}`, Colors.compare);
         bgcolor(`#box${j}`, Colors.compare);
-        await wait(delay);
+        await sleep(delay);
         while (i < j) {
             if (arr[i] <= arr[end]) {
                 i++;
@@ -45,13 +45,13 @@ export default function QuickSort() {
             } else {
                 await swap(i, j);
             }
-            await wait(delay);
+            await sleep(delay);
         }
         if (i < end && arr[i] > arr[end]) {
             bgcolor(`#box${i}`, Colors.sorted);
-            await wait(500);
+            await sleep(500);
             await swap(i, end);
-            await wait(500);
+            await sleep(500);
             bgcolor(`#box${end}`, Colors.white);
         } else {
             bgcolor(`#box${i}`, Colors.white);
@@ -66,9 +66,9 @@ export default function QuickSort() {
             return;
         }
         const pivot = await divide(start, end);
-        await wait(delay);
+        await sleep(delay);
         await quickSort(start, pivot - 1);
-        await wait(delay);
+        await sleep(delay);
         await quickSort(pivot + 1, end);
     };
 

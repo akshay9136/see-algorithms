@@ -4,7 +4,7 @@ import useAnimator from '@/hooks/useAnimator';
 import binaryTree from '@/common/binaryTree';
 import { Edge, Node } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { wait } from '@/common/utils';
+import { sleep } from '@/common/utils';
 
 var arr = [], Tree;
 var delay = 500;
@@ -15,10 +15,10 @@ export default function BinaryHeap(props) {
     const { bgcolor } = animator;
     if (!numbers.length) arr = [];
 
-    const input = async (num) => {
+    const insert = async (num) => {
         arr.push(num);
         setNumbers(arr.slice());
-        await wait(delay);
+        await sleep(delay);
         if (!numbers.length) {
             Tree = binaryTree(animator);
             Tree.insert(num);
@@ -26,7 +26,7 @@ export default function BinaryHeap(props) {
             const size = Tree.size();
             const parent = Tree.node(Math.floor((size - 1) / 2));
             const node = Tree.insert(num, parent, size % 2 === 1);
-            await wait(delay);
+            await sleep(delay);
             await heapify(node);
         }
     };
@@ -46,7 +46,7 @@ export default function BinaryHeap(props) {
     const reset = () => setNumbers([]);
 
     const buttons = [
-        { text: 'Insert', onClick: input, validate: true },
+        { text: 'Insert', onClick: insert, validate: true },
         { text: 'Clear', onClick: reset },
     ];
 

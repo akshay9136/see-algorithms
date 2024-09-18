@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
 import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { try_, wait } from '@/common/utils';
+import { try_, sleep } from '@/common/utils';
 
 var arr, delay = 800;
 
@@ -23,7 +23,7 @@ export default function BubbleSort() {
         bgcolor(`#box${u}`, Colors.compare);
         bgcolor(`#box${v}`, Colors.compare);
         if (u > 0) bgcolor(`#box${u - 1}`, Colors.white);
-        await wait(delay);
+        await sleep(delay);
     };
 
     const bubbleSort = try_(async () => {
@@ -33,13 +33,13 @@ export default function BubbleSort() {
                 await compare(j, j + 1);
                 if (arr[j] > arr[j + 1]) {
                     await swapNumbers(j, j + 1);
-                    await wait(delay);
+                    await sleep(delay);
                 }
             }
             let k = n - i;
             bgcolor(`#box${k - 1}`, Colors.white);
             bgcolor(`#box${k}`, Colors.sorted);
-            await wait(delay);
+            await sleep(delay);
         }
         bgcolor(`#box${0}`, Colors.sorted);
     });

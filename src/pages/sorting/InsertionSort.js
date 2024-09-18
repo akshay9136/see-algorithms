@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
 import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { try_, wait } from '@/common/utils';
+import { try_, sleep } from '@/common/utils';
 
 var arr, delay = 800;
 
@@ -14,14 +14,14 @@ export default function InsertionSort() {
 
     const pickNumber = async (i) => {
         bgcolor(`#box${i}`, Colors.compare);
-        await wait(delay);
+        await sleep(delay);
         await ty(`#box${i}`, -50, 0.5);
-        await wait(delay);
+        await sleep(delay);
     };
 
     const sortNumbers = try_(async () => {
         bgcolor(`#box${0}`, Colors.sorted);
-        await wait(delay);
+        await sleep(delay);
         for (let i = 1; i < arr.length; i++) {
             await pickNumber(i);
             let num = arr[i];
@@ -39,7 +39,7 @@ export default function InsertionSort() {
             await ty(`#box${i}`, 0, 0.5);
             await bgcolor(`#box${i}`, Colors.sorted);
             setNumbers(arr.slice());
-            await wait(delay);
+            await sleep(delay);
         }
     });
 

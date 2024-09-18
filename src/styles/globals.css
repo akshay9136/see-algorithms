@@ -3,21 +3,3 @@ body,
 #__next {
   height: 100%;
 }
-
-@media only screen and (min-width: 1920px) {
-  html {
-      font-size: 20px;
-  }
-}
-
-.spaceBetween {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.spaceAround {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}

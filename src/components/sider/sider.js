@@ -2,72 +2,48 @@ import React, { useContext } from 'react';
 import {
   List,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import { Category, MeetingRoom } from '@mui/icons-material';
-import { useRouter } from 'next/router';
 import styles from './sider.module.css';
-import { showMenu } from '../menu/menu';
 import { Algorithms } from '@/common/constants';
 import AppContext from '@/common/context';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Link from 'next/link';
 
 function Sider(props) {
-  const { categories, userAuth, setContext } = useContext(AppContext);
-  const router = useRouter();
+  const { categories, setContext } = useContext(AppContext);
 
-  const handleSelect = ({ catname, value }) => {
-    const key = catname.split(' ').join('-').toLowerCase();
-    router.push(`/${key}/${value}`);
-    props.onClose();
+  const getPathname = (catname, algoId) => {
+    const category = catname.split(' ').join('-').toLowerCase();
+    return `/${category}/${algoId}`;
   };
 
-  const getMenuOptions = (e) => ({
-    anchorEl: e.currentTarget,
-    anchorOrigin: { vertical: 'center', horizontal: 'center' },
-    onSelect: handleSelect,
-  });
-
   return (
-    <List className={styles.sider}>
+    <div className={styles.sider}>
       {categories.map(({ catname, algorithms }) => (
-        <ListItemButton
-          key={catname}
-          className={styles.listItem}
-          onClick={(e) => {
-            showMenu({
-              ...getMenuOptions(e),
-              menuItems: algorithms.map((algoId) => ({
-                label: Algorithms[algoId],
-                value: algoId,
-                catname,
-              })),
-            });
-          }}
-        >
-          <ListItemIcon>
-            <Category className={styles.listItemIcon} />
-          </ListItemIcon>
-          <ListItemText primary={catname} className={styles.listItemText} />
-        </ListItemButton>
+        <Accordion key={catname} disableGutters>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />} className={styles.category}>
+            {catname}
+          </AccordionSummary>
+          <AccordionDetails>
+            <List className="p-0">
+              {algorithms.map((algoId) => (
+                <ListItemButton
+                  key={algoId}
+                  component={Link}
+                  href={getPathname(catname, algoId)}
+                >
+                  <ListItemText secondary={Algorithms[algoId]} />
+                </ListItemButton>
+              ))}
+            </List>
+          </AccordionDetails>
+        </Accordion>
       ))}
-      {userAuth && (
-        <ListItemButton
-          className={`${styles.listItem} ${styles.logout}`}
-          onClick={() => {
-            setContext({ userAuth: null });
-            localStorage.removeItem('userAuth');
-            props.onClose();
-            history.push('/');
-          }}
-        >
-          <ListItemIcon>
-            <MeetingRoom className={styles.listItemIcon} />
-          </ListItemIcon>
-          <ListItemText primary="Logout" className={styles.listItemText} />
-        </ListItemButton>
-      )}
-    </List>
+    </div>
   );
 }
 
