@@ -1,40 +1,69 @@
+## Welcome to SEE algorithms!
+
+[see-algorithms.com](https://see-algorithms.com/) is a website designed to help you understand basic algorithms through interactive animations and visualization. Whether you're a beginner looking to grasp fundamental concepts or a seasoned developer revisiting the basics, this project offers a unique and engaging way to learn.
+
+### 🚀 Features
+
+1. **Visual Learning:** See algorithms in action and interact with the steps to understand how they work.
+2. **Multiple Algorithms:** Explore a variety of algorithms, including sorting, searching, and graph traversal.
+3. **Step-by-Step Breakdown:** Follow each algorithm step by step with colorful animations.
+4. **Responsive Design:** Enjoy a seamless experience on both desktop and mobile devices.
+5. **User-Friendly Interface:** Easily navigate through different algorithms and control the input.
+
+### 📚 Algorithms Covered
+
+1. Sorting Algorithms: Bubble Sort, Insertion Sort, Selection Sort etc.
+3. Graph Algorithms: Depth First Search, Breadth First Search, etc.
+3. Data Structures: Binary Search Tree, Circular Queue etc.
+4. And more!
+
+### 🔧 Getting Started
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+To run this project locally, follow these steps:
 
-## Getting Started
+1. Clone the repository:
 
-First, run the development server:
+```bash
+git clone https://github.com/akshay9136/see-algorithms.git
+```
+
+2. Navigate to the project directory:
+
+```bash
+cd see-algorithms
+```
+
+3. Install dependencies:
+
+```bash
+npm install
+```
+
+4. Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open your browser and visit: [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## 🤝 Contributing
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+1. Fork the Project
+2. Create your Feature Branch (git checkout -b feature/AmazingFeature)
+3. Commit your Changes (git commit -m "Add some AmazingFeature")
+4. Push to the Branch (git push origin feature/AmazingFeature)
+5. Open a Pull Request
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## 📬 Contact
 
-## Learn More
+If you have any questions, suggestions, or feedback, feel free to reach out.
 
-To learn more about Next.js, take a look at the following resources:
+Email: akarande777@outlook.com
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ⭐ Support
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+If you find this project helpful, please consider giving it a star ⭐ on GitHub. Your support is greatly appreciated!
