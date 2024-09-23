@@ -39,6 +39,10 @@
   height: 300px;
 }
 
+.mergeSort {
+  height: 300px;
+}
+
 .numGrid {
   font-weight: 600;
   font-size: 1rem;
@@ -76,4 +80,21 @@
   resize: both;
   overflow: auto;
   position: relative;
+}
+
+.algorithm {
+  margin: 20px 0;
+  padding: 5px 0;
+  width: 400px;
+  background-color: #eee;
+  border-radius: 8px;
+}
+
+.algorithm pre {
+  margin: 8px 0;
+  padding: 4px 0;
+}
+
+.currentStep {
+  background-color: orange;
 }

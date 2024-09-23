@@ -3,7 +3,7 @@ import { Edge, InputNumbers, Node } from '@/components/numbers';
 import useAnimator from '@/hooks/useAnimator';
 import binaryTree from '@/common/binaryTree';
 import { Colors } from '@/common/constants';
-import { try_, sleep } from '@/common/utils';
+import { sleep } from '@/common/utils';
 import Link from 'next/link';
 
 var arr, Tree, delay = 500;
@@ -13,7 +13,7 @@ export default function HeapSort() {
     const [scope, animator] = useAnimator();
     const { txy, bgcolor, animate } = animator;
 
-    const heapSort = try_(async () => {
+    const heapSort = async () => {
         const n = arr.length;
         Tree.insert(arr[0]);
         for (let i = 1; i < n; i++) {
@@ -47,7 +47,7 @@ export default function HeapSort() {
                 animate(`#edge${i}`, { width: 0 }, 0);
             }
         }
-    });
+    };
 
     const heapify = async (node, _n) => {
         const n = _n ? _n : arr.length;
@@ -75,7 +75,7 @@ export default function HeapSort() {
         setNumbers(values);
         arr = values.slice();
         Tree = binaryTree(animator);
-        setTimeout(heapSort, 1500);
+        sleep(1500).then(heapSort).catch(() => {});
     };
 
     const handleStop = () => {

@@ -2,13 +2,24 @@ import React, { useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
 import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { try_, sleep } from '@/common/utils';
+import { sleep } from '@/common/utils';
+import useAlgorithm from '@/hooks/useAlgorithm';
 
 var arr, delay = 800;
 
 export default function BubbleSort() {
     const [numbers, setNumbers] = useState([]);
     const [scope, { tx, bgcolor }] = useAnimator();
+    const [steps, setCurrentStep] = useAlgorithm(`
+    for i = 1 to (n - 1):
+        swapped = false
+        for j = 1 to (n - i):
+            if arr[j] < arr[j + 1]:
+                swap(arr[j], arr[j + 1])
+                swapped = true
+        if not swapped:
+            break
+    `);
 
     if (!numbers.length) arr = undefined;
 
@@ -23,15 +34,22 @@ export default function BubbleSort() {
         bgcolor(`#box${u}`, Colors.compare);
         bgcolor(`#box${v}`, Colors.compare);
         if (u > 0) bgcolor(`#box${u - 1}`, Colors.white);
-        await sleep(delay);
     };
 
-    const bubbleSort = try_(async () => {
+    const bubbleSort = async () => {
         let n = arr.length;
         for (let i = 1; i < n; i++) {
+            await sleep(delay);
+            setCurrentStep('0,1');
+            await sleep(delay);
+            let swap = false;
             for (let j = 0; j < n - i; j++) {
+                setCurrentStep('2,3');
                 await compare(j, j + 1);
+                await sleep(delay);
                 if (arr[j] > arr[j + 1]) {
+                    swap = true;
+                    setCurrentStep('4,5');
                     await swapNumbers(j, j + 1);
                     await sleep(delay);
                 }
@@ -39,15 +57,21 @@ export default function BubbleSort() {
             let k = n - i;
             bgcolor(`#box${k - 1}`, Colors.white);
             bgcolor(`#box${k}`, Colors.sorted);
-            await sleep(delay);
+            if (!swap) {
+                setCurrentStep('6,7');
+                for (let j = 0; j < n - i; j++)
+                    bgcolor(`#box${j}`, Colors.sorted);
+                i = n;
+            }
         }
         bgcolor(`#box${0}`, Colors.sorted);
-    });
+        setCurrentStep('');
+    };
 
     const handleStart = (values) => {
         setNumbers(values);
         arr = values.slice();
-        setTimeout(bubbleSort, 1000);
+        bubbleSort().catch(() => setCurrentStep(''));
     };
 
     const handleStop = () => setNumbers([]);
@@ -56,14 +80,14 @@ export default function BubbleSort() {
         <>
             <section>
                 <p>
-                    Imagine a gentle giant sorting a stack of books by
-                    repeatedly passing through the stack and swapping adjacent
-                    books if they are out of order.{' '}
-                    <strong>Bubble Sort</strong> is a simple yet effective
-                    method for small datasets, making sure each element rises to
-                    its proper place, like bubbles in a soda. Not the fastest,
-                    but Bubble Sort is a friendly introduction to the concept of
-                    sorting.
+                    <strong>Bubble Sort</strong> is a simple sorting algorithm
+                    that works by repeatedly swapping adjacent elements if they
+                    are in the wrong order. This process continues until the
+                    list is fully sorted. While it’s easy to understand, Bubble
+                    Sort is not very efficient for large datasets due to its
+                    quadratic time complexity. It’s often used for educational
+                    purposes or as a baseline for comparison with other sorting
+                    algorithms.
                 </p>
             </section>
             <InputNumbers onStart={handleStart} onStop={handleStop} />
@@ -72,6 +96,7 @@ export default function BubbleSort() {
                     <Numbox key={i} index={i} value={num} />
                 ))}
             </div>
+            {steps}
         </>
     );
 }

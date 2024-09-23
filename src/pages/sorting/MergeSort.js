@@ -4,11 +4,11 @@ import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
 import { sleep } from '@/common/utils';
 
-var arr, delay = 1000;
+var arr, delay = 500;
 
 export default function MergeSort() {
     const [numbers, setNumbers] = useState([]);
-    const [scope, { tx, ty, txy, bgcolor }] = useAnimator();
+    const [scope, { tx, ty, txy }] = useAnimator();
 
     if (!numbers.length) arr = undefined;
 
@@ -19,39 +19,39 @@ export default function MergeSort() {
         return p <= mid ? p : q;
     };
 
-    const merge = async (start, mid, end) => {
-        arr.forEach((_, i) => {
-            if (i >= start && i <= end) {
-                bgcolor(`#box${i}`, Colors.compare);
-            } else if (i < start) {
-                bgcolor(`#box${i}`, Colors.white);
-            }
-        });
-        await sleep(delay);
+    const merge = async (start, mid, end, ypos) => {
         let p = start, q = mid + 1;
         let r = start, tmp = [];
         while (r <= end) {
             let s = getMergeIndex(p, q, mid, end);
             tmp.push(arr[s]);
-            await txy(`#box${s}`, 60 * (r - s), 60, 0.5);
+            await txy(`#box${s}`, 60 * (r - s), ypos - 60, 0.5);
             s === q ? q++ : p++;
             r++;
         }
         tmp.forEach((_, i) => (arr[start + i] = tmp[i]));
         setNumbers(arr.slice());
-        await sleep(delay);
-        for (let i = 0; i < tmp.length; i++) {
-            await ty(`#box${start + i}`, 0);
-            bgcolor(`#box${start + i}`, Colors.sorted);
-        }
     };
 
-    const mergeSort = async (start, end) => {
+    const split = (start, end, ypos) => {
+        const promises = [];
+        for (let i = start; i <= end; i++) {
+            promises.push(ty(`#box${i}`, ypos));
+        }
+        return Promise.all(promises);
+    };
+
+    const mergeSort = async (start, end, ypos) => {
         if (start === end) return;
         const mid = Math.floor((start + end) / 2);
-        await mergeSort(start, mid);
-        await mergeSort(mid + 1, end);
-        await merge(start, mid, end);
+        await sleep(delay);
+        await split(start, mid, ypos);
+        await mergeSort(start, mid, ypos + 60);
+        await sleep(delay);
+        await split(mid + 1, end, ypos);
+        await mergeSort(mid + 1, end, ypos + 60);
+        await sleep(delay);
+        await merge(start, mid, end, ypos);
         await sleep(delay);
     };
 
@@ -62,7 +62,9 @@ export default function MergeSort() {
     const handleStart = (values) => {
         setNumbers(values);
         arr = values.slice();
-        setTimeout(mergeSort, 1000, 0, arr.length - 1);
+        sleep(delay).then(() => {
+            mergeSort(0, arr.length - 1, 60).catch(() => {});
+        });
     };
 
     const handleStop = () => setNumbers([]);
@@ -71,17 +73,17 @@ export default function MergeSort() {
         <>
             <section>
                 <p>
-                    Think of <strong>Merge Sort</strong> as a master chef who
-                    splits the ingredients, cooks each part perfectly, and then
-                    combines them into a delicious dish. This algorithm divides
-                    the list into smaller sub-lists, sorts them individually,
-                    and merges them back together in order. It is highly
-                    efficient, handling even large datasets with grace and
-                    speed, thanks to its divide-and-conquer approach.
+                    <strong>Merge Sort</strong> is more advanced,
+                    divide-and-conquer algorithm that recursively splits an
+                    unsorted list into smaller sublists until each contains a
+                    single element. These sublists are then merged back together
+                    in a sorted manner. With a time complexity of O(n log n),
+                    Merge Sort is efficient and stable, making it suitable for
+                    handling large datasets.
                 </p>
             </section>
             <InputNumbers onStart={handleStart} onStop={handleStop} />
-            <div className="d-flex py-4 mb-5" ref={scope}>
+            <div className="d-flex pt-4 mergeSort" ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}

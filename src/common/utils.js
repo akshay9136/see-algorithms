@@ -146,6 +146,4 @@ export const sleep = (t) => {
     return new Promise((resolve) => setTimeout(resolve, t));
 };
 
-export const try_ = (fn) => () => fn().catch(() => {});
-
 export const bgcolor = (id, color) => $(id).css('background-color', color);
