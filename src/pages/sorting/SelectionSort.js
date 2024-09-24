@@ -11,14 +11,14 @@ var arr, delay = 500;
 export default function SelectionSort() {
     const [numbers, setNumbers] = useState([]);
     const [scope, { tx, ty, bgcolor }] = useAnimator();
-    const [steps, setCurrentStep] = useAlgorithm(`
+    const [algorithm, setCurrentStep] = useAlgorithm(`
     for i = 0 to (n - 1):
         min = i
         for j = i + 1 to (n):
             if arr[j] < arr[min]:
                 min = j
         if min != i:
-            swap(arr[i], arr[min])
+            swap(i, min)
     `);
 
     if (!numbers.length) arr = undefined;
@@ -98,6 +98,7 @@ export default function SelectionSort() {
                     makes it useful when the cost of moving items is high, but
                     finding the smallest item is easy.
                 </p>
+                {algorithm}
             </section>
             <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="d-flex py-5 mb-4" ref={scope}>
@@ -105,7 +106,6 @@ export default function SelectionSort() {
                     <Numbox key={i} index={i} value={num} />
                 ))}
             </div>
-            {steps}
         </>
     );
 }

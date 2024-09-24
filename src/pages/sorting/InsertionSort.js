@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
+import useAlgorithm from '@/hooks/useAlgorithm';
 import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
 import { sleep } from '@/common/utils';
-import useAlgorithm from '@/hooks/useAlgorithm';
 
 var arr, delay = 800;
 
 export default function InsertionSort() {
     const [numbers, setNumbers] = useState([]);
     const [scope, { tx, ty, bgcolor }] = useAnimator();
-    const [steps, setCurrentStep] = useAlgorithm(`
+    const [algorithm, setCurrentStep] = useAlgorithm(`
     for i = 1 to (n - 1):
         key = arr[i]
         j = i - 1
@@ -83,6 +83,7 @@ export default function InsertionSort() {
                     intuitive and efficient for small dataset, especially for
                     partially sorted lists.
                 </p>
+                {algorithm}
             </section>
             <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="d-flex py-5" ref={scope}>
@@ -90,7 +91,6 @@ export default function InsertionSort() {
                     <Numbox key={i} index={i} value={num} />
                 ))}
             </div>
-            {steps}
         </>
     );
 }

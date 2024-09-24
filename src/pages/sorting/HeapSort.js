@@ -5,6 +5,7 @@ import binaryTree from '@/common/binaryTree';
 import { Colors } from '@/common/constants';
 import { sleep } from '@/common/utils';
 import Link from 'next/link';
+import useAlgorithm from '@/hooks/useAlgorithm';
 
 var arr, Tree, delay = 500;
 
@@ -12,6 +13,13 @@ export default function HeapSort() {
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
     const { txy, bgcolor, animate } = animator;
+    const [algorithm] = useAlgorithm(`
+    for i = (n / 2 - 1) down to 0:
+        heapify(i)
+    for i = n - 1 down to 1:
+        swap(0, i)
+        heapify(0)
+    `);
 
     const heapSort = async () => {
         const n = arr.length;
@@ -98,6 +106,7 @@ export default function HeapSort() {
                     sorting capabilities, making it a strong choice for handling
                     large datasets without requiring extra memory.
                 </p>
+                {algorithm}
             </section>
             <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="heapSort" ref={scope}>

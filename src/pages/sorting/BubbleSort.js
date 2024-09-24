@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
+import useAlgorithm from '@/hooks/useAlgorithm';
 import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
 import { sleep } from '@/common/utils';
-import useAlgorithm from '@/hooks/useAlgorithm';
 
 var arr, delay = 800;
 
 export default function BubbleSort() {
     const [numbers, setNumbers] = useState([]);
     const [scope, { tx, bgcolor }] = useAnimator();
-    const [steps, setCurrentStep] = useAlgorithm(`
+    const [algorithm, setCurrentStep] = useAlgorithm(`
     for i = 1 to (n - 1):
         swapped = false
         for j = 1 to (n - i):
             if arr[j] < arr[j + 1]:
-                swap(arr[j], arr[j + 1])
+                swap(j, j + 1)
                 swapped = true
         if not swapped:
             break
@@ -89,6 +89,7 @@ export default function BubbleSort() {
                     purposes or as a baseline for comparison with other sorting
                     algorithms.
                 </p>
+                {algorithm}
             </section>
             <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="d-flex py-4" ref={scope}>
@@ -96,7 +97,6 @@ export default function BubbleSort() {
                     <Numbox key={i} index={i} value={num} />
                 ))}
             </div>
-            {steps}
         </>
     );
 }

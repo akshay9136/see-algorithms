@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
+import useAlgorithm from '@/hooks/useAlgorithm';
 import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
 import { sleep } from '@/common/utils';
@@ -9,6 +10,13 @@ var arr, delay = 1000;
 export default function QuickSort() {
     const [numbers, setNumbers] = useState([]);
     const [scope, { tx, ty, bgcolor }] = useAnimator();
+    const [algorithm] = useAlgorithm(`
+    function quickSort(start, end):
+        if start < end:
+            pivot = partition(start, end)
+            quickSort(start, pivot - 1)
+            quickSort(pivot + 1, end)
+    `);
 
     if (!numbers.length) arr = undefined;
 
@@ -75,7 +83,9 @@ export default function QuickSort() {
     const handleStart = (values) => {
         setNumbers(values);
         arr = values.slice();
-        setTimeout(quickSort, delay, 0, arr.length - 1);
+        sleep(delay).then(() =>
+            quickSort(0, arr.length - 1).catch(() => {})
+        );
     };
 
     const handleStop = () => setNumbers([]);
@@ -92,6 +102,7 @@ export default function QuickSort() {
                     largest datasets. It is perfect blend of strategy and speed,
                     making it one of the most popular sorting techniques.
                 </p>
+                {algorithm}
             </section>
             <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="d-flex py-5 mb-4" ref={scope}>

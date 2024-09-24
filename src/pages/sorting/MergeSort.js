@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
+import useAlgorithm from '@/hooks/useAlgorithm';
 import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
 import { sleep } from '@/common/utils';
@@ -8,7 +9,15 @@ var arr, delay = 500;
 
 export default function MergeSort() {
     const [numbers, setNumbers] = useState([]);
-    const [scope, { tx, ty, txy }] = useAnimator();
+    const [scope, { tx, ty, txy, bgcolor }] = useAnimator();
+    const [algorithm] = useAlgorithm(`
+    function mergeSort(start, end):
+        if start < end:
+            mid = length(arr) / 2
+            mergeSort(start, mid)
+            mergeSort(mid + 1, end)
+            merge(start, mid, end)
+    `);
 
     if (!numbers.length) arr = undefined;
 
@@ -26,6 +35,7 @@ export default function MergeSort() {
             let s = getMergeIndex(p, q, mid, end);
             tmp.push(arr[s]);
             await txy(`#box${s}`, 60 * (r - s), ypos - 60, 0.5);
+            await bgcolor(`#box${s}`, Colors.sorted);
             s === q ? q++ : p++;
             r++;
         }
@@ -62,9 +72,9 @@ export default function MergeSort() {
     const handleStart = (values) => {
         setNumbers(values);
         arr = values.slice();
-        sleep(delay).then(() => {
-            mergeSort(0, arr.length - 1, 60).catch(() => {});
-        });
+        sleep(delay).then(() =>
+            mergeSort(0, arr.length - 1, 60).catch(() => {})
+        );
     };
 
     const handleStop = () => setNumbers([]);
@@ -81,6 +91,7 @@ export default function MergeSort() {
                     Merge Sort is efficient and stable, making it suitable for
                     handling large datasets.
                 </p>
+                {algorithm}
             </section>
             <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="d-flex pt-4 mergeSort" ref={scope}>
