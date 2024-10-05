@@ -44,7 +44,7 @@ function DSInput(props) {
             onClick={() => {
               btn.validate ? validate(btn.onClick) : btn.onClick();
             }}
-            disabled={status}
+            disabled={status || btn.disabled}
             style={{ marginRight: '8px' }}
           >
             {btn.text}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DSInput from '@/components/ds-input/ds-input';
-import useAnimator from '@/hooks/useAnimator';
 import binaryTree from '@/common/binaryTree';
+import useAnimator from '@/hooks/useAnimator';
 import { Edge, Node } from '@/components/numbers';
 import { Colors } from '@/common/constants';
 import { sleep } from '@/common/utils';
@@ -23,7 +23,7 @@ export default function BinaryHeap(props) {
             Tree = binaryTree(animator);
             Tree.insert(num);
         } else {
-            const size = Tree.size();
+            const size = numbers.length;
             const parent = Tree.node(Math.floor((size - 1) / 2));
             const node = Tree.insert(num, parent, size % 2 === 1);
             await sleep(delay);

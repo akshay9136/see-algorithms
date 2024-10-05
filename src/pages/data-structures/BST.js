@@ -1,44 +1,31 @@
 import React, { useState } from 'react';
 import DSInput from '@/components/ds-input/ds-input';
+import binarySearchTree from '@/helpers/binarySearchTree';
 import useAnimator from '@/hooks/useAnimator';
-import binaryTree from '@/common/binaryTree';
 import { Edge, Node } from '@/components/numbers';
-import { Colors } from '@/common/constants';
 import { sleep } from '@/common/utils';
 
 var arr = [], Tree;
-var delay = 500;
 
 export default function BST(props) {
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
-    const { bgcolor } = animator;
     if (!numbers.length) arr = [];
 
     const insert = async (num) => {
         arr.push(num);
         setNumbers(arr.slice());
-        await sleep(delay);
+        await sleep(500);
         if (!numbers.length) {
-            Tree = binaryTree(animator);
-            Tree.insert(num);
-        } else {
-            await search(Tree.root(), num);
+            Tree = binarySearchTree(animator);
         }
+        await Tree.insert(num);
     };
 
-    const search = async (node, num) => {
-        await bgcolor(`#node${node.index}`, Colors.compare);
-        await sleep(delay);
-        const isLeft = num <= node.value;
-        const next = isLeft ? 'left' : 'right';
-        if (!node[next]) {
-            Tree.insert(num, node, isLeft);
-            await sleep(delay);
-            await bgcolor(`#node${node.index}`, Colors.white);
-        } else {
-            await bgcolor(`#node${node.index}`, Colors.white);
-            await search(node[next], num);
+    const remove = async (num) => {
+        if (numbers.length) {
+            await Tree.findAndRemove(num);
+            if (!Tree.root()) reset();
         }
     };
 
@@ -46,6 +33,7 @@ export default function BST(props) {
 
     const buttons = [
         { text: 'Insert', onClick: insert, validate: true },
+        { text: 'Remove', onClick: remove, validate: true },
         { text: 'Clear', onClick: reset },
     ];
 
