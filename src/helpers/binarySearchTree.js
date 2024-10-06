@@ -22,7 +22,6 @@ function binarySearchTree(animator) {
         node.value = child.value;
         node.index = child.index;
         if (child.right) {
-            await sleep(delay);
             removeNode(child, 'right');
         } else {
             animate(`#edge${child.key - 1}`, { opacity: 0 });
@@ -52,13 +51,13 @@ function binarySearchTree(animator) {
         if (node) {
             node.x = node.x + dx;
             node.y = node.y - dy;
+            Tree.cleanup(node);
             txy(`#node${node.index}`, node.x, node.y);
             if (node.parent) {
                 txy(`#edge${node.key - 1}`, node.x + 25, node.y + 20);
             }
             cleanup(node.left, dx, dy);
             cleanup(node.right, dx, dy);
-            Tree.cleanup(node);
         }
     };
 
@@ -95,14 +94,14 @@ function binarySearchTree(animator) {
             const node = await findNode(num, Tree.root());
             if (!node) return;
             animate(`#node${node.index}`, { opacity: 0 });
-            await sleep(800);
             const { left, right, parent } = node;
             if (!left && !right) {
                 if (!parent) return Tree.root(null);
-                animate(`#edge${node.index - 1}`, { opacity: 0 });
+                animate(`#edge${node.key - 1}`, { opacity: 0 });
                 if (node.isLeft) parent.left = null;
                 else parent.right = null;
             } else {
+                await sleep(delay);
                 return left && right
                     ? replaceNode(node)
                     : removeNode(node, left ? 'left' : 'right');

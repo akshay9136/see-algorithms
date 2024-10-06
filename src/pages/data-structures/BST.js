@@ -33,7 +33,7 @@ export default function BST(props) {
 
     const buttons = [
         { text: 'Insert', onClick: insert, validate: true },
-        { text: 'Remove', onClick: remove, validate: true },
+        { text: 'Delete', onClick: remove, validate: true },
         { text: 'Clear', onClick: reset },
     ];
 
