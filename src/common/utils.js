@@ -21,14 +21,20 @@ function withOffset(e) {
 }
 
 function addVertex(p, vlbl) {
-    let vrtx = `<g class="vgrp"><ellipse class="vrtx" cx="${p.x}" cy="${
+    document.getElementById('plane').innerHTML +=
+    `<g class="vgrp"><ellipse class="vrtx" cx="${p.x}" cy="${
         p.y
     }" rx="${18}" ry="15" stroke="${Colors.stroke}" stroke-width="2" fill="${
         Colors.vertex
-    }" /><text class="vlbl" x="${p.x}" y="${
+    }" style="cursor:pointer" /><text class="vlbl" x="${p.x}" y="${
         p.y + 5
     }" text-anchor="middle" style="cursor:pointer">${vlbl}</text></g>`;
-    document.getElementById('plane').innerHTML += vrtx;
+}
+
+function addEdge(p, q) {
+    let edge = `<line class="edge" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" stroke-width="2.5" stroke="${Colors.stroke}" />`;
+    document.getElementById('plane').innerHTML += edge;
+    $('line:last').insertBefore($('.vgrp:first'));
 }
 
 function moveVertex(i, r) {
@@ -38,10 +44,18 @@ function moveVertex(i, r) {
     $('.vlbl').eq(i).attr('y', r.y + 5);
 }
 
-function addEdge(p, q) {
-    let edge = `<line class="edge" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" stroke-width="2.5" stroke="${Colors.stroke}" />`;
-    document.getElementById('plane').innerHTML += edge;
-    $('line:last').insertBefore($('.vgrp:first'));
+function moveEdge(i) {
+    const [u, v] = Graph.fromSegment(i);
+    $('.edge').eq(i).attr('x1', u.x);
+    $('.edge').eq(i).attr('y1', u.y);
+    $('.edge').eq(i).attr('x2', v.x);
+    $('.edge').eq(i).attr('y2', v.y);
+    if (Graph.isDirected()) {
+        const q = fromDistance(u, v, 23);
+        $('.edge').eq(i).attr('x2', q.x);
+        $('.edge').eq(i).attr('y2', q.y);
+        $('.edge').eq(i).attr('marker-end', 'url(#arrow)');
+    }
 }
 
 function cloneEdge(i, j) {
@@ -49,13 +63,11 @@ function cloneEdge(i, j) {
     document.getElementById('plane').innerHTML += edge;
     $('line:last').insertBefore($('.vgrp:first'));
     let p, q;
-    let segment = Graph.segment(j);
-    if (Point.equal(segment.p, Graph.point(i))) {
-        p = segment.p;
-        q = segment.q;
+    let [r, s] = Graph.fromSegment(j);
+    if (Point.equal(r, Graph.point(i))) {
+        [p, q] = [r, s];
     } else {
-        p = segment.q;
-        q = segment.p;
+        [p, q] = [s, r];
     }
     $('line:last').attr('x1', p.x);
     $('line:last').attr('y1', p.y);
@@ -91,12 +103,11 @@ function appendCell(rowId, val) {
 }
 
 function getCostMatrix() {
-    let mat = [];
-    Graph.forEach((i, j) => {
+    const mat = [];
+    Graph.segments().forEach(([i, j], k) => {
         mat[i] = mat[i] || [];
-        let ei = Graph.edgeIndex(i, j);
         if (isNumber(ei)) {
-            let value = $('.cost').eq(ei).text();
+            let value = $('.cost').eq(k).text();
             mat[i][j] = parseInt(value) || 1;
         } else {
             mat[i][j] = Infinity;
@@ -128,8 +139,9 @@ function spanEdge(i, j, delay, callback) {
 export {
     withOffset,
     addVertex,
-    moveVertex,
     addEdge,
+    moveVertex,
+    moveEdge,
     cloneEdge,
     fromDistance,
     createGrid,

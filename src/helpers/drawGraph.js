@@ -1,5 +1,12 @@
 import $ from 'jquery';
-import { addVertex, addEdge, withOffset, fromDistance } from '../common/utils';
+import {
+    addVertex,
+    addEdge,
+    withOffset,
+    fromDistance,
+    moveVertex,
+    moveEdge,
+} from '../common/utils';
 import Graph, { Point, Segment } from '../common/graph';
 import { showToast } from '../components/toast/toast';
 import { Colors } from '../common/constants';
@@ -7,21 +14,21 @@ import Timer from '../common/timer';
 
 export function createGraph(data) {
     clearGraph();
-    let { points, segments, matrix, steps, directed, costMatrix } = data;
+    const { points, segments, directed, costMatrix } = data;
     points.forEach((p, i) => {
         addVertex(p, String.fromCharCode(65 + i));
     });
-    steps.forEach(([i, j]) => {
-        let { p, q } = segments[matrix[i][j]];
+    segments.forEach(([i, j]) => {
+        const p = points[i], q = points[j];
         addEdge(p, q);
         if (directed) {
-            let { x, y } = fromDistance(p, q, 23);
+            const { x, y } = fromDistance(p, q, 23);
             $('.edge:last').attr('x2', x);
             $('.edge:last').attr('y2', y);
             $('.edge:last').attr('marker-end', 'url(#arrow)');
         }
         if (costMatrix) {
-            addCost(p, q, costMatrix[i][j]);
+            addCost([p, q], costMatrix[i][j]);
         }
     });
     Graph.initialize(data);
@@ -35,18 +42,39 @@ export function clearGraph() {
 }
 
 export function drawGraph({ weighted, acyclic }) {
-    let px, ix, flag;
+    var ipx, flag, hold, drag;
 
-    function isValidSeg(seg) {
-        for (let i = 0; i < Graph.totalSegments(); i++) {
-            let si = Graph.segment(i);
-            if (Segment.overlap(seg, si)) return false;
-        }
-        return true;
+    function isValidEdge(p, q) {
+        if (!p || !q) return true;
+        return Graph.segments().every((seg) => {
+            let [r, s] = seg.map(Graph.point)
+            return !Segment.overlap([p, q], [r, s]);
+        });
     }
+
+    $('#plane').on('mousedown', (e) => {
+        e.preventDefault();
+        if (flag) return;
+        let p = withOffset(e);
+        let k;
+        for (k = 0; k < Graph.totalPoints(); k++) {
+            let q = Graph.point(k);
+            let d = Point.distance(p, q);
+            if (d < 25) {
+                ipx = k;
+                hold = true;
+                break;
+            }
+        }
+    });
 
     $('#plane').on('click', function (e) {
         e.preventDefault();
+        if (hold && drag) {
+            hold = false;
+            drag = false;
+            return;
+        }
         let p = withOffset(e);
         let np = Graph.totalPoints();
         if (np === 0) {
@@ -59,15 +87,16 @@ export function drawGraph({ weighted, acyclic }) {
             let q = Graph.point(k);
             let d = Point.distance(p, q);
             if (d < 25) {
-                p = { ...q };
+                p = q;
                 break;
             }
         }
         if (flag) {
             flag = false;
-            $('.vrtx').eq(ix).attr('stroke', Colors.stroke);
-            let seg = Segment.create(px, p);
-            if (Point.equal(p, px) || !isValidSeg(seg)) {
+            hold = false;
+            $('.vrtx').eq(ipx).attr('stroke', Colors.stroke);
+            const px = Graph.point(ipx);
+            if (Point.equal(p, px) || !isValidEdge(px, p)) {
                 $('.edge:last').remove();
                 return;
             }
@@ -81,8 +110,7 @@ export function drawGraph({ weighted, acyclic }) {
                 addVertex(p, String.fromCharCode(65 + np));
                 Graph.addPoint(p);
             }
-            Graph.addSegment(seg);
-            if (weighted) addCost(p, px);
+            if (weighted) addCost([px, p]);
             if (Graph.isDirected()) {
                 if (acyclic && Graph.hasCycle()) {
                     showToast({
@@ -90,13 +118,13 @@ export function drawGraph({ weighted, acyclic }) {
                         variant: 'error',
                     });
                     $('.edge:last').remove();
-                    Graph.removeSegment(seg);
                     return;
                 }
-                let q = fromDistance(px, p, 23);
+                const q = fromDistance(px, p, 23);
                 $('.edge:last').attr('x2', q.x);
                 $('.edge:last').attr('y2', q.y);
             }
+            Graph.addSegment(ipx, k);
         } else {
             if (k === np) {
                 if (np < 26) {
@@ -109,9 +137,9 @@ export function drawGraph({ weighted, acyclic }) {
                 if (Graph.isDirected()) {
                     $('.edge:last').attr('marker-end', 'url(#arrow)');
                 }
-                px = p;
-                ix = k;
+                ipx = k;
                 flag = true;
+                hold = false;
             }
         }
     });
@@ -122,6 +150,22 @@ export function drawGraph({ weighted, acyclic }) {
             let p = withOffset(e);
             $('.edge:last').attr('x2', p.x);
             $('.edge:last').attr('y2', p.y);
+        } else if (hold) {
+            let p = withOffset(e);
+            moveVertex(ipx, p);
+            Graph.setPoint(ipx, p);
+            Graph.segments().forEach((seg, i) => {
+                let [u, v] = seg.map(Graph.point);
+                if (seg.includes(ipx)) {
+                    moveEdge(i);
+                    if (weighted) {
+                        let cost = $('.cost').eq(i).parent();
+                        cost.attr('x', (u.x + v.x) / 2);
+                        cost.attr('y', (u.y + v.y) / 2);
+                    }
+                }
+            });
+            drag = true;
         }
     });
 
@@ -129,15 +173,17 @@ export function drawGraph({ weighted, acyclic }) {
         e.preventDefault();
         if (flag) {
             $('.edge:last').remove();
-            $('.vrtx').eq(ix).attr('stroke', Colors.stroke);
-            flag = false;
+            $('.vrtx').eq(ipx).attr('stroke', Colors.stroke);
         }
+        flag = false;
+        hold = false;
+        drag = false;
     });
 }
 
-function addCost(p, q, cost) {
+function addCost([p, q], cost) {
     cost = cost || Math.round(Point.distance(p, q) / 20);
-    let element = `
+    const element = `
         <foreignObject width="30" height="30" x="${(p.x + q.x) / 2}" y="${(p.y + q.y) / 2}">
             <p class="cost" onclick="this.focus();event.stopPropagation();" contenteditable="true">
                 ${cost}
@@ -150,15 +196,15 @@ export function switchType() {
     Graph.switchType();
     if (Graph.isDirected()) {
         $('.edge').each(function (i) {
-            let seg = Graph.segment(i);
-            let r = fromDistance(seg.p, seg.q, 23);
+            const [p, q] = Graph.fromSegment(i);
+            const r = fromDistance(p, q, 23);
             $(this).attr('x2', r.x);
             $(this).attr('y2', r.y);
             $(this).attr('marker-end', 'url(#arrow)');
         });
     } else {
         $('.edge').each(function (i) {
-            let { q } = Graph.segment(i);
+            const [_, q] = Graph.fromSegment(i);
             $(this).attr('x2', q.x);
             $(this).attr('y2', q.y);
             $(this).removeAttr('marker-end');

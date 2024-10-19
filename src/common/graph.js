@@ -3,7 +3,6 @@ import { isNumber } from './utils';
 var points = [];
 var segments = [];
 var matrix = [];
-var steps = [];
 var directed = false;
 
 const Graph = {
@@ -14,25 +13,21 @@ const Graph = {
 
     setPoint: (i, p) => void (points[i] = p),
 
-    position(seg) {
-        let i = points.findIndex((r) => Point.equal(r, seg.p));
-        let j = points.findIndex((r) => Point.equal(r, seg.q));
-        return [i, j];
-    },
-
-    addSegment(seg) {
-        let [i, j] = this.position(seg);
+    addSegment(i, j) {
         matrix[i][j] = segments.length;
         if (!directed) {
             matrix[j][i] = segments.length;
         }
-        segments.push(seg);
-        steps.push([i, j]);
+        segments.push([i, j]);
+    },
+
+    fromSegment(i) {
+        return segments[i].map(this.point);
     },
 
     totalPoints: () => points.length,
 
-    totalSegments: () => segments.length,
+    segments: () => segments,
 
     point: (index) => points[index],
 
@@ -44,28 +39,17 @@ const Graph = {
         points = [];
         segments = [];
         matrix = [];
-        steps = [];
     },
 
     skeleton() {
-        return { points, segments, matrix, steps, directed };
+        return { points, segments, matrix, directed };
     },
 
     initialize(data) {
         points = data.points;
         segments = data.segments;
         matrix = data.matrix;
-        steps = data.steps;
         directed = data.directed;
-    },
-
-    forEach(callback) {
-        let np = points.length;
-        for (let i = 0; i < np; i++) {
-            for (let j = 0; j < np; j++) {
-                callback(i, j);
-            }
-        }
     },
 
     isDirected: () => directed,
@@ -94,32 +78,29 @@ const Graph = {
         directed = !directed;
         if (points.length > 1) {
             if (directed) {
-                steps.forEach(([i, j]) => {
+                segments.forEach(([i, j]) => {
                     matrix[j][i] = undefined;
                 });
             } else {
-                steps.forEach(([i, j]) => {
+                segments.forEach(([i, j]) => {
                     matrix[j][i] = matrix[i][j];
                 });
             }
         }
     },
 
-    removeSegment(seg) {
-        let [i, j] = this.position(seg);
+    removeSegment(i, j) {
         segments.splice(matrix[i][j], 1);
         matrix[i][j] = undefined;
         if (!directed) {
             matrix[j][i] = undefined;
         }
-        let k = steps.findIndex(([u, v]) => u === i && v === j);
-        steps.splice(k, 1);
     },
 
     indegree() {
         let np = points.length;
         let ind = new Array(np).fill(0);
-        steps.forEach(([i, j]) => ind[j]++);
+        segments.forEach(([i, j]) => ind[j]++);
         return ind;
     },
 
@@ -130,9 +111,7 @@ const Graph = {
         for (let i = 0; i < np; i++) {
             if (ind[i] === 0) stack.push(i);
         }
-        if (stack.length === 0) {
-            return true;
-        }
+        if (!stack.length) return true;
         let k = 0;
         while (stack.length > 0) {
             let i = stack.pop();
@@ -163,21 +142,18 @@ export const Point = {
 export const Segment = {
     create: (p, q) => ({ p, q }),
 
-    slope: ({ p, q }) => (q.y - p.y) / (q.x - p.x),
+    slope: (p, q) => (q.y - p.y) / (q.x - p.x),
 
-    orientation({ p, q }, r) {
+    orientation([p, q], r) {
         let d = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
         if (d === 0) return 0;
         return d > 0 ? 1 : 2;
     },
 
-    overlap(s1, s2) {
+    overlap([p, q], [r, s]) {
         const { equal } = Point;
-        if (equal(s1.p, s2.p) || equal(s1.p, s2.q)) {
-            if (equal(s1.q, s2.p) || equal(s1.q, s2.q)) {
-                return true;
-            }
-        }
+        if (equal(p, r) && equal(q, s)) return true;
+        if (equal(q, r) && equal(p, s)) return true;
         return false;
     },
 };

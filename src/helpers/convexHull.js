@@ -47,8 +47,7 @@ export function addPoints(cvx) {
             for (let i = 0; i < size; i++) {
                 let u = Graph.point(cvx[i]);
                 let v = Graph.point(cvx[(i + 1) % size]);
-                let s = Segment.create(u, v);
-                if (Segment.orientation(s, p) === 1) {
+                if (Segment.orientation([u, v], p) === 1) {
                     newConvex();
                     break;
                 }
@@ -95,9 +94,9 @@ export function addPoints(cvx) {
             let np = Graph.totalPoints();
             q = (p + 1) % np;
             for (let i = 0; i < np; i++) {
-                let s = Segment.create(Graph.point(p), Graph.point(q));
-                let o = Segment.orientation(s, Graph.point(i));
-                if (o === 1) q = i;
+                let seg = [p, q].map(Graph.point);
+                let ori = Segment.orientation(seg, Graph.point(i));
+                if (ori === 1) q = i;
             }
             let u = Graph.point(p);
             let v = Graph.point(q);

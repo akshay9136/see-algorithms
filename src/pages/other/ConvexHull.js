@@ -35,7 +35,7 @@ function convexHull() {
 
 function next(i) {
     if (i < Graph.totalPoints()) {
-        let seg = Segment.create(Graph.point(p), Graph.point(q));
+        let seg = [p, q].map(Graph.point);
         let ori = Segment.orientation(seg, Graph.point(i));
         if (ori === 1) {
             q = i;
