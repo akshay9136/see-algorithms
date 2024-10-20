@@ -37,15 +37,18 @@ function start(source) {
     Timer.timeout(() => {
         $('.vrtx').eq(i).attr('stroke', Colors.visited);
         $('.vrtx').eq(i).attr('fill', Colors.visited);
-        Timer.timeout(prim, delay / 2);
+        Timer.timeout(enqueue, delay / 2);
     }, delay);
 }
 
-function prim() {
-    queue = queue.concat(w[i]);
+function enqueue() {
     mst.push(i);
+    queue = queue.concat(Array(n).fill(Infinity));
+    w[i].forEach((v, j) => {
+        queue[n * i + j] = v;
+    });
     for (let k = 0; k < n; k++) {
-        if (mst.indexOf(k) === -1 && w[i][k] !== Infinity) {
+        if (mst.indexOf(k) === -1 && w[i][k] !== undefined) {
             let ei = Graph.edgeIndex(i, k);
             $('.edge').eq(ei).attr('stroke', Colors.enqueue);
             $('.edge').eq(ei).attr('stroke-dasharray', '8,4');
@@ -56,9 +59,10 @@ function prim() {
 }
 
 function extractMin() {
-    j = queue.indexOf(Math.min(...queue));
+    let min = queue.reduce((a, b) => b < a ? b : a, Infinity);
+    j = queue.indexOf(min);
     queue[j] = Infinity;
-    i = mst[Math.floor(j / n)];
+    i = Math.floor(j / n);
     j = j % n;
     if (mst.indexOf(j) !== -1) {
         extractMin();
@@ -69,8 +73,6 @@ function extractMin() {
                 if ($('.edge').eq(ej).attr('stroke') === Colors.enqueue)
                     $('.edge').eq(ej).attr('stroke', Colors.rejected);
             }
-            w[i][j] = Infinity;
-            w[j][i] = Infinity;
             i = j;
             if (mst.length < n - 1) {
                 Timer.timeout(prim, delay / 2);

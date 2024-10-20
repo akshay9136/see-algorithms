@@ -44,7 +44,7 @@ function moveVertex(i, r) {
     $('.vlbl').eq(i).attr('y', r.y + 5);
 }
 
-function moveEdge(i) {
+function moveEdge(i, hasCost) {
     const [u, v] = Graph.fromSegment(i);
     $('.edge').eq(i).attr('x1', u.x);
     $('.edge').eq(i).attr('y1', u.y);
@@ -55,6 +55,13 @@ function moveEdge(i) {
         $('.edge').eq(i).attr('x2', q.x);
         $('.edge').eq(i).attr('y2', q.y);
         $('.edge').eq(i).attr('marker-end', 'url(#arrow)');
+    }
+    if (hasCost) {
+        let el = $('.cost').eq(i).parent();
+        el.attr('x', (u.x + v.x) / 2);
+        el.attr('y', (u.y + v.y) / 2);
+        let cost = (Point.distance(u, v) / 20).toFixed(1);
+        el.children().text(cost);
     }
 }
 
@@ -103,14 +110,14 @@ function appendCell(rowId, val) {
 }
 
 function getCostMatrix() {
-    const mat = [];
+    let mat = [];
     Graph.segments().forEach(([i, j], k) => {
         mat[i] = mat[i] || [];
-        if (isNumber(ei)) {
-            let value = $('.cost').eq(k).text();
-            mat[i][j] = parseInt(value) || 1;
-        } else {
-            mat[i][j] = Infinity;
+        let value = $('.cost').eq(k).text();
+        mat[i][j] = Number(value) || 1;
+        if (!Graph.isDirected()) {
+            mat[j] = mat[j] || [];
+            mat[j][i] = Number(value) || 1;
         }
     });
     return mat;

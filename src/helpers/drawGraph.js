@@ -61,11 +61,11 @@ export function drawGraph({ weighted, acyclic }) {
             let q = Graph.point(k);
             let d = Point.distance(p, q);
             if (d < 25) {
-                ipx = k;
                 hold = true;
                 break;
             }
         }
+        ipx = k;
     });
 
     $('#plane').on('click', function (e) {
@@ -92,9 +92,9 @@ export function drawGraph({ weighted, acyclic }) {
             }
         }
         if (flag) {
+            $('.vrtx').eq(ipx).attr('stroke', Colors.stroke);
             flag = false;
             hold = false;
-            $('.vrtx').eq(ipx).attr('stroke', Colors.stroke);
             const px = Graph.point(ipx);
             if (Point.equal(p, px) || !isValidEdge(px, p)) {
                 $('.edge:last').remove();
@@ -110,6 +110,7 @@ export function drawGraph({ weighted, acyclic }) {
                 addVertex(p, String.fromCharCode(65 + np));
                 Graph.addPoint(p);
             }
+            Graph.addSegment(ipx, k);
             if (weighted) addCost([px, p]);
             if (Graph.isDirected()) {
                 if (acyclic && Graph.hasCycle()) {
@@ -118,13 +119,13 @@ export function drawGraph({ weighted, acyclic }) {
                         variant: 'error',
                     });
                     $('.edge:last').remove();
+                    Graph.removeEdge(ipx, k);
                     return;
                 }
                 const q = fromDistance(px, p, 23);
                 $('.edge:last').attr('x2', q.x);
                 $('.edge:last').attr('y2', q.y);
             }
-            Graph.addSegment(ipx, k);
         } else {
             if (k === np) {
                 if (np < 26) {
@@ -137,7 +138,6 @@ export function drawGraph({ weighted, acyclic }) {
                 if (Graph.isDirected()) {
                     $('.edge:last').attr('marker-end', 'url(#arrow)');
                 }
-                ipx = k;
                 flag = true;
                 hold = false;
             }
@@ -155,15 +155,7 @@ export function drawGraph({ weighted, acyclic }) {
             moveVertex(ipx, p);
             Graph.setPoint(ipx, p);
             Graph.segments().forEach((seg, i) => {
-                let [u, v] = seg.map(Graph.point);
-                if (seg.includes(ipx)) {
-                    moveEdge(i);
-                    if (weighted) {
-                        let cost = $('.cost').eq(i).parent();
-                        cost.attr('x', (u.x + v.x) / 2);
-                        cost.attr('y', (u.y + v.y) / 2);
-                    }
-                }
+                if (seg.includes(ipx)) moveEdge(i, weighted);
             });
             drag = true;
         }
@@ -182,7 +174,7 @@ export function drawGraph({ weighted, acyclic }) {
 }
 
 function addCost([p, q], cost) {
-    cost = cost || Math.round(Point.distance(p, q) / 20);
+    cost = cost || (Point.distance(p, q) / 20).toFixed(1);
     const element = `
         <foreignObject width="30" height="30" x="${(p.x + q.x) / 2}" y="${(p.y + q.y) / 2}">
             <p class="cost" onclick="this.focus();event.stopPropagation();" contenteditable="true">

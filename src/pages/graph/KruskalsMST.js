@@ -36,7 +36,7 @@ function start() {
     arr = [];
     $('.cost').each(function () {
         let edge = {};
-        edge.w = parseInt($(this).text()) || 1;
+        edge.w = Number($(this).text()) || 1;
         arr.push(edge);
     });
     let n = Graph.totalPoints();
@@ -55,10 +55,10 @@ function start() {
     arr.sort((a, b) => a.w - b.w);
     mst = [];
     k = 0;
-    Timer.timeout(find, delay);
+    Timer.timeout(nextMin, delay);
 }
 
-function find() {
+function nextMin() {
     if (k < arr.length) {
         let p = findParent(arr[k].u);
         let q = findParent(arr[k].v);
@@ -73,7 +73,7 @@ function find() {
                 $('.vrtx').eq(arr[k].u).attr('fill', Colors.vertex);
                 $('.vrtx').eq(arr[k].v).attr('fill', Colors.vertex);
                 mst.push(arr[k++]);
-                Timer.timeout(find, delay);
+                Timer.timeout(nextMin, delay);
             }, delay / 2);
         } else {
             $('.vrtx').eq(arr[k].u).attr('stroke', '#f44336');
@@ -90,7 +90,7 @@ function reject() {
     $('.edge').eq(arr[k].i).attr('stroke', Colors.rejected);
     $('.edge').eq(arr[k].i).attr('stroke-dasharray', '8,4');
     k++;
-    Timer.timeout(find, delay);
+    Timer.timeout(nextMin, delay);
 }
 
 function findParent(q) {

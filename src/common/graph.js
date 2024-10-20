@@ -27,11 +27,9 @@ const Graph = {
 
     totalPoints: () => points.length,
 
-    segments: () => segments,
+    segments: () => segments.slice(),
 
-    point: (index) => points[index],
-
-    segment: (index) => segments[index],
+    point: (i) => ({ ...points[i] }),
 
     edgeIndex: (i, j) => matrix[i]?.[j],
 
@@ -89,7 +87,7 @@ const Graph = {
         }
     },
 
-    removeSegment(i, j) {
+    removeEdge(i, j) {
         segments.splice(matrix[i][j], 1);
         matrix[i][j] = undefined;
         if (!directed) {
@@ -111,20 +109,18 @@ const Graph = {
         for (let i = 0; i < np; i++) {
             if (ind[i] === 0) stack.push(i);
         }
-        if (!stack.length) return true;
         let k = 0;
-        while (stack.length > 0) {
-            let i = stack.pop();
-            for (let j = 0; j < np; j++) {
-                let ei = this.edgeIndex(i, j);
-                if (isNumber(ei) && ind[j] !== 0) {
-                    ind[j]--;
+        while (stack.length) {
+            let u = stack.pop();
+            segments.forEach(([i, j]) => {
+                if (u === i && ind[j] > 0) {
+                    ind[j]--
                     if (ind[j] === 0) stack.push(j);
                 }
-            }
+            });
             k++;
         }
-        return k !== np;
+        return k < np;
     },
 };
 
@@ -140,8 +136,6 @@ export const Point = {
 };
 
 export const Segment = {
-    create: (p, q) => ({ p, q }),
-
     slope: (p, q) => (q.y - p.y) / (q.x - p.x),
 
     orientation([p, q], r) {

@@ -107,7 +107,7 @@ function extract(p, q, i, j, d) {
 }
 
 function fall(i) {
-    let cy = parseInt($(`.vrtx:eq(${i})`).attr('cy'));
+    let cy = Number($(`.vrtx:eq(${i})`).attr('cy'));
     if (cy < $('#plane').height() + 20) {
         $(`.vrtx:eq(${i})`).attr('cy', cy + 2);
         $(`.vlbl:eq(${i})`).attr('y', cy + 7);
