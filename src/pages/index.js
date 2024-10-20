@@ -17,7 +17,7 @@ export default function Home() {
 
   return (
     <main>
-      <h5 className="my-3">Welcome to SEE algorithms!</h5>
+      <h5 className="my-3">Welcome to SEE Algorithms!</h5>
       <p>
         Unlock the power of understanding through <strong>visualization</strong>
         . At <i>see algorithms</i>, we believe that learning complex concepts

@@ -10,6 +10,7 @@ import DataItems from '../components/data-items/data-items';
 import { Algorithms } from '@/common/constants';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
+import { metaDescription } from '@/common/cache';
 
 export default function App({ Component, pageProps }) {
   const [state, setState] = useState(initialState);
@@ -51,14 +52,16 @@ export default function App({ Component, pageProps }) {
         <Sider />
       </Drawer>
       <NextSeo
-        title={`SEE ALGORITHMS - ${
-          Algorithms[algoId] || 'Visualization of Algorithms'
-        }`}
-        description="Learn basic algorithms by visualzing them through interactive animations."
+        title={`${Algorithms[algoId] || 'SEE Algorithms'} | Visualization of Algorithms`}
+        description={
+          metaDescription[algoId] ||
+            'Learn basic algorithms by visualzing them through interactive animations.'
+        }
         additionalMetaTags={[
           {
             name: 'keywords',
             content: [
+              Algorithms[algoId],
               'algorithms',
               'interactive animations',
               'learning',

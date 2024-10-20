@@ -19,7 +19,7 @@ function Header(props) {
                     onClick={() => router.push('/')}
                     style={{ cursor: 'pointer' }}
                 >
-                    SEE ALGORITHMS
+                    SEE Algorithms
                 </h5>
             </div>
             <div>
