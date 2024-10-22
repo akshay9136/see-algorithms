@@ -37,13 +37,6 @@ function DrawGraph(props) {
       });
       return false;
     }
-    if (!Graph.isConnected()) {
-      showToast({
-        message: 'Please draw connected graph.',
-        variant: 'error',
-      });
-      return false;
-    }
     return true;
   };
 
