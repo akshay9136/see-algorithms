@@ -1,5 +1,5 @@
 import React from 'react';
-import { appendCell, isNumber, spanEdge } from '@/common/utils';
+import { appendCell, spanEdge } from '@/common/utils';
 import Graph from '@/common/graph';
 import DrawGraph from '@/components/draw-graph/draw-graph';
 import $ from 'jquery';
@@ -22,9 +22,9 @@ export default function DFS(props) {
             <DrawGraph
                 {...props}
                 onStart={start}
-                onClear={() => $('#visited').html('')}
+                onClear={() => $('#path').html('')}
             />
-            <div id="visited" className="d-flex numGrid alphaGrid" />
+            <div id="path" className="d-flex numGrid alphaGrid" />
         </>
     );
 }
@@ -41,35 +41,37 @@ function start(source) {
     Timer.timeout(() => {
         $('.vrtx').eq(i).attr('stroke', Colors.visited);
         $('.vrtx').eq(i).attr('fill', Colors.visited);
-        appendCell('#visited', String.fromCharCode(65 + i));
-        Timer.timeout(visit, delay, 0);
+        appendCell('#path', String.fromCharCode(65 + i));
+        Timer.timeout(explore, delay, 0);
     }, delay * 2);
 }
 
-function visit(j) {
+function explore(j) {
     if (j < Graph.totalPoints()) {
         let ei = Graph.edgeIndex(i, j);
-        if (isNumber(ei)) {
+        if (ei !== undefined) {
             if (v.indexOf(j) === -1) {
                 $('.edge').eq(ei).attr('stroke', Colors.enqueue);
                 $('.edge').eq(ei).attr('stroke-dasharray', '8,4');
                 $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
                 stack.push(j);
-                v.push(j);
                 prev[j] = i;
-                Timer.timeout(visit, delay, ++j);
-            } else visit(++j);
-        } else visit(++j);
-    } else dfs();
+                Timer.timeout(explore, delay, ++j);
+            } else explore(++j);
+        } else explore(++j);
+    } else visit();
 }
 
-function dfs() {
+function visit() {
     if (stack.length) {
         $('.vrtx').eq(i).attr('fill', Colors.vertex);
         i = stack.pop();
-        Timer.timeout(() => {
-            spanEdge(prev[i], i, 5, dequeue);
-        }, delay * 2);
+        if (v.indexOf(i) === -1) {
+            v.push(i);
+            Timer.timeout(() => {
+                spanEdge(prev[i], i, 5, dequeue);
+            }, delay * 2);
+        } else visit();
     } else {
         $('.vrtx').eq(i).attr('fill', Colors.vertex);
     }
@@ -77,6 +79,14 @@ function dfs() {
 
 function dequeue() {
     $('.vrtx').eq(i).attr('fill', Colors.visited);
-    appendCell('#visited', String.fromCharCode(65 + i));
-    Timer.timeout(visit, delay, 0);
+    v.forEach((j) => {
+        if (j !== prev[i]) {
+            let ei = Graph.edgeIndex(i, j);
+            if (ei !== undefined) {
+                $('.edge').eq(ei).attr('stroke', Colors.rejected);
+            }
+        }
+    });
+    appendCell('#path', String.fromCharCode(65 + i));
+    Timer.timeout(explore, delay, 0);
 }

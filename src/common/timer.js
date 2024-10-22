@@ -34,11 +34,12 @@ var Timer = {
         status = 0;
         clearTimeout(timer);
     },
+
+    sleep(ms) {
+        return new Promise((resolve) => {
+            this.timeout(resolve, ms);
+        });
+    },
 };
 
 export default Timer;
-
-export const wait = (ms) =>
-    new Promise((resolve) => {
-        timer = setTimeout(resolve, ms);
-    });

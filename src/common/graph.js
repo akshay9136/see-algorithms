@@ -1,5 +1,3 @@
-import { isNumber } from './utils';
-
 var points = [];
 var segments = [];
 var matrix = [];

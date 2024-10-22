@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-    fromDistance,
-    isNumber,
-    createGrid,
-} from '@/common/utils';
+import { fromDistance, createGrid } from '@/common/utils';
 import Graph, { Point } from '@/common/graph';
 import DrawGraph from '@/components/draw-graph/draw-graph';
 import $ from 'jquery';
@@ -26,10 +22,10 @@ export default function TopSort(props) {
             <DrawGraph
                 {...props}
                 onStart={start}
-                onClear={() => $('#visited').html('')}
+                onClear={() => $('#path').html('')}
                 isDAG={true}
             />
-            <div id="visited" className="numGrid alphaGrid" />
+            <div id="path" className="numGrid alphaGrid" />
         </>
     );
 }
@@ -40,7 +36,7 @@ var delay = 500;
 
 function start() {
     n = Graph.totalPoints();
-    createGrid(n, '#visited');
+    createGrid(n, '#path');
     cells = document.querySelectorAll('.cell');
     for (let i = 0; i < n; i++) {
         cells[i].setAttribute('style', 'border:2px solid; width:3rem;');
@@ -63,7 +59,7 @@ function topsort() {
         $(`.vrtx:eq(${i})`).attr('fill', Colors.visited);
         for (let j = 0; j < Graph.totalPoints(); j++) {
             let ei = Graph.edgeIndex(i, j);
-            if (isNumber(ei) && ind[j] !== 0) {
+            if (ei !== undefined && ind[j] !== 0) {
                 --ind[j];
                 k++;
                 let p = Graph.point(i);

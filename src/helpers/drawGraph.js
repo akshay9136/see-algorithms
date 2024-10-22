@@ -52,7 +52,7 @@ export function drawGraph({ weighted, acyclic }) {
         });
     }
 
-    $('#plane').on('mousedown', (e) => {
+    $('#plane').on('mousedown touchstart', (e) => {
         e.preventDefault();
         if (flag) return;
         let p = withOffset(e);
@@ -68,7 +68,7 @@ export function drawGraph({ weighted, acyclic }) {
         ipx = k;
     });
 
-    $('#plane').on('click', function (e) {
+    $('#plane').on('click touchend', function (e) {
         e.preventDefault();
         if (hold && drag) {
             hold = false;
@@ -144,7 +144,7 @@ export function drawGraph({ weighted, acyclic }) {
         }
     });
 
-    $('#plane').on('mousemove', function (e) {
+    $('#plane').on('mousemove touchmove', function (e) {
         e.preventDefault();
         if (flag) {
             let p = withOffset(e);
