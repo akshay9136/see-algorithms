@@ -18,7 +18,12 @@ export default function PrimsMST(props) {
                     optimizing network designs like computer and road networks.
                 </p>
             </section>
-            <DrawGraph {...props} onStart={start} isMST={true} />
+            <DrawGraph
+                {...props}
+                onStart={start}
+                weighted={true}
+                allowDirected={false}
+            />
         </>
     );
 }
@@ -59,7 +64,7 @@ function enqueue() {
 }
 
 function extractMin() {
-    let min = queue.reduce((a, b) => b < a ? b : a, Infinity);
+    let min = queue.reduce((a, b) => (b < a ? b : a), Infinity);
     j = queue.indexOf(min);
     queue[j] = Infinity;
     i = Math.floor(j / n);
@@ -67,7 +72,7 @@ function extractMin() {
     if (mst.indexOf(j) !== -1) {
         extractMin();
     } else {
-        spanEdge(i, j, 10, () => {
+        spanEdge(i, j, 5).then(() => {
             for (let k = 0; k < mst.length; k++) {
                 let ej = Graph.edgeIndex(j, mst[k]);
                 if ($('.edge').eq(ej).attr('stroke') === Colors.enqueue)
@@ -75,7 +80,7 @@ function extractMin() {
             }
             i = j;
             if (mst.length < n - 1) {
-                Timer.timeout(prim, delay / 2);
+                Timer.timeout(enqueue, delay / 2);
             }
         });
     }

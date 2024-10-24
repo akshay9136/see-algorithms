@@ -20,6 +20,7 @@ export const categories = [
             'KruskalsMST',
             'Dijkstra',
             'TopSort',
+            'Hamiltonian',
         ],
     },
     {

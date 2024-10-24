@@ -5,7 +5,6 @@ import {
     withOffset,
     fromDistance,
     moveVertex,
-    moveEdge,
 } from '../common/utils';
 import Graph, { Point, Segment } from '../common/graph';
 import { showToast } from '../components/toast/toast';
@@ -152,11 +151,8 @@ export function drawGraph({ weighted, acyclic }) {
             $('.edge:last').attr('y2', p.y);
         } else if (hold) {
             let p = withOffset(e);
-            moveVertex(ipx, p);
             Graph.setPoint(ipx, p);
-            Graph.segments().forEach((seg, i) => {
-                if (seg.includes(ipx)) moveEdge(i, weighted);
-            });
+            moveVertex(ipx, p);
             drag = true;
         }
     });
@@ -187,19 +183,21 @@ function addCost([p, q], cost) {
 export function switchType() {
     Graph.switchType();
     if (Graph.isDirected()) {
-        $('.edge').each(function (i) {
-            const [p, q] = Graph.fromSegment(i);
+        Graph.segments().each((seg, i) => {
+            const [p, q] = seg.map(Graph.point);
             const r = fromDistance(p, q, 23);
-            $(this).attr('x2', r.x);
-            $(this).attr('y2', r.y);
-            $(this).attr('marker-end', 'url(#arrow)');
+            const el = $('.cost').eq(i);
+            el.attr('x2', r.x);
+            el.attr('y2', r.y);
+            el.attr('marker-end', 'url(#arrow)');
         });
     } else {
-        $('.edge').each(function (i) {
-            const [_, q] = Graph.fromSegment(i);
-            $(this).attr('x2', q.x);
-            $(this).attr('y2', q.y);
-            $(this).removeAttr('marker-end');
+        Graph.segments().each((seg, i) => {
+            const [_, q] = seg.map(Graph.point);
+            const el = $('.cost').eq(i);
+            el.attr('x2', q.x);
+            el.attr('y2', q.y);
+            el.removeAttr('marker-end');
         });
     }
 }

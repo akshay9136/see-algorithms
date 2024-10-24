@@ -37,40 +37,41 @@ function addEdge(p, q) {
     $('line:last').insertBefore($('.vgrp:first'));
 }
 
-function moveVertex(i, r) {
-    $('.vrtx').eq(i).attr('cx', r.x);
-    $('.vrtx').eq(i).attr('cy', r.y);
-    $('.vlbl').eq(i).attr('x', r.x);
-    $('.vlbl').eq(i).attr('y', r.y + 5);
+function moveVertex(i, p) {
+    $('.vrtx').eq(i).attr('cx', p.x);
+    $('.vrtx').eq(i).attr('cy', p.y);
+    $('.vlbl').eq(i).attr('x', p.x);
+    $('.vlbl').eq(i).attr('y', p.y + 5);
+    Graph.segments().forEach((seg, ei) => {
+        if (seg.includes(i)) {
+            const [u, v] = seg.map(Graph.point);
+            const edge = $('.edge').eq(ei);
+            edge.attr('x1', u.x);
+            edge.attr('y1', u.y);
+            edge.attr('x2', v.x);
+            edge.attr('y2', v.y);
+            if (Graph.isDirected()) {
+                let q = fromDistance(u, v, 23);
+                edge.attr('x2', q.x);
+                edge.attr('y2', q.y);
+                edge.attr('marker-end', 'url(#arrow)');
+            }
+            const costEl = $('.cost').eq(ei).parent();
+            costEl.attr('x', (u.x + v.x) / 2);
+            costEl.attr('y', (u.y + v.y) / 2);
+            const newCost = (Point.distance(u, v) / 20).toFixed(1);
+            console.log(costEl, newCost)
+            costEl.children().text(newCost);
+        }
+    });
 }
 
-function moveEdge(i, hasCost) {
-    const [u, v] = Graph.fromSegment(i);
-    $('.edge').eq(i).attr('x1', u.x);
-    $('.edge').eq(i).attr('y1', u.y);
-    $('.edge').eq(i).attr('x2', v.x);
-    $('.edge').eq(i).attr('y2', v.y);
-    if (Graph.isDirected()) {
-        const q = fromDistance(u, v, 23);
-        $('.edge').eq(i).attr('x2', q.x);
-        $('.edge').eq(i).attr('y2', q.y);
-        $('.edge').eq(i).attr('marker-end', 'url(#arrow)');
-    }
-    if (hasCost) {
-        let el = $('.cost').eq(i).parent();
-        el.attr('x', (u.x + v.x) / 2);
-        el.attr('y', (u.y + v.y) / 2);
-        let cost = (Point.distance(u, v) / 20).toFixed(1);
-        el.children().text(cost);
-    }
-}
-
-function cloneEdge(i, j) {
-    let edge = `<line stroke-width="4" stroke="${Colors.visited}" />`;
+function cloneEdge(i, j, edge) {
+    edge = edge || `<line stroke-width="4" stroke="${Colors.visited}" />`;
     document.getElementById('plane').innerHTML += edge;
     $('line:last').insertBefore($('.vgrp:first'));
     let p, q;
-    let [r, s] = Graph.fromSegment(j);
+    let [r, s] = [i, j].map(Graph.point);
     if (Point.equal(r, Graph.point(i))) {
         [p, q] = [r, s];
     } else {
@@ -123,24 +124,23 @@ function getCostMatrix() {
     return mat;
 }
 
-function spanEdge(i, j, delay, callback) {
-    let ei = Graph.edgeIndex(i, j);
-    let { p, q, d } = cloneEdge(i, ei);
+function spanEdge(i, j, delay) {
+    const ei = Graph.edgeIndex(i, j);
+    const { p, q, d } = cloneEdge(i, j);
     function span(d) {
         if (d > 0) {
-            let r = fromDistance(p, q, d);
+            const r = fromDistance(p, q, d);
             $('line:last').attr('x2', r.x);
             $('line:last').attr('y2', r.y);
-            Timer.timeout(span, delay, d - 2);
+            return Timer.sleep(delay).then(() => span(d - 1));
         } else {
             $('line:last').remove();
             $('.edge').eq(ei).removeAttr('stroke-dasharray');
             $('.edge').eq(ei).attr('stroke', Colors.visited);
             $('.vrtx').eq(j).attr('stroke', Colors.visited);
-            callback();
         }
     }
-    span(d - 2);
+    return span(d - 2);
 }
 
 export {
@@ -148,7 +148,6 @@ export {
     addVertex,
     addEdge,
     moveVertex,
-    moveEdge,
     cloneEdge,
     fromDistance,
     createGrid,

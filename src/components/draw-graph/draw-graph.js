@@ -41,7 +41,7 @@ function DrawGraph(props) {
   };
 
   const config = () => ({
-    weighted: props.isMST || props.weighted || false,
+    weighted: props.weighted || false,
     acyclic: props.isDAG || false,
   });
 
@@ -73,7 +73,7 @@ function DrawGraph(props) {
 
   useEffect(() => {
     handleClear();
-    const isDirGraph = props.isDAG || false;
+    const isDirGraph = algoId === 'TopSort';
     setContext({ isDirGraph });
     if (Graph.isDirected() !== isDirGraph) {
       Graph.switchType();
@@ -93,37 +93,35 @@ function DrawGraph(props) {
     <Spinner className="drawGraph" spinning={false}>
       <div className={'d-flex flex-wrap ' + styles.toolbar}>
         <h5 className={styles.title}>Draw Graph</h5>
-        {!props.isDAG && (
-          <Fragment>
-            {!props.isMST && (
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={isDirGraph}
-                    onChange={setDirected}
-                    name="directed"
-                    disabled={playStatus !== 0}
-                  />
-                }
-                label="Directed"
-                style={{ margin: 0 }}
-              />
-            )}
-            {props.customSource !== false && (
-              <TextField
-                value={source}
-                onChange={(e) => {
-                  let value = e.target.value;
-                  setSource(value.charAt(0).toUpperCase());
-                }}
-                className={styles.source}
-                label="Source"
-                variant="outlined"
-                size="small"
-              />
-            )}
-          </Fragment>
-        )}
+        <Fragment>
+          {props.allowDirected !== false && (
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={isDirGraph}
+                  onChange={setDirected}
+                  name="directed"
+                  disabled={playStatus !== 0}
+                />
+              }
+              label="Directed"
+              style={{ margin: 0 }}
+            />
+          )}
+          {props.customSource !== false && (
+            <TextField
+              value={source}
+              onChange={(e) => {
+                let value = e.target.value;
+                setSource(value.charAt(0).toUpperCase());
+              }}
+              className={styles.source}
+              label="Source"
+              variant="outlined"
+              size="small"
+            />
+          )}
+        </Fragment>
         <Button
           variant="contained"
           startIcon={playStatus > 0 ? <Pause /> : <PlayArrow />}

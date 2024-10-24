@@ -69,7 +69,7 @@ function visit() {
         if (v.indexOf(i) === -1) {
             v.push(i);
             Timer.timeout(() => {
-                spanEdge(prev[i], i, 5, dequeue);
+                spanEdge(prev[i], i, 3).then(dequeue);
             }, delay * 2);
         } else visit();
     } else {

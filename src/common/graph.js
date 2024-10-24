@@ -19,10 +19,6 @@ const Graph = {
         segments.push([i, j]);
     },
 
-    fromSegment(i) {
-        return segments[i].map(this.point);
-    },
-
     totalPoints: () => points.length,
 
     segments: () => segments.slice(),

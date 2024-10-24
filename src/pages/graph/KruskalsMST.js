@@ -20,7 +20,8 @@ export default function KruskalsMST(props) {
             <DrawGraph
                 {...props}
                 onStart={start}
-                isMST={true}
+                weighted={true}
+                allowDirected={false}
                 customSource={false}
             />
         </>

@@ -23,7 +23,8 @@ export default function TopSort(props) {
                 {...props}
                 onStart={start}
                 onClear={() => $('#path').html('')}
-                isDAG={true}
+                allowDirected={false}
+                customSource={false}
             />
             <div id="path" className="numGrid alphaGrid" />
         </>
@@ -31,7 +32,7 @@ export default function TopSort(props) {
 }
 
 var cells, n;
-var ind, stack, k;
+var stack, ind;
 var delay = 500;
 
 function start() {
@@ -41,64 +42,58 @@ function start() {
     for (let i = 0; i < n; i++) {
         cells[i].setAttribute('style', 'border:2px solid; width:3rem;');
     }
-    stack = [];
     ind = Graph.indegree();
+    stack = [];
     for (let i = 0; i < n; i++) {
         if (ind[i] === 0) {
-            stack.push(i);
             $(`.vrtx:eq(${i})`).attr('stroke', Colors.visited);
+            stack.push(i);
         }
     }
-    k = 0;
-    Timer.timeout(topsort, delay * 2);
+    Timer.timeout(topSort, delay * 2);
 }
 
-function topsort() {
+async function topSort() {
     if (stack.length > 0) {
         let i = stack.pop();
         $(`.vrtx:eq(${i})`).attr('fill', Colors.visited);
+        let promises = [];
         for (let j = 0; j < Graph.totalPoints(); j++) {
             let ei = Graph.edgeIndex(i, j);
             if (ei !== undefined && ind[j] !== 0) {
                 --ind[j];
-                k++;
-                let p = Graph.point(i);
-                let x2 = $(`line:eq(${ei})`).attr('x2');
-                let y2 = $(`line:eq(${ei})`).attr('y2');
-                let q = Point.create(x2, y2);
                 $(`line:eq(${ei})`).attr('stroke', Colors.visited);
+                if (ind[j] === 0) {
+                    $(`.vrtx:eq(${j})`).attr('stroke', Colors.visited);
+                    stack.push(j);
+                }
+                let [p, q] = [i, j].map(Graph.point);
                 let d = Point.distance(p, q);
-                // eslint-disable-next-line no-loop-func
-                Timer.timeout(() => {
-                    if (ind[j] === 0) {
-                        stack.push(j);
-                        $(`.vrtx:eq(${j})`).attr('stroke', Colors.visited);
-                    }
-                    extract(p, q, i, j, d - 2);
-                }, delay);
+                promises.push(() => extract(i, j, d - 2));
             }
         }
-        if (k === 0) {
-            Timer.timeout(fall, delay, i);
+        if (promises.length) {
+            await Timer.sleep(delay);
+            await Promise.all(promises.map(p => p()));
         }
+        await Timer.sleep(delay).then(() => fall(i));
+        Timer.sleep(delay * 2).then(topSort);
     } else {
         createGraph(Graph.skeleton());
     }
 }
 
-function extract(p, q, i, j, d) {
+async function extract(i, j, d) {
+    let [p, q] = [i, j].map(Graph.point);
     let ei = Graph.edgeIndex(i, j);
     if (d > 0) {
         let r = fromDistance(q, p, d);
         $(`line:eq(${ei})`).attr('x2', r.x);
         $(`line:eq(${ei})`).attr('y2', r.y);
-        Timer.timeout(extract, 5, p, q, i, j, d - 2);
+        return Timer.sleep(5).then(() => extract(i, j, d - 2));
     } else {
         $(`line:eq(${ei})`).removeAttr('stroke');
         $(`line:eq(${ei})`).removeAttr('marker-end');
-        if (--k === 0) {
-            Timer.timeout(fall, delay, i);
-        }
     }
 }
 
@@ -107,13 +102,12 @@ function fall(i) {
     if (cy < $('#plane').height() + 20) {
         $(`.vrtx:eq(${i})`).attr('cy', cy + 2);
         $(`.vlbl:eq(${i})`).attr('y', cy + 7);
-        Timer.timeout(fall, 5, i);
+        return Timer.sleep(5).then(() => fall(i));
     } else {
         let np = Graph.totalPoints();
         cells[np - n].textContent = String.fromCharCode(65 + i);
         cells[np - n].style.backgroundColor = Colors.visited;
         $(`.vgrp:eq(${i})`).css('visibility', 'hidden');
         n--;
-        Timer.timeout(topsort, delay);
     }
 }
