@@ -14,13 +14,13 @@ function Header(props) {
                     className={`d-md-none d-sm-block ${styles.menuIcon}`}
                     color="primary"
                 />
-                <h5
+                <h4
                     className={styles.heading}
                     onClick={() => router.push('/')}
                     style={{ cursor: 'pointer' }}
                 >
                     see algorithms
-                </h5>
+                </h4>
             </div>
             <div>
                 <GitHub
