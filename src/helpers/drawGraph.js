@@ -2,9 +2,10 @@ import $ from 'jquery';
 import {
     addVertex,
     addEdge,
-    withOffset,
+    cursorOffset,
     fromDistance,
     moveVertex,
+    throttle,
 } from '../common/utils';
 import Graph, { Point, Segment } from '../common/graph';
 import { showToast } from '../components/toast/toast';
@@ -46,7 +47,7 @@ export function drawGraph({ weighted, acyclic }) {
     function isValidEdge(p, q) {
         if (!p || !q) return true;
         return Graph.segments().every((seg) => {
-            let [r, s] = seg.map(Graph.point)
+            let [r, s] = seg.map(Graph.point);
             return !Segment.overlap([p, q], [r, s]);
         });
     }
@@ -54,7 +55,7 @@ export function drawGraph({ weighted, acyclic }) {
     $('#plane').on('mousedown touchstart', (e) => {
         e.preventDefault();
         if (flag) return;
-        let p = withOffset(e);
+        let p = cursorOffset(e);
         let k;
         for (k = 0; k < Graph.totalPoints(); k++) {
             let q = Graph.point(k);
@@ -67,14 +68,14 @@ export function drawGraph({ weighted, acyclic }) {
         ipx = k;
     });
 
-    $('#plane').on('click touchend', function (e) {
+    $('#plane').on('mouseup touchend', (e) => {
         e.preventDefault();
         if (hold && drag) {
             hold = false;
             drag = false;
             return;
         }
-        let p = withOffset(e);
+        let p = cursorOffset(e);
         let np = Graph.totalPoints();
         if (np === 0) {
             addVertex(p, 'A');
@@ -143,21 +144,24 @@ export function drawGraph({ weighted, acyclic }) {
         }
     });
 
-    $('#plane').on('mousemove touchmove', function (e) {
-        e.preventDefault();
-        if (flag) {
-            let p = withOffset(e);
-            $('.edge:last').attr('x2', p.x);
-            $('.edge:last').attr('y2', p.y);
-        } else if (hold) {
-            let p = withOffset(e);
-            Graph.setPoint(ipx, p);
-            moveVertex(ipx, p);
-            drag = true;
-        }
-    });
+    $('#plane').on(
+        'mousemove touchmove',
+        throttle((e) => {
+            e.preventDefault();
+            if (flag) {
+                let p = cursorOffset(e);
+                $('.edge:last').attr('x2', p.x);
+                $('.edge:last').attr('y2', p.y);
+            } else if (hold) {
+                let p = cursorOffset(e);
+                Graph.setPoint(ipx, p);
+                moveVertex(ipx, p);
+                drag = true;
+            }
+        }, 20)
+    );
 
-    $('#plane').on('mouseleave', function (e) {
+    $('#plane').on('mouseleave', (e) => {
         e.preventDefault();
         if (flag) {
             $('.edge:last').remove();

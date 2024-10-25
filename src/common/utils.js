@@ -6,7 +6,7 @@ import Timer from './timer';
 const mouseEvents = ['click', 'mousedown', 'mouseup', 'mousemove', 'mouseenter', 'mouseleave'];
 const touchEvents = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
 
-function withOffset(e) {
+function cursorOffset(e) {
     let out = { x: 0, y: 0 };
     let { left, top } = $('#plane').offset();
     if (touchEvents.includes(e.type)) {
@@ -144,7 +144,7 @@ function spanEdge(i, j, delay) {
 }
 
 export {
-    withOffset,
+    cursorOffset,
     addVertex,
     addEdge,
     moveVertex,
@@ -163,3 +163,14 @@ export const sleep = (t) => {
 };
 
 export const bgcolor = (id, color) => $(id).css('background-color', color);
+
+export const throttle = (fn, delay) => {
+    let prev = 0;
+    return (...args) => {
+        let now = Date.now();
+        if (now - prev > delay) {
+            prev = now;
+            fn(...args);
+        }
+    }
+}

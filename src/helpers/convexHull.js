@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { withOffset } from '../common/utils';
+import { cursorOffset, throttle } from '../common/utils';
 import Graph, { Point, Segment } from '../common/graph';
 import { Colors } from '../common/constants';
 
@@ -29,9 +29,9 @@ export function addPoints(cvx) {
     let flag, k;
     let left, p, q;
 
-    $('#plane').on('mousedown', function (e) {
+    $('#plane').on('mousedown', (e) =>{
         e.preventDefault();
-        let p = withOffset(e);
+        let p = cursorOffset(e);
         let np = Graph.totalPoints();
         for (let i = 0; i < np; i++) {
             let d = Point.distance(p, Graph.point(i));
@@ -55,18 +55,21 @@ export function addPoints(cvx) {
         }
     });
 
-    $('#plane').on('mousemove', function (e) {
-        e.preventDefault();
-        if (flag) {
-            let p = withOffset(e);
-            $('.vrtx').eq(k).attr('cx', p.x);
-            $('.vrtx').eq(k).attr('cy', p.y);
-            Graph.setPoint(k, p);
-            if (cvx) newConvex();
-        }
-    });
+    $('#plane').on(
+        'mousemove',
+        throttle((e) => {
+            e.preventDefault();
+            if (flag) {
+                let p = cursorOffset(e);
+                $('.vrtx').eq(k).attr('cx', p.x);
+                $('.vrtx').eq(k).attr('cy', p.y);
+                Graph.setPoint(k, p);
+                if (cvx) newConvex();
+            }
+        }, 20)
+    );
 
-    $('#plane').on('mouseup', function (e) {
+    $('#plane').on('mouseup', (e) => {
         e.preventDefault();
         flag = false;
     });
