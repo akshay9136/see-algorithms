@@ -39,7 +39,7 @@ export const categories = [
 
 export const metaDescription = {
     BubbleSort: 'Discover how elements are repeatedly compared and swapped to achieve a sorted order in Bubble Sort.',
-    InsertionSort: 'Discover how Insertion Sort works by sorting one element at a time like placing a new card in the right spot of a sorted hand.',
+    InsertionSort: 'Discover how Insertion Sort works by sorting one element at a time, like placing a new card in the right spot of a sorted hand.',
     SelectionSort: 'Explore how Selection Sort finds the smallest item and places it at the correct position in each iteration.',
     RadixSort: 'Discover how numbers are sorted digit by digit (by placing them into buckets) in this unique algorithm called Radix Sort.',
     HeapSort: 'Learn Heap Sort with interactive visuals that show how elements are organized and sorted in a heap structure for a clear understanding.',
@@ -49,7 +49,7 @@ export const metaDescription = {
     BFS: 'Explore Breadth-First Search (BFS) and learn how this graph traversal algorithm explores all nodes level by level in a graph.',
     PrimsMST: "Discover how Prim's Algorithm builds a minimum spanning tree by adding the nearest node with minimum weight.",
     KruskalsMST: "Explore how Kruskal's Algorithm finds the minimum spanning tree in a graph by connecting edges in order of increasing weight.",
-    Dijkstra: "Discover how Dijkstra Algorithm finds the shortest path between nodes in a graph using priority queue.",
+    Dijkstra: "Discover how Dijkstra's Algorithm finds the shortest path between nodes in a graph using priority queue.",
     TopSort: 'Learn Topological Sorting to order nodes in a directed graph, ensuring that each node appears before its dependencies.',
     BST: 'Learn how data is organized in a sorted manner by a Binary Search Tree (BST), allowing for efficient searching, insertion, and deletion.',
     BinaryHeap: 'Explore the Binary Heap where elements are arranged in a binary tree while maintaining priority.',
