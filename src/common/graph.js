@@ -41,7 +41,7 @@ const Graph = {
         points = data.points;
         segments = data.segments;
         matrix = data.matrix;
-        directed = data.directed;
+        directed = data.directed || false;
     },
 
     isDirected: () => directed,

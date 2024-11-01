@@ -1,11 +1,10 @@
 import React from 'react';
-import { fromDistance, createGrid } from '@/common/utils';
+import { fromDistance, createGrid, createGraph } from '@/common/utils';
 import Graph, { Point } from '@/common/graph';
 import DrawGraph from '@/components/draw-graph/draw-graph';
 import $ from 'jquery';
 import Timer from '@/common/timer';
 import { Colors } from '@/common/constants';
-import { createGraph } from '@/helpers/drawGraph';
 
 export default function TopSort(props) {
     return (
@@ -69,7 +68,7 @@ async function topSort() {
                 }
                 let [p, q] = [i, j].map(Graph.point);
                 let d = Point.distance(p, q);
-                promises.push(() => extract(i, j, d - 2));
+                promises.push(() => extract(i, j, d - 25));
             }
         }
         if (promises.length) {

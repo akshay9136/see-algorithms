@@ -13,7 +13,7 @@ export default function Dijkstra(props) {
             <section>
                 <p>
                     <strong>Dijkstra&apos;s Algorithm</strong> finds the
-                    shortest path from a source node to all other nodes in a
+                    shortest path from a src node to all other nodes in a
                     graph with non-negative weights. It uses a{' '}
                     <Link href="/data-structures/BinaryHeap">
                         priority queue
@@ -32,25 +32,26 @@ var d, queue;
 var v, prev;
 var delay = 1000;
 
-function start(source) {
+function start(src) {
     n = Graph.totalPoints();
     w = getCostMatrix();
-    v = [source];
+    v = [src];
     d = [];
     for (let i = 0; i < n; i++) {
-        if (i === source) d.push(0);
+        if (i === src) d.push(0);
         else d.push(Infinity);
     }
-    queue = [source];
+    queue = [src];
     prev = [];
     Timer.timeout(() => {
-        $('.vrtx').eq(source).attr('stroke', Colors.visited);
-        $('.vrtx').eq(source).attr('fill', Colors.visited);
-        Timer.timeout(dijkstra, delay, source);
+        $('.vrtx').eq(src).attr('stroke', Colors.visited);
+        $('.vrtx').eq(src).attr('fill', Colors.visited);
+        Timer.timeout(dijkstra, delay, src);
     }, delay);
 }
 
 function dijkstra(i) {
+    w[i] = w[i] || [];
     for (let j = 0; j < n; j++) {
         if (v.indexOf(j) === -1) {
             let ei = Graph.edgeIndex(i, j);

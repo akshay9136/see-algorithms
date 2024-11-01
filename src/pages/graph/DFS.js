@@ -22,9 +22,19 @@ export default function DFS(props) {
             <DrawGraph
                 {...props}
                 onStart={start}
-                onClear={() => $('#path').html('')}
+                onClear={() => {
+                    $('#visited').html('');
+                    $('#stack').html('');
+                }}
             />
-            <div id="path" className="d-flex numGrid alphaGrid" />
+            <div className="d-flex queue">
+                <h6 className="pt-2 pe-3">Visited:</h6>
+                <div id="visited" className="d-flex numGrid alphaGrid" />
+            </div>
+            <div className="d-flex queue mb-3">
+                <h6 className="pt-2 pe-3">Stack:</h6>
+                <div id="stack" className="d-flex numGrid alphaGrid" />
+            </div>
         </>
     );
 }
@@ -41,9 +51,9 @@ function start(source) {
     Timer.timeout(() => {
         $('.vrtx').eq(i).attr('stroke', Colors.visited);
         $('.vrtx').eq(i).attr('fill', Colors.visited);
-        appendCell('#path', String.fromCharCode(65 + i));
+        appendCell('#visited', String.fromCharCode(65 + i));
         Timer.timeout(explore, delay, 0);
-    }, delay * 2);
+    }, 1000);
 }
 
 function explore(j) {
@@ -56,22 +66,29 @@ function explore(j) {
                 $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
                 stack.push(j);
                 prev[j] = i;
+                appendCell('#stack', String.fromCharCode(65 + j));
                 Timer.timeout(explore, delay, ++j);
             } else explore(++j);
         } else explore(++j);
-    } else visit();
+    } else {
+        Timer.timeout(visit, delay);
+    }
 }
 
 function visit() {
     if (stack.length) {
         $('.vrtx').eq(i).attr('fill', Colors.vertex);
         i = stack.pop();
+        $('#stack').children().last().remove();
         if (v.indexOf(i) === -1) {
             v.push(i);
             Timer.timeout(() => {
+                appendCell('#visited', String.fromCharCode(65 + i));
                 spanEdge(prev[i], i, 3).then(dequeue);
-            }, delay * 2);
-        } else visit();
+            }, delay);
+        } else {
+            Timer.timeout(visit, delay);
+        }
     } else {
         $('.vrtx').eq(i).attr('fill', Colors.vertex);
     }
@@ -79,14 +96,13 @@ function visit() {
 
 function dequeue() {
     $('.vrtx').eq(i).attr('fill', Colors.visited);
-    v.forEach((j) => {
-        if (j !== prev[i]) {
-            let ei = Graph.edgeIndex(i, j);
+    v.forEach((k) => {
+        if (k !== prev[i]) {
+            let ei = Graph.edgeIndex(k, i);
             if (ei !== undefined) {
                 $('.edge').eq(ei).attr('stroke', Colors.rejected);
             }
         }
     });
-    appendCell('#path', String.fromCharCode(65 + i));
     Timer.timeout(explore, delay, 0);
 }

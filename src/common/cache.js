@@ -55,4 +55,4 @@ export const metaDescription = {
     BinaryHeap: 'Explore the Binary Heap where elements are arranged in a binary tree while maintaining priority.',
     CircularQueue: 'Understand how Circular Queue efficiently manages a fixed-size queue by wrapping around when full.',
     ConvexHull: 'Explore the Convex Hull algorithm to find the smallest convex boundary that encloses a set of points in a plane.'
-}
+};

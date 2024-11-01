@@ -6,40 +6,11 @@ import {
     fromDistance,
     moveVertex,
     throttle,
+    addCost,
 } from '../common/utils';
 import Graph, { Point, Segment } from '../common/graph';
 import { showToast } from '../components/toast/toast';
 import { Colors } from '../common/constants';
-import Timer from '../common/timer';
-
-export function createGraph(data) {
-    clearGraph();
-    const { points, segments, directed, costMatrix } = data;
-    points.forEach((p, i) => {
-        addVertex(p, String.fromCharCode(65 + i));
-    });
-    segments.forEach(([i, j]) => {
-        const p = points[i], q = points[j];
-        addEdge(p, q);
-        if (directed) {
-            const { x, y } = fromDistance(p, q, 23);
-            $('.edge:last').attr('x2', x);
-            $('.edge:last').attr('y2', y);
-            $('.edge:last').attr('marker-end', 'url(#arrow)');
-        }
-        if (costMatrix) {
-            addCost([p, q], costMatrix[i][j]);
-        }
-    });
-    Graph.initialize(data);
-}
-
-export function clearGraph() {
-    Timer.clear();
-    $('#plane').off();
-    $('#plane').children().not(':first').remove();
-    Graph.clear();
-}
 
 export function drawGraph({ weighted, acyclic }) {
     var ipx, flag, hold, drag;
@@ -68,7 +39,7 @@ export function drawGraph({ weighted, acyclic }) {
         ipx = k;
     });
 
-    $('#plane').on('mouseup touchend', (e) => {
+    $('#plane').on('click touchend', function (e) {
         e.preventDefault();
         if (hold && drag) {
             hold = false;
@@ -173,32 +144,21 @@ export function drawGraph({ weighted, acyclic }) {
     });
 }
 
-function addCost([p, q], cost) {
-    cost = cost || (Point.distance(p, q) / 20).toFixed(1);
-    const element = `
-        <foreignObject width="30" height="30" x="${(p.x + q.x) / 2}" y="${(p.y + q.y) / 2}">
-            <p class="cost" onclick="this.focus();event.stopPropagation();" contenteditable="true">
-                ${cost}
-            </p>
-        </foreignObject>`;
-    document.getElementById('plane').innerHTML += element;
-}
-
-export function switchType() {
+export function switchGraph() {
     Graph.switchType();
     if (Graph.isDirected()) {
-        Graph.segments().each((seg, i) => {
+        Graph.segments().forEach((seg, i) => {
             const [p, q] = seg.map(Graph.point);
             const r = fromDistance(p, q, 23);
-            const el = $('.cost').eq(i);
+            const el = $('.edge').eq(i);
             el.attr('x2', r.x);
             el.attr('y2', r.y);
             el.attr('marker-end', 'url(#arrow)');
         });
     } else {
-        Graph.segments().each((seg, i) => {
+        Graph.segments().forEach((seg, i) => {
             const [_, q] = seg.map(Graph.point);
-            const el = $('.cost').eq(i);
+            const el = $('.edge').eq(i);
             el.attr('x2', q.x);
             el.attr('y2', q.y);
             el.removeAttr('marker-end');

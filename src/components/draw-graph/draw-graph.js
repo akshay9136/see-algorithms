@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useContext, Fragment } from 'react';
 import { Button, Checkbox, TextField, FormControlLabel } from '@mui/material';
-import { PlayArrow, Pause } from '@mui/icons-material';
+import { PlayArrow, Pause, Refresh } from '@mui/icons-material';
 import { showToast } from '../toast/toast';
 import styles from './draw-graph.module.css';
 import Graph from '@/common/graph';
 import $ from 'jquery';
-import { clearGraph, drawGraph, switchType } from '@/helpers/drawGraph';
+import { drawGraph, switchGraph } from '@/helpers/drawGraph';
+import { randomGraph } from '@/helpers/randomGraph';
+import { clearGraph } from '@/common/utils';
 import AppContext from '@/common/context';
-// import { getCostMatrix } from '@/common/utils';
 import Timer from '@/common/timer';
 import Spinner from '../spinner/spinner';
 import { useRouter } from 'next/router';
@@ -18,38 +19,30 @@ function DrawGraph(props) {
   const [source, setSource] = useState('A');
   const router = useRouter();
   const algoId = router.pathname.split('/')[2];
-  // const { saveAlgoData, loading } = useSavedData(algoId);
+  const config = {
+    weighted: props.weighted || false,
+    acyclic: algoId === 'TopSort',
+    directed:
+      algoId === 'TopSort' ||
+      (isDirGraph && props.allowDirected !== false),
+  };
 
   const validate = () => {
     let np = Graph.totalPoints();
-    if (np < 2) {
-      showToast({
-        message: 'Graph cannot be empty.',
-        variant: 'error',
-      });
-      return false;
+    let char = String.fromCharCode(64 + np);
+    let message = '';
+    if (np <= 1) {
+      message = 'Graph cannot be empty.';
+    } else if (source < 'A' || source > char) {
+      message = 'Please enter a valid source.';
+    } else if (algoId === 'TopSort' && !Graph.isConnected()) {
+      message = 'Please draw connected graph.';
     }
-    let lastChar = String.fromCharCode(64 + np);
-    if (source < 'A' || source > lastChar) {
-      showToast({
-        message: 'Please enter a valid source.',
-        variant: 'error',
-      });
+    if (message) {
+      showToast({ message, variant: 'error' });
       return false;
     }
     return true;
-  };
-
-  const config = () => ({
-    weighted: props.weighted || false,
-    acyclic: props.isDAG || false,
-  });
-
-  const handleClear = () => {
-    props.onClear?.();
-    clearGraph();
-    drawGraph(config());
-    setContext({ playStatus: 0 });
   };
 
   const handlePlay = () => {
@@ -71,28 +64,41 @@ function DrawGraph(props) {
     }
   };
 
+  const handleClear = () => {
+    props.onClear?.();
+    clearGraph();
+    drawGraph(config);
+    setContext({ playStatus: 0 });
+  };
+
   useEffect(() => {
-    handleClear();
-    const isDirGraph = algoId === 'TopSort';
-    setContext({ isDirGraph });
-    if (Graph.isDirected() !== isDirGraph) {
-      Graph.switchType();
-    }
+    refresh();
     return () => clearGraph();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [algoId]);
 
   const setDirected = () => {
-    switchType();
+    switchGraph();
     $('#plane').off();
-    drawGraph(config());
+    drawGraph(config);
     setContext({ isDirGraph: !isDirGraph });
+  };
+
+  const refresh = () => {
+    randomGraph(5, config.weighted);
+    drawGraph(config);
+    if (config.directed) switchGraph();
+    setContext({ playStatus: 0 });
+    props.onClear?.();
   };
 
   return (
     <Spinner className="drawGraph" spinning={false}>
       <div className={'d-flex flex-wrap ' + styles.toolbar}>
         <h5 className={styles.title}>Draw Graph</h5>
+        <Button onClick={refresh} style={{ minWidth: 50 }}>
+          <Refresh />
+        </Button>
         <Fragment>
           {props.allowDirected !== false && (
             <FormControlLabel

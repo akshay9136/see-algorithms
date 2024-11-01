@@ -52,7 +52,7 @@
 
 .numGrid .cell {
   width: 3.5rem;
-  min-height: 2.8rem;
+  min-height: 3rem;
   max-height: fit-content;
   text-align: center;
   border-radius: 4px;
@@ -63,6 +63,8 @@
 
 .alphaGrid .cell {
   width: 3rem;
+  min-height: 2.5rem;
+  padding-top: 6px;
 }
 
 .drawGraph {
@@ -96,5 +98,28 @@
 }
 
 .currentStep {
+  background-color: orange;
+}
+
+.cost {
+  background-color: whitesmoke;
+  width: 32px;
+  height: 24px;
+}
+
+.cost:focus {
+  border-color: orangered;
+}
+
+.queue {
+  height: 50px;
+}
+
+.queue h6 {
+  width: 70px;
+  text-align: right;
+}
+
+#visited div {
   background-color: orange;
 }

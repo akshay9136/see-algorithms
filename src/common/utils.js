@@ -31,12 +31,6 @@ function addVertex(p, vlbl) {
     }" text-anchor="middle" style="cursor:pointer">${vlbl}</text></g>`;
 }
 
-function addEdge(p, q) {
-    let edge = `<line class="edge" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" stroke-width="2.5" stroke="${Colors.stroke}" />`;
-    document.getElementById('plane').innerHTML += edge;
-    $('line:last').insertBefore($('.vgrp:first'));
-}
-
 function moveVertex(i, p) {
     $('.vrtx').eq(i).attr('cx', p.x);
     $('.vrtx').eq(i).attr('cy', p.y);
@@ -59,11 +53,29 @@ function moveVertex(i, p) {
             const costEl = $('.cost').eq(ei).parent();
             costEl.attr('x', (u.x + v.x) / 2);
             costEl.attr('y', (u.y + v.y) / 2);
-            const newCost = (Point.distance(u, v) / 20).toFixed(1);
-            console.log(costEl, newCost)
-            costEl.children().text(newCost);
         }
     });
+}
+
+function addEdge(p, q) {
+    let edge = `<line class="edge" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" stroke-width="2.5" stroke="${Colors.stroke}" />`;
+    document.getElementById('plane').innerHTML += edge;
+    $('line:last').insertBefore($('.vgrp:first'));
+}
+
+function addCost([p, q], cost) {
+    cost = cost || (Point.distance(p, q) / 10).toFixed();
+    const element = `
+        <foreignObject width="32" height="24" x="${(p.x + q.x) / 2}" y="${(p.y + q.y) / 2}">
+            <input class="cost" value="${cost}"
+                onclick="
+                    event.stopPropagation();
+                    this.focus();
+                    var value = this.value;
+                    this.value = '';
+                    this.value = value;">
+        </foreignObject>`;
+    document.getElementById('plane').innerHTML += element;
 }
 
 function cloneEdge(i, j, edge) {
@@ -111,10 +123,10 @@ function appendCell(rowId, val) {
 }
 
 function getCostMatrix() {
-    let mat = [];
+    const mat = [];
     Graph.segments().forEach(([i, j], k) => {
         mat[i] = mat[i] || [];
-        let value = $('.cost').eq(k).text();
+        const value = $('.cost').eq(k).val();
         mat[i][j] = Number(value) || 1;
         if (!Graph.isDirected()) {
             mat[j] = mat[j] || [];
@@ -143,10 +155,40 @@ function spanEdge(i, j, delay) {
     return span(d - 2);
 }
 
+function clearGraph() {
+    Timer.clear();
+    $('#plane').off();
+    $('#plane').children().not(':first').remove();
+    Graph.clear();
+}
+
+function createGraph(data) {
+    clearGraph();
+    const { points, segments, directed, costMatrix } = data;
+    points.forEach((p, i) => {
+        addVertex(p, String.fromCharCode(65 + i));
+    });
+    segments.forEach(([i, j]) => {
+        const p = points[i], q = points[j];
+        addEdge(p, q);
+        if (directed) {
+            const { x, y } = fromDistance(p, q, 23);
+            $('.edge:last').attr('x2', x);
+            $('.edge:last').attr('y2', y);
+            $('.edge:last').attr('marker-end', 'url(#arrow)');
+        }
+        if (costMatrix) {
+            addCost([p, q], costMatrix[i][j]);
+        }
+    });
+    Graph.initialize(data);
+}
+
 export {
     cursorOffset,
     addVertex,
     addEdge,
+    addCost,
     moveVertex,
     cloneEdge,
     fromDistance,
@@ -154,15 +196,17 @@ export {
     appendCell,
     getCostMatrix,
     spanEdge,
+    clearGraph,
+    createGraph,
 };
 
 export const randomInt = () => Math.floor(Math.random() * 99) + 1;
 
+export const bgcolor = (id, color) => $(id).css('background-color', color);
+
 export const sleep = (t) => {
     return new Promise((resolve) => setTimeout(resolve, t));
 };
-
-export const bgcolor = (id, color) => $(id).css('background-color', color);
 
 export const throttle = (fn, delay) => {
     let prev = 0;
@@ -173,4 +217,4 @@ export const throttle = (fn, delay) => {
             fn(...args);
         }
     }
-}
+};

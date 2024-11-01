@@ -49,8 +49,9 @@ function start(source) {
 function enqueue() {
     mst.push(i);
     queue = queue.concat(Array(n).fill(Infinity));
-    w[i].forEach((v, j) => {
-        queue[n * i + j] = v;
+    w[i] = w[i] || [];
+    w[i].forEach((val, j) => {
+        queue[n * i + j] = val;
     });
     for (let k = 0; k < n; k++) {
         if (mst.indexOf(k) === -1 && w[i][k] !== undefined) {
@@ -64,12 +65,13 @@ function enqueue() {
 }
 
 function extractMin() {
-    let min = queue.reduce((a, b) => (b < a ? b : a), Infinity);
-    j = queue.indexOf(min);
-    queue[j] = Infinity;
-    i = Math.floor(j / n);
-    j = j % n;
-    if (mst.indexOf(j) !== -1) {
+    let min = queue.reduce((a, b) => b < a ? b : a, Infinity);
+    if (min === Infinity) return;
+    let k = queue.indexOf(min);
+    queue[k] = Infinity;
+    i = Math.floor(k / n);
+    j = k % n;
+    if (mst.indexOf(j) > -1) {
         extractMin();
     } else {
         spanEdge(i, j, 5).then(() => {
