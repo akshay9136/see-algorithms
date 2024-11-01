@@ -32,7 +32,7 @@ export default function TopSort(props) {
 
 var cells, n;
 var stack, ind;
-var delay = 500;
+var delay = 800;
 
 function start() {
     n = Graph.totalPoints();
@@ -49,7 +49,7 @@ function start() {
             stack.push(i);
         }
     }
-    Timer.timeout(topSort, delay * 2);
+    Timer.timeout(topSort, delay);
 }
 
 async function topSort() {
@@ -76,7 +76,7 @@ async function topSort() {
             await Promise.all(promises.map(p => p()));
         }
         await Timer.sleep(delay).then(() => fall(i));
-        Timer.sleep(delay * 2).then(topSort);
+        Timer.sleep(delay).then(topSort);
     } else {
         createGraph(Graph.skeleton());
     }

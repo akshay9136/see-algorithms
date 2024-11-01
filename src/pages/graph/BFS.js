@@ -52,8 +52,8 @@ function start(source) {
         $('.vrtx').eq(i).attr('stroke', Colors.visited);
         $('.vrtx').eq(i).attr('fill', Colors.visited);
         appendCell('#visited', String.fromCharCode(65 + i));
-        Timer.timeout(explore, delay, 0);
-    }, 1000);
+        Timer.timeout(explore, 1000, 0);
+    }, delay);
 }
 
 function explore(j) {
