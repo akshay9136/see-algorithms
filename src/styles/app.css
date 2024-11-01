@@ -52,7 +52,7 @@
 
 .numGrid .cell {
   width: 3.5rem;
-  min-height: 3rem;
+  min-height: 2.75rem;
   max-height: fit-content;
   text-align: center;
   border-radius: 4px;
