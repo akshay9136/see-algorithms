@@ -53,7 +53,7 @@ function start(source) {
         $('.vrtx').eq(i).attr('fill', Colors.visited);
         appendCell('#visited', String.fromCharCode(65 + i));
         Timer.timeout(explore, delay, 0);
-    }, 100);
+    }, 1000);
 }
 
 function explore(j) {

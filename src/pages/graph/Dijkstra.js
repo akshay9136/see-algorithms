@@ -78,9 +78,11 @@ function dijkstra(i) {
 }
 
 function extractMin() {
-    let j = queue.indexOf(Math.min(...queue));
-    v.push(j);
+    let min = queue.reduce((a, b) => b < a ? b : a, Infinity);
+    if (min === Infinity) return;
+    let j = queue.indexOf(min);
     let i = prev[j];
+    v.push(j);
     spanEdge(i, j, 5).then(() => {
         $('.vrtx').eq(j).attr('stroke', Colors.visited);
         if (v.length < n) {
