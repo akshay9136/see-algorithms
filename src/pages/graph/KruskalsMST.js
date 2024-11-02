@@ -36,7 +36,7 @@ function start() {
     arr = [];
     $('.cost').each(function () {
         let edge = {};
-        edge.w = Number($(this).text()) || 1;
+        edge.w = Number($(this).val()) || 1;
         arr.push(edge);
     });
     let n = Graph.totalPoints();
@@ -76,9 +76,9 @@ function nextMin() {
                 Timer.timeout(nextMin, delay);
             }, delay / 2);
         } else {
-            $('.vrtx').eq(arr[k].u).attr('stroke', '#f44336');
-            $('.vrtx').eq(arr[k].v).attr('stroke', '#f44336');
-            $('.edge').eq(arr[k].i).attr('stroke', '#f44336');
+            $('.vrtx').eq(arr[k].u).attr('stroke', 'orangered');
+            $('.vrtx').eq(arr[k].v).attr('stroke', 'orangered');
+            $('.edge').eq(arr[k].i).attr('stroke', 'orangered');
             Timer.timeout(reject, delay / 2);
         }
     }
@@ -88,7 +88,6 @@ function reject() {
     $('.vrtx').eq(arr[k].u).attr('stroke', Colors.visited);
     $('.vrtx').eq(arr[k].v).attr('stroke', Colors.visited);
     $('.edge').eq(arr[k].i).attr('stroke', Colors.rejected);
-    $('.edge').eq(arr[k].i).attr('stroke-dasharray', '8,4');
     k++;
     Timer.timeout(nextMin, delay);
 }

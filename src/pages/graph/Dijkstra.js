@@ -56,18 +56,11 @@ function dijkstra(i) {
         if (v.indexOf(j) === -1) {
             let ei = Graph.edgeIndex(i, j);
             if (ei === undefined) continue;
-            $('.edge').eq(ei).attr('stroke-dasharray', '8,4');
             if (d[i] + w[i][j] < d[j]) {
                 d[j] = d[i] + w[i][j];
                 $('.edge').eq(ei).attr('stroke', Colors.enqueue);
-                $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
-                if (prev[j] !== undefined) {
-                    let ej = Graph.edgeIndex(prev[j], j);
-                    $('.edge').eq(ej).attr('stroke', Colors.rejected);
-                }
+                $('.vrtx').eq(j).attr('fill', Colors.enqueue);
                 prev[j] = i;
-            } else {
-                $('.edge').eq(ei).attr('stroke', Colors.rejected);
             }
         }
     }
@@ -84,7 +77,7 @@ function extractMin() {
     let i = prev[j];
     v.push(j);
     spanEdge(i, j, 5).then(() => {
-        $('.vrtx').eq(j).attr('stroke', Colors.visited);
+        $('.vrtx').eq(j).attr('fill', Colors.visited);
         if (v.length < n) {
             Timer.timeout(dijkstra, delay / 2, j);
         }

@@ -7,15 +7,12 @@
 }
 
 .heading {
+    font-size: 1.5rem;
     margin-bottom: 0.3rem;
 }
 
-.logo,
 .menuIcon {
     font-size: 2rem;
     margin-right: 0.75rem;
-}
-
-.menuIcon {
     color: #1976d2;
 }

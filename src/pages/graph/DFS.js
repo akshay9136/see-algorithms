@@ -27,7 +27,7 @@ export default function DFS(props) {
                     $('#stack').html('');
                 }}
             />
-            <div className="d-flex queue">
+            <div className="d-flex queue mb-2">
                 <h6 className="pt-2 pe-3">Visited:</h6>
                 <div id="visited" className="d-flex numGrid alphaGrid" />
             </div>
@@ -41,7 +41,7 @@ export default function DFS(props) {
 
 var stack;
 var v, i, prev;
-var delay = 500;
+var delay = 800;
 
 function start(source) {
     v = [source];
@@ -52,7 +52,7 @@ function start(source) {
         $('.vrtx').eq(i).attr('stroke', Colors.visited);
         $('.vrtx').eq(i).attr('fill', Colors.visited);
         appendCell('#visited', String.fromCharCode(65 + i));
-        Timer.timeout(explore, 1000, 0);
+        Timer.timeout(explore, delay, 0);
     }, delay);
 }
 
@@ -62,8 +62,7 @@ function explore(j) {
         if (ei !== undefined) {
             if (v.indexOf(j) === -1) {
                 $('.edge').eq(ei).attr('stroke', Colors.enqueue);
-                $('.edge').eq(ei).attr('stroke-dasharray', '8,4');
-                $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
+                $('.vrtx').eq(j).attr('fill', Colors.enqueue);
                 stack.push(j);
                 prev[j] = i;
                 appendCell('#stack', String.fromCharCode(65 + j));
@@ -82,10 +81,10 @@ function visit() {
         $('#stack').children().last().remove();
         if (v.indexOf(i) === -1) {
             v.push(i);
+            spanEdge(prev[i], i, 3).then(dequeue);
             Timer.timeout(() => {
                 appendCell('#visited', String.fromCharCode(65 + i));
-                spanEdge(prev[i], i, 3).then(dequeue);
-            }, delay);
+            }, delay / 2);
         } else {
             Timer.timeout(visit, delay);
         }
@@ -96,13 +95,5 @@ function visit() {
 
 function dequeue() {
     $('.vrtx').eq(i).attr('fill', Colors.visited);
-    v.forEach((k) => {
-        if (k !== prev[i]) {
-            let ei = Graph.edgeIndex(k, i);
-            if (ei !== undefined) {
-                $('.edge').eq(ei).attr('stroke', Colors.rejected);
-            }
-        }
-    });
     Timer.timeout(explore, delay, 0);
 }

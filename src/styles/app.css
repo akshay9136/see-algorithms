@@ -123,3 +123,8 @@
 #visited div {
   background-color: orange;
 }
+
+#stack div,
+#queue div {
+  background-color: skyblue;
+}

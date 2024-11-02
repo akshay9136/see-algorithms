@@ -35,7 +35,7 @@ function DrawGraph(props) {
       message = 'Graph cannot be empty.';
     } else if (source < 'A' || source > char) {
       message = 'Please enter a valid source.';
-    } else if (algoId === 'TopSort' && !Graph.isConnected()) {
+    } else if (!Graph.isConnected()) {
       message = 'Please draw connected graph.';
     }
     if (message) {

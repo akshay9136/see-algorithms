@@ -65,15 +65,15 @@ function addEdge(p, q) {
 
 function addCost([p, q], cost) {
     cost = cost || (Point.distance(p, q) / 10).toFixed();
+    const handler = `
+        event.stopPropagation();
+        this.focus();
+        var value = this.value;
+        this.value = '';
+        this.value = value;`;
     const element = `
         <foreignObject width="32" height="24" x="${(p.x + q.x) / 2}" y="${(p.y + q.y) / 2}">
-            <input class="cost" value="${cost}"
-                onclick="
-                    event.stopPropagation();
-                    this.focus();
-                    var value = this.value;
-                    this.value = '';
-                    this.value = value;">
+            <input class="cost" value="${cost}" onclick="${handler}" ontouchend="${handler}">
         </foreignObject>`;
     document.getElementById('plane').innerHTML += element;
 }
@@ -147,7 +147,6 @@ function spanEdge(i, j, delay) {
             return Timer.sleep(delay).then(() => span(d - 1));
         } else {
             $('line:last').remove();
-            $('.edge').eq(ei).removeAttr('stroke-dasharray');
             $('.edge').eq(ei).attr('stroke', Colors.visited);
             $('.vrtx').eq(j).attr('stroke', Colors.visited);
         }

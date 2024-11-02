@@ -57,8 +57,7 @@ function enqueue() {
         if (mst.indexOf(k) === -1 && w[i][k] !== undefined) {
             let ei = Graph.edgeIndex(i, k);
             $('.edge').eq(ei).attr('stroke', Colors.enqueue);
-            $('.edge').eq(ei).attr('stroke-dasharray', '8,4');
-            $('.vrtx').eq(k).attr('stroke', Colors.enqueue);
+            $('.vrtx').eq(k).attr('fill', Colors.enqueue);
         }
     }
     Timer.timeout(extractMin, delay);
@@ -75,11 +74,7 @@ function extractMin() {
         extractMin();
     } else {
         spanEdge(i, j, 5).then(() => {
-            for (let k = 0; k < mst.length; k++) {
-                let ej = Graph.edgeIndex(j, mst[k]);
-                if ($('.edge').eq(ej).attr('stroke') === Colors.enqueue)
-                    $('.edge').eq(ej).attr('stroke', Colors.rejected);
-            }
+            $('.vrtx').eq(j).attr('fill', Colors.visited);
             i = j;
             if (mst.length < n - 1) {
                 Timer.timeout(enqueue, delay / 2);
