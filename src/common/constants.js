@@ -5,7 +5,7 @@ export const Colors = {
   vertex: '#e5e5e5',
   stroke: '#424242',
   enqueue: 'skyblue',
-  rejected: '#c5c5c5',
+  rejected: '#d3d3d3',
   visited: '#ff9800',
 };
 

@@ -102,22 +102,10 @@
 }
 
 .cost {
-  background-color: whitesmoke;
   width: 32px;
   height: 24px;
-}
-
-.cost:focus {
-  border-color: orangered;
-}
-
-.queue {
-  height: 50px;
-}
-
-.queue h6 {
-  width: 70px;
-  text-align: right;
+  background-color: transparent;
+  border: 0;
 }
 
 #visited div {

@@ -57,7 +57,7 @@ async function findCycle(i) {
     for (let j = 0; j < Graph.totalPoints(); j++) {
         let ei = Graph.edgeIndex(i, j);
         if (ei !== undefined && v[j] === 0) {
-            await spanEdge(i, j, 5);
+            await spanEdge(i, j);
             appendCell('#path', String.fromCharCode(65 + j));
             v[j] = 1;
             if (await findCycle(j)) return true;

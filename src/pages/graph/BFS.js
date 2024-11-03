@@ -26,14 +26,8 @@ export default function BFS(props) {
                     $('#queue').html('');
                 }}
             />
-            <div className="d-flex queue mb-2">
-                <h6 className="pt-2 pe-3">Visited:</h6>
-                <div id="visited" className="d-flex numGrid alphaGrid" />
-            </div>
-            <div className="d-flex queue mb-3">
-                <h6 className="pt-2 pe-3">Queue:</h6>
-                <div id="queue" className="d-flex numGrid alphaGrid" />
-            </div>
+            <div id="visited" className="d-flex numGrid alphaGrid" />
+            <div id="queue" className="d-flex numGrid alphaGrid" />
         </>
     );
 }
@@ -84,7 +78,7 @@ function visit() {
             v.push(i);
             Timer.timeout(() => {
                 appendCell('#visited', String.fromCharCode(65 + i));
-                spanEdge(prev[i], i, 3).then(dequeue);
+                spanEdge(prev[i], i).then(dequeue);
             }, delay / 2);
         } else {
             Timer.timeout(visit, delay);

@@ -27,14 +27,8 @@ export default function DFS(props) {
                     $('#stack').html('');
                 }}
             />
-            <div className="d-flex queue mb-2">
-                <h6 className="pt-2 pe-3">Visited:</h6>
-                <div id="visited" className="d-flex numGrid alphaGrid" />
-            </div>
-            <div className="d-flex queue mb-3">
-                <h6 className="pt-2 pe-3">Stack:</h6>
-                <div id="stack" className="d-flex numGrid alphaGrid" />
-            </div>
+            <div id="visited" className="d-flex numGrid alphaGrid" />
+            <div id="stack" className="d-flex numGrid alphaGrid" />
         </>
     );
 }
@@ -83,7 +77,7 @@ function visit() {
         if (v.indexOf(i) === -1) {
             v.push(i);
             Timer.timeout(() => {
-                spanEdge(prev[i], i, 3).then(dequeue);
+                spanEdge(prev[i], i).then(dequeue);
                 appendCell('#visited', String.fromCharCode(65 + i));
             }, delay / 2);
         } else {

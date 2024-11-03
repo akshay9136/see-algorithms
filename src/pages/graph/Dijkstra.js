@@ -77,7 +77,7 @@ function extractMin() {
     let j = queue.indexOf(min);
     let i = prev[j];
     v.push(j);
-    spanEdge(i, j, 5).then(() => {
+    spanEdge(i, j).then(() => {
         $('.vrtx').eq(j).attr('fill', Colors.visited);
         if (v.length < n) {
             Timer.timeout(dijkstra, delay / 2, j);

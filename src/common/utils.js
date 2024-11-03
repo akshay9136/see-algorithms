@@ -136,15 +136,16 @@ function getCostMatrix() {
     return mat;
 }
 
-function spanEdge(i, j, delay) {
+function spanEdge(i, j) {
     const ei = Graph.edgeIndex(i, j);
     const { p, q, d } = cloneEdge(i, j);
+    const t = 1000 / (d / 2);
     function span(d) {
         if (d > 0) {
             const r = fromDistance(p, q, d);
             $('line:last').attr('x2', r.x);
             $('line:last').attr('y2', r.y);
-            return Timer.sleep(delay).then(() => span(d - 1));
+            return Timer.sleep(t).then(() => span(d - 2));
         } else {
             $('line:last').remove();
             $('.edge').eq(ei).attr('stroke', Colors.visited);

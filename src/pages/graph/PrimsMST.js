@@ -42,7 +42,7 @@ function start(source) {
     Timer.timeout(() => {
         $('.vrtx').eq(i).attr('stroke', Colors.visited);
         $('.vrtx').eq(i).attr('fill', Colors.visited);
-        Timer.timeout(enqueue, delay / 2);
+        Timer.timeout(enqueue, delay);
     }, delay);
 }
 
@@ -74,10 +74,10 @@ function extractMin() {
     if (mst.indexOf(j) > -1) {
         extractMin();
     } else {
-        spanEdge(i, j, 5).then(() => {
+        spanEdge(i, j).then(() => {
             $('.vrtx').eq(j).attr('fill', Colors.visited);
             i = j;
-            if (mst.length < n - 1) {
+            if (mst.length < n) {
                 Timer.timeout(enqueue, delay / 2);
             }
         });

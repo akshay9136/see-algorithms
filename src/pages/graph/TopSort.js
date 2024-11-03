@@ -1,5 +1,5 @@
 import React from 'react';
-import { fromDistance, createGrid, createGraph } from '@/common/utils';
+import { fromDistance, createGrid, createGraph, appendCell } from '@/common/utils';
 import Graph, { Point } from '@/common/graph';
 import DrawGraph from '@/components/draw-graph/draw-graph';
 import $ from 'jquery';
@@ -21,11 +21,11 @@ export default function TopSort(props) {
             <DrawGraph
                 {...props}
                 onStart={start}
-                onClear={() => $('#path').html('')}
+                onClear={() => $('#visited').html('')}
                 allowDirected={false}
                 customSource={false}
             />
-            <div id="path" className="numGrid alphaGrid" />
+            <div id="visited" className="d-flex numGrid alphaGrid" />
         </>
     );
 }
@@ -36,11 +36,6 @@ var delay = 800;
 
 function start() {
     n = Graph.totalPoints();
-    createGrid(n, '#path');
-    cells = document.querySelectorAll('.cell');
-    for (let i = 0; i < n; i++) {
-        cells[i].setAttribute('style', 'border:2px solid; width:3rem;');
-    }
     ind = Graph.indegree();
     stack = [];
     for (let i = 0; i < n; i++) {
@@ -104,9 +99,7 @@ function fall(i) {
         return Timer.sleep(5).then(() => fall(i));
     } else {
         let np = Graph.totalPoints();
-        cells[np - n].textContent = String.fromCharCode(65 + i);
-        cells[np - n].style.backgroundColor = Colors.visited;
-        $(`.vgrp:eq(${i})`).css('visibility', 'hidden');
+        appendCell('#visited', String.fromCharCode(65 + i));
         n--;
     }
 }
