@@ -73,7 +73,7 @@ function DrawGraph(props) {
 
   useEffect(() => {
     refresh();
-    return () => clearGraph();
+    return () => Timer.clear();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [algoId]);
 

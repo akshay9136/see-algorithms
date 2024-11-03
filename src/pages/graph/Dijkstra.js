@@ -59,6 +59,7 @@ function dijkstra(i) {
             if (d[i] + w[i][j] < d[j]) {
                 d[j] = d[i] + w[i][j];
                 $('.edge').eq(ei).attr('stroke', Colors.enqueue);
+                $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
                 $('.vrtx').eq(j).attr('fill', Colors.enqueue);
                 prev[j] = i;
             }

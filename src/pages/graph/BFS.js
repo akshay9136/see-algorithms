@@ -62,6 +62,7 @@ function explore(j) {
         if (ei !== undefined) {
             if (v.indexOf(j) === -1) {
                 $('.edge').eq(ei).attr('stroke', Colors.enqueue);
+                $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
                 $('.vrtx').eq(j).attr('fill', Colors.enqueue);
                 queue.push(j);
                 prev[j] = i;
@@ -75,21 +76,19 @@ function explore(j) {
 }
 
 function visit() {
+    $('.vrtx').eq(i).attr('fill', Colors.vertex);
     if (queue.length) {
-        $('.vrtx').eq(i).attr('fill', Colors.vertex);
         i = queue.shift();
         $('#queue').children().eq(k++).css('visibility', 'hidden');
         if (v.indexOf(i) === -1) {
             v.push(i);
-            spanEdge(prev[i], i, 3).then(dequeue);
             Timer.timeout(() => {
                 appendCell('#visited', String.fromCharCode(65 + i));
+                spanEdge(prev[i], i, 3).then(dequeue);
             }, delay / 2);
         } else {
             Timer.timeout(visit, delay);
         }
-    } else {
-        $('.vrtx').eq(i).attr('fill', Colors.vertex);
     }
 }
 

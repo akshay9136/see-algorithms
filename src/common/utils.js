@@ -73,7 +73,7 @@ function addCost([p, q], cost) {
         this.value = value;`;
     const element = `
         <foreignObject width="32" height="24" x="${(p.x + q.x) / 2}" y="${(p.y + q.y) / 2}">
-            <input class="cost" value="${cost}" onclick="${handler}" ontouchend="${handler}">
+            <input class="cost" value="${cost}" maxlength="${3}" onclick="${handler}" ontouchend="${handler}">
         </foreignObject>`;
     document.getElementById('plane').innerHTML += element;
 }

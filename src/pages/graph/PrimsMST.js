@@ -57,6 +57,7 @@ function enqueue() {
         if (mst.indexOf(k) === -1 && w[i][k] !== undefined) {
             let ei = Graph.edgeIndex(i, k);
             $('.edge').eq(ei).attr('stroke', Colors.enqueue);
+            $('.vrtx').eq(k).attr('stroke', Colors.enqueue);
             $('.vrtx').eq(k).attr('fill', Colors.enqueue);
         }
     }
