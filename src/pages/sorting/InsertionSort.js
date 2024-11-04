@@ -22,20 +22,13 @@ export default function InsertionSort() {
 
     if (!numbers.length) arr = undefined;
 
-    const pickNumber = async (i) => {
-        bgcolor(`#box${i}`, Colors.compare);
-        setCurrentStep('1,2');
-        await sleep(delay);
-        await ty(`#box${i}`, -50, 0.5);
-    };
-
     const sortNumbers = async () => {
         await sleep(delay);
         bgcolor(`#box${0}`, Colors.sorted);
         for (let i = 1; i < arr.length; i++) {
-            setCurrentStep('0');
             await sleep(delay);
-            await pickNumber(i);
+            setCurrentStep('1,2');
+            await ty(`#box${i}`, -50, 0.5);
             setCurrentStep('3');
             await sleep(delay);
             let num = arr[i];

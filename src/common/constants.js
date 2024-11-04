@@ -1,6 +1,6 @@
 export const Colors = {
   white: '#FFFFFF',
-  compare: '#ffc107',
+  compare: '#ffac1c',
   sorted: 'yellowgreen',
   vertex: '#e5e5e5',
   stroke: '#424242',
