@@ -12,10 +12,10 @@ export default function CircularQueue(props) {
     useEffect(() => {
         rear = 5;
         size = rear - front;
-        document.querySelector('#queue').innerHTML = '';
-        createGrid(n, '#queue');
-        createGrid(n, '#queue');
-        createGrid(n, '#queue');
+        document.querySelector('#circularq').innerHTML = '';
+        createGrid(n, '#circularq');
+        createGrid(n, '#circularq');
+        createGrid(n, '#circularq');
         cells = document.querySelectorAll('.cell');
         cells[front].textContent = 'Front';
         cells[n + n + rear].textContent = 'Rear';
@@ -44,7 +44,7 @@ export default function CircularQueue(props) {
                 </p>
             </section>
             <DSInput {...props} buttons={buttons} />
-            <div id="queue" className="numGrid" />
+            <div id="circularq" className="numGrid" />
         </>
     );
 }
