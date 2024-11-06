@@ -1,7 +1,7 @@
 export const Colors = {
   white: '#FFFFFF',
   compare: '#ffac1c',
-  sorted: 'yellowgreen',
+  sorted: '#9acd32',
   vertex: '#e5e5e5',
   stroke: '#424242',
   enqueue: 'skyblue',

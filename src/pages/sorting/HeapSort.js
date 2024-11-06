@@ -13,7 +13,7 @@ export default function HeapSort() {
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
     const { txy, bgcolor, animate } = animator;
-    const [algorithm] = useAlgorithm(`
+    const [algorithm, setCurrentStep] = useAlgorithm(`
     for i = (n / 2 - 1) down to 0:
         heapify(i)
     for i = n - 1 down to 1:
@@ -30,10 +30,12 @@ export default function HeapSort() {
             Tree.insert(arr[i], parent, i % 2 === 1);
         }
         await sleep(1500);
+        setCurrentStep('0,1');
         const k = Math.floor(n / 2) - 1;
         for (let i = k; i >= 0; i--) {
-            await heapify(Tree.node(i));
+            await heapify(Tree.node(i), n);
         }
+        setCurrentStep('2,3,4');
         await sleep(delay);
         for (let i = n - 1; i > 0; i--) {
             const first = Tree.node(0);
@@ -46,6 +48,7 @@ export default function HeapSort() {
             await heapify(Tree.node(0), i);
             await sleep(delay);
         }
+        setCurrentStep('');
         const head = Tree.node(0);
         await bgcolor(`#node${head.index}`, Colors.sorted);
         await sleep(1000);
@@ -57,8 +60,7 @@ export default function HeapSort() {
         }
     };
 
-    const heapify = async (node, _n) => {
-        const n = _n ? _n : arr.length;
+    const heapify = async (node, n) => {
         const { left, right } = node;
         let max = node;
         if (left && left.key < n) {
@@ -74,7 +76,7 @@ export default function HeapSort() {
             await bgcolor(`#node${node.index}`, Colors.white);
             await heapify(max, n);
         } else {
-            if (!_n) await sleep(delay);
+            await sleep(delay);
             await bgcolor(`#node${node.index}`, Colors.white);
         }
     };
@@ -83,7 +85,9 @@ export default function HeapSort() {
         setNumbers(values);
         arr = values.slice();
         Tree = binaryTree(animator);
-        sleep(1500).then(heapSort).catch(() => {});
+        sleep(1500)
+            .then(heapSort)
+            .catch(() => setCurrentStep(''));
     };
 
     const handleStop = () => {
