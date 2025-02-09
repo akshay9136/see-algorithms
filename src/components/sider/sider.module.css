@@ -7,9 +7,9 @@
 }
 
 .category {
-    background-color: aliceblue;
+    background-color: aliceblue !important;
     font-size: 1rem;
     font-weight: 500;
-    padding-left: 1.5rem;
+    padding-left: 1.5rem !important;
     border-bottom: var(--thin-border);
 }

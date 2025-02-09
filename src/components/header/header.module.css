@@ -1,18 +1,22 @@
 .header {
     height: var(--header-height);
     align-items: center;
-    padding: 0 1.5rem;
+    padding: 0 1rem;
     justify-content: space-between;
     border-bottom: var(--thin-border);
 }
 
 .heading {
-    font-size: 1.5rem;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.1rem;
+    font-size: 1.2rem;
 }
 
 .menuIcon {
-    font-size: 2rem;
+    font-size: 2rem !important;
     margin-right: 0.75rem;
     color: #1976d2;
+}
+
+.logo {
+    margin-left: -0.4rem;
 }

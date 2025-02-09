@@ -13,7 +13,7 @@ export default function Dijkstra(props) {
             <section>
                 <p>
                     <strong>Dijkstra&apos;s Algorithm</strong> finds the
-                    shortest path from a src node to all other nodes in a
+                    shortest path from a source node to all other nodes in a
                     graph with non-negative weights. It uses a{' '}
                     <Link href="/data-structures/BinaryHeap">
                         priority queue

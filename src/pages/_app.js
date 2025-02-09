@@ -52,7 +52,7 @@ export default function App({ Component, pageProps }) {
         <Sider />
       </Drawer>
       <NextSeo
-        title={`${Algorithms[algoId] || 'see algorithms'} | Visualization of Algorithms`}
+        title={`${Algorithms[algoId] || 'SEE ALGORITHMS'} | Visualization of Algorithms`}
         description={
           metaDescription[algoId] ||
             'Learn basic algorithms by visualzing them through interactive animations.'
