@@ -40,7 +40,7 @@ function DSInput(props) {
         {props.buttons.map((btn, i) => (
           <Button
             key={i}
-            variant="contained"
+            variant="outlined"
             onClick={() => {
               btn.validate ? validate(btn.onClick) : btn.onClick();
             }}

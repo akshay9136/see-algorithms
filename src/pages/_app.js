@@ -49,7 +49,7 @@ export default function App({ Component, pageProps }) {
           backdrop: { className: 'backdrop' },
         }}
       >
-        <Sider />
+        <Sider selected={algoId} />
       </Drawer>
       <NextSeo
         title={`${Algorithms[algoId] || 'SEE ALGORITHMS'} | Visualization of Algorithms`}
@@ -80,7 +80,7 @@ export default function App({ Component, pageProps }) {
           className="d-none d-md-block"
           style={{ width: 'max-content', minWidth: 240 }}
         >
-          <Sider />
+          <Sider selected={algoId} />
         </div>
         <div className="content m-0">
           <div style={{ padding: '1rem 1.5rem' }}>

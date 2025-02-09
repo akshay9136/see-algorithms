@@ -9,7 +9,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Link from 'next/link';
 
-function Sider() {
+function Sider({ selected }) {
   const { categories } = useContext(AppContext);
 
   const getPathname = (catname, algoId) => {
@@ -34,6 +34,7 @@ function Sider() {
                   key={algoId}
                   component={Link}
                   href={getPathname(catname, algoId)}
+                  selected={algoId === selected}
                 >
                   {Algorithms[algoId]}
                 </ListItemButton>

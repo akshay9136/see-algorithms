@@ -4,7 +4,7 @@ export const Colors = {
   sorted: '#9acd32',
   vertex: '#e5e5e5',
   stroke: '#424242',
-  enqueue: 'skyblue',
+  enqueue: '#87cefa',
   rejected: '#d3d3d3',
   visited: '#ff9800',
 };

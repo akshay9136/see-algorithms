@@ -46,7 +46,7 @@
 .numGrid {
   font-weight: 600;
   font-size: 1rem;
-  margin-bottom: 1rem;
+  padding-bottom: 1rem;
   width: max-content;
 }
 
@@ -114,5 +114,5 @@
 
 #stack div,
 #queue div {
-  background-color: skyblue;
+  background-color: #87cefa;
 }
