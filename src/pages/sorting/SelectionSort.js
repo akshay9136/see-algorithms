@@ -65,8 +65,8 @@ export default function SelectionSort() {
     const swapNumbers = async (i, j) => {
         let k = j - i;
         await Promise.all([
-            tx(`#box${i}`, k * 60, 0.2 * k),
-            tx(`#box${j}`, -k * 60, 0.2 * k),
+            tx(`#box${i}`, k * 60, 0.15 * k),
+            tx(`#box${j}`, -k * 60, 0.15 * k),
         ]);
         await Promise.all([ty(`#box${i}`, 0, 0.5), ty(`#box${j}`, 0, 0.5)]);
         arr.swap(i, j);

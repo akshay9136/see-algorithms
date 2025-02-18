@@ -24,8 +24,8 @@ export default function QuickSort() {
         const d = b - a;
         await Promise.all([ty(`#box${a}`, 50), ty(`#box${b}`, -50)]);
         await Promise.all([
-            tx(`#box${a}`, d * 60, 0.5),
-            tx(`#box${b}`, -d * 60, 0.5),
+            tx(`#box${a}`, d * 60, 0.2 * d),
+            tx(`#box${b}`, -d * 60, 0.2 * d),
         ]);
         await Promise.all([ty(`#box${a}`, 0), ty(`#box${b}`, 0)]);
         arr.swap(a, b);
