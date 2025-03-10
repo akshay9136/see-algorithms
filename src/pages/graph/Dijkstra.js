@@ -33,6 +33,10 @@ var v, prev;
 var delay = 1000;
 
 function start(src) {
+    $('.cost').each(function () {
+        this.setAttribute('value', this.value);
+        this.setAttribute('readonly', true);
+    });
     n = Graph.totalPoints();
     w = getCostMatrix();
     v = [src];
