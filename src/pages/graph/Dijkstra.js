@@ -60,7 +60,7 @@ function start(src) {
         cells[i].style.border = '2px solid';
         cells[i + n].style.border = '2px solid';
         cells[i].textContent = String.fromCharCode(65 + i);
-        cells[i + n].style.transition = 'opacity 1s';
+        cells[i + n].style.transition = 'opacity 0.5s';
         if (i !== src) {
             d[i] = Infinity;
             cells[i + n].innerHTML = '&infin;';
@@ -89,7 +89,9 @@ function dijkstra(i) {
                 $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
                 $('.vrtx').eq(j).attr('fill', Colors.enqueue);
                 cells[j].style.backgroundColor = Colors.enqueue;
-                cells[j + n].style.opacity = 0;
+                Timer.sleep(500).then(() => {
+                    cells[j + n].style.opacity = 0;
+                });
                 Timer.sleep(delay).then(() => {
                     cells[j + n].textContent = d[j];
                     cells[j + n].style.opacity = 1;
