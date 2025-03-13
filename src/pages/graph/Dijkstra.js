@@ -60,6 +60,7 @@ function start(src) {
         cells[i].style.border = '2px solid';
         cells[i + n].style.border = '2px solid';
         cells[i].textContent = String.fromCharCode(65 + i);
+        cells[i + n].style.transition = 'opacity 1s';
         if (i !== src) {
             d[i] = Infinity;
             cells[i + n].innerHTML = '&infin;';
@@ -77,6 +78,7 @@ function start(src) {
 
 function dijkstra(i) {
     w[i] = w[i] || [];
+    let flag = 1;
     for (let j = 0; j < n; j++) {
         if (v.indexOf(j) === -1) {
             let ei = Graph.edgeIndex(i, j);
@@ -87,15 +89,20 @@ function dijkstra(i) {
                 $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
                 $('.vrtx').eq(j).attr('fill', Colors.enqueue);
                 cells[j].style.backgroundColor = Colors.enqueue;
-                cells[j + n].textContent = d[j];
+                cells[j + n].style.opacity = 0;
+                Timer.sleep(delay).then(() => {
+                    cells[j + n].textContent = d[j];
+                    cells[j + n].style.opacity = 1;
+                });
                 prev[j] = i;
+                flag = 2;
             }
         }
     }
     for (let j = 0; j < n; j++) {
         queue[j] = v.indexOf(j) === -1 ? d[j] : Infinity;
     }
-    Timer.timeout(extractMin, delay);
+    Timer.timeout(extractMin, delay * flag);
 }
 
 function extractMin() {
@@ -108,7 +115,7 @@ function extractMin() {
         $('.vrtx').eq(j).attr('fill', Colors.visited);
         cells[j].style.backgroundColor = Colors.visited;
         if (v.length < n) {
-            Timer.timeout(dijkstra, delay / 2, j);
+            Timer.timeout(dijkstra, delay, j);
         }
     });
 }
