@@ -1,5 +1,5 @@
 import React from 'react';
-import { getCostMatrix, spanEdge } from '@/common/utils';
+import { createGrid, getCostMatrix, spanEdge } from '@/common/utils';
 import Graph from '@/common/graph';
 import DrawGraph from '@/components/draw-graph/draw-graph';
 import $ from 'jquery';
@@ -22,12 +22,22 @@ export default function Dijkstra(props) {
                     algorithm is widely used in routing and navigation systems.
                 </p>
             </section>
-            <DrawGraph {...props} onStart={start} weighted={true} />
+            <DrawGraph
+                {...props}
+                onStart={start}
+                weighted={true}
+                onClear={() => {
+                    $('#vert').html('');
+                    $('#dist').html('');
+                }}
+            />
+            <div id="vert" className="d-flex numGrid alphaGrid" />
+            <div id="dist" className="d-flex numGrid alphaGrid" />
         </>
     );
 }
 
-var n, w;
+var n, w, cells;
 var d, queue;
 var v, prev;
 var delay = 1000;
@@ -41,15 +51,26 @@ function start(src) {
     w = getCostMatrix();
     v = [src];
     d = [];
+    createGrid(n, '#vert');
+    createGrid(n, '#dist');
+    cells = document.querySelectorAll('.cell');
+    cells[src + n].textContent = 0;
+    d[src] = 0;
     for (let i = 0; i < n; i++) {
-        if (i === src) d.push(0);
-        else d.push(Infinity);
+        cells[i].style.border = '2px solid';
+        cells[i + n].style.border = '2px solid';
+        cells[i].textContent = String.fromCharCode(65 + i);
+        if (i !== src) {
+            d[i] = Infinity;
+            cells[i + n].innerHTML = '&infin;';
+        }
     }
     queue = [src];
     prev = [];
     Timer.timeout(() => {
         $('.vrtx').eq(src).attr('stroke', Colors.visited);
         $('.vrtx').eq(src).attr('fill', Colors.visited);
+        cells[src].style.backgroundColor = Colors.visited;
         Timer.timeout(dijkstra, delay, src);
     }, delay);
 }
@@ -65,6 +86,8 @@ function dijkstra(i) {
                 $('.edge').eq(ei).attr('stroke', Colors.enqueue);
                 $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
                 $('.vrtx').eq(j).attr('fill', Colors.enqueue);
+                cells[j].style.backgroundColor = Colors.enqueue;
+                cells[j + n].textContent = d[j];
                 prev[j] = i;
             }
         }
@@ -76,13 +99,14 @@ function dijkstra(i) {
 }
 
 function extractMin() {
-    let min = queue.reduce((a, b) => b < a ? b : a, Infinity);
+    let min = queue.reduce((a, b) => (b < a ? b : a), Infinity);
     if (min === Infinity) return;
     let j = queue.indexOf(min);
     let i = prev[j];
     v.push(j);
     spanEdge(i, j).then(() => {
         $('.vrtx').eq(j).attr('fill', Colors.visited);
+        cells[j].style.backgroundColor = Colors.visited;
         if (v.length < n) {
             Timer.timeout(dijkstra, delay / 2, j);
         }
