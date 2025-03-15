@@ -1,0 +1,168 @@
+import React, { useState } from 'react';
+import { Edge, InputNumbers, Node } from '@/components/numbers';
+import styles from '@/components/numbers/numbers.module.css';
+import useAnimator from '@/hooks/useAnimator';
+import binaryTree from '@/common/binaryTree';
+import { Colors } from '@/common/constants';
+import { sleep, traverse } from '@/common/utils';
+
+var Tree, delay = 500;
+var queue, codes;
+
+export default function HuffmanCoding() {
+    const [numbers, setNumbers] = useState([]);
+    const [characters, setCharacters] = useState([]);
+    const [charcodes, setCharcodes] = useState({});
+    const [scope, animator] = useAnimator();
+    const { bgcolor } = animator;
+    const toChar = (i) => String.fromCharCode(97 + i);
+
+    const extractMin = () => {
+        queue.sort((a, b) => a.value - b.value);
+        const min = queue[0];
+        queue = queue.slice(1);
+        return min;
+    };
+
+    const huffmanTree = () => {
+        const left = extractMin();
+        const right = extractMin();
+        const sum = left.value + right.value;
+        const node = { value: sum, left, right };
+        if (queue.length) {
+            queue.push(node);
+            return huffmanTree();
+        }
+        return node;
+    };
+
+    const huffmanCoding = async () => {
+        const root = huffmanTree();
+        const arr = [];
+        traverse(root, (node) => arr.push(node.value));
+        setNumbers(arr);
+        await sleep(delay);
+        codes = {};
+        renderTree(root);
+        setCharcodes(codes);
+    };
+
+    const renderTree = (_node, parent, isLeft) => {
+        if (_node) {
+            const { value, char, left, right } = _node;
+            const node = Tree.insert(value, parent, isLeft);
+            if (parent) {
+                node.data = (parent.data || '') + (isLeft ? '0' : '1');
+            }
+            if (!left && !right) {
+                codes[char] = node.data;
+                bgcolor(`#node${node.index}`, Colors.enqueue);
+            }
+            renderTree(left, node, true);
+            renderTree(right, node);
+        }
+    };
+
+    const handleStart = (values) => {
+        queue = values.map((value, i) => {
+            return { value, char: characters[i] };
+        });
+        Tree = binaryTree(animator);
+        sleep(delay)
+            .then(huffmanCoding)
+            .catch(() => {});
+    };
+
+    const handleStop = () => {
+        setNumbers([]);
+        setCharacters([]);
+        setCharcodes({});
+        Tree = undefined;
+    };
+
+    return (
+        <>
+            <section>
+                <p>
+                    <strong>Huffman Coding</strong> is a lossless data
+                    compression algorithm that reduces the size of data by
+                    assigning shorter binary codes to more frequent symbols. It
+                    builds an optimal prefix tree, ensuring efficient encoding
+                    and decoding. Commonly used in file compression formats like
+                    ZIP and JPEG, Huffman Coding minimizes storage space without
+                    losing information.
+                </p>
+            </section>
+            {characters.length > 0 && (
+                <div className={styles.inputNumbers + ' mb-0 p-0'}>
+                    <label className={styles.label}>Character:</label>
+                    {characters.map((char) => (
+                        <label
+                            key={char}
+                            style={{
+                                fontSize: '1rem',
+                                fontWeight: 600,
+                                margin: '0 1.2rem',
+                            }}
+                        >
+                            {char}
+                        </label>
+                    ))}
+                </div>
+            )}
+            <InputNumbers
+                min={5}
+                max={8}
+                label="Frequency: "
+                onStart={handleStart}
+                onStop={handleStop}
+                onSelect={(n) => {
+                    const arr = Array.from(Array(n));
+                    setCharacters(arr.map((_, i) => toChar(i)));
+                }}
+
+            />
+            <div className="huffmanTree" ref={scope}>
+                {numbers.slice(0, -1).map((_, i) => (
+                    <Edge key={i} index={i} />
+                ))}
+                {numbers.map((num, i) => (
+                    <Node
+                        key={i}
+                        index={i}
+                        value={num}
+                        animate={{ x: i * 50 }}
+                        style={{ opacity: 0, borderRadius: 4 }}
+                    />
+                ))}
+                {characters.map((char, i) => (
+                    <Node
+                        key={i}
+                        index={i + 100}
+                        value={char}
+                        animate={{ y: i * 50 }}
+                        style={{
+                            borderRadius: 4,
+                            backgroundColor: Colors.vertex,
+                            fontWeight: 'bold',
+                        }}
+                    />
+                ))}
+                {characters.map((char, i) => (
+                    <Node
+                        key={i}
+                        index={i + 200}
+                        value={charcodes[char]}
+                        animate={{ x: 50, y: i * 50 }}
+                        style={{
+                            border: 0,
+                            justifyContent: 'flex-start',
+                            background: 'transparent',
+                            fontWeight: 'bold',
+                        }}
+                    />
+                ))}
+            </div>
+        </>
+    );
+}

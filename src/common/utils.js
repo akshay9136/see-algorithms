@@ -184,6 +184,14 @@ function createGraph(data) {
     Graph.initialize(data);
 }
 
+function traverse(node, fn) {
+    if (node) {
+        fn(node);
+        traverse(node.left, fn);
+        traverse(node.right, fn);
+    }
+}
+
 export {
     cursorOffset,
     addVertex,
@@ -198,6 +206,7 @@ export {
     spanEdge,
     clearGraph,
     createGraph,
+    traverse,
 };
 
 export const randomInt = () => Math.floor(Math.random() * 99) + 1;

@@ -16,6 +16,7 @@ function InputNumbers(props) {
       values.push(randomInt());
     }
     setValues(values);
+    props.onSelect?.(size);
   };
 
   const handleInput = (e, i) => {
@@ -56,7 +57,9 @@ function InputNumbers(props) {
   return (
     <div className={styles.inputNumbers}>
       <label className={styles.label}>
-        {!values.length ? "Select number of elements: " : "Enter numbers: "}
+        {!values.length
+            ? 'Select number of elements: '
+            : props.label || 'Enter numbers: '}
         &nbsp;
       </label>
       {!values.length ? (

@@ -18,6 +18,7 @@ function Header(props) {
                 <Image
                     src="/logo.png"
                     alt="logo"
+                    priority
                     width="200"
                     height="40"
                     className={`${styles.logo} d-none d-md-block`}

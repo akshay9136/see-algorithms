@@ -33,7 +33,7 @@ export const categories = [
     },
     {
         catname: 'Other',
-        algorithms: ['ConvexHull'],
+        algorithms: ['HuffmanCoding', 'ConvexHull'],
     }
 ];
 
@@ -54,5 +54,6 @@ export const metaDescription = {
     BST: 'Learn how data is organized in a sorted manner by a Binary Search Tree (BST), allowing for efficient searching, insertion, and deletion.',
     BinaryHeap: 'Explore the Binary Heap where elements are arranged in a binary tree while maintaining priority.',
     CircularQueue: 'Understand how Circular Queue efficiently manages a fixed-size queue by wrapping around when full.',
+    HuffmanCoding: 'Learn about Huffman Coding, a lossless compression technique that reduces file size by assigning shorter codes to frequent symbols.',
     ConvexHull: 'Explore the Convex Hull algorithm to find the smallest convex boundary that encloses a set of points in a plane.'
 };

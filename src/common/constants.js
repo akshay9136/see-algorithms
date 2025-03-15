@@ -23,9 +23,10 @@ export const Algorithms = {
   KruskalsMST: "Kruskal's Algorithm",
   Dijkstra: "Dijkstra's Algorithm",
   TopSort: 'Topological Sorting',
+  Hamiltonian: 'Hamiltonian Cycle',
   BST: 'Binary Search Tree',
   BinaryHeap: 'Binary Heap',
   CircularQueue: 'Circular Queue',
+  HuffmanCoding: 'Huffman Coding',
   ConvexHull: 'Convex Hull',
-  Hamiltonian: 'Hamiltonian Cycle',
 };

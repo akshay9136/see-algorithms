@@ -39,6 +39,11 @@
   height: 300px;
 }
 
+.huffmanTree {
+  position: relative;
+  height: 600px;
+}
+
 .mergeSort {
   height: 300px;
 }
