@@ -31,19 +31,18 @@ export default function Hamiltonian(props) {
 }
 
 var src, v;
-var r, delay = 500;
+var delay = 500;
 
-function start(source) {
+async function start(source) {
     src = source;
     v = Array(Graph.totalPoints()).fill(0);
     v[src] = 1;
-    Timer.timeout(() => {
-        $('.vrtx').eq(src).attr('stroke', Colors.visited);
-        $('.vrtx').eq(src).attr('fill', Colors.visited);
-        appendCell('#path', String.fromCharCode(65 + src));
-        Timer.timeout(findCycle, delay, src);
-    }, 1000);
-    return new Promise((res) => (r = res));
+    await Timer.sleep(1000);
+    $('.vrtx').eq(src).attr('stroke', Colors.visited);
+    $('.vrtx').eq(src).attr('fill', Colors.visited);
+    appendCell('#path', String.fromCharCode(65 + src));
+    await Timer.sleep(delay);
+    await findCycle(src);
 }
 
 async function findCycle(i) {
@@ -69,7 +68,6 @@ async function findCycle(i) {
             await Timer.sleep(delay);
         }
     }
-    r();
 }
 
 function revertSpan(i, j) {

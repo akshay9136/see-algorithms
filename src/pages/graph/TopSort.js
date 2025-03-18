@@ -31,7 +31,7 @@ export default function TopSort(props) {
 }
 
 var n, ind, stack;
-var r, delay = 800;
+var delay = 800;
 
 function start() {
     n = Graph.totalPoints();
@@ -43,8 +43,7 @@ function start() {
             stack.push(i);
         }
     }
-    Timer.timeout(topSort, delay);
-    return new Promise((res) => (r = res));
+    return Timer.sleep(delay).then(topSort);
 }
 
 async function topSort() {
@@ -71,14 +70,13 @@ async function topSort() {
             await Promise.all(promises.map(p => p()));
         }
         await Timer.sleep(delay).then(() => fall(i));
-        Timer.sleep(delay).then(topSort);
+        await Timer.sleep(delay).then(topSort);
     } else {
         createGraph(Graph.skeleton());
-        r();
     }
 }
 
-async function extract(i, j, d) {
+function extract(i, j, d) {
     let [p, q] = [i, j].map(Graph.point);
     let ei = Graph.edgeIndex(i, j);
     if (d > 0) {
