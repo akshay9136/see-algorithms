@@ -38,9 +38,8 @@ export default function Dijkstra(props) {
 }
 
 var n, w, cells;
-var d, queue;
-var v, prev;
-var delay = 1000;
+var d, v, queue, prev;
+var r, delay = 1000;
 
 function start(src) {
     $('.cost').each(function () {
@@ -74,6 +73,7 @@ function start(src) {
         cells[src].style.backgroundColor = Colors.visited;
         Timer.timeout(dijkstra, delay, src);
     }, delay);
+    return new Promise((res) => (r = res));
 }
 
 function dijkstra(i) {
@@ -118,6 +118,6 @@ function extractMin() {
         cells[j].style.backgroundColor = Colors.visited;
         if (v.length < n) {
             Timer.timeout(dijkstra, delay, j);
-        }
+        } else r();
     });
 }

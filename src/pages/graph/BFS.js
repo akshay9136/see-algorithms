@@ -34,7 +34,7 @@ export default function BFS(props) {
 
 var queue, k;
 var v, i, prev;
-var delay = 800;
+var r, delay = 800;
 
 function start(source) {
     v = [source];
@@ -48,6 +48,7 @@ function start(source) {
         appendCell('#visited', String.fromCharCode(65 + i));
         Timer.timeout(explore, delay, 0);
     }, delay);
+    return new Promise((res) => (r = res));
 }
 
 function explore(j) {
@@ -83,7 +84,7 @@ function visit() {
         } else {
             Timer.timeout(visit, delay);
         }
-    }
+    } else r();
 }
 
 function dequeue() {

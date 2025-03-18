@@ -31,7 +31,7 @@ export default function Hamiltonian(props) {
 }
 
 var src, v;
-var delay = 500;
+var r, delay = 500;
 
 function start(source) {
     src = source;
@@ -43,6 +43,7 @@ function start(source) {
         appendCell('#path', String.fromCharCode(65 + src));
         Timer.timeout(findCycle, delay, src);
     }, 1000);
+    return new Promise((res) => (r = res));
 }
 
 async function findCycle(i) {
@@ -68,6 +69,7 @@ async function findCycle(i) {
             await Timer.sleep(delay);
         }
     }
+    r();
 }
 
 function revertSpan(i, j) {

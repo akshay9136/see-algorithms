@@ -88,7 +88,9 @@ function InputNumbers(props) {
       {values.length > 0 && (
         <div>
           <Button variant="contained" onClick={handleSubmit}>
-            {!status ? "Start" : "Stop"}
+            {!status
+              ? props.startBtnText || 'Start'
+              : props.stopBtnText || 'Stop'}
           </Button>
         </div>
       )}

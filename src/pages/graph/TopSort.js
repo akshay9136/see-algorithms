@@ -1,5 +1,5 @@
 import React from 'react';
-import { fromDistance, createGrid, createGraph, appendCell } from '@/common/utils';
+import { fromDistance, createGraph, appendCell } from '@/common/utils';
 import Graph, { Point } from '@/common/graph';
 import DrawGraph from '@/components/draw-graph/draw-graph';
 import $ from 'jquery';
@@ -30,9 +30,8 @@ export default function TopSort(props) {
     );
 }
 
-var cells, n;
-var stack, ind;
-var delay = 800;
+var n, ind, stack;
+var r, delay = 800;
 
 function start() {
     n = Graph.totalPoints();
@@ -45,6 +44,7 @@ function start() {
         }
     }
     Timer.timeout(topSort, delay);
+    return new Promise((res) => (r = res));
 }
 
 async function topSort() {
@@ -74,6 +74,7 @@ async function topSort() {
         Timer.sleep(delay).then(topSort);
     } else {
         createGraph(Graph.skeleton());
+        r();
     }
 }
 
@@ -98,7 +99,6 @@ function fall(i) {
         $(`.vlbl:eq(${i})`).attr('y', cy + 7);
         return Timer.sleep(5).then(() => fall(i));
     } else {
-        let np = Graph.totalPoints();
         appendCell('#visited', String.fromCharCode(65 + i));
         n--;
     }

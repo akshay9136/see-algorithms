@@ -31,7 +31,7 @@ export default function PrimsMST(props) {
 var n, w;
 var mst, i, j;
 var queue;
-var delay = 1000;
+var r, delay = 1000;
 
 function start(source) {
     $('.cost').each(function () {
@@ -48,6 +48,7 @@ function start(source) {
         $('.vrtx').eq(i).attr('fill', Colors.visited);
         Timer.timeout(enqueue, delay);
     }, delay);
+    return new Promise((res) => (r = res));
 }
 
 function enqueue() {
@@ -70,7 +71,7 @@ function enqueue() {
 
 function extractMin() {
     let min = queue.reduce((a, b) => b < a ? b : a, Infinity);
-    if (min === Infinity) return;
+    if (min === Infinity) return r();
     let k = queue.indexOf(min);
     queue[k] = Infinity;
     i = Math.floor(k / n);

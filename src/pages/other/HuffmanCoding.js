@@ -120,6 +120,8 @@ export default function HuffmanCoding() {
                     const arr = Array.from(Array(n));
                     setCharacters(arr.map((_, i) => toChar(i)));
                 }}
+                startBtnText="Encode"
+                stopBtnText="Clear"
 
             />
             <div className="huffmanTree" ref={scope}>

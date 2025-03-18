@@ -45,7 +45,6 @@ function AddPoints(props) {
   useEffect(() => {
     handleReset();
     () => Timer.clear();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

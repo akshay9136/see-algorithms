@@ -27,9 +27,12 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@eslint/js": "^9.22.0",
     "@types/jquery": "^3.5.30",
-    "eslint": "^8",
+    "eslint": "^8.57.1",
     "eslint-config-next": "14.2.5",
+    "eslint-plugin-react": "^7.37.4",
+    "globals": "^16.0.0",
     "sass": "^1.77.8"
   },
   "homepage": "https://akshay9136.github.io/see-algorithms/"

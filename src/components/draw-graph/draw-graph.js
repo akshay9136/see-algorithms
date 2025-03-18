@@ -1,96 +1,33 @@
-import React, { useState, useEffect, useContext, Fragment } from 'react';
+import React, { useState, useContext, Fragment, useEffect } from 'react';
 import { Button, Checkbox, TextField, FormControlLabel } from '@mui/material';
 import { PlayArrow, Pause, Refresh } from '@mui/icons-material';
-import { showToast } from '../toast/toast';
-import styles from './draw-graph.module.css';
-import Graph from '@/common/graph';
-import $ from 'jquery';
-import { drawGraph, switchGraph } from '@/helpers/drawGraph';
-import { randomGraph } from '@/helpers/randomGraph';
-import { clearGraph } from '@/common/utils';
 import AppContext from '@/common/context';
-import Timer from '@/common/timer';
+import useGraphControls from '@/hooks/useGraphControls';
+import styles from './draw-graph.module.css';
 import Spinner from '../spinner/spinner';
 import { useRouter } from 'next/router';
+import Timer from '@/common/timer';
 
 function DrawGraph(props) {
-  const { setContext, userAuth, isDirGraph, playStatus } =
-    useContext(AppContext);
+  const { userAuth, isDirGraph, playStatus } = useContext(AppContext);
   const [source, setSource] = useState('A');
   const router = useRouter();
   const algoId = router.pathname.split('/')[2];
   const config = {
+    source,
     weighted: props.weighted || false,
     acyclic: algoId === 'TopSort',
     directed:
       algoId === 'TopSort' ||
       (isDirGraph && props.allowDirected !== false),
   };
-
-  const validate = () => {
-    let np = Graph.totalPoints();
-    let char = String.fromCharCode(64 + np);
-    let message = '';
-    if (np <= 1) {
-      message = 'Graph cannot be empty.';
-    } else if (source < 'A' || source > char) {
-      message = 'Please enter a valid source.';
-    } else if (!Graph.isConnected()) {
-      message = 'Please draw connected graph.';
-    }
-    if (message) {
-      showToast({ message, variant: 'error' });
-      return false;
-    }
-    return true;
-  };
-
-  const handlePlay = () => {
-    switch (playStatus) {
-      case 0:
-        if (validate()) {
-          $('#plane').off();
-          props.onStart(source.charCodeAt(0) - 65);
-          setContext({ playStatus: 1 });
-        }
-        break;
-      case -1:
-        setContext({ playStatus: 1 });
-        Timer.resume();
-        break;
-      default:
-        setContext({ playStatus: -1 });
-        Timer.pause();
-    }
-  };
-
-  const handleClear = () => {
-    props.onClear?.();
-    clearGraph();
-    drawGraph(config);
-    setContext({ playStatus: 0 });
-  };
+  const { handlePlay, handleClear, refresh, setDirected } =
+    useGraphControls(config, props);
 
   useEffect(() => {
     refresh();
     return () => Timer.clear();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [algoId]);
-
-  const setDirected = () => {
-    switchGraph();
-    $('#plane').off();
-    drawGraph(config);
-    setContext({ isDirGraph: !isDirGraph });
-  };
-
-  const refresh = () => {
-    randomGraph(5, config.weighted);
-    drawGraph(config);
-    if (config.directed) switchGraph();
-    setContext({ playStatus: 0 });
-    props.onClear?.();
-  };
 
   return (
     <Spinner className="drawGraph" spinning={false}>
@@ -142,7 +79,7 @@ function DrawGraph(props) {
         {userAuth && (
           <Button
             variant="contained"
-            onClick={() => validate() && saveGraph()}
+            // onClick={() => validate() && saveGraph()}
             disabled={playStatus !== 0}
           >
             Save

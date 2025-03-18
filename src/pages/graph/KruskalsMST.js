@@ -30,7 +30,7 @@ export default function KruskalsMST(props) {
 
 var parent;
 var arr, mst, k;
-var delay = 1000;
+var r, delay = 1000;
 
 function start() {
     arr = [];
@@ -56,6 +56,7 @@ function start() {
     mst = [];
     k = 0;
     Timer.timeout(nextMin, delay);
+    return new Promise((res) => (r = res));
 }
 
 function nextMin() {
@@ -81,7 +82,7 @@ function nextMin() {
             $('.edge').eq(arr[k].i).attr('stroke', 'orangered');
             Timer.timeout(reject, delay / 2);
         }
-    }
+    } else r();
 }
 
 function reject() {
