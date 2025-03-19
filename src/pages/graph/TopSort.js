@@ -11,15 +11,15 @@ export default function TopSort(props) {
     return (
         <>
             <p>
-                <strong>Topological Sorting</strong> is an ordering of nodes in a
-                directed acyclic graph (DAG) where each node appears before all
-                the nodes it points to. It is like creating a list of tasks,
+                <strong>Topological Sorting</strong> is an ordering of nodes in
+                a directed acyclic graph (DAG) where each node appears before
+                all the nodes it points to. It is like creating a list of tasks,
                 ensuring that each task comes after any tasks it depends on. The
-                sorting can be achieved using Kahn's algorithm or{' '}
+                sorting can be achieved using Kahn&apos;s algorithm or{' '}
                 <Link href="/graph/DFS">DFS</Link> with a stack.{' '}
-                <strong>Kahn's algorithm</strong> works by repeatedly removing
-                nodes with no incoming edges (zero in-degree) and adding them to
-                the order.
+                <strong>Kahn&apos;s algorithm</strong> works by repeatedly
+                removing nodes with no incoming edges (zero in-degree) and
+                adding them to the order.
             </p>
             <DrawGraph
                 {...props}
