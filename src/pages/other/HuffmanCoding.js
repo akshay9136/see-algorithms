@@ -5,6 +5,7 @@ import useAnimator from '@/hooks/useAnimator';
 import binaryTree from '@/common/binaryTree';
 import { Colors } from '@/common/constants';
 import { sleep, traverse } from '@/common/utils';
+import { Stack } from '@mui/material';
 
 var Tree, delay = 500;
 var queue, codes;
@@ -39,7 +40,7 @@ export default function HuffmanCoding() {
     const huffmanCoding = async () => {
         const root = huffmanTree();
         const arr = [];
-        traverse(root, (node) => arr.push(node.value));
+        traverse(root, (node) => arr.push(node));
         setNumbers(arr);
         await sleep(delay);
         codes = {};
@@ -82,17 +83,15 @@ export default function HuffmanCoding() {
 
     return (
         <>
-            <section>
-                <p>
-                    <strong>Huffman Coding</strong> is a lossless data
-                    compression algorithm that reduces the size of data by
-                    assigning shorter binary codes to more frequent symbols. It
-                    builds an optimal prefix tree, ensuring efficient encoding
-                    and decoding. Commonly used in file compression formats like
-                    ZIP and JPEG, Huffman Coding minimizes storage space without
-                    losing information.
-                </p>
-            </section>
+            <p>
+                <strong>Huffman Coding</strong> is a lossless data
+                compression algorithm that reduces the size of data by
+                assigning shorter binary codes to more frequent symbols. It
+                builds an optimal prefix tree, ensuring efficient encoding
+                and decoding. Commonly used in file compression formats like
+                ZIP and JPEG, Huffman Coding minimizes storage space without
+                losing information.
+            </p>
             {characters.length > 0 && (
                 <div className={styles.inputNumbers + ' mb-0 p-0'}>
                     <label className={styles.label}>Character:</label>
@@ -128,11 +127,26 @@ export default function HuffmanCoding() {
                 {numbers.slice(0, -1).map((_, i) => (
                     <Edge key={i} index={i} />
                 ))}
-                {numbers.map((num, i) => (
+                {numbers.map((node, i) => (
                     <Node
                         key={i}
                         index={i}
-                        value={num}
+                        value={
+                            node.char ? (
+                                <Stack
+                                    alignItems="center"
+                                    justifyContent="space-around"
+                                    position="relative"
+                                    top={15}
+                                    height={60}
+                                >
+                                    <span>{node.value}</span>
+                                    <span className="fw-bold">{node.char}</span>
+                                </Stack>
+                            ) : (
+                                node.value
+                            )
+                        }
                         animate={{ x: i * 50 }}
                         style={{ opacity: 0, borderRadius: 4 }}
                     />
