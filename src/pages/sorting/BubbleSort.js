@@ -78,19 +78,16 @@ export default function BubbleSort() {
 
     return (
         <>
-            <section>
-                <p>
-                    <strong>Bubble Sort</strong> is a simple sorting algorithm
-                    that works by repeatedly swapping adjacent elements if they
-                    are in the wrong order. This process continues until the
-                    list is fully sorted. While it’s easy to understand, Bubble
-                    Sort is not very efficient for large datasets due to its
-                    quadratic time complexity. It’s often used for educational
-                    purposes or as a baseline for comparison with other sorting
-                    algorithms.
-                </p>
-                {algorithm}
-            </section>
+            <p>
+                <strong>Bubble Sort</strong> is a simple sorting algorithm that
+                works by repeatedly swapping adjacent elements if they are in
+                the wrong order. This process continues until the list is fully
+                sorted. While it’s easy to understand, Bubble Sort is not very
+                efficient for large datasets due to its quadratic time
+                complexity. It’s often used for educational purposes or as a
+                baseline for comparison with other sorting algorithms.
+            </p>
+            {algorithm}
             <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="d-flex py-4" ref={scope}>
                 {numbers.map((num, i) => (

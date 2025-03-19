@@ -143,17 +143,14 @@ function RadixSort() {
 
     return (
         <>
-            <section>
-                <p>
-                    <strong>Radix Sort</strong> organizes numbers by sorting
-                    them digit by digit. It starts with the least significant
-                    digit (rightmost) and works to the most significant digit
-                    (leftmost). Numbers are placed into buckets based on each
-                    digit&apos;s value, then collected back together in order.
-                    This process is repeated for each digit, leading to a sorted
-                    list.
-                </p>
-            </section>
+            <p>
+                <strong>Radix Sort</strong> organizes numbers by sorting them
+                digit by digit. It starts with the least significant digit
+                (rightmost) and works to the most significant digit (leftmost).
+                Numbers are placed into buckets based on each digit&apos;s
+                value, then collected back together in order. This process is
+                repeated for each digit, leading to a sorted list.
+            </p>
             <Numbers onStart={start} onStop={stop} />
             <div id="numbers" className="numGrid mb-5" />
             <br />

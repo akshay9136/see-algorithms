@@ -81,18 +81,15 @@ export default function MergeSort() {
 
     return (
         <>
-            <section>
-                <p>
-                    <strong>Merge Sort</strong> is more advanced,
-                    divide-and-conquer algorithm that recursively splits an
-                    unsorted list into smaller sublists until each contains a
-                    single element. These sublists are then merged back together
-                    in a sorted manner. With a time complexity of O(n log n),
-                    Merge Sort is efficient and stable, making it suitable for
-                    handling large datasets.
-                </p>
-                {algorithm}
-            </section>
+            <p>
+                <strong>Merge Sort</strong> is more advanced, divide-and-conquer
+                algorithm that recursively splits an unsorted list into smaller
+                sublists until each contains a single element. These sublists
+                are then merged back together in a sorted manner. With a time
+                complexity of O(n log n), Merge Sort is efficient and stable,
+                making it suitable for handling large datasets.
+            </p>
+            {algorithm}
             <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="d-flex pt-4 mergeSort" ref={scope}>
                 {numbers.map((num, i) => (

@@ -83,27 +83,25 @@ export default function QuickSort() {
     const handleStart = (values) => {
         setNumbers(values);
         arr = values.slice();
-        sleep(delay).then(() =>
-            quickSort(0, arr.length - 1).catch(() => {})
-        );
+        sleep(delay).then(() => {
+            quickSort(0, arr.length - 1).catch(() => {});
+        });
     };
 
     const handleStop = () => setNumbers([]);
 
     return (
         <>
-            <section>
-                <p>
-                    <strong>Quick Sort</strong> is the speedster of sorting
-                    algorithms. It picks a <strong>pivot</strong> element and
-                    then arranges the rest of the elements into two groups:
-                    those less than the pivot and those greater. By recursively
-                    sorting these groups, Quick Sort efficiently sorts even the
-                    largest datasets. It is perfect blend of strategy and speed,
-                    making it one of the most popular sorting techniques.
-                </p>
-                {algorithm}
-            </section>
+            <p>
+                <strong>Quick Sort</strong> is the speedster of sorting
+                algorithms. It picks a <strong>pivot</strong> element and then
+                arranges the rest of the elements into two groups: those less
+                than the pivot and those greater. By recursively sorting these
+                groups, Quick Sort efficiently sorts even the largest datasets.
+                It is perfect blend of strategy and speed, making it one of the
+                most popular sorting techniques.
+            </p>
+            {algorithm}
             <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="d-flex py-5 mb-4" ref={scope}>
                 {numbers.map((num, i) => (

@@ -66,18 +66,16 @@ export default function InsertionSort() {
 
     return (
         <>
-            <section>
-                <p>
-                    Ever organized a hand of playing cards? Then you already
-                    know <strong>Insertion Sort</strong>! This algorithm takes
-                    each element from the unsorted part and slides it into its
-                    correct position in the sorted part. It is like placing a
-                    new card in the right spot of a sorted hand, making it
-                    intuitive and efficient for small dataset, especially for
-                    partially sorted lists.
-                </p>
-                {algorithm}
-            </section>
+            <p>
+                Ever organized a hand of playing cards? Then you already know{' '}
+                <strong>Insertion Sort</strong>! This algorithm takes each
+                element from the unsorted part and slides it into its correct
+                position in the sorted part. It is like placing a new card in
+                the right spot of a sorted hand, making it intuitive and
+                efficient for small dataset, especially for partially sorted
+                lists.
+            </p>
+            {algorithm}
             <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="d-flex py-5" ref={scope}>
                 {numbers.map((num, i) => (

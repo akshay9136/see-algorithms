@@ -84,13 +84,12 @@ export default function HuffmanCoding() {
     return (
         <>
             <p>
-                <strong>Huffman Coding</strong> is a lossless data
-                compression algorithm that reduces the size of data by
-                assigning shorter binary codes to more frequent symbols. It
-                builds an optimal prefix tree, ensuring efficient encoding
-                and decoding. Commonly used in file compression formats like
-                ZIP and JPEG, Huffman Coding minimizes storage space without
-                losing information.
+                <strong>Huffman Coding</strong> is a lossless data compression
+                algorithm that reduces the size of data by assigning shorter
+                binary codes to more frequent symbols. It builds an optimal
+                prefix tree, ensuring efficient encoding and decoding. Commonly
+                used in file compression formats like ZIP and JPEG, Huffman
+                Coding minimizes storage space without losing information.
             </p>
             {characters.length > 0 && (
                 <div className={styles.inputNumbers + ' mb-0 p-0'}>
@@ -121,7 +120,6 @@ export default function HuffmanCoding() {
                 }}
                 startBtnText="Encode"
                 stopBtnText="Clear"
-
             />
             <div className="huffmanTree" ref={scope}>
                 {numbers.slice(0, -1).map((_, i) => (

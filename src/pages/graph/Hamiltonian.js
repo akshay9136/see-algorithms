@@ -9,16 +9,14 @@ import { Colors } from '@/common/constants';
 export default function Hamiltonian(props) {
     return (
         <>
-            <section>
-                <p>
-                    A <strong>Hamiltonian Cycle</strong> is a path in a graph
-                    that visits every node exactly once and returns to the
-                    starting node. It is closely related to Travelling Salesman
-                    Problem, where the goal is to find the shortest possible
-                    Hamiltonian cycle. Hamiltonian cycles are useful in routing,
-                    scheduling, and circuit design.
-                </p>
-            </section>
+            <p>
+                A <strong>Hamiltonian Cycle</strong> is a path in a graph that
+                visits every node exactly once and returns to the starting node.
+                It is closely related to Travelling Salesman Problem, where the
+                goal is to find the shortest possible Hamiltonian cycle.
+                Hamiltonian cycles are useful in routing, scheduling, and
+                circuit design.
+            </p>
             <DrawGraph
                 {...props}
                 onStart={start}

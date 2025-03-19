@@ -31,18 +31,16 @@ export default function CircularQueue(props) {
 
     return (
         <>
-            <section>
-                <p>
-                    <strong>Circular Queue</strong> allows efficient use of
-                    space by reusing empty spots left by removed elements. In a
-                    circular queue, you have two pointers: one for the front
-                    (where you remove items) and one for the rear (where you add
-                    items). When the rear reaches the end, it circles back to
-                    the start, making the queue a continuous loop. This approach
-                    helps in situations where you have a fixed amount of memory
-                    and need to handle a continuous flow of data.
-                </p>
-            </section>
+            <p>
+                <strong>Circular Queue</strong> allows efficient use of space by
+                reusing empty spots left by removed elements. In a circular
+                queue, you have two pointers: one for the front (where you
+                remove items) and one for the rear (where you add items). When
+                the rear reaches the end, it circles back to the start, making
+                the queue a continuous loop. This approach helps in situations
+                where you have a fixed amount of memory and need to handle a
+                continuous flow of data.
+            </p>
             <DSInput {...props} buttons={buttons} />
             <div id="circularq" className="numGrid" />
         </>

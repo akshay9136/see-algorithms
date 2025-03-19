@@ -7,7 +7,8 @@ import { sleep } from '@/common/utils';
 import Link from 'next/link';
 import useAlgorithm from '@/hooks/useAlgorithm';
 
-var arr, Tree, delay = 500;
+var arr, Tree;
+var delay = 500;
 
 export default function HeapSort() {
     const [numbers, setNumbers] = useState([]);
@@ -97,21 +98,19 @@ export default function HeapSort() {
 
     return (
         <>
-            <section>
-                <p>
-                    <strong>Heap Sort</strong> is an efficient sorting algorithm
-                    that leverages a{' '}
-                    <Link href="/data-structures/BinaryHeap">Binary Heap</Link>{' '}
-                    data structure to organize and sort data. It works by first
-                    building a heap from the data and then repeatedly extracting
-                    the largest (or smallest) element from the heap and
-                    rebuilding the heap until all elements are sorted. This
-                    method is known for its reliable performance and in-place
-                    sorting capabilities, making it a strong choice for handling
-                    large datasets without requiring extra memory.
-                </p>
-                {algorithm}
-            </section>
+            <p>
+                <strong>Heap Sort</strong> is an efficient sorting algorithm
+                that leverages a{' '}
+                <Link href="/data-structures/BinaryHeap">Binary Heap</Link> data
+                structure to organize and sort data. It works by first building
+                a heap from the data and then repeatedly extracting the largest
+                (or smallest) element from the heap and rebuilding the heap
+                until all elements are sorted. This method is known for its
+                reliable performance and in-place sorting capabilities, making
+                it a strong choice for handling large datasets without requiring
+                extra memory.
+            </p>
+            {algorithm}
             <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="heapSort" ref={scope}>
                 {numbers.slice(0, -1).map((_, i) => (

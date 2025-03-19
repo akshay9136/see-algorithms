@@ -39,18 +39,15 @@ export default function BST(props) {
 
     return (
         <>
-            <section>
-                <p>
-                    A <strong>Binary Search Tree</strong> (BST) is like a
-                    well-organized library where each book (node) has a clear
-                    place based on its value. In a BST, each node has up to two
-                    children: the left child holds smaller values, and the right
-                    child holds larger values. This structure allows for
-                    efficient searching, adding, and removing of books, as you
-                    can quickly navigate left or right to find or insert a book
-                    in its proper place.
-                </p>
-            </section>
+            <p>
+                A <strong>Binary Search Tree</strong> (BST) is like a
+                well-organized library where each book (node) has a clear place
+                based on its value. In a BST, each node has up to two children:
+                the left child holds smaller values, and the right child holds
+                larger values. This structure allows for efficient searching,
+                adding, and removing of books, as you can quickly navigate left
+                or right to find or insert a book in its proper place.
+            </p>
             <DSInput {...props} buttons={buttons} />
             <div ref={scope} className="resizable">
                 {numbers.slice(0, -1).map((_, i) => (

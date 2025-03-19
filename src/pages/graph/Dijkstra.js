@@ -10,18 +10,14 @@ import Link from 'next/link';
 export default function Dijkstra(props) {
     return (
         <>
-            <section>
-                <p>
-                    <strong>Dijkstra&apos;s Algorithm</strong> finds the
-                    shortest path from a source node to all other nodes in a
-                    graph with non-negative weights. It uses a{' '}
-                    <Link href="/data-structures/BinaryHeap">
-                        priority queue
-                    </Link>{' '}
-                    to explore nodes in order of increasing distance. This
-                    algorithm is widely used in routing and navigation systems.
-                </p>
-            </section>
+            <p>
+                <strong>Dijkstra&apos;s Algorithm</strong> finds the shortest
+                path from a source node to all other nodes in a graph with
+                non-negative weights. It uses a{' '}
+                <Link href="/data-structures/BinaryHeap">priority queue</Link>{' '}
+                to explore nodes in order of increasing distance. This algorithm
+                is widely used in routing and navigation systems.
+            </p>
             <DrawGraph
                 {...props}
                 onStart={start}

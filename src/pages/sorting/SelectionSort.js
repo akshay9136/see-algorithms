@@ -86,20 +86,17 @@ export default function SelectionSort() {
 
     return (
         <>
-            <section>
-                <p>
-                    <strong>Selection Sort</strong> is like a choosy person
-                    picking the best apples. It scans the unsorted section,
-                    selects the smallest item, and places it at the correct
-                    position. This process repeats until the entire list is
-                    sorted. Selection sort minimizes the number of swaps needed
-                    compared to{' '}
-                    <Link href="/sorting/BubbleSort">Bubble Sort</Link>, which
-                    makes it useful when the cost of moving items is high, but
-                    finding the smallest item is easy.
-                </p>
-                {algorithm}
-            </section>
+            <p>
+                <strong>Selection Sort</strong> is like a choosy person picking
+                the best apples. It scans the unsorted section, selects the
+                smallest item, and places it at the correct position. This
+                process repeats until the entire list is sorted. Selection sort
+                minimizes the number of swaps needed compared to{' '}
+                <Link href="/sorting/BubbleSort">Bubble Sort</Link>, which makes
+                it useful when the cost of moving items is high, but finding the
+                smallest item is easy.
+            </p>
+            {algorithm}
             <InputNumbers onStart={handleStart} onStop={handleStop} />
             <div className="d-flex py-5 mb-4" ref={scope}>
                 {numbers.map((num, i) => (
