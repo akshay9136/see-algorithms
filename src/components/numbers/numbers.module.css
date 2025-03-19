@@ -24,7 +24,7 @@
   width: 52px;
   height: 42px;
   border: 2px solid;
-  border-radius: 4px;
+  border-radius: 12px;
   margin: 0 4px;
   display: flex;
   align-items: center;
@@ -37,7 +37,7 @@
   height: 35px;
   margin: 0 5px;
   position: absolute;
-  border-radius: 50%;
+  border-radius: 20px;
   background-color: white;
 }
 

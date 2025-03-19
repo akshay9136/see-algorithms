@@ -50,7 +50,7 @@ function bucket() {
                 margin-top:5px;
                 background-color:#ffe57f;
                 border:thin solid;
-                border-radius:4px;`
+                border-radius:8px;`
             );
             cells[j + n].innerHTML =
                 cells[k].innerHTML + cells[j + n].innerHTML;
@@ -114,7 +114,11 @@ function RadixSort() {
             cells[npn].setAttribute('align', 'center');
             cells[npn].setAttribute(
                 'style',
-                'font-weight:600; border-top:2px solid; text-align:center;'
+                `
+                font-weight:600;
+                border-top:2px solid;
+                border-radius:8px;
+                text-align:center;`
             );
             cells[n + i].setAttribute(
                 'style',

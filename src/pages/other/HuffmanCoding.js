@@ -146,7 +146,7 @@ export default function HuffmanCoding() {
                             )
                         }
                         animate={{ x: i * 50 }}
-                        style={{ opacity: 0, borderRadius: 4 }}
+                        style={{ opacity: 0 }}
                     />
                 ))}
                 {characters.map((char, i) => (
@@ -156,7 +156,7 @@ export default function HuffmanCoding() {
                         value={char}
                         animate={{ y: i * 50 }}
                         style={{
-                            borderRadius: 4,
+                            borderRadius: 8,
                             backgroundColor: Colors.vertex,
                             fontWeight: 'bold',
                         }}
