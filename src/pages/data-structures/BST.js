@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import DSInput from '@/components/ds-input/ds-input';
+import DSInput from '@/components/ds-input';
 import binarySearchTree from '@/helpers/binarySearchTree';
 import useAnimator from '@/hooks/useAnimator';
 import { Edge, Node } from '@/components/numbers';

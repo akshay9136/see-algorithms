@@ -1,10 +1,10 @@
 import React, { useState, useContext, Fragment, useEffect } from 'react';
 import { Button, Checkbox, TextField, FormControlLabel } from '@mui/material';
 import { PlayArrow, Pause, Refresh } from '@mui/icons-material';
+import Spinner from '../spinner';
+import styles from './draw-graph.module.css';
 import AppContext from '@/common/context';
 import useGraphControls from '@/hooks/useGraphControls';
-import styles from './draw-graph.module.css';
-import Spinner from '../spinner/spinner';
 import { useRouter } from 'next/router';
 import Timer from '@/common/timer';
 

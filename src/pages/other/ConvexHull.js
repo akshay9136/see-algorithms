@@ -1,6 +1,6 @@
 import React from 'react';
 import Graph, { Segment } from '@/common/graph';
-import AddPoints from '@/components/add-points/add-points';
+import AddPoints from '@/components/convex-hull/add-points';
 import $ from 'jquery';
 import { addPoints } from '@/helpers/convexHull';
 import { Colors } from '@/common/constants';

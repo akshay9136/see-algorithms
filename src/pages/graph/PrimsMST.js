@@ -1,7 +1,7 @@
 import React from 'react';
 import { getCostMatrix, spanEdge } from '@/common/utils';
 import Graph from '@/common/graph';
-import DrawGraph from '@/components/draw-graph/draw-graph';
+import DrawGraph from '@/components/draw-graph';
 import $ from 'jquery';
 import Timer from '@/common/timer';
 import { Colors } from '@/common/constants';
