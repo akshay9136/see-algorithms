@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { showToast } from "../toast/toast";
+import { showToast } from "../toast";
 import { Select, Input, Button, MenuItem } from "@mui/material";
 import styles from "./numbers.module.css";
 import { randomInt } from "@/common/utils";

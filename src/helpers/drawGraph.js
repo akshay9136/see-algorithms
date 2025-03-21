@@ -9,7 +9,7 @@ import {
     addCost,
 } from '../common/utils';
 import Graph, { Point, Segment } from '../common/graph';
-import { showToast } from '../components/toast/toast';
+import { showToast } from '../components/toast';
 import { Colors } from '../common/constants';
 
 export function drawGraph({ weighted, acyclic }) {

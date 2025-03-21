@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import DSInput from '@/components/ds-input/ds-input';
-import { showToast } from '@/components/toast/toast';
+import { showToast } from '@/components/toast';
 import { createGrid, randomInt } from '@/common/utils';
 
 const buttons = [

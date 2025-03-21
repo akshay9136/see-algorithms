@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { showToast } from '@/components/toast/toast';
+import { showToast } from '@/components/toast';
 import Graph from '@/common/graph';
 import $ from 'jquery';
 import { drawGraph, switchGraph } from '@/helpers/drawGraph';

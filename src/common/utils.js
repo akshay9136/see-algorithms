@@ -209,6 +209,13 @@ export {
     traverse,
 };
 
+export const groupBy = (arr, key) => {
+    return arr.reduce((acc, x) => {
+      (acc[x[key]] ??= []).push(x);
+      return acc;
+    }, {});
+};
+
 export const randomInt = () => Math.floor(Math.random() * 99) + 1;
 
 export const bgcolor = (id, color) => $(id).css('background-color', color);

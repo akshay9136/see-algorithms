@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { List, ListItemButton } from '@mui/material';
 import styles from './sider.module.css';
-import { Algorithms } from '@/common/constants';
-import AppContext from '@/common/context';
+import { categories } from '@/common/appData';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -10,8 +9,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Link from 'next/link';
 
 function Sider({ selected }) {
-  const { categories } = useContext(AppContext);
-
   const getPathname = (catname, algoId) => {
     const category = catname.split(' ').join('-').toLowerCase();
     return `/${category}/${algoId}`;
@@ -19,24 +16,24 @@ function Sider({ selected }) {
 
   return (
     <div className={styles.sider}>
-      {categories.map(({ catname, algorithms }) => (
-        <Accordion key={catname} disableGutters>
+      {Object.keys(categories).map((cat) => (
+        <Accordion key={cat} disableGutters>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             className={styles.category}
           >
-            {catname}
+            {cat}
           </AccordionSummary>
           <AccordionDetails>
             <List className="p-0">
-              {algorithms.map((algoId) => (
+              {categories[cat].map(({ id, name }) => (
                 <ListItemButton
-                  key={algoId}
+                  key={id}
                   component={Link}
-                  href={getPathname(catname, algoId)}
-                  selected={algoId === selected}
+                  href={getPathname(cat, id)}
+                  selected={id === selected}
                 >
-                  {Algorithms[algoId]}
+                  {name}
                 </ListItemButton>
               ))}
             </List>
