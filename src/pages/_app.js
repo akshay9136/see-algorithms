@@ -30,6 +30,10 @@ export default function App({ Component, pageProps }) {
   );
 }
 
+Array.prototype.findObj = function (prop, val) {
+  return this.find((obj) => obj[prop] === val);
+};
+
 Array.prototype.swap = function (u, v) {
   let num = this[u];
   this[u] = this[v];

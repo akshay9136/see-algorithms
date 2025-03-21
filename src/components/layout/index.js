@@ -10,7 +10,7 @@ function Layout({ children }) {
   const [menuVisible, setMenuVisible] = useState(false);
   const router = useRouter();
   const algoId = router.pathname.split('/')[2];
-  const { name, meta } = algorithms.find((a) => a.id == algoId) || {};
+  const { name, meta } = algorithms.findObj('id', algoId) || {};
 
   useEffect(() => {
     setMenuVisible(false);
