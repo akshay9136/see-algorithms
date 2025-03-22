@@ -80,6 +80,12 @@ export const algorithms = [
         meta: 'Learn Topological Sorting to order nodes in a directed graph, ensuring that each node appears before its dependencies.',
     },
     {
+        id: 'Hamiltonian',
+        name: 'Hamiltonian Cycle',
+        category: 'Graph',
+        meta: 'Learn about Hamiltonian Cycle, a path in a graph that visits each vertex exactly once and returns to the starting point.',
+    },
+    {
         id: 'BST',
         name: 'Binary Search Tree',
         category: 'Data Structures',

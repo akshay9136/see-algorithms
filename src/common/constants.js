@@ -8,25 +8,3 @@ export const Colors = {
   rejected: '#d3d3d3',
   visited: '#ff9800',
 };
-
-export const Algorithms = {
-  BubbleSort: 'Bubble Sort',
-  InsertionSort: 'Insertion Sort',
-  SelectionSort: 'Selection Sort',
-  RadixSort: 'Radix Sort',
-  HeapSort: 'Heap Sort',
-  MergeSort: 'Merge Sort',
-  QuickSort: 'Quick Sort',
-  DFS: 'Depth First Search',
-  BFS: 'Breadth First Search',
-  PrimsMST: "Prim's Algorithm",
-  KruskalsMST: "Kruskal's Algorithm",
-  Dijkstra: "Dijkstra's Algorithm",
-  TopSort: 'Topological Sorting',
-  Hamiltonian: 'Hamiltonian Cycle',
-  BST: 'Binary Search Tree',
-  BinaryHeap: 'Binary Heap',
-  CircularQueue: 'Circular Queue',
-  HuffmanCoding: 'Huffman Coding',
-  ConvexHull: 'Convex Hull',
-};
