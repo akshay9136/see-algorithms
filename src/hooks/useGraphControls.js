@@ -4,14 +4,14 @@ import Graph from '@/common/graph';
 import $ from 'jquery';
 import { drawGraph, switchGraph } from '@/helpers/drawGraph';
 import { randomGraph } from '@/helpers/randomGraph';
-import { clearGraph } from '@/common/utils';
+import { clearGraph, createGraph } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import AppContext from '@/common/context';
 import Timer from '@/common/timer';
 
 function useGraphControls(config, props) {
   const { isDirGraph, playStatus, setContext } = useContext(AppContext);
-  const { source } = config;
+  const { source, weighted, directed } = config;
 
   const validate = () => {
     let np = Graph.totalPoints();
@@ -76,11 +76,14 @@ function useGraphControls(config, props) {
   };
 
   const refresh = () => {
-    randomGraph(5, config.weighted);
-    drawGraph(config);
-    if (config.directed) switchGraph();
-    setContext({ playStatus: 0 });
     props.onClear?.();
+    clearGraph();
+    do Graph.initialize(randomGraph(5));
+    while (Graph.hasCycle());
+    createGraph(Graph.skeleton(), weighted);
+    drawGraph(config);
+    if (directed) switchGraph();
+    setContext({ playStatus: 0 });
   };
 
   return { handlePlay, handleClear, refresh, setDirected };

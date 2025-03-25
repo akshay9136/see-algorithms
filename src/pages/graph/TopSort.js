@@ -1,5 +1,10 @@
 import React from 'react';
-import { fromDistance, createGraph, appendCell } from '@/common/utils';
+import {
+    appendCell,
+    clearGraph,
+    createGraph,
+    fromDistance,
+} from '@/common/utils';
 import Graph, { Point } from '@/common/graph';
 import DrawGraph from '@/components/draw-graph';
 import $ from 'jquery';
@@ -75,7 +80,10 @@ async function topSort() {
         await Timer.sleep(delay).then(() => fall(i));
         await Timer.sleep(delay).then(topSort);
     } else {
-        createGraph(Graph.skeleton());
+        const graph = Graph.skeleton();
+        clearGraph();
+        Graph.initialize(graph);
+        createGraph(graph);
     }
 }
 

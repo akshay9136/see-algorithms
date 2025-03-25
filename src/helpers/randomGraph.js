@@ -1,9 +1,8 @@
-import { addCost, createGraph } from '@/common/utils';
 import $ from 'jquery';
 
 const EDGE_PROBABILITY = 0.3;
 
-export function randomGraph(np, weighted) {
+export function randomGraph(np) {
     const points = [];
     const matrix = [];
     const width = $('#plane').width();
@@ -24,7 +23,7 @@ export function randomGraph(np, weighted) {
     const connected = [0];
     for (let i = 1; i < np; i++) {
         const connectTo =
-            Array.from(connected)[Math.floor(Math.random() * connected.length)];
+            connected[Math.floor(Math.random() * connected.length)];
         matrix[i][connectTo] = segments.length;
         matrix[connectTo][i] = segments.length;
         connected.push(i);
@@ -42,10 +41,5 @@ export function randomGraph(np, weighted) {
             }
         }
     }
-    createGraph({ points, matrix, segments });
-    if (weighted) {
-        segments.forEach(([i, j]) => {
-            addCost([points[i], points[j]]);
-        });
-    }
+    return { points, matrix, segments };
 }

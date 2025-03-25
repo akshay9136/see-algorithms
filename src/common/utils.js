@@ -162,9 +162,8 @@ function clearGraph() {
     Graph.clear();
 }
 
-function createGraph(data) {
-    clearGraph();
-    const { points, segments, directed, costMatrix } = data;
+function createGraph(data, weighted) {
+    const { points, segments, directed } = data;
     points.forEach((p, i) => {
         addVertex(p, String.fromCharCode(65 + i));
     });
@@ -177,11 +176,8 @@ function createGraph(data) {
             $('.edge:last').attr('y2', y);
             $('.edge:last').attr('marker-end', 'url(#arrow)');
         }
-        if (costMatrix) {
-            addCost([p, q], costMatrix[i][j]);
-        }
+        if (weighted) addCost([p, q]);
     });
-    Graph.initialize(data);
 }
 
 function traverse(node, fn) {
