@@ -4,11 +4,11 @@ import Numbers from '@/components/numbers/input-numbers';
 import Timer from '@/common/timer';
 
 var a, n, cells;
-var out, b, k;
+var out, b;
 var max, exp;
 var delay = 700;
 
-function next() {
+function nextDigit() {
     for (let i = 0; i < n; i++) {
         let html = '</div>';
         let t = a[i];
@@ -27,37 +27,34 @@ function next() {
     }
 }
 
-function radixSort() {
-    next();
+function enqueue(i) {
+    const j = Math.floor(a[i] / exp) % 10;
+    b[j]++;
+    cells[i].style.backgroundColor = 'white';
+    cells[i].firstChild.setAttribute(
+        'style',
+        `
+        margin-top:5px;
+        background-color:#ffe57f;
+        border:thin solid;
+        border-radius:8px;`
+    );
+    cells[j + n].innerHTML =
+        cells[i].innerHTML + cells[j + n].innerHTML;
+    cells[i++].innerHTML = '';
+}
+
+async function radixSort() {
+    nextDigit();
     if (Math.floor(max / exp) > 0) {
         b = new Array();
         for (let j = 0; j < 10; j++) b[j] = 0;
-        k = 0;
-        Timer.timeout(bucket, delay);
-    }
-}
-
-function bucket() {
-    if (k < n) {
-        let j = Math.floor(a[k] / exp) % 10;
-        b[j]++;
-        cells[k].style.backgroundColor = '#ffe57f';
-        Timer.timeout(() => {
-            cells[k].style.backgroundColor = 'white';
-            cells[k].firstChild.setAttribute(
-                'style',
-                `
-                margin-top:5px;
-                background-color:#ffe57f;
-                border:thin solid;
-                border-radius:8px;`
-            );
-            cells[j + n].innerHTML =
-                cells[k].innerHTML + cells[j + n].innerHTML;
-            cells[k++].innerHTML = '';
-            Timer.timeout(bucket, delay);
-        }, delay);
-    } else {
+        for (let i = 0; i < n; i++) {
+            await Timer.sleep(delay);
+            cells[i].style.backgroundColor = '#ffe57f';
+            await Timer.sleep(delay);
+            enqueue(i);
+        }
         for (let j = 1; j < 10; j++) {
             b[j] += b[j - 1];
         }
@@ -66,30 +63,27 @@ function bucket() {
         }
         for (let i = 0; i < n; i++) a[i] = out[i];
         exp *= 10;
-        k--;
-        Timer.timeout(combine, delay, 10);
-    }
-}
-
-function combine(j) {
-    if (k >= 0) {
-        let bkt = cells[n + j - 1];
-        if (bkt.childNodes.length > 0) {
-            bkt.firstChild.removeAttribute('style');
-            cells[k].innerHTML = bkt.firstChild.outerHTML;
-            cells[k].style.backgroundColor = '#ffe57f';
-            k--;
-            bkt.removeChild(bkt.firstChild);
-            Timer.timeout(combine, delay, j);
-        } else {
-            combine(--j);
-        }
-    } else {
+        await putBack(n - 1);
+        await Timer.sleep(delay);
         for (let i = 0; i < n; i++) {
             cells[i].style.backgroundColor = 'white';
         }
-        Timer.timeout(radixSort, delay);
+        await Timer.sleep(delay);
+        radixSort();
     }
+}
+
+async function putBack(i, j = 9) {
+    let bkt = cells[n + j];
+    while (bkt.childNodes.length > 0) {
+        await Timer.sleep(delay);
+        bkt.firstChild.removeAttribute('style');
+        cells[i].innerHTML = bkt.firstChild.outerHTML;
+        cells[i].style.backgroundColor = '#ffe57f';
+        bkt.removeChild(bkt.firstChild);
+        i--;
+    }
+    if (j > 0) await putBack(i, --j);
 }
 
 function RadixSort() {
@@ -132,7 +126,7 @@ function RadixSort() {
         }
         exp = 1;
         out = new Array();
-        Timer.timeout(radixSort, delay);
+        Timer.sleep(delay).then(radixSort);
     };
 
     const stop = () => {
