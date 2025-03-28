@@ -158,7 +158,7 @@ export default function HuffmanCoding() {
                         value={char}
                         animate={{ y: i * 50 }}
                         style={{
-                            borderRadius: 8,
+                            borderRadius: 12,
                             backgroundColor: Colors.vertex,
                             fontWeight: 'bold',
                         }}
