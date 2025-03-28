@@ -212,6 +212,11 @@ export const groupBy = (arr, key) => {
     }, {});
 };
 
+export const sound = (name) => {
+    const sound = document.getElementById(`${name}Sound`);
+    sound?.play();
+}
+
 export const randomInt = () => Math.floor(Math.random() * 99) + 1;
 
 export const bgcolor = (id, color) => $(id).css('background-color', color);

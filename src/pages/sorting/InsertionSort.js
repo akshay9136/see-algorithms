@@ -3,7 +3,7 @@ import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { sleep } from '@/common/utils';
+import { sleep, sound } from '@/common/utils';
 
 var arr, delay = 800;
 
@@ -28,6 +28,7 @@ export default function InsertionSort() {
         for (let i = 1; i < arr.length; i++) {
             await sleep(delay);
             setCurrentStep('1,2');
+            sound('pop');
             await ty(`#box${i}`, -50, 0.5);
             setCurrentStep('3');
             await sleep(delay);
@@ -39,6 +40,7 @@ export default function InsertionSort() {
                 await tx(`#box${j}`, 60, 0.5);
                 j--;
             }
+            sound('swap');
             if (j < i - 1) {
                 arr[j + 1] = num;
                 let k = i - (j + 1);

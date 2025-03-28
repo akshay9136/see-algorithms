@@ -4,7 +4,7 @@ import styles from '@/components/numbers/numbers.module.css';
 import useAnimator from '@/hooks/useAnimator';
 import binaryTree from '@/common/binaryTree';
 import { Colors } from '@/common/constants';
-import { sleep, traverse } from '@/common/utils';
+import { sleep, sound, traverse } from '@/common/utils';
 import { Stack } from '@mui/material';
 
 var Tree, delay = 500;
@@ -43,7 +43,7 @@ export default function HuffmanCoding() {
         traverse(root, (node) => arr.push(node));
         setNumbers(arr);
         await sleep(delay);
-        codes = {};
+        sound('swap');
         renderTree(root);
         setCharcodes(codes);
     };
@@ -68,6 +68,7 @@ export default function HuffmanCoding() {
         queue = values.map((value, i) => {
             return { value, char: characters[i] };
         });
+        codes = {};
         Tree = binaryTree(animator);
         sleep(delay)
             .then(huffmanCoding)
@@ -117,6 +118,7 @@ export default function HuffmanCoding() {
                 onSelect={(n) => {
                     const arr = Array.from(Array(n));
                     setCharacters(arr.map((_, i) => toChar(i)));
+                    sound('pop');
                 }}
                 startBtnText="Encode"
                 stopBtnText="Clear"

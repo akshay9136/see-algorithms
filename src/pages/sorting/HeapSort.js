@@ -3,7 +3,7 @@ import { Edge, InputNumbers, Node } from '@/components/numbers';
 import useAnimator from '@/hooks/useAnimator';
 import binaryTree from '@/common/binaryTree';
 import { Colors } from '@/common/constants';
-import { sleep } from '@/common/utils';
+import { sleep, sound } from '@/common/utils';
 import Link from 'next/link';
 import useAlgorithm from '@/hooks/useAlgorithm';
 
@@ -23,6 +23,7 @@ export default function HeapSort() {
     `);
 
     const heapSort = async () => {
+        sound('swap');
         const n = arr.length;
         Tree.insert(arr[0]);
         for (let i = 1; i < n; i++) {
@@ -42,6 +43,7 @@ export default function HeapSort() {
             const first = Tree.node(0);
             const last = Tree.node(i);
             if (first.value !== last.value) {
+                sound('swap');
                 await Tree.swapNodes(first, last);
             }
             await bgcolor(`#node${last.index}`, Colors.sorted);
@@ -73,6 +75,7 @@ export default function HeapSort() {
         await bgcolor(`#node${node.index}`, Colors.compare);
         if (max !== node) {
             await bgcolor(`#node${max.index}`, Colors.compare);
+            sound('swap');
             await Tree.swapNodes(node, max);
             await bgcolor(`#node${node.index}`, Colors.white);
             await heapify(max, n);
@@ -85,6 +88,7 @@ export default function HeapSort() {
     const handleStart = (values) => {
         setNumbers(values);
         arr = values.slice();
+        sound('pop');
         Tree = binaryTree(animator);
         sleep(1500)
             .then(heapSort)

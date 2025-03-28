@@ -3,7 +3,7 @@ import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { sleep } from '@/common/utils';
+import { sleep, sound } from '@/common/utils';
 
 var arr, delay = 1000;
 
@@ -23,6 +23,7 @@ export default function QuickSort() {
     const swap = async (a, b) => {
         const d = b - a;
         await Promise.all([ty(`#box${a}`, 50), ty(`#box${b}`, -50)]);
+        sound('swap');
         await Promise.all([
             tx(`#box${a}`, d * 60, 0.2 * d),
             tx(`#box${b}`, -d * 60, 0.2 * d),

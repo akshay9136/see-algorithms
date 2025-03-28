@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { createGrid } from '@/common/utils';
+import { createGrid, sound } from '@/common/utils';
 import Numbers from '@/components/numbers/input-numbers';
 import Timer from '@/common/timer';
 
 var a, n, cells;
-var out, b;
 var max, exp;
+var out, b;
 var delay = 700;
 
 function nextDigit() {
@@ -53,11 +53,11 @@ async function radixSort() {
             await Timer.sleep(delay);
             cells[i].style.backgroundColor = '#ffe57f';
             await Timer.sleep(delay);
+            sound('pop');
             enqueue(i);
         }
-        for (let j = 1; j < 10; j++) {
-            b[j] += b[j - 1];
-        }
+        await Timer.sleep(delay);
+        for (let j = 1; j < 10; j++) b[j] += b[j - 1];
         for (let i = n - 1; i >= 0; i--) {
             out[--b[Math.floor(a[i] / exp) % 10]] = a[i];
         }
@@ -77,6 +77,7 @@ async function putBack(i, j = 9) {
     let bkt = cells[n + j];
     while (bkt.childNodes.length > 0) {
         await Timer.sleep(delay);
+        sound('pop');
         bkt.firstChild.removeAttribute('style');
         cells[i].innerHTML = bkt.firstChild.outerHTML;
         cells[i].style.backgroundColor = '#ffe57f';

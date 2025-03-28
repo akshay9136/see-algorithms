@@ -1,6 +1,6 @@
 import binaryTree from '@/common/binaryTree';
+import { sleep, sound } from '../common/utils';
 import { Colors } from '../common/constants';
-import { sleep } from '../common/utils';
 
 var delay = 500;
 
@@ -17,7 +17,9 @@ function binarySearchTree(animator) {
     };
 
     const replaceNode = async (node) => {
+        await sleep(delay);
         const child = await smallest(node.right);
+        sound('swap');
         await txy(`#node${child.index}`, node.x, node.y, 0.5);
         node.value = child.value;
         node.index = child.index;
@@ -75,13 +77,17 @@ function binarySearchTree(animator) {
     return Object.freeze({
         ...Tree,
         async insert(num, node) {
-            if (!Tree.root()) return Tree.insert(num);
+            if (!Tree.root()) {
+                sound('swap');
+                return Tree.insert(num);
+            }
             else node = node || Tree.root();
             await bgcolor(`#node${node.index}`, Colors.compare);
             await sleep(delay);
             const isLeft = num <= node.value;
             const next = isLeft ? 'left' : 'right';
             if (!node[next]) {
+                sound('swap');
                 Tree.insert(num, node, isLeft);
                 await sleep(delay);
                 await bgcolor(`#node${node.index}`, Colors.white);
@@ -93,6 +99,7 @@ function binarySearchTree(animator) {
         async findAndRemove(num) {
             const node = await findNode(num, Tree.root());
             if (!node) return;
+            sound('pop');
             animate(`#node${node.index}`, { opacity: 0 });
             const { left, right, parent } = node;
             if (!left && !right) {
@@ -101,7 +108,6 @@ function binarySearchTree(animator) {
                 if (node.isLeft) parent.left = null;
                 else parent.right = null;
             } else {
-                await sleep(delay);
                 return left && right
                     ? replaceNode(node)
                     : removeNode(node, left ? 'left' : 'right');

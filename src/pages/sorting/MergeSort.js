@@ -3,7 +3,7 @@ import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { sleep } from '@/common/utils';
+import { sleep, sound } from '@/common/utils';
 
 var arr, delay = 500;
 
@@ -34,6 +34,7 @@ export default function MergeSort() {
         while (r <= end) {
             let s = getMergeIndex(p, q, mid, end);
             tmp.push(arr[s]);
+            sound('swap');
             await txy(`#box${s}`, 60 * (r - s), ypos - 60, 0.5);
             await bgcolor(`#box${s}`, Colors.sorted);
             s === q ? q++ : p++;
@@ -55,9 +56,11 @@ export default function MergeSort() {
         if (start === end) return;
         const mid = Math.floor((start + end) / 2);
         await sleep(delay);
+        sound('pop');
         await split(start, mid, ypos);
         await mergeSort(start, mid, ypos + 60);
         await sleep(delay);
+        sound('pop');
         await split(mid + 1, end, ypos);
         await mergeSort(mid + 1, end, ypos + 60);
         await sleep(delay);

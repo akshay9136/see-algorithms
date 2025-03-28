@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import useAnimator from '@/hooks/useAnimator';
 import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { sleep } from '@/common/utils';
+import { sleep, sound } from '@/common/utils';
 import Link from 'next/link';
 import useAlgorithm from '@/hooks/useAlgorithm';
 
@@ -32,6 +32,7 @@ export default function SelectionSort() {
         let n = arr.length;
         for (let i = 0; i < n - 1; i++) {
             setCurrentStep('1');
+            sound('pop');
             await pickNumber(i);
             let k = i;
             for (let j = i + 1; j < n; j++) {
@@ -42,6 +43,7 @@ export default function SelectionSort() {
                 if (arr[j] < arr[k]) {
                     setCurrentStep('4');
                     ty(`#box${k}`, 0, 0.5);
+                    sound('pop');
                     await pickNumber(j);
                     k = j;
                 }
@@ -51,8 +53,10 @@ export default function SelectionSort() {
             if (k > i) {
                 setCurrentStep('6');
                 await ty(`#box${i}`, 50, 0.5);
+                sound('swap');
                 await swapNumbers(i, k);
             } else {
+                sound('swap');
                 await ty(`#box${k}`, 0, 0.5);
             }
             bgcolor(`#box${i}`, Colors.sorted);

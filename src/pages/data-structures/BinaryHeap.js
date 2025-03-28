@@ -4,7 +4,7 @@ import binaryTree from '@/common/binaryTree';
 import useAnimator from '@/hooks/useAnimator';
 import { Edge, Node } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { sleep } from '@/common/utils';
+import { sleep, sound } from '@/common/utils';
 
 var arr = [], Tree;
 var delay = 500;
@@ -19,6 +19,7 @@ export default function BinaryHeap(props) {
         arr.push(num);
         setNumbers(arr.slice());
         await sleep(delay);
+        sound('pop');
         if (!numbers.length) {
             Tree = binaryTree(animator);
             Tree.insert(num);
@@ -36,6 +37,7 @@ export default function BinaryHeap(props) {
         if (parent && node.value > parent.value) {
             await bgcolor(`#node${node.index}`, Colors.compare);
             await bgcolor(`#node${parent.index}`, Colors.compare);
+            sound('swap');
             await Tree.swapNodes(node, parent);
             await bgcolor(`#node${node.index}`, Colors.white);
             await heapify(parent);

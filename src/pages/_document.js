@@ -5,6 +5,8 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <link rel="icon" href="/favicon.png" />
+        <audio id="swapSound" src="/swap-sound.wav"></audio>
+        <audio id="popSound" src="/pop-sound.wav"></audio>
       </Head>
       <body>
         <Main />

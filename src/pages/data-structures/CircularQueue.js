@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import DSInput from '@/components/ds-input';
 import { showToast } from '@/components/toast';
-import { createGrid, randomInt } from '@/common/utils';
+import { createGrid, randomInt, sound } from '@/common/utils';
 
 const buttons = [
     { text: 'Enqueue', onClick: enqueue, validate: true },
@@ -12,10 +12,10 @@ export default function CircularQueue(props) {
     useEffect(() => {
         rear = 5;
         size = rear - front;
-        document.querySelector('#circularq').innerHTML = '';
-        createGrid(n, '#circularq');
-        createGrid(n, '#circularq');
-        createGrid(n, '#circularq');
+        document.querySelector('#cqueue').innerHTML = '';
+        createGrid(n, '#cqueue');
+        createGrid(n, '#cqueue');
+        createGrid(n, '#cqueue');
         cells = document.querySelectorAll('.cell');
         cells[front].textContent = 'Front';
         cells[n + n + rear].textContent = 'Rear';
@@ -42,7 +42,7 @@ export default function CircularQueue(props) {
                 continuous flow of data.
             </p>
             <DSInput {...props} buttons={buttons} />
-            <div id="circularq" className="numGrid" />
+            <div id="cqueue" className="numGrid" />
         </>
     );
 }
@@ -55,6 +55,7 @@ export function enqueue(num) {
     if (front === rear && size === n) {
         showToast({ message: 'Queue is full.', variant: 'error' });
     } else {
+        sound('pop');
         cells[n + rear].textContent = num;
         cells[n + n + rear].textContent = '';
         rear = ++rear % n;
@@ -68,6 +69,7 @@ export function dequeue() {
     if (front === rear && size === 0) {
         showToast({ message: 'Queue is empty.', variant: 'error' });
     } else {
+        sound('pop');
         cells[front].textContent = '';
         cells[front + n].textContent = '';
         front = ++front % n;

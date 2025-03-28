@@ -3,7 +3,7 @@ import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
-import { sleep } from '@/common/utils';
+import { sleep, sound } from '@/common/utils';
 
 var arr, delay = 800;
 
@@ -50,6 +50,7 @@ export default function BubbleSort() {
                 if (arr[j] > arr[j + 1]) {
                     swap = true;
                     setCurrentStep('4,5');
+                    sound('swap');
                     await swapNumbers(j, j + 1);
                     await sleep(delay);
                 }
