@@ -1,9 +1,9 @@
 import React from 'react';
-import { appendCell, cloneEdge, fromDistance, spanEdge } from '@/common/utils';
-import Graph from '@/common/graph';
 import DrawGraph from '@/components/draw-graph';
 import $ from 'jquery';
+import Graph from '@/common/graph';
 import Timer from '@/common/timer';
+import { appendCell, cloneEdge, fromDistance, spanEdge } from '@/common/utils';
 import { Colors } from '@/common/constants';
 
 export default function Hamiltonian(props) {

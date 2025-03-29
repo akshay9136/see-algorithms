@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import DSInput from '@/components/ds-input';
+import { Edge, Node } from '@/components/numbers';
 import binaryTree from '@/common/binaryTree';
 import useAnimator from '@/hooks/useAnimator';
-import { Edge, Node } from '@/components/numbers';
 import { Colors } from '@/common/constants';
 import { sleep, sound } from '@/common/utils';
 

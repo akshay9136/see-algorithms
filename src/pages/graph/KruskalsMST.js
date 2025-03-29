@@ -1,9 +1,10 @@
 import React from 'react';
-import Graph from '@/common/graph';
 import DrawGraph from '@/components/draw-graph';
 import $ from 'jquery';
+import Graph from '@/common/graph';
 import Timer from '@/common/timer';
 import { Colors } from '@/common/constants';
+import { sound } from '@/common/utils';
 
 export default function KruskalsMST(props) {
     return (
@@ -63,6 +64,7 @@ function nextMin() {
         let q = findParent(arr[k].v);
         if (p !== q) {
             parent[q] = p;
+            sound('pop');
             $('.vrtx').eq(arr[k].u).attr('stroke', Colors.visited);
             $('.vrtx').eq(arr[k].u).attr('fill', Colors.visited);
             $('.vrtx').eq(arr[k].v).attr('stroke', Colors.visited);
@@ -75,6 +77,7 @@ function nextMin() {
                 Timer.timeout(nextMin, delay);
             }, delay / 2);
         } else {
+            sound('pop');
             $('.vrtx').eq(arr[k].u).attr('stroke', 'orangered');
             $('.vrtx').eq(arr[k].v).attr('stroke', 'orangered');
             $('.edge').eq(arr[k].i).attr('stroke', 'orangered');

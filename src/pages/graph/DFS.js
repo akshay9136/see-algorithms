@@ -1,9 +1,9 @@
 import React from 'react';
-import { appendCell, spanEdge } from '@/common/utils';
-import Graph from '@/common/graph';
 import DrawGraph from '@/components/draw-graph';
 import $ from 'jquery';
+import Graph from '@/common/graph';
 import Timer from '@/common/timer';
+import { appendCell, sound, spanEdge } from '@/common/utils';
 import { Colors } from '@/common/constants';
 
 export default function DFS(props) {
@@ -22,11 +22,11 @@ export default function DFS(props) {
                 onStart={start}
                 onClear={() => {
                     $('#visited').html('');
-                    $('#stack').html('');
+                    $('#dfsStack').html('');
                 }}
             />
             <div id="visited" className="d-flex numGrid alphaGrid" />
-            <div id="stack" className="d-flex numGrid alphaGrid" />
+            <div id="dfsStack" className="d-flex numGrid alphaGrid" />
         </>
     );
 }
@@ -41,6 +41,7 @@ function start(source) {
     prev = [];
     i = source;
     Timer.timeout(() => {
+        sound('pop');
         $('.vrtx').eq(i).attr('stroke', Colors.visited);
         $('.vrtx').eq(i).attr('fill', Colors.visited);
         appendCell('#visited', String.fromCharCode(65 + i));
@@ -59,7 +60,8 @@ function explore(j) {
                 $('.vrtx').eq(j).attr('fill', Colors.enqueue);
                 stack.push(j);
                 prev[j] = i;
-                appendCell('#stack', String.fromCharCode(65 + j));
+                sound('pop');
+                appendCell('#dfsStack', String.fromCharCode(65 + j));
                 Timer.timeout(explore, delay, ++j);
             } else explore(++j);
         } else explore(++j);
@@ -72,7 +74,8 @@ function visit() {
     $('.vrtx').eq(i).attr('fill', Colors.vertex);
     if (stack.length) {
         i = stack.pop();
-        $('#stack').children().last().remove();
+        sound('pop');
+        $('#dfsStack').children().last().remove();
         if (v.indexOf(i) === -1) {
             v.push(i);
             Timer.timeout(() => {

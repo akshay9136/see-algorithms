@@ -1,9 +1,9 @@
 import React from 'react';
-import { appendCell, spanEdge } from '@/common/utils';
-import Graph from '@/common/graph';
 import DrawGraph from '@/components/draw-graph';
 import $ from 'jquery';
+import Graph from '@/common/graph';
 import Timer from '@/common/timer';
+import { appendCell, sound, spanEdge } from '@/common/utils';
 import { Colors } from '@/common/constants';
 
 export default function BFS(props) {
@@ -21,11 +21,11 @@ export default function BFS(props) {
                 onStart={start}
                 onClear={() => {
                     $('#visited').html('');
-                    $('#queue').html('');
+                    $('#bfsQueue').html('');
                 }}
             />
             <div id="visited" className="d-flex numGrid alphaGrid" />
-            <div id="queue" className="d-flex numGrid alphaGrid" />
+            <div id="bfsQueue" className="d-flex numGrid alphaGrid" />
         </>
     );
 }
@@ -41,6 +41,7 @@ function start(source) {
     i = source;
     k = 0;
     Timer.timeout(() => {
+        sound('pop');
         $('.vrtx').eq(i).attr('stroke', Colors.visited);
         $('.vrtx').eq(i).attr('fill', Colors.visited);
         appendCell('#visited', String.fromCharCode(65 + i));
@@ -59,7 +60,8 @@ function explore(j) {
                 $('.vrtx').eq(j).attr('fill', Colors.enqueue);
                 queue.push(j);
                 prev[j] = i;
-                appendCell('#queue', String.fromCharCode(65 + j));
+                sound('pop');
+                appendCell('#bfsQueue', String.fromCharCode(65 + j));
                 Timer.timeout(explore, delay, ++j);
             } else explore(++j);
         } else explore(++j);
@@ -72,7 +74,8 @@ function visit() {
     $('.vrtx').eq(i).attr('fill', Colors.vertex);
     if (queue.length) {
         i = queue.shift();
-        $('#queue').children().eq(k++).css('visibility', 'hidden');
+        sound('pop');
+        $('#bfsQueue').children().eq(k++).css('visibility', 'hidden');
         if (v.indexOf(i) === -1) {
             v.push(i);
             Timer.timeout(() => {

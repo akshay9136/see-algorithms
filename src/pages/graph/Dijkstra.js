@@ -1,9 +1,9 @@
 import React from 'react';
-import { createGrid, getCostMatrix, spanEdge } from '@/common/utils';
-import Graph from '@/common/graph';
 import DrawGraph from '@/components/draw-graph';
 import $ from 'jquery';
+import Graph from '@/common/graph';
 import Timer from '@/common/timer';
+import { createGrid, getCostMatrix, spanEdge } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import Link from 'next/link';
 

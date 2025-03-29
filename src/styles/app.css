@@ -117,7 +117,7 @@
   background-color: orange;
 }
 
-#stack div,
-#queue div {
+#dfsStack div,
+#bfsQueue div {
   background-color: #87cefa;
 }

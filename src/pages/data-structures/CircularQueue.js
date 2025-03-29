@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import DSInput from '@/components/ds-input';
-import { showToast } from '@/components/toast';
 import { createGrid, randomInt, sound } from '@/common/utils';
+import { showToast } from '@/components/toast';
 
 const buttons = [
     { text: 'Enqueue', onClick: enqueue, validate: true },

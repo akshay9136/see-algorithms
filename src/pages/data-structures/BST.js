@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import DSInput from '@/components/ds-input';
+import { Edge, Node } from '@/components/numbers';
 import binarySearchTree from '@/helpers/binarySearchTree';
 import useAnimator from '@/hooks/useAnimator';
-import { Edge, Node } from '@/components/numbers';
 import { sleep } from '@/common/utils';
 
 var arr = [], Tree;

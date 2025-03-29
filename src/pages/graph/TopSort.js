@@ -1,14 +1,15 @@
 import React from 'react';
+import DrawGraph from '@/components/draw-graph';
+import $ from 'jquery';
+import Graph, { Point } from '@/common/graph';
+import Timer from '@/common/timer';
 import {
     appendCell,
     clearGraph,
     createGraph,
     fromDistance,
+    sound,
 } from '@/common/utils';
-import Graph, { Point } from '@/common/graph';
-import DrawGraph from '@/components/draw-graph';
-import $ from 'jquery';
-import Timer from '@/common/timer';
 import { Colors } from '@/common/constants';
 import Link from 'next/link';
 
@@ -57,6 +58,7 @@ function start() {
 async function topSort() {
     if (stack.length > 0) {
         let i = stack.pop();
+        sound('pop');
         $(`.vrtx:eq(${i})`).attr('fill', Colors.visited);
         let promises = [];
         for (let j = 0; j < Graph.totalPoints(); j++) {
@@ -75,6 +77,7 @@ async function topSort() {
         }
         if (promises.length) {
             await Timer.sleep(delay);
+            sound('swap');
             await Promise.all(promises.map((p) => p()));
         }
         await Timer.sleep(delay).then(() => fall(i));
