@@ -8,20 +8,12 @@ import {
     throttle,
     addCost,
 } from '../common/utils';
-import Graph, { Point, Segment } from '../common/graph';
+import Graph, { Point } from '../common/graph';
 import { showToast } from '../components/toast';
 import { Colors } from '../common/constants';
 
 export function drawGraph({ weighted, acyclic }) {
     var px, ipx, flag, hold, drag;
-
-    function isValidEdge(p, q) {
-        if (!p || !q) return true;
-        return Graph.segments().every((seg) => {
-            let [r, s] = seg.map(Graph.point);
-            return !Segment.overlap([p, q], [r, s]);
-        });
-    }
 
     $('#plane').on('mousedown touchstart', (e) => {
         e.preventDefault();
@@ -39,6 +31,16 @@ export function drawGraph({ weighted, acyclic }) {
         ipx = k;
         px = p;
     });
+    
+    function overlaps(p) {
+        return Graph.segments().some((seg) => {
+            if (seg.includes(ipx)) {
+                const [r, s] = seg.map(Graph.point);
+                return Point.equal(p, r) || Point.equal(p, s);
+            }
+            return false;
+        });
+    }
 
     $('#plane').on('click touchend', function (e) {
         e.preventDefault();
@@ -49,11 +51,6 @@ export function drawGraph({ weighted, acyclic }) {
         }
         let p = cursorOffset(e);
         let np = Graph.totalPoints();
-        if (np === 0) {
-            addVertex(p, 'A');
-            Graph.addPoint(p);
-            return;
-        }
         let k;
         for (k = 0; k < np; k++) {
             let q = Graph.point(k);
@@ -67,7 +64,7 @@ export function drawGraph({ weighted, acyclic }) {
             $('.vrtx').eq(ipx).attr('stroke', Colors.stroke);
             flag = false;
             hold = false;
-            if (Point.equal(p, px) || !isValidEdge(px, p)) {
+            if (Point.equal(p, px) || overlaps(p)) {
                 $('.edge:last').remove();
                 return;
             }

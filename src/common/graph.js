@@ -137,13 +137,6 @@ export const Segment = {
         if (d === 0) return 0;
         return d > 0 ? 1 : 2;
     },
-
-    overlap([p, q], [r, s]) {
-        const { equal } = Point;
-        if (equal(p, r) && equal(q, s)) return true;
-        if (equal(q, r) && equal(p, s)) return true;
-        return false;
-    },
 };
 
 export default Graph;
