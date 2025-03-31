@@ -13,7 +13,7 @@ import { showToast } from '../components/toast';
 import { Colors } from '../common/constants';
 
 export function drawGraph({ weighted, acyclic }) {
-    var ipx, flag, hold, drag;
+    var px, ipx, flag, hold, drag;
 
     function isValidEdge(p, q) {
         if (!p || !q) return true;
@@ -31,12 +31,13 @@ export function drawGraph({ weighted, acyclic }) {
         for (k = 0; k < Graph.totalPoints(); k++) {
             let q = Graph.point(k);
             let d = Point.distance(p, q);
-            if (d < 25) {
+            if (d < 20) {
                 hold = true;
                 break;
             }
         }
         ipx = k;
+        px = p;
     });
 
     $('#plane').on('click touchend', function (e) {
@@ -57,7 +58,7 @@ export function drawGraph({ weighted, acyclic }) {
         for (k = 0; k < np; k++) {
             let q = Graph.point(k);
             let d = Point.distance(p, q);
-            if (d < 25) {
+            if (d < 20) {
                 p = q;
                 break;
             }
@@ -66,7 +67,6 @@ export function drawGraph({ weighted, acyclic }) {
             $('.vrtx').eq(ipx).attr('stroke', Colors.stroke);
             flag = false;
             hold = false;
-            const px = Graph.point(ipx);
             if (Point.equal(p, px) || !isValidEdge(px, p)) {
                 $('.edge:last').remove();
                 return;
@@ -111,6 +111,7 @@ export function drawGraph({ weighted, acyclic }) {
                 }
                 flag = true;
                 hold = false;
+                px = p;
             }
         }
     });
@@ -125,9 +126,13 @@ export function drawGraph({ weighted, acyclic }) {
                 $('.edge:last').attr('y2', p.y);
             } else if (hold) {
                 let p = cursorOffset(e);
-                Graph.setPoint(ipx, p);
-                moveVertex(ipx, p);
-                drag = true;
+                if (drag) {
+                    Graph.setPoint(ipx, p);
+                    moveVertex(ipx, p);
+                } else {
+                    let d = Point.distance(p, px);
+                    if (d > 5) drag = true;
+                }
             }
         }, 20)
     );
