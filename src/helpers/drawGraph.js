@@ -31,15 +31,11 @@ export function drawGraph({ weighted, acyclic }) {
         ipx = k;
         px = p;
     });
-    
-    function overlaps(p) {
-        return Graph.segments().some((seg) => {
-            if (seg.includes(ipx)) {
-                const [r, s] = seg.map(Graph.point);
-                return Point.equal(p, r) || Point.equal(p, s);
-            }
-            return false;
-        });
+
+    function overlaps(ip) {
+        return Graph.segments().some(
+            (seg) => seg.includes(ip) && seg.includes(ipx)
+        );
     }
 
     $('#plane').on('click touchend', function (e) {
@@ -64,7 +60,7 @@ export function drawGraph({ weighted, acyclic }) {
             $('.vrtx').eq(ipx).attr('stroke', Colors.stroke);
             flag = false;
             hold = false;
-            if (Point.equal(p, px) || overlaps(p)) {
+            if (Point.equal(p, px) || overlaps(k)) {
                 $('.edge:last').remove();
                 return;
             }
@@ -159,7 +155,7 @@ export function switchGraph() {
         });
     } else {
         Graph.segments().forEach((seg, i) => {
-            const [_, q] = seg.map(Graph.point);
+            const [, q] = seg.map(Graph.point);
             const el = $('.edge').eq(i);
             el.attr('x2', q.x);
             el.attr('y2', q.y);

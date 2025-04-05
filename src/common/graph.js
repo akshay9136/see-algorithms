@@ -92,7 +92,7 @@ const Graph = {
     indegree() {
         let np = points.length;
         let ind = new Array(np).fill(0);
-        segments.forEach(([i, j]) => ind[j]++);
+        segments.forEach(([, j]) => ind[j]++);
         return ind;
     },
 
@@ -124,8 +124,7 @@ export const Point = {
     equal: (p, q) => p.x === q.x && p.y === q.y,
 
     distance(p, q) {
-        let sum = (q.x - p.x) * (q.x - p.x) + (q.y - p.y) * (q.y - p.y);
-        return Math.sqrt(sum);
+        return Math.sqrt((q.x - p.x) ** 2 + (q.y - p.y) ** 2);
     },
 };
 
