@@ -1,7 +1,7 @@
 import React from 'react';
 import DrawGraph from '@/components/draw-graph';
 import $ from 'jquery';
-import Graph from '@/common/graph';
+import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
 import { appendCell, cloneEdge, fromDistance, spanEdge } from '@/common/utils';
 import { Colors } from '@/common/constants';
@@ -71,17 +71,17 @@ async function findCycle(i) {
 function revertSpan(i, j) {
     $('.vrtx').eq(i).attr('stroke', Colors.stroke);
     const ei = Graph.edgeIndex(i, j);
-    const edge = `<line stroke-width="2.5" stroke="${Colors.stroke}" />`;
+    const edge = `<path stroke-width="2.5" stroke="${Colors.stroke}" />`;
     const { p, q, d } = cloneEdge(i, j, edge);
     function span(d) {
         if (d > 0) {
             const r = fromDistance(p, q, d);
-            $('line:last').attr('x2', r.x);
-            $('line:last').attr('y2', r.y);
+            Path().last().attr('x2', r.x);
+            Path().last().attr('y2', r.y);
             return Timer.sleep(5).then(() => span(d - 1));
         } else {
-            $('line:last').remove();
-            $('.edge').eq(ei).attr('stroke', Colors.stroke);
+            Path().last().remove();
+            Path('.edge').eq(ei).attr('stroke', Colors.stroke);
         }
     }
     return span(d - 2);

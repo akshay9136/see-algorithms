@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { showToast } from '@/components/toast';
-import Graph from '@/common/graph';
+import Graph, { Path } from '@/common/graph';
 import $ from 'jquery';
 import { drawGraph, switchGraph } from '@/helpers/drawGraph';
 import { randomGraph } from '@/helpers/randomGraph';
@@ -48,8 +48,8 @@ function useGraphControls(config, props) {
       case -2:
         props.onClear?.();
         $('.vrtx').attr('stroke', Colors.stroke);
-        $('.edge').attr('stroke', Colors.stroke);
         $('.vrtx').attr('fill', Colors.vertex);
+        Path('.edge').attr('stroke', Colors.stroke);
         setContext({ playStatus: 1 });
         await Timer.sleep(1000);
         await props.onStart(source.charCodeAt(0) - 65);

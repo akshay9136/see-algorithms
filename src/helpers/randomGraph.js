@@ -27,7 +27,7 @@ export function randomGraph(np) {
         matrix[i][connectTo] = segments.length;
         matrix[connectTo][i] = segments.length;
         connected.push(i);
-        segments.push([i, connectTo]);
+        segments.push([connectTo, i]);
     }
     for (let i = 0; i < np; i++) {
         for (let j = i + 1; j < np; j++) {

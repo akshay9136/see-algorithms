@@ -118,6 +118,8 @@ const Graph = {
     },
 };
 
+export default Graph;
+
 export const Point = {
     create: (x, y) => ({ x, y }),
 
@@ -138,4 +140,25 @@ export const Segment = {
     },
 };
 
-export default Graph;
+import $ from 'jquery';
+
+export function Path(el = 'path') {
+    const _path = typeof el === 'string' ? $(el) : el;
+    return {
+        eq: (i) => Path(_path.eq(i)),
+        attr: (prop, value) => {
+            if (['x1', 'y1', 'x2', 'y2'].includes(prop)) {
+                const d = _path.attr('d') || '';
+                const [x1, y1, x2, y2] = d.replace(/[ML]/g, '').trim().split(/\s+/);
+                const coords = { x1, y1, x2, y2 };
+                coords[prop] = value;
+                _path.attr('d', `M${coords.x1} ${coords.y1} L${coords.x2} ${coords.y2}`);
+            } else {
+                _path.attr(prop, value);
+            }
+        },
+        remove: () => _path.remove(),
+        removeAttr: (prop) => _path.removeAttr(prop),
+        last: () => Path(_path.last()),
+    };
+}

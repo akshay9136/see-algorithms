@@ -1,7 +1,7 @@
 import React from 'react';
 import DrawGraph from '@/components/draw-graph';
 import $ from 'jquery';
-import Graph, { Point } from '@/common/graph';
+import Graph, { Path, Point } from '@/common/graph';
 import Timer from '@/common/timer';
 import {
     appendCell,
@@ -65,7 +65,7 @@ async function topSort() {
             let ei = Graph.edgeIndex(i, j);
             if (ei !== undefined && ind[j] !== 0) {
                 --ind[j];
-                $(`line:eq(${ei})`).attr('stroke', Colors.visited);
+                Path('.edge').eq(ei).attr('stroke', Colors.visited);
                 if (ind[j] === 0) {
                     $(`.vrtx:eq(${j})`).attr('stroke', Colors.visited);
                     stack.push(j);
@@ -95,12 +95,12 @@ function extract(i, j, d) {
     let ei = Graph.edgeIndex(i, j);
     if (d > 0) {
         let r = fromDistance(q, p, d);
-        $(`line:eq(${ei})`).attr('x2', r.x);
-        $(`line:eq(${ei})`).attr('y2', r.y);
+        Path('.edge').eq(ei).attr('x2', r.x);
+        Path('.edge').eq(ei).attr('y2', r.y);
         return Timer.sleep(5).then(() => extract(i, j, d - 2));
     } else {
-        $(`line:eq(${ei})`).removeAttr('stroke');
-        $(`line:eq(${ei})`).removeAttr('marker-end');
+        Path('.edge').eq(ei).removeAttr('stroke');
+        Path('.edge').eq(ei).removeAttr('marker-end');
     }
 }
 

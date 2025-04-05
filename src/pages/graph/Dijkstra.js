@@ -1,7 +1,7 @@
 import React from 'react';
 import DrawGraph from '@/components/draw-graph';
 import $ from 'jquery';
-import Graph from '@/common/graph';
+import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
 import { createGrid, getCostMatrix, spanEdge } from '@/common/utils';
 import { Colors } from '@/common/constants';
@@ -81,7 +81,7 @@ function dijkstra(i) {
             if (ei === undefined) continue;
             if (d[i] + w[i][j] < d[j]) {
                 d[j] = d[i] + w[i][j];
-                $('.edge').eq(ei).attr('stroke', Colors.enqueue);
+                Path('.edge').eq(ei).attr('stroke', Colors.enqueue);
                 $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
                 $('.vrtx').eq(j).attr('fill', Colors.enqueue);
                 cells[j].style.backgroundColor = Colors.enqueue;
