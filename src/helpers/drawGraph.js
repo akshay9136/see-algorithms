@@ -8,7 +8,7 @@ import {
     throttle,
     addCost,
 } from '../common/utils';
-import Graph, { Point } from '../common/graph';
+import Graph, { Path, Point } from '../common/graph';
 import { showToast } from '../components/toast';
 import { Colors } from '../common/constants';
 
@@ -61,34 +61,34 @@ export function drawGraph({ weighted, acyclic }) {
             flag = false;
             hold = false;
             if (Point.equal(p, px) || overlaps(k)) {
-                $('.edge:last').remove();
+                Path('.edge:last').remove();
                 return;
             }
-            $('.edge:last').attr('x2', p.x);
-            $('.edge:last').attr('y2', p.y);
+            Path('.edge:last').attr('x2', p.x);
+            Path('.edge:last').attr('y2', p.y);
             if (k === np) {
                 if (np === 26) {
-                    $('.edge:last').remove();
+                    Path('.edge:last').remove();
                     return;
                 }
                 addVertex(p, String.fromCharCode(65 + np));
                 Graph.addPoint(p);
             }
             Graph.addSegment(ipx, k);
-            if (weighted) addCost([px, p]);
+            if (weighted) addCost(px, p);
             if (Graph.isDirected()) {
                 if (acyclic && Graph.hasCycle()) {
                     showToast({
                         message: 'Please draw acyclic graph.',
                         variant: 'error',
                     });
-                    $('.edge:last').remove();
+                    Path('.edge:last').remove();
                     Graph.removeEdge(ipx, k);
                     return;
                 }
                 const q = fromDistance(px, p, 23);
-                $('.edge:last').attr('x2', q.x);
-                $('.edge:last').attr('y2', q.y);
+                Path('.edge:last').attr('x2', q.x);
+                Path('.edge:last').attr('y2', q.y);
             }
         } else {
             if (k === np) {
@@ -100,7 +100,7 @@ export function drawGraph({ weighted, acyclic }) {
                 addEdge(p, p);
                 $('.vrtx').eq(k).attr('stroke', Colors.visited);
                 if (Graph.isDirected()) {
-                    $('.edge:last').attr('marker-end', 'url(#arrow)');
+                    Path('.edge:last').attr('marker-end', 'url(#arrow)');
                 }
                 flag = true;
                 hold = false;
@@ -115,8 +115,8 @@ export function drawGraph({ weighted, acyclic }) {
             e.preventDefault();
             if (flag) {
                 let p = cursorOffset(e);
-                $('.edge:last').attr('x2', p.x);
-                $('.edge:last').attr('y2', p.y);
+                Path('.edge:last').attr('x2', p.x);
+                Path('.edge:last').attr('y2', p.y);
             } else if (hold) {
                 let p = cursorOffset(e);
                 if (drag) {
@@ -133,7 +133,7 @@ export function drawGraph({ weighted, acyclic }) {
     $('#plane').on('mouseleave', (e) => {
         e.preventDefault();
         if (flag) {
-            $('.edge:last').remove();
+            Path('.edge:last').remove();
             $('.vrtx').eq(ipx).attr('stroke', Colors.stroke);
         }
         flag = false;
@@ -148,7 +148,7 @@ export function switchGraph() {
         Graph.segments().forEach((seg, i) => {
             const [p, q] = seg.map(Graph.point);
             const r = fromDistance(p, q, 23);
-            const el = $('.edge').eq(i);
+            const el = Path('.edge').eq(i);
             el.attr('x2', r.x);
             el.attr('y2', r.y);
             el.attr('marker-end', 'url(#arrow)');
@@ -156,7 +156,7 @@ export function switchGraph() {
     } else {
         Graph.segments().forEach((seg, i) => {
             const [, q] = seg.map(Graph.point);
-            const el = $('.edge').eq(i);
+            const el = Path('.edge').eq(i);
             el.attr('x2', q.x);
             el.attr('y2', q.y);
             el.removeAttr('marker-end');

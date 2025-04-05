@@ -1,6 +1,6 @@
 import $ from 'jquery';
-import { cursorOffset, throttle } from '../common/utils';
 import Graph, { Point, Segment } from '../common/graph';
+import { cursorOffset, throttle } from '../common/utils';
 import { Colors } from '../common/constants';
 
 function print(p) {
@@ -75,7 +75,7 @@ export function addPoints(cvx) {
     });
 
     function newConvex() {
-        $('line').remove();
+        $('path').remove();
         cvx = [];
         left = 0;
         for (let i = 1; i < Graph.totalPoints(); i++) {
@@ -103,7 +103,7 @@ export function addPoints(cvx) {
             }
             let u = Graph.point(p);
             let v = Graph.point(q);
-            let edge = `<line x1="${u.x}" y1="${u.y}" x2="${v.x}" y2="${v.y}" stroke-width="2" stroke="${Colors.visited}" />`;
+            let edge = `<path d="M${u.x} ${u.y} L${v.x} ${v.y}" stroke-width="2" stroke="${Colors.visited}" />`;
             document.getElementById('plane').innerHTML += edge;
             p = q;
         } while (p !== left);

@@ -1,5 +1,5 @@
 import React from 'react';
-import Graph, { Segment } from '@/common/graph';
+import Graph, { Path, Segment } from '@/common/graph';
 import AddPoints from '@/components/convex-hull/add-points';
 import $ from 'jquery';
 import { addPoints } from '@/helpers/convexHull';
@@ -41,7 +41,7 @@ function next(i) {
             q = i;
             connect(Colors.stroke);
             Timer.timeout(() => {
-                $('line:last').remove();
+                Path().last().remove();
                 next(i + 1);
             }, delay);
             return;
@@ -57,7 +57,7 @@ function next(i) {
 function connect(color) {
     let u = Graph.point(p);
     let v = Graph.point(q);
-    let edge = `<line x1="${u.x}" y1="${u.y}" x2="${v.x}" y2="${v.y}" stroke-width="2" stroke="${color}" />`;
+    let edge = `<path d="M${u.x} ${u.y} L${v.x} ${v.y}" stroke-width="2" stroke="${color}" />`;
     document.getElementById('plane').innerHTML += edge;
-    $('line:last').insertBefore($('.vrtx:first'));
+    $('path:last').insertBefore($('.vrtx:first'));
 }

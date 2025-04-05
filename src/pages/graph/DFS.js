@@ -1,7 +1,7 @@
 import React from 'react';
 import DrawGraph from '@/components/draw-graph';
 import $ from 'jquery';
-import Graph from '@/common/graph';
+import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
 import { appendCell, sound, spanEdge } from '@/common/utils';
 import { Colors } from '@/common/constants';
@@ -55,7 +55,7 @@ function explore(j) {
         let ei = Graph.edgeIndex(i, j);
         if (ei !== undefined) {
             if (!v.includes(j) && !stack.includes(j)) {
-                $('.edge').eq(ei).attr('stroke', Colors.enqueue);
+                Path('.edge').eq(ei).attr('stroke', Colors.enqueue);
                 $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
                 $('.vrtx').eq(j).attr('fill', Colors.enqueue);
                 stack.push(j);

@@ -1,7 +1,7 @@
 import React from 'react';
 import DrawGraph from '@/components/draw-graph';
 import $ from 'jquery';
-import Graph from '@/common/graph';
+import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
 import { getCostMatrix, spanEdge } from '@/common/utils';
 import { Colors } from '@/common/constants';
@@ -59,7 +59,7 @@ function enqueue() {
     for (let k = 0; k < n; k++) {
         if (mst.indexOf(k) === -1 && w[i][k] !== undefined) {
             let ei = Graph.edgeIndex(i, k);
-            $('.edge').eq(ei).attr('stroke', Colors.enqueue);
+            Path('.edge').eq(ei).attr('stroke', Colors.enqueue);
             $('.vrtx').eq(k).attr('stroke', Colors.enqueue);
             $('.vrtx').eq(k).attr('fill', Colors.enqueue);
         }
@@ -81,7 +81,7 @@ function extractMin() {
             $('.vrtx').eq(j).attr('fill', Colors.visited);
             i = j;
             if (mst.length < n) {
-                Timer.timeout(enqueue, delay / 2);
+                Timer.timeout(enqueue, delay);
             }
         });
     }

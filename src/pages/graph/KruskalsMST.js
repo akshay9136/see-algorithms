@@ -1,7 +1,7 @@
 import React from 'react';
 import DrawGraph from '@/components/draw-graph';
 import $ from 'jquery';
-import Graph from '@/common/graph';
+import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
 import { Colors } from '@/common/constants';
 import { sound } from '@/common/utils';
@@ -69,7 +69,7 @@ function nextMin() {
             $('.vrtx').eq(arr[k].u).attr('fill', Colors.visited);
             $('.vrtx').eq(arr[k].v).attr('stroke', Colors.visited);
             $('.vrtx').eq(arr[k].v).attr('fill', Colors.visited);
-            $('.edge').eq(arr[k].i).attr('stroke', Colors.visited);
+            Path('.edge').eq(arr[k].i).attr('stroke', Colors.visited);
             Timer.timeout(() => {
                 $('.vrtx').eq(arr[k].u).attr('fill', Colors.vertex);
                 $('.vrtx').eq(arr[k].v).attr('fill', Colors.vertex);
@@ -80,7 +80,7 @@ function nextMin() {
             sound('pop');
             $('.vrtx').eq(arr[k].u).attr('stroke', 'orangered');
             $('.vrtx').eq(arr[k].v).attr('stroke', 'orangered');
-            $('.edge').eq(arr[k].i).attr('stroke', 'orangered');
+            Path('.edge').eq(arr[k].i).attr('stroke', 'orangered');
             Timer.timeout(reject, delay / 2);
         }
     } else r();
@@ -89,7 +89,7 @@ function nextMin() {
 function reject() {
     $('.vrtx').eq(arr[k].u).attr('stroke', Colors.visited);
     $('.vrtx').eq(arr[k].v).attr('stroke', Colors.visited);
-    $('.edge').eq(arr[k].i).attr('stroke', Colors.rejected);
+    Path('.edge').eq(arr[k].i).attr('stroke', Colors.rejected);
     k++;
     Timer.timeout(nextMin, delay);
 }

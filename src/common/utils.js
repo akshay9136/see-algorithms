@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import Graph, { Point } from './graph';
+import Graph, { Path, Point } from './graph';
 import { Colors } from './constants';
 import Timer from './timer';
 
@@ -39,7 +39,7 @@ function moveVertex(i, p) {
     Graph.segments().forEach((seg, ei) => {
         if (seg.includes(i)) {
             const [u, v] = seg.map(Graph.point);
-            const edge = $('.edge').eq(ei);
+            const edge = Path('.edge').eq(ei);
             edge.attr('x1', u.x);
             edge.attr('y1', u.y);
             edge.attr('x2', v.x);
@@ -58,12 +58,12 @@ function moveVertex(i, p) {
 }
 
 function addEdge(p, q) {
-    let edge = `<line class="edge" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" stroke-width="2.5" stroke="${Colors.stroke}" />`;
+    let edge = `<path class="edge" d="M${p.x} ${p.y} L${q.x} ${q.y}" stroke-width="2.5" stroke="${Colors.stroke}" />`;
     document.getElementById('plane').innerHTML += edge;
-    $('line:last').insertBefore($('.vgrp:first'));
+    $('path:last').insertBefore($('.vgrp:first'));
 }
 
-function addCost([p, q], cost) {
+function addCost(p, q, cost) {
     cost = cost || (Point.distance(p, q) / 10).toFixed();
     const handler = `
         event.stopPropagation();
@@ -79,9 +79,9 @@ function addCost([p, q], cost) {
 }
 
 function cloneEdge(i, j, edge) {
-    edge = edge || `<line stroke-width="4" stroke="${Colors.visited}" />`;
+    edge = edge || `<path stroke-width="4" stroke="${Colors.visited}" />`;
     document.getElementById('plane').innerHTML += edge;
-    $('line:last').insertBefore($('.vgrp:first'));
+    $('path:last').insertBefore($('.vgrp:first'));
     let p, q;
     let [r, s] = [i, j].map(Graph.point);
     if (Point.equal(r, Graph.point(i))) {
@@ -89,10 +89,10 @@ function cloneEdge(i, j, edge) {
     } else {
         [p, q] = [s, r];
     }
-    $('line:last').attr('x1', p.x);
-    $('line:last').attr('y1', p.y);
-    $('line:last').attr('x2', p.x);
-    $('line:last').attr('y2', p.y);
+    Path().last().attr('x1', p.x);
+    Path().last().attr('y1', p.y);
+    Path().last().attr('x2', p.x);
+    Path().last().attr('y2', p.y);
     let d = Point.distance(p, q);
     return { p, q, d };
 }
@@ -143,12 +143,12 @@ function spanEdge(i, j) {
     function span(d) {
         if (d > 0) {
             const r = fromDistance(p, q, d);
-            $('line:last').attr('x2', r.x);
-            $('line:last').attr('y2', r.y);
+            Path().last().attr('x2', r.x);
+            Path().last().attr('y2', r.y);
             return Timer.sleep(t).then(() => span(d - 2));
         } else {
-            $('line:last').remove();
-            $('.edge').eq(ei).attr('stroke', Colors.visited);
+            Path().last().remove();
+            Path('.edge').eq(ei).attr('stroke', Colors.visited);
             $('.vrtx').eq(j).attr('stroke', Colors.visited);
         }
     }
@@ -172,11 +172,11 @@ function createGraph(data, weighted) {
         addEdge(p, q);
         if (directed) {
             const { x, y } = fromDistance(p, q, 23);
-            $('.edge:last').attr('x2', x);
-            $('.edge:last').attr('y2', y);
-            $('.edge:last').attr('marker-end', 'url(#arrow)');
+            Path('.edge:last').attr('x2', x);
+            Path('.edge:last').attr('y2', y);
+            Path('.edge:last').attr('marker-end', 'url(#arrow)');
         }
-        if (weighted) addCost([p, q]);
+        if (weighted) addCost(p, q);
     });
 }
 
