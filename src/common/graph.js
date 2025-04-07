@@ -68,16 +68,14 @@ const Graph = {
 
     switchType() {
         directed = !directed;
-        if (points.length > 1) {
-            if (directed) {
-                segments.forEach(([i, j]) => {
-                    matrix[j][i] = undefined;
-                });
-            } else {
-                segments.forEach(([i, j]) => {
-                    matrix[j][i] = matrix[i][j];
-                });
-            }
+        if (directed) {
+            segments.forEach(([i, j]) => {
+                matrix[j][i] = undefined;
+            });
+        } else {
+            segments.forEach(([i, j]) => {
+                matrix[j][i] = matrix[i][j];
+            });
         }
     },
 
@@ -146,16 +144,17 @@ export function Path(el = 'path') {
     const _path = typeof el === 'string' ? $(el) : el;
     return {
         eq: (i) => Path(_path.eq(i)),
-        attr: (prop, value) => {
-            if (['x1', 'y1', 'x2', 'y2'].includes(prop)) {
+        attr: (prop, val) => {
+            if (val === undefined) return _path.attr(prop);
+            if (['x1', 'y1', 'x2', 'y2', 'cx', 'cy'].includes(prop)) {
                 const d = _path.attr('d') || '';
-                const [x1, y1, x2, y2] = d.replace(/[ML]/g, '').trim().split(/\s+/);
-                const coords = { x1, y1, x2, y2 };
-                coords[prop] = value;
-                _path.attr('d', `M${coords.x1} ${coords.y1} L${coords.x2} ${coords.y2}`);
-            } else {
-                _path.attr(prop, value);
+                const [x1, y1, cx, cy, x2, y2] = d.replace(/[MQ]/g, '').trim().split(/\s+/);
+                const coords = { x1, y1, cx, cy, x2, y2 };
+                coords[prop] = val;
+                const newD = `M ${coords.x1} ${coords.y1} Q ${coords.cx} ${coords.cy} ${coords.x2} ${coords.y2}`;
+                return _path.attr('d', newD);
             }
+            _path.attr(prop, val);
         },
         remove: () => _path.remove(),
         removeAttr: (prop) => _path.removeAttr(prop),

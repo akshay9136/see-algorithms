@@ -93,14 +93,19 @@ async function topSort() {
 function extract(i, j, d) {
     let [p, q] = [i, j].map(Graph.point);
     let ei = Graph.edgeIndex(i, j);
+    let edge = Path('.edge').eq(ei);
     if (d > 0) {
         let r = fromDistance(q, p, d);
-        Path('.edge').eq(ei).attr('x2', r.x);
-        Path('.edge').eq(ei).attr('y2', r.y);
+        edge.attr('x2', r.x);
+        edge.attr('y2', r.y);
+        let cx = (p.x + r.x) / 2;
+        let cy = (p.y + r.y) / 2;
+        edge.attr('cx', cx);
+        edge.attr('cy', cy);
         return Timer.sleep(5).then(() => extract(i, j, d - 2));
     } else {
-        Path('.edge').eq(ei).removeAttr('stroke');
-        Path('.edge').eq(ei).removeAttr('marker-end');
+        edge.removeAttr('stroke');
+        edge.removeAttr('marker-end');
     }
 }
 

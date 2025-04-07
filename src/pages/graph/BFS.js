@@ -66,7 +66,7 @@ function explore(j) {
             } else explore(++j);
         } else explore(++j);
     } else {
-        Timer.timeout(visit, delay);
+        Timer.timeout(visit, delay / 2);
     }
 }
 

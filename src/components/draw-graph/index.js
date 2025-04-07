@@ -95,7 +95,7 @@ function DrawGraph(props) {
               refX="5"
               refY="5"
               markerWidth="4"
-              markerHeight="6"
+              markerHeight="4"
               orient="auto-start-reverse"
             >
               <path d="M 0 0 L 10 5 L 0 10 z" />

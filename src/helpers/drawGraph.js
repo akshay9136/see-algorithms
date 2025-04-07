@@ -7,6 +7,7 @@ import {
     moveVertex,
     throttle,
     addCost,
+    findCurve,
 } from '../common/utils';
 import Graph, { Path, Point } from '../common/graph';
 import { showToast } from '../components/toast';
@@ -32,10 +33,8 @@ export function drawGraph({ weighted, acyclic }) {
         px = p;
     });
 
-    function overlaps(ip) {
-        return Graph.segments().some(
-            (seg) => seg.includes(ip) && seg.includes(ipx)
-        );
+    function isValidEdge(ip) {
+        return Graph.edgeIndex(ipx, ip) === undefined;
     }
 
     $('#plane').on('click touchend', function (e) {
@@ -60,7 +59,7 @@ export function drawGraph({ weighted, acyclic }) {
             $('.vrtx').eq(ipx).attr('stroke', Colors.stroke);
             flag = false;
             hold = false;
-            if (Point.equal(p, px) || overlaps(k)) {
+            if (Point.equal(p, px) || !isValidEdge(k)) {
                 Path('.edge:last').remove();
                 return;
             }
@@ -86,7 +85,22 @@ export function drawGraph({ weighted, acyclic }) {
                     Graph.removeEdge(ipx, k);
                     return;
                 }
-                const q = fromDistance(px, p, 23);
+                let q = fromDistance(px, p, 22);
+                if (overlaps(k)) {
+                    q = fromDistance(px, p, 22);
+                    let [cx, cy] = findCurve(px, q);
+                    Path('.edge:last').attr('cx', cx);
+                    Path('.edge:last').attr('cy', cy);
+                    $('.cost:last').parent().attr('x', cx);
+                    $('.cost:last').parent().attr('y', cy);
+                    let [u, v] = [k, ipx].map(Graph.point);
+                    let [cu, cv] = findCurve(u, fromDistance(u, v, 22));
+                    let ei = Graph.edgeIndex(k, ipx);
+                    Path('.edge').eq(ei).attr('cx', cu);
+                    Path('.edge').eq(ei).attr('cy', cv);
+                    $('.cost').eq(ei).parent().attr('x', cu);
+                    $('.cost').eq(ei).parent().attr('y', cv);
+                }
                 Path('.edge:last').attr('x2', q.x);
                 Path('.edge:last').attr('y2', q.y);
             }
@@ -108,6 +122,13 @@ export function drawGraph({ weighted, acyclic }) {
             }
         }
     });
+
+    function overlaps(ip) {
+        return (
+            Graph.edgeIndex(ipx, ip) !== undefined &&
+            Graph.edgeIndex(ip, ipx) !== undefined
+        );
+    }
 
     $('#plane').on(
         'mousemove touchmove',
@@ -146,17 +167,17 @@ export function switchGraph() {
     Graph.switchType();
     if (Graph.isDirected()) {
         Graph.segments().forEach((seg, i) => {
-            const [p, q] = seg.map(Graph.point);
-            const r = fromDistance(p, q, 23);
-            const el = Path('.edge').eq(i);
+            let [p, q] = seg.map(Graph.point);
+            let r = fromDistance(p, q, 22);
+            let el = Path('.edge').eq(i);
             el.attr('x2', r.x);
             el.attr('y2', r.y);
             el.attr('marker-end', 'url(#arrow)');
         });
     } else {
         Graph.segments().forEach((seg, i) => {
-            const [, q] = seg.map(Graph.point);
-            const el = Path('.edge').eq(i);
+            let [, q] = seg.map(Graph.point);
+            let el = Path('.edge').eq(i);
             el.attr('x2', q.x);
             el.attr('y2', q.y);
             el.removeAttr('marker-end');

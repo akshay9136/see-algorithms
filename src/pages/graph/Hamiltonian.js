@@ -3,7 +3,7 @@ import DrawGraph from '@/components/draw-graph';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
-import { appendCell, cloneEdge, fromDistance, spanEdge } from '@/common/utils';
+import { appendCell, cloneEdge, spanEdge } from '@/common/utils';
 import { Colors } from '@/common/constants';
 
 export default function Hamiltonian(props) {
@@ -71,18 +71,16 @@ async function findCycle(i) {
 function revertSpan(i, j) {
     $('.vrtx').eq(i).attr('stroke', Colors.stroke);
     const ei = Graph.edgeIndex(i, j);
-    const edge = `<path stroke-width="2.5" stroke="${Colors.stroke}" />`;
-    const { p, q, d } = cloneEdge(i, j, edge);
-    function span(d) {
-        if (d > 0) {
-            const r = fromDistance(p, q, d);
-            Path().last().attr('x2', r.x);
-            Path().last().attr('y2', r.y);
-            return Timer.sleep(5).then(() => span(d - 1));
-        } else {
-            Path().last().remove();
-            Path('.edge').eq(ei).attr('stroke', Colors.stroke);
-        }
+    Path('.edge').eq(ei).attr('stroke', Colors.stroke);
+    const edge = cloneEdge(j, i);
+    const d = edge[0].getTotalLength();
+    const t = 1000 / (d / 2);
+    edge.attr('stroke-dasharray', `${d} 0`);
+    function span(gap) {
+        if (gap < d) {
+            edge.attr('stroke-dasharray', `${d - gap} ${gap}`);
+            return Timer.sleep(t).then(() => span(gap + 2));
+        } else edge.remove();
     }
-    return span(d - 2);
+    return span(2);
 }

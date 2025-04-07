@@ -69,9 +69,8 @@ function useGraphControls(config, props) {
   };
 
   const setDirected = () => {
+    refresh();
     switchGraph();
-    $('#plane').off();
-    drawGraph(config);
     setContext({ isDirGraph: !isDirGraph });
   };
 
