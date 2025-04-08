@@ -140,7 +140,7 @@ export const Segment = {
 
 import $ from 'jquery';
 
-export function Path(el = 'path') {
+export function Path(el = '#plane path') {
     const _path = typeof el === 'string' ? $(el) : el;
     return {
         eq: (i) => Path(_path.eq(i)),

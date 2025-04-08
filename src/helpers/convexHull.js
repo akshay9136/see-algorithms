@@ -75,7 +75,7 @@ export function addPoints(cvx) {
     });
 
     function newConvex() {
-        $('path').remove();
+        $('#plane path').remove();
         cvx = [];
         left = 0;
         for (let i = 1; i < Graph.totalPoints(); i++) {

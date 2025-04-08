@@ -84,7 +84,7 @@ function addEdge(p, q) {
     let d = `M ${p.x} ${p.y} Q ${cx} ${cy} ${q.x} ${q.y}`;
     let edge = `<path class="edge" d="${d}" stroke-width="2.5" stroke="${Colors.stroke}" fill="transparent" />`;
     document.getElementById('plane').innerHTML += edge;
-    $('path:last').insertBefore($('.vgrp:first'));
+    $('.edge:last').insertBefore($('.vgrp:first'));
 }
 
 function addCost(p, q, cost) {
