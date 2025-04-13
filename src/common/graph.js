@@ -145,15 +145,17 @@ export function Path(el = '#plane path') {
     return {
         eq: (i) => Path(_path.eq(i)),
         attr: (prop, val) => {
-            if (val === undefined) return _path.attr(prop);
+            const hasVal = val !== undefined;
             if (['x1', 'y1', 'x2', 'y2', 'cx', 'cy'].includes(prop)) {
                 const d = _path.attr('d') || '';
                 const [x1, y1, cx, cy, x2, y2] = d.replace(/[MQ]/g, '').trim().split(/\s+/);
                 const coords = { x1, y1, cx, cy, x2, y2 };
+                if (!hasVal) return coords[prop];
                 coords[prop] = val;
                 const newD = `M ${coords.x1} ${coords.y1} Q ${coords.cx} ${coords.cy} ${coords.x2} ${coords.y2}`;
-                return _path.attr('d', newD);
+                _path.attr('d', newD);
             }
+            if (!hasVal) return _path.attr(prop);
             _path.attr(prop, val);
         },
         remove: () => _path.remove(),

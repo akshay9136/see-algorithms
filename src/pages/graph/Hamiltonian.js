@@ -1,7 +1,7 @@
 import React from 'react';
 import DrawGraph from '@/components/draw-graph';
 import $ from 'jquery';
-import Graph, { Path } from '@/common/graph';
+import Graph from '@/common/graph';
 import Timer from '@/common/timer';
 import { appendCell, cloneEdge, spanEdge } from '@/common/utils';
 import { Colors } from '@/common/constants';
@@ -61,7 +61,7 @@ async function findCycle(i) {
             if (await findCycle(j)) return true;
             v[j] = 0;
             await Timer.sleep(delay);
-            await revertSpan(j, i);
+            await revertSpan(i, j);
             $('#path').children().last().remove();
             await Timer.sleep(delay);
         }
@@ -69,17 +69,20 @@ async function findCycle(i) {
 }
 
 function revertSpan(i, j) {
-    $('.vrtx').eq(i).attr('stroke', Colors.stroke);
     const ei = Graph.edgeIndex(i, j);
-    Path('.edge').eq(ei).attr('stroke', Colors.stroke);
-    const edge = cloneEdge(j, i);
+    $('.edge').eq(ei).attr('stroke', Colors.stroke);
+    $('.vrtx').eq(j).attr('stroke', Colors.stroke);
+    const from = Number($('.edge').eq(ei).attr('data-from'));
+    const edge = cloneEdge(i, j);
     const d = edge[0].getTotalLength();
     const t = 1000 / (d / 2);
-    edge.attr('stroke-dasharray', `${d} 0`);
-    function span(gap) {
-        if (gap < d) {
-            edge.attr('stroke-dasharray', `${d - gap} ${gap}`);
-            return Timer.sleep(t).then(() => span(gap + 2));
+    function span(dash) {
+        if (dash < d) {
+            edge.attr('stroke-dasharray', `${d - dash} ${dash}`);
+            if (from !== i) {
+                edge.attr('stroke-dashoffset', d - dash);
+            }
+            return Timer.sleep(t).then(() => span(dash + 2));
         } else edge.remove();
     }
     return span(2);

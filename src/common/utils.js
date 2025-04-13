@@ -152,17 +152,20 @@ function getCostMatrix() {
 
 function spanEdge(i, j) {
     const ei = Graph.edgeIndex(i, j);
+    const from = Number($('.edge').eq(ei).attr('data-from'));
     const edge = cloneEdge(i, j);
     const d = edge[0].getTotalLength();
     const t = 1000 / (d / 2);
-    edge.attr('stroke-dasharray', `0 ${d}`);
     function span(dash) {
         if (dash < d) {
             edge.attr('stroke-dasharray', `${dash} ${d - dash}`);
+            if (from !== i) {
+                edge.attr('stroke-dashoffset', dash);
+            }
             return Timer.sleep(t).then(() => span(dash + 2));
         } else {
             edge.remove();
-            Path('.edge').eq(ei).attr('stroke', Colors.visited);
+            $('.edge').eq(ei).attr('stroke', Colors.visited);
             $('.vrtx').eq(j).attr('stroke', Colors.visited);
         }
     }
@@ -190,6 +193,7 @@ function createGraph(data, weighted) {
             Path('.edge:last').attr('y2', y);
             Path('.edge:last').attr('marker-end', 'url(#arrow)');
         }
+        $('.edge:last').attr('data-from', i);
         if (weighted) addCost(p, q);
     });
 }
