@@ -39,6 +39,12 @@ export function drawGraph({ weighted, acyclic }) {
 
     $('#plane').on('click touchend', function (e) {
         e.preventDefault();
+        let active = document.activeElement;
+        if (active?.tagName === 'INPUT') {
+            active.blur();
+            active.setAttribute('value', active.value);
+            return;
+        }
         if (hold && drag) {
             hold = false;
             drag = false;
