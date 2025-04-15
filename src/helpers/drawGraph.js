@@ -110,7 +110,6 @@ export function drawGraph({ weighted, acyclic }) {
                 Path('.edge:last').attr('x2', q.x);
                 Path('.edge:last').attr('y2', q.y);
             }
-            $('.edge:last').attr('data-from', ipx);
         } else {
             if (k === np) {
                 if (np < 26) {

@@ -72,14 +72,14 @@ function revertSpan(i, j) {
     const ei = Graph.edgeIndex(i, j);
     $('.edge').eq(ei).attr('stroke', Colors.stroke);
     $('.vrtx').eq(j).attr('stroke', Colors.stroke);
-    const from = Number($('.edge').eq(ei).attr('data-from'));
     const edge = cloneEdge(i, j);
     const d = edge[0].getTotalLength();
     const t = 1000 / (d / 2);
+    const seg = Graph.segments()[ei];
     function span(dash) {
         if (dash < d) {
             edge.attr('stroke-dasharray', `${d - dash} ${dash}`);
-            if (from !== i) {
+            if (i !== seg[0]) {
                 edge.attr('stroke-dashoffset', d - dash);
             }
             return Timer.sleep(t).then(() => span(dash + 2));
