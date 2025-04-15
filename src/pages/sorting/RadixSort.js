@@ -28,7 +28,7 @@ function nextDigit() {
 }
 
 function enqueue(i) {
-    const j = Math.floor(a[i] / exp) % 10;
+    let j = Math.floor(a[i] / exp) % 10;
     b[j]++;
     cells[i].style.backgroundColor = 'white';
     cells[i].firstChild.setAttribute(
@@ -99,6 +99,7 @@ function RadixSort() {
             cells[i].textContent = a[i];
             cells[i].style.border = '2px solid';
         }
+        cells[n].parentNode.style = 'align-items:end;'
         max = a[0];
         for (let i = 1; i < n; i++) {
             if (a[i] > max) max = a[i];
@@ -106,7 +107,6 @@ function RadixSort() {
         for (let i = 0; i < 10; i++) {
             let npn = i + 10 + n;
             cells[npn].textContent = i;
-            cells[npn].setAttribute('align', 'center');
             cells[npn].setAttribute(
                 'style',
                 `
