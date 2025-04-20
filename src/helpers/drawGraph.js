@@ -8,6 +8,7 @@ import {
     throttle,
     addCost,
     findCurve,
+    hasValue,
 } from '../common/utils';
 import Graph, { Path, Point } from '../common/graph';
 import { showToast } from '../components/toast';
@@ -34,13 +35,13 @@ export function drawGraph({ weighted, acyclic }) {
     });
 
     function isValidEdge(ip) {
-        return Graph.edgeIndex(ipx, ip) === undefined;
+        return !hasValue(Graph.edgeIndex(ipx, ip));
     }
 
     $('#plane').on('click touchend', function (e) {
         e.preventDefault();
         let active = document.activeElement;
-        if (active?.tagName === 'INPUT') {
+        if (active?.className === 'cost') {
             active.blur();
             active.setAttribute('value', active.value);
             return;
@@ -130,10 +131,9 @@ export function drawGraph({ weighted, acyclic }) {
     });
 
     function overlaps(ip) {
-        return (
-            Graph.edgeIndex(ipx, ip) !== undefined &&
-            Graph.edgeIndex(ip, ipx) !== undefined
-        );
+        let u = Graph.edgeIndex(ipx, ip);
+        let v = Graph.edgeIndex(ip, ipx);
+        return hasValue(u) && hasValue(v);
     }
 
     $('#plane').on(

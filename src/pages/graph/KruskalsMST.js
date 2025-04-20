@@ -4,7 +4,7 @@ import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
 import { Colors } from '@/common/constants';
-import { sound } from '@/common/utils';
+import { hasValue, sound } from '@/common/utils';
 
 export default function KruskalsMST(props) {
     return (
@@ -44,7 +44,7 @@ function start() {
         parent[i] = i;
         for (let j = 0; j < n; j++) {
             let ei = Graph.edgeIndex(i, j);
-            if (ei !== undefined) {
+            if (hasValue(ei)) {
                 arr[ei].u = i;
                 arr[ei].v = j;
                 arr[ei].i = ei;

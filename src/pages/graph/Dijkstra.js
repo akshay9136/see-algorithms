@@ -3,7 +3,7 @@ import DrawGraph from '@/components/draw-graph';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
-import { createGrid, getCostMatrix, spanEdge } from '@/common/utils';
+import { createGrid, getCostMatrix, hasValue, spanEdge } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import Link from 'next/link';
 
@@ -78,7 +78,7 @@ function dijkstra(i) {
     for (let j = 0; j < n; j++) {
         if (v.indexOf(j) === -1) {
             let ei = Graph.edgeIndex(i, j);
-            if (ei === undefined) continue;
+            if (!hasValue(ei)) continue;
             if (d[i] + w[i][j] < d[j]) {
                 d[j] = d[i] + w[i][j];
                 Path('.edge').eq(ei).attr('stroke', Colors.enqueue);

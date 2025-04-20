@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, ListItemButton } from '@mui/material';
+import { List, ListItemButton, Typography } from '@mui/material';
 import styles from './sider.module.css';
 import { algorithms, categories } from '@/common/appData';
 import Accordion from '@mui/material/Accordion';
@@ -20,16 +20,14 @@ function Sider({ selected }) {
   return (
     <div className={styles.sider}>
       {Object.keys(categories).map((cat) => (
-        <Accordion
-          key={cat}
-          defaultExpanded={cat === category}
-          disableGutters
-        >
+        <Accordion key={cat} defaultExpanded={cat === category} disableGutters>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             className={styles.category}
           >
-            {cat}
+            <Typography variant="button" fontWeight={600}>
+              {cat}
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <List className="p-0">
@@ -40,7 +38,7 @@ function Sider({ selected }) {
                   href={getPathname(cat, id)}
                   selected={id === selected}
                 >
-                  {name}
+                  <Typography variant="subtitle1">{name}</Typography>
                 </ListItemButton>
               ))}
             </List>

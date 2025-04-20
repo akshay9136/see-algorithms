@@ -1,3 +1,4 @@
+import { hasValue } from '@/common/utils';
 import $ from 'jquery';
 
 const EDGE_PROBABILITY = 0.3;
@@ -13,9 +14,11 @@ export function randomGraph(np) {
     const radiusY = height / 4;
     const offset = Math.random() * 2 * Math.PI;
     for (let i = 0; i < np; i++) {
-        const angle = offset + (2 * Math.PI * i) / np; // Evenly distribute angles
-        const x = centerX + radiusX * Math.cos(angle);
-        const y = centerY + radiusY * Math.sin(angle);
+        let angle = offset + (2 * Math.PI * i) / np; // Evenly distribute angles
+        let x = centerX + radiusX * Math.cos(angle);
+        let y = centerY + radiusY * Math.sin(angle);
+        x = Math.round(x);
+        y = Math.round(y);
         points.push({ x, y });
         matrix[i] = [];
     }
@@ -33,7 +36,7 @@ export function randomGraph(np) {
         for (let j = i + 1; j < np; j++) {
             if (
                 Math.random() < EDGE_PROBABILITY &&
-                matrix[i][j] === undefined
+                !hasValue(matrix[i][j])
             ) {
                 matrix[i][j] = segments.length;
                 matrix[j][i] = segments.length;

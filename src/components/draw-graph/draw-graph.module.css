@@ -6,14 +6,12 @@
 
 .toolbar .title {
     font-size: 1.15rem;
+    font-weight: bold;
     position: absolute;
     left: 0;
 }
 .toolbar .source {
     width: 90px;
-    margin-left: 1rem;
-}
-.toolbar button {
     margin-left: 1rem;
 }
 

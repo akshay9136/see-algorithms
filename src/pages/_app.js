@@ -1,9 +1,17 @@
 import '@/styles/globals.css';
 import '@/styles/app.css';
 import { useEffect, useState } from 'react';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import AppContext, { initialState } from '../common/context';
 import Layout from '@/components/layout';
 import Toast from '@/components/toast';
+
+const theme = createTheme({
+  typography: {
+    fontFamily: 'Nunito, sans-serif',
+  },
+});
 
 export default function App({ Component, pageProps }) {
   const [state, setState] = useState(initialState);
@@ -21,12 +29,15 @@ export default function App({ Component, pageProps }) {
   }, []);
 
   return (
-    <AppContext.Provider value={{ ...state, setContext }}>
-      <Toast />
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </AppContext.Provider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <AppContext.Provider value={{ ...state, setContext }}>
+        <Toast />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </AppContext.Provider>
+    </ThemeProvider>
   );
 }
 

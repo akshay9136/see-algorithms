@@ -1,46 +1,26 @@
-/* eslint-disable react/no-unescaped-entities */
-import React, { useContext, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import AppContext from '@/common/context';
+import React from 'react';
+import { Box, Container, Typography } from '@mui/material';
+import Features from '../components/features';
 
-export default function Home() {
-  const router = useRouter();
-  const { userAuth } = useContext(AppContext);
-
-  useEffect(() => {
-    const token = router.query['token'];
-    if (token) {
-      // verifyEmail(token);
-      router.replace(router.pathname);
-    }
-  }, []);
-
+export default function HomePage() {
   return (
-    <main>
-      <h5 className="my-3">Welcome to see algorithms!</h5>
-      <p>
-        Unlock the power of understanding through <strong>visualization</strong>
-        . At <i>see algorithms</i>, we believe that learning complex concepts
-        should be as engaging and accessible as possible. Our platform offers{' '}
-        <strong>interactive animations</strong> that bring algorithms to life,
-        transforming abstract ideas into visual stories that are easy to follow
-        and understand.
-      </p>
-      <p>
-        From sorting and searching to more advanced{' '}
-        <strong>data structures and algorithms</strong>, <i>see algorithms</i>{' '}
-        provides a hands-on approach to learning. Each animation is carefully
-        crafted to walk you through the inner workings of various algorithms,
-        step by step. Whether you're a student seeking to solidify your
-        knowledge, an educator looking for dynamic teaching tools, or simply
-        someone with a passion for computer science, you'll find value in our
-        extensive library of visual resources.
-      </p>
-      <p>
-        Explore our collection, interact with the animations, and see algorithms
-        in action. Discover how <strong>visual learning</strong> can deepen your
-        understanding, enhance your retention, and spark your curiosity.
-      </p>
-    </main>
+    <Container sx={{p: 0 }}>
+      <Typography variant="h4" align="center" my={3}>
+        Visualization of Algorithms
+      </Typography>
+      <Typography variant="h6" align="center">
+        Short explanations. Interactive steps. Share your learning.
+      </Typography>
+      <Typography variant="body1" my={4}>
+        From sorting and searching to more advanced data structures and
+        algorithms, <strong>see algorithms</strong> provides a hands-on approach
+        to learning. Each animation is carefully crafted to walk you through the
+        inner workings of various algorithms, step by step. Whether you're a
+        student seeking to solidify your knowledge, an educator looking for
+        dynamic teaching tools, or simply someone with a passion for computer
+        science, you'll find value in our extensive library of visual resources.
+      </Typography>
+      <Features />
+    </Container>
   );
 }

@@ -8,6 +8,7 @@ import {
     clearGraph,
     createGraph,
     fromDistance,
+    hasValue,
     sound,
 } from '@/common/utils';
 import { Colors } from '@/common/constants';
@@ -63,7 +64,7 @@ async function topSort() {
         let promises = [];
         for (let j = 0; j < Graph.totalPoints(); j++) {
             let ei = Graph.edgeIndex(i, j);
-            if (ei !== undefined && ind[j] !== 0) {
+            if (hasValue(ei) && ind[j] !== 0) {
                 --ind[j];
                 Path('.edge').eq(ei).attr('stroke', Colors.visited);
                 if (ind[j] === 0) {

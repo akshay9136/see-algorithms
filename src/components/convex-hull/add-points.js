@@ -55,6 +55,7 @@ function AddPoints(props) {
           variant="contained"
           startIcon={playStatus > 0 ? <Pause /> : <PlayArrow />}
           onClick={handlePlay}
+          sx={{ mr: 2 }}
         >
           {playStatus > 0 ? 'Pause' : 'Play'}
         </Button>

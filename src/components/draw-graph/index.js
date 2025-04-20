@@ -1,15 +1,24 @@
-import React, { useState, useContext, Fragment, useEffect } from 'react';
-import { Button, Checkbox, TextField, FormControlLabel } from '@mui/material';
-import { PlayArrow, Pause, Refresh } from '@mui/icons-material';
+import React, { useState, useContext, useEffect } from 'react';
+import {
+  Button,
+  Checkbox,
+  TextField,
+  FormControlLabel,
+  IconButton,
+} from '@mui/material';
+import { PlayArrow, Pause, Refresh, Share } from '@mui/icons-material';
 import Spinner from '../spinner';
 import styles from './draw-graph.module.css';
 import AppContext from '@/common/context';
 import useGraphControls from '@/hooks/useGraphControls';
 import { useRouter } from 'next/router';
 import Timer from '@/common/timer';
+import Graph from '@/common/graph';
+import { createGraph, getCostMatrix } from '@/common/utils';
+import { showToast } from '../toast';
 
 function DrawGraph(props) {
-  const { userAuth, isDirGraph, playStatus } = useContext(AppContext);
+  const { isDirGraph, playStatus } = useContext(AppContext);
   const [source, setSource] = useState('A');
   const router = useRouter();
   const algoId = router.pathname.split('/')[2];
@@ -18,8 +27,7 @@ function DrawGraph(props) {
     weighted: props.weighted || false,
     acyclic: algoId === 'TopSort',
     directed:
-      algoId === 'TopSort' ||
-      (isDirGraph && props.allowDirected !== false),
+      algoId === 'TopSort' || (isDirGraph && props.allowDirected !== false),
   };
   const { handlePlay, handleClear, refresh, setDirected } =
     useGraphControls(config, props);
@@ -27,7 +35,35 @@ function DrawGraph(props) {
   useEffect(() => {
     refresh();
     return () => Timer.clear();
-  }, [algoId]);
+  }, [algoId, router]);
+
+  useEffect(() => {
+    const { skeleton } = router.query;
+    if (skeleton) {
+      handleClear();
+      try {
+        const graph = JSON.parse(atob(skeleton));
+        Graph.initialize(graph);
+        createGraph(graph, config.weighted);
+      } catch {
+        handleClear();
+      }
+    }
+  }, [router]);
+
+  const handleSave = () => {
+    const graph = JSON.stringify({
+      ...Graph.skeleton(),
+      costMatrix: getCostMatrix(),
+    });
+    const origin = window.location.origin;
+    const url = `${origin}${router.pathname}?skeleton=${btoa(graph)}`;
+    navigator.clipboard.writeText(url);
+    showToast({
+      message: 'Graph url is copied to clipboard.',
+      variant: 'success',
+    });
+  };
 
   return (
     <Spinner className="drawGraph" spinning={false}>
@@ -36,7 +72,7 @@ function DrawGraph(props) {
         <Button onClick={refresh} style={{ minWidth: 50 }}>
           <Refresh />
         </Button>
-        <Fragment>
+        <>
           {props.allowDirected !== false && (
             <FormControlLabel
               control={
@@ -64,27 +100,22 @@ function DrawGraph(props) {
               size="small"
             />
           )}
-        </Fragment>
+        </>
         <Button
           variant="contained"
           startIcon={playStatus > 0 ? <Pause /> : <PlayArrow />}
           onClick={handlePlay}
           disabled={Boolean(props.isDAG && playStatus)}
+          sx={{ ml: 2 }}
         >
           {playStatus > 0 ? 'Pause' : 'Play'}
         </Button>
-        <Button variant="contained" onClick={handleClear}>
+        <Button variant="contained" onClick={handleClear} sx={{ ml: 2 }}>
           Clear
         </Button>
-        {userAuth && (
-          <Button
-            variant="contained"
-            // onClick={() => validate() && saveGraph()}
-            disabled={playStatus !== 0}
-          >
-            Save
-          </Button>
-        )}
+        <IconButton color="primary" onClick={handleSave} sx={{ ml: 1 }}>
+          <Share />
+        </IconButton>
       </div>
       <div className="resizable">
         <svg id="plane" className={styles.plane}>

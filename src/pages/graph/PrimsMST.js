@@ -3,7 +3,7 @@ import DrawGraph from '@/components/draw-graph';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
-import { getCostMatrix, spanEdge } from '@/common/utils';
+import { getCostMatrix, hasValue, spanEdge } from '@/common/utils';
 import { Colors } from '@/common/constants';
 
 export default function PrimsMST(props) {
@@ -57,7 +57,7 @@ function enqueue() {
         queue[n * i + j] = val;
     });
     for (let k = 0; k < n; k++) {
-        if (mst.indexOf(k) === -1 && w[i][k] !== undefined) {
+        if (mst.indexOf(k) === -1 && hasValue(w[i][k])) {
             let ei = Graph.edgeIndex(i, k);
             Path('.edge').eq(ei).attr('stroke', Colors.enqueue);
             $('.vrtx').eq(k).attr('stroke', Colors.enqueue);

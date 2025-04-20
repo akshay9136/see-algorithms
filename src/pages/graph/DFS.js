@@ -3,7 +3,7 @@ import DrawGraph from '@/components/draw-graph';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
-import { appendCell, sound, spanEdge } from '@/common/utils';
+import { appendCell, hasValue, sound, spanEdge } from '@/common/utils';
 import { Colors } from '@/common/constants';
 
 export default function DFS(props) {
@@ -53,7 +53,7 @@ function start(source) {
 function explore(j) {
     if (j < Graph.totalPoints()) {
         let ei = Graph.edgeIndex(i, j);
-        if (ei !== undefined) {
+        if (hasValue(ei)) {
             if (!v.includes(j) && !stack.includes(j)) {
                 Path('.edge').eq(ei).attr('stroke', Colors.enqueue);
                 $('.vrtx').eq(j).attr('stroke', Colors.enqueue);

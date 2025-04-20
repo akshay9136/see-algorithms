@@ -17,6 +17,8 @@ function cursorOffset(e) {
         out.x = e.pageX - left;
         out.y = e.pageY - top;
     }
+    out.x = Math.round(out.x);
+    out.y = Math.round(out.y);
     return out;
 }
 
@@ -46,7 +48,7 @@ function moveVertex(i, p) {
             edge.attr('d', d);
             if (Graph.isDirected()) {
                 let ej = Graph.edgeIndex(seg[1], seg[0]);
-                if (ej !== undefined) {
+                if (hasValue(ej)) {
                     [cx, cy] = findCurve(u, v);
                     edge.attr('cx', cx);
                     edge.attr('cy', cy);
@@ -142,10 +144,6 @@ function getCostMatrix() {
         mat[i] = mat[i] || [];
         const value = $('.cost').eq(k).val();
         mat[i][j] = Number(value) || 1;
-        if (!Graph.isDirected()) {
-            mat[j] = mat[j] || [];
-            mat[j][i] = Number(value) || 1;
-        }
     });
     return mat;
 }
@@ -180,7 +178,7 @@ function clearGraph() {
 }
 
 function createGraph(data, weighted) {
-    const { points, segments, directed } = data;
+    const { points, segments, directed, matrix, costMatrix } = data;
     points.forEach((p, i) => {
         addVertex(p, String.fromCharCode(65 + i));
     });
@@ -192,8 +190,15 @@ function createGraph(data, weighted) {
             Path('.edge:last').attr('x2', x);
             Path('.edge:last').attr('y2', y);
             Path('.edge:last').attr('marker-end', 'url(#arrow)');
+            if (hasValue(matrix[j][i])) {
+                const [cx, cy] = findCurve(p, { x, y });
+                Path('.edge:last').attr('cx', cx);
+                Path('.edge:last').attr('cy', cy);
+            }
         }
-        if (weighted) addCost(p, q);
+        if (weighted) {
+            addCost(p, q, costMatrix?.[i][j]);
+        }
     });
 }
 
@@ -233,7 +238,11 @@ export const groupBy = (arr, key) => {
 export const sound = (name) => {
     const sound = document.getElementById(`${name}Sound`);
     sound?.play();
-}
+};
+
+export const hasValue = (val) => {
+    return val !== null && val !== undefined;
+};
 
 export const randomInt = () => Math.floor(Math.random() * 99) + 1;
 

@@ -22,6 +22,8 @@ function Header(props) {
                     width="200"
                     height="40"
                     className={`${styles.logo} d-none d-md-block`}
+                    onClick={() => router.push('/')}
+                    style={{ cursor: 'pointer' }}
                 />
                 <h4
                     className={`${styles.heading} d-md-none d-sm-block`}

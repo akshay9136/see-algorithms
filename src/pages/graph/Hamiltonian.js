@@ -3,7 +3,7 @@ import DrawGraph from '@/components/draw-graph';
 import $ from 'jquery';
 import Graph from '@/common/graph';
 import Timer from '@/common/timer';
-import { appendCell, cloneEdge, spanEdge } from '@/common/utils';
+import { appendCell, cloneEdge, hasValue, spanEdge } from '@/common/utils';
 import { Colors } from '@/common/constants';
 
 export default function Hamiltonian(props) {
@@ -46,15 +46,15 @@ async function start(source) {
 async function findCycle(i) {
     if (v.indexOf(0) === -1) {
         let ei = Graph.edgeIndex(i, src);
-        if (ei !== undefined) {
-            spanEdge(i, src);
+        if (hasValue(ei)) {
+            await spanEdge(i, src);
             return true;
         }
     }
     await Timer.sleep(delay);
     for (let j = 0; j < Graph.totalPoints(); j++) {
         let ei = Graph.edgeIndex(i, j);
-        if (ei !== undefined && v[j] === 0) {
+        if (hasValue(ei) && v[j] === 0) {
             await spanEdge(i, j);
             appendCell('#path', String.fromCharCode(65 + j));
             v[j] = 1;
