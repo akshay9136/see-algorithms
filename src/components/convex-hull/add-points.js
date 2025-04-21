@@ -44,7 +44,7 @@ function AddPoints(props) {
 
   useEffect(() => {
     handleReset();
-    () => Timer.clear();
+    return () => Timer.clear();
   }, []);
 
   return (

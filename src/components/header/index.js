@@ -3,6 +3,7 @@ import { MenuOpen, GitHub } from '@mui/icons-material';
 import styles from './header.module.css';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { Typography } from '@mui/material';
 
 function Header(props) {
     const router = useRouter();
@@ -25,13 +26,15 @@ function Header(props) {
                     onClick={() => router.push('/')}
                     style={{ cursor: 'pointer' }}
                 />
-                <h4
+                <Typography
+                    variant="button"
+                    fontWeight={600}
                     className={`${styles.heading} d-md-none d-sm-block`}
                     onClick={() => router.push('/')}
                     style={{ cursor: 'pointer' }}
                 >
                     SEE ALGORITHMS
-                </h4>
+                </Typography>
             </div>
             <div>
                 <GitHub

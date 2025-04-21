@@ -5,12 +5,6 @@
   padding: 1rem 0;
 }
 
-.inputNumbers .label {
-  font-size: 1rem;
-  font-weight: 600;
-  width: max-content;
-}
-
 .inputNumbers .number {
   width: 2.5rem;
   margin-right: 0.5rem;

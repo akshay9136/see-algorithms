@@ -5,7 +5,7 @@ import Features from '../components/features';
 export default function HomePage() {
   return (
     <Container sx={{ p: 0 }}>
-      <Typography variant="h4" align="center" my={3}>
+      <Typography variant="h4" align="center" my={3} fontWeight={600}>
         Visualization of Algorithms
       </Typography>
       <Typography variant="h6" align="center">

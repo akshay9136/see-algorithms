@@ -5,7 +5,7 @@ import useAnimator from '@/hooks/useAnimator';
 import binaryTree from '@/common/binaryTree';
 import { Colors } from '@/common/constants';
 import { sleep, sound, traverse } from '@/common/utils';
-import { Stack } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 
 var Tree, delay = 500;
 var queue, codes;
@@ -94,18 +94,18 @@ export default function HuffmanCoding() {
             </p>
             {characters.length > 0 && (
                 <div className={styles.inputNumbers + ' mb-0 p-0'}>
-                    <label className={styles.label}>Character:</label>
+                    <Typography variant="subtitle1" fontWeight={600}>
+                        Character:
+                    </Typography>
                     {characters.map((char) => (
-                        <label
+                        <Typography
                             key={char}
-                            style={{
-                                fontSize: '1rem',
-                                fontWeight: 600,
-                                margin: '0 1.2rem',
-                            }}
+                            variant="subtitle1"
+                            fontWeight={600}
+                            sx={{ margin: '0 1.2rem' }}
                         >
                             {char}
-                        </label>
+                        </Typography>
                     ))}
                 </div>
             )}

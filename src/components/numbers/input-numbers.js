@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { showToast } from "../toast";
-import { Select, Input, Button, MenuItem } from "@mui/material";
-import styles from "./numbers.module.css";
-import { randomInt } from "@/common/utils";
+import React, { useState } from 'react';
+import { showToast } from '../toast';
+import { Select, Input, Button, MenuItem, Typography } from '@mui/material';
+import styles from './numbers.module.css';
+import { randomInt } from '@/common/utils';
 
 function InputNumbers(props) {
   const [values, setValues] = useState([]);
@@ -22,17 +22,17 @@ function InputNumbers(props) {
   const handleInput = (e, i) => {
     let val = e.target.value.trim().slice(0, 3);
     if (!isNaN(val)) {
-      values[i] = parseInt(val) || "";
+      values[i] = parseInt(val) || '';
       setValues([...values]);
     }
   };
 
   const validate = () => {
     for (let i = 0; i < values.length; i++) {
-      if (typeof values[i] !== "number") {
+      if (typeof values[i] !== 'number') {
         showToast({
-          message: "Please enter valid numbers.",
-          variant: "error",
+          message: 'Please enter valid numbers.',
+          variant: 'error',
         });
         setStatus(false);
         return false;
@@ -56,12 +56,12 @@ function InputNumbers(props) {
 
   return (
     <div className={styles.inputNumbers}>
-      <label className={styles.label}>
+      <Typography variant="subtitle1" fontWeight={600} width="max-content">
         {!values.length
-            ? 'Select number of elements: '
-            : props.label || 'Enter numbers: '}
+          ? 'Select number of elements: '
+          : props.label || 'Enter numbers: '}
         &nbsp;
-      </label>
+      </Typography>
       {!values.length ? (
         <Select onChange={handleSelect} className={styles.select} size="small">
           <MenuItem></MenuItem>

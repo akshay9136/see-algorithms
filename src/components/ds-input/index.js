@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { showToast } from '../toast';
-import { Input, Button } from '@mui/material';
+import { Input, Button, Typography } from '@mui/material';
 import styles from '../numbers/numbers.module.css';
 import { randomInt } from '@/common/utils';
 
@@ -34,7 +34,9 @@ function DSInput(props) {
 
   return (
     <div className={styles.inputNumbers + ' mb-0'}>
-      <label className={styles.label}>Enter a number: &nbsp;</label>
+      <Typography variant="subtitle1" fontWeight={600}>
+        Enter a number: &nbsp;
+      </Typography>
       <Input value={number} onChange={handleInput} className={styles.number} />
       <div className="d-flex" style={{ width: 'max-content' }}>
         {props.buttons.map((btn, i) => (

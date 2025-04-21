@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Drawer } from '@mui/material';
+import { Drawer, Typography } from '@mui/material';
 import Header from '../header';
 import Meta from '../meta';
 import Sider from '../sider';
@@ -40,8 +40,12 @@ function Layout({ children }) {
           <Sider selected={algoId} />
         </div>
         <div className="content m-0">
-          <div style={{ padding: '1rem 1.5rem' }}>
-            {algoId && <h5 className="my-3">{name}</h5>}
+          <div style={{ padding: 30 }}>
+            {algoId && (
+              <Typography variant="h6" fontWeight={600} className="mb-3">
+                {name}
+              </Typography>
+            )}
             {children}
           </div>
           {/* {savedData.length > 0 && <DataItems />} */}
