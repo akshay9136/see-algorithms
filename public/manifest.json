@@ -1,0 +1,36 @@
+{
+  "name": "See Algorithms - Interactive Algorithm Visualizations",
+  "short_name": "See Algorithms",
+  "description": "Learn algorithms through interactive visualizations. Step-by-step animations for sorting, searching, graph algorithms, and data structures.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["education", "developer", "utilities"],
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "See Algorithms - Algorithm Visualization Platform"
+    }
+  ]
+}

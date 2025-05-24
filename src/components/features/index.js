@@ -1,51 +1,105 @@
 import React from 'react';
-import { Grid, Card, CardContent, Typography } from '@mui/material';
-import Image from 'next/image';
+import { Grid, Card, CardContent, Typography, Box } from '@mui/material';
+import { Blocks, SquarePen, ExternalLink, Lightbulb } from 'lucide-react';
+import { useRouter } from 'next/router';
+import { styles } from './styles';
 
 const features = [
   {
-    icon: '/icons/steps.png',
+    icon: Blocks,
     title: 'Step by Step',
-    description: 'Understand algorithms through clear, interactive visuals.',
+    description:
+      'Understand algorithms through clear, interactive visuals that break down complex concepts.',
+    color: '#4f46e5',
+    bgGradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    path: '/sorting/MergeSort', // Navigate to a sorting algorithm as example
   },
   {
-    icon: '/icons/editor.png',
+    icon: SquarePen,
     title: 'Draw Graphs',
-    description: 'Visualize with custom graphs and data structures.',
+    description:
+      'Visualize with custom graphs and data structures using our intuitive drawing tools.',
+    color: '#059669',
+    bgGradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+    path: '/graph/BFS', // Navigate to a graph algorithm
   },
   {
-    icon: '/icons/save.png',
+    icon: ExternalLink,
     title: 'Save & Share',
-    description: 'Keep track of your graphs and share it with others.',
+    description:
+      'Keep track of your graphs and share them with others in your learning community.',
+    color: '#dc2626',
+    bgGradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+    path: '/graph/Dijkstra', // Navigate to a graph algorithm
   },
   {
-    icon: '/icons/learn.png',
+    icon: Lightbulb,
     title: 'Simple Learning',
-    description: 'Focus on the essentials with concise explanations.',
+    description:
+      'Focus on the essentials with concise explanations and progressive difficulty levels.',
+    color: '#7c3aed',
+    bgGradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+    path: '/sorting/HeapSort', // Navigate to a data structure
   },
 ];
 
 export default function Features() {
+  const router = useRouter();
+
   return (
-    <Grid container spacing={4} justifyContent="center" pb={3}>
+    // <Box py={6}>
+    <Grid container spacing={4} justifyContent="center">
       {features.map((feat, index) => (
         <Grid item xs={12} sm={6} md={3} key={index}>
           <Card
-            elevation={3}
-            sx={{ p: 2, textAlign: 'center', bgcolor: '#fcfeff' }}
+            elevation={0}
+            sx={styles.card(feat)}
+            onClick={() => router.push(feat.path)}
           >
-            <Image src={feat.icon} alt={feat.title} width={80} height={80} />
-            <CardContent>
-              <Typography variant="h6" fontWeight={600} gutterBottom>
+            {/* Decorative background element */}
+            <Box className="feature-bg" sx={styles.cardBackground(feat)} />
+
+            {/* Icon container with gradient background */}
+            <Box display="flex" justifyContent="center" pt={3} pb={2}>
+              <Box sx={styles.iconBox(feat)}>
+                <feat.icon
+                  size={48}
+                  color="white"
+                  className="feature-icon"
+                  style={{
+                    transition: 'transform 0.3s ease',
+                  }}
+                />
+              </Box>
+            </Box>
+
+            <CardContent sx={{ px: 3, pb: 3, textAlign: 'center' }}>
+              <Typography
+                variant="h6"
+                fontWeight={700}
+                gutterBottom
+                mb={2}
+                color="grey.900"
+                fontSize="1.1rem"
+              >
                 {feat.title}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                color="grey.600"
+                lineHeight={1.6}
+                fontSize="0.9rem"
+              >
                 {feat.description}
               </Typography>
             </CardContent>
+
+            {/* Bottom accent line */}
+            <Box sx={styles.accentLine(feat)} />
           </Card>
         </Grid>
       ))}
     </Grid>
+    // </Box>
   );
 }
