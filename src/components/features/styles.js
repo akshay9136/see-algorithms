@@ -5,13 +5,14 @@ export const styles = {
     overflow: 'hidden',
     borderRadius: 3,
     background: 'linear-gradient(145deg, #ffffff 0%, #f8fafc 100%)',
+    boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
     border: '1px solid',
     borderColor: 'grey.200',
     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
     cursor: 'pointer',
     '&:hover': {
       transform: 'translateY(-8px) scale(1.02)',
-      boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
+      boxShadow: '0 8px 24px rgba(0,0,0,0.16)',
       borderColor: feat.color,
       '& .feature-icon': {
         transform: 'scale(1.1) rotate(5deg)',

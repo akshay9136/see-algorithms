@@ -1,4 +1,4 @@
-@import "~bootstrap/dist/css/bootstrap.min.css";
+@import '~bootstrap/dist/css/bootstrap.min.css';
 
 :root {
   --header-height: 60px;
@@ -20,7 +20,7 @@
   justify-content: space-between;
   flex-wrap: nowrap;
   padding: 0;
-  background-color: rgba(0, 0, 0, 0.02);
+  background-color: #f8fbff;
 }
 
 .drawer {

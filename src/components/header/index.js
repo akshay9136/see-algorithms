@@ -42,7 +42,10 @@ function Header(props) {
                         window.location.href =
                             'https://github.com/akshay9136/see-algorithms';
                     }}
-                    style={{ cursor: 'pointer' }}
+                    style={{
+                        cursor: 'pointer',
+                        fontSize: '1.75rem',
+                    }}
                 />
             </div>
         </div>

@@ -3,19 +3,46 @@
     align-items: center;
     padding: 0 1rem;
     justify-content: space-between;
-    border-bottom: var(--thin-border);
+    border-bottom: none;
+    background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    position: relative;
+    backdrop-filter: blur(10px);
 }
 
 .heading {
     font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    line-height: 1.5;
 }
 
 .menuIcon {
     font-size: 2rem !important;
     margin-right: 0.75rem;
-    color: #1976d2;
+    color: white;
 }
 
 .logo {
-    margin-left: -0.4rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+/* Desktop styles with light background */
+@media (min-width: 768px) {
+    .header {
+        background: white;
+    }
+
+    .heading {
+        color: #1a1a1a;
+        text-shadow: none;
+    }
 }
