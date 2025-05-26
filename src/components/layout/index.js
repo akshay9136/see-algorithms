@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Drawer, Typography } from '@mui/material';
 import Header from '../header';
 import Sider from '../sider';
@@ -11,9 +11,11 @@ function Layout({ children }) {
   const router = useRouter();
   const algoId = router.pathname.split('/')[2];
   const { name: algoName } = algorithms.findObj('id', algoId) || {};
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     setMenuVisible(false);
+    scrollRef.current.scrollTo(0, 0);
   }, [router.pathname]);
 
   return (
@@ -37,9 +39,9 @@ function Layout({ children }) {
           className="d-none d-md-block"
           style={{ width: 'max-content', minWidth: 240 }}
         >
-          <Sider selected={algoId} />
+          <Sider selected={scrollRef} />
         </div>
-        <div className="content m-0">
+        <div className="content m-0" ref={scrollRef}>
           <div style={{ padding: '1.5rem' }}>
             {algoId && (
               <Typography variant="h6" fontWeight={600} mb={2}>

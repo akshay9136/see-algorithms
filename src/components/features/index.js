@@ -12,7 +12,7 @@ const features = [
       'Understand algorithms through clear, interactive visuals that break down complex concepts.',
     color: '#4f46e5',
     bgGradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    path: '/sorting/MergeSort', // Navigate to a sorting algorithm as example
+    path: '/sorting/MergeSort',
   },
   {
     icon: SquarePen,
@@ -21,7 +21,7 @@ const features = [
       'Visualize with custom graphs and data structures using our intuitive drawing tools.',
     color: '#059669',
     bgGradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-    path: '/graph/BFS', // Navigate to a graph algorithm
+    path: '/graph/BFS',
   },
   {
     icon: ExternalLink,
@@ -30,7 +30,7 @@ const features = [
       'Keep track of your graphs and share them with others in your learning community.',
     color: '#dc2626',
     bgGradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-    path: '/graph/Dijkstra', // Navigate to a graph algorithm
+    path: '/graph/Dijkstra',
   },
   {
     icon: Lightbulb,
@@ -39,7 +39,7 @@ const features = [
       'Focus on the essentials with concise explanations and progressive difficulty levels.',
     color: '#7c3aed',
     bgGradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-    path: '/sorting/HeapSort', // Navigate to a data structure
+    path: '/sorting/HeapSort',
   },
 ];
 
@@ -47,8 +47,7 @@ export default function Features() {
   const router = useRouter();
 
   return (
-    // <Box py={6}>
-    <Grid container spacing={4} justifyContent="center">
+    <Grid container spacing={4} pb={4}>
       {features.map((feat, index) => (
         <Grid item xs={12} sm={6} md={3} key={index}>
           <Card
@@ -100,6 +99,5 @@ export default function Features() {
         </Grid>
       ))}
     </Grid>
-    // </Box>
   );
 }
