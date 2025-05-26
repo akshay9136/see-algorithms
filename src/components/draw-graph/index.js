@@ -5,6 +5,8 @@ import {
   TextField,
   FormControlLabel,
   IconButton,
+  Tooltip,
+  Box,
 } from '@mui/material';
 import { PlayArrow, Pause, Refresh, Share } from '@mui/icons-material';
 import Spinner from '../spinner';
@@ -29,8 +31,10 @@ function DrawGraph(props) {
     directed:
       algoId === 'TopSort' || (isDirGraph && props.allowDirected !== false),
   };
-  const { handlePlay, handleClear, refresh, setDirected } =
-    useGraphControls(config, props);
+  const { handlePlay, handleClear, refresh, setDirected } = useGraphControls(
+    config,
+    props
+  );
 
   useEffect(() => {
     refresh();
@@ -67,12 +71,16 @@ function DrawGraph(props) {
 
   return (
     <Spinner className="drawGraph" spinning={false}>
-      <div className={'d-flex flex-wrap ' + styles.toolbar}>
+      <Box mb={2} className={styles.toolbar}>
         <h5 className={styles.title}>Draw Graph</h5>
-        <Button onClick={refresh} style={{ minWidth: 50 }}>
-          <Refresh />
-        </Button>
-        <>
+
+        <div className={styles.buttonGroup}>
+          <Tooltip title="Refresh Graph">
+            <IconButton onClick={refresh} color="primary">
+              <Refresh />
+            </IconButton>
+          </Tooltip>
+
           {props.allowDirected !== false && (
             <FormControlLabel
               control={
@@ -81,12 +89,14 @@ function DrawGraph(props) {
                   onChange={setDirected}
                   name="directed"
                   disabled={playStatus !== 0}
+                  color="primary"
                 />
               }
               label="Directed"
-              style={{ margin: 0 }}
+              sx={{ mr: 1 }}
             />
           )}
+
           {props.customSource !== false && (
             <TextField
               value={source}
@@ -98,26 +108,57 @@ function DrawGraph(props) {
               label="Source"
               variant="outlined"
               size="small"
+              sx={{ maxWidth: '80px' }}
+              InputProps={{
+                style: { fontSize: '0.9rem' },
+              }}
             />
           )}
-        </>
-        <Button
-          variant="contained"
-          startIcon={playStatus > 0 ? <Pause /> : <PlayArrow />}
-          onClick={handlePlay}
-          disabled={Boolean(props.isDAG && playStatus)}
-          sx={{ ml: 2 }}
-        >
-          {playStatus > 0 ? 'Pause' : 'Play'}
-        </Button>
-        <Button variant="contained" onClick={handleClear} sx={{ ml: 2 }}>
-          Clear
-        </Button>
-        <IconButton color="primary" onClick={handleSave} sx={{ ml: 1 }}>
-          <Share />
-        </IconButton>
-      </div>
-      <div className="resizable">
+
+          <Button
+            variant="contained"
+            startIcon={playStatus > 0 ? <Pause /> : <PlayArrow />}
+            onClick={handlePlay}
+            disabled={Boolean(props.isDAG && playStatus)}
+            color="primary"
+            sx={{
+              minWidth: '90px',
+              textTransform: 'none',
+              fontWeight: 500,
+            }}
+          >
+            {playStatus > 0 ? 'Pause' : 'Play'}
+          </Button>
+
+          <Button
+            variant="outlined"
+            onClick={handleClear}
+            color="primary"
+            sx={{
+              minWidth: '70px',
+              textTransform: 'none',
+              fontWeight: 500,
+            }}
+          >
+            Clear
+          </Button>
+
+          <Tooltip title="Share Graph">
+            <IconButton
+              color="primary"
+              onClick={handleSave}
+              sx={{
+                '&:hover': {
+                  backgroundColor: 'rgba(25, 118, 210, 0.04)',
+                },
+              }}
+            >
+              <Share />
+            </IconButton>
+          </Tooltip>
+        </div>
+      </Box>
+      <Box mb={2} className="resizable">
         <svg id="plane" className={styles.plane}>
           <defs>
             <marker
@@ -133,7 +174,7 @@ function DrawGraph(props) {
             </marker>
           </defs>
         </svg>
-      </div>
+      </Box>
     </Spinner>
   );
 }

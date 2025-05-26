@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Drawer, Typography } from '@mui/material';
 import Header from '../header';
 import Sider from '../sider';
@@ -39,7 +39,7 @@ function Layout({ children }) {
           className="d-none d-md-block"
           style={{ width: 'max-content', minWidth: 240 }}
         >
-          <Sider selected={scrollRef} />
+          <Sider selected={algoId} />
         </div>
         <div className="content m-0" ref={scrollRef}>
           <div style={{ padding: '1.5rem' }}>

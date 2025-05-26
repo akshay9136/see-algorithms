@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { PlayArrow, Pause } from '@mui/icons-material';
 import styles from '../draw-graph/draw-graph.module.css';
 import Graph from '@/common/graph';
@@ -49,7 +49,7 @@ function AddPoints(props) {
 
   return (
     <div className="drawGraph">
-      <div className={'d-flex flex-wrap ' + styles.toolbar}>
+      <Box className={styles.toolbar} mb={2}>
         <h5 className={styles.title}>Add Points</h5>
         <Button
           variant="contained"
@@ -62,7 +62,7 @@ function AddPoints(props) {
         <Button variant="contained" onClick={handleReset} id="clear">
           Reset
         </Button>
-      </div>
+      </Box>
       <div className="resizable">
         <svg id="plane" className={styles.plane}></svg>
       </div>

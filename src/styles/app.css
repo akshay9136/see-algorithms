@@ -51,7 +51,7 @@
 .numGrid {
   font-weight: 600;
   font-size: 1rem;
-  padding-bottom: 1rem;
+  padding-bottom: 0.8rem;
   width: max-content;
 }
 
@@ -79,11 +79,12 @@
 }
 
 .resizable {
-  border: thin solid;
-  margin: 1rem 0;
-  min-width: 700px;
   width: 700px;
+  min-width: 700px;
   height: 500px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   resize: both;
   overflow: auto;
   position: relative;
