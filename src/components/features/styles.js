@@ -37,8 +37,8 @@ export const styles = {
 
   iconBox: (feat) => ({
     position: 'relative',
-    width: 80,
-    height: 80,
+    width: 120,
+    height: 120,
     borderRadius: 2,
     background: feat.bgGradient,
     display: 'flex',

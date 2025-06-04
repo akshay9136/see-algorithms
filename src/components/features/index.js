@@ -1,12 +1,12 @@
 import React from 'react';
 import { Grid, Card, CardContent, Typography, Box } from '@mui/material';
-import { Blocks, SquarePen, ExternalLink, Lightbulb } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { styles } from './styles';
+import Image from 'next/image';
 
 const features = [
   {
-    icon: Blocks,
+    icon: '/icons/steps.png',
     title: 'Step by Step',
     description:
       'Understand algorithms through clear, interactive visuals that break down complex concepts.',
@@ -15,7 +15,7 @@ const features = [
     path: '/sorting/MergeSort',
   },
   {
-    icon: SquarePen,
+    icon: '/icons/draw.png',
     title: 'Draw Graphs',
     description:
       'Visualize with custom graphs and data structures using our intuitive drawing tools.',
@@ -24,7 +24,7 @@ const features = [
     path: '/graph/BFS',
   },
   {
-    icon: ExternalLink,
+    icon: '/icons/save.png',
     title: 'Save & Share',
     description:
       'Keep track of your graphs and share them with others in your learning community.',
@@ -33,7 +33,7 @@ const features = [
     path: '/graph/Dijkstra',
   },
   {
-    icon: Lightbulb,
+    icon: '/icons/learn.png',
     title: 'Simple Learning',
     description:
       'Focus on the essentials with concise explanations and progressive difficulty levels.',
@@ -59,14 +59,17 @@ export default function Features() {
             <Box className="feature-bg" sx={styles.cardBackground(feat)} />
 
             {/* Icon container with gradient background */}
-            <Box display="flex" justifyContent="center" pt={3} pb={2}>
+            <Box display="flex" justifyContent="center" pt={3}>
               <Box sx={styles.iconBox(feat)}>
-                <feat.icon
-                  size={48}
-                  color="white"
+                <Image
+                  src={feat.icon}
+                  alt={feat.title}
+                  width={90}
+                  height={90}
                   className="feature-icon"
                   style={{
                     transition: 'transform 0.3s ease',
+                    borderRadius: 6,
                   }}
                 />
               </Box>
