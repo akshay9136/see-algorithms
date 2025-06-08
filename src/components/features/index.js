@@ -64,12 +64,12 @@ export default function Features() {
                 <Image
                   src={feat.icon}
                   alt={feat.title}
-                  width={90}
-                  height={90}
+                  width={70}
+                  height={70}
                   className="feature-icon"
                   style={{
                     transition: 'transform 0.3s ease',
-                    borderRadius: 6,
+                    borderRadius: 8,
                   }}
                 />
               </Box>
