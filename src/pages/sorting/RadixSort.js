@@ -35,7 +35,7 @@ function enqueue(i) {
         'style',
         `
         margin-top:5px;
-        background-color:#ffe57f;
+        background-color:#ffea00;
         border:thin solid;
         border-radius:8px;`
     );
@@ -51,7 +51,7 @@ async function radixSort() {
         for (let j = 0; j < 10; j++) b[j] = 0;
         for (let i = 0; i < n; i++) {
             await Timer.sleep(delay);
-            cells[i].style.backgroundColor = '#ffe57f';
+            cells[i].style.backgroundColor = '#ffea00';
             await Timer.sleep(delay);
             sound('pop');
             enqueue(i);
@@ -80,7 +80,7 @@ async function putBack(i, j = 9) {
         sound('pop');
         bkt.firstChild.removeAttribute('style');
         cells[i].innerHTML = bkt.firstChild.outerHTML;
-        cells[i].style.backgroundColor = '#ffe57f';
+        cells[i].style.backgroundColor = '#ffea00';
         bkt.removeChild(bkt.firstChild);
         i--;
     }
