@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DSInput from '@/components/ds-input';
 import { Edge, Node } from '@/components/numbers';
 import binarySearchTree from '@/helpers/binarySearchTree';
 import useAnimator from '@/hooks/useAnimator';
-import { sleep } from '@/common/utils';
+import { sleep, traverse } from '@/common/utils';
+import { useRouter } from 'next/router';
+import { showToast } from '@/components/toast';
 
 var arr = [], Tree;
 
 export default function BST(props) {
+    const router = useRouter();
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
     if (!numbers.length) arr = [];
@@ -31,11 +34,42 @@ export default function BST(props) {
 
     const reset = () => setNumbers([]);
 
+    const copyBST = () => {
+        let data = [];
+        traverse(Tree.root(), (node) => data.push(node.value));
+        const nodes = JSON.stringify(data);
+        const origin = window.location.origin;
+        const url = `${origin}${router.pathname}?nodes=${btoa(nodes)}`;
+        navigator.clipboard.writeText(url);
+        showToast({
+            message: 'Tree url is copied to clipboard.',
+            variant: 'success',
+        });
+    };
+
     const buttons = [
         { text: 'Insert', onClick: insert, validate: true },
         { text: 'Delete', onClick: remove, validate: true },
-        { text: 'Clear', onClick: reset },
+        { text: 'Clear', onClick: reset, disabled: !arr.length },
+        { text: 'Share', onClick: copyBST, disabled: !arr.length },
     ];
+
+    useEffect(() => {
+        const { nodes } = router.query;
+        if (nodes) {
+            setNumbers([]);
+            try {
+                arr = JSON.parse(atob(nodes));
+                if (Array.isArray(arr)) {
+                    setNumbers(arr.slice());
+                    Tree = binarySearchTree(animator);
+                    sleep(100).then(() => {
+                        arr.forEach((num) => Tree._insert(num));
+                    });
+                }
+            } catch {}
+        }
+    }, [router]);
 
     return (
         <>

@@ -76,6 +76,17 @@ function binarySearchTree(animator) {
 
     return Object.freeze({
         ...Tree,
+        _insert(num, node) {
+            if (!Tree.root()) return Tree.insert(num);
+            else node = node || Tree.root();
+            const isLeft = num <= node.value;
+            const next = isLeft ? 'left' : 'right';
+            if (!node[next]) {
+                Tree.insert(num, node, isLeft);
+            } else {
+                this._insert(num, node[next]);
+            }
+        },
         async insert(num, node) {
             if (!Tree.root()) {
                 sound('swap');

@@ -46,9 +46,9 @@ function DrawGraph(props) {
     if (skeleton) {
       handleClear();
       try {
-        const graph = JSON.parse(atob(skeleton));
-        Graph.initialize(graph);
-        createGraph(graph, config.weighted);
+        const data = JSON.parse(atob(skeleton));
+        Graph.initialize(data);
+        createGraph(data, config.weighted);
       } catch {
         handleClear();
       }
@@ -56,12 +56,12 @@ function DrawGraph(props) {
   }, [router]);
 
   const handleSave = () => {
-    const graph = JSON.stringify({
+    const data = JSON.stringify({
       ...Graph.skeleton(),
       costMatrix: getCostMatrix(),
     });
     const origin = window.location.origin;
-    const url = `${origin}${router.pathname}?skeleton=${btoa(graph)}`;
+    const url = `${origin}${router.pathname}?skeleton=${btoa(data)}`;
     navigator.clipboard.writeText(url);
     showToast({
       message: 'Graph url is copied to clipboard.',
@@ -71,7 +71,7 @@ function DrawGraph(props) {
 
   return (
     <Spinner className="drawGraph" spinning={false}>
-      <Box mb={2} className={styles.toolbar}>
+      <Box mb={1.5} className={styles.toolbar}>
         <h5 className={styles.title}>Draw Graph</h5>
 
         <div className={styles.buttonGroup}>
@@ -122,7 +122,7 @@ function DrawGraph(props) {
             disabled={Boolean(props.isDAG && playStatus)}
             color="primary"
             sx={{
-              minWidth: '90px',
+              minWidth: '80px',
               textTransform: 'none',
               fontWeight: 500,
             }}

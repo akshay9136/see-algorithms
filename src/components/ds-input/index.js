@@ -37,17 +37,23 @@ function DSInput(props) {
       <Typography variant="subtitle1" fontWeight={600}>
         Enter a number: &nbsp;
       </Typography>
-      <Input value={number} onChange={handleInput} className={styles.number} />
+      <Input
+        size="small"
+        value={number}
+        onChange={handleInput}
+        className={styles.number}
+      />
       <div className="d-flex" style={{ width: 'max-content' }}>
         {props.buttons.map((btn, i) => (
           <Button
             key={i}
+            size="small"
             variant="outlined"
             onClick={() => {
               btn.validate ? validate(btn.onClick) : btn.onClick();
             }}
             disabled={status || btn.disabled}
-            style={{ marginRight: '8px' }}
+            sx={{ mr: 1, minWidth: 40 }}
           >
             {btn.text}
           </Button>
