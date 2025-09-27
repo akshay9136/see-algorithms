@@ -3,9 +3,10 @@ import DSInput from '@/components/ds-input';
 import { Edge, Node } from '@/components/numbers';
 import binarySearchTree from '@/helpers/binarySearchTree';
 import useAnimator from '@/hooks/useAnimator';
-import { sleep, traverse } from '@/common/utils';
+import { randomInt, sleep, traverse } from '@/common/utils';
 import { useRouter } from 'next/router';
 import { showToast } from '@/components/toast';
+import { Refresh, Share } from '@mui/icons-material';
 
 var arr = [], Tree;
 
@@ -35,7 +36,7 @@ export default function BST(props) {
     const reset = () => setNumbers([]);
 
     const copyBST = () => {
-        let data = [];
+        const data = [];
         traverse(Tree.root(), (node) => data.push(node.value));
         const nodes = JSON.stringify(data);
         const origin = window.location.origin;
@@ -47,29 +48,44 @@ export default function BST(props) {
         });
     };
 
+    const randomTree = () => {
+        arr = [randomInt(), randomInt(), randomInt(), randomInt(), randomInt()];
+        insertAll();
+    };
+
     const buttons = [
         { text: 'Insert', onClick: insert, validate: true },
         { text: 'Delete', onClick: remove, validate: true },
         { text: 'Clear', onClick: reset, disabled: !arr.length },
-        { text: 'Share', onClick: copyBST, disabled: !arr.length },
+        { text: <Refresh />, onClick: randomTree },
+        {
+            text: <Share fontSize="small" />,
+            onClick: copyBST,
+            disabled: !arr.length,
+        },
     ];
 
     useEffect(() => {
-        const { nodes } = router.query;
-        if (nodes) {
-            setNumbers([]);
-            try {
-                arr = JSON.parse(atob(nodes));
-                if (Array.isArray(arr)) {
-                    setNumbers(arr.slice());
-                    Tree = binarySearchTree(animator);
-                    sleep(100).then(() => {
-                        arr.forEach((num) => Tree._insert(num));
-                    });
-                }
-            } catch {}
+        if (router.isReady && !arr.length) {
+            const { nodes } = router.query;
+            if (nodes) {
+                try {
+                    arr = JSON.parse(atob(nodes));
+                    insertAll();
+                } catch {}
+            } else {
+                randomTree();
+            }
         }
     }, [router]);
+
+    const insertAll = () => {
+        setNumbers(arr.slice());
+        Tree = binarySearchTree(animator);
+        sleep(100).then(() => {
+            arr.forEach((num) => Tree._insert(num));
+        });
+    };
 
     return (
         <>
