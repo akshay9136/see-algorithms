@@ -158,7 +158,7 @@ function DrawGraph(props) {
           </Tooltip>
         </div>
       </Box>
-      <Box mb={2} className="resizable">
+      <Box mb={1} className="resizable">
         <svg id="plane" className={styles.plane}>
           <defs>
             <marker

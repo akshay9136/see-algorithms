@@ -15,7 +15,6 @@
 .content {
   height: 100%;
   width: 100%;
-  overflow-x: auto;
   display: flex;
   justify-content: space-between;
   flex-wrap: nowrap;
@@ -51,7 +50,7 @@
 .numGrid {
   font-weight: 600;
   font-size: 1rem;
-  padding-bottom: 0.8rem;
+  padding-top: 0.75rem;
   width: max-content;
 }
 

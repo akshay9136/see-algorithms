@@ -42,7 +42,7 @@ function Layout({ children }) {
           <Sider selected={algoId} />
         </div>
         <div className="content m-0" ref={scrollRef}>
-          <div style={{ padding: '1.5rem' }}>
+          <div style={{ padding: '1.5rem', overflow: 'auto' }}>
             {algoId && (
               <Typography variant="h6" fontWeight={600} mb={2}>
                 {algoName}
