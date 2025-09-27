@@ -17,7 +17,6 @@ function binarySearchTree(animator) {
     };
 
     const replaceNode = async (node) => {
-        await sleep(delay);
         const child = await smallest(node.right);
         sound('swap');
         await txy(`#node${child.index}`, node.x, node.y, 0.5);
@@ -119,6 +118,7 @@ function binarySearchTree(animator) {
                 if (node.isLeft) parent.left = null;
                 else parent.right = null;
             } else {
+                await sleep(delay);
                 return left && right
                     ? replaceNode(node)
                     : removeNode(node, left ? 'left' : 'right');

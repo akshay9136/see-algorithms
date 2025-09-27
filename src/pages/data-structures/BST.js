@@ -10,6 +10,10 @@ import { Refresh, Share } from '@mui/icons-material';
 
 var arr = [], Tree;
 
+const randomNodes = () => {
+    return [randomInt(), randomInt(), randomInt(), randomInt(), randomInt()];
+};
+
 export default function BST(props) {
     const router = useRouter();
     const [numbers, setNumbers] = useState([]);
@@ -48,8 +52,10 @@ export default function BST(props) {
         });
     };
 
-    const randomTree = () => {
-        arr = [randomInt(), randomInt(), randomInt(), randomInt(), randomInt()];
+    const randomTree = async () => {
+        if (arr.length) reset();
+        await sleep(100);
+        arr = randomNodes();
         insertAll();
     };
 
@@ -67,24 +73,22 @@ export default function BST(props) {
 
     useEffect(() => {
         if (router.isReady && !arr.length) {
+            arr = randomNodes();
             const { nodes } = router.query;
-            if (nodes) {
-                try {
+            try {
+                if (nodes) {
                     arr = JSON.parse(atob(nodes));
-                    insertAll();
-                } catch {}
-            } else {
-                randomTree();
-            }
+                }
+                insertAll();
+            } catch {}
         }
     }, [router]);
 
-    const insertAll = () => {
+    const insertAll = async () => {
         setNumbers(arr.slice());
         Tree = binarySearchTree(animator);
-        sleep(100).then(() => {
-            arr.forEach((num) => Tree._insert(num));
-        });
+        await sleep(100);
+        arr.forEach((num) => Tree._insert(num));
     };
 
     return (
