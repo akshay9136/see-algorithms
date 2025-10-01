@@ -13,6 +13,7 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Nunito:wght@500&display=swap"
           rel="stylesheet"
         />
+        <meta name="google-adsense-account" content="ca-pub-7905328601622622" />
       </Head>
       <body>
         <Main />
