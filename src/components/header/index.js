@@ -15,7 +15,6 @@ import {
   Menu,
   MenuItem,
   IconButton,
-  Tooltip,
   Button,
 } from '@mui/material';
 import { useState } from 'react';
@@ -66,7 +65,7 @@ function Header(props) {
           SEE ALGORITHMS
         </Typography>
       </div>
-      {/* Desktop Navigation - Horizontal List */}
+      {/* Desktop Navigation */}
       <div className={`d-none d-md-flex align-items-center`}>
         <Button
           onClick={() => handleNavigation('/about')}
@@ -104,18 +103,16 @@ function Header(props) {
 
       {/* Mobile Navigation - Dropdown Menu */}
       <div className="d-md-none d-block">
-        <Tooltip title="More Information">
-          <IconButton
-            onClick={handleClick}
-            size="small"
-            sx={{ ml: 1 }}
-            aria-controls={open ? 'info-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-          >
-            <MoreVert sx={{ color: 'white' }} />
-          </IconButton>
-        </Tooltip>
+        <IconButton
+          onClick={handleClick}
+          size="small"
+          sx={{ ml: 1 }}
+          aria-controls={open ? 'info-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+        >
+          <MoreVert sx={{ color: 'white' }} />
+        </IconButton>
         <Menu
           id="info-menu"
           anchorEl={anchorEl}

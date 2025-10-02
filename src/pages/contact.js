@@ -93,8 +93,8 @@ export default function ContactUs() {
           color="text.secondary"
           paragraph
         >
-          We'd love to hear from you! Send us a message and we'll respond as
-          soon as possible.
+          We&apos;d love to hear from you! Send us a message and we&apos;ll
+          respond as soon as possible.
         </Typography>
 
         <Box sx={{ mt: 4 }}>
@@ -108,8 +108,8 @@ export default function ContactUs() {
 
                   {submitted ? (
                     <Alert severity="success" sx={{ mb: 3 }}>
-                      Thank you for your message! We'll get back to you as soon
-                      as possible.
+                      Thank you for your message! We&apos;ll get back to you as
+                      soon as possible.
                     </Alert>
                   ) : null}
 
@@ -273,8 +273,8 @@ export default function ContactUs() {
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                       Yes! Use the share button to generate a URL that you can
-                      share with others. They'll see the same visualization you
-                      created.
+                      share with others. They&apos;ll see the same visualization
+                      you created.
                     </Typography>
                   </CardContent>
                 </Card>

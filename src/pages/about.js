@@ -50,9 +50,9 @@ export default function AboutUs() {
               <Typography variant="body1" paragraph>
                 See Algorithms was created with a simple yet powerful mission:
                 to make algorithm learning accessible, engaging, and effective
-                for everyone. We believe that understanding algorithms shouldn't
-                be limited to those with extensive programming experience or
-                mathematical backgrounds.
+                for everyone. We believe that understanding algorithms
+                shouldn&apos;t be limited to those with extensive programming
+                experience or mathematical backgrounds.
               </Typography>
 
               <Typography variant="body1" paragraph>
@@ -223,9 +223,9 @@ export default function AboutUs() {
               Join Our Learning Community
             </Typography>
             <Typography variant="body1" paragraph>
-              Whether you're a student, educator, or professional developer, See
-              Algorithms provides the tools and resources you need to master
-              algorithmic thinking.
+              Whether you&apos;re a student, educator, or professional
+              developer, See Algorithms provides the tools and resources you
+              need to master algorithmic thinking.
             </Typography>
             <Typography variant="body1" paragraph>
               Start exploring algorithms today and discover the beauty of
@@ -238,7 +238,8 @@ export default function AboutUs() {
               Contact & Support
             </Typography>
             <Typography variant="body1" paragraph>
-              Questions, feedback, or suggestions? We'd love to hear from you!
+              Questions, feedback, or suggestions? We&apos;d love to hear from
+              you!
             </Typography>
             <Typography variant="body1">
               Email:{' '}

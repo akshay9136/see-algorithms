@@ -26,7 +26,7 @@ export default function TermsOfService() {
             1. Acceptance of Terms
           </Typography>
           <Typography variant="body1" paragraph>
-            By accessing and using See Algorithms ("the Site"), you accept and
+            By accessing and using See Algorithms ({'"the Site"'}), you accept and
             agree to be bound by the terms and provision of this agreement. If
             you do not agree to abide by the above, please do not use this
             service.
@@ -110,7 +110,7 @@ export default function TermsOfService() {
             6. Disclaimer
           </Typography>
           <Typography variant="body1" paragraph>
-            The information on this Site is provided on an "as is" basis. To the
+            The information on this Site is provided on an {'"as is"'} basis. To the
             fullest extent permitted by law, See Algorithms excludes all
             representations, warranties, conditions and terms relating to our
             Site and the use of this Site. Nothing in this disclaimer will:

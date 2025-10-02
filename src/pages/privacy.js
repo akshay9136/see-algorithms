@@ -26,12 +26,12 @@ export default function PrivacyPolicy() {
             1. Introduction
           </Typography>
           <Typography variant="body1" paragraph>
-            Welcome to See Algorithms ("we," "our," or "us"). This Privacy
+            Welcome to See Algorithms ({'"we," "our," or "us"'}). This Privacy
             Policy explains how we collect, use, disclose, and safeguard your
             information when you visit our website see-algorithms.com (the
-            "Site"). Please read this privacy policy carefully. If you do not
-            agree with the terms of this privacy policy, please do not access
-            the site.
+            {'"Site"'}). Please read this privacy policy carefully. If you do
+            not agree with the terms of this privacy policy, please do not
+            access the site.
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
@@ -134,7 +134,7 @@ export default function PrivacyPolicy() {
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
-            8. Children's Privacy
+            8. Children&apos;s Privacy
           </Typography>
           <Typography variant="body1" paragraph>
             Our Site is designed for educational purposes and is suitable for
@@ -150,8 +150,8 @@ export default function PrivacyPolicy() {
           <Typography variant="body1" paragraph>
             We may update this Privacy Policy from time to time. We will notify
             you of any changes by posting the new Privacy Policy on this page
-            and updating the "Last updated" date. You are advised to review this
-            Privacy Policy periodically for any changes.
+            and updating the {'"Last updated"'} date. You are advised to review
+            this Privacy Policy periodically for any changes.
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
