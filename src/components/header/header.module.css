@@ -35,6 +35,19 @@
     transform: scale(1.05);
 }
 
+/* Desktop Navigation Styles */
+.navButton {
+    padding: 0.5rem 1rem !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+    font-size: 1rem !important;
+}
+
+.navButton:hover {
+    background-color: rgba(25, 118, 210, 0.08) !important;
+    transform: translateY(-1px);
+}
+
 /* Desktop styles with light background */
 @media (min-width: 768px) {
     .header {
