@@ -38,6 +38,11 @@
   height: 300px;
 }
 
+.radixSort {
+    position: relative;
+    min-height: 300px;
+}
+
 .huffmanTree {
   position: relative;
   height: 600px;

@@ -1,161 +1,175 @@
-import React, { useEffect } from 'react';
-import { createGrid, sound } from '@/common/utils';
+import React, { useEffect, useState } from 'react';
+import { sound } from '@/common/utils';
 import Numbers from '@/components/numbers/input-numbers';
 import Timer from '@/common/timer';
+import useAnimator from '@/hooks/useAnimator';
+import { Numbox } from '@/components/numbers';
 
-var a, n, cells;
+const sleep = (t) => Timer.sleep(t);
+
+var a, n;
 var max, exp;
 var out, b;
-var delay = 700;
-
-function nextDigit() {
-    for (let i = 0; i < n; i++) {
-        let html = '</div>';
-        let t = a[i];
-        let j = 1;
-        while (t !== 0) {
-            let r = t % 10;
-            if (j === exp) {
-                html = `<span style="color:#e91e63">${r}</span>${html}`;
-            } else {
-                html = r + html;
-            }
-            t = Math.floor(t / 10);
-            j = j * 10;
-        }
-        cells[i].innerHTML = '<div>' + html;
-    }
-}
-
-function enqueue(i) {
-    let j = Math.floor(a[i] / exp) % 10;
-    b[j]++;
-    cells[i].style.backgroundColor = 'white';
-    cells[i].firstChild.setAttribute(
-        'style',
-        `
-        margin-top:5px;
-        background-color:#ffea00;
-        border:thin solid;
-        border-radius:8px;`
-    );
-    cells[j + n].innerHTML =
-        cells[i].innerHTML + cells[j + n].innerHTML;
-    cells[i++].innerHTML = '';
-}
-
-async function radixSort() {
-    nextDigit();
-    if (Math.floor(max / exp) > 0) {
-        b = new Array();
-        for (let j = 0; j < 10; j++) b[j] = 0;
-        for (let i = 0; i < n; i++) {
-            await Timer.sleep(delay);
-            cells[i].style.backgroundColor = '#ffea00';
-            await Timer.sleep(delay);
-            sound('pop');
-            enqueue(i);
-        }
-        await Timer.sleep(delay);
-        for (let j = 1; j < 10; j++) b[j] += b[j - 1];
-        for (let i = n - 1; i >= 0; i--) {
-            out[--b[Math.floor(a[i] / exp) % 10]] = a[i];
-        }
-        for (let i = 0; i < n; i++) a[i] = out[i];
-        exp *= 10;
-        await putBack(n - 1);
-        await Timer.sleep(delay);
-        for (let i = 0; i < n; i++) {
-            cells[i].style.backgroundColor = 'white';
-        }
-        await Timer.sleep(delay);
-        radixSort();
-    }
-}
-
-async function putBack(i, j = 9) {
-    let bkt = cells[n + j];
-    while (bkt.childNodes.length > 0) {
-        await Timer.sleep(delay);
-        sound('pop');
-        bkt.firstChild.removeAttribute('style');
-        cells[i].innerHTML = bkt.firstChild.outerHTML;
-        cells[i].style.backgroundColor = '#ffea00';
-        bkt.removeChild(bkt.firstChild);
-        i--;
-    }
-    if (j > 0) await putBack(i, --j);
-}
+var delay = 500;
 
 function RadixSort() {
-    const start = (values) => {
-        a = [...values];
-        n = a.length;
-        createGrid(n, '#numbers');
-        createGrid(10, '#buckets');
-        createGrid(10, '#buckets');
-        cells = document.querySelectorAll('.cell');
-        for (let i = 0; i < n; i++) {
-            cells[i].textContent = a[i];
-            cells[i].style.border = '2px solid';
-        }
-        cells[n].parentNode.style = 'align-items:end;'
-        max = a[0];
-        for (let i = 1; i < n; i++) {
-            if (a[i] > max) max = a[i];
-        }
-        for (let i = 0; i < 10; i++) {
-            let npn = i + 10 + n;
-            cells[npn].textContent = i;
-            cells[npn].setAttribute(
-                'style',
-                `
-                font-weight:600;
-                border-top:2px solid;
-                border-radius:8px;
-                text-align:center;`
-            );
-            cells[n + i].setAttribute(
-                'style',
-                `
-                padding:0;
-                display:flex;
-                flex-direction:column;
-                justify-content:flex-end;
-                margin-bottom:7px;`
-            );
-        }
-        exp = 1;
-        out = new Array();
-        Timer.sleep(delay).then(radixSort);
-    };
+  const [numbers, setNumbers] = useState([]);
+  const [scope, { txy, tx, bgcolor, animate }] = useAnimator();
+  const [nextExp, setNextExp] = useState(0);
 
-    const stop = () => {
-        Timer.clear();
-        try {
-            document.getElementById('numbers').innerHTML = '';
-            document.getElementById('buckets').innerHTML = '';
-        } catch (e) {}
-    };
+  const enqueue = async (i) => {
+    bgcolor(`#box${i}`, '#ffea00');
+    await sleep(delay);
+    sound('swap');
+    let j = Math.floor(a[i] / exp) % 10;
+    b[j].push(i);
+    animate(`#box${i}`, { height: 30 });
+    let dy = b[j].length * 36;
+    await txy(`#box${i}`, j * 60, 240 - dy);
+    await sleep(delay);
+  };
 
-    useEffect(() => () => stop(), []);
+  const radixSort = async () => {
+    await sleep(delay * 2);
+    b = [];
+    for (let j = 0; j < 10; j++) b[j] = [];
+    for (let i = 0; i < n; i++) {
+      await enqueue(i);
+    }
+    await sleep(delay);
+    out = [];
+    for (let j = 9; j >= 0; j--) {
+      await dequeue(j);
+    }
+    a = out.reverse();
+    setNumbers(a.slice());
+    exp *= 10;
+    for (let i = 0; i < n; i++) {
+      tx(`#box${i}`, i * 60, 0);
+    }
+    await sleep(delay);
+    for (let i = 0; i < n; i++) {
+      bgcolor(`#box${i}`, '#fff');
+    }
+    setNextExp(0);
+    if (Math.floor(max / exp) > 0) {
+      await sleep(delay * 2);
+      setNextExp(exp);
+      await radixSort();
+    }
+  };
 
-    return (
-        <>
-            <p>
-                <strong>Radix Sort</strong> organizes numbers by sorting them
-                digit by digit. It starts with the least significant digit
-                (rightmost) and works to the most significant digit (leftmost).
-                Numbers are placed into buckets based on each digit&apos;s
-                value, then collected back together in order. This process is
-                repeated for each digit, leading to a sorted list.
-            </p>
-            <Numbers onStart={start} onStop={stop} />
-            <div id="numbers" className="numGrid mb-5" />
-            <br />
-            <div id="buckets" className="numGrid" />
-        </>
-    );
+  const dequeue = async (j) => {
+    while (b[j].length) {
+      let i = b[j].pop();
+      out.push(a[i]);
+      sound('swap');
+      let k = n - out.length;
+      animate(`#box${i}`, { height: 40 });
+      await txy(`#box${i}`, k * 60, 0);
+      await sleep(delay);
+    }
+  };
+
+  const start = async (values) => {
+    setNumbers(values);
+    a = values.slice();
+    n = a.length;
+    max = a[0];
+    for (let i = 1; i < n; i++) {
+      if (a[i] > max) max = a[i];
+    }
+    exp = 1;
+    await sleep(delay * 2);
+    setNextExp(1);
+    radixSort().catch(() => {});
+  };
+
+  const stop = () => {
+    setNumbers([]);
+    setNextExp(0);
+    Timer.clear();
+  };
+
+  useEffect(() => () => stop(), []);
+
+  const renderDigits = (num) => {
+    let digits = [];
+    let t = num;
+    let j = 1;
+    while (t !== 0) {
+      let r = t % 10;
+      if (j === nextExp) {
+        digits.push(
+          <span key={j} style={{ color: '#e91e63' }}>
+            {r}
+          </span>
+        );
+      } else {
+        digits.push(<span key={j}>{r}</span>);
+      }
+      t = Math.floor(t / 10);
+      j = j * 10;
+    }
+    return digits.reverse();
+  };
+
+  return (
+    <>
+      <p>
+        <strong>Radix Sort</strong> organizes numbers by sorting them digit by
+        digit. It starts with the least significant digit (rightmost) and works
+        to the most significant digit (leftmost). Numbers are placed into
+        buckets based on each digit&apos;s value, then collected back together
+        in order. This process is repeated for each digit, leading to a sorted
+        list.
+      </p>
+      <Numbers onStart={start} onStop={stop} />
+
+      <div className="radixSort" ref={scope}>
+        <div className="d-flex">
+          {numbers.map((num, i) => (
+            <Numbox
+              key={i}
+              index={i}
+              value={renderDigits(num)}
+              animate={{ x: i * 60 }}
+              style={styles.numbox()}
+            />
+          ))}
+        </div>
+        <div className="d-flex">
+          {numbers.length > 0 &&
+            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
+              <Numbox
+                key={i}
+                index={numbers.length + i}
+                value={i}
+                animate={{ x: i * 60, y: 240 }}
+                style={styles.bucket()}
+              />
+            ))}
+        </div>
+      </div>
+    </>
+  );
 }
+
+const styles = {
+  numbox: () => ({
+    position: 'absolute',
+    fontWeight: 600,
+  }),
+
+  bucket: () => ({
+    position: 'absolute',
+    fontWeight: 600,
+    fontSize: '1rem',
+    background: 'transparent',
+    border: 0,
+    borderTop: '2px solid grey',
+    borderRadius: '8px',
+  }),
+};
 
 export default RadixSort;
