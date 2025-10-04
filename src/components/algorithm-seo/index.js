@@ -1,4 +1,3 @@
-import React from 'react';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { getAlgorithmSEO } from './config';
@@ -45,12 +44,13 @@ const AlgorithmSEO = ({ children, algorithmId, customSEO = {} }) => {
     description: algorithmSEO.description,
     educationalLevel: 'Beginner to Advanced',
     learningResourceType: 'Interactive Visualization',
+    educationalUse: ['learning', 'demonstration'],
     teaches: algoName,
     url: `https://see-algorithms.com${router.asPath}`,
     provider: {
       '@type': 'Organization',
       name: 'See Algorithms',
-      url: 'https://see-algorithms.com',
+      sameAs: 'https://see-algorithms.com',
     },
     audience: {
       '@type': 'EducationalAudience',
@@ -58,24 +58,15 @@ const AlgorithmSEO = ({ children, algorithmId, customSEO = {} }) => {
     },
     interactivityType: 'active',
     isPartOf: {
-      '@type': 'Course',
-      name: 'Algorithm Visualization Course',
-      description:
-        'Interactive course covering various computer science algorithms',
+      '@type': 'WebSite',
+      name: 'See Algorithms',
+      url: 'https://see-algorithms.com',
     },
   };
 
   return (
     <>
-      <NextSeo
-        {...seoConfig}
-        additionalLinkTags={[
-          {
-            rel: 'canonical',
-            href: seoConfig.canonical,
-          },
-        ]}
-      />
+      <NextSeo {...seoConfig} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}

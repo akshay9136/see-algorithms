@@ -11,6 +11,14 @@ export const defaultSeoConfig = {
     title: 'See Algorithms - Interactive Algorithm Visualizations',
     description:
       'Learn algorithms through interactive visualizations. Step-by-step animations for sorting, searching, graph algorithms, and data structures.',
+    images: [
+      {
+        url: 'https://see-algorithms.com/og-image.png', // Replace with your actual OG image URL
+        width: 1200,
+        height: 630,
+        alt: 'See Algorithms Visualization',
+      },
+    ],
   },
   additionalMetaTags: [
     {
@@ -21,6 +29,10 @@ export const defaultSeoConfig = {
     {
       name: 'author',
       content: 'See Algorithms',
+    },
+    {
+      property: 'article:author',
+      content: 'https://see-algorithms.com/about',
     },
     {
       name: 'robots',
