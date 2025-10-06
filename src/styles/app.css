@@ -14,9 +14,13 @@
 
 .content {
   padding: 1.5rem;
+  padding-right: 0;
   overflow: auto;
-  justify-content: space-between;
   background-color: #f8fbff;
+}
+
+.content > div {
+  margin-right: 1.5rem;
 }
 
 .drawer {
@@ -30,11 +34,14 @@
   height: var(--layout-height);
 }
 
-.heapSort {
-  position: relative;
-  height: 300px;
+.sorting,
+.mergeSort {
+  width: max-content;
+  height: 150px;
 }
 
+.heapSort,
+.mergeSort,
 .radixSort {
     position: relative;
     min-height: 300px;
@@ -43,10 +50,6 @@
 .huffmanTree {
   position: relative;
   height: 600px;
-}
-
-.mergeSort {
-  height: 300px;
 }
 
 .numGrid {
