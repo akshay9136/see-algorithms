@@ -43,15 +43,14 @@ function RadixSort() {
     }
     a = out.reverse();
     setNumbers(a.slice());
-    exp *= 10;
-    for (let i = 0; i < n; i++) {
-      tx(`#box${i}`, i * 60, 0);
-    }
-    await sleep(delay);
+    setNextExp(0);
     for (let i = 0; i < n; i++) {
       bgcolor(`#box${i}`, '#fff');
     }
-    setNextExp(0);
+    for (let i = 0; i < n; i++) {
+      tx(`#box${i}`, i * 60, 0);
+    }
+    exp *= 10;
     if (Math.floor(max / exp) > 0) {
       await sleep(delay * 2);
       setNextExp(exp);
