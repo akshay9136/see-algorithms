@@ -10,12 +10,11 @@
   height: var(--layout-height);
   flex-wrap: nowrap;
   font-size: 15px;
-  overflow: auto;
 }
 
 .content {
-  height: 100%;
-  flex-wrap: nowrap;
+  padding: 1.5rem;
+  overflow: auto;
   justify-content: space-between;
   background-color: #f8fbff;
 }

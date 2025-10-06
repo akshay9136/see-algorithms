@@ -41,16 +41,13 @@ function Layout({ children }) {
         >
           <Sider selected={algoId} />
         </div>
-        <div className="content d-flex m-0" ref={scrollRef}>
-          <div style={{ padding: '1.5rem', overflow: 'auto' }}>
-            {algoId && (
-              <Typography variant="h6" fontWeight={600} mb={2}>
-                {algoName}
-              </Typography>
-            )}
-            {children}
-          </div>
-          {/* {savedData.length > 0 && <DataItems />} */}
+        <div className="content" ref={scrollRef}>
+          {algoId && (
+            <Typography variant="h6" fontWeight={600} mb={2}>
+              {algoName}
+            </Typography>
+          )}
+          {children}
         </div>
       </div>
     </>
