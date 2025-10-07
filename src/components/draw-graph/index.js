@@ -127,7 +127,7 @@ function DrawGraph(props) {
               fontWeight: 500,
             }}
           >
-            {playStatus > 0 ? 'Pause' : 'Play'}
+            {playStatus > 0 ? 'PAUSE' : 'PLAY'}
           </Button>
 
           <Button
@@ -140,7 +140,7 @@ function DrawGraph(props) {
               fontWeight: 500,
             }}
           >
-            Clear
+            CLEAR
           </Button>
 
           <Tooltip title="Share Graph">
