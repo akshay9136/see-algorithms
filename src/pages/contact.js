@@ -77,7 +77,7 @@ export default function ContactUs() {
       </Head>
       <Box>
         <Typography
-          variant="h4"
+          variant="h5"
           component="h1"
           gutterBottom
           fontWeight={600}
@@ -87,7 +87,7 @@ export default function ContactUs() {
         </Typography>
 
         <Typography
-          variant="h6"
+          variant="subtitle1"
           align="center"
           color="text.secondary"
           paragraph
@@ -101,7 +101,7 @@ export default function ContactUs() {
             <Grid item xs={12} md={8}>
               <Card elevation={3}>
                 <CardContent sx={{ p: 4 }}>
-                  <Typography variant="h5" gutterBottom fontWeight={600}>
+                  <Typography variant="h6" gutterBottom fontWeight={600}>
                     Send us a Message
                   </Typography>
 

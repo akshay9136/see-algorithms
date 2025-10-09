@@ -2,17 +2,12 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-end;
   position: relative;
+  width: 500px;
 }
 
 .toolbar .title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  position: absolute;
-  left: 0;
-  margin: 0;
-  color: #2c3e50;
+  margin-bottom: 0.5rem;
 }
 
 .plane {
@@ -26,10 +21,22 @@
   display: flex;
   gap: 0.75rem;
   align-items: center;
+  margin-left: auto;
 }
 
 /* Add hover effects for buttons */
 .buttonGroup button:hover {
   transform: translateY(-1px);
   transition: transform 0.2s ease;
+}
+
+@media (min-width: 768px) {
+  .toolbar {
+    width: auto;
+  }
+
+  .toolbar .title {
+    margin-bottom: -4px;
+    font-size: 1.15rem;
+  }
 }

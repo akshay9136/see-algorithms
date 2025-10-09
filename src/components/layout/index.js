@@ -37,13 +37,13 @@ function Layout({ children }) {
       <div className="d-flex contentRow">
         <div
           className="d-none d-md-block"
-          style={{ width: 'max-content', minWidth: 240 }}
+          style={{ width: 'max-content', minWidth: 250 }}
         >
           <Sider selected={algoId} />
         </div>
         <div className="content" ref={scrollRef}>
           {algoId && (
-            <Typography variant="h6" fontWeight={600} mb={2}>
+            <Typography variant="h6" component="h1" fontWeight={600} mb={2}>
               {algoName}
             </Typography>
           )}

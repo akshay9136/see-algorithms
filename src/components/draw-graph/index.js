@@ -7,6 +7,7 @@ import {
   IconButton,
   Tooltip,
   Box,
+  Typography,
 } from '@mui/material';
 import { PlayArrow, Pause, Refresh, Share } from '@mui/icons-material';
 import Spinner from '../spinner';
@@ -72,7 +73,9 @@ function DrawGraph(props) {
   return (
     <Spinner className="drawGraph" spinning={false}>
       <Box mb={1.5} className={styles.toolbar}>
-        <h5 className={styles.title}>Draw Graph</h5>
+        <Typography variant="h6" className={styles.title} ml={1}>
+          Draw Graph
+        </Typography>
 
         <div className={styles.buttonGroup}>
           <Tooltip title="Refresh Graph">
