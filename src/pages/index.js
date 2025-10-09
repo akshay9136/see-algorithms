@@ -1,11 +1,11 @@
 import React from 'react';
-import { Container, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Features from '../components/features';
 
 export default function HomePage() {
   return (
-    <Container sx={{ p: 0 }}>
-      <Typography variant="h4" align="center" my={3} fontWeight={600}>
+    <Box>
+      <Typography variant="h4" align="center" my={2} fontWeight={600}>
         Visualization of Algorithms
       </Typography>
       <Typography variant="h6" align="center">
@@ -22,6 +22,6 @@ export default function HomePage() {
         resources.
       </Typography>
       <Features />
-    </Container>
+    </Box>
   );
 }

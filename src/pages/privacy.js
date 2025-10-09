@@ -12,8 +12,8 @@ export default function PrivacyPolicy() {
           content="Privacy Policy for See Algorithms - Learn how we collect, use, and protect your data."
         />
       </Head>
-      <Container maxWidth="md" sx={{ py: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom fontWeight={600}>
+      <Box maxWidth="md">
+        <Typography variant="h5" component="h1" gutterBottom fontWeight={600}>
           Privacy Policy
         </Typography>
 
@@ -165,7 +165,7 @@ export default function PrivacyPolicy() {
             Email: akarande777@outlook.com
           </Typography>
         </Box>
-      </Container>
+      </Box>
     </>
   );
 }

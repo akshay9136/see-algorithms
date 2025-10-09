@@ -19,6 +19,7 @@
   background-color: #f8fbff;
 }
 
+.content > p,
 .content > div {
   margin-right: 1.5rem;
 }

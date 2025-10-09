@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Container,
   Typography,
   Box,
   Card,
@@ -76,7 +75,7 @@ export default function ContactUs() {
           content="Get in touch with See Algorithms - We'd love to hear your feedback, questions, or suggestions."
         />
       </Head>
-      <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Box>
         <Typography
           variant="h4"
           component="h1"
@@ -311,7 +310,7 @@ export default function ContactUs() {
             </Grid>
           </Box>
         </Box>
-      </Container>
+      </Box>
     </>
   );
 }

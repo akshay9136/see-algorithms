@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Container,
   Typography,
   Box,
   Card,
@@ -20,9 +19,9 @@ export default function AboutUs() {
           content="Learn about See Algorithms - Our mission to make algorithm learning accessible through interactive visualizations."
         />
       </Head>
-      <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Box>
         <Typography
-          variant="h4"
+          variant="h5"
           component="h1"
           gutterBottom
           fontWeight={600}
@@ -259,7 +258,7 @@ export default function AboutUs() {
             </Typography>
           </Box>
         </Box>
-      </Container>
+      </Box>
     </>
   );
 }

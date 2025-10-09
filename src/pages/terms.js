@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Typography, Box, Link } from '@mui/material';
+import { Typography, Box, Link } from '@mui/material';
 import Head from 'next/head';
 
 export default function TermsOfService() {
@@ -12,8 +12,8 @@ export default function TermsOfService() {
           content="Terms of Service for See Algorithms - Learn about the terms and conditions for using our educational platform."
         />
       </Head>
-      <Container maxWidth="md" sx={{ py: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom fontWeight={600}>
+      <Box maxWidth="md">
+        <Typography variant="h5" component="h1" gutterBottom fontWeight={600}>
           Terms of Service
         </Typography>
 
@@ -224,7 +224,7 @@ export default function TermsOfService() {
             <Link href="https://see-algorithms.com">see-algorithms.com</Link>
           </Typography>
         </Box>
-      </Container>
+      </Box>
     </>
   );
 }
