@@ -122,8 +122,14 @@
 .cost {
   width: 32px;
   height: 24px;
-  background-color: transparent;
+  background: transparent;
   border: 0;
+  padding: 0;
+}
+
+.cost:focus {
+  background: lightblue;
+  outline: none
 }
 
 #visited div {

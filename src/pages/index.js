@@ -5,7 +5,7 @@ import Features from '../components/features';
 export default function HomePage() {
   return (
     <Box>
-      <Typography variant="h4" align="center" my={2} fontWeight={600}>
+      <Typography variant="h4" component="h1" my={2} align="center">
         Visualization of Algorithms
       </Typography>
       <Typography variant="h6" align="center">
