@@ -7,7 +7,20 @@ import { Colors } from '@/common/constants';
 import Timer from '@/common/timer';
 
 export default function ConvexHull(props) {
-    return <AddPoints {...props} start={start} />;
+  return (
+    <>
+      <p>
+        A <strong>Convex Hull</strong> is the smallest convex polygon that
+        encloses a given set of points. It is a fundamental concept in
+        computational geometry with applications in collision detection, image
+        processing, and pattern recognition. The algorithm visualized here is
+        the <strong>Jarvis March</strong> or <strong>Gift Wrapping</strong>{' '}
+        algorithm, which finds the convex hull by iteratively wrapping a
+        &apos;gift&apos; around the set of points.
+      </p>
+      <AddPoints {...props} start={start} />
+    </>
+  );
 }
 
 var cvx, left, p, q;
