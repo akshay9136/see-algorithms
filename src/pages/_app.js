@@ -9,12 +9,15 @@ import CookieConsent from '../components/cookie-consent';
 import AppContext, { initialState } from '../common/context';
 import Layout from '@/components/layout';
 import Toast from '@/components/toast';
+import Script from 'next/script';
 
 const theme = createTheme({
   typography: {
     fontFamily: 'Nunito, sans-serif',
   },
 });
+
+const noContentPages = ['PageNotFound'];
 
 export default function App({ Component, pageProps }) {
   const [state, setState] = useState(initialState);
@@ -33,7 +36,17 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
-      <DefaultSeo {...defaultSeoConfig} />
+      {!noContentPages.includes(Component.name) && (
+        <>
+          <DefaultSeo {...defaultSeoConfig} />
+          <Script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7905328601622622"
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+        </>
+      )}
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <AppContext.Provider value={{ ...state, setContext }}>

@@ -12,6 +12,7 @@
 }
 
 .content {
+  width: 100%;
   padding: 1.5rem;
   padding-right: 0;
   overflow: auto;
