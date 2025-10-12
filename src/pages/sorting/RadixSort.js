@@ -18,11 +18,9 @@ function RadixSort() {
   const [nextExp, setNextExp] = useState(0);
 
   const enqueue = async (i) => {
-    bgcolor(`#box${i}`, '#ffea00');
-    await sleep(delay);
-    sound('swap');
     let j = Math.floor(a[i] / exp) % 10;
     b[j].push(i);
+    sound('swap');
     animate(`#box${i}`, { height: 30 });
     let dy = b[j].length * 36;
     await txy(`#box${i}`, j * 60, 240 - dy);
@@ -41,18 +39,16 @@ function RadixSort() {
     for (let j = 9; j >= 0; j--) {
       await dequeue(j);
     }
-    a = out.reverse();
-    setNumbers(a.slice());
     setNextExp(0);
-    for (let i = 0; i < n; i++) {
-      bgcolor(`#box${i}`, '#fff');
-    }
+    await sleep(delay);
     for (let i = 0; i < n; i++) {
       tx(`#box${i}`, i * 60, 0);
     }
+    a = out.reverse();
+    setNumbers(a.slice());
     exp *= 10;
     if (Math.floor(max / exp) > 0) {
-      await sleep(delay * 2);
+      await sleep(delay);
       setNextExp(exp);
       await radixSort();
     }
