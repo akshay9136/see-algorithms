@@ -9,6 +9,7 @@ import CookieConsent from '../components/cookie-consent';
 import AppContext, { initialState } from '../common/context';
 import Layout from '@/components/layout';
 import Toast from '@/components/toast';
+import { Analytics } from '@vercel/analytics/next';
 import Script from 'next/script';
 
 const theme = createTheme({
@@ -39,6 +40,7 @@ export default function App({ Component, pageProps }) {
       {!noContentPages.includes(Component.name) && (
         <>
           <DefaultSeo {...defaultSeoConfig} />
+          <Analytics />
           <Script
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7905328601622622"

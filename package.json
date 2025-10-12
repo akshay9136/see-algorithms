@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.16",
+    "@vercel/analytics": "^1.5.0",
     "bootstrap": "^5.3.2",
     "framer-motion": "^10.16.4",
     "graphql": "^16.8.1",
