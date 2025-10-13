@@ -44,12 +44,12 @@ function InputNumbers(props) {
   const handleSubmit = () => {
     if (!status) {
       if (validate()) {
-        setStatus(true);
+        setTimeout(() => setStatus(true), 100);
         props.onStart(values);
       }
     } else {
       props.onStop();
-      setStatus(false);
+      setTimeout(() => setStatus(false), 100);
       setValues([]);
     }
   };

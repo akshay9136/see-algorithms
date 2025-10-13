@@ -10,7 +10,10 @@ import AppContext, { initialState } from '../common/context';
 import Layout from '@/components/layout';
 import Toast from '@/components/toast';
 import { Analytics } from '@vercel/analytics/next';
+import { useRouter } from 'next/router';
 import Script from 'next/script';
+
+const isProd = process.env.NODE_ENV === 'production';
 
 const theme = createTheme({
   typography: {
@@ -18,10 +21,10 @@ const theme = createTheme({
   },
 });
 
-const noContentPages = ['PageNotFound'];
-
 export default function App({ Component, pageProps }) {
   const [state, setState] = useState(initialState);
+  const router = useRouter();
+  const hasContent = router.pathname !== '/404';
 
   const setContext = (slice) => {
     setState((state) => ({ ...state, ...slice }));
@@ -35,12 +38,40 @@ export default function App({ Component, pageProps }) {
     }
   }, []);
 
+  useEffect(() => {
+    const handleClick = (event) => {
+      const button = event.target.closest('button');
+      if (button) {
+        const buttonInfo = {
+          text: button.textContent.trim(),
+          title: button.title,
+          page: router.pathname,
+        };
+
+        fetch('/api/log-event', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: 'Button clicked',
+            data: buttonInfo,
+          }),
+        });
+      }
+    };
+
+    window.addEventListener('click', handleClick);
+
+    return () => {
+      window.removeEventListener('click', handleClick);
+    };
+  }, [router.pathname]);
+
   return (
     <>
-      {!noContentPages.includes(Component.name) && (
+      <Analytics />
+      {isProd && hasContent && (
         <>
           <DefaultSeo {...defaultSeoConfig} />
-          <Analytics />
           <Script
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7905328601622622"

@@ -1,16 +1,14 @@
-import React, { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import {
   Button,
   Checkbox,
   TextField,
   FormControlLabel,
   IconButton,
-  Tooltip,
-  Box,
   Typography,
+  Box,
 } from '@mui/material';
 import { PlayArrow, Pause, Refresh, Share } from '@mui/icons-material';
-import Spinner from '../spinner';
 import styles from './draw-graph.module.css';
 import AppContext from '@/common/context';
 import useGraphControls from '@/hooks/useGraphControls';
@@ -29,13 +27,11 @@ function DrawGraph(props) {
     source,
     weighted: props.weighted || false,
     acyclic: algoId === 'TopSort',
-    directed:
-      algoId === 'TopSort' || (isDirGraph && props.allowDirected !== false),
+    directed: algoId === 'TopSort' ||
+      (isDirGraph && props.allowDirected !== false),
   };
-  const { handlePlay, handleClear, refresh, setDirected } = useGraphControls(
-    config,
-    props
-  );
+  const { handlePlay, handleClear, refresh, setDirected } =
+    useGraphControls(config, props);
 
   useEffect(() => {
     refresh();
@@ -71,18 +67,21 @@ function DrawGraph(props) {
   };
 
   return (
-    <Spinner className="drawGraph" spinning={false}>
+    <Box className="drawGraph" aria-label="Graph controls and visualization">
       <Box mb={1.5} className={styles.toolbar}>
         <Typography variant="h6" className={styles.title} ml={1}>
           Draw Graph
         </Typography>
 
-        <div className={styles.buttonGroup}>
-          <Tooltip title="Refresh Graph">
-            <IconButton onClick={refresh} color="primary">
-              <Refresh />
-            </IconButton>
-          </Tooltip>
+        <Box className={styles.buttonGroup}>
+          <IconButton
+            onClick={refresh}
+            color="primary"
+            title="New Graph"
+            aria-label="New Graph"
+          >
+            <Refresh />
+          </IconButton>
 
           {props.allowDirected !== false && (
             <FormControlLabel
@@ -124,13 +123,14 @@ function DrawGraph(props) {
             onClick={handlePlay}
             disabled={Boolean(props.isDAG && playStatus)}
             color="primary"
+            aria-live="polite"
             sx={{
               minWidth: '80px',
               textTransform: 'none',
               fontWeight: 500,
             }}
           >
-            {playStatus > 0 ? 'PAUSE' : 'PLAY'}
+            PLAY
           </Button>
 
           <Button
@@ -146,23 +146,18 @@ function DrawGraph(props) {
             CLEAR
           </Button>
 
-          <Tooltip title="Share Graph">
-            <IconButton
-              color="primary"
-              onClick={handleSave}
-              sx={{
-                '&:hover': {
-                  backgroundColor: 'rgba(25, 118, 210, 0.04)',
-                },
-              }}
-            >
-              <Share />
-            </IconButton>
-          </Tooltip>
-        </div>
+          <IconButton
+            onClick={handleSave}
+            color="primary"
+            title="Share Graph"
+            aria-label="Share Graph"
+          >
+            <Share />
+          </IconButton>
+        </Box>
       </Box>
       <Box mb={1} className="resizable">
-        <svg id="plane" className={styles.plane}>
+        <svg id="plane" className={styles.plane} role="graphics-document">
           <defs>
             <marker
               id="arrow"
@@ -178,7 +173,7 @@ function DrawGraph(props) {
           </defs>
         </svg>
       </Box>
-    </Spinner>
+    </Box>
   );
 }
 

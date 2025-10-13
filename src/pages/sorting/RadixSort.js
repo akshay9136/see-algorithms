@@ -24,7 +24,7 @@ function RadixSort() {
     animate(`#box${i}`, { height: 30 });
     let dy = b[j].length * 36;
     await txy(`#box${i}`, j * 60, 240 - dy);
-    await sleep(delay);
+    await sleep(delay * 2);
   };
 
   const radixSort = async () => {

@@ -1,9 +1,9 @@
-import React, { useContext, useEffect } from 'react';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
+import { useContext, useEffect } from 'react';
 import { PlayArrow, Pause } from '@mui/icons-material';
-import styles from '../draw-graph/draw-graph.module.css';
 import Graph from '@/common/graph';
 import $ from 'jquery';
+import styles from '../draw-graph/draw-graph.module.css';
 import { addPoints, randomize } from '@/helpers/convexHull';
 import Timer from '@/common/timer';
 import AppContext from '@/common/context';
@@ -48,25 +48,28 @@ function AddPoints(props) {
   }, []);
 
   return (
-    <div className="drawGraph">
-      <Box className={styles.toolbar} mb={2}>
-        <h5 className={styles.title}>Add Points</h5>
+    <Box className="drawGraph" aria-label="Convex hull visualization">
+      <Box className={styles.toolbar} mb={1.5}>
+        <Typography variant="h6" className={styles.title} ml={1}>
+          Add Points
+        </Typography>
         <Button
           variant="contained"
           startIcon={playStatus > 0 ? <Pause /> : <PlayArrow />}
           onClick={handlePlay}
-          sx={{ mr: 2 }}
+          sx={{ mr: 1.5 }}
+          aria-live="polite"
         >
-          {playStatus > 0 ? 'Pause' : 'Play'}
+          PLAY
         </Button>
-        <Button variant="contained" onClick={handleReset} id="clear">
-          Reset
+        <Button variant="contained" onClick={handleReset}>
+          RESET
         </Button>
       </Box>
-      <div className="resizable">
-        <svg id="plane" className={styles.plane}></svg>
-      </div>
-    </div>
+      <Box className="resizable">
+        <svg id="plane" className={styles.plane} role="graphics-document"></svg>
+      </Box>
+    </Box>
   );
 }
 

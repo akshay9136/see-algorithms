@@ -54,6 +54,8 @@ function DSInput(props) {
             }}
             disabled={status || btn.disabled}
             sx={{ mr: 1, minWidth: 40 }}
+            title={btn.title}
+            aria-label={btn.text}
           >
             {btn.text}
           </Button>

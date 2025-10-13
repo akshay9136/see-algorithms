@@ -61,12 +61,18 @@ export default function BST(props) {
 
     const buttons = [
         { text: 'Insert', onClick: insert, validate: true },
-        { text: 'Delete', onClick: remove, validate: true },
+        {
+            text: 'Delete',
+            onClick: remove,
+            validate: true,
+            disabled: !arr.length,
+        },
         { text: 'Clear', onClick: reset, disabled: !arr.length },
-        { text: <Refresh />, onClick: randomTree },
+        { text: <Refresh />, onClick: randomTree, title: 'New binary tree' },
         {
             text: <Share fontSize="small" />,
             onClick: copyBST,
+            title: 'Share this binary tree',
             disabled: !arr.length,
         },
     ];
