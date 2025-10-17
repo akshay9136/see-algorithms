@@ -12,7 +12,7 @@ export function Numbox({ index, value, ...rest }) {
   );
 }
 
-export function Node({ index, value, ...rest }) {
+export function Node({ index, value, showBf, ...rest }) {
   return (
     <motion.div
       className={`${styles.numbox} ${styles.node}`}
@@ -20,6 +20,7 @@ export function Node({ index, value, ...rest }) {
       {...rest}
     >
       {value}
+      {showBf && <span id={'nodeBf' + index} />}
     </motion.div>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Typography, Box, Link } from '@mui/material';
+import { Typography, Box, Link } from '@mui/material';
 import Head from 'next/head';
 
 export default function PrivacyPolicy() {

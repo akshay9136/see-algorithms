@@ -37,18 +37,20 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
         return node;
     };
 
+    const append = (node, t = 0) => {
+        const [width, rotate] = nodeAngle(node);
+        const ei = node.key - 1;
+        animate(`#edge${ei}`, { width }, { duration: t });
+        animate(`#edge${ei}`, { rotate }, { duration: t });
+    };
+
     const shiftNode = (node, d, isSubroot = false) => {
         if (!node) return;
         const x2 = onLeft ? node.x - d : node.x + d;
         tx(`#node${node.index}`, x2);
         tx(`#edge${node.key - 1}`, x2 + 25);
         node.x = x2;
-        if (isSubroot) {
-            const [width, rotate] = nodeAngle(node);
-            const ei = node.key - 1;
-            animate(`#edge${ei}`, { width }, { duration: 0 });
-            animate(`#edge${ei}`, { rotate }, { duration: 0 });
-        }
+        if (isSubroot) append(node);
         shiftNode(node.left, d);
         shiftNode(node.right, d);
         cleanup(node);
@@ -87,6 +89,7 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
         node: (i) => arr[i],
         findNode,
         cleanup,
+        append,
         swapNodes(a, b) {
             let tmp = a.value;
             a.value = b.value;
@@ -111,14 +114,11 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
             const node = createNode({ value, parent, isLeft });
             setNodePath(node);
             cleanup(node);
-            const ei = node.index - 1;
             txy(`#node${node.index}`, node.x, node.y);
-            txy(`#edge${ei}`, node.x + 25, node.y + 20);
-            const [width, rotate] = nodeAngle(node);
-            animate(`#edge${ei}`, { width }, { duration: 0 });
-            animate(`#edge${ei}`, { rotate }, { duration: 0 });
+            txy(`#edge${node.index - 1}`, node.x + 25, node.y + 20);
+            append(node);
             animate(`#node${node.index}`, { opacity: 1 });
-            bgcolor(`#edge${ei}`, Colors.stroke);
+            bgcolor(`#edge${node.index - 1}`, Colors.stroke);
             return node;
         },
         root(node) {

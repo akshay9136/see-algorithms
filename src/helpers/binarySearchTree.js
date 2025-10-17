@@ -2,7 +2,7 @@ import binaryTree from '@/common/binaryTree';
 import { sleep, sound } from '../common/utils';
 import { Colors } from '../common/constants';
 
-var delay = 500;
+const delay = 500;
 
 function binarySearchTree(animator) {
     const Tree = binaryTree(animator);
@@ -76,8 +76,12 @@ function binarySearchTree(animator) {
     return Object.freeze({
         ...Tree,
         _insert(num, node) {
-            if (!Tree.root()) return Tree.insert(num);
-            else node = node || Tree.root();
+            if (Tree.root()) {
+                node = node || Tree.root();
+            } else {
+                sound('swap');
+                return Tree.insert(num);
+            }
             const isLeft = num <= node.value;
             const next = isLeft ? 'left' : 'right';
             if (!node[next]) {
@@ -87,11 +91,12 @@ function binarySearchTree(animator) {
             }
         },
         async insert(num, node) {
-            if (!Tree.root()) {
+            if (Tree.root()) {
+                node = node || Tree.root();
+            } else {
                 sound('swap');
                 return Tree.insert(num);
             }
-            else node = node || Tree.root();
             await bgcolor(`#node${node.index}`, Colors.compare);
             await sleep(delay);
             const isLeft = num <= node.value;

@@ -44,3 +44,18 @@
   position: absolute;
   transform-origin: 0 0;
 }
+
+.node span {
+    position: absolute;
+    right: -25px;
+    top: -5px;
+    background: #9acd32;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+}
