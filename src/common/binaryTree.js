@@ -37,23 +37,37 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
         return node;
     };
 
-    const append = (node, t = 0) => {
+    const append = (node, t = 0.3) => {
         const [width, rotate] = nodeAngle(node);
         const ei = node.key - 1;
         animate(`#edge${ei}`, { width }, { duration: t });
         animate(`#edge${ei}`, { rotate }, { duration: t });
     };
 
-    const shiftNode = (node, d, isSubroot = false) => {
+    const shiftNode = (node, d) => {
         if (!node) return;
         const x2 = onLeft ? node.x - d : node.x + d;
         tx(`#node${node.index}`, x2);
         tx(`#edge${node.key - 1}`, x2 + 25);
         node.x = x2;
-        if (isSubroot) append(node);
         shiftNode(node.left, d);
         shiftNode(node.right, d);
-        cleanup(node);
+    };
+
+    const shiftRoot = (node, d, fromLeft) => {
+        if (!node) return;
+        const x2 = onLeft ? node.x - d : node.x + d;
+        tx(`#node${node.index}`, x2);
+        if (node.parent) {
+            tx(`#edge${node.key - 1}`, x2 + 25);
+        }
+        node.x = x2;
+        if (onLeft && !fromLeft) shiftNode(node.left, d);
+        if (!onLeft && fromLeft) shiftNode(node.right, d);
+        if (node.left) append(node.left);
+        if (node.right) append(node.right);
+        // shift parent till root
+        shiftRoot(node.parent, d, node.isLeft);
     };
 
     const cleanup = (node) => {
@@ -65,10 +79,10 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
             return false;
         });
         if (closer) {
-            const subroot = findSubroot(
-                closer.isLeft === onLeft ? node.parent : closer.parent
-            );
-            shiftNode(subroot, 60, true);
+            node = closer.isLeft === onLeft ? node : closer;
+            const rx = findSubroot(node.parent);
+            shiftNode(rx, 60);
+            shiftRoot(rx.parent, 30, rx.isLeft);
         }
     };
 
