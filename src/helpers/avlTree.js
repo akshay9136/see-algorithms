@@ -4,18 +4,21 @@ import { Colors } from '../common/constants';
 import $ from 'jquery';
 
 const delay = 500;
+const dx = 40, dy = 60;
 
 function avlTree(animator) {
     const Tree = binaryTree(animator);
-    const { bgcolor, tx, txy, animate } = animator;
+    const { bgcolor, tx, txy } = animator;
 
     const height = (node) => (node ? node.height : -1);
 
+    const balanceFactor = (node) => height(node.left) - height(node.right);
+
     const updateHeight = (node) => {
         node.height = 1 + Math.max(height(node.left), height(node.right));
+        console.log(node, node.height);
+        $(`#nodeBf${node.index}`).text(balanceFactor(node));
     };
-
-    const getBalanceFactor = (node) => height(node.left) - height(node.right);
 
     const smallest = async (node) => {
         await bgcolor(`#node${node.index}`, Colors.compare);
@@ -43,16 +46,23 @@ function avlTree(animator) {
 
     const rotateLeft = (node) => {
         const { left, right, parent } = node;
-        const ll = left.left;
-        const dx = left.x - ll.x;
-        const dy = ll.y - left.y;
+        if (!parent) Tree.root(left);
+        let lx = dx, ly = dy;
+        if (left.left) {
+            lx = left.x - left.left.x;
+            ly = left.left.y - left.y;
+        }
         left.x = node.x;
         left.y = node.y;
         txy(`#node${left.index}`, left.x, left.y, 1);
         left.parent = parent;
         node.parent = left;
+        node.left = null;
+        if (parent) {
+            if (node.isLeft) parent.left = left;
+            else parent.right = left;
+        }
         node.isLeft = false;
-        if (parent) parent.left = left;
         if (right) {
             const dx = right.x - node.x;
             const dy = right.y - node.y;
@@ -73,7 +83,7 @@ function avlTree(animator) {
         }
         if (left.right) {
             let lr = left.right;
-            lr.x = node.x - 40;
+            lr.x = node.x - dx;
             tx(`#node${lr.index}`, lr.x);
             tx(`#edge${lr.key - 1}`, lr.x + 25);
             lr.parent = node;
@@ -81,11 +91,63 @@ function avlTree(animator) {
             node.left = lr;
             Tree.append(lr, 1);
         }
-        cleanup(ll, dx, dy);
+        left.right = node;
+        cleanup(left.left, lx, ly);
+        updateHeight(node);
+        updateHeight(left);
     };
 
     const rotateRight = (node) => {
-        // To do
+        const { left, right, parent } = node;
+        if (!parent) Tree.root(right);
+        let rx = dx, ry = dy;
+        if (right.right) {
+            rx = right.x - right.right.x;
+            ry = right.right.y - right.y;
+        }
+        right.x = node.x;
+        right.y = node.y;
+        txy(`#node${right.index}`, right.x, right.y, 1);
+        right.parent = parent;
+        node.parent = right;
+        node.right = null;
+        if (parent) {
+            if (node.isLeft) parent.left = right;
+            else parent.right = right;
+        }
+        node.isLeft = true;
+        if (left) {
+            const dx = left.x - node.x;
+            const dy = left.y - node.y;
+            node.x = left.x;
+            node.y = left.y;
+            node.key = right.key;
+            txy(`#node${node.index}`, node.x, node.y, 1);
+            tx(`#edge${node.key - 1}`, node.x + 25, 1);
+            Tree.append(node, 0);
+            cleanup(left, dx, -dy);
+        } else {
+            node.x = node.x - dx;
+            node.y = node.y + dy;
+            node.key = right.key;
+            txy(`#node${node.index}`, node.x, node.y, 1);
+            tx(`#edge${node.key - 1}`, node.x + 25, 1);
+            Tree.append(node, 0);
+        }
+        if (right.left) {
+            let rl = right.left;
+            rl.x = node.x + dx;
+            tx(`#node${rl.index}`, rl.x);
+            tx(`#edge${rl.key - 1}`, rl.x + 25);
+            rl.parent = node;
+            rl.isLeft = false;
+            node.right = rl;
+            Tree.append(rl, 1);
+        }
+        right.left = node;
+        cleanup(right.right, rx, ry);
+        updateHeight(node);
+        updateHeight(right);
     };
 
     const rebalance = async (node) => {
@@ -93,30 +155,28 @@ function avlTree(animator) {
         await bgcolor(`#node${node.index}`, Colors.compare);
         await sleep(delay);
         updateHeight(node);
-        const nodeBf = getBalanceFactor(node);
-        $(`#nodeBf${node.index} `).text(nodeBf);
+        const nodeBf = balanceFactor(node);
         await sleep(delay);
         let rotated = false;
-
         if (nodeBf > 1) {
-            const childBf = getBalanceFactor(node.left);
+            await sleep(delay);
+            const childBf = balanceFactor(node.left);
             if (childBf > 0) {
-                console.log('LL');
                 rotateLeft(node);
             } else {
-                console.log('RL');
                 rotateRight(node.left);
-                await sleep(delay);
+                await sleep(delay * 2);
                 rotateLeft(node);
             }
             rotated = true;
         } else if (nodeBf < -1) {
-            const childBf = getBalanceFactor(node.right);
+            await sleep(delay);
+            const childBf = balanceFactor(node.right);
             if (childBf < 0) {
                 rotateRight(node);
             } else {
                 rotateLeft(node.right);
-                await sleep(delay);
+                await sleep(delay * 2);
                 rotateRight(node);
             }
             rotated = true;
