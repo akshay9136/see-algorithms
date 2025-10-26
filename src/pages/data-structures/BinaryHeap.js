@@ -27,7 +27,7 @@ export default function BinaryHeap(props) {
             const size = numbers.length;
             const parent = Tree.node(Math.floor((size - 1) / 2));
             const node = Tree.insert(num, parent, size % 2 === 1);
-            await sleep(delay);
+            await sleep(delay * 2);
             await heapify(node);
         }
     };
@@ -36,12 +36,15 @@ export default function BinaryHeap(props) {
         const parent = node.parent;
         if (parent && node.value > parent.value) {
             await bgcolor(`#node${node.index}`, Colors.compare);
+            await sleep(delay);
             await bgcolor(`#node${parent.index}`, Colors.compare);
             sound('swap');
             await Tree.swapNodes(node, parent);
+            await sleep(delay / 2);
             await bgcolor(`#node${node.index}`, Colors.white);
             await heapify(parent);
         }
+        await sleep(delay / 2);
         await bgcolor(`#node${node.index}`, Colors.white);
     };
 

@@ -14,7 +14,7 @@ var delay = 500;
 
 function RadixSort() {
   const [numbers, setNumbers] = useState([]);
-  const [scope, { txy, tx, bgcolor, animate }] = useAnimator();
+  const [scope, { txy, tx, animate }] = useAnimator();
   const [nextExp, setNextExp] = useState(0);
 
   const enqueue = async (i) => {
@@ -39,13 +39,13 @@ function RadixSort() {
     for (let j = 9; j >= 0; j--) {
       await dequeue(j);
     }
+    a = out.reverse();
     setNextExp(0);
     await sleep(delay);
+    setNumbers(a.slice());
     for (let i = 0; i < n; i++) {
       tx(`#box${i}`, i * 60, 0);
     }
-    a = out.reverse();
-    setNumbers(a.slice());
     exp *= 10;
     if (Math.floor(max / exp) > 0) {
       await sleep(delay);
