@@ -52,18 +52,17 @@ export default function AVL(props) {
         },
     ];
 
-    // useEffect(() => {
-    //     if (router.isReady && !arr.length) {
-    //         arr = randomNodes();
-    //         const { nodes } = router.query;
-    //         try {
-    //             if (nodes) {
-    //                 arr = JSON.parse(atob(nodes));
-    //             }
-    //             insertAll();
-    //         } catch {}
-    //     }
-    // }, [router]);
+    useEffect(() => {
+        if (router.isReady && !arr.length) {
+            const { nodes } = router.query;
+            try {
+                if (nodes) {
+                    arr = JSON.parse(atob(nodes));
+                    insertAll();
+                }
+            } catch {}
+        }
+    }, [router]);
 
     const insertAll = async () => {
         setNumbers(arr.slice());
@@ -75,11 +74,15 @@ export default function AVL(props) {
     return (
         <>
             <p>
-                An <strong>AVL Tree</strong> is a self-balancing binary search
-                tree. It maintains a balanced height by performing rotations
-                (single or double) after insertions and deletions that cause an
-                imbalance. This ensures that operations like search, insert, and
-                delete have a worst-case time complexity of O(log n).
+                Named after its inventors Adelson-Velsky and Landis, an{' '}
+                <strong>AVL Tree</strong> rigorously maintains balance by
+                ensuring that for every node, the difference between the heights
+                of its left and right subtrees (known as the &quot;balance
+                factor&quot;) is never more than 1. If an operation violates
+                this condition, the tree automatically rebalances itself through
+                a series of rotations. This ensures that operations like search,
+                insert, and delete have a worst-case time complexity of O(log
+                n).
             </p>
             <DSInput {...props} buttons={buttons} />
             <div ref={scope} className="resizable">

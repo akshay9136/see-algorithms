@@ -161,6 +161,13 @@ export const algorithmSeoMap = {
     keywords:
       'binary search tree, BST, data structure, tree visualization, search, insert, delete',
   },
+  AVL: {
+    title: 'AVL Tree Visualization - See Algorithms',
+    description:
+      'Learn AVL Trees with interactive visualization. See how this self-balancing BST uses rotations to maintain balance, ensuring efficient search.',
+    keywords:
+      'avl tree, self-balancing tree, binary search tree, data structure, tree rotations, visualization',
+  },
   BinaryHeap: {
     title: 'Binary Heap Visualization - See Algorithms',
     description:

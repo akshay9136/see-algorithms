@@ -92,6 +92,12 @@ export const algorithms = [
         meta: 'Learn how data is organized in a sorted manner by a Binary Search Tree (BST), allowing for efficient searching, insertion, and deletion.',
     },
     {
+        id: 'AVL',
+        name: 'AVL Tree',
+        category: 'Data Structures',
+        meta: 'Learn about AVL Trees, a self-balancing binary search tree that maintains a balanced height to ensure efficient search.',
+    },
+    {
         id: 'BinaryHeap',
         name: 'Binary Heap',
         category: 'Data Structures',
