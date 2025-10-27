@@ -13,9 +13,9 @@ export const defaultSeoConfig = {
       'Learn algorithms through interactive visualizations. Step-by-step animations for sorting, searching, graph algorithms, and data structures.',
     images: [
       {
-        url: 'https://see-algorithms.com/og-image.png', // Replace with your actual OG image URL
-        width: 1200,
-        height: 630,
+        url: 'https://see-algorithms.com/og-image.png',
+        width: 1400,
+        height: 720,
         alt: 'See Algorithms Visualization',
       },
     ],
