@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Edge, InputNumbers, Node } from '@/components/numbers';
 import useAnimator from '@/hooks/useAnimator';
+import useAlgorithm from '@/hooks/useAlgorithm';
 import binaryTree from '@/common/binaryTree';
 import { Colors } from '@/common/constants';
 import { sleep, sound } from '@/common/utils';
 import Link from 'next/link';
-import useAlgorithm from '@/hooks/useAlgorithm';
 
 var arr, Tree;
 var delay = 500;
@@ -116,7 +116,12 @@ export default function HeapSort() {
             </p>
             {algorithm}
             <InputNumbers onStart={handleStart} onStop={handleStop} />
-            <div className="heapSort" ref={scope}>
+            <div
+                className="heapSort"
+                id="binaryTree"
+                ref={scope}
+                style={{ width: 600 }}
+            >
                 {numbers.slice(0, -1).map((_, i) => (
                     <Edge key={i} index={i} />
                 ))}

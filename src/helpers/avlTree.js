@@ -93,6 +93,7 @@ function avlTree(animator) {
             node.left = lr;
             Tree.append(lr, 1);
         }
+        sound('swap');
         cleanup(left.left, lx, ly);
         updateHeight(node);
         updateHeight(left);
@@ -148,6 +149,7 @@ function avlTree(animator) {
             node.right = rl;
             Tree.append(rl, 1);
         }
+        sound('swap');
         cleanup(right.right, rx, ry);
         updateHeight(node);
         updateHeight(right);
@@ -228,7 +230,7 @@ function avlTree(animator) {
             if (Tree.root()) {
                 node = node || Tree.root();
             } else {
-                sound('swap');
+                sound('pop');
                 await Tree.insert(num);
                 $(`#nodeBf${0}`).text(0);
                 return;
@@ -238,7 +240,7 @@ function avlTree(animator) {
             const isLeft = num <= node.value;
             const next = isLeft ? 'left' : 'right';
             if (!node[next]) {
-                sound('swap');
+                sound('pop');
                 const child = Tree.insert(num, node, isLeft);
                 child.height = 0;
                 $(`#nodeBf${child.index}`).text(0);

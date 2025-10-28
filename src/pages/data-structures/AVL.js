@@ -85,7 +85,7 @@ export default function AVL(props) {
                 n).
             </p>
             <DSInput {...props} buttons={buttons} />
-            <div ref={scope} className="resizable">
+            <div ref={scope} className="resizable" id="binaryTree">
                 {numbers.slice(0, -1).map((_, i) => (
                     <Edge key={i} index={i} />
                 ))}

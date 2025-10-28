@@ -68,7 +68,7 @@ export default function BinaryHeap(props) {
                 remove the highest or lowest priority element.
             </p>
             <DSInput {...props} buttons={buttons} />
-            <div ref={scope} className="resizable">
+            <div ref={scope} className="resizable" id="binaryTree">
                 {numbers.slice(0, -1).map((_, i) => (
                     <Edge key={i} index={i} />
                 ))}

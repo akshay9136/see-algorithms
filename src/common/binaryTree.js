@@ -118,9 +118,11 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
         },
         insert(value, parent, isLeft) {
             if (!root) {
-                const [x, y] = [300, 50];
-                root = { value, index: 0, key: 0, x, y };
-                txy(`#node${0}`, x, y);
+                const el = document.getElementById('binaryTree');
+                const rect = el.getBoundingClientRect();
+                const x1 = rect.width / 2;
+                root = { value, index: 0, key: 0, x: x1, y: 50 };
+                txy(`#node${0}`, x1, 50);
                 animate(`#node${0}`, { opacity: 1 });
                 arr.push(root);
                 return root;

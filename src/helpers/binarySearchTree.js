@@ -46,6 +46,7 @@ function binarySearchTree(animator) {
         const dx = node.x - child.x;
         const dy = child.y - node.y;
         cleanup(child, dx, dy);
+        sound('swap');
     };
 
     const cleanup = (node, dx, dy) => {
@@ -94,7 +95,7 @@ function binarySearchTree(animator) {
             if (Tree.root()) {
                 node = node || Tree.root();
             } else {
-                sound('swap');
+                sound('pop');
                 return Tree.insert(num);
             }
             await bgcolor(`#node${node.index}`, Colors.compare);
@@ -102,7 +103,7 @@ function binarySearchTree(animator) {
             const isLeft = num <= node.value;
             const next = isLeft ? 'left' : 'right';
             if (!node[next]) {
-                sound('swap');
+                sound('pop');
                 Tree.insert(num, node, isLeft);
                 await sleep(delay);
                 await bgcolor(`#node${node.index}`, Colors.white);
