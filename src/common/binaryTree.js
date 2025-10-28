@@ -74,15 +74,16 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
         const closer = findNode((nx) => {
             if (nx.parent !== node.parent) {
                 const d = Point.distance(node, nx);
-                if (d < 30) return true;
+                if (d < 33) return true;
             }
             return false;
         });
         if (closer) {
             node = closer.isLeft === onLeft ? node : closer;
             const rx = findSubroot(node.parent);
-            shiftNode(rx, 60);
-            shiftRoot(rx.parent, 30, rx.isLeft);
+            shiftNode(rx, 50);
+            shiftRoot(rx.parent, 25, rx.isLeft);
+            cleanup(node);
         }
     };
 
