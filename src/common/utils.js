@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import Graph, { Path, Point } from './graph';
 import { Colors } from './constants';
+import { showToast } from '../components/toast';
 import Timer from './timer';
 
 const mouseEvents = ['click', 'mousedown', 'mouseup', 'mousemove', 'mouseenter', 'mouseleave'];
@@ -210,6 +211,19 @@ function traverse(node, fn) {
     }
 }
 
+const copyBST = (root) => {
+    const data = [];
+    traverse(root, (node) => data.push(node.value));
+    const nodes = JSON.stringify(data);
+    const origin = window.location.origin;
+    const url = `${origin}${location.pathname}?nodes=${btoa(nodes)}`;
+    navigator.clipboard.writeText(url);
+    showToast({
+        message: 'Tree url is copied to clipboard.',
+        variant: 'success',
+    });
+};
+
 export {
     cursorOffset,
     addVertex,
@@ -226,6 +240,7 @@ export {
     clearGraph,
     createGraph,
     traverse,
+    copyBST,
 };
 
 export const groupBy = (arr, key) => {

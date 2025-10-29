@@ -3,10 +3,9 @@ import DSInput from '@/components/ds-input';
 import { Edge, Node } from '@/components/numbers';
 import avlTree from '@/helpers/avlTree';
 import useAnimator from '@/hooks/useAnimator';
-import { randomInt, sleep, traverse } from '@/common/utils';
+import { copyBST, sleep } from '@/common/utils';
 import { useRouter } from 'next/router';
-import { showToast } from '@/components/toast';
-import { Refresh, Share } from '@mui/icons-material';
+import { Share } from '@mui/icons-material';
 
 var arr = [], Tree;
 
@@ -26,28 +25,26 @@ export default function AVL(props) {
         await Tree.insert(num);
     };
 
-    const reset = () => setNumbers([]);
-
-    const copyAVL = () => {
-        const data = [];
-        traverse(Tree.root(), (node) => data.push(node.value));
-        const nodes = JSON.stringify(data);
-        const origin = window.location.origin;
-        const url = `${origin}${router.pathname}?nodes=${btoa(nodes)}`;
-        navigator.clipboard.writeText(url);
-        showToast({
-            message: 'Tree url is copied to clipboard.',
-            variant: 'success',
-        });
+    const remove = async (num) => {
+        await sleep(500);
+        await Tree.deleteNode(num);
+        if (!Tree.root()) reset();
     };
+
+    const reset = () => setNumbers([]);
 
     const buttons = [
         { text: 'Insert', onClick: insert, validate: true },
+        {
+            text: 'Delete',
+            onClick: remove,
+            validate: true,
+            disabled: !arr.length,
+        },
         { text: 'Clear', onClick: reset, disabled: !arr.length },
-        // { text: <Refresh />, onClick: randomTree },
         {
             text: <Share fontSize="small" />,
-            onClick: copyAVL,
+            onClick: () => copyBST(Tree.root()),
             disabled: !arr.length,
         },
     ];

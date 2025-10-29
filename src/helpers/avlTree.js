@@ -1,4 +1,4 @@
-import binaryTree from '@/common/binaryTree';
+import binarySearchTree from './binarySearchTree';
 import { sleep, sound } from '../common/utils';
 import { Colors } from '../common/constants';
 import $ from 'jquery';
@@ -7,24 +7,18 @@ const delay = 500;
 const dx = 40, dy = 60;
 
 function avlTree(animator) {
-    const Tree = binaryTree(animator);
+    const Tree = binarySearchTree(animator);
     const { bgcolor, tx, txy } = animator;
 
     const height = (node) => (node ? node.height : -1);
 
-    const balanceFactor = (node) => height(node.left) - height(node.right);
+    const balanceFactor = (node) => {
+        return height(node.left) - height(node.right);
+    };
 
     const updateHeight = (node) => {
         node.height = 1 + Math.max(height(node.left), height(node.right));
         $(`#nodeBf${node.index}`).text(balanceFactor(node));
-    };
-
-    const smallest = async (node) => {
-        await bgcolor(`#node${node.index}`, Colors.compare);
-        await sleep(delay);
-        await bgcolor(`#node${node.index}`, Colors.white);
-        if (!node.left) return node;
-        return smallest(node.left);
     };
 
     const cleanup = (node, dx, dy) => {
@@ -44,7 +38,7 @@ function avlTree(animator) {
     };
 
     const rotateLeft = async (node) => {
-        const { left, right, parent, key } = node;
+        const { left, right, parent, isLeft, key } = node;
         if (!parent) Tree.root(left);
         let lx = dx, ly = dy;
         if (left.left) {
@@ -55,14 +49,13 @@ function avlTree(animator) {
         left.y = node.y;
         txy(`#node${left.index}`, left.x, left.y, 1);
         left.parent = parent;
-        left.isLeft = node.isLeft;
+        left.isLeft = isLeft;
         node.parent = left;
         node.left = null;
         node.key = left.key;
         left.key = key;
         if (parent) {
-            if (node.isLeft) parent.left = left;
-            else parent.right = left;
+            parent[isLeft ? 'left' : 'right'] = left;
         }
         const lr = left.right;
         left.right = node;
@@ -100,7 +93,7 @@ function avlTree(animator) {
     };
 
     const rotateRight = async (node) => {
-        const { left, right, parent, key } = node;
+        const { left, right, parent, isLeft, key } = node;
         if (!parent) Tree.root(right);
         let rx = dx, ry = dy;
         if (right.right) {
@@ -111,14 +104,13 @@ function avlTree(animator) {
         right.y = node.y;
         txy(`#node${right.index}`, right.x, right.y, 1);
         right.parent = parent;
-        right.isLeft = node.isLeft
+        right.isLeft = isLeft;
         node.parent = right;
         node.right = null;
         node.key = right.key;
         right.key = key;
         if (parent) {
-            if (node.isLeft) parent.left = right;
-            else parent.right = right;
+            parent[isLeft ? 'left' : 'right'] = right;
         }
         const rl = right.left;
         right.left = node;
@@ -208,51 +200,23 @@ function avlTree(animator) {
 
     return Object.freeze({
         ...Tree,
-        _insert(num, node) {
-            if (Tree.root()) {
-                node = node || Tree.root();
-            } else {
-                Tree.insert(num);
-                $(`#nodeBf${0}`).text(0);
-                return;
-            }
-            const isLeft = num <= node.value;
-            const next = isLeft ? 'left' : 'right';
-            if (!node[next]) {
-                const child = Tree.insert(num, node, isLeft);
-                child.height = 0;
-                backtrack(child);
-            } else {
-                this._insert(num, node[next]);
-            }
+        _insert(num, _node) {
+            const node = Tree._insert(num, _node);
+            node.height = 0;
+            backtrack(node);
         },
-        async insert(num, node) {
-            if (Tree.root()) {
-                node = node || Tree.root();
-            } else {
-                sound('pop');
-                await Tree.insert(num);
-                $(`#nodeBf${0}`).text(0);
-                return;
-            }
-            await bgcolor(`#node${node.index}`, Colors.compare);
-            await sleep(delay);
-            const isLeft = num <= node.value;
-            const next = isLeft ? 'left' : 'right';
-            if (!node[next]) {
-                sound('pop');
-                const child = Tree.insert(num, node, isLeft);
-                child.height = 0;
-                $(`#nodeBf${child.index}`).text(0);
-                await sleep(delay);
-                await bgcolor(`#node${node.index}`, Colors.white);
-                await sleep(delay);
-                await rebalance(child.parent);
-            } else {
-                await bgcolor(`#node${node.index}`, Colors.white);
-                await this.insert(num, node[next]);
-            }
+        async insert(num) {
+            const node = await Tree.insert(num);
+            node.height = 0;
+            $(`#nodeBf${node.index}`).text(0);
+            await sleep(delay * 2);
+            await rebalance(node.parent);
         },
+        async deleteNode(num) {
+            const affected = await Tree.deleteNode(num);
+            await sleep(delay * 2);
+            await rebalance(affected);
+        }
     });
 }
 

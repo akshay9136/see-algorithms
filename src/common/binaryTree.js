@@ -121,7 +121,7 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
             if (!root) {
                 const el = document.getElementById('binaryTree');
                 const rect = el.getBoundingClientRect();
-                const x1 = rect.width / 2;
+                const x1 = rect.width / 2.5;
                 root = { value, index: 0, key: 0, x: x1, y: 50 };
                 txy(`#node${0}`, x1, 50);
                 animate(`#node${0}`, { opacity: 1 });

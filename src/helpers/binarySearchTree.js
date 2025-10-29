@@ -18,35 +18,34 @@ function binarySearchTree(animator) {
 
     const replaceNode = async (node) => {
         const child = await smallest(node.right);
+        const { right, parent } = child;
         sound('swap');
         await txy(`#node${child.index}`, node.x, node.y, 0.5);
         node.value = child.value;
         node.index = child.index;
-        if (child.right) {
-            removeNode(child, 'right');
+        if (right) {
+            return removeNode(child, right);
         } else {
             animate(`#edge${child.key - 1}`, { opacity: 0 });
-            const parent = child.parent;
-            if (child.isLeft) parent.left = null;
-            else parent.right = null;
+            parent[child.isLeft ? 'left' : 'right'] = null;
+            return parent;
         }
     };
 
-    const removeNode = (node, hand) => {
-        const child = node[hand];
+    const removeNode = (node, child) => {
         animate(`#edge${child.key - 1}`, { opacity: 0 });
         child.key = node.key;
-        if (node.parent) {
-            child.parent = node.parent;
-            node.parent[node.isLeft ? 'left' : 'right'] = child;
-        } else {
-            child.parent = null;
-            Tree.root(child);
-        }
+        const { parent, isLeft } = node;
+        child.parent = parent;
+        child.isLeft = isLeft;
+        if (parent) {
+            parent[isLeft ? 'left' : 'right'] = child;
+        } else Tree.root(child);
+        sound('swap');
         const dx = node.x - child.x;
         const dy = child.y - node.y;
         cleanup(child, dx, dy);
-        sound('swap');
+        return child;
     };
 
     const cleanup = (node, dx, dy) => {
@@ -54,9 +53,11 @@ function binarySearchTree(animator) {
             node.x = node.x + dx;
             node.y = node.y - dy;
             Tree.cleanup(node);
-            txy(`#node${node.index}`, node.x, node.y);
+            txy(`#node${node.index}`, node.x, node.y, 0.5);
             if (node.parent) {
-                txy(`#edge${node.key - 1}`, node.x + 25, node.y + 20);
+                const ex = node.x + 25;
+                const ey = node.y + 20;
+                txy(`#edge${node.key - 1}`, ex, ey, 0.5);
             }
             cleanup(node.left, dx, dy);
             cleanup(node.right, dx, dy);
@@ -85,11 +86,9 @@ function binarySearchTree(animator) {
             }
             const isLeft = num <= node.value;
             const next = isLeft ? 'left' : 'right';
-            if (!node[next]) {
-                Tree.insert(num, node, isLeft);
-            } else {
-                this._insert(num, node[next]);
-            }
+            return node[next]
+                ? this._insert(num, node[next])
+                : Tree.insert(num, node, isLeft);
         },
         async insert(num, node) {
             if (Tree.root()) {
@@ -104,15 +103,16 @@ function binarySearchTree(animator) {
             const next = isLeft ? 'left' : 'right';
             if (!node[next]) {
                 sound('pop');
-                Tree.insert(num, node, isLeft);
+                const _node = Tree.insert(num, node, isLeft);
                 await sleep(delay);
                 await bgcolor(`#node${node.index}`, Colors.white);
+                return _node;
             } else {
                 await bgcolor(`#node${node.index}`, Colors.white);
-                await this.insert(num, node[next]);
+                return this.insert(num, node[next]);
             }
         },
-        async findAndRemove(num) {
+        async deleteNode(num) {
             const node = await findNode(num, Tree.root());
             if (!node) return;
             sound('pop');
@@ -121,13 +121,14 @@ function binarySearchTree(animator) {
             if (!left && !right) {
                 if (!parent) return Tree.root(null);
                 animate(`#edge${node.key - 1}`, { opacity: 0 });
-                if (node.isLeft) parent.left = null;
-                else parent.right = null;
+                // remove link from parent
+                parent[node.isLeft ? 'left' : 'right'] = null;
+                return parent;
             } else {
                 await sleep(delay);
                 return left && right
                     ? replaceNode(node)
-                    : removeNode(node, left ? 'left' : 'right');
+                    : removeNode(node, left || right);
             }
         },
     });

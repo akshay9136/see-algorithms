@@ -3,9 +3,8 @@ import DSInput from '@/components/ds-input';
 import { Edge, Node } from '@/components/numbers';
 import binarySearchTree from '@/helpers/binarySearchTree';
 import useAnimator from '@/hooks/useAnimator';
-import { randomInt, sleep, traverse } from '@/common/utils';
+import { copyBST, randomInt, sleep } from '@/common/utils';
 import { useRouter } from 'next/router';
-import { showToast } from '@/components/toast';
 import { Refresh, Share } from '@mui/icons-material';
 
 var arr = [], Tree;
@@ -31,26 +30,12 @@ export default function BST(props) {
     };
 
     const remove = async (num) => {
-        if (numbers.length) {
-            await Tree.findAndRemove(num);
-            if (!Tree.root()) reset();
-        }
+        await sleep(500);
+        await Tree.deleteNode(num);
+        if (!Tree.root()) reset();
     };
 
     const reset = () => setNumbers([]);
-
-    const copyBST = () => {
-        const data = [];
-        traverse(Tree.root(), (node) => data.push(node.value));
-        const nodes = JSON.stringify(data);
-        const origin = window.location.origin;
-        const url = `${origin}${router.pathname}?nodes=${btoa(nodes)}`;
-        navigator.clipboard.writeText(url);
-        showToast({
-            message: 'Tree url is copied to clipboard.',
-            variant: 'success',
-        });
-    };
 
     const randomTree = async () => {
         if (arr.length) reset();
@@ -71,7 +56,7 @@ export default function BST(props) {
         { text: <Refresh />, onClick: randomTree, title: 'New binary tree' },
         {
             text: <Share fontSize="small" />,
-            onClick: copyBST,
+            onClick: () => copyBST(Tree.root()),
             title: 'Share this binary tree',
             disabled: !arr.length,
         },
