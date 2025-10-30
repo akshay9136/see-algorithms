@@ -37,29 +37,22 @@ function avlTree(animator) {
         }
     };
 
-    const rotateLeft = async (node) => {
-        const { left, right, parent, isLeft, key } = node;
-        if (!parent) Tree.root(left);
-        let lx = dx, ly = dy;
-        if (left.left) {
-            lx = left.x - left.left.x;
-            ly = left.left.y - left.y;
-        }
+    const rotateStep1 = (node, left) => {
+        const { parent, isLeft, key } = node;
+        if (parent) {
+            parent[isLeft ? 'left' : 'right'] = left;
+        } else Tree.root(left);
         left.x = node.x;
         left.y = node.y;
         txy(`#node${left.index}`, left.x, left.y, 1);
         left.parent = parent;
         left.isLeft = isLeft;
         node.parent = left;
-        node.left = null;
         node.key = left.key;
         left.key = key;
-        if (parent) {
-            parent[isLeft ? 'left' : 'right'] = left;
-        }
-        const lr = left.right;
-        left.right = node;
-        node.isLeft = false;
+    };
+
+    const rotateStep2 = (node, right) => {
         if (right) {
             const dx = right.x - node.x;
             const dy = right.y - node.y;
@@ -70,13 +63,30 @@ function avlTree(animator) {
             Tree.append(node, 1);
             cleanup(right, dx, -dy);
         } else {
-            node.x = node.x + dx;
+            node.x = node.x + (node.isLeft ? -dx : dx);
             node.y = node.y + dy;
             Tree.cleanup(node);
             txy(`#node${node.index}`, node.x, node.y, 1);
             tx(`#edge${node.key - 1}`, node.x + 25, 1);
             Tree.append(node, 1);
         }
+    }
+    
+    const rotateLeft = async (node) => {
+        const { left, right } = node;
+        let ll = left.left;
+        let lx = dx, ly = dy;
+        if (ll) {
+            lx = left.x - ll.x;
+            ly = ll.y - left.y;
+        }
+        sound('swap');
+        rotateStep1(node, left);
+        node.isLeft = false;
+        node.left = null;
+        const lr = left.right;
+        left.right = node;
+        rotateStep2(node, right);
         if (lr) {
             lr.x = node.x - dx;
             tx(`#node${lr.index}`, lr.x, 1);
@@ -86,52 +96,26 @@ function avlTree(animator) {
             node.left = lr;
             Tree.append(lr, 1);
         }
-        sound('swap');
-        cleanup(left.left, lx, ly);
+        cleanup(ll, lx, ly);
         updateHeight(node);
         updateHeight(left);
     };
 
     const rotateRight = async (node) => {
-        const { left, right, parent, isLeft, key } = node;
-        if (!parent) Tree.root(right);
+        const { left, right } = node;
+        let rr = right.right;
         let rx = dx, ry = dy;
-        if (right.right) {
-            rx = right.x - right.right.x;
-            ry = right.right.y - right.y;
+        if (rr) {
+            rx = right.x - rr.x;
+            ry = rr.y - right.y;
         }
-        right.x = node.x;
-        right.y = node.y;
-        txy(`#node${right.index}`, right.x, right.y, 1);
-        right.parent = parent;
-        right.isLeft = isLeft;
-        node.parent = right;
+        sound('swap');
+        rotateStep1(node, right);
+        node.isLeft = true;
         node.right = null;
-        node.key = right.key;
-        right.key = key;
-        if (parent) {
-            parent[isLeft ? 'left' : 'right'] = right;
-        }
         const rl = right.left;
         right.left = node;
-        node.isLeft = true;
-        if (left) {
-            const dx = left.x - node.x;
-            const dy = left.y - node.y;
-            node.x = left.x;
-            node.y = left.y;
-            txy(`#node${node.index}`, node.x, node.y, 1);
-            tx(`#edge${node.key - 1}`, node.x + 25, 1);
-            Tree.append(node, 1);
-            cleanup(left, dx, -dy);
-        } else {
-            node.x = node.x - dx;
-            node.y = node.y + dy;
-            Tree.cleanup(node);
-            txy(`#node${node.index}`, node.x, node.y, 1);
-            tx(`#edge${node.key - 1}`, node.x + 25, 1);
-            Tree.append(node, 1);
-        }
+        rotateStep2(node, left);
         if (rl) {
             rl.x = node.x + dx;
             tx(`#node${rl.index}`, rl.x, 1);
@@ -141,8 +125,7 @@ function avlTree(animator) {
             node.right = rl;
             Tree.append(rl, 1);
         }
-        sound('swap');
-        cleanup(right.right, rx, ry);
+        cleanup(rr, rx, ry);
         updateHeight(node);
         updateHeight(right);
     };
@@ -178,17 +161,6 @@ function avlTree(animator) {
         await bgcolor(`#node${node.index}`, Colors.white);
         await sleep(delay);
         await rebalance(node.parent);
-    };
-
-    const findNode = async (num, node) => {
-        await bgcolor(`#node${node.index}`, Colors.compare);
-        await sleep(delay);
-        await bgcolor(`#node${node.index}`, Colors.white);
-        if (num === node.value) return node;
-        const next = num < node.value ? 'left' : 'right';
-        if (node[next]) {
-            return findNode(num, node[next]);
-        }
     };
 
     const backtrack = (node) => {
