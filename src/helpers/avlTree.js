@@ -6,7 +6,7 @@ import $ from 'jquery';
 const delay = 500;
 const dx = 40, dy = 60;
 
-function avlTree(animator) {
+function avlTree(animator, setCurrentStep) {
     const Tree = binarySearchTree(animator);
     const { bgcolor, tx, txy } = animator;
 
@@ -70,8 +70,8 @@ function avlTree(animator) {
             tx(`#edge${node.key - 1}`, node.x + 25, 1);
             Tree.append(node, 1);
         }
-    }
-    
+    };
+
     const rotateLeft = async (node) => {
         const { left, right } = node;
         let ll = left.left;
@@ -133,6 +133,7 @@ function avlTree(animator) {
     const rebalance = async (node) => {
         if (!node) return;
         await bgcolor(`#node${node.index}`, Colors.compare);
+        setCurrentStep('1,2');
         await sleep(delay);
         updateHeight(node);
         let nodeBf = balanceFactor(node);
@@ -140,25 +141,32 @@ function avlTree(animator) {
             await sleep(delay);
             const childBf = balanceFactor(node.left);
             if (childBf > 0) {
+                setCurrentStep('5');
                 rotateLeft(node);
             } else {
+                setCurrentStep('7');
                 rotateRight(node.left);
                 await sleep(delay * 2);
+                setCurrentStep('8');
                 rotateLeft(node);
             }
         } else if (nodeBf < -1) {
             await sleep(delay);
             const childBf = balanceFactor(node.right);
             if (childBf < 0) {
+                setCurrentStep('11');
                 rotateRight(node);
             } else {
+                setCurrentStep('13');
                 rotateLeft(node.right);
                 await sleep(delay * 2);
+                setCurrentStep('14');
                 rotateRight(node);
             }
         }
         await sleep(delay);
         await bgcolor(`#node${node.index}`, Colors.white);
+        setCurrentStep('');
         await sleep(delay);
         await rebalance(node.parent);
     };
@@ -168,7 +176,7 @@ function avlTree(animator) {
             updateHeight(node);
             backtrack(node.parent);
         }
-    }
+    };
 
     return Object.freeze({
         ...Tree,
@@ -188,7 +196,7 @@ function avlTree(animator) {
             const affected = await Tree.deleteNode(num);
             await sleep(delay * 2);
             await rebalance(affected);
-        }
+        },
     });
 }
 

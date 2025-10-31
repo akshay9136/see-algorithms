@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { Box, Stack, Typography } from '@mui/material';
 import DSInput from '@/components/ds-input';
 import { Edge, Node } from '@/components/numbers';
 import avlTree from '@/helpers/avlTree';
+import useAlgorithm from '@/hooks/useAlgorithm';
 import useAnimator from '@/hooks/useAnimator';
 import { copyBST, sleep } from '@/common/utils';
 import { useRouter } from 'next/router';
@@ -13,6 +15,25 @@ export default function AVL(props) {
     const router = useRouter();
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
+    const [algorithm, setCurrentStep] = useAlgorithm(`
+    function rebalance(node):
+        updateHeight(node)
+        bf = balanceFactor(node)
+        if bf > 1:
+            if balanceFactor(node.left) > 0:
+                rotateRight(node)
+            else:
+                rotateLeft(node.left)
+                rotateRight(node)
+        if bf < -1:
+            if balanceFactor(node.right) < 0:
+                rotateLeft(node)
+            else:
+                rotateRight(node.right)
+                rotateLeft(node)
+        if node.parent:
+            rebalance(node.parent)
+    `);
     if (!numbers.length) arr = [];
 
     const insert = async (num) => {
@@ -20,7 +41,7 @@ export default function AVL(props) {
         setNumbers(arr.slice());
         await sleep(500);
         if (!numbers.length) {
-            Tree = avlTree(animator);
+            Tree = avlTree(animator, setCurrentStep);
         }
         await Tree.insert(num);
     };
@@ -63,14 +84,14 @@ export default function AVL(props) {
 
     const insertAll = async () => {
         setNumbers(arr.slice());
-        Tree = avlTree(animator);
+        Tree = avlTree(animator, setCurrentStep);
         await sleep(100);
         arr.forEach((num) => Tree._insert(num));
     };
 
     return (
-        <>
-            <p>
+        <Stack spacing={3}>
+            <Typography variant="body1">
                 Named after its inventors Adelson-Velsky and Landis, an{' '}
                 <strong>AVL Tree</strong> rigorously maintains balance by
                 ensuring that for every node, the difference between the heights
@@ -80,22 +101,27 @@ export default function AVL(props) {
                 a series of rotations. This ensures that operations like search,
                 insert, and delete have a worst-case time complexity of O(log
                 n).
-            </p>
-            <DSInput {...props} buttons={buttons} />
-            <div ref={scope} className="resizable" id="binaryTree">
-                {numbers.slice(0, -1).map((_, i) => (
-                    <Edge key={i} index={i} />
-                ))}
-                {numbers.map((num, i) => (
-                    <Node
-                        key={i}
-                        index={i}
-                        value={num}
-                        style={{ opacity: 0 }}
-                        showBf
-                    />
-                ))}
-            </div>
-        </>
+            </Typography>
+            <Box display="flex" gap={3} flexWrap="wrap">
+                {algorithm}
+                <Stack spacing={1}>
+                    <DSInput {...props} buttons={buttons} />
+                    <Box ref={scope} className="resizable" id="binaryTree">
+                        {numbers.slice(0, -1).map((_, i) => (
+                            <Edge key={i} index={i} />
+                        ))}
+                        {numbers.map((num, i) => (
+                            <Node
+                                key={i}
+                                index={i}
+                                value={num}
+                                style={{ opacity: 0 }}
+                                showBf
+                            />
+                        ))}
+                    </Box>
+                </Stack>
+            </Box>
+        </Stack>
     );
 }

@@ -104,9 +104,9 @@
 }
 
 .algorithm {
-  margin: 20px 0;
   padding: 5px 0;
-  width: 400px;
+  min-width: 400px;
+  max-width: fit-content;
   background-color: #eee;
   border-radius: 8px;
 }
