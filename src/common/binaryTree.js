@@ -79,11 +79,12 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
             return false;
         });
         if (closer) {
+            const diff = node.isLeft ? closer.x - node.x : node.x - closer.x;
+            const dx = diff + 60;
             node = closer.isLeft === onLeft ? node : closer;
             const rx = findSubroot(node.parent);
-            shiftNode(rx, 50);
-            shiftRoot(rx.parent, 25, rx.isLeft);
-            cleanup(node);
+            shiftNode(rx, dx);
+            shiftRoot(rx.parent, dx / 2, rx.isLeft);
         }
     };
 
