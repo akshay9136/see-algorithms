@@ -45,6 +45,7 @@ function binarySearchTree(animator) {
         const dx = node.x - child.x;
         const dy = child.y - node.y;
         cleanup(child, dx, dy);
+        postCleanup(child);
         return child;
     };
 
@@ -52,7 +53,6 @@ function binarySearchTree(animator) {
         if (node) {
             node.x = node.x + dx;
             node.y = node.y - dy;
-            Tree.cleanup(node);
             txy(`#node${node.index}`, node.x, node.y, 0.5);
             if (node.parent) {
                 const ex = node.x + 25;
@@ -61,6 +61,14 @@ function binarySearchTree(animator) {
             }
             cleanup(node.left, dx, dy);
             cleanup(node.right, dx, dy);
+        }
+    };
+
+    const postCleanup = (node) => {
+        if (node) {
+            Tree.cleanup(node);
+            postCleanup(node.left);
+            postCleanup(node.right);
         }
     };
 

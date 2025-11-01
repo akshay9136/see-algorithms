@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
-import DSInput from '@/components/ds-input';
 import { Edge, Node } from '@/components/numbers';
+import DSInput from '@/components/ds-input';
 import avlTree from '@/helpers/avlTree';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import useAnimator from '@/hooks/useAnimator';
 import { copyBST, sleep } from '@/common/utils';
+import { showToast } from '@/components/toast';
 import { useRouter } from 'next/router';
 import { Share } from '@mui/icons-material';
 
 var arr = [], Tree;
+var deleted = {};
 
 export default function AVL(props) {
     const router = useRouter();
@@ -34,9 +36,20 @@ export default function AVL(props) {
         if node.parent:
             rebalance(node.parent)
     `);
-    if (!numbers.length) arr = [];
+    if (!numbers.length) {
+        arr = [];
+        deleted = {};
+    }
 
     const insert = async (num) => {
+        if (arr.includes(num) && !deleted[num]) {
+            showToast({
+                message: 'Duplicates are not allowed.',
+                variant: 'error',
+            });
+            return;
+        }
+        deleted[num] = false;
         arr.push(num);
         setNumbers(arr.slice());
         await sleep(500);
@@ -47,6 +60,7 @@ export default function AVL(props) {
     };
 
     const remove = async (num) => {
+        if (arr.includes(num)) deleted[num] = true;
         await sleep(500);
         await Tree.deleteNode(num);
         if (!Tree.root()) reset();
