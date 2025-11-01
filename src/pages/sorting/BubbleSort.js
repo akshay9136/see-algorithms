@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Box, Stack, Typography } from '@mui/material';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import { InputNumbers, Numbox } from '@/components/numbers';
@@ -78,8 +79,8 @@ export default function BubbleSort() {
     const handleStop = () => setNumbers([]);
 
     return (
-        <>
-            <p>
+        <Stack spacing={3}>
+            <Typography variant="body1">
                 <strong>Bubble Sort</strong> is a simple sorting algorithm that
                 works by repeatedly swapping adjacent elements if they are in
                 the wrong order. This process continues until the list is fully
@@ -87,14 +88,14 @@ export default function BubbleSort() {
                 efficient for large datasets due to its quadratic time
                 complexity. It’s often used for educational purposes or as a
                 baseline for comparison with other sorting algorithms.
-            </p>
+            </Typography>
             {algorithm}
             <InputNumbers onStart={handleStart} onStop={handleStop} />
-            <div className="sorting d-flex pt-4" ref={scope}>
+            <Box display="flex" pt={4} className="sorting" ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}
-            </div>
-        </>
+            </Box>
+        </Stack>
     );
 }

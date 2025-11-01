@@ -1,5 +1,6 @@
 import React from 'react';
 import DrawGraph from '@/components/draw-graph';
+import { Box, Stack, Typography } from '@mui/material';
 import $ from 'jquery';
 import Graph, { Path, Point } from '@/common/graph';
 import Timer from '@/common/timer';
@@ -16,8 +17,8 @@ import Link from 'next/link';
 
 export default function TopSort(props) {
     return (
-        <>
-            <p>
+        <Stack spacing={3}>
+            <Typography variant="body1">
                 <strong>Topological Sorting</strong> is an ordering of nodes in
                 a directed acyclic graph (DAG) where each node appears before
                 all the nodes it points to. It is like creating a list of tasks,
@@ -27,7 +28,7 @@ export default function TopSort(props) {
                 <strong>Kahn&apos;s algorithm</strong> works by repeatedly
                 removing nodes with no incoming edges (zero in-degree) and
                 adding them to the order.
-            </p>
+            </Typography>
             <DrawGraph
                 {...props}
                 onStart={start}
@@ -35,8 +36,8 @@ export default function TopSort(props) {
                 allowDirected={false}
                 customSource={false}
             />
-            <div id="visited" className="d-flex numGrid alphaGrid" />
-        </>
+            <Box id="visited" className="d-flex numGrid alphaGrid" />
+        </Stack>
     );
 }
 

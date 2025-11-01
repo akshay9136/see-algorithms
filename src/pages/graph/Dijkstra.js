@@ -1,5 +1,6 @@
 import React from 'react';
 import DrawGraph from '@/components/draw-graph';
+import { Box, Stack, Typography } from '@mui/material';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
@@ -9,15 +10,15 @@ import Link from 'next/link';
 
 export default function Dijkstra(props) {
     return (
-        <>
-            <p>
+        <Stack spacing={3}>
+            <Typography variant="body1">
                 <strong>Dijkstra&apos;s Algorithm</strong> finds the shortest
                 path from a source node to all other nodes in a graph with
                 non-negative weights. It uses a{' '}
                 <Link href="/data-structures/BinaryHeap">priority queue</Link>{' '}
                 to explore nodes in order of increasing distance. This algorithm
                 is widely used in routing and navigation systems.
-            </p>
+            </Typography>
             <DrawGraph
                 {...props}
                 onStart={start}
@@ -27,9 +28,9 @@ export default function Dijkstra(props) {
                     $('#dist').html('');
                 }}
             />
-            <div id="vert" className="d-flex numGrid alphaGrid" />
-            <div id="dist" className="d-flex numGrid alphaGrid" />
-        </>
+            <Box id="vert" className="d-flex numGrid alphaGrid" />
+            <Box id="dist" className="d-flex numGrid alphaGrid" />
+        </Stack>
     );
 }
 

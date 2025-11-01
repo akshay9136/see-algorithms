@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Box, Stack, Typography } from '@mui/material';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import { InputNumbers, Numbox } from '@/components/numbers';
@@ -92,8 +93,8 @@ export default function QuickSort() {
     const handleStop = () => setNumbers([]);
 
     return (
-        <>
-            <p>
+        <Stack spacing={3}>
+            <Typography variant="body1">
                 <strong>Quick Sort</strong> is the speedster of sorting
                 algorithms. It picks a <strong>pivot</strong> element and then
                 arranges the rest of the elements into two groups: those less
@@ -101,14 +102,14 @@ export default function QuickSort() {
                 groups, Quick Sort efficiently sorts even the largest datasets.
                 It is perfect blend of strategy and speed, making it one of the
                 most popular sorting techniques.
-            </p>
+            </Typography>
             {algorithm}
             <InputNumbers onStart={handleStart} onStop={handleStop} />
-            <div className="sorting d-flex pt-5" ref={scope}>
+            <Box className="sorting d-flex" pt={8} ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}
-            </div>
-        </>
+            </Box>
+        </Stack>
     );
 }

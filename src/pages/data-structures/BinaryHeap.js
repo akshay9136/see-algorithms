@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Box, Stack, Typography } from '@mui/material';
 import DSInput from '@/components/ds-input';
 import { Edge, Node } from '@/components/numbers';
 import binaryTree from '@/common/binaryTree';
@@ -56,8 +57,8 @@ export default function BinaryHeap(props) {
     ];
 
     return (
-        <>
-            <p>
+        <Stack spacing={3}>
+            <Typography variant="body1">
                 A Binary Heap is like a <strong>priority queue</strong> in a
                 bustling airport, where the most important passengers (highest
                 or lowest priority) are always at the front. It is a complete
@@ -66,9 +67,9 @@ export default function BinaryHeap(props) {
                 (highest value at the top) or a min-heap (lowest value at the
                 top). This arrangement makes it easy to quickly access and
                 remove the highest or lowest priority element.
-            </p>
+            </Typography>
             <DSInput {...props} buttons={buttons} />
-            <div ref={scope} className="resizable" id="binaryTree">
+            <Box ref={scope} className="resizable" id="binaryTree">
                 {numbers.slice(0, -1).map((_, i) => (
                     <Edge key={i} index={i} />
                 ))}
@@ -80,7 +81,7 @@ export default function BinaryHeap(props) {
                         style={{ opacity: 0 }}
                     />
                 ))}
-            </div>
-        </>
+            </Box>
+        </Stack>
     );
 }

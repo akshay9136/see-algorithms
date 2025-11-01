@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { showToast } from '../toast';
-import { Select, Input, Button, MenuItem, Typography } from '@mui/material';
+import {
+  Select,
+  Input,
+  Button,
+  MenuItem,
+  Typography,
+  Box,
+} from '@mui/material';
 import styles from './numbers.module.css';
 import { randomInt } from '@/common/utils';
 
@@ -55,7 +62,7 @@ function InputNumbers(props) {
   };
 
   return (
-    <div className={styles.inputNumbers}>
+    <Box className={styles.inputNumbers}>
       <Typography variant="subtitle1" fontWeight={600} width="max-content">
         {!values.length
           ? 'Select number of elements: '
@@ -74,7 +81,7 @@ function InputNumbers(props) {
             ))}
         </Select>
       ) : (
-        <div className="d-flex">
+        <Box display="flex">
           {values.map((val, i) => (
             <Input
               key={i}
@@ -83,18 +90,16 @@ function InputNumbers(props) {
               className={styles.number}
             />
           ))}
-        </div>
+        </Box>
       )}
       {values.length > 0 && (
-        <div>
-          <Button variant="contained" onClick={handleSubmit}>
-            {!status
-              ? props.startBtnText || 'Start'
-              : props.stopBtnText || 'Stop'}
-          </Button>
-        </div>
+        <Button variant="contained" onClick={handleSubmit}>
+          {!status
+            ? props.startBtnText || 'Start'
+            : props.stopBtnText || 'Stop'}
+        </Button>
       )}
-    </div>
+    </Box>
   );
 }
 

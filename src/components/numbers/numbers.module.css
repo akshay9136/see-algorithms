@@ -1,48 +1,45 @@
 .inputNumbers {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-  padding: 1rem 0;
-  width: max-content;
+    display: flex;
+    align-items: center;
 }
 
 .inputNumbers .number {
-  width: 2.5rem;
-  margin-right: 0.5rem;
+    width: 2.5rem;
+    margin-right: 0.5rem;
 }
 
 .inputNumbers .select {
-  width: 4rem;
-  border-radius: 10px;
+    width: 4rem;
+    border-radius: 10px;
 }
 
 .numbox {
-  width: 52px;
-  height: 42px;
-  border: 2px solid #636363;
-  border-radius: 10px;
-  margin: 0 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  font-weight: 600;
+    width: 52px;
+    height: 42px;
+    border: 2px solid #636363;
+    border-radius: 10px;
+    margin: 0 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    font-weight: 600;
 }
 
 .node {
-  width: 40px;
-  height: 35px;
-  margin: 0 5px;
-  position: absolute;
-  border-radius: 48%;
-  background-color: white;
-  font-weight: 500;
+    width: 40px;
+    height: 35px;
+    margin: 0 5px;
+    position: absolute;
+    border-radius: 48%;
+    background-color: white;
+    font-weight: 500;
 }
 
 .edge {
-  height: 2px;
-  position: absolute;
-  transform-origin: 0 0;
+    height: 2px;
+    position: absolute;
+    transform-origin: 0 0;
 }
 
 .node span {

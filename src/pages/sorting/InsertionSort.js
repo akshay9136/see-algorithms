@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Box, Stack, Typography } from '@mui/material';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import { InputNumbers, Numbox } from '@/components/numbers';
@@ -67,8 +68,8 @@ export default function InsertionSort() {
     const handleStop = () => setNumbers([]);
 
     return (
-        <>
-            <p>
+        <Stack spacing={3}>
+            <Typography variant="body1">
                 Ever organized a hand of playing cards? Then you already know{' '}
                 <strong>Insertion Sort</strong>! This algorithm takes each
                 element from the unsorted part and slides it into its correct
@@ -76,14 +77,14 @@ export default function InsertionSort() {
                 the right spot of a sorted hand, making it intuitive and
                 efficient for small dataset, especially for partially sorted
                 lists.
-            </p>
+            </Typography>
             {algorithm}
             <InputNumbers onStart={handleStart} onStop={handleStop} />
-            <div className="sorting d-flex pt-5" ref={scope}>
+            <Box className="sorting d-flex" pt={8} ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}
-            </div>
-        </>
+            </Box>
+        </Stack>
     );
 }

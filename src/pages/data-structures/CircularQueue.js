@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Box, Stack, Typography } from '@mui/material';
 import DSInput from '@/components/ds-input';
 import { createGrid, randomInt, sound } from '@/common/utils';
 import { showToast } from '@/components/toast';
@@ -30,8 +31,8 @@ export default function CircularQueue(props) {
     }, []);
 
     return (
-        <>
-            <p>
+        <Stack spacing={3}>
+            <Typography variant="body1">
                 <strong>Circular Queue</strong> allows efficient use of space by
                 reusing empty spots left by removed elements. In a circular
                 queue, you have two pointers: one for the front (where you
@@ -40,10 +41,10 @@ export default function CircularQueue(props) {
                 the queue a continuous loop. This approach helps in situations
                 where you have a fixed amount of memory and need to handle a
                 continuous flow of data.
-            </p>
+            </Typography>
             <DSInput {...props} buttons={buttons} />
-            <div id="cqueue" className="numGrid" />
-        </>
+            <Box id="cqueue" className="numGrid" />
+        </Stack>
     );
 }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import DrawGraph from '@/components/draw-graph';
+import { Stack, Typography } from '@mui/material';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
@@ -8,21 +9,21 @@ import { Colors } from '@/common/constants';
 
 export default function PrimsMST(props) {
     return (
-        <>
-            <p>
+        <Stack spacing={3}>
+            <Typography variant="body1">
                 <strong>Prim&apos;s Algorithm</strong> builds a Minimum Spanning
                 Tree (MST) by starting from any node and adding the smallest
                 edge that connects the tree to a new node, repeating until all
                 nodes are included. It is used for optimizing network designs
                 like computer and road networks.
-            </p>
+            </Typography>
             <DrawGraph
                 {...props}
                 onStart={start}
                 weighted={true}
                 allowDirected={false}
             />
-        </>
+        </Stack>
     );
 }
 

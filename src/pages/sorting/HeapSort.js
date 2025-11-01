@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Box, Stack, Typography } from '@mui/material';
 import { Edge, InputNumbers, Node } from '@/components/numbers';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
@@ -101,26 +102,26 @@ export default function HeapSort() {
     };
 
     return (
-        <>
-            <p>
+        <Stack spacing={3}>
+            <Typography variant="body1">
                 <strong>Heap Sort</strong> is an efficient sorting algorithm
-                that leverages a{' '}
-                <Link href="/data-structures/BinaryHeap">Binary Heap</Link> data
-                structure to organize and sort data. It works by first building
-                a heap from the data and then repeatedly extracting the largest
-                (or smallest) element from the heap and rebuilding the heap
-                until all elements are sorted. This method is known for its
-                reliable performance and in-place sorting capabilities, making
-                it a strong choice for handling large datasets without requiring
+                that leverages a data structure called{' '}
+                <Link href="/data-structures/BinaryHeap">Binary Heap</Link> to
+                organize and sort data. It works by first building a heap from
+                the data and then repeatedly extracting the largest (or
+                smallest) element from the heap and rebuilding the heap until
+                all elements are sorted. This method is known for its reliable
+                performance and in-place sorting capabilities, making it a
+                strong choice for handling large datasets without requiring
                 extra memory.
-            </p>
+            </Typography>
             {algorithm}
             <InputNumbers onStart={handleStart} onStop={handleStop} />
-            <div
+            <Box
                 className="heapSort"
                 id="binaryTree"
+                sx={{ width: 600, pt: 1 }}
                 ref={scope}
-                style={{ width: 600 }}
             >
                 {numbers.slice(0, -1).map((_, i) => (
                     <Edge key={i} index={i} />
@@ -133,7 +134,7 @@ export default function HeapSort() {
                         animate={{ x: i * 50 }}
                     />
                 ))}
-            </div>
-        </>
+            </Box>
+        </Stack>
     );
 }

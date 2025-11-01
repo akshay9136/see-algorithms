@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Box, Stack, Typography } from '@mui/material';
 import DSInput from '@/components/ds-input';
 import { Edge, Node } from '@/components/numbers';
 import binarySearchTree from '@/helpers/binarySearchTree';
@@ -83,8 +84,8 @@ export default function BST(props) {
     };
 
     return (
-        <>
-            <p>
+        <Stack spacing={3}>
+            <Typography variant="body1">
                 A <strong>Binary Search Tree</strong> (BST) is like a
                 well-organized library where each book (node) has a clear place
                 based on its value. In a BST, each node has up to two children:
@@ -92,9 +93,9 @@ export default function BST(props) {
                 larger values. This structure allows for efficient searching,
                 adding, and removing of books, as you can quickly navigate left
                 or right to find or insert a book in its proper place.
-            </p>
+            </Typography>
             <DSInput {...props} buttons={buttons} />
-            <div ref={scope} className="resizable" id="binaryTree">
+            <Box ref={scope} className="resizable" id="binaryTree">
                 {numbers.slice(0, -1).map((_, i) => (
                     <Edge key={i} index={i} />
                 ))}
@@ -106,7 +107,7 @@ export default function BST(props) {
                         style={{ opacity: 0 }}
                     />
                 ))}
-            </div>
-        </>
+            </Box>
+        </Stack>
     );
 }

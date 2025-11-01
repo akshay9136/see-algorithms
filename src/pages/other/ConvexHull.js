@@ -1,6 +1,7 @@
 import React from 'react';
-import Graph, { Segment } from '@/common/graph';
+import { Stack, Typography } from '@mui/material';
 import AddPoints from '@/components/convex-hull/add-points';
+import Graph, { Segment } from '@/common/graph';
 import $ from 'jquery';
 import { addPoints } from '@/helpers/convexHull';
 import { Colors } from '@/common/constants';
@@ -8,8 +9,8 @@ import Timer from '@/common/timer';
 
 export default function ConvexHull(props) {
   return (
-    <>
-      <p>
+    <Stack spacing={3}>
+      <Typography variant="body1">
         A <strong>Convex Hull</strong> is the smallest convex polygon that
         encloses a given set of points. It is a fundamental concept in
         computational geometry with applications in collision detection, image
@@ -17,9 +18,9 @@ export default function ConvexHull(props) {
         the <strong>Jarvis March</strong> or <strong>Gift Wrapping</strong>{' '}
         algorithm, which finds the convex hull by iteratively wrapping a
         &apos;gift&apos; around the set of points.
-      </p>
+      </Typography>
       <AddPoints {...props} start={start} />
-    </>
+    </Stack>
   );
 }
 

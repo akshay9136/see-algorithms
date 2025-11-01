@@ -1,5 +1,6 @@
 import React from 'react';
 import DrawGraph from '@/components/draw-graph';
+import { Box, Stack, Typography } from '@mui/material';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
@@ -8,15 +9,15 @@ import { Colors } from '@/common/constants';
 
 export default function DFS(props) {
     return (
-        <>
-            <p>
+        <Stack spacing={3}>
+            <Typography variant="body1">
                 <strong>Depth First Search</strong> (DFS) explores a graph by
                 starting at a node and going as deep as possible along each path
                 before <strong>backtracking</strong>. It uses a stack to keep
                 track of the path. DFS is useful for tasks like finding
                 connected components and solving puzzles where exploring all
                 paths is necessary.
-            </p>
+            </Typography>
             <DrawGraph
                 {...props}
                 onStart={start}
@@ -25,9 +26,9 @@ export default function DFS(props) {
                     $('#dfsStack').html('');
                 }}
             />
-            <div id="visited" className="d-flex numGrid alphaGrid" />
-            <div id="dfsStack" className="d-flex numGrid alphaGrid" />
-        </>
+            <Box id="visited" className="d-flex numGrid alphaGrid" />
+            <Box id="dfsStack" className="d-flex numGrid alphaGrid" />
+        </Stack>
     );
 }
 

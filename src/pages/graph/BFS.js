@@ -1,5 +1,6 @@
 import React from 'react';
 import DrawGraph from '@/components/draw-graph';
+import { Box, Stack, Typography } from '@mui/material';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
@@ -8,14 +9,14 @@ import { Colors } from '@/common/constants';
 
 export default function BFS(props) {
     return (
-        <>
-            <p>
+        <Stack spacing={3}>
+            <Typography variant="body1">
                 <strong>Breadth First Search</strong> (BFS) explores a graph
                 level by level, starting at a node and visiting all its
                 neighbors before moving on to the next level. It uses a queue to
                 manage nodes. BFS is ideal for finding the shortest path in an
                 unweighted graph and for checking connectivity.
-            </p>
+            </Typography>
             <DrawGraph
                 {...props}
                 onStart={start}
@@ -24,9 +25,9 @@ export default function BFS(props) {
                     $('#bfsQueue').html('');
                 }}
             />
-            <div id="visited" className="d-flex numGrid alphaGrid" />
-            <div id="bfsQueue" className="d-flex numGrid alphaGrid" />
-        </>
+            <Box id="visited" className="d-flex numGrid alphaGrid" />
+            <Box id="bfsQueue" className="d-flex numGrid alphaGrid" />
+        </Stack>
     );
 }
 

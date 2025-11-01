@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Box, Stack, Typography } from '@mui/material';
 import useAnimator from '@/hooks/useAnimator';
 import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
@@ -89,8 +90,8 @@ export default function SelectionSort() {
     const handleStop = () => setNumbers([]);
 
     return (
-        <>
-            <p>
+        <Stack spacing={3}>
+            <Typography variant="body1">
                 <strong>Selection Sort</strong> is like a choosy person picking
                 the best apples. It scans the unsorted section, selects the
                 smallest item, and places it at the correct position. This
@@ -99,14 +100,14 @@ export default function SelectionSort() {
                 <Link href="/sorting/BubbleSort">Bubble Sort</Link>, which makes
                 it useful when the cost of moving items is high, but finding the
                 smallest item is easy.
-            </p>
+            </Typography>
             {algorithm}
             <InputNumbers onStart={handleStart} onStop={handleStop} />
-            <div className="sorting d-flex pt-5" ref={scope}>
+            <Box className="sorting d-flex" pt={8} ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}
-            </div>
-        </>
+            </Box>
+        </Stack>
     );
 }

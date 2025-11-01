@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Box, Stack, Typography } from '@mui/material';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import { InputNumbers, Numbox } from '@/components/numbers';
@@ -83,22 +84,22 @@ export default function MergeSort() {
     const handleStop = () => setNumbers([]);
 
     return (
-        <>
-            <p>
+        <Stack spacing={3}>
+            <Typography variant="body1">
                 <strong>Merge Sort</strong> is more advanced, divide-and-conquer
                 algorithm that recursively splits an unsorted list into smaller
                 sublists until each contains a single element. These sublists
                 are then merged back together in a sorted manner. With a time
                 complexity of O(n log n), Merge Sort is efficient and stable,
                 making it suitable for handling large datasets.
-            </p>
+            </Typography>
             {algorithm}
             <InputNumbers onStart={handleStart} onStop={handleStop} />
-            <div className="d-flex pt-4 mergeSort" ref={scope}>
+            <Box className="d-flex mergeSort" pt={4} ref={scope}>
                 {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}
-            </div>
-        </>
+            </Box>
+        </Stack>
     );
 }

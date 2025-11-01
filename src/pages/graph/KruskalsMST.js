@@ -1,5 +1,6 @@
 import React from 'react';
 import DrawGraph from '@/components/draw-graph';
+import { Stack, Typography } from '@mui/material';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
@@ -8,14 +9,14 @@ import { hasValue, sound } from '@/common/utils';
 
 export default function KruskalsMST(props) {
     return (
-        <>
-            <p>
+        <Stack spacing={3}>
+            <Typography variant="body1">
                 <strong>Kruskal&apos;s Algorithm</strong> builds a Minimum
                 Spanning Tree (MST) by sorting all edges and adding them in
                 order of increasing weight, ensuring no cycles are formed. It is
                 efficient for sparse graphs and uses a union-find data structure
                 to manage connected components.
-            </p>
+            </Typography>
             <DrawGraph
                 {...props}
                 onStart={start}
@@ -23,7 +24,7 @@ export default function KruskalsMST(props) {
                 allowDirected={false}
                 customSource={false}
             />
-        </>
+        </Stack>
     );
 }
 

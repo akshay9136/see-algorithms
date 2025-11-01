@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { Box, Stack, Typography } from '@mui/material';
 import { Edge, InputNumbers, Node } from '@/components/numbers';
 import styles from '@/components/numbers/numbers.module.css';
 import useAnimator from '@/hooks/useAnimator';
 import binaryTree from '@/common/binaryTree';
-import { Colors } from '@/common/constants';
 import { sleep, sound, traverse } from '@/common/utils';
-import { Stack, Typography } from '@mui/material';
+import { Colors } from '@/common/constants';
+import $ from 'jquery';
 
 var Tree, delay = 500;
 var queue, codes;
@@ -44,6 +45,7 @@ export default function HuffmanCoding() {
         setNumbers(arr);
         await sleep(delay);
         sound('swap');
+        Tree = binaryTree(animator);
         renderTree(root);
         setCharcodes(codes);
     };
@@ -58,6 +60,7 @@ export default function HuffmanCoding() {
             if (!left && !right) {
                 codes[char] = node.data;
                 bgcolor(`#node${node.index}`, Colors.enqueue);
+                $(`#nodeBf${node.index}`).text(char);
             }
             renderTree(left, node, true);
             renderTree(right, node);
@@ -69,7 +72,6 @@ export default function HuffmanCoding() {
             return { value, char: characters[i] };
         });
         codes = {};
-        Tree = binaryTree(animator);
         sleep(delay)
             .then(huffmanCoding)
             .catch(() => {});
@@ -79,51 +81,58 @@ export default function HuffmanCoding() {
         setNumbers([]);
         setCharacters([]);
         setCharcodes({});
-        Tree = undefined;
+        Tree = null;
     };
 
     return (
-        <>
-            <p>
+        <Stack spacing={3}>
+            <Typography variant="body1">
                 <strong>Huffman Coding</strong> is a lossless data compression
                 algorithm that reduces the size of data by assigning shorter
                 binary codes to more frequent symbols. It builds an optimal
                 prefix tree, ensuring efficient encoding and decoding. Commonly
                 used in file compression formats like ZIP and JPEG, Huffman
                 Coding minimizes storage space without losing information.
-            </p>
-            {characters.length > 0 && (
-                <div className={styles.inputNumbers + ' mb-0 p-0'}>
-                    <Typography variant="subtitle1" fontWeight={600}>
-                        Character:
-                    </Typography>
-                    {characters.map((char) => (
-                        <Typography
-                            key={char}
-                            variant="subtitle1"
-                            fontWeight={600}
-                            sx={{ margin: '0 1.2rem' }}
-                        >
-                            {char}
+            </Typography>
+            <Stack spacing={1}>
+                {characters.length > 0 && (
+                    <Box className={styles.inputNumbers}>
+                        <Typography variant="subtitle1" fontWeight={600}>
+                            Character:
                         </Typography>
-                    ))}
-                </div>
-            )}
-            <InputNumbers
-                min={5}
-                max={8}
-                label="Frequency: "
-                onStart={handleStart}
-                onStop={handleStop}
-                onSelect={(n) => {
-                    const arr = Array.from(Array(n));
-                    setCharacters(arr.map((_, i) => toChar(i)));
-                    sound('pop');
-                }}
-                startBtnText="Encode"
-                stopBtnText="Clear"
-            />
-            <div className="huffmanTree" ref={scope}>
+                        {characters.map((char) => (
+                            <Typography
+                                key={char}
+                                variant="subtitle1"
+                                fontWeight={600}
+                                sx={{ margin: '0 1.2rem' }}
+                            >
+                                {char}
+                            </Typography>
+                        ))}
+                    </Box>
+                )}
+                <InputNumbers
+                    min={5}
+                    max={8}
+                    label="Frequency: "
+                    onStart={handleStart}
+                    onStop={handleStop}
+                    onSelect={(n) => {
+                        const arr = Array.from(Array(n));
+                        setCharacters(arr.map((_, i) => toChar(i)));
+                        sound('pop');
+                    }}
+                    startBtnText="Encode"
+                    stopBtnText="Clear"
+                />
+            </Stack>
+            <Box
+                className="huffmanTree"
+                id="binaryTree"
+                sx={{ width: 800, pt: 1 }}
+                ref={scope}
+            >
                 {numbers.slice(0, -1).map((_, i) => (
                     <Edge key={i} index={i} />
                 ))}
@@ -131,22 +140,8 @@ export default function HuffmanCoding() {
                     <Node
                         key={i}
                         index={i}
-                        value={
-                            node.char ? (
-                                <Stack
-                                    alignItems="center"
-                                    justifyContent="space-around"
-                                    position="relative"
-                                    top={15}
-                                    height={60}
-                                >
-                                    <span>{node.value}</span>
-                                    <span className="fw-bold">{node.char}</span>
-                                </Stack>
-                            ) : (
-                                node.value
-                            )
-                        }
+                        value={node.value}
+                        showBf={!!node.char}
                         animate={{ x: i * 50 }}
                         style={{ opacity: 0 }}
                     />
@@ -178,7 +173,7 @@ export default function HuffmanCoding() {
                         }}
                     />
                 ))}
-            </div>
-        </>
+            </Box>
+        </Stack>
     );
 }
