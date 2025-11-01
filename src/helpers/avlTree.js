@@ -8,7 +8,7 @@ const dx = 40, dy = 60;
 
 function avlTree(animator, setCurrentStep) {
     const Tree = binarySearchTree(animator);
-    const { bgcolor, tx, txy } = animator;
+    const { bgcolor, tx, txy, cleanup } = animator;
 
     const height = (node) => (node ? node.height : -1);
 
@@ -19,22 +19,6 @@ function avlTree(animator, setCurrentStep) {
     const updateHeight = (node) => {
         node.height = 1 + Math.max(height(node.left), height(node.right));
         $(`#nodeBf${node.index}`).text(balanceFactor(node));
-    };
-
-    const cleanup = (node, dx, dy) => {
-        if (node) {
-            node.x = node.x + dx;
-            node.y = node.y - dy;
-            Tree.cleanup(node);
-            txy(`#node${node.index}`, node.x, node.y, 1);
-            if (node.parent) {
-                const ex = node.x + 25;
-                const ey = node.y + 20;
-                txy(`#edge${node.key - 1}`, ex, ey, 1);
-            }
-            cleanup(node.left, dx, dy);
-            cleanup(node.right, dx, dy);
-        }
     };
 
     const rotateStep1 = (node, left) => {
@@ -61,7 +45,7 @@ function avlTree(animator, setCurrentStep) {
             txy(`#node${node.index}`, node.x, node.y, 1);
             tx(`#edge${node.key - 1}`, node.x + 25, 1);
             Tree.append(node, 1);
-            cleanup(right, dx, -dy);
+            cleanup(right, dx, -dy, 1);
         } else {
             node.x = node.x + (node.isLeft ? -dx : dx);
             node.y = node.y + dy;
@@ -69,6 +53,14 @@ function avlTree(animator, setCurrentStep) {
             txy(`#node${node.index}`, node.x, node.y, 1);
             tx(`#edge${node.key - 1}`, node.x + 25, 1);
             Tree.append(node, 1);
+        }
+    };
+
+    const postCleanup = (node) => {
+        if (node) {
+            Tree.cleanup(node);
+            postCleanup(node.left);
+            postCleanup(node.right);
         }
     };
 
@@ -96,7 +88,8 @@ function avlTree(animator, setCurrentStep) {
             node.left = lr;
             Tree.append(lr, 1);
         }
-        cleanup(ll, lx, ly);
+        cleanup(ll, lx, ly, 1);
+        postCleanup(ll);
         updateHeight(node);
         updateHeight(left);
     };
@@ -125,7 +118,8 @@ function avlTree(animator, setCurrentStep) {
             node.right = rl;
             Tree.append(rl, 1);
         }
-        cleanup(rr, rx, ry);
+        cleanup(rr, rx, ry, 1);
+        postCleanup(rr);
         updateHeight(node);
         updateHeight(right);
     };

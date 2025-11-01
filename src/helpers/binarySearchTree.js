@@ -6,7 +6,7 @@ const delay = 500;
 
 function binarySearchTree(animator) {
     const Tree = binaryTree(animator);
-    const { bgcolor, txy, animate } = animator;
+    const { bgcolor, txy, animate, cleanup } = animator;
 
     const smallest = async (node) => {
         await bgcolor(`#node${node.index}`, Colors.compare);
@@ -47,21 +47,6 @@ function binarySearchTree(animator) {
         cleanup(child, dx, dy);
         postCleanup(child);
         return child;
-    };
-
-    const cleanup = (node, dx, dy) => {
-        if (node) {
-            node.x = node.x + dx;
-            node.y = node.y - dy;
-            txy(`#node${node.index}`, node.x, node.y, 0.5);
-            if (node.parent) {
-                const ex = node.x + 25;
-                const ey = node.y + 20;
-                txy(`#edge${node.key - 1}`, ex, ey, 0.5);
-            }
-            cleanup(node.left, dx, dy);
-            cleanup(node.right, dx, dy);
-        }
     };
 
     const postCleanup = (node) => {
