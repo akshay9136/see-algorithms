@@ -49,16 +49,16 @@ function avlTree(animator, setCurrentStep) {
         } else {
             node.x = node.x + (node.isLeft ? -dx : dx);
             node.y = node.y + dy;
-            Tree.cleanup(node);
             txy(`#node${node.index}`, node.x, node.y, 1);
             tx(`#edge${node.key - 1}`, node.x + 25, 1);
+            Tree.cleanup(node, 1);
             Tree.append(node, 1);
         }
     };
 
     const postCleanup = (node) => {
         if (node) {
-            Tree.cleanup(node);
+            Tree.cleanup(node, 1);
             postCleanup(node.left);
             postCleanup(node.right);
         }
@@ -80,15 +80,16 @@ function avlTree(animator, setCurrentStep) {
         left.right = node;
         rotateStep2(node, right);
         if (lr) {
-            lr.x = node.x - dx;
-            tx(`#node${lr.index}`, lr.x, 1);
-            tx(`#edge${lr.key - 1}`, lr.x + 25, 1);
+            const rlx = node.x - dx;
             lr.parent = node;
             lr.isLeft = true;
             node.left = lr;
+            cleanup(lr, rlx - lr.x, 0, 1);
             Tree.append(lr, 1);
+            postCleanup(lr);
         }
         cleanup(ll, lx, ly, 1);
+        if (ll) Tree.append(ll, 1);
         postCleanup(ll);
         updateHeight(node);
         updateHeight(left);
@@ -110,15 +111,16 @@ function avlTree(animator, setCurrentStep) {
         right.left = node;
         rotateStep2(node, left);
         if (rl) {
-            rl.x = node.x + dx;
-            tx(`#node${rl.index}`, rl.x, 1);
-            tx(`#edge${rl.key - 1}`, rl.x + 25, 1);
+            const lrx = node.x + dx;
             rl.parent = node;
             rl.isLeft = false;
             node.right = rl;
+            cleanup(rl, lrx - rl.x, 0, 1);
             Tree.append(rl, 1);
+            postCleanup(rl);
         }
         cleanup(rr, rx, ry, 1);
+        if (rr) Tree.append(rr, 1);
         postCleanup(rr);
         updateHeight(node);
         updateHeight(right);

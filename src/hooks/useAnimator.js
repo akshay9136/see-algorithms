@@ -3,7 +3,7 @@ import { useAnimate } from 'framer-motion';
 export default function useAnimator() {
     const [scope, animate] = useAnimate();
 
-    const cleanup = (node, dx, dy, t = 0.5) => {
+    const cleanup = (node, dx, dy, t = 0.3) => {
         const { txy } = animator;
         if (node) {
             node.x = node.x + dx;
@@ -14,8 +14,8 @@ export default function useAnimator() {
                 const ey = node.y + 20;
                 txy(`#edge${node.key - 1}`, ex, ey, t);
             }
-            cleanup(node.left, dx, dy);
-            cleanup(node.right, dx, dy);
+            cleanup(node.left, dx, dy, t);
+            cleanup(node.right, dx, dy, t);
         }
     };
 
