@@ -17,7 +17,7 @@ export default function HuffmanCoding() {
     const [charcodes, setCharcodes] = useState({});
     const [scope, animator] = useAnimator();
     const { bgcolor } = animator;
-    const toChar = (i) => String.fromCharCode(97 + i);
+    const toChar = (i) => String.fromCharCode(65 + i);
 
     const extractMin = () => {
         queue.sort((a, b) => a.value - b.value);
@@ -97,14 +97,14 @@ export default function HuffmanCoding() {
             <Stack spacing={1}>
                 {characters.length > 0 && (
                     <Box className={styles.inputNumbers}>
-                        <Typography variant="subtitle1" fontWeight={600}>
+                        <Typography variant="subtitle1" fontWeight="bold">
                             Character:
                         </Typography>
                         {characters.map((char) => (
                             <Typography
                                 key={char}
-                                variant="subtitle1"
-                                fontWeight={600}
+                                variant="subtitle2"
+                                fontWeight="bold"
                                 sx={{ margin: '0 1.2rem' }}
                             >
                                 {char}
@@ -156,6 +156,7 @@ export default function HuffmanCoding() {
                             borderRadius: 8,
                             backgroundColor: Colors.vertex,
                             fontWeight: 'bold',
+                            fontSize: 14,
                         }}
                     />
                 ))}

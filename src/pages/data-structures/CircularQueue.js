@@ -26,7 +26,8 @@ export default function CircularQueue(props) {
             }
             cells[k].setAttribute('style', 'vertical-align:bottom;');
             cells[k + n + n].setAttribute('style', 'vertical-align:top;');
-            cells[k + n].style.border = '2px solid';
+            cells[k + n + n].style.border = 'none';
+            cells[k].style.border = 'none';
         }
     }, []);
 

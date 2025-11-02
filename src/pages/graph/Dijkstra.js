@@ -19,17 +19,21 @@ export default function Dijkstra(props) {
                 to explore nodes in order of increasing distance. This algorithm
                 is widely used in routing and navigation systems.
             </Typography>
-            <DrawGraph
-                {...props}
-                onStart={start}
-                weighted={true}
-                onClear={() => {
-                    $('#vert').html('');
-                    $('#dist').html('');
-                }}
-            />
-            <Box id="vert" className="d-flex numGrid alphaGrid" />
-            <Box id="dist" className="d-flex numGrid alphaGrid" />
+            <Stack spacing={2}>
+                <DrawGraph
+                    {...props}
+                    onStart={start}
+                    weighted={true}
+                    onClear={() => {
+                        $('#vert').html('');
+                        $('#dist').html('');
+                    }}
+                />
+                <Stack spacing={1}>
+                    <Box id="vert" className="d-flex numGrid alphaGrid" />
+                    <Box id="dist" className="d-flex numGrid alphaGrid" />
+                </Stack>
+            </Stack>
         </Stack>
     );
 }

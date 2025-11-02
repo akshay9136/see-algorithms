@@ -136,7 +136,7 @@ function createGrid(n, id) {
 }
 
 function appendCell(rowId, val) {
-    $(rowId).append(`<div class="cell" style="border:2px solid;">${val}</div>`);
+    $(rowId).append(`<div class="cell">${val}</div>`);
 }
 
 function getCostMatrix() {

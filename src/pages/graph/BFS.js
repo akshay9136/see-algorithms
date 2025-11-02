@@ -1,10 +1,10 @@
 import React from 'react';
 import DrawGraph from '@/components/draw-graph';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Divider, Stack, Typography } from '@mui/material';
+import { appendCell, hasValue, sound, spanEdge } from '@/common/utils';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
-import { appendCell, hasValue, sound, spanEdge } from '@/common/utils';
 import { Colors } from '@/common/constants';
 
 export default function BFS(props) {
@@ -17,16 +17,41 @@ export default function BFS(props) {
                 manage nodes. BFS is ideal for finding the shortest path in an
                 unweighted graph and for checking connectivity.
             </Typography>
-            <DrawGraph
-                {...props}
-                onStart={start}
-                onClear={() => {
-                    $('#visited').html('');
-                    $('#bfsQueue').html('');
-                }}
-            />
-            <Box id="visited" className="d-flex numGrid alphaGrid" />
-            <Box id="bfsQueue" className="d-flex numGrid alphaGrid" />
+            <Stack spacing={2}>
+                <DrawGraph
+                    {...props}
+                    onStart={start}
+                    onClear={() => {
+                        $('#visited').html('');
+                        $('#bfsQueue').html('');
+                    }}
+                />
+                <Stack direction="row" spacing={3} height={90}>
+                    <Stack spacing={2} minWidth={300}>
+                        <Typography variant="body1" fontWeight="bold">
+                            &nbsp;Visited
+                        </Typography>
+                        <Box
+                            id="visited"
+                            className="d-flex numGrid alphaGrid"
+                        />
+                    </Stack>
+                    <Divider
+                        flexItem
+                        orientation="vertical"
+                        sx={{ borderRight: '1px solid' }}
+                    />
+                    <Stack spacing={2}>
+                        <Typography variant="body1" fontWeight="bold">
+                            Queue
+                        </Typography>
+                        <Box
+                            id="bfsQueue"
+                            className="d-flex numGrid alphaGrid"
+                        />
+                    </Stack>
+                </Stack>
+            </Stack>
         </Stack>
     );
 }

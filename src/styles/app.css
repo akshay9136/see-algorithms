@@ -58,31 +58,30 @@
 .numGrid {
     font-weight: 600;
     font-size: 1rem;
-    padding-top: 0.75rem;
     width: max-content;
+    min-height: 40px;
 }
 
 .numGrid .cell {
-    width: 3.5rem;
-    min-height: 2.75rem;
-    max-height: fit-content;
+    width: 52px;
+    height: 42px;
     text-align: center;
     border-radius: 12px;
     margin-right: 8px;
     padding-top: 8px;
-    display: inline;
+    border: 1.5px solid #636363;
 }
 
 .alphaGrid .cell {
-    width: 3rem;
-    min-height: 2.5rem;
+    width: 46px;
+    height: 40px;
     padding-top: 6px;
+    border: 1.5px solid #636363;
 }
 
 .drawGraph {
     width: max-content;
     height: max-content;
-    margin-top: 2rem;
 }
 
 .resizable {
