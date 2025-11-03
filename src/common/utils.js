@@ -145,6 +145,10 @@ function getCostMatrix() {
         mat[i] = mat[i] || [];
         const value = $('.cost').eq(k).val();
         mat[i][j] = Number(value) || 1;
+        if (!Graph.isDirected()) {
+            mat[j] = mat[j] || [];
+            mat[j][i] = mat[i][j];
+        }
     });
     return mat;
 }
