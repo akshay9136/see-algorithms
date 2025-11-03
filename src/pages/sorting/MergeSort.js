@@ -36,7 +36,7 @@ export default function MergeSort() {
             let s = getMergeIndex(p, q, mid, end);
             tmp.push(arr[s]);
             sound('swap');
-            await txy(`#box${s}`, 60 * (r - s), ypos - 60, 0.5);
+            await txy(`#box${s}`, 60 * (r - s), ypos - 60);
             await bgcolor(`#box${s}`, Colors.sorted);
             s === q ? q++ : p++;
             r++;

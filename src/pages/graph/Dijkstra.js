@@ -63,7 +63,7 @@ function start(src) {
         cells[i + n].style.transition = 'opacity 0.5s';
         if (i !== src) {
             d[i] = Infinity;
-            cells[i + n].innerHTML = '&infin;';
+            cells[i + n].textContent = 'Inf';
         }
     }
     queue = [src];

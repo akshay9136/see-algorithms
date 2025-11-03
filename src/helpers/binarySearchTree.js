@@ -20,7 +20,7 @@ function binarySearchTree(animator) {
         const child = await smallest(node.right);
         const { right, parent } = child;
         sound('swap');
-        await txy(`#node${child.index}`, node.x, node.y, 0.5);
+        await txy(`#node${child.index}`, node.x, node.y);
         node.value = child.value;
         node.index = child.index;
         if (right) {

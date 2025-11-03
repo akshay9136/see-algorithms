@@ -25,7 +25,7 @@ export default function SelectionSort() {
     if (!numbers.length) arr = undefined;
 
     const pickNumber = async (i) => {
-        await ty(`#box${i}`, -50, 0.5);
+        await ty(`#box${i}`, -50);
         await sleep(delay);
     };
 
@@ -43,7 +43,7 @@ export default function SelectionSort() {
                 await sleep(delay);
                 if (arr[j] < arr[k]) {
                     setCurrentStep('4');
-                    ty(`#box${k}`, 0, 0.5);
+                    ty(`#box${k}`, 0);
                     sound('pop');
                     await pickNumber(j);
                     k = j;
@@ -53,12 +53,12 @@ export default function SelectionSort() {
             await sleep(delay);
             if (k > i) {
                 setCurrentStep('6');
-                await ty(`#box${i}`, 50, 0.5);
+                await ty(`#box${i}`, 50);
                 sound('swap');
                 await swapNumbers(i, k);
             } else {
                 sound('swap');
-                await ty(`#box${k}`, 0, 0.5);
+                await ty(`#box${k}`, 0);
             }
             bgcolor(`#box${i}`, Colors.sorted);
             await sleep(1000);
@@ -73,7 +73,7 @@ export default function SelectionSort() {
             tx(`#box${i}`, k * 60, 0.15 * k),
             tx(`#box${j}`, -k * 60, 0.15 * k),
         ]);
-        await Promise.all([ty(`#box${i}`, 0, 0.5), ty(`#box${j}`, 0, 0.5)]);
+        await Promise.all([ty(`#box${i}`, 0), ty(`#box${j}`, 0)]);
         arr.swap(i, j);
         setNumbers(arr.slice());
         await Promise.all([tx(`#box${i}`, 0, 0), tx(`#box${j}`, 0, 0)]);

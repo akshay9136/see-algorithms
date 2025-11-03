@@ -30,7 +30,7 @@ export default function InsertionSort() {
             await sleep(delay);
             setCurrentStep('1,2');
             sound('pop');
-            await ty(`#box${i}`, -50, 0.5);
+            await ty(`#box${i}`, -50);
             setCurrentStep('3');
             await sleep(delay);
             let num = arr[i];
@@ -38,7 +38,8 @@ export default function InsertionSort() {
             while (j >= 0 && arr[j] > num) {
                 arr[j + 1] = arr[j];
                 setCurrentStep('3,4,5');
-                await tx(`#box${j}`, 60, 0.5);
+                sound('swap');
+                await tx(`#box${j}`, 60);
                 j--;
             }
             sound('swap');
@@ -48,7 +49,7 @@ export default function InsertionSort() {
                 await tx(`#box${i}`, -k * 60, k * 0.2);
             }
             setCurrentStep('6');
-            await ty(`#box${i}`, 0, 0.5);
+            await ty(`#box${i}`, 0);
             await bgcolor(`#box${i}`, Colors.sorted);
             setNumbers(arr.slice());
         }

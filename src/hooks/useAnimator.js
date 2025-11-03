@@ -3,7 +3,7 @@ import { useAnimate } from 'framer-motion';
 export default function useAnimator() {
     const [scope, animate] = useAnimate();
 
-    const cleanup = (node, dx, dy, t = 0.3) => {
+    const cleanup = (node, dx, dy, t = 0.5) => {
         const { txy } = animator;
         if (node) {
             node.x = node.x + dx;
@@ -23,13 +23,13 @@ export default function useAnimator() {
         bgcolor(id, color) {
             return animate(id, { backgroundColor: color });
         },
-        tx(id, x, t) {
+        tx(id, x, t = 0.5) {
             return animate(id, { x }, { duration: t });
         },
-        ty(id, y, t) {
+        ty(id, y, t = 0.5) {
             return animate(id, { y }, { duration: t });
         },
-        txy(id, x, y, t) {
+        txy(id, x, y, t = 0.5) {
             return animate(id, { x, y }, { duration: t });
         },
         animate,

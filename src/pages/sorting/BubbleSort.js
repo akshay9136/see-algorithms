@@ -25,7 +25,7 @@ export default function BubbleSort() {
     if (!numbers.length) arr = undefined;
 
     const swapNumbers = async (u, v) => {
-        await Promise.all([tx(`#box${u}`, 60, 0.5), tx(`#box${v}`, -60, 0.5)]);
+        await Promise.all([tx(`#box${u}`, 60), tx(`#box${v}`, -60)]);
         arr.swap(u, v);
         setNumbers(arr.slice());
         await Promise.all([tx(`#box${u}`, 0, 0), tx(`#box${v}`, 0, 0)]);
