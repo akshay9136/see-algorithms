@@ -30,8 +30,8 @@ export default function Dijkstra(props) {
                     }}
                 />
                 <Stack spacing={1}>
-                    <Box id="vert" className="d-flex numGrid alphaGrid" />
-                    <Box id="dist" className="d-flex numGrid alphaGrid" />
+                    <Box id="vert" className="d-flex alphaGrid" />
+                    <Box id="dist" className="d-flex alphaGrid" />
                 </Stack>
             </Stack>
         </Stack>

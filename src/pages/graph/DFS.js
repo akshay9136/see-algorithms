@@ -30,11 +30,11 @@ export default function DFS(props) {
                 <Stack direction="row" spacing={3} height={90}>
                     <Stack spacing={2} minWidth={300}>
                         <Typography variant="body1" fontWeight="bold">
-                            &nbsp;Visited
+                            &nbsp;Visited :
                         </Typography>
                         <Box
                             id="visited"
-                            className="d-flex numGrid alphaGrid"
+                            className="d-flex alphaGrid"
                         />
                     </Stack>
                     <Divider
@@ -44,11 +44,11 @@ export default function DFS(props) {
                     />
                     <Stack spacing={2}>
                         <Typography variant="body1" fontWeight="bold">
-                            Stack
+                            Stack :
                         </Typography>
                         <Box
                             id="dfsStack"
-                            className="d-flex numGrid alphaGrid"
+                            className="d-flex alphaGrid"
                         />
                     </Stack>
                 </Stack>

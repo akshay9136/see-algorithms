@@ -24,7 +24,7 @@ export default function Hamiltonian(props) {
                 onClear={() => $('#path').html('')}
                 allowDirected={false}
             />
-            <Box id="path" className="d-flex numGrid alphaGrid" />
+            <Box id="path" className="d-flex alphaGrid" />
         </Stack>
     );
 }

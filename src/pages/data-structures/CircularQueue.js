@@ -44,7 +44,7 @@ export default function CircularQueue(props) {
                 continuous flow of data.
             </Typography>
             <DSInput {...props} buttons={buttons} />
-            <Box id="cqueue" className="numGrid" />
+            <Box id="cqueue" className="alphaGrid numGrid" />
         </Stack>
     );
 }

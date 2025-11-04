@@ -36,7 +36,7 @@ export default function TopSort(props) {
                 allowDirected={false}
                 customSource={false}
             />
-            <Box id="visited" className="d-flex numGrid alphaGrid" />
+            <Box id="visited" className="d-flex alphaGrid" />
         </Stack>
     );
 }

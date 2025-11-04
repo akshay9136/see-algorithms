@@ -55,26 +55,26 @@
     height: 500px;
 }
 
-.numGrid {
-    font-weight: 600;
+.alphaGrid {
     font-size: 1rem;
+    font-weight: 600;
     min-height: 40px;
-}
-
-.numGrid .cell {
-    width: 52px;
-    height: 42px;
-    text-align: center;
-    border-radius: 12px;
-    margin-right: 8px;
-    padding-top: 8px;
-    border: 2px solid #636363;
 }
 
 .alphaGrid .cell {
     width: 46px;
     height: 40px;
-    padding-top: 6px;
+    border-radius: 10px;
+    margin-right: 8px;
+    border: 2px solid #636363;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.numGrid .cell {
+    width: 52px;
+    height: 42px;
 }
 
 .drawGraph {
