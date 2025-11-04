@@ -20,14 +20,14 @@ export default function AVL(props) {
     const [algorithm, setCurrentStep] = useAlgorithm(`
     function rebalance(node):
         updateHeight(node)
-        bf = balanceFactor(node)
-        if bf > 1:
+        nodeBf = balanceFactor(node)
+        if nodeBf > 1:
             if balanceFactor(node.left) > 0:
                 rotateRight(node)
             else:
                 rotateLeft(node.left)
                 rotateRight(node)
-        if bf < -1:
+        if nodeBf < -1:
             if balanceFactor(node.right) < 0:
                 rotateLeft(node)
             else:

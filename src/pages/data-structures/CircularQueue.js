@@ -1,18 +1,35 @@
 import React, { useEffect } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import DSInput from '@/components/ds-input';
-import { createGrid, randomInt, sound } from '@/common/utils';
+import useAlgorithm from '@/hooks/useAlgorithm';
+import { createGrid, sound } from '@/common/utils';
 import { showToast } from '@/components/toast';
 
-const buttons = [
-    { text: 'Enqueue', onClick: enqueue, validate: true },
-    { text: 'Dequeue', onClick: dequeue },
-];
+var cells, n = 10;
+var front = 0, rear = 0;
+var size = 0;
 
 export default function CircularQueue(props) {
+    const [enqueueAlgorithm] = useAlgorithm(`
+    function enqueue(value):
+        if front == rear and size == n:
+            alert "Queue is full."
+        else:
+            queue[rear] = value
+            rear = (rear + 1) % n
+            size = size + 1
+    `);
+    const [dequeueAlgorithm] = useAlgorithm(`
+    function dequeue():
+        if front == rear and size == 0:
+            alert "Queue is empty."
+        else:
+            value = queue[front]
+            front = (front + 1) % n
+            size = size - 1
+    `);
+
     useEffect(() => {
-        rear = 5;
-        size = rear - front;
         document.querySelector('#cqueue').innerHTML = '';
         createGrid(n, '#cqueue');
         createGrid(n, '#cqueue');
@@ -21,15 +38,17 @@ export default function CircularQueue(props) {
         cells[front].textContent = 'Front';
         cells[n + n + rear].textContent = 'Rear';
         for (let k = 0; k < n; k++) {
-            if (k < rear && k >= front) {
-                cells[k + n].textContent = randomInt();
-            }
             cells[k].setAttribute('style', 'vertical-align:bottom;');
             cells[k + n + n].setAttribute('style', 'vertical-align:top;');
             cells[k + n + n].style.border = 'none';
             cells[k].style.border = 'none';
         }
     }, []);
+
+    const buttons = [
+        { text: 'Enqueue', onClick: enqueue, validate: true },
+        { text: 'Dequeue', onClick: dequeue },
+    ];
 
     return (
         <Stack spacing={3}>
@@ -43,17 +62,17 @@ export default function CircularQueue(props) {
                 where you have a fixed amount of memory and need to handle a
                 continuous flow of data.
             </Typography>
+            <Box display="flex" gap={3} flexWrap="wrap">
+                {enqueueAlgorithm}
+                {dequeueAlgorithm}
+            </Box>
             <DSInput {...props} buttons={buttons} />
             <Box id="cqueue" className="alphaGrid numGrid" />
         </Stack>
     );
 }
 
-var cells, n = 12;
-var front = 0, rear;
-var size;
-
-export function enqueue(num) {
+function enqueue(num) {
     if (front === rear && size === n) {
         showToast({ message: 'Queue is full.', variant: 'error' });
     } else {
@@ -67,7 +86,7 @@ export function enqueue(num) {
     return Promise.resolve();
 }
 
-export function dequeue() {
+function dequeue() {
     if (front === rear && size === 0) {
         showToast({ message: 'Queue is empty.', variant: 'error' });
     } else {

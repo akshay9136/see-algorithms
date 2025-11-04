@@ -4,6 +4,7 @@ import DSInput from '@/components/ds-input';
 import { Edge, Node } from '@/components/numbers';
 import binaryTree from '@/common/binaryTree';
 import useAnimator from '@/hooks/useAnimator';
+import useAlgorithm from '@/hooks/useAlgorithm';
 import { Colors } from '@/common/constants';
 import { sleep, sound } from '@/common/utils';
 
@@ -13,6 +14,13 @@ var delay = 500;
 export default function BinaryHeap(props) {
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
+    const [algorithm] = useAlgorithm(`
+    function heapify(node):
+        parent = node.parent
+        if parent and node.value > parent.value:
+            swap(node, parent)
+            heapify(parent)
+    `);
     const { bgcolor } = animator;
     if (!numbers.length) arr = [];
 
@@ -21,7 +29,7 @@ export default function BinaryHeap(props) {
         setNumbers(arr.slice());
         await sleep(delay);
         sound('pop');
-        if (!numbers.length) {
+        if (Tree === undefined) {
             Tree = binaryTree(animator);
             Tree.insert(num);
         } else {
@@ -68,6 +76,7 @@ export default function BinaryHeap(props) {
                 top). This arrangement makes it easy to quickly access and
                 remove the highest or lowest priority element.
             </Typography>
+            {algorithm}
             <DSInput {...props} buttons={buttons} />
             <Box ref={scope} className="resizable" id="binaryTree">
                 {numbers.slice(0, -1).map((_, i) => (
@@ -83,5 +92,6 @@ export default function BinaryHeap(props) {
                 ))}
             </Box>
         </Stack>
+
     );
 }

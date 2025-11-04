@@ -27,7 +27,7 @@ export default function DFS(props) {
                         $('#dfsStack').html('');
                     }}
                 />
-                <Stack direction="row" spacing={3} height={90}>
+                <Box display="flex" gap={3} height={90}>
                     <Stack spacing={2} minWidth={300}>
                         <Typography variant="body1" fontWeight="bold">
                             &nbsp;Visited :
@@ -51,7 +51,7 @@ export default function DFS(props) {
                             className="d-flex alphaGrid"
                         />
                     </Stack>
-                </Stack>
+                </Box>
             </Stack>
         </Stack>
     );

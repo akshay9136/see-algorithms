@@ -6,7 +6,7 @@ import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
 import { sleep, sound } from '@/common/utils';
 
-var arr, delay = 1000;
+var arr, delay = 800;
 
 export default function QuickSort() {
     const [numbers, setNumbers] = useState([]);
@@ -17,6 +17,17 @@ export default function QuickSort() {
             pivot = partition(start, end)
             quickSort(start, pivot - 1)
             quickSort(pivot + 1, end)
+    `);
+    const [partition, setCurrentStep] = useAlgorithm(`
+    function partition(start, end):
+        pivot = arr[end]
+        i = start, j = end - 1
+        while i < j:
+            if arr[i] <= pivot: i++
+            else if arr[j] > pivot: j--
+            else: swap(i, j)
+        if arr[i] > pivot:
+            swap(i, end)
     `);
 
     if (!numbers.length) arr = undefined;
@@ -36,32 +47,41 @@ export default function QuickSort() {
     };
 
     const divide = async (start, end) => {
+        setCurrentStep('1');
         bgcolor(`#box${end}`, Colors.sorted);
         await sleep(delay);
         let i = start,
             j = end - 1;
+        setCurrentStep('2');
         bgcolor(`#box${i}`, Colors.compare);
         bgcolor(`#box${j}`, Colors.compare);
         await sleep(delay);
         while (i < j) {
+            setCurrentStep('3');
+            await sleep(delay);
             if (arr[i] <= arr[end]) {
                 i++;
+                setCurrentStep('4');
                 bgcolor(`#box${i - 1}`, Colors.white);
                 bgcolor(`#box${i}`, Colors.compare);
             } else if (arr[j] > arr[end]) {
                 j--;
+                setCurrentStep('5');
                 bgcolor(`#box${j + 1}`, Colors.white);
                 bgcolor(`#box${j}`, Colors.compare);
             } else {
+                setCurrentStep('6');
                 await swap(i, j);
             }
             await sleep(delay);
         }
+        setCurrentStep('');
         if (i < end && arr[i] > arr[end]) {
             bgcolor(`#box${i}`, Colors.sorted);
-            await sleep(500);
+            await sleep(delay);
+            setCurrentStep('7,8');
             await swap(i, end);
-            await sleep(500);
+            await sleep(delay / 2);
             bgcolor(`#box${end}`, Colors.white);
         } else {
             bgcolor(`#box${i}`, Colors.white);
@@ -85,9 +105,9 @@ export default function QuickSort() {
     const handleStart = (values) => {
         setNumbers(values);
         arr = values.slice();
-        sleep(delay).then(() => {
-            quickSort(0, arr.length - 1).catch(() => {});
-        });
+        sleep(delay)
+            .then(() => quickSort(0, arr.length - 1))
+            .catch(() => setCurrentStep(''));
     };
 
     const handleStop = () => setNumbers([]);
@@ -103,7 +123,10 @@ export default function QuickSort() {
                 It is perfect blend of strategy and speed, making it one of the
                 most popular sorting techniques.
             </Typography>
-            {algorithm}
+            <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
+                {algorithm}
+                {partition}
+            </Box>
             <InputNumbers onStart={handleStart} onStop={handleStop} />
             <Box className="sorting d-flex" pt={8} ref={scope}>
                 {numbers.map((num, i) => (

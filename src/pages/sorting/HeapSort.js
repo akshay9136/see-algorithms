@@ -22,6 +22,21 @@ export default function HeapSort() {
         swap(0, i)
         heapify(0)
     `);
+   const [heapifyAlgorithm] = useAlgorithm(`
+    function heapify(i):
+        largest = i
+        left = 2 * i + 1
+        right = 2 * i + 2
+        if left < n:
+            if arr[left] > arr[largest]:
+                largest = left
+        if right < n:
+            if arr[right] > arr[largest]:
+                largest = right
+        if largest != i:
+            swap(i, largest)
+            heapify(largest)
+    `);
 
     const heapSort = async () => {
         sound('swap');
@@ -38,17 +53,19 @@ export default function HeapSort() {
         for (let i = k; i >= 0; i--) {
             await heapify(Tree.node(i), n);
         }
-        setCurrentStep('2,3,4');
+        // setCurrentStep('2,3,4');
         await sleep(delay);
         for (let i = n - 1; i > 0; i--) {
             const first = Tree.node(0);
             const last = Tree.node(i);
             if (first.value !== last.value) {
                 sound('swap');
+                setCurrentStep('2,3');
                 await Tree.swapNodes(first, last);
             }
             await bgcolor(`#node${last.index}`, Colors.sorted);
             await sleep(1000);
+            setCurrentStep('2,4');
             await heapify(Tree.node(0), i);
             await sleep(delay);
         }
@@ -115,25 +132,32 @@ export default function HeapSort() {
                 strong choice for handling large datasets without requiring
                 extra memory.
             </Typography>
-            {algorithm}
-            <InputNumbers onStart={handleStart} onStop={handleStop} />
-            <Box
-                className="heapSort"
-                id="binaryTree"
-                sx={{ width: 600, pt: 1 }}
-                ref={scope}
-            >
-                {numbers.slice(0, -1).map((_, i) => (
-                    <Edge key={i} index={i} />
-                ))}
-                {numbers.map((num, i) => (
-                    <Node
-                        key={i}
-                        index={i}
-                        value={num}
-                        animate={{ x: i * 50 }}
-                    />
-                ))}
+            <Box display="flex" gap={3} flexWrap="wrap">
+                <Stack spacing={2}>
+                    {algorithm}
+                    {heapifyAlgorithm}
+                </Stack>
+                <Stack spacing={3}>
+                    <InputNumbers onStart={handleStart} onStop={handleStop} />
+                    <Box
+                        className="heapSort"
+                        id="binaryTree"
+                        sx={{ width: 600, pt: 1 }}
+                        ref={scope}
+                    >
+                        {numbers.slice(0, -1).map((_, i) => (
+                            <Edge key={i} index={i} />
+                        ))}
+                        {numbers.map((num, i) => (
+                            <Node
+                                key={i}
+                                index={i}
+                                value={num}
+                                animate={{ x: i * 50 }}
+                            />
+                        ))}
+                    </Box>
+                </Stack>
             </Box>
         </Stack>
     );
