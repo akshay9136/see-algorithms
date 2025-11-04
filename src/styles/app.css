@@ -58,7 +58,6 @@
 .numGrid {
     font-weight: 600;
     font-size: 1rem;
-    width: max-content;
     min-height: 40px;
 }
 
@@ -69,14 +68,13 @@
     border-radius: 12px;
     margin-right: 8px;
     padding-top: 8px;
-    border: 1.5px solid #636363;
+    border: 2px solid #636363;
 }
 
 .alphaGrid .cell {
     width: 46px;
     height: 40px;
     padding-top: 6px;
-    border: 1.5px solid #636363;
 }
 
 .drawGraph {

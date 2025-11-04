@@ -57,13 +57,10 @@ function start(src) {
     cells[src + n].textContent = 0;
     d[src] = 0;
     for (let i = 0; i < n; i++) {
-        cells[i].style.border = '2px solid';
-        cells[i + n].style.border = '2px solid';
         cells[i].textContent = String.fromCharCode(65 + i);
-        cells[i + n].style.transition = 'opacity 0.5s';
         if (i !== src) {
-            d[i] = Infinity;
             cells[i + n].textContent = 'Inf';
+            d[i] = Infinity;
         }
     }
     queue = [src];
