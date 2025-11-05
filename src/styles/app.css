@@ -25,7 +25,7 @@
 }
 
 .content > div > p {
-    width: 400px;
+    width: calc(100vw - 3rem);
 }
 
 .drawer {
@@ -108,8 +108,7 @@
 
 .algorithm {
     padding: 8px 0;
-    min-width: 400px;
-    max-width: fit-content;
+    width: fit-content;
     background-color: #eee;
     border-radius: 8px;
 }
@@ -117,7 +116,7 @@
 .algorithm pre {
     margin: 8px 0;
     padding: 4px 0;
-    padding-right: 16px;
+    padding-right: 20px;
 }
 
 .currentStep {

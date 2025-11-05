@@ -93,12 +93,16 @@ export default function MergeSort() {
                 complexity of O(n log n), Merge Sort is efficient and stable,
                 making it suitable for handling large datasets.
             </Typography>
-            {algorithm}
-            <InputNumbers onStart={handleStart} onStop={handleStop} />
-            <Box className="d-flex mergeSort" pt={4} ref={scope}>
-                {numbers.map((num, i) => (
-                    <Numbox key={i} index={i} value={num} />
-                ))}
+            <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
+                {algorithm}
+                <Stack spacing={3}>
+                    <InputNumbers onStart={handleStart} onStop={handleStop} />
+                    <Box className="d-flex mergeSort" pt={4} ref={scope}>
+                        {numbers.map((num, i) => (
+                            <Numbox key={i} index={i} value={num} />
+                        ))}
+                    </Box>
+                </Stack>
             </Box>
         </Stack>
     );

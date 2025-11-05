@@ -79,12 +79,16 @@ export default function InsertionSort() {
                 efficient for small dataset, especially for partially sorted
                 lists.
             </Typography>
-            {algorithm}
-            <InputNumbers onStart={handleStart} onStop={handleStop} />
-            <Box className="sorting d-flex" pt={8} ref={scope}>
-                {numbers.map((num, i) => (
-                    <Numbox key={i} index={i} value={num} />
-                ))}
+            <Box display="flex" gap={3} flexWrap="wrap">
+                {algorithm}
+                <Stack spacing={3}>
+                    <InputNumbers onStart={handleStart} onStop={handleStop} />
+                    <Box className="sorting d-flex" pt={8} ref={scope}>
+                        {numbers.map((num, i) => (
+                            <Numbox key={i} index={i} value={num} />
+                        ))}
+                    </Box>
+                </Stack>
             </Box>
         </Stack>
     );

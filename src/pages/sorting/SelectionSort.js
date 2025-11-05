@@ -101,12 +101,16 @@ export default function SelectionSort() {
                 it useful when the cost of moving items is high, but finding the
                 smallest item is easy.
             </Typography>
-            {algorithm}
-            <InputNumbers onStart={handleStart} onStop={handleStop} />
-            <Box className="sorting d-flex" pt={8} ref={scope}>
-                {numbers.map((num, i) => (
-                    <Numbox key={i} index={i} value={num} />
-                ))}
+            <Box display="flex" gap={3} flexWrap="wrap">
+                {algorithm}
+                <Stack spacing={3}>
+                    <InputNumbers onStart={handleStart} onStop={handleStop} />
+                    <Box className="sorting d-flex" pt={8} ref={scope}>
+                        {numbers.map((num, i) => (
+                            <Numbox key={i} index={i} value={num} />
+                        ))}
+                    </Box>
+                </Stack>
             </Box>
         </Stack>
     );
