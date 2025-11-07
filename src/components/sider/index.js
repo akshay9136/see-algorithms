@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { List, ListItemButton, Typography } from '@mui/material';
 import styles from './sider.module.css';
 import { algorithms, categories } from '@/common/appData';

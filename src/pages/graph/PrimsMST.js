@@ -1,10 +1,9 @@
-import React from 'react';
 import DrawGraph from '@/components/draw-graph';
-import { Stack, Typography } from '@mui/material';
 import $ from 'jquery';
+import { Stack, Typography } from '@mui/material';
 import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
-import { getCostMatrix, hasValue, spanEdge } from '@/common/utils';
+import { hasValue, spanEdge, getCostMatrix } from '@/common/utils';
 import { Colors } from '@/common/constants';
 
 export default function PrimsMST(props) {
@@ -30,12 +29,11 @@ export default function PrimsMST(props) {
     );
 }
 
-var n, w;
-var mst, i, j;
+var n, w, mst;
 var queue;
-var r, delay = 1000;
+var delay = 1000;
 
-function start(source) {
+async function start(src) {
     $('.cost').each(function () {
         this.setAttribute('value', this.value);
         this.setAttribute('readonly', true);
@@ -44,16 +42,14 @@ function start(source) {
     w = getCostMatrix();
     queue = [];
     mst = [];
-    i = source;
-    Timer.timeout(() => {
-        $('.vrtx').eq(i).attr('stroke', Colors.visited);
-        $('.vrtx').eq(i).attr('fill', Colors.visited);
-        Timer.timeout(enqueue, delay);
-    }, delay);
-    return new Promise((res) => (r = res));
+    await Timer.sleep(delay);
+    $('.vrtx').eq(src).attr('stroke', Colors.visited);
+    $('.vrtx').eq(src).attr('fill', Colors.visited);
+    await Timer.sleep(delay);
+    await enqueue(src);
 }
 
-function enqueue() {
+async function enqueue(i) {
     mst.push(i);
     queue = queue.concat(Array(n).fill(Infinity));
     w[i] = w[i] || [];
@@ -68,25 +64,25 @@ function enqueue() {
             $('.vrtx').eq(k).attr('fill', Colors.enqueue);
         }
     }
-    Timer.timeout(extractMin, delay);
+    await Timer.sleep(delay);
+    await extractMin();
 }
 
-function extractMin() {
+async function extractMin() {
     let min = queue.reduce((a, b) => (b < a ? b : a), Infinity);
-    if (min === Infinity) return r();
+    if (min === Infinity) return;
     let k = queue.indexOf(min);
     queue[k] = Infinity;
-    i = Math.floor(k / n);
-    j = k % n;
+    let i = Math.floor(k / n);
+    let j = k % n;
     if (mst.indexOf(j) > -1) {
-        extractMin();
+        await extractMin(i);
     } else {
-        spanEdge(i, j).then(() => {
-            $('.vrtx').eq(j).attr('fill', Colors.visited);
-            i = j;
-            if (mst.length < n) {
-                Timer.timeout(enqueue, delay);
-            }
-        });
+        await spanEdge(i, j);
+        $('.vrtx').eq(j).attr('fill', Colors.visited);
+        if (mst.length < n) {
+            await Timer.sleep(delay)
+            await enqueue(j);
+        }
     }
 }

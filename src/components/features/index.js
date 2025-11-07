@@ -1,4 +1,3 @@
-import React from 'react';
 import { Grid, Card, CardContent, Typography, Box } from '@mui/material';
 import { useRouter } from 'next/router';
 import { styles } from './styles';

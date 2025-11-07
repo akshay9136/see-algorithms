@@ -4,7 +4,7 @@ import { Edge, InputNumbers, Node } from '@/components/numbers';
 import styles from '@/components/numbers/numbers.module.css';
 import useAnimator from '@/hooks/useAnimator';
 import binaryTree from '@/common/binaryTree';
-import { sleep, sound, traverse } from '@/common/utils';
+import { charAt, sleep, sound, traverse } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import $ from 'jquery';
 
@@ -17,7 +17,7 @@ export default function HuffmanCoding() {
     const [charcodes, setCharcodes] = useState({});
     const [scope, animator] = useAnimator();
     const { bgcolor } = animator;
-    const toChar = (i) => String.fromCharCode(65 + i);
+    const toChar = (i) => charAt(65 + i);
 
     const extractMin = () => {
         queue.sort((a, b) => a.value - b.value);

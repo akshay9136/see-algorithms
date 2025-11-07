@@ -1,8 +1,7 @@
-import React from 'react';
 import DrawGraph from '@/components/draw-graph';
-import { Box, Divider, Stack, Typography } from '@mui/material';
-import { appendCell, hasValue, sound, spanEdge } from '@/common/utils';
 import $ from 'jquery';
+import { Box, Divider, Stack, Typography } from '@mui/material';
+import { appendCell, charAt, hasValue, sound, spanEdge } from '@/common/utils';
 import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
 import { Colors } from '@/common/constants';
@@ -11,13 +10,14 @@ export default function BFS(props) {
     return (
         <Stack spacing={3}>
             <Typography variant="body1">
-                <strong>Breadth-First Search (BFS)</strong> explores a graph much
-                like finding connections in a social network. Starting from a
-                source node, it first visits all of its direct friends (neighbors),
-                then all of their friends, and so on, level by level. It uses a{' '}
-                <strong>queue</strong> to keep track of who to visit next,
-                ensuring it doesn't go too deep down one path. This makes it
-                perfect for finding the shortest path in an unweighted graph.
+                <strong>Breadth-First Search (BFS)</strong> explores a graph
+                much like finding connections in a social network. Starting from
+                a source node, it first visits all of its direct friends
+                (neighbors), then all of their friends, and so on, level by
+                level. It uses a <strong>queue</strong> to keep track of who to
+                visit next, ensuring it doesn&apos;t go too deep down one path.
+                This makes it perfect for finding the shortest path in an
+                unweighted graph.
             </Typography>
             <Stack spacing={2}>
                 <DrawGraph
@@ -33,10 +33,7 @@ export default function BFS(props) {
                         <Typography variant="body1" fontWeight="bold">
                             &nbsp;Visited :
                         </Typography>
-                        <Box
-                            id="visited"
-                            className="d-flex alphaGrid"
-                        />
+                        <Box id="visited" className="d-flex alphaGrid" />
                     </Stack>
                     <Divider
                         flexItem
@@ -47,10 +44,7 @@ export default function BFS(props) {
                         <Typography variant="body1" fontWeight="bold">
                             Queue :
                         </Typography>
-                        <Box
-                            id="bfsQueue"
-                            className="d-flex alphaGrid"
-                        />
+                        <Box id="bfsQueue" className="d-flex alphaGrid" />
                     </Stack>
                 </Box>
             </Stack>
@@ -60,27 +54,26 @@ export default function BFS(props) {
 
 var queue, k;
 var v, i, prev;
-var r, delay = 800;
+var delay = 800;
 
-function start(source) {
+async function start(source) {
     v = [source];
     queue = [];
     prev = [];
     i = source;
     k = 0;
-    Timer.timeout(() => {
-        sound('pop');
-        $('.vrtx').eq(i).attr('stroke', Colors.visited);
-        $('.vrtx').eq(i).attr('fill', Colors.visited);
-        appendCell('#visited', String.fromCharCode(65 + i));
-        Timer.timeout(explore, delay, 0);
-    }, delay);
-    return new Promise((res) => (r = res));
+    await Timer.sleep(delay);
+    sound('pop');
+    $('.vrtx').eq(i).attr('stroke', Colors.visited);
+    $('.vrtx').eq(i).attr('fill', Colors.visited);
+    appendCell('#visited', charAt(65 + i));
+    await Timer.sleep(delay);
+    await explore(0);
 }
 
-function explore(j) {
+async function explore(j) {
     if (j < Graph.totalPoints()) {
-        let ei = Graph.edgeIndex(i, j);
+        const ei = Graph.edgeIndex(i, j);
         if (hasValue(ei)) {
             if (!v.includes(j) && !queue.includes(j)) {
                 Path('.edge').eq(ei).attr('stroke', Colors.enqueue);
@@ -89,34 +82,34 @@ function explore(j) {
                 queue.push(j);
                 prev[j] = i;
                 sound('pop');
-                appendCell('#bfsQueue', String.fromCharCode(65 + j));
-                Timer.timeout(explore, delay, ++j);
-            } else explore(++j);
-        } else explore(++j);
+                appendCell('#bfsQueue', charAt(65 + j));
+                await Timer.sleep(delay);
+            }
+        }
+        await explore(j + 1);
     } else {
-        Timer.timeout(visit, delay / 2);
+        await Timer.sleep(delay / 2);
+        await visit();
     }
 }
 
-function visit() {
+async function visit() {
     $('.vrtx').eq(i).attr('fill', Colors.vertex);
     if (queue.length) {
         i = queue.shift();
-        sound('pop');
         $('#bfsQueue').children().eq(k++).css('visibility', 'hidden');
+        sound('pop');
         if (v.indexOf(i) === -1) {
             v.push(i);
-            Timer.timeout(() => {
-                appendCell('#visited', String.fromCharCode(65 + i));
-                spanEdge(prev[i], i).then(dequeue);
-            }, delay / 2);
+            await Timer.sleep(delay / 2);
+            appendCell('#visited', charAt(65 + i));
+            await spanEdge(prev[i], i);
+            $('.vrtx').eq(i).attr('fill', Colors.visited);
+            await Timer.sleep(delay);
+            await explore(0);
         } else {
-            Timer.timeout(visit, delay);
+            await Timer.sleep(delay);
+            await visit();
         }
-    } else r();
-}
-
-function dequeue() {
-    $('.vrtx').eq(i).attr('fill', Colors.visited);
-    Timer.timeout(explore, delay, 0);
+    }
 }

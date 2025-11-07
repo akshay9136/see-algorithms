@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { showToast } from '../toast';
+import { useState } from 'react';
 import {
   Select,
   Input,
@@ -10,6 +9,7 @@ import {
 } from '@mui/material';
 import styles from './numbers.module.css';
 import { randomInt } from '@/common/utils';
+import { showToast } from '../toast';
 
 function InputNumbers(props) {
   const [values, setValues] = useState([]);

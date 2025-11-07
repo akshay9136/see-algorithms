@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { showToast } from '../toast';
+import { useState } from 'react';
 import { Input, Button, Typography, Box } from '@mui/material';
 import styles from '../numbers/numbers.module.css';
 import { randomInt } from '@/common/utils';
+import { showToast } from '../toast';
 
 function DSInput(props) {
   const [number, setNumber] = useState(randomInt());

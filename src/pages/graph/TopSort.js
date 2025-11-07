@@ -1,4 +1,3 @@
-import React from 'react';
 import DrawGraph from '@/components/draw-graph';
 import { Box, Stack, Typography } from '@mui/material';
 import $ from 'jquery';
@@ -6,6 +5,7 @@ import Graph, { Path, Point } from '@/common/graph';
 import Timer from '@/common/timer';
 import {
     appendCell,
+    charAt,
     clearGraph,
     createGraph,
     fromDistance,
@@ -50,7 +50,7 @@ function start() {
     stack = [];
     for (let i = 0; i < n; i++) {
         if (ind[i] === 0) {
-            $(`.vrtx:eq(${i})`).attr('stroke', Colors.visited);
+            $('.vrtx').eq(i).attr('stroke', Colors.visited);
             stack.push(i);
         }
     }
@@ -60,8 +60,8 @@ function start() {
 async function topSort() {
     if (stack.length > 0) {
         let i = stack.pop();
+        $('.vrtx').eq(i).attr('fill', Colors.visited);
         sound('pop');
-        $(`.vrtx:eq(${i})`).attr('fill', Colors.visited);
         let promises = [];
         for (let j = 0; j < Graph.totalPoints(); j++) {
             let ei = Graph.edgeIndex(i, j);
@@ -69,7 +69,7 @@ async function topSort() {
                 --ind[j];
                 Path('.edge').eq(ei).attr('stroke', Colors.visited);
                 if (ind[j] === 0) {
-                    $(`.vrtx:eq(${j})`).attr('stroke', Colors.visited);
+                    $('.vrtx').eq(j).attr('stroke', Colors.visited);
                     stack.push(j);
                 }
                 let [p, q] = [i, j].map(Graph.point);
@@ -111,11 +111,11 @@ function extract(i, j, d) {
 function fall(i) {
     let cy = Number($(`.vrtx:eq(${i})`).attr('cy'));
     if (cy < $('#plane').height() + 20) {
-        $(`.vrtx:eq(${i})`).attr('cy', cy + 2);
-        $(`.vlbl:eq(${i})`).attr('y', cy + 7);
+        $('.vrtx').eq(i).attr('cy', cy + 2);
+        $('.vlbl').eq(i).attr('y', cy + 7);
         return Timer.sleep(5).then(() => fall(i));
     } else {
-        appendCell('#visited', String.fromCharCode(65 + i));
+        appendCell('#visited', charAt(65 + i));
         n--;
     }
 }

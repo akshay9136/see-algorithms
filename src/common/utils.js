@@ -185,7 +185,7 @@ function clearGraph() {
 function createGraph(data, weighted) {
     const { points, segments, directed, matrix, costMatrix } = data;
     points.forEach((p, i) => {
-        addVertex(p, String.fromCharCode(65 + i));
+        addVertex(p, charAt(65 + i));
     });
     segments.forEach(([i, j]) => {
         const p = points[i], q = points[j];
@@ -247,6 +247,11 @@ export {
     copyBST,
 };
 
+export const sound = (name) => {
+    const sound = document.getElementById(`${name}Sound`);
+    sound?.play();
+};
+
 export const groupBy = (arr, key) => {
     return arr.reduce((acc, x) => {
       (acc[x[key]] ??= []).push(x);
@@ -254,14 +259,11 @@ export const groupBy = (arr, key) => {
     }, {});
 };
 
-export const sound = (name) => {
-    const sound = document.getElementById(`${name}Sound`);
-    sound?.play();
-};
-
 export const hasValue = (val) => {
     return val !== null && val !== undefined;
 };
+
+export const charAt = (code) => String.fromCharCode(code);
 
 export const randomInt = () => Math.floor(Math.random() * 99) + 1;
 

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import useAnimator from '@/hooks/useAnimator';
+import useAlgorithm from '@/hooks/useAlgorithm';
 import { InputNumbers, Numbox } from '@/components/numbers';
 import { Colors } from '@/common/constants';
 import { sleep, sound } from '@/common/utils';
 import Link from 'next/link';
-import useAlgorithm from '@/hooks/useAlgorithm';
 
 var arr, delay = 500;
 

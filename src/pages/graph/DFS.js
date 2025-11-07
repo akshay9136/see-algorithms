@@ -1,8 +1,7 @@
-import React from 'react';
 import DrawGraph from '@/components/draw-graph';
-import { Box, Divider, Stack, Typography } from '@mui/material';
-import { appendCell, hasValue, sound, spanEdge } from '@/common/utils';
 import $ from 'jquery';
+import { Box, Divider, Stack, Typography } from '@mui/material';
+import { appendCell, charAt, hasValue, sound, spanEdge } from '@/common/utils';
 import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
 import { Colors } from '@/common/constants';
@@ -54,26 +53,25 @@ export default function DFS(props) {
 
 var stack;
 var v, i, prev;
-var r, delay = 800;
+var delay = 800;
 
-function start(source) {
+async function start(source) {
     v = [source];
     stack = [];
     prev = [];
     i = source;
-    Timer.timeout(() => {
-        sound('pop');
-        $('.vrtx').eq(i).attr('stroke', Colors.visited);
-        $('.vrtx').eq(i).attr('fill', Colors.visited);
-        appendCell('#visited', String.fromCharCode(65 + i));
-        Timer.timeout(explore, delay, 0);
-    }, delay);
-    return new Promise((res) => (r = res));
+    await Timer.sleep(delay);
+    sound('pop');
+    $('.vrtx').eq(i).attr('stroke', Colors.visited);
+    $('.vrtx').eq(i).attr('fill', Colors.visited);
+    appendCell('#visited', charAt(65 + i));
+    await Timer.sleep(delay);
+    await explore(0);
 }
 
-function explore(j) {
+async function explore(j) {
     if (j < Graph.totalPoints()) {
-        let ei = Graph.edgeIndex(i, j);
+        const ei = Graph.edgeIndex(i, j);
         if (hasValue(ei)) {
             if (!v.includes(j) && !stack.includes(j)) {
                 Path('.edge').eq(ei).attr('stroke', Colors.enqueue);
@@ -82,34 +80,34 @@ function explore(j) {
                 stack.push(j);
                 prev[j] = i;
                 sound('pop');
-                appendCell('#dfsStack', String.fromCharCode(65 + j));
-                Timer.timeout(explore, delay, ++j);
-            } else explore(++j);
-        } else explore(++j);
+                appendCell('#dfsStack', charAt(65 + j));
+                await Timer.sleep(delay);
+            }
+        }
+        await explore(j + 1);
     } else {
-        Timer.timeout(visit, delay / 2);
+        await Timer.sleep(delay / 2);
+        await visit();
     }
 }
 
-function visit() {
+async function visit() {
     $('.vrtx').eq(i).attr('fill', Colors.vertex);
     if (stack.length) {
         i = stack.pop();
-        sound('pop');
         $('#dfsStack').children().last().remove();
+        sound('pop');
         if (v.indexOf(i) === -1) {
             v.push(i);
-            Timer.timeout(() => {
-                spanEdge(prev[i], i).then(dequeue);
-                appendCell('#visited', String.fromCharCode(65 + i));
-            }, delay / 2);
+            await Timer.sleep(delay / 2);
+            appendCell('#visited', charAt(65 + i));
+            await spanEdge(prev[i], i);
+            $('.vrtx').eq(i).attr('fill', Colors.visited);
+            await Timer.sleep(delay);
+            await explore(0);
         } else {
-            Timer.timeout(visit, delay);
+            await Timer.sleep(delay);
+            await visit();
         }
-    } else r();
-}
-
-function dequeue() {
-    $('.vrtx').eq(i).attr('fill', Colors.visited);
-    Timer.timeout(explore, delay, 0);
+    }
 }

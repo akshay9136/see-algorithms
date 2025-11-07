@@ -1,11 +1,10 @@
-import React from 'react';
 import DrawGraph from '@/components/draw-graph';
-import { Stack, Typography } from '@mui/material';
 import $ from 'jquery';
+import { Stack, Typography } from '@mui/material';
 import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
-import { Colors } from '@/common/constants';
 import { hasValue, sound } from '@/common/utils';
+import { Colors } from '@/common/constants';
 
 export default function KruskalsMST(props) {
     return (
@@ -30,10 +29,10 @@ export default function KruskalsMST(props) {
 }
 
 var parent;
-var arr, mst, k;
-var r, delay = 1000;
+var arr, mst;
+var delay = 1000;
 
-function start() {
+async function start() {
     arr = [];
     $('.cost').each(function () {
         let edge = {};
@@ -55,45 +54,41 @@ function start() {
     }
     arr.sort((a, b) => a.w - b.w);
     mst = [];
-    k = 0;
-    Timer.timeout(nextMin, delay);
-    return new Promise((res) => (r = res));
+    await Timer.sleep(delay);
+    await nextMin(0);
 }
 
-function nextMin() {
+async function nextMin(k) {
     if (k < arr.length) {
-        let p = findParent(arr[k].u);
-        let q = findParent(arr[k].v);
+        let { u, v, i } = arr[k];
+        let edge = Path('.edge').eq(i);
+        let p = findParent(u);
+        let q = findParent(v);
         if (p !== q) {
             parent[q] = p;
             sound('pop');
-            $('.vrtx').eq(arr[k].u).attr('stroke', Colors.visited);
-            $('.vrtx').eq(arr[k].u).attr('fill', Colors.visited);
-            $('.vrtx').eq(arr[k].v).attr('stroke', Colors.visited);
-            $('.vrtx').eq(arr[k].v).attr('fill', Colors.visited);
-            Path('.edge').eq(arr[k].i).attr('stroke', Colors.visited);
-            Timer.timeout(() => {
-                $('.vrtx').eq(arr[k].u).attr('fill', Colors.vertex);
-                $('.vrtx').eq(arr[k].v).attr('fill', Colors.vertex);
-                mst.push(arr[k++]);
-                Timer.timeout(nextMin, delay);
-            }, delay / 2);
+            $('.vrtx').eq(u).attr('stroke', Colors.visited);
+            $('.vrtx').eq(v).attr('stroke', Colors.visited);
+            $('.vrtx').eq(u).attr('fill', Colors.visited);
+            $('.vrtx').eq(v).attr('fill', Colors.visited);
+            edge.attr('stroke', Colors.visited);
+            await Timer.sleep(delay / 2);
+            $('.vrtx').eq(u).attr('fill', Colors.vertex);
+            $('.vrtx').eq(v).attr('fill', Colors.vertex);
+            mst.push(arr[k]);
         } else {
             sound('pop');
-            $('.vrtx').eq(arr[k].u).attr('stroke', 'orangered');
-            $('.vrtx').eq(arr[k].v).attr('stroke', 'orangered');
-            Path('.edge').eq(arr[k].i).attr('stroke', 'orangered');
-            Timer.timeout(reject, delay / 2);
+            $('.vrtx').eq(u).attr('stroke', 'orangered');
+            $('.vrtx').eq(v).attr('stroke', 'orangered');
+            edge.attr('stroke', 'orangered');
+            await Timer.sleep(delay / 2);
+            $('.vrtx').eq(u).attr('stroke', Colors.visited);
+            $('.vrtx').eq(v).attr('stroke', Colors.visited);
+            edge.attr('stroke', Colors.rejected);
         }
-    } else r();
-}
-
-function reject() {
-    $('.vrtx').eq(arr[k].u).attr('stroke', Colors.visited);
-    $('.vrtx').eq(arr[k].v).attr('stroke', Colors.visited);
-    Path('.edge').eq(arr[k].i).attr('stroke', Colors.rejected);
-    k++;
-    Timer.timeout(nextMin, delay);
+        await Timer.sleep(delay);
+        await nextMin(k + 1);
+    }
 }
 
 function findParent(q) {

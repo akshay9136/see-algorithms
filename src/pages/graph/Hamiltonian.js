@@ -1,10 +1,15 @@
-import React from 'react';
 import DrawGraph from '@/components/draw-graph';
 import { Box, Stack, Typography } from '@mui/material';
 import $ from 'jquery';
 import Graph from '@/common/graph';
 import Timer from '@/common/timer';
-import { appendCell, cloneEdge, hasValue, spanEdge } from '@/common/utils';
+import {
+    appendCell,
+    charAt,
+    cloneEdge,
+    hasValue,
+    spanEdge,
+} from '@/common/utils';
 import { Colors } from '@/common/constants';
 
 export default function Hamiltonian(props) {
@@ -39,7 +44,7 @@ async function start(source) {
     await Timer.sleep(1000);
     $('.vrtx').eq(src).attr('stroke', Colors.visited);
     $('.vrtx').eq(src).attr('fill', Colors.visited);
-    appendCell('#path', String.fromCharCode(65 + src));
+    appendCell('#path', charAt(65 + src));
     await Timer.sleep(delay);
     await findCycle(src);
 }
@@ -57,7 +62,7 @@ async function findCycle(i) {
         let ei = Graph.edgeIndex(i, j);
         if (hasValue(ei) && v[j] === 0) {
             await spanEdge(i, j);
-            appendCell('#path', String.fromCharCode(65 + j));
+            appendCell('#path', charAt(65 + j));
             v[j] = 1;
             if (await findCycle(j)) return true;
             v[j] = 0;
@@ -70,13 +75,14 @@ async function findCycle(i) {
 }
 
 function revertSpan(i, j) {
-    const ei = Graph.edgeIndex(i, j);
+    let ei = Graph.edgeIndex(i, j);
     $('.edge').eq(ei).attr('stroke', Colors.stroke);
     $('.vrtx').eq(j).attr('stroke', Colors.stroke);
-    const edge = cloneEdge(i, j);
-    const d = edge[0].getTotalLength();
-    const t = 1000 / (d / 2);
-    const seg = Graph.segments()[ei];
+    let edge = cloneEdge(i, j);
+    let d = edge[0].getTotalLength();
+    let t = 1000 / (d / 2);
+    let seg = Graph.segments()[ei];
+
     function span(dash) {
         if (dash < d) {
             edge.attr('stroke-dasharray', `${d - dash} ${dash}`);

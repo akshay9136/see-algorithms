@@ -1,4 +1,3 @@
-import React from 'react';
 import { Stack, Typography } from '@mui/material';
 import AddPoints from '@/components/convex-hull/add-points';
 import Graph, { Segment } from '@/common/graph';

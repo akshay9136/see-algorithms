@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Box, Drawer, Stack, Typography } from '@mui/material';
 import Header from '../header';
 import Sider from '../sider';

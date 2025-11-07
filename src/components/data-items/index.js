@@ -1,6 +1,11 @@
 import React, { useContext } from 'react';
-import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
-import ListSubheader from '@mui/material/ListSubheader';
+import {
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+} from '@mui/material';
 import { DeleteOutline } from '@mui/icons-material';
 import AppContext from '@/common/context';
 import styles from './data-items.module.css';
@@ -14,11 +19,11 @@ function DataItems() {
   const handleSelect = (algoData) => {
     const data = JSON.parse(algoData);
     if (pathname.includes('graph')) {
-        createGraph(data);
-        setContext({
-          isDirGraph: data.directed,
-          playStatus: 0,
-        });
+      createGraph(data);
+      setContext({
+        isDirGraph: data.directed,
+        playStatus: 0,
+      });
     }
   };
 

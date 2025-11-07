@@ -9,6 +9,7 @@ import {
     addCost,
     findCurve,
     hasValue,
+    charAt,
 } from '../common/utils';
 import Graph, { Path, Point } from '../common/graph';
 import { showToast } from '../components/toast';
@@ -77,7 +78,7 @@ export function drawGraph({ weighted, acyclic }) {
                     Path('.edge:last').remove();
                     return;
                 }
-                addVertex(p, String.fromCharCode(65 + np));
+                addVertex(p, charAt(65 + np));
                 Graph.addPoint(p);
             }
             Graph.addSegment(ipx, k);
@@ -114,7 +115,7 @@ export function drawGraph({ weighted, acyclic }) {
         } else {
             if (k === np) {
                 if (np < 26) {
-                    addVertex(p, String.fromCharCode(65 + np));
+                    addVertex(p, charAt(65 + np));
                     Graph.addPoint(p);
                 }
             } else {
