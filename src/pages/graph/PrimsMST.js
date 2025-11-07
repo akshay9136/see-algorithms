@@ -12,10 +12,13 @@ export default function PrimsMST(props) {
         <Stack spacing={3}>
             <Typography variant="body1">
                 <strong>Prim&apos;s Algorithm</strong> builds a Minimum Spanning
-                Tree (MST) by starting from any node and adding the smallest
-                edge that connects the tree to a new node, repeating until all
-                nodes are included. It is used for optimizing network designs
-                like computer and road networks.
+                Tree (MST) by starting with a single node and
+                &quot;growing&quot; the tree outward. At every step, it finds
+                the cheapest edge that connects a node inside the growing tree
+                to a node outside of it. This greedy approach continues until
+                all nodes are part of the tree, ensuring the total weight of all
+                edges is as low as possible. It is perfect for problems like
+                designing cost-effective road or utility networks.
             </Typography>
             <DrawGraph
                 {...props}

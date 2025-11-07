@@ -17,7 +17,10 @@ export default function Dijkstra(props) {
                 non-negative weights. It uses a{' '}
                 <Link href="/data-structures/BinaryHeap">priority queue</Link>{' '}
                 to explore nodes in order of increasing distance. This algorithm
-                is widely used in routing and navigation systems.
+                works by maintaining a set of visited nodes and, at each step,
+                selecting the unvisited node with the smallest known distance to
+                visit next. This process continues until all nodes have been
+                visited, making it essential for network routing problems.
             </Typography>
             <Stack spacing={2}>
                 <DrawGraph

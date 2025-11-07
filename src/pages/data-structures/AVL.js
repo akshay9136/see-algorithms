@@ -110,7 +110,7 @@ export default function AVL(props) {
                 <strong>AVL Tree</strong> rigorously maintains balance by
                 ensuring that for every node, the difference between the heights
                 of its left and right subtrees (known as the &quot;balance
-                factor&quot;) is never more than 1 and less than -1. If an
+                factor&quot;) is never more than 1 or less than -1. If an
                 operation violates this condition, the tree automatically
                 rebalances itself through a series of rotations. This ensures
                 that operations like search, insert, and delete have a

@@ -11,12 +11,13 @@ export default function DFS(props) {
     return (
         <Stack spacing={3}>
             <Typography variant="body1">
-                <strong>Depth First Search</strong> (DFS) explores a graph by
-                starting at a node and going as deep as possible along each path
-                before <strong>backtracking</strong>. It uses a stack to keep
-                track of the path. DFS is useful for tasks like finding
-                connected components and solving puzzles where exploring all
-                paths is necessary.
+                <strong>Depth-First Search (DFS)</strong> explores a graph by
+                going as deep as possible along each branch before{' '}
+                <strong>backtracking</strong>. Think of it as navigating a maze
+                by following one path to its end before trying another. It uses
+                a <strong>stack</strong> (often via recursion) to keep track of
+                its path, making it highly effective for cycle detection,
+                pathfinding, and solving puzzles.
             </Typography>
             <Stack spacing={2}>
                 <DrawGraph
@@ -32,10 +33,7 @@ export default function DFS(props) {
                         <Typography variant="body1" fontWeight="bold">
                             &nbsp;Visited :
                         </Typography>
-                        <Box
-                            id="visited"
-                            className="d-flex alphaGrid"
-                        />
+                        <Box id="visited" className="d-flex alphaGrid" />
                     </Stack>
                     <Divider
                         flexItem
@@ -46,10 +44,7 @@ export default function DFS(props) {
                         <Typography variant="body1" fontWeight="bold">
                             Stack :
                         </Typography>
-                        <Box
-                            id="dfsStack"
-                            className="d-flex alphaGrid"
-                        />
+                        <Box id="dfsStack" className="d-flex alphaGrid" />
                     </Stack>
                 </Box>
             </Stack>

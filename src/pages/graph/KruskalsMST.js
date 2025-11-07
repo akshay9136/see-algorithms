@@ -11,11 +11,12 @@ export default function KruskalsMST(props) {
     return (
         <Stack spacing={3}>
             <Typography variant="body1">
-                <strong>Kruskal&apos;s Algorithm</strong> builds a Minimum
-                Spanning Tree (MST) by sorting all edges and adding them in
-                order of increasing weight, ensuring no cycles are formed. It is
-                efficient for sparse graphs and uses a union-find data structure
-                to manage connected components.
+                <strong>Kruskal&apos;s Algorithm</strong> is another way to find
+                a Minimum Spanning Tree (MST) in a graph. It works by
+                iteratively adding the cheapest available edge that connects two
+                previously disconnected components, without forming a cycle. It
+                is efficient for sparse graphs and uses a{' '}
+                <strong>union-find</strong> data structure to detect cycles.
             </Typography>
             <DrawGraph
                 {...props}

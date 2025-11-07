@@ -11,11 +11,13 @@ export default function BFS(props) {
     return (
         <Stack spacing={3}>
             <Typography variant="body1">
-                <strong>Breadth First Search</strong> (BFS) explores a graph
-                level by level, starting at a node and visiting all its
-                neighbors before moving on to the next level. It uses a queue to
-                manage nodes. BFS is ideal for finding the shortest path in an
-                unweighted graph and for checking connectivity.
+                <strong>Breadth-First Search (BFS)</strong> explores a graph much
+                like finding connections in a social network. Starting from a
+                source node, it first visits all of its direct friends (neighbors),
+                then all of their friends, and so on, level by level. It uses a{' '}
+                <strong>queue</strong> to keep track of who to visit next,
+                ensuring it doesn't go too deep down one path. This makes it
+                perfect for finding the shortest path in an unweighted graph.
             </Typography>
             <Stack spacing={2}>
                 <DrawGraph
