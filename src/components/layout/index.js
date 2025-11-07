@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Drawer, Typography } from '@mui/material';
+import { Box, Drawer, Stack, Typography } from '@mui/material';
 import Header from '../header';
 import Sider from '../sider';
 import { algorithms } from '@/common/appData';
 import { useRouter } from 'next/router';
 import AlgorithmSEO from '../algorithm-seo';
+import Footer from './footer';
 
 function Layout({ children }) {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -34,22 +35,22 @@ function Layout({ children }) {
         <Sider selected={algoId} />
       </Drawer>
       {algoId && <AlgorithmSEO algorithmId={algoId} />}
-      <div className="d-flex contentRow">
-        <div
-          className="d-none d-md-block"
-          style={{ width: 'max-content', minWidth: 250 }}
-        >
+      <Box className="d-flex contentRow">
+        <Box className="d-none d-md-block" width="max-content" minWidth={250}>
           <Sider selected={algoId} />
-        </div>
-        <div className="content" ref={scrollRef}>
-          {algoId && (
-            <Typography variant="h6" component="h1" fontWeight={600} mb={2}>
-              {algoName}
-            </Typography>
-          )}
-          {children}
-        </div>
-      </div>
+        </Box>
+        <Stack overflow="auto">
+          <Box className="content" flex={1} ref={scrollRef}>
+            {algoId && (
+              <Typography variant="h6" component="h1" fontWeight={600} mb={2}>
+                {algoName}
+              </Typography>
+            )}
+            {children}
+          </Box>
+          <Footer />
+        </Stack>
+      </Box>
     </>
   );
 }

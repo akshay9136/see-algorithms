@@ -16,6 +16,7 @@ import {
   MenuItem,
   IconButton,
   Button,
+  Box,
 } from '@mui/material';
 import { useState } from 'react';
 
@@ -37,9 +38,15 @@ function Header(props) {
     handleClose();
   };
 
+  const buttonStyle = {
+    color: '#1976d2',
+    textTransform: 'none',
+    fontWeight: 500,
+  };
+
   return (
-    <div className={`${styles.header} d-flex`}>
-      <div className="d-flex align-items-center">
+    <Box display="flex" className={styles.header}>
+      <Box display="flex" alignItems="center">
         <MenuOpen
           onClick={() => props.toggleMenu()}
           className={`d-md-none d-sm-block ${styles.menuIcon}`}
@@ -64,14 +71,14 @@ function Header(props) {
         >
           SEE ALGORITHMS
         </Typography>
-      </div>
+      </Box>
       {/* Desktop Navigation */}
-      <div className={`d-none d-md-flex align-items-center`}>
+      <Box className="d-none d-md-flex" alignItems="center">
         <Button
           onClick={() => handleNavigation('/about')}
           startIcon={<Info />}
           className={styles.navButton}
-          sx={{ color: '#1976d2', textTransform: 'none', fontWeight: 500 }}
+          sx={buttonStyle}
         >
           About
         </Button>
@@ -79,7 +86,7 @@ function Header(props) {
           onClick={() => handleNavigation('/contact')}
           startIcon={<Email />}
           className={styles.navButton}
-          sx={{ color: '#1976d2', textTransform: 'none', fontWeight: 500 }}
+          sx={buttonStyle}
         >
           Contact
         </Button>
@@ -87,7 +94,7 @@ function Header(props) {
           onClick={() => handleNavigation('/privacy')}
           startIcon={<Policy />}
           className={styles.navButton}
-          sx={{ color: '#1976d2', textTransform: 'none', fontWeight: 500 }}
+          sx={buttonStyle}
         >
           Privacy
         </Button>
@@ -95,14 +102,13 @@ function Header(props) {
           onClick={() => handleNavigation('/terms')}
           startIcon={<Description />}
           className={styles.navButton}
-          sx={{ color: '#1976d2', textTransform: 'none', fontWeight: 500 }}
+          sx={buttonStyle}
         >
           Terms
         </Button>
-      </div>
-
+      </Box>
       {/* Mobile Navigation - Dropdown Menu */}
-      <div className="d-md-none d-block">
+      <Box className="d-md-none d-block">
         <IconButton
           onClick={handleClick}
           size="small"
@@ -139,8 +145,8 @@ function Header(props) {
             Terms of Service
           </MenuItem>
         </Menu>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
 

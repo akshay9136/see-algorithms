@@ -21,7 +21,7 @@
 }
 
 .menuIcon {
-    font-size: 2rem !important;
+    font-size: 2rem;
     margin-right: 0.75rem;
     color: white;
 }
@@ -37,14 +37,14 @@
 
 /* Desktop Navigation Styles */
 .navButton {
-    padding: 0.5rem 1rem !important;
-    border-radius: 8px !important;
-    transition: all 0.3s ease !important;
-    font-size: 1rem !important;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-size: 1rem;
 }
 
 .navButton:hover {
-    background-color: rgba(25, 118, 210, 0.08) !important;
+    background-color: rgba(25, 118, 210, 0.08);
     transform: translateY(-1px);
 }
 
