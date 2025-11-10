@@ -28,7 +28,8 @@ for i = 0 to (n - 1):
         for (let i = 0; i < n - 1; i++) {
             setCurrentStep('1');
             sound('pop');
-            await pickNumber(i);
+            await ty(`#box${i}`, -50);
+            await sleep(delay);
             let k = i;
             for (let j = i + 1; j < n; j++) {
                 setCurrentStep('2,3');
@@ -40,7 +41,7 @@ for i = 0 to (n - 1):
                     ty(`#box${k}`, 0);
                     k = j;
                     sound('pop');
-                    await ty(`#box${i}`, -50);
+                    await ty(`#box${k}`, -50);
                     await sleep(delay);
                 }
             }

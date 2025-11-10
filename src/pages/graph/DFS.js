@@ -97,10 +97,10 @@ async function explore(j) {
 
 async function visit() {
     $('.vrtx').eq(i).attr('fill', Colors.vertex);
+    await Timer.sleep(delay / 2);
     if (stack.length) {
         i = stack.pop();
-        sound('pop');
-        await Timer.sleep(delay / 2);
+        sound('swap');
         bgcolor(`.cell:eq(${v.indexOf(i)})`, Colors.visited);
         await spanEdge(prev[i], i);
         $('.vrtx').eq(i).attr('fill', Colors.visited);
