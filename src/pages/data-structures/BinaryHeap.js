@@ -15,12 +15,12 @@ export default function BinaryHeap(props) {
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
     const [algorithm] = useAlgorithm(`
-    function heapify(node):
-        parent = node.parent
-        if parent and node.value > parent.value:
-            swap(node, parent)
-            heapify(parent)
-    `);
+function heapify(node):
+    parent = node.parent
+    if parent and node.value > parent.value:
+        swap(node, parent)
+        heapify(parent)
+`);
     const { bgcolor } = animator;
     if (!numbers.length) arr = [];
 

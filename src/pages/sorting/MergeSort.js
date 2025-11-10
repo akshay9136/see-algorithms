@@ -12,15 +12,35 @@ export default function MergeSort() {
     const [numbers, setNumbers] = useState([]);
     const [scope, { tx, ty, txy, bgcolor }] = useAnimator();
     const [algorithm] = useAlgorithm(`
-    function mergeSort(start, end):
-        if start < end:
-            mid = length(arr) / 2
-            mergeSort(start, mid)
-            mergeSort(mid + 1, end)
-            merge(start, mid, end)
-    `);
+function mergeSort(start, end):
+    if start < end:
+        mid = (start + end) / 2
+        mergeSort(start, mid)
+        mergeSort(mid + 1, end)
+        merge(start, mid, end)
+`);
+    const [mergeAlgo] = useAlgorithm(`
+function merge(start, mid, end):
+    i = start, j = mid + 1
+    temp = []
+    while i <= mid and j <= end:
+        if arr[i] <= arr[j]:
+            append arr[i] to temp
+            i = i + 1
+        else:
+            append arr[j] to temp
+            j = j + 1
+    while i <= mid:
+        append arr[i] to temp
+        i = i + 1
+    while j <= end:
+        append arr[j] to temp
+        j = j + 1
+    for i = start to end:
+        arr[i] = temp[i - start]
+`)
 
-    if (!numbers.length) arr = undefined;
+    if (!numbers.length) arr = [];
 
     const getMergeIndex = (p, q, mid, end) => {
         if (p <= mid && q <= end) {
@@ -31,17 +51,19 @@ export default function MergeSort() {
 
     const merge = async (start, mid, end, ypos) => {
         let p = start, q = mid + 1;
-        let r = start, tmp = [];
+        let r = start, temp = [];
         while (r <= end) {
             let s = getMergeIndex(p, q, mid, end);
-            tmp.push(arr[s]);
+            temp.push(arr[s]);
             sound('swap');
             await txy(`#box${s}`, 60 * (r - s), ypos - 60);
             await bgcolor(`#box${s}`, Colors.sorted);
-            s === q ? q++ : p++;
+            s === p ? p++ : q++;
             r++;
         }
-        tmp.forEach((_, i) => (arr[start + i] = tmp[i]));
+        for (let i = 0; i < temp.length; i++) {
+            arr[start + i] = temp[i]
+        }
         setNumbers(arr.slice());
     };
 
@@ -76,9 +98,9 @@ export default function MergeSort() {
     const handleStart = (values) => {
         setNumbers(values);
         arr = values.slice();
-        sleep(delay).then(() =>
-            mergeSort(0, arr.length - 1, 60).catch(() => {})
-        );
+        sleep(delay)
+            .then(() => mergeSort(0, arr.length - 1, 60))
+            .catch(() => {});
     };
 
     const handleStop = () => setNumbers([]);
@@ -94,8 +116,9 @@ export default function MergeSort() {
                 making it suitable for handling large datasets.
             </Typography>
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
-                {algorithm}
+                {mergeAlgo}
                 <Stack spacing={3}>
+                    {algorithm}
                     <InputNumbers onStart={handleStart} onStop={handleStop} />
                     <Box className="d-flex mergeSort" pt={4} ref={scope}>
                         {numbers.map((num, i) => (

@@ -13,21 +13,15 @@ export default function SelectionSort() {
     const [numbers, setNumbers] = useState([]);
     const [scope, { tx, ty, bgcolor }] = useAnimator();
     const [algorithm, setCurrentStep] = useAlgorithm(`
-    for i = 0 to (n - 1):
-        min = i
-        for j = i + 1 to (n):
-            if arr[j] < arr[min]:
-                min = j
-        if min != i:
-            swap(i, min)
-    `);
+for i = 0 to (n - 1):
+    min = i
+    for j = i + 1 to (n):
+        if arr[j] < arr[min]:
+            min = j
+    if min != i: swap(i, min)
+`);
 
-    if (!numbers.length) arr = undefined;
-
-    const pickNumber = async (i) => {
-        await ty(`#box${i}`, -50);
-        await sleep(delay);
-    };
+    if (!numbers.length) arr = [];
 
     const sortNumbers = async () => {
         let n = arr.length;
@@ -44,15 +38,16 @@ export default function SelectionSort() {
                 if (arr[j] < arr[k]) {
                     setCurrentStep('4');
                     ty(`#box${k}`, 0);
-                    sound('pop');
-                    await pickNumber(j);
                     k = j;
+                    sound('pop');
+                    await ty(`#box${i}`, -50);
+                    await sleep(delay);
                 }
             }
             bgcolor(`#box${n - 1}`, Colors.white);
             await sleep(delay);
             if (k > i) {
-                setCurrentStep('6');
+                setCurrentStep('5');
                 await ty(`#box${i}`, 50);
                 sound('swap');
                 await swapNumbers(i, k);
@@ -70,8 +65,8 @@ export default function SelectionSort() {
     const swapNumbers = async (i, j) => {
         let k = j - i;
         await Promise.all([
-            tx(`#box${i}`, k * 60, 0.15 * k),
-            tx(`#box${j}`, -k * 60, 0.15 * k),
+            tx(`#box${i}`, k * 60, 0.2 * k),
+            tx(`#box${j}`, -k * 60, 0.2 * k),
         ]);
         await Promise.all([ty(`#box${i}`, 0), ty(`#box${j}`, 0)]);
         arr.swap(i, j);
@@ -101,7 +96,7 @@ export default function SelectionSort() {
                 it useful when the cost of moving items is high, but finding the
                 smallest item is easy.
             </Typography>
-            <Box display="flex" gap={3} flexWrap="wrap">
+            <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
                 {algorithm}
                 <Stack spacing={3}>
                     <InputNumbers onStart={handleStart} onStop={handleStop} />

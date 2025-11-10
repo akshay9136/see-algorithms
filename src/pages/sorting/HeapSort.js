@@ -16,27 +16,27 @@ export default function HeapSort() {
     const [scope, animator] = useAnimator();
     const { txy, bgcolor, animate } = animator;
     const [algorithm, setCurrentStep] = useAlgorithm(`
-    for i = (n / 2 - 1) down to 0:
-        heapify(i)
-    for i = n - 1 down to 1:
-        swap(0, i)
-        heapify(0)
-    `);
-   const [heapifyAlgorithm] = useAlgorithm(`
-    function heapify(i):
-        largest = i
-        left = 2 * i + 1
-        right = 2 * i + 2
-        if left < n:
-            if arr[left] > arr[largest]:
-                largest = left
-        if right < n:
-            if arr[right] > arr[largest]:
-                largest = right
-        if largest != i:
-            swap(i, largest)
-            heapify(largest)
-    `);
+for i = (n / 2 - 1) down to 0:
+    heapify(i)
+for i = n - 1 down to 1:
+    swap(0, i)
+    heapify(0)
+`);
+    const [heapifyAlgo] = useAlgorithm(`
+function heapify(i):
+    largest = i
+    left = 2 * i + 1
+    right = 2 * i + 2
+    if left < n:
+        if arr[left] > arr[largest]:
+            largest = left
+    if right < n:
+        if arr[right] > arr[largest]:
+            largest = right
+    if largest != i:
+        swap(i, largest)
+        heapify(largest)
+`);
 
     const heapSort = async () => {
         sound('swap');
@@ -53,7 +53,6 @@ export default function HeapSort() {
         for (let i = k; i >= 0; i--) {
             await heapify(Tree.node(i), n);
         }
-        // setCurrentStep('2,3,4');
         await sleep(delay);
         for (let i = n - 1; i > 0; i--) {
             const first = Tree.node(0);
@@ -82,7 +81,7 @@ export default function HeapSort() {
     };
 
     const heapify = async (node, n) => {
-        const { left, right } = node;
+        const { left, right, index } = node;
         let max = node;
         if (left && left.key < n) {
             if (left.value > max.value) max = left;
@@ -90,7 +89,7 @@ export default function HeapSort() {
         if (right && right.key < n) {
             if (right.value > max.value) max = right;
         }
-        await bgcolor(`#node${node.index}`, Colors.compare);
+        await bgcolor(`#node${index}`, Colors.compare);
         if (max !== node) {
             await bgcolor(`#node${max.index}`, Colors.compare);
             sound('swap');
@@ -99,7 +98,7 @@ export default function HeapSort() {
             await heapify(max, n);
         } else {
             await sleep(delay);
-            await bgcolor(`#node${node.index}`, Colors.white);
+            await bgcolor(`#node${index}`, Colors.white);
         }
     };
 
@@ -115,7 +114,7 @@ export default function HeapSort() {
 
     const handleStop = () => {
         setNumbers([]);
-        Tree = undefined;
+        Tree = null;
     };
 
     return (
@@ -132,12 +131,10 @@ export default function HeapSort() {
                 strong choice for handling large datasets without requiring
                 extra memory.
             </Typography>
-            <Box display="flex" gap={3} flexWrap="wrap">
-                <Stack spacing={2}>
-                    {algorithm}
-                    {heapifyAlgorithm}
-                </Stack>
+            <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
+                {heapifyAlgo}
                 <Stack spacing={3}>
+                    {algorithm}
                     <InputNumbers onStart={handleStart} onStop={handleStop} />
                     <Box
                         className="heapSort"

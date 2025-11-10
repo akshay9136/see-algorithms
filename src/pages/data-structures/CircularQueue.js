@@ -11,23 +11,23 @@ var size = 0;
 
 export default function CircularQueue(props) {
     const [enqueueAlgorithm] = useAlgorithm(`
-    function enqueue(value):
-        if front == rear and size == n:
-            alert "Queue is full."
-        else:
-            queue[rear] = value
-            rear = (rear + 1) % n
-            size = size + 1
-    `);
+function enqueue(value):
+    if front == rear and size == n:
+        alert "Queue is full."
+    else:
+        queue[rear] = value
+        rear = (rear + 1) % n
+        size = size + 1
+`);
     const [dequeueAlgorithm] = useAlgorithm(`
-    function dequeue():
-        if front == rear and size == 0:
-            alert "Queue is empty."
-        else:
-            value = queue[front]
-            front = (front + 1) % n
-            size = size - 1
-    `);
+function dequeue():
+    if front == rear and size == 0:
+        alert "Queue is empty."
+    else:
+        value = queue[front]
+        front = (front + 1) % n
+        size = size - 1
+`);
 
     useEffect(() => {
         document.querySelector('#cqueue').innerHTML = '';

@@ -18,24 +18,25 @@ export default function AVL(props) {
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
     const [algorithm, setCurrentStep] = useAlgorithm(`
-    function rebalance(node):
-        updateHeight(node)
-        nodeBf = balanceFactor(node)
-        if nodeBf > 1:
-            if balanceFactor(node.left) > 0:
-                rotateRight(node)
-            else:
-                rotateLeft(node.left)
-                rotateRight(node)
-        if nodeBf < -1:
-            if balanceFactor(node.right) < 0:
-                rotateLeft(node)
-            else:
-                rotateRight(node.right)
-                rotateLeft(node)
-        if node.parent:
-            rebalance(node.parent)
-    `);
+function rebalance(node):
+    updateHeight(node)
+    nodeBf = balanceFactor(node)
+    if nodeBf > 1:
+        if balanceFactor(node.left) > 0:
+            rotateRight(node)
+        else:
+            rotateLeft(node.left)
+            rotateRight(node)
+    if nodeBf < -1:
+        if balanceFactor(node.right) < 0:
+            rotateLeft(node)
+        else:
+            rotateRight(node.right)
+            rotateLeft(node)
+    if node.parent:
+        rebalance(node.parent)
+`);
+
     if (!numbers.length) {
         arr = [];
         deleted = {};

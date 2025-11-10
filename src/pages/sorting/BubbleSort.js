@@ -12,17 +12,16 @@ export default function BubbleSort() {
     const [numbers, setNumbers] = useState([]);
     const [scope, { tx, bgcolor }] = useAnimator();
     const [algorithm, setCurrentStep] = useAlgorithm(`
-    for i = 1 to (n - 1):
-        swapped = false
-        for j = 1 to (n - i):
-            if arr[j] < arr[j + 1]:
-                swap(j, j + 1)
-                swapped = true
-        if not swapped:
-            break
-    `);
+for i = 1 to (n - 1):
+    swapped = false
+    for j = 1 to (n - i):
+        if arr[j] < arr[j + 1]:
+            swap(j, j + 1)
+            swapped = true
+    if not swapped: break
+`);
 
-    if (!numbers.length) arr = undefined;
+    if (!numbers.length) arr = [];
 
     const swapNumbers = async (u, v) => {
         await Promise.all([tx(`#box${u}`, 60), tx(`#box${v}`, -60)]);
@@ -60,10 +59,11 @@ export default function BubbleSort() {
             bgcolor(`#box${k - 1}`, Colors.white);
             bgcolor(`#box${k}`, Colors.sorted);
             if (!swap) {
-                setCurrentStep('6,7');
-                for (let j = 0; j < n - i; j++)
+                setCurrentStep('6');
+                for (let j = 0; j < n - i; j++) {
                     bgcolor(`#box${j}`, Colors.sorted);
-                i = n;
+                }
+                break;
             }
         }
         bgcolor(`#box${0}`, Colors.sorted);

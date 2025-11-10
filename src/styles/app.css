@@ -106,7 +106,7 @@
 }
 
 .algorithm {
-    padding: 8px 0;
+    padding: 4px 0;
     width: fit-content;
     background-color: #eee;
     border-radius: 8px;
@@ -114,8 +114,7 @@
 
 .algorithm pre {
     margin: 8px 0;
-    padding: 4px 0;
-    padding-right: 20px;
+    padding: 4px 20px;
 }
 
 .currentStep {
@@ -135,11 +134,11 @@
     outline: none;
 }
 
-#visited div {
-    background-color: orange;
+#stack .cell,
+#queue .cell {
+    background-color: #87cefa;
 }
 
-#dfsStack div,
-#bfsQueue div {
-    background-color: #87cefa;
+#sorted .cell {
+    background-color: orange;
 }

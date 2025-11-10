@@ -12,27 +12,28 @@ export default function QuickSort() {
     const [numbers, setNumbers] = useState([]);
     const [scope, { tx, ty, bgcolor }] = useAnimator();
     const [algorithm] = useAlgorithm(`
-    function quickSort(start, end):
-        if start < end:
-            pivot = partition(start, end)
-            quickSort(start, pivot - 1)
-            quickSort(pivot + 1, end)
-    `);
-    const [partition, setCurrentStep] = useAlgorithm(`
-    function partition(start, end):
-        pivot = arr[end]
-        i = start, j = end - 1
-        while i < j:
-            if arr[i] <= pivot: i++
-            else if arr[j] > pivot: j--
-            else: swap(i, j)
-        if arr[i] > pivot:
-            swap(i, end)
-    `);
+function quickSort(start, end):
+    if start < end:
+        pivot = partition(start, end)
+        quickSort(start, pivot - 1)
+        quickSort(pivot + 1, end)
+`);
+    const [partitionAlgo, setCurrentStep] = useAlgorithm(`
+function partition(start, end):
+    pivot = arr[end]
+    i = start, j = end - 1
+    while i < j:
+        if arr[i] <= pivot:
+            i = i + 1
+        else if arr[j] > pivot:
+            j = j + 1
+        else: swap(i, j)
+    if arr[i] > pivot: swap(i, end)
+`);
 
-    if (!numbers.length) arr = undefined;
+    if (!numbers.length) arr = [];
 
-    const swap = async (a, b) => {
+    const swapNums = async (a, b) => {
         const d = b - a;
         await Promise.all([ty(`#box${a}`, 50), ty(`#box${b}`, -50)]);
         sound('swap');
@@ -61,17 +62,17 @@ export default function QuickSort() {
             await sleep(delay);
             if (arr[i] <= arr[end]) {
                 i++;
-                setCurrentStep('4');
+                setCurrentStep('4,5');
                 bgcolor(`#box${i - 1}`, Colors.white);
                 bgcolor(`#box${i}`, Colors.compare);
             } else if (arr[j] > arr[end]) {
                 j--;
-                setCurrentStep('5');
+                setCurrentStep('6,7');
                 bgcolor(`#box${j + 1}`, Colors.white);
                 bgcolor(`#box${j}`, Colors.compare);
             } else {
-                setCurrentStep('6');
-                await swap(i, j);
+                setCurrentStep('8');
+                await swapNums(i, j);
             }
             await sleep(delay);
         }
@@ -79,8 +80,8 @@ export default function QuickSort() {
         if (i < end && arr[i] > arr[end]) {
             bgcolor(`#box${i}`, Colors.sorted);
             await sleep(delay);
-            setCurrentStep('7,8');
-            await swap(i, end);
+            setCurrentStep('9');
+            await swapNums(i, end);
             await sleep(delay / 2);
             bgcolor(`#box${end}`, Colors.white);
         } else {
@@ -124,14 +125,16 @@ export default function QuickSort() {
                 most popular sorting techniques.
             </Typography>
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
+              {partitionAlgo}
+              <Stack spacing={3}>
                 {algorithm}
-                {partition}
-            </Box>
-            <InputNumbers onStart={handleStart} onStop={handleStop} />
-            <Box className="sorting d-flex" pt={8} ref={scope}>
-                {numbers.map((num, i) => (
-                    <Numbox key={i} index={i} value={num} />
-                ))}
+                <InputNumbers onStart={handleStart} onStop={handleStop} />
+                <Box className="sorting d-flex" pt={8} ref={scope}>
+                    {numbers.map((num, i) => (
+                        <Numbox key={i} index={i} value={num} />
+                    ))}
+                </Box>
+              </Stack>
             </Box>
         </Stack>
     );

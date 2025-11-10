@@ -12,16 +12,16 @@ export default function InsertionSort() {
     const [numbers, setNumbers] = useState([]);
     const [scope, { tx, ty, bgcolor }] = useAnimator();
     const [algorithm, setCurrentStep] = useAlgorithm(`
-    for i = 1 to (n - 1):
-        key = arr[i]
-        j = i - 1
-        while j >= 0 and arr[j] > key:
-            arr[j + 1] = arr[j]
-            j = j - 1
-        arr[j + 1] = key
-    `);
+for i = 1 to (n - 1):
+    key = arr[i]
+    j = i - 1
+    while j >= 0 and arr[j] > key:
+        arr[j + 1] = arr[j]
+        j = j - 1
+    arr[j + 1] = key
+`);
 
-    if (!numbers.length) arr = undefined;
+    if (!numbers.length) arr = [];
 
     const sortNumbers = async () => {
         await sleep(delay);
@@ -33,6 +33,7 @@ export default function InsertionSort() {
             await ty(`#box${i}`, -50);
             setCurrentStep('3');
             await sleep(delay);
+
             let num = arr[i];
             let j = i - 1;
             while (j >= 0 && arr[j] > num) {
