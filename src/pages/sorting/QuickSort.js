@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
+import { InputNumbers, Numbox } from '@/components/numbers';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import { InputNumbers, Numbox } from '@/components/numbers';
+import { sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
-import { sleep, sound } from '@/common/utils';
+import Timer from '@/common/timer';
+
+const sleep = (t) => Timer.sleep(t);
 
 var arr, delay = 800;
 
@@ -108,10 +111,17 @@ function partition(start, end):
         arr = values.slice();
         sleep(delay)
             .then(() => quickSort(0, arr.length - 1))
-            .catch(() => setCurrentStep(''));
+            .catch(() => handleStop());
     };
 
-    const handleStop = () => setNumbers([]);
+    const handleStop = () => {
+        setNumbers([]);
+        setCurrentStep('');
+        Timer.clear();
+        arr = undefined;
+    };
+
+    useEffect(() => handleStop, []);
 
     return (
         <Stack spacing={3}>

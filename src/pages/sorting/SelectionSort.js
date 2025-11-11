@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
+import { InputNumbers, Numbox } from '@/components/numbers';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import { InputNumbers, Numbox } from '@/components/numbers';
+import { sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
-import { sleep, sound } from '@/common/utils';
+import Timer from '@/common/timer';
 import Link from 'next/link';
+
+const sleep = (t) => Timer.sleep(t);
 
 var arr, delay = 500;
 
@@ -20,8 +23,6 @@ for i = 0 to (n - 1):
             min = j
     if min != i: swap(i, min)
 `);
-
-    if (!numbers.length) arr = [];
 
     const sortNumbers = async () => {
         let n = arr.length;
@@ -78,12 +79,19 @@ for i = 0 to (n - 1):
     const handleStart = (values) => {
         setNumbers(values);
         arr = values.slice();
-        setTimeout(() => {
-            sortNumbers().catch(() => setCurrentStep(''));
-        }, 1000);
+        sleep(1000).then(() => {
+            sortNumbers().catch(handleStop);
+        });
     };
 
-    const handleStop = () => setNumbers([]);
+    const handleStop = () => {
+        setNumbers([]);
+        setCurrentStep('');
+        Timer.clear();
+        arr = undefined;
+    };
+
+    useEffect(() => handleStop, []);
 
     return (
         <Stack spacing={3}>

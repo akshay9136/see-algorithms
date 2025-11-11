@@ -66,7 +66,7 @@ function RadixSort() {
     }
   };
 
-  const start = async (values) => {
+  const handleStart = async (values) => {
     setNumbers(values);
     sound('pop');
     a = values.slice();
@@ -78,16 +78,16 @@ function RadixSort() {
     exp = 1;
     await sleep(delay * 2);
     setNextExp(1);
-    radixSort().catch(() => {});
+    radixSort().catch(handleStop);
   };
 
-  const stop = () => {
+  const handleStop = () => {
     setNumbers([]);
     setNextExp(0);
     Timer.clear();
   };
 
-  useEffect(() => () => stop(), []);
+  useEffect(() => handleStop, []);
 
   const renderDigits = (num) => {
     let digits = [];
@@ -120,7 +120,7 @@ function RadixSort() {
         in order. This process is repeated for each digit, leading to a sorted
         list.
       </Typography>
-      <InputNumbers onStart={start} onStop={stop} />
+      <InputNumbers onStart={handleStart} onStop={handleStop} />
 
       <Box className="radixSort" pt={2} ref={scope}>
         <Box display="flex">

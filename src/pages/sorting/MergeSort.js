@@ -3,8 +3,11 @@ import { Box, Stack, Typography } from '@mui/material';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import { InputNumbers, Numbox } from '@/components/numbers';
+import { sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
-import { sleep, sound } from '@/common/utils';
+import Timer from '@/common/timer';
+
+const sleep = (t) => Timer.sleep(t);
 
 var arr, delay = 500;
 
@@ -38,9 +41,7 @@ function merge(start, mid, end):
         j = j + 1
     for i = start to end:
         arr[i] = temp[i - start]
-`)
-
-    if (!numbers.length) arr = [];
+`);
 
     const getMergeIndex = (p, q, mid, end) => {
         if (p <= mid && q <= end) {
@@ -58,7 +59,7 @@ function merge(start, mid, end):
             sound('swap');
             await txy(`#box${s}`, 60 * (r - s), ypos - 60);
             await bgcolor(`#box${s}`, Colors.sorted);
-            s === p ? p++ : q++;
+            s === q ? q++ : p++;
             r++;
         }
         for (let i = 0; i < temp.length; i++) {
@@ -100,10 +101,16 @@ function merge(start, mid, end):
         arr = values.slice();
         sleep(delay)
             .then(() => mergeSort(0, arr.length - 1, 60))
-            .catch(() => {});
+            .catch(() => handleStop());
     };
 
-    const handleStop = () => setNumbers([]);
+    const handleStop = () => {
+        Timer.clear();
+        setNumbers([]);
+        arr = undefined;
+    };
+
+    useEffect(() => handleStop, []);
 
     return (
         <Stack spacing={3}>

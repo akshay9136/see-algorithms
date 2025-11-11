@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import { Edge, InputNumbers, Node } from '@/components/numbers';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import binaryTree from '@/common/binaryTree';
+import { sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
-import { sleep, sound } from '@/common/utils';
+import Timer from '@/common/timer';
 import Link from 'next/link';
+
+const sleep = (t) => Timer.sleep(t);
 
 var arr, Tree;
 var delay = 500;
@@ -114,8 +117,12 @@ function heapify(i):
 
     const handleStop = () => {
         setNumbers([]);
-        Tree = null;
+        setCurrentStep('');
+        Timer.clear();
+        Tree = undefined;
     };
+
+    useEffect(() => handleStop, []);
 
     return (
         <Stack spacing={3}>

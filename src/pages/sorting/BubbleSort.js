@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
+import { InputNumbers, Numbox } from '@/components/numbers';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import { InputNumbers, Numbox } from '@/components/numbers';
+import { sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
-import { sleep, sound } from '@/common/utils';
+import Timer from '@/common/timer';
+
+const sleep = (t) => Timer.sleep(t);
 
 var arr, delay = 800;
 
@@ -20,8 +23,6 @@ for i = 1 to (n - 1):
             swapped = true
     if not swapped: break
 `);
-
-    if (!numbers.length) arr = [];
 
     const swapNumbers = async (u, v) => {
         await Promise.all([tx(`#box${u}`, 60), tx(`#box${v}`, -60)]);
@@ -73,10 +74,17 @@ for i = 1 to (n - 1):
     const handleStart = (values) => {
         setNumbers(values);
         arr = values.slice();
-        bubbleSort().catch(() => setCurrentStep(''));
+        bubbleSort().catch(handleStop);
     };
 
-    const handleStop = () => setNumbers([]);
+    const handleStop = () => {
+        setNumbers([]);
+        setCurrentStep('');
+        Timer.clear();
+        arr = undefined;
+    };
+
+    useEffect(() => handleStop, []);
 
     return (
         <Stack spacing={3}>
