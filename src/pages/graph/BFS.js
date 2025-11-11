@@ -1,7 +1,7 @@
 import DrawGraph from '@/components/draw-graph';
+import { Box, Stack, Typography } from '@mui/material';
 import $ from 'jquery';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import { Box, Stack, Typography } from '@mui/material';
 import {
     appendCell,
     bgcolor,
@@ -101,7 +101,7 @@ async function visit() {
     await Timer.sleep(delay / 2);
     if (queue.length) {
         i = queue.shift();
-        sound('pop');
+        sound('swap');
         bgcolor(`.cell:eq(${v.indexOf(i)})`, Colors.visited);
         await spanEdge(prev[i], i);
         $('.vrtx').eq(i).attr('fill', Colors.visited);

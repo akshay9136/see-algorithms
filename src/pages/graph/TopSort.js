@@ -1,7 +1,7 @@
 import DrawGraph from '@/components/draw-graph';
 import { Box, Stack, Typography } from '@mui/material';
-import useAlgorithm from '@/hooks/useAlgorithm';
 import $ from 'jquery';
+import useAlgorithm from '@/hooks/useAlgorithm';
 import Graph, { Path, Point } from '@/common/graph';
 import Timer from '@/common/timer';
 import {
@@ -79,10 +79,10 @@ function start() {
             stack.push(i);
         }
     }
-    return Timer.sleep(delay).then(topSort);
+    return Timer.sleep(delay).then(topsort);
 }
 
-async function topSort() {
+async function topsort() {
     if (stack.length > 0) {
         const i = stack.pop();
         $('.vrtx').eq(i).attr('fill', Colors.visited);
@@ -108,7 +108,7 @@ async function topSort() {
             await Promise.all(promises.map((p) => p()));
         }
         await Timer.sleep(delay).then(() => fall(i));
-        await Timer.sleep(delay).then(topSort);
+        await Timer.sleep(delay).then(topsort);
     } else {
         const graph = Graph.skeleton();
         clearGraph();

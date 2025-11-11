@@ -1,7 +1,7 @@
 import DrawGraph from '@/components/draw-graph';
+import { Box, Stack, Typography } from '@mui/material';
 import $ from 'jquery';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import { Box, Stack, Typography } from '@mui/material';
 import {
     appendCell,
     bgcolor,

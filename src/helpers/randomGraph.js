@@ -1,7 +1,7 @@
 import { hasValue } from '@/common/utils';
 import $ from 'jquery';
 
-const EDGE_PROBABILITY = 0.3;
+const EDGE_PROBABILITY = 0.2;
 
 export function randomGraph(np) {
     const points = [];

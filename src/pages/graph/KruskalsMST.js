@@ -35,9 +35,8 @@ var delay = 1000;
 async function start() {
     arr = [];
     $('.cost').each(function () {
-        let edge = {};
-        edge.w = Number($(this).val()) || 1;
-        arr.push(edge);
+        let w = Number($(this).val()) || 1;
+        arr.push({ w });
     });
     let n = Graph.totalPoints();
     parent = [];
@@ -60,10 +59,10 @@ async function start() {
 
 async function nextMin(k) {
     if (k < arr.length) {
-        let { u, v, i } = arr[k];
-        let edge = Path('.edge').eq(i);
-        let p = findParent(u);
-        let q = findParent(v);
+        const { u, v, i } = arr[k];
+        const edge = Path('.edge').eq(i);
+        const p = findParent(u);
+        const q = findParent(v);
         if (p !== q) {
             parent[q] = p;
             sound('pop');

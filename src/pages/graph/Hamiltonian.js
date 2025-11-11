@@ -67,21 +67,21 @@ async function findCycle(i) {
             if (await findCycle(j)) return true;
             v[j] = 0;
             await Timer.sleep(delay);
-            await revertSpan(i, j);
+            await backtrack(i, j);
             $('#path').children().last().remove();
             await Timer.sleep(delay);
         }
     }
 }
 
-function revertSpan(i, j) {
-    let ei = Graph.edgeIndex(i, j);
+function backtrack(i, j) {
+    const ei = Graph.edgeIndex(i, j);
     $('.edge').eq(ei).attr('stroke', Colors.stroke);
     $('.vrtx').eq(j).attr('stroke', Colors.stroke);
-    let edge = cloneEdge(i, j);
-    let d = edge[0].getTotalLength();
-    let t = 1000 / (d / 2);
-    let seg = Graph.segments()[ei];
+    const edge = cloneEdge(i, j);
+    const d = edge[0].getTotalLength();
+    const t = 1000 / (d / 2);
+    const seg = Graph.segments()[ei];
 
     function span(dash) {
         if (dash < d) {

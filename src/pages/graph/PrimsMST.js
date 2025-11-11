@@ -46,10 +46,10 @@ async function start(src) {
     $('.vrtx').eq(src).attr('stroke', Colors.visited);
     $('.vrtx').eq(src).attr('fill', Colors.visited);
     await Timer.sleep(delay);
-    await enqueue(src);
+    await explore(src);
 }
 
-async function enqueue(i) {
+async function explore(i) {
     mst.push(i);
     queue = queue.concat(Array(n).fill(Infinity));
     w[i] = w[i] || [];
@@ -57,32 +57,30 @@ async function enqueue(i) {
         queue[n * i + j] = val;
     });
     for (let k = 0; k < n; k++) {
-        if (mst.indexOf(k) === -1 && hasValue(w[i][k])) {
-            let ei = Graph.edgeIndex(i, k);
+        if (mst.includes(k)) continue;
+        if (hasValue(w[i][k])) {
+            const ei = Graph.edgeIndex(i, k);
             Path('.edge').eq(ei).attr('stroke', Colors.enqueue);
             $('.vrtx').eq(k).attr('stroke', Colors.enqueue);
             $('.vrtx').eq(k).attr('fill', Colors.enqueue);
         }
     }
     await Timer.sleep(delay);
-    await extractMin();
+    await dequeue();
 }
 
-async function extractMin() {
-    let min = queue.reduce((a, b) => (b < a ? b : a), Infinity);
+async function dequeue() {
+    const min = queue.reduce((a, b) => (b < a ? b : a), Infinity);
     if (min === Infinity) return;
-    let k = queue.indexOf(min);
+    const k = queue.indexOf(min);
     queue[k] = Infinity;
-    let i = Math.floor(k / n);
-    let j = k % n;
-    if (mst.indexOf(j) > -1) {
-        await extractMin(i);
-    } else {
-        await spanEdge(i, j);
-        $('.vrtx').eq(j).attr('fill', Colors.visited);
-        if (mst.length < n) {
-            await Timer.sleep(delay)
-            await enqueue(j);
-        }
+    const i = Math.floor(k / n);
+    const j = k % n;
+    if (mst.includes(j)) return dequeue();
+    await spanEdge(i, j);
+    $('.vrtx').eq(j).attr('fill', Colors.visited);
+    if (mst.length < n) {
+        await Timer.sleep(delay);
+        await explore(j);
     }
 }

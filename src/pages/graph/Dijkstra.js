@@ -83,43 +83,42 @@ async function start(src) {
 }
 
 async function dijkstra(i) {
-    w[i] = w[i] || [];
     let flag = 1;
+    w[i] = w[i] || [];
     for (let j = 0; j < n; j++) {
-        if (v.indexOf(j) === -1) {
-            let ei = Graph.edgeIndex(i, j);
-            if (!hasValue(ei)) continue;
+        if (v.includes(j)) continue;
+        const ei = Graph.edgeIndex(i, j);
 
-            if (d[i] + w[i][j] < d[j]) {
-                d[j] = d[i] + w[i][j];
-                Path('.edge').eq(ei).attr('stroke', Colors.enqueue);
-                $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
-                $('.vrtx').eq(j).attr('fill', Colors.enqueue);
-                bgcolor(cells[j], Colors.enqueue);
-                Timer.sleep(delay).then(() => {
-                    cells[j + n].style.opacity = 0;
-                });
-                Timer.sleep(1500).then(() => {
-                    cells[j + n].textContent = d[j];
-                    cells[j + n].style.opacity = 1;
-                });
-                prev[j] = i;
-                flag = 3;
-            }
+        if (hasValue(ei) && d[i] + w[i][j] < d[j]) {
+            d[j] = d[i] + w[i][j];
+            Path('.edge').eq(ei).attr('stroke', Colors.enqueue);
+            $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
+            $('.vrtx').eq(j).attr('fill', Colors.enqueue);
+            bgcolor(cells[j], Colors.enqueue);
+
+            Timer.sleep(delay).then(() => {
+                cells[j + n].style.opacity = 0;
+            });
+            Timer.sleep(1500).then(() => {
+                cells[j + n].textContent = d[j];
+                cells[j + n].style.opacity = 1;
+            });
+            prev[j] = i;
+            flag = 3;
         }
     }
     for (let j = 0; j < n; j++) {
         queue[j] = v.indexOf(j) === -1 ? d[j] : Infinity;
     }
     await Timer.sleep(delay * flag);
-    await extractMin();
+    await dequeue();
 }
 
-async function extractMin() {
-    let min = queue.reduce((a, b) => (b < a ? b : a), Infinity);
+async function dequeue() {
+    const min = queue.reduce((a, b) => (b < a ? b : a), Infinity);
     if (min === Infinity) return;
-    let j = queue.indexOf(min);
-    let i = prev[j];
+    const j = queue.indexOf(min);
+    const i = prev[j];
     v.push(j);
     bgcolor(cells[j], Colors.visited);
     await spanEdge(i, j);
