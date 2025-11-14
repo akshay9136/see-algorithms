@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
-import DSInput from '@/components/ds-input';
 import { Edge, Node } from '@/components/numbers';
+import DSInput from '@/components/ds-input';
 import binarySearchTree from '@/helpers/binarySearchTree';
 import useAnimator from '@/hooks/useAnimator';
 import { copyBST, randomInt, sleep } from '@/common/utils';
@@ -96,7 +96,7 @@ export default function BST(props) {
             </Typography>
             <DSInput {...props} buttons={buttons} />
             <Box ref={scope} className="resizable" id="binaryTree">
-                {numbers.slice(0, -1).map((_, i) => (
+                {numbers.slice(1).map((_, i) => (
                     <Edge key={i} index={i} />
                 ))}
                 {numbers.map((num, i) => (

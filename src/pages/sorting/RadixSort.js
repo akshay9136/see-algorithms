@@ -130,7 +130,10 @@ function RadixSort() {
               index={i}
               value={renderDigits(num)}
               animate={{ x: i * 60 }}
-              style={styles.numbox()}
+              style={{
+                position: 'absolute',
+                fontWeight: 600,
+              }}
             />
           ))}
         </Box>
@@ -152,18 +155,13 @@ function RadixSort() {
 }
 
 const styles = {
-  numbox: () => ({
-    position: 'absolute',
-    fontWeight: 600,
-  }),
-
   bucket: () => ({
     position: 'absolute',
     fontWeight: 600,
     fontSize: '1rem',
     background: 'transparent',
     border: 0,
-    borderTop: '2px solid grey',
+    borderTop: '1.5px solid grey',
     borderRadius: '8px',
   }),
 };

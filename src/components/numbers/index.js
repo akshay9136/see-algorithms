@@ -26,5 +26,10 @@ export function Node({ index, value, showBf, ...rest }) {
 }
 
 export function Edge({ index, value, ...rest }) {
-  return <motion.div className={styles.edge} id={`edge${index}`} {...rest} />;
+  return (
+    <motion.div className={styles.edge} id={`edge${index}`} {...rest}>
+      {value}
+      <div className={styles.arrow} id={`arrow${index}`} />
+    </motion.div>
+  );
 }

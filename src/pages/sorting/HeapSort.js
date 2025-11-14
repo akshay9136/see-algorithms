@@ -149,7 +149,7 @@ function heapify(i):
                         sx={{ width: 600, pt: 1 }}
                         ref={scope}
                     >
-                        {numbers.slice(0, -1).map((_, i) => (
+                        {numbers.slice(1).map((_, i) => (
                             <Edge key={i} index={i} />
                         ))}
                         {numbers.map((num, i) => (

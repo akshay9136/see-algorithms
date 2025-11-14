@@ -154,6 +154,13 @@ export const algorithmSeoMap = {
     keywords:
       'kruskals algorithm, minimum spanning tree, MST, union find, graph algorithm, visualization',
   },
+  LinkedList: {
+    title: 'Linked List Visualization - See Algorithms',
+    description:
+      'Learn about Linked Lists, a fundamental data structure where elements are linked in a sequence, enabling efficient insertions and deletions.',
+    keywords:
+      'linked list, data structure, linear data structure, node, pointer, visualization, algorithm learning',
+  },
   BST: {
     title: 'Binary Search Tree (BST) Visualization - See Algorithms',
     description:
