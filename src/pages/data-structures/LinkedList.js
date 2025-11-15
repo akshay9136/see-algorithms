@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {
   Box,
   Stack,
@@ -12,40 +12,64 @@ import useAnimator from '@/hooks/useAnimator';
 import { sleep } from '@/common/utils';
 import linkedList from '@/helpers/linkedList';
 import { motion } from 'framer-motion';
+import { showToast } from '@/components/toast';
 
 var list, delay = 500;
 
 export default function LinkedList(props) {
   const [nodes, setNodes] = useState(['H']);
   const [scope, animator] = useAnimator();
+  const dsInputRef = useRef(null);
   const { txy } = animator;
 
   const insertAtHead = async (value) => {
-    if (!list) list = linkedList(animator);
     setNodes([...nodes, value]);
     await sleep(delay);
     await list.insertAtHead(value);
   };
 
   const insertAtTail = async (value) => {
-    if (!list) list = linkedList(animator);
     setNodes([...nodes, value]);
     await sleep(delay);
     await list.insertAtTail(value);
   };
 
+  const insertAtIndex = async (index) => {
+    const value = dsInputRef.current.getValue();
+    if (typeof value !== 'number') {
+        showToast({
+            message: 'Please enter a number.',
+            variant: 'error',
+        });
+        return;
+    }
+    setNodes([...nodes, value]);
+    await sleep(delay);
+    await list.insertAtIndex(value, index);
+  };
+
+  const deleteAtIndex = (index) => {
+    return list.deleteAtIndex(index);
+  };
+
   const reset = () => {
     setNodes(['H']);
-    list = null;
+    list = linkedList(animator);
   };
 
   const buttons = [
     { text: 'Insert at head', onClick: insertAtHead, validate: true },
     { text: 'Insert at tail', onClick: insertAtTail, validate: true },
+  ];
+
+  const buttons2 = [
+    { text: 'Insert', onClick: insertAtIndex, validate: true },
+    { text: 'Delete', onClick: deleteAtIndex, validate: true, keepEmpty: true },
     { text: 'Clear', onClick: reset, disabled: nodes.length <= 1 },
   ];
 
   useEffect(() => {
+    reset();
     txy(`#box${0}`, 0, 80, 0);
     return reset;
   }, []);
@@ -59,7 +83,15 @@ export default function LinkedList(props) {
         grow or shrink dynamically. This makes them efficient for insertions and
         deletions, but slower for direct access to an element.
       </Typography>
-      <DSInput {...props} buttons={buttons} />
+      <Stack spacing={2}>
+        <DSInput {...props} buttons={buttons} ref={dsInputRef} />
+        <DSInput
+            {...props}
+            buttons={buttons2}
+            label="Enter an index: "
+            keepEmpty
+        />
+      </Stack>
       <Box
         ref={scope}
         sx={{
@@ -72,10 +104,10 @@ export default function LinkedList(props) {
         {nodes.map((value, i) => (
           <motion.div key={i} id={`box${i}`} style={{ position: 'absolute' }}>
             <ToggleButtonGroup
-              color="warning"
+              color={i > 0 ? "info" : "warning"}
               value="data"
               size="small"
-              sx={{ width: 60 }}
+              sx={{ width: 60, gap: '1px' }}
             >
               <ToggleButton
                 value="data"

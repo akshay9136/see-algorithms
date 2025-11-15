@@ -86,16 +86,22 @@ export const algorithms = [
         meta: 'Learn about Hamiltonian Cycle, a path in a graph that visits each vertex exactly once and returns to the starting point.',
     },
     {
+        id: 'CircularQueue',
+        name: 'Circular Queue',
+        category: 'Data Structures',
+        meta: 'Understand how Circular Queue efficiently manages a fixed-size queue by wrapping around when full.',
+    },
+    {
         id: 'LinkedList',
         name: 'Linked List',
         category: 'Data Structures',
         meta: 'Discover Linked Lists, a data structure where elements are linked sequentially, allowing for efficient insertions and deletions.',
     },
     {
-        id: 'CircularQueue',
-        name: 'Circular Queue',
+        id: 'BinaryHeap',
+        name: 'Binary Heap',
         category: 'Data Structures',
-        meta: 'Understand how Circular Queue efficiently manages a fixed-size queue by wrapping around when full.',
+        meta: 'Explore the Binary Heap where elements are arranged in a binary tree while maintaining priority.',
     },
     {
         id: 'BST',
@@ -108,12 +114,6 @@ export const algorithms = [
         name: 'AVL Tree',
         category: 'Data Structures',
         meta: 'Learn about AVL Trees, a self-balancing binary search tree that maintains a balanced height to ensure efficient search.',
-    },
-    {
-        id: 'BinaryHeap',
-        name: 'Binary Heap',
-        category: 'Data Structures',
-        meta: 'Explore the Binary Heap where elements are arranged in a binary tree while maintaining priority.',
     },
     {
         id: 'ConvexHull',

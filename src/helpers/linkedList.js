@@ -1,14 +1,15 @@
 import { sleep, sound } from '../common/utils';
 import { Colors } from '../common/constants';
 import $ from 'jquery';
+import { showToast } from '@/components/toast';
 
-const NODE_WIDTH = 60;
-const SPACING = 30;
+const STEP_SIZE = 60 + 30;
 const NODE_TOP = 80;
 const EDGE_TOP = 98;
 const EDGE_WIDTH = 40;
 
 const delay = 500;
+const dur = { duration: 0.5 };
 
 const arrowStyle = {
   borderTopColor: '#555',
@@ -21,65 +22,108 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
   const head = { index: 0 };
   const arr = [head];
 
-  const insertAtHead = async (value) => {
+  const length = (node) => node ? 1 + length(node.next) : -1;
+
+  const insertAtHead = (value) => {
     if (!head.next) return insertAtTail(value);
-    const index = arr.length;
-    const dur = { duration: 0.5 };
-    await txy(`#edge${index - 1}`, 30, 80);
-    animate(`#edge${index - 1}`, { rotate: -90 }, dur);
-    bgcolor(`#edge${index - 1}`, Colors.stroke);
-    $(`#arrow${index - 1}`).css(arrowStyle);
-    const j = head.next.index;
-    animate(`#edge${j - 1}`, { rotate: 45, width: 55 }, dur);
-    ty(`#edge${j - 1}`, 40);
-    await sleep(delay * 2);
-    let node = head;
-    let vi = 1; // visible node index
-    while (node.next) {
-        node = node.next;
-        const shiftX = (vi + 1) * (NODE_WIDTH + SPACING);
-        tx(`#box${node.index}`, shiftX);
-        tx(`#edge${node.index - 1}`, shiftX - EDGE_WIDTH);
-        vi++;
-    }
-    sound('swap');
-    const x = NODE_WIDTH + SPACING;
-    txy(`#box${index}`, x, NODE_TOP);
-    txy(`#edge${index - 1}`, x - EDGE_WIDTH, EDGE_TOP);
-    animate(`#edge${index - 1}`, { rotate: 0 }, dur);
-    animate(`#edge${j - 1}`, { rotate: 0, width: EDGE_WIDTH }, dur);
-    ty(`#edge${j - 1}`, EDGE_TOP);
-    node = { value, index, prev: head };
-    node.next = head.next;
-    head.next = node;
-    arr.push(node);
+    return insertAtIndex(value, 0);
   };
 
   const insertAtTail = async (value) => {
-    await bgcolor(`#next${0}`, Colors.visited);
-    await sleep(delay);
-    var node = head;
-    while (node.next) {
-      await bgcolor(`#next${node.index}`, 'unset');
-      node = node.next;
-      await bgcolor(`#next${node.index}`, Colors.visited);
-      await sleep(delay);
-    }
-    await bgcolor(`#next${node.index}`, 'unset');
+    const node = await findNode((x) => !x.next);
+    sound('pop');
     const index = arr.length;
     node.next = { value, index, prev: node };
     arr.push(node.next);
-    sound('pop');
-    const x = index * (NODE_WIDTH + SPACING);
-    txy(`#box${index}`, x, NODE_TOP);
-    await txy(`#edge${index - 1}`, x - EDGE_WIDTH, EDGE_TOP);
+    const nodeX = length(head) * STEP_SIZE;
+    txy(`#box${index}`, nodeX, NODE_TOP);
+    await txy(`#edge${index - 1}`, nodeX - EDGE_WIDTH, EDGE_TOP);
     bgcolor(`#edge${index - 1}`, Colors.stroke);
     $(`#arrow${index - 1}`).css(arrowStyle);
+  };
+
+  const findNode = async (predicate) => {
+    if (predicate(head, 0)) return head;
+    let node = head.next, vi = 1;
+    while (node) {
+      await bgcolor(`#next${node.index}`, Colors.visited);
+      await sleep(delay);
+      await bgcolor(`#next${node.index}`, Colors.white);
+      if (predicate(node, vi)) break;
+      node = node.next;
+      vi++;
+    }
+    return node;
+  };
+
+  const insertAtIndex = async (value, k) => {
+    if (k >= length(head)) {
+        return insertAtTail(value);
+    }
+    const prev = await findNode((_, i) => i === k);
+    const index = arr.length;
+    await tx(`#box${index}`, k * STEP_SIZE);
+    await txy(`#edge${index - 1}`, k * STEP_SIZE + 30, 80);
+    animate(`#edge${index - 1}`, { rotate: -90 }, dur);
+    bgcolor(`#edge${index - 1}`, Colors.stroke);
+    $(`#arrow${index - 1}`).css(arrowStyle);
+    const next = prev.next;
+    animate(`#edge${next.index - 1}`, { rotate: 45, width: 55 }, dur);
+    ty(`#edge${next.index - 1}`, 40);
+    await sleep(1000);
+    let cur = prev.next, vi = k + 2;
+    while (cur) {
+      const shiftX = vi * STEP_SIZE;
+      tx(`#box${cur.index}`, shiftX);
+      tx(`#edge${cur.index - 1}`, shiftX - EDGE_WIDTH);
+      cur = cur.next;
+      vi++;
+    }
+    sound('swap');
+    const nodeX = (k + 1) * STEP_SIZE;
+    txy(`#box${index}`, nodeX, NODE_TOP);
+    txy(`#edge${index - 1}`, nodeX - EDGE_WIDTH, EDGE_TOP);
+    animate(`#edge${index - 1}`, { rotate: 0 }, dur);
+    animate(`#edge${next.index - 1}`, { rotate: 0, width: EDGE_WIDTH }, dur);
+    ty(`#edge${next.index - 1}`, EDGE_TOP);
+    const newNode = { value, index, prev };
+    newNode.next = prev.next;
+    prev.next = newNode;
+    arr.push(newNode);
+  };
+
+  const deleteAtIndex = async (k) => {
+    const node = await findNode((_, i) => i - 1 === k);
+    if (!node) {
+        showToast({
+            message: 'Node does not exist at given index.',
+            variant: 'error'
+        });
+        return;
+    };
+    animate(`#box${node.index}`, { opacity: 0 });
+    animate(`#edge${node.index - 1}`, { opacity: 0 });
+    await sleep(delay);
+    let cur = node.next, vi = k + 1;
+    while (cur) {
+      const shiftX = vi * STEP_SIZE;
+      tx(`#box${cur.index}`, shiftX);
+      tx(`#edge${cur.index - 1}`, shiftX - EDGE_WIDTH);
+      cur = cur.next;
+      vi++;
+    }
+    sound('swap');
+    node.prev.next = node.next;
+    if (node.next) {
+        node.next.prev = node.prev;
+    }
   };
 
   return {
     insertAtHead,
     insertAtTail,
+    insertAtIndex,
+    deleteAtIndex,
   };
 }
 

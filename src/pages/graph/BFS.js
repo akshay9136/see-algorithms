@@ -1,6 +1,7 @@
 import DrawGraph from '@/components/draw-graph';
 import { Box, Stack, Typography } from '@mui/material';
 import $ from 'jquery';
+import Graph, { Path } from '@/common/graph';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import {
     appendCell,
@@ -10,7 +11,6 @@ import {
     sound,
     spanEdge,
 } from '@/common/utils';
-import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
 import { Colors } from '@/common/constants';
 

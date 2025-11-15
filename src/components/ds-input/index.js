@@ -1,18 +1,20 @@
-import { useState } from 'react';
+import { useState, forwardRef, useImperativeHandle } from 'react';
 import { Input, Button, Typography, Box } from '@mui/material';
 import styles from '../numbers/numbers.module.css';
 import { randomInt } from '@/common/utils';
 import { showToast } from '../toast';
 
-function DSInput(props) {
-  const [number, setNumber] = useState(randomInt());
+const DSInput = forwardRef((props, ref) => {
+  const [number, setNumber] = useState(props.keepEmpty ? '' : randomInt());
   const [status, setStatus] = useState(false);
 
   const handleInput = (e) => {
-    let value = e.target.value.trim().slice(0, 3);
-    if (!isNaN(value)) {
-      setNumber(parseInt(value) || '');
-    }
+    const value = e.target.value.trim().slice(0, 3);
+    if (value.length) {
+        if (!isNaN(value)) {
+            setNumber(parseInt(value));
+        }
+    } else setNumber('');
   };
 
   const validate = (callback) => {
@@ -23,19 +25,23 @@ function DSInput(props) {
       });
     } else {
       setStatus(true);
-      callback(number)
-        .then(() => {
+      callback(number).then(() => {
           setStatus(false);
-          setNumber(randomInt());
+          if (!props.keepEmpty) setNumber(randomInt());
         })
         .catch(() => {});
     }
   };
 
+  useImperativeHandle(ref, () => ({
+    getValue: () => number,
+    validate,
+  }));
+
   return (
     <Box className={styles.inputNumbers}>
       <Typography variant="subtitle1" fontWeight={600}>
-        Enter a number: &nbsp;
+        {props.label || 'Enter a number:'} &nbsp;
       </Typography>
       <Input
         size="small"
@@ -50,7 +56,9 @@ function DSInput(props) {
             size="small"
             variant="outlined"
             onClick={() => {
-              btn.validate ? validate(btn.onClick) : btn.onClick();
+              const fn = (val) => btn.onClick(val);
+              if (btn.validate) validate(fn);
+              else fn();
             }}
             disabled={status || btn.disabled}
             sx={{ mr: 1, minWidth: 40 }}
@@ -63,6 +71,6 @@ function DSInput(props) {
       </Box>
     </Box>
   );
-}
+});
 
 export default DSInput;

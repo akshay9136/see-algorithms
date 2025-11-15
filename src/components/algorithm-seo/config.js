@@ -140,13 +140,6 @@ export const algorithmSeoMap = {
     keywords:
       'prims algorithm, minimum spanning tree, MST, graph algorithm, greedy algorithm, visualization',
   },
-  Hamiltonian: {
-    title: 'Hamiltonian Path Visualization - See Algorithms',
-    description:
-      'Learn Hamiltonian path finding with interactive visualization. Understand how to find paths that visit every vertex exactly once.',
-    keywords:
-      'hamiltonian path, hamiltonian cycle, graph traversal, backtracking, graph algorithm, visualization',
-  },
   KruskalsMST: {
     title: "Kruskal's Minimum Spanning Tree - See Algorithms",
     description:
@@ -154,12 +147,33 @@ export const algorithmSeoMap = {
     keywords:
       'kruskals algorithm, minimum spanning tree, MST, union find, graph algorithm, visualization',
   },
+  Hamiltonian: {
+    title: 'Hamiltonian Path Visualization - See Algorithms',
+    description:
+      'Learn Hamiltonian path finding with interactive visualization. Understand how to find paths that visit every vertex exactly once.',
+    keywords:
+      'hamiltonian path, hamiltonian cycle, graph traversal, backtracking, graph algorithm, visualization',
+  },
+  CircularQueue: {
+    title: 'Circular Queue Visualization - See Algorithms',
+    description:
+      'Learn Circular Queue data structure with interactive visualization. Understand FIFO operations with efficient space utilization.',
+    keywords:
+      'circular queue, queue data structure, FIFO, enqueue, dequeue, ring buffer, visualization',
+  },
   LinkedList: {
     title: 'Linked List Visualization - See Algorithms',
     description:
       'Learn about Linked Lists, a fundamental data structure where elements are linked in a sequence, enabling efficient insertions and deletions.',
     keywords:
       'linked list, data structure, linear data structure, node, pointer, visualization, algorithm learning',
+  },
+  BinaryHeap: {
+    title: 'Binary Heap Visualization - See Algorithms',
+    description:
+      'Master Binary Heap with interactive visualization. Learn heap operations and understand min-heap and max-heap properties.',
+    keywords:
+      'binary heap, heap data structure, priority queue, heap operations, visualization',
   },
   BST: {
     title: 'Binary Search Tree (BST) Visualization - See Algorithms',
@@ -174,20 +188,6 @@ export const algorithmSeoMap = {
       'Learn AVL Trees with interactive visualization. See how this self-balancing BST uses rotations to maintain balance, ensuring efficient search.',
     keywords:
       'avl tree, self-balancing tree, binary search tree, data structure, tree rotations, visualization',
-  },
-  BinaryHeap: {
-    title: 'Binary Heap Visualization - See Algorithms',
-    description:
-      'Master Binary Heap with interactive visualization. Learn heap operations and understand min-heap and max-heap properties.',
-    keywords:
-      'binary heap, heap data structure, priority queue, heap operations, visualization',
-  },
-  CircularQueue: {
-    title: 'Circular Queue Visualization - See Algorithms',
-    description:
-      'Learn Circular Queue data structure with interactive visualization. Understand FIFO operations with efficient space utilization.',
-    keywords:
-      'circular queue, queue data structure, FIFO, enqueue, dequeue, ring buffer, visualization',
   },
   ConvexHull: {
     title: 'Convex Hull Visualization - See Algorithms',
