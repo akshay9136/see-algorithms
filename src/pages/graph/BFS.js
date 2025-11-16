@@ -63,10 +63,10 @@ async function start(source) {
     queue = [];
     prev = [];
     i = source;
-    await Timer.sleep(delay);
-    sound('pop');
     $('.vrtx').attr('stroke', Colors.rejected);
     $('.edge').attr('stroke', Colors.rejected);
+    await Timer.sleep(delay);
+    sound('pop');
     $('.vrtx').eq(i).attr('stroke', Colors.visited);
     $('.vrtx').eq(i).attr('fill', Colors.visited);
     appendCell('#queue', charAt(65 + i));

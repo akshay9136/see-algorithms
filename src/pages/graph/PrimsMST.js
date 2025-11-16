@@ -3,7 +3,7 @@ import Graph, { Path } from '@/common/graph';
 import { Stack, Typography } from '@mui/material';
 import $ from 'jquery';
 import Timer from '@/common/timer';
-import { hasValue, spanEdge, getCostMatrix } from '@/common/utils';
+import { hasValue, spanEdge, getCostMatrix, sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 
 export default function PrimsMST(props) {
@@ -42,9 +42,10 @@ async function start(src) {
     w = getCostMatrix();
     queue = [];
     mst = [];
-    await Timer.sleep(delay);
     $('.vrtx').attr('stroke', Colors.rejected);
     $('.edge').attr('stroke', Colors.rejected);
+    await Timer.sleep(delay);
+    sound('pop');
     $('.vrtx').eq(src).attr('stroke', Colors.visited);
     $('.vrtx').eq(src).attr('fill', Colors.visited);
     await Timer.sleep(delay);
@@ -79,6 +80,7 @@ async function dequeue() {
     const i = Math.floor(k / n);
     const j = k % n;
     if (mst.includes(j)) return dequeue();
+    sound('pop');
     await spanEdge(i, j);
     $('.vrtx').eq(j).attr('fill', Colors.visited);
     if (mst.length < n) {

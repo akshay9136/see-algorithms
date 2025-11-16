@@ -62,10 +62,10 @@ async function start(source) {
     stack = [];
     prev = [];
     i = source;
-    await Timer.sleep(delay);
-    sound('pop');
     $('.vrtx').attr('stroke', Colors.rejected);
     $('.edge').attr('stroke', Colors.rejected);
+    await Timer.sleep(delay);
+    sound('pop');
     $('.vrtx').eq(i).attr('stroke', Colors.visited);
     $('.vrtx').eq(i).attr('fill', Colors.visited);
     appendCell('#stack', charAt(65 + i));

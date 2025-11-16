@@ -8,6 +8,7 @@ import {
     charAt,
     cloneEdge,
     hasValue,
+    sound,
     spanEdge,
 } from '@/common/utils';
 import { Colors } from '@/common/constants';
@@ -38,12 +39,13 @@ var src, v;
 var delay = 1000;
 
 async function start(source) {
-    src = source;
     v = Array(Graph.totalPoints()).fill(0);
+    src = source;
     v[src] = 1;
-    await Timer.sleep(delay);
     $('.vrtx').attr('stroke', Colors.rejected);
     $('.edge').attr('stroke', Colors.rejected);
+    await Timer.sleep(delay);
+    sound('pop');
     $('.vrtx').eq(src).attr('stroke', Colors.visited);
     $('.vrtx').eq(src).attr('fill', Colors.visited);
     appendCell('#path', charAt(65 + src));
@@ -62,11 +64,13 @@ async function findCycle(i) {
     for (let j = 0; j < Graph.totalPoints(); j++) {
         let ei = Graph.edgeIndex(i, j);
         if (hasValue(ei) && v[j] === 0) {
+            sound('pop');
             await spanEdge(i, j);
             appendCell('#path', charAt(65 + j));
             v[j] = 1;
             if (await findCycle(j)) return true;
             v[j] = 0;
+            sound('pop');
             await backtrack(i, j);
             $('#path').children().last().remove();
             await Timer.sleep(delay);

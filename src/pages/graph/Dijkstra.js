@@ -10,6 +10,7 @@ import {
     getCostMatrix,
     hasValue,
     sleep,
+    sound,
     spanEdge,
 } from '@/common/utils';
 import { Colors } from '@/common/constants';
@@ -75,9 +76,10 @@ async function start(src) {
     }
     queue = [src];
     prev = [];
-    await Timer.sleep(delay);
     $('.vrtx').attr('stroke', Colors.rejected);
     $('.edge').attr('stroke', Colors.rejected);
+    await Timer.sleep(delay);sound('pop');
+    sound('pop');
     $('.vrtx').eq(src).attr('stroke', Colors.visited);
     $('.vrtx').eq(src).attr('fill', Colors.visited);
     bgcolor(cells[src], Colors.visited);
@@ -101,6 +103,7 @@ async function dijkstra(i) {
 
             sleep(delay).then(() => {
                 cells[j + n].style.opacity = 0;
+                sound('pop');
             });
             sleep(1500).then(() => {
                 cells[j + n].textContent = d[j];
@@ -123,6 +126,7 @@ async function dequeue() {
     const j = queue.indexOf(min);
     const i = prev[j];
     v.push(j);
+    sound('pop');
     bgcolor(cells[j], Colors.visited);
     await spanEdge(i, j);
     $('.vrtx').eq(j).attr('fill', Colors.visited);
