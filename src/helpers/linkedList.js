@@ -22,7 +22,7 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
   const head = { index: 0 };
   const arr = [head];
 
-  const length = (node) => node ? 1 + length(node.next) : -1;
+  const length = (node) => (node ? 1 + length(node.next) : -1);
 
   const insertAtHead = (value) => {
     if (!head.next) return insertAtTail(value);
@@ -58,9 +58,10 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
 
   const insertAtIndex = async (value, k) => {
     if (k >= length(head)) {
-        return insertAtTail(value);
+      return insertAtTail(value);
     }
     const prev = await findNode((_, i) => i === k);
+    if (k > 0) sound('swap');
     const index = arr.length;
     await tx(`#box${index}`, k * STEP_SIZE);
     await txy(`#edge${index - 1}`, k * STEP_SIZE + 30, 80);
@@ -70,16 +71,9 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
     const next = prev.next;
     animate(`#edge${next.index - 1}`, { rotate: 45, width: 55 }, dur);
     ty(`#edge${next.index - 1}`, 40);
-    await sleep(1000);
-    let cur = prev.next, vi = k + 2;
-    while (cur) {
-      const shiftX = vi * STEP_SIZE;
-      tx(`#box${cur.index}`, shiftX);
-      tx(`#edge${cur.index - 1}`, shiftX - EDGE_WIDTH);
-      cur = cur.next;
-      vi++;
-    }
+    await sleep(delay * 2);
     sound('swap');
+    shiftNodes(prev, k + 2);
     const nodeX = (k + 1) * STEP_SIZE;
     txy(`#box${index}`, nodeX, NODE_TOP);
     txy(`#edge${index - 1}`, nodeX - EDGE_WIDTH, EDGE_TOP);
@@ -92,19 +86,8 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
     arr.push(newNode);
   };
 
-  const deleteAtIndex = async (k) => {
-    const node = await findNode((_, i) => i - 1 === k);
-    if (!node) {
-        showToast({
-            message: 'Node does not exist at given index.',
-            variant: 'error'
-        });
-        return;
-    };
-    animate(`#box${node.index}`, { opacity: 0 });
-    animate(`#edge${node.index - 1}`, { opacity: 0 });
-    await sleep(delay);
-    let cur = node.next, vi = k + 1;
+  const shiftNodes = (node, vi) => {
+    let cur = node.next;
     while (cur) {
       const shiftX = vi * STEP_SIZE;
       tx(`#box${cur.index}`, shiftX);
@@ -112,10 +95,25 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
       cur = cur.next;
       vi++;
     }
+  };
+
+  const deleteAtIndex = async (k) => {
+    const node = await findNode((_, i) => i - 1 === k);
+    if (!node) {
+      showToast({
+        message: 'Index is out of bound.',
+        variant: 'error',
+      });
+      return;
+    }
+    animate(`#box${node.index}`, { opacity: 0 });
+    animate(`#edge${node.index - 1}`, { opacity: 0 });
+    await sleep(delay);
     sound('swap');
+    shiftNodes(node, k + 1);
     node.prev.next = node.next;
     if (node.next) {
-        node.next.prev = node.prev;
+      node.next.prev = node.prev;
     }
   };
 

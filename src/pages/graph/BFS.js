@@ -65,10 +65,12 @@ async function start(source) {
     i = source;
     await Timer.sleep(delay);
     sound('pop');
-    appendCell('#queue', charAt(65 + i));
-    bgcolor('.cell:eq(0)', Colors.visited);
+    $('.vrtx').attr('stroke', Colors.rejected);
+    $('.edge').attr('stroke', Colors.rejected);
     $('.vrtx').eq(i).attr('stroke', Colors.visited);
     $('.vrtx').eq(i).attr('fill', Colors.visited);
+    appendCell('#queue', charAt(65 + i));
+    bgcolor('.cell:eq(0)', Colors.visited);
     await Timer.sleep(delay);
     await explore(0);
 }
@@ -101,7 +103,7 @@ async function visit() {
     await Timer.sleep(delay / 2);
     if (queue.length) {
         i = queue.shift();
-        sound('swap');
+        sound('pop');
         bgcolor(`.cell:eq(${v.indexOf(i)})`, Colors.visited);
         await spanEdge(prev[i], i);
         $('.vrtx').eq(i).attr('fill', Colors.visited);

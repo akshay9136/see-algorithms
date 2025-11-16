@@ -35,7 +35,7 @@ function start() {
         if (x1 < x2) left = i;
     }
     p = left;
-    Timer.timeout(convexHull, delay);
+    Timer.sleep(delay).then(convexHull);
 }
 
 function convexHull() {
@@ -43,21 +43,18 @@ function convexHull() {
     $('.vrtx').eq(p).attr('fill', Colors.visited);
     $('.vrtx').eq(p).attr('stroke', Colors.visited);
     q = (p + 1) % Graph.totalPoints();
-    Timer.timeout(next, delay, 0);
+    Timer.sleep(delay).then(() => next(0));
 }
 
-function next(i) {
+async function next(i) {
     if (i < Graph.totalPoints()) {
         let seg = [p, q].map(Graph.point);
         let ori = Segment.orientation(seg, Graph.point(i));
         if (ori === 1) {
             q = i;
             connect(Colors.stroke);
-            Timer.timeout(() => {
-                $('#plane path').last().remove();
-                next(i + 1);
-            }, delay);
-            return;
+            await Timer.sleep(delay);
+            $('#plane path').last().remove();
         }
         next(i + 1);
     } else {

@@ -9,6 +9,7 @@ import {
     createGrid,
     getCostMatrix,
     hasValue,
+    sleep,
     spanEdge,
 } from '@/common/utils';
 import { Colors } from '@/common/constants';
@@ -75,6 +76,8 @@ async function start(src) {
     queue = [src];
     prev = [];
     await Timer.sleep(delay);
+    $('.vrtx').attr('stroke', Colors.rejected);
+    $('.edge').attr('stroke', Colors.rejected);
     $('.vrtx').eq(src).attr('stroke', Colors.visited);
     $('.vrtx').eq(src).attr('fill', Colors.visited);
     bgcolor(cells[src], Colors.visited);
@@ -96,10 +99,10 @@ async function dijkstra(i) {
             $('.vrtx').eq(j).attr('fill', Colors.enqueue);
             bgcolor(cells[j], Colors.enqueue);
 
-            Timer.sleep(delay).then(() => {
+            sleep(delay).then(() => {
                 cells[j + n].style.opacity = 0;
             });
-            Timer.sleep(1500).then(() => {
+            sleep(1500).then(() => {
                 cells[j + n].textContent = d[j];
                 cells[j + n].style.opacity = 1;
             });

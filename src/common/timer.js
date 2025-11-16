@@ -1,45 +1,65 @@
-var timer, func;
-var start, delay;
-var status = 0;
+function createTimer() {
+  let target = 0;
+  let remaining = 0;
+  let callback = null;
+  let rafId = null;
+  let status = 0; // 0 idle, 1 running, -1 paused
 
-var Timer = {
-    timeout(fn, d, ...args) {
-        delay = d;
-        func = () => {
-            status = 0;
-            fn(...args);
-        };
-        status = 1;
-        start = Date.now();
-        timer = setTimeout(func, d);
+  function now() {
+    return performance.now();
+  }
+
+  function tick(t) {
+    if (status !== 1) return;
+    if (t >= target) {
+      status = 0;
+      const fn = callback;
+      callback = null;
+      fn && fn();
+      return;
+    }
+    rafId = requestAnimationFrame(tick);
+  }
+
+  return {
+    timeout(fn, ms) {
+      this.clear();
+      callback = fn;
+      status = 1;
+      target = now() + ms;
+      rafId = requestAnimationFrame(tick);
     },
 
     pause() {
-        if (status === 1) {
-            delay = start + delay - Date.now();
-            status = -1;
-            clearTimeout(timer);
-        }
+      if (status === 1) {
+        remaining = target - now();
+        status = -1;
+        cancelAnimationFrame(rafId);
+      }
     },
 
     resume() {
-        if (status === -1) {
-            start = Date.now();
-            status = 1;
-            timer = setTimeout(func, delay);
-        }
+      if (status === -1) {
+        status = 1;
+        target = now() + remaining;
+        rafId = requestAnimationFrame(tick);
+      }
     },
 
     clear() {
-        status = 0;
-        clearTimeout(timer);
+      status = 0;
+      callback = null;
+      cancelAnimationFrame(rafId);
     },
 
     sleep(ms) {
-        return new Promise((resolve) => {
-            this.timeout(resolve, ms);
-        });
+      return new Promise((resolve) => {
+        this.timeout(resolve, ms)
+      });
     },
-};
+  };
+}
+
+const Timer = createTimer();
 
 export default Timer;

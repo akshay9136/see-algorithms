@@ -35,17 +35,18 @@ export default function Hamiltonian(props) {
 }
 
 var src, v;
-var delay = 500;
+var delay = 1000;
 
 async function start(source) {
     src = source;
     v = Array(Graph.totalPoints()).fill(0);
     v[src] = 1;
-    await Timer.sleep(1000);
+    await Timer.sleep(delay);
+    $('.vrtx').attr('stroke', Colors.rejected);
+    $('.edge').attr('stroke', Colors.rejected);
     $('.vrtx').eq(src).attr('stroke', Colors.visited);
     $('.vrtx').eq(src).attr('fill', Colors.visited);
     appendCell('#path', charAt(65 + src));
-    await Timer.sleep(delay);
     await findCycle(src);
 }
 
@@ -66,7 +67,6 @@ async function findCycle(i) {
             v[j] = 1;
             if (await findCycle(j)) return true;
             v[j] = 0;
-            await Timer.sleep(delay);
             await backtrack(i, j);
             $('#path').children().last().remove();
             await Timer.sleep(delay);
@@ -76,11 +76,11 @@ async function findCycle(i) {
 
 function backtrack(i, j) {
     const ei = Graph.edgeIndex(i, j);
-    $('.edge').eq(ei).attr('stroke', Colors.stroke);
-    $('.vrtx').eq(j).attr('stroke', Colors.stroke);
+    $('.edge').eq(ei).attr('stroke', Colors.rejected);
+    $('.vrtx').eq(j).attr('stroke', Colors.rejected);
     const edge = cloneEdge(i, j);
     const d = edge[0].getTotalLength();
-    const t = 1000 / (d / 2);
+    const t = d / 40;
     const seg = Graph.segments()[ei];
 
     function span(dash) {
@@ -89,7 +89,8 @@ function backtrack(i, j) {
             if (i !== seg[0]) {
                 edge.attr('stroke-dashoffset', d - dash);
             }
-            return Timer.sleep(t).then(() => span(dash + 2));
+            return Timer.sleep(20)
+              .then(() => span(dash + t));
         } else edge.remove();
     }
     return span(2);

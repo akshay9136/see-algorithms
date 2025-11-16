@@ -47,11 +47,11 @@ const Graph = {
     isDirected: () => directed,
 
     isConnected() {
-        let visited = this.dfs(0, [0]);
+        let visited = this._dfs(0, [0]);
         return visited.length === this.totalPoints();
     },
 
-    dfs(u, visited) {
+    _dfs(u, visited) {
         let np = points.length;
         for (let v = 0; v < np; v++) {
             if (visited.indexOf(v) === -1) {
@@ -59,7 +59,7 @@ const Graph = {
                 let alt = matrix[v][u];
                 if (cost !== undefined || alt !== undefined) {
                     visited.push(v);
-                    this.dfs(v, visited);
+                    this._dfs(v, visited);
                 }
             }
         }

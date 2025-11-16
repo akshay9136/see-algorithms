@@ -87,7 +87,7 @@ async function topsort() {
         const i = stack.pop();
         $('.vrtx').eq(i).attr('fill', Colors.visited);
         sound('pop');
-        const promises = [];
+        await Timer.sleep(delay);
         for (let j = 0; j < Graph.totalPoints(); j++) {
             const ei = Graph.edgeIndex(i, j);
             if (hasValue(ei) && ind[j] > 0) {
@@ -97,15 +97,11 @@ async function topsort() {
                     $('.vrtx').eq(j).attr('stroke', Colors.visited);
                     stack.push(j);
                 }
+                sound('swap');
                 const [p, q] = [i, j].map(Graph.point);
                 const d = Point.distance(p, q);
-                promises.push(() => extract(i, j, d - 25));
+                await extract(i, j, d - 25);
             }
-        }
-        if (promises.length) {
-            await Timer.sleep(delay);
-            sound('swap');
-            await Promise.all(promises.map((p) => p()));
         }
         await Timer.sleep(delay).then(() => fall(i));
         await Timer.sleep(delay).then(topsort);
@@ -126,7 +122,7 @@ function extract(i, j, d) {
         edge.attr('y2', r.y);
         edge.attr('cx', (p.x + r.x) / 2);
         edge.attr('cy', (p.y + r.y) / 2);
-        return Timer.sleep(5).then(() => extract(i, j, d - 2));
+        return Timer.sleep(20).then(() => extract(i, j, d - 6));
     }
     edge.removeAttr('stroke');
     edge.removeAttr('marker-end');
@@ -135,9 +131,9 @@ function extract(i, j, d) {
 function fall(i) {
     const cy = Number($('.vrtx').eq(i).attr('cy'));
     if (cy < $('#plane').height() + 20) {
-        $('.vrtx').eq(i).attr('cy', cy + 2);
-        $('.vlbl').eq(i).attr('y', cy + 7);
-        return Timer.sleep(5).then(() => fall(i));
+        $('.vrtx').eq(i).attr('cy', cy + 6);
+        $('.vlbl').eq(i).attr('y', cy + 11);
+        return Timer.sleep(20).then(() => fall(i));
     }
     appendCell('#sorted', charAt(65 + i));
 }

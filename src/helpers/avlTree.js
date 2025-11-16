@@ -128,13 +128,14 @@ function avlTree(animator, setCurrentStep) {
 
     const rebalance = async (node) => {
         if (!node) return;
-        await bgcolor(`#node${node.index}`, Colors.compare);
+        bgcolor(`#node${node.index}`, Colors.compare);
         setCurrentStep('1,2');
         await sleep(delay);
         updateHeight(node);
+        await sleep(delay);
         let nodeBf = balanceFactor(node);
+        let rotated = false;
         if (nodeBf > 1) {
-            await sleep(delay);
             const childBf = balanceFactor(node.left);
             if (childBf > 0) {
                 setCurrentStep('5');
@@ -146,8 +147,8 @@ function avlTree(animator, setCurrentStep) {
                 setCurrentStep('8');
                 rotateLeft(node);
             }
+            rotated = true;
         } else if (nodeBf < -1) {
-            await sleep(delay);
             const childBf = balanceFactor(node.right);
             if (childBf < 0) {
                 setCurrentStep('11');
@@ -159,8 +160,9 @@ function avlTree(animator, setCurrentStep) {
                 setCurrentStep('14');
                 rotateRight(node);
             }
+            rotated = true;
         }
-        await sleep(delay);
+        if (rotated) await sleep(delay);
         await bgcolor(`#node${node.index}`, Colors.white);
         setCurrentStep('');
         await sleep(delay);

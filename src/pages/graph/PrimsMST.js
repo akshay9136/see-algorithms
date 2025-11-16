@@ -43,6 +43,8 @@ async function start(src) {
     queue = [];
     mst = [];
     await Timer.sleep(delay);
+    $('.vrtx').attr('stroke', Colors.rejected);
+    $('.edge').attr('stroke', Colors.rejected);
     $('.vrtx').eq(src).attr('stroke', Colors.visited);
     $('.vrtx').eq(src).attr('fill', Colors.visited);
     await Timer.sleep(delay);

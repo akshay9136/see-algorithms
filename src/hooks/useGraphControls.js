@@ -77,8 +77,10 @@ function useGraphControls(config, props) {
   const refresh = () => {
     props.onClear?.();
     clearGraph();
-    do Graph.initialize(randomGraph(6));
-    while (Graph.hasCycle());
+    Graph.initialize(randomGraph(6));
+    while (Graph.hasCycle()) {
+      Graph.initialize(randomGraph(6));
+    }
     createGraph(Graph.skeleton(), weighted);
     drawGraph(config);
     if (directed) switchGraph();
