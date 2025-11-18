@@ -78,7 +78,7 @@ async function start(src) {
     prev = [];
     $('.vrtx').attr('stroke', Colors.rejected);
     $('.edge').attr('stroke', Colors.rejected);
-    await Timer.sleep(delay);sound('pop');
+    await Timer.sleep(delay);
     sound('pop');
     $('.vrtx').eq(src).attr('stroke', Colors.visited);
     $('.vrtx').eq(src).attr('fill', Colors.visited);
@@ -103,7 +103,6 @@ async function dijkstra(i) {
 
             sleep(delay).then(() => {
                 cells[j + n].style.opacity = 0;
-                sound('pop');
             });
             sleep(1500).then(() => {
                 cells[j + n].textContent = d[j];

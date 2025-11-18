@@ -42,13 +42,13 @@ function RadixSort() {
     a = out.reverse();
     setNextExp(0);
     await sleep(delay);
-    setNumbers(a.slice());
     for (let i = 0; i < n; i++) {
       tx(`#box${i}`, i * 60, 0);
     }
+    setNumbers(a.slice());
+    await sleep(delay);
     exp *= 10;
     if (Math.floor(max / exp) > 0) {
-      await sleep(delay);
       setNextExp(exp);
       await radixSort();
     }

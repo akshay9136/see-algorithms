@@ -39,8 +39,8 @@ function Layout({ children }) {
         <Box className="d-none d-md-block" width="max-content" minWidth={250}>
           <Sider selected={algoId} />
         </Box>
-        <Stack overflow="auto">
-          <Box className="content" flex={1} ref={scrollRef}>
+        <Stack overflow="auto" ref={scrollRef}>
+          <Box className="content" flex={1}>
             {algoId && (
               <Typography variant="h6" component="h1" fontWeight={600} mb={2}>
                 {algoName}

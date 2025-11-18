@@ -89,9 +89,9 @@ const Graph = {
 
     indegree() {
         let np = points.length;
-        let ind = new Array(np).fill(0);
-        segments.forEach(([, j]) => ind[j]++);
-        return ind;
+        let indeg = new Array(np).fill(0);
+        segments.forEach(([, j]) => indeg[j]++);
+        return indeg;
     },
 
     hasCycle() {

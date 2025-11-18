@@ -59,6 +59,7 @@ async function explore(i) {
     w[i].forEach((val, j) => {
         queue[n * i + j] = val;
     });
+    let flag = 0.5;
     for (let k = 0; k < n; k++) {
         if (mst.includes(k)) continue;
         if (hasValue(w[i][k])) {
@@ -66,9 +67,10 @@ async function explore(i) {
             Path('.edge').eq(ei).attr('stroke', Colors.enqueue);
             $('.vrtx').eq(k).attr('stroke', Colors.enqueue);
             $('.vrtx').eq(k).attr('fill', Colors.enqueue);
+            flag = 1;
         }
     }
-    await Timer.sleep(delay);
+    await Timer.sleep(delay * flag);
     await dequeue();
 }
 

@@ -67,19 +67,21 @@ function indegree():
     );
 }
 
-var ind, stack;
+var indeg, stack;
 var delay = 800;
 
-function start() {
-    ind = Graph.indegree();
+async function start() {
+    indeg = Graph.indegree();
+    $('.vrtx').attr('stroke', Colors.rejected);
+    $('.edge').attr('stroke', Colors.rejected);
     stack = [];
-    for (let i = 0; i < ind.length; i++) {
-        if (ind[i] === 0) {
+    for (let i = 0; i < indeg.length; i++) {
+        if (indeg[i] === 0) {
             $('.vrtx').eq(i).attr('stroke', Colors.visited);
             stack.push(i);
         }
     }
-    return Timer.sleep(delay).then(topsort);
+    await Timer.sleep(delay).then(topsort);
 }
 
 async function topsort() {
@@ -88,22 +90,25 @@ async function topsort() {
         $('.vrtx').eq(i).attr('fill', Colors.visited);
         sound('pop');
         await Timer.sleep(delay);
-        for (let j = 0; j < Graph.totalPoints(); j++) {
+        for (let j = 0; j < indeg.length; j++) {
             const ei = Graph.edgeIndex(i, j);
-            if (hasValue(ei) && ind[j] > 0) {
-                --ind[j];
+            if (hasValue(ei) && indeg[j] > 0) {
+                --indeg[j];
                 Path('.edge').eq(ei).attr('stroke', Colors.visited);
-                if (ind[j] === 0) {
+                await Timer.sleep(delay / 2);
+                if (indeg[j] === 0) {
                     $('.vrtx').eq(j).attr('stroke', Colors.visited);
                     stack.push(j);
                 }
                 sound('swap');
                 const [p, q] = [i, j].map(Graph.point);
                 const d = Point.distance(p, q);
-                await extract(i, j, d - 25);
+                const r = fromDistance(q, p, d - 25);
+                await extract(p, r, ei);
+                await Timer.sleep(delay / 2);
             }
         }
-        await Timer.sleep(delay).then(() => fall(i));
+        await drop(i);
         await Timer.sleep(delay).then(topsort);
     } else {
         const graph = Graph.skeleton();
@@ -113,27 +118,27 @@ async function topsort() {
     }
 }
 
-function extract(i, j, d) {
-    const [p, q] = [i, j].map(Graph.point);
-    const edge = Path('.edge').eq(Graph.edgeIndex(i, j));
-    if (d > 0) {
-        const r = fromDistance(q, p, d);
+function extract(p, q, ei) {
+    const edge = Path('.edge').eq(ei);
+    const d = Point.distance(p, q);
+    if (d - 25 > 0) {
+        const r = fromDistance(q, p, d - 6);
         edge.attr('x2', r.x);
         edge.attr('y2', r.y);
         edge.attr('cx', (p.x + r.x) / 2);
         edge.attr('cy', (p.y + r.y) / 2);
-        return Timer.sleep(20).then(() => extract(i, j, d - 6));
+        return Timer.sleep(20).then(() => extract(p, r, ei));
     }
     edge.removeAttr('stroke');
     edge.removeAttr('marker-end');
 }
 
-function fall(i) {
+function drop(i) {
     const cy = Number($('.vrtx').eq(i).attr('cy'));
     if (cy < $('#plane').height() + 20) {
-        $('.vrtx').eq(i).attr('cy', cy + 6);
-        $('.vlbl').eq(i).attr('y', cy + 11);
-        return Timer.sleep(20).then(() => fall(i));
+        $('.vrtx').eq(i).attr('cy', cy + 5);
+        $('.vlbl').eq(i).attr('y', cy + 10);
+        return Timer.sleep(20).then(() => drop(i));
     }
     appendCell('#sorted', charAt(65 + i));
 }

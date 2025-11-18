@@ -159,6 +159,7 @@ function spanEdge(i, j) {
     const d = edge[0].getTotalLength();
     const t = d / 40;
     const seg = Graph.segments()[ei];
+
     function span(dash) {
         if (dash < d) {
             edge.attr('stroke-dasharray', `${dash} ${d - dash}`);
