@@ -48,17 +48,22 @@ function InputNumbers(props) {
     return true;
   };
 
-  const handleSubmit = () => {
+  const handleStart = () => {
     if (!status) {
       if (validate()) {
-        setTimeout(() => setStatus(true), 100);
         props.onStart(values);
+        setTimeout(() => setStatus(true), 100);
       }
     } else {
       props.onStop();
       setTimeout(() => setStatus(false), 100);
-      setValues([]);
     }
+  };
+
+  const handleReset = () => {
+    props.onReset();
+    setTimeout(() => setStatus(false), 100);
+    setValues([]);
   };
 
   return (
@@ -93,11 +98,24 @@ function InputNumbers(props) {
         </Box>
       )}
       {values.length > 0 && (
-        <Button variant="contained" onClick={handleSubmit}>
-          {!status
-            ? props.startBtnText || 'Start'
-            : props.stopBtnText || 'Stop'}
-        </Button>
+        <Box display="flex" gap={1}>
+          <Button
+            variant="contained"
+            onClick={handleStart}
+            sx={{ padding: '4px 12px' }}
+          >
+            {!status
+              ? props.startBtnText || 'Start'
+              : props.stopBtnText || 'Stop'}
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={handleReset}
+            sx={{ padding: '4px 12px' }}
+          >
+            Reset
+          </Button>
+        </Box>
       )}
     </Box>
   );

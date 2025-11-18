@@ -5,11 +5,10 @@ import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import { sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
-import Timer from '@/common/timer';
+import { Iterator } from '@/common/timer';
 
-const sleep = (t) => Timer.sleep(t);
-
-var arr, delay = 800;
+var arr, it;
+var delay = 800;
 
 export default function InsertionSort() {
     const [numbers, setNumbers] = useState([]);
@@ -24,17 +23,16 @@ for i = 1 to (n - 1):
     arr[j + 1] = key
 `);
 
-    const sortNumbers = async () => {
-        await sleep(delay);
+    async function* insertionSort() {
+        yield delay;
         bgcolor(`#box${0}`, Colors.sorted);
+        yield delay;
         for (let i = 1; i < arr.length; i++) {
-            await sleep(delay);
             setCurrentStep('1,2');
             sound('pop');
             await ty(`#box${i}`, -50);
             setCurrentStep('3');
-            await sleep(delay);
-
+            yield delay;
             let num = arr[i];
             let j = i - 1;
             while (j >= 0 && arr[j] > num) {
@@ -42,6 +40,7 @@ for i = 1 to (n - 1):
                 setCurrentStep('3,4,5');
                 sound('swap');
                 await tx(`#box${j}`, 60);
+                yield 0;
                 j--;
             }
             sound('swap');
@@ -49,11 +48,13 @@ for i = 1 to (n - 1):
                 arr[j + 1] = num;
                 let k = i - (j + 1);
                 await tx(`#box${i}`, -k * 60, k * 0.2);
+                yield 0;
             }
             setCurrentStep('6');
             await ty(`#box${i}`, 0);
             await bgcolor(`#box${i}`, Colors.sorted);
             setNumbers(arr.slice());
+            yield delay;
         }
         setCurrentStep('');
     };
@@ -63,16 +64,18 @@ for i = 1 to (n - 1):
     }, [numbers]);
 
     const handleStart = (values) => {
+        if (arr) return it.start();
         setNumbers(values);
         arr = values.slice();
-        sortNumbers().catch(handleStop);
+        it = Iterator(insertionSort);
+        it.start();
     };
 
     const handleStop = () => {
         setNumbers([]);
         setCurrentStep('');
-        Timer.clear();
         arr = undefined;
+        it?.stop();
     };
 
     useEffect(() => handleStop, []);
@@ -91,7 +94,11 @@ for i = 1 to (n - 1):
             <Box display="flex" gap={3} flexWrap="wrap">
                 {algorithm}
                 <Stack spacing={3}>
-                    <InputNumbers onStart={handleStart} onStop={handleStop} />
+                    <InputNumbers
+                        onStart={handleStart}
+                        onReset={handleStop}
+                        onStop={() => it?.stop()}
+                    />
                     <Box className="sorting d-flex" pt={8} ref={scope}>
                         {numbers.map((num, i) => (
                             <Numbox key={i} index={i} value={num} />

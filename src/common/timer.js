@@ -1,3 +1,5 @@
+import { sleep } from './utils';
+
 function createTimer() {
   let target = 0;
   let remaining = 0;
@@ -54,7 +56,7 @@ function createTimer() {
 
     sleep(ms) {
       return new Promise((resolve) => {
-        this.timeout(resolve, ms)
+        this.timeout(resolve, ms);
       });
     },
   };
@@ -63,3 +65,34 @@ function createTimer() {
 const Timer = createTimer();
 
 export default Timer;
+
+export function Iterator(generatorFn) {
+  let _iterator = generatorFn();
+  let running = false;
+
+  function loop() {
+    if (!running) return;
+    _iterator.next().then(({ value, done }) => {
+        if (done) {
+          running = false;
+        } else if (running) {
+          sleep(value).then(loop);
+        }
+      })
+      .catch(() => {
+        console.log('Iterator error');
+        running = false;
+      });
+  }
+
+  return {
+    start() {
+      running = true;
+      loop();
+    },
+
+    stop() {
+      running = false;
+    },
+  };
+}

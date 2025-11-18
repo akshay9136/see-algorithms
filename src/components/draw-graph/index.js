@@ -119,7 +119,7 @@ function DrawGraph(props) {
 
           <Button
             variant="contained"
-            startIcon={playStatus > 0 ? <Pause /> : <PlayArrow />}
+            startIcon={playStatus === 1 ? <Pause /> : <PlayArrow />}
             onClick={handlePlay}
             disabled={Boolean(props.isDAG && playStatus)}
             color="primary"

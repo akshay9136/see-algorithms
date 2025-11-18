@@ -38,14 +38,14 @@ function useGraphControls(config, props) {
           $('#plane').off();
           setContext({ playStatus: 1 });
           await props.onStart(source.charCodeAt(0) - 65);
-          setContext({ playStatus: -2 });
+          setContext({ playStatus: 2 });
         }
         break;
-      case -1:
-        setContext({ playStatus: 1 });
-        Timer.resume();
+      case 1:
+        Timer.pause();
+        setContext({ playStatus: -1 });
         break;
-      case -2:
+      case 2:
         props.onClear?.();
         $('.vrtx').attr('stroke', Colors.stroke);
         $('.vrtx').attr('fill', Colors.vertex);
@@ -53,11 +53,11 @@ function useGraphControls(config, props) {
         setContext({ playStatus: 1 });
         await Timer.sleep(1000);
         await props.onStart(source.charCodeAt(0) - 65);
-        setContext({ playStatus: -2 });
+        setContext({ playStatus: 2 });
         break;
       default:
-        setContext({ playStatus: -1 });
-        Timer.pause();
+        Timer.resume();
+        setContext({ playStatus: 1 });
     }
   };
 
