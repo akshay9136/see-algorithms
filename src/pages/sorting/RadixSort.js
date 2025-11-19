@@ -19,8 +19,8 @@ function RadixSort() {
     const j = Math.floor(arr[i] / exp) % 10;
     b[j].push(i);
     animate(`#box${i}`, { height: 30 });
-    sound('swap');
     const dy = b[j].length * 36;
+    sound('swap');
     await txy(`#box${i}`, j * 60, 240 - dy);
   };
 
@@ -28,9 +28,9 @@ function RadixSort() {
     while (b[j].length) {
       const i = b[j].pop();
       out.push(arr[i]);
-      sound('swap');
       const k = n - out.length;
       animate(`#box${i}`, { height: 40 });
+      sound('swap');
       await txy(`#box${i}`, k * 60, 0);
       await sleep(delay);
     }

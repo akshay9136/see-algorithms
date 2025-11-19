@@ -5,11 +5,10 @@ import useAlgorithm from '@/hooks/useAlgorithm';
 import { InputNumbers, Numbox } from '@/components/numbers';
 import { sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
-import Timer from '@/common/timer';
+import { Iterator } from '@/common/timer';
 
-const sleep = (t) => Timer.sleep(t);
-
-var arr, delay = 500;
+var arr, it;
+var delay = 500;
 
 export default function MergeSort() {
     const [numbers, setNumbers] = useState([]);
@@ -50,7 +49,7 @@ function merge(start, mid, end):
         return p <= mid ? p : q;
     };
 
-    const merge = async (start, mid, end, ypos) => {
+    async function* merge(start, mid, end, ypos) {
         let p = start, q = mid + 1;
         let r = start, temp = [];
         while (r <= end) {
@@ -59,11 +58,12 @@ function merge(start, mid, end):
             sound('swap');
             await txy(`#box${s}`, 60 * (r - s), ypos - 60);
             await bgcolor(`#box${s}`, Colors.sorted);
+            yield 0;
             s === q ? q++ : p++;
             r++;
         }
         for (let i = 0; i < temp.length; i++) {
-            arr[start + i] = temp[i]
+            arr[start + i] = temp[i];
         }
         setNumbers(arr.slice());
     };
@@ -73,40 +73,38 @@ function merge(start, mid, end):
         for (let i = start; i <= end; i++) {
             promises.push(ty(`#box${i}`, ypos));
         }
+        sound('pop');
         return Promise.all(promises);
     };
 
-    const mergeSort = async (start, end, ypos) => {
+    async function* mergeSort(start, end, ypos) {
         if (start === end) return;
+        yield delay;
         const mid = Math.floor((start + end) / 2);
-        await sleep(delay);
-        sound('pop');
         await split(start, mid, ypos);
-        await mergeSort(start, mid, ypos + 60);
-        await sleep(delay);
-        sound('pop');
+        yield* mergeSort(start, mid, ypos + 60);
+        yield delay;
         await split(mid + 1, end, ypos);
-        await mergeSort(mid + 1, end, ypos + 60);
-        await sleep(delay);
-        await merge(start, mid, end, ypos);
-        await sleep(delay);
-    };
+        yield* mergeSort(mid + 1, end, ypos + 60);
+        yield delay;
+        yield* merge(start, mid, end, ypos);
+    }
 
     useEffect(() => {
         numbers.forEach((_, i) => tx(`#box${i}`, 0, 0));
     }, [numbers]);
 
     const handleStart = (values) => {
+        if (arr) return it.start();
         setNumbers(values);
         arr = values.slice();
-        sleep(delay)
-            .then(() => mergeSort(0, arr.length - 1, 60))
-            .catch(() => handleStop());
+        it = Iterator(mergeSort, 0, arr.length - 1, 60);
+        it.start();
     };
 
     const handleStop = () => {
-        Timer.clear();
         setNumbers([]);
+        it?.stop();
         arr = undefined;
     };
 
@@ -126,7 +124,11 @@ function merge(start, mid, end):
                 {mergeAlgo}
                 <Stack spacing={3}>
                     {algorithm}
-                    <InputNumbers onStart={handleStart} onStop={handleStop} />
+                    <InputNumbers
+                        onStart={handleStart}
+                        onReset={handleStop}
+                        onStop={() => it?.stop()}
+                    />
                     <Box className="d-flex mergeSort" pt={4} ref={scope}>
                         {numbers.map((num, i) => (
                             <Numbox key={i} index={i} value={num} />

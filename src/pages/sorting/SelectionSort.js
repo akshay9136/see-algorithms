@@ -24,9 +24,9 @@ for i = 0 to (n - 1):
 `);
 
     async function* selectionSort() {
-        yield 1000;
         let n = arr.length;
         for (let i = 0; i < n - 1; i++) {
+            yield 1000;
             setCurrentStep('1');
             sound('pop');
             await ty(`#box${i}`, -50);
@@ -59,7 +59,6 @@ for i = 0 to (n - 1):
                 await ty(`#box${k}`, 0);
             }
             bgcolor(`#box${i}`, Colors.sorted);
-            yield 1000;
         }
         setCurrentStep('');
         bgcolor(`#box${n - 1}`, Colors.sorted);

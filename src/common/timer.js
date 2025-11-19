@@ -66,8 +66,8 @@ const Timer = createTimer();
 
 export default Timer;
 
-export function Iterator(generatorFn) {
-  let _iterator = generatorFn();
+export function Iterator(genFn, ...args) {
+  let _iterator = genFn(...args);
   let running = false;
 
   function loop() {
