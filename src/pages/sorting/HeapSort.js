@@ -6,13 +6,11 @@ import useAlgorithm from '@/hooks/useAlgorithm';
 import binaryTree from '@/common/binaryTree';
 import { sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
-import Timer from '@/common/timer';
+import { Iterator } from '@/common/timer';
 import Link from 'next/link';
 
-const sleep = (t) => Timer.sleep(t);
-
 var arr, Tree;
-var delay = 500;
+var it, delay = 1000;
 
 export default function HeapSort() {
     const [numbers, setNumbers] = useState([]);
@@ -41,22 +39,23 @@ function heapify(i):
         heapify(largest)
 `);
 
-    const heapSort = async () => {
-        sound('swap');
+    async function* heapSort() {
+        yield 1500;
         const n = arr.length;
+        sound('swap');
         Tree.insert(arr[0]);
         for (let i = 1; i < n; i++) {
             const j = Math.floor((i + 1) / 2) - 1;
             const parent = Tree.node(j);
             Tree.insert(arr[i], parent, i % 2 === 1);
         }
-        await sleep(1500);
+        yield 1500;
         setCurrentStep('0,1');
         const k = Math.floor(n / 2) - 1;
         for (let i = k; i >= 0; i--) {
-            await heapify(Tree.node(i), n);
+            yield* heapify(Tree.node(i), n);
         }
-        await sleep(delay);
+        yield delay;
         for (let i = n - 1; i > 0; i--) {
             const first = Tree.node(0);
             const last = Tree.node(i);
@@ -66,60 +65,64 @@ function heapify(i):
                 await Tree.swapNodes(first, last);
             }
             await bgcolor(`#node${last.index}`, Colors.sorted);
-            await sleep(1000);
+            yield delay;
             setCurrentStep('2,4');
-            await heapify(Tree.node(0), i);
-            await sleep(delay);
+            yield* heapify(Tree.node(0), i);
         }
         setCurrentStep('');
         const head = Tree.node(0);
         await bgcolor(`#node${head.index}`, Colors.sorted);
-        await sleep(1000);
+        yield delay;
         for (let i = 0; i < n; i++) {
             txy(`#node${Tree.node(i).index}`, i * 50, 0);
             if (i < n - 1) {
                 animate(`#edge${i}`, { width: 0 }, 0);
             }
         }
+    }
+
+    const getLargest = (node, n) => {
+      const { left, right } = node;
+      if (left && left.key < n) {
+          if (left.value > node.value) node = left;
+      }
+      if (right && right.key < n) {
+          if (right.value > node.value) node = right;
+      }
+      return node;
     };
 
-    const heapify = async (node, n) => {
-        const { left, right, index } = node;
-        let max = node;
-        if (left && left.key < n) {
-            if (left.value > max.value) max = left;
-        }
-        if (right && right.key < n) {
-            if (right.value > max.value) max = right;
-        }
+    async function* heapify(node, n) {
+        const index = node.index;
         await bgcolor(`#node${index}`, Colors.compare);
+        yield delay / 2;
+        const max = getLargest(node, n);
         if (max !== node) {
             await bgcolor(`#node${max.index}`, Colors.compare);
             sound('swap');
             await Tree.swapNodes(node, max);
             await bgcolor(`#node${node.index}`, Colors.white);
-            await heapify(max, n);
+            yield* heapify(max, n);
         } else {
-            await sleep(delay);
             await bgcolor(`#node${index}`, Colors.white);
         }
-    };
+    }
 
     const handleStart = (values) => {
+        if (arr) return it.start();
         setNumbers(values);
         arr = values.slice();
         sound('pop');
         Tree = binaryTree(animator);
-        sleep(1500)
-            .then(heapSort)
-            .catch(() => setCurrentStep(''));
+        it = Iterator(heapSort);
+        it.start();
     };
 
     const handleStop = () => {
         setNumbers([]);
         setCurrentStep('');
-        Timer.clear();
-        Tree = undefined;
+        it?.stop();
+        arr = undefined;
     };
 
     useEffect(() => handleStop, []);
@@ -142,7 +145,11 @@ function heapify(i):
                 {heapifyAlgo}
                 <Stack spacing={3}>
                     {algorithm}
-                    <InputNumbers onStart={handleStart} onStop={handleStop} />
+                    <InputNumbers
+                        onStart={handleStart}
+                        onReset={handleStop}
+                        onStop={() => it?.stop()}
+                    />
                     <Box
                         className="heapSort"
                         id="binaryTree"
