@@ -74,8 +74,8 @@ for i = 1 to (n - 1):
     const handleStop = () => {
         setNumbers([]);
         setCurrentStep('');
-        arr = undefined;
         it?.stop();
+        arr = undefined;
     };
 
     useEffect(() => handleStop, []);
