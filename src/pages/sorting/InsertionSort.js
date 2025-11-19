@@ -68,13 +68,13 @@ for i = 1 to (n - 1):
         setNumbers(values);
         arr = values.slice();
         it = Iterator(insertionSort);
-        it.start();
+        return it.start();
     };
 
     const handleStop = () => {
         setNumbers([]);
         setCurrentStep('');
-        it?.stop();
+        it?.end();
         arr = undefined;
     };
 

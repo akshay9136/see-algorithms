@@ -117,7 +117,7 @@ export default function HuffmanCoding() {
                     max={8}
                     label="Frequency: "
                     onStart={handleStart}
-                    onStop={handleStop}
+                    onReset={handleStop}
                     onSelect={(n) => {
                         const arr = Array.from(Array(n));
                         setCharacters(arr.map((_, i) => toChar(i)));

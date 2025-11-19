@@ -99,12 +99,12 @@ function merge(start, mid, end):
         setNumbers(values);
         arr = values.slice();
         it = Iterator(mergeSort, 0, arr.length - 1, 60);
-        it.start();
+        return it.start();
     };
 
     const handleStop = () => {
         setNumbers([]);
-        it?.stop();
+        it?.end();
         arr = undefined;
     };
 

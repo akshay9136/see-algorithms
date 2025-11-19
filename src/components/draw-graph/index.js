@@ -110,10 +110,10 @@ function DrawGraph(props) {
               label="Source"
               variant="outlined"
               size="small"
-              sx={{ maxWidth: '80px' }}
               InputProps={{
-                style: { fontSize: '0.9rem' },
+                sx: { fontSize: '0.9rem' },
               }}
+              sx={{ maxWidth: '75px' }}
             />
           )}
 
@@ -122,12 +122,10 @@ function DrawGraph(props) {
             startIcon={playStatus === 1 ? <Pause /> : <PlayArrow />}
             onClick={handlePlay}
             disabled={Boolean(props.isDAG && playStatus)}
-            color="primary"
             aria-live="polite"
             sx={{
               minWidth: '80px',
-              textTransform: 'none',
-              fontWeight: 500,
+              padding: '4px 12px',
             }}
           >
             PLAY
@@ -136,11 +134,9 @@ function DrawGraph(props) {
           <Button
             variant="outlined"
             onClick={handleClear}
-            color="primary"
             sx={{
               minWidth: '70px',
-              textTransform: 'none',
-              fontWeight: 500,
+              padding: '4px 12px',
             }}
           >
             CLEAR

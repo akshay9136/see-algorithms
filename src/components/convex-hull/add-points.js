@@ -57,12 +57,16 @@ function AddPoints(props) {
           variant="contained"
           startIcon={playStatus === 1 ? <Pause /> : <PlayArrow />}
           onClick={handlePlay}
-          sx={{ mr: 1.5 }}
+          sx={{ mr: 1.5, p: '4px 12px' }}
           aria-live="polite"
         >
           PLAY
         </Button>
-        <Button variant="contained" onClick={handleReset}>
+        <Button
+          variant="outlined"
+          onClick={handleReset}
+          sx={{ p: '4px 12px' }}
+        >
           RESET
         </Button>
       </Box>

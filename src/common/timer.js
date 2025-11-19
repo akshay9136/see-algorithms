@@ -66,15 +66,19 @@ const Timer = createTimer();
 
 export default Timer;
 
-export function Iterator(genFn, ...args) {
-  let _iterator = genFn(...args);
+export function Iterator(generator, ...args) {
+  let _iterator = generator(...args);
   let running = false;
+  let onEnd;
 
   function loop() {
     if (!running) return;
-    _iterator.next().then(({ value, done }) => {
+
+    _iterator.next()
+      .then(({ value, done }) => {
         if (done) {
           running = false;
+          onEnd();
         } else if (running) {
           sleep(value).then(loop);
         }
@@ -89,10 +93,17 @@ export function Iterator(genFn, ...args) {
     start() {
       running = true;
       loop();
+      return new Promise((resolve) => {
+        onEnd = resolve;
+      });
     },
 
     stop() {
       running = false;
+    },
+
+    end() {
+      _iterator.return();
     },
   };
 }

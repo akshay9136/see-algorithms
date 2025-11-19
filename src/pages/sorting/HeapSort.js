@@ -115,13 +115,13 @@ function heapify(i):
         sound('pop');
         Tree = binaryTree(animator);
         it = Iterator(heapSort);
-        it.start();
+        return it.start();
     };
 
     const handleStop = () => {
         setNumbers([]);
         setCurrentStep('');
-        it?.stop();
+        it?.end();
         arr = undefined;
     };
 

@@ -106,13 +106,13 @@ function partition(start, end):
         setNumbers(values);
         arr = values.slice();
         it = Iterator(quickSort, 0, arr.length - 1);
-        it.start();
+        return it.start();
     };
 
     const handleStop = () => {
         setNumbers([]);
         setCurrentStep('');
-        it?.stop();
+        it?.end();
         arr = undefined;
     };
 

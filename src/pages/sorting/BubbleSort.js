@@ -60,6 +60,7 @@ for i = 1 to (n - 1):
             bgcolor(`#box${k}`, Colors.sorted);
             if (!swap) {
                 setCurrentStep('6');
+                yield delay;
                 for (let j = 0; j < n - i; j++) {
                     bgcolor(`#box${j}`, Colors.sorted);
                 }
@@ -75,13 +76,13 @@ for i = 1 to (n - 1):
         setNumbers(values);
         arr = values.slice();
         it = Iterator(bubbleSort);
-        it.start();
+        return it.start();
     };
 
     const handleStop = () => {
         setNumbers([]);
         setCurrentStep('');
-        it?.stop();
+        it?.end();
         arr = undefined;
     };
 

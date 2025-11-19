@@ -65,7 +65,7 @@ function RadixSort() {
   }
 
   const handleStart = (values) => {
-    if (arr?.length) return it.start();
+    if (arr) return it.start();
     setNumbers(values);
     sound('pop');
     arr = values.slice();
@@ -73,13 +73,13 @@ function RadixSort() {
     max = Math.max(...arr);
     exp = 1;
     it = Iterator(radixSort);
-    it.start();
+    return it.start();
   };
 
   const handleStop = () => {
     setNumbers([]);
     setNextExp(0);
-    it?.stop();
+    it?.end();
     arr = undefined;
   };
 
