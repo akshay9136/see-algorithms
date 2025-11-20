@@ -102,7 +102,7 @@ export function Iterator(generator, ...args) {
       running = false;
     },
 
-    end() {
+    exit() {
       _iterator.return();
     },
   };

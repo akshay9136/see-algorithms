@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { Edge, InputNumbers, Node } from '@/components/numbers';
 import styles from '@/components/numbers/numbers.module.css';
@@ -16,6 +16,7 @@ export default function HuffmanCoding() {
     const [characters, setCharacters] = useState([]);
     const [charcodes, setCharcodes] = useState({});
     const [resetKey, setResetKey] = useState(Date.now());
+    const numbersRef = useRef(null);
     const [scope, animator] = useAnimator();
     const { bgcolor } = animator;
     const toChar = (i) => charAt(65 + i);
@@ -68,18 +69,19 @@ export default function HuffmanCoding() {
         }
     };
 
-    const handleStart = async (values) => {
-        if (Tree) {
+    const handleStart = async () => {
+        const { values, validate } = numbersRef.current;
+        if (!validate()) return;
+        else if (Tree) {
             setNumbers([]);
+            setCharcodes({});
             await sleep(delay);
         }
         queue = values.map((value, i) => {
             return { value, char: characters[i] };
         });
         codes = {};
-        sleep(delay)
-            .then(huffmanCoding)
-            .catch(() => {});
+        huffmanCoding().catch(() => {});
     };
 
     const handleStop = () => {
@@ -120,6 +122,7 @@ export default function HuffmanCoding() {
                 )}
                 <InputNumbers
                     key={resetKey}
+                    ref={numbersRef}
                     min={5}
                     max={8}
                     label="Frequency: "
@@ -128,11 +131,11 @@ export default function HuffmanCoding() {
                         setCharacters(arr.map((_, i) => toChar(i)));
                         sound('pop');
                     }}
-                    buttons={(values) => (
+                    buttons={
                         <Box display="flex" gap={1}>
                             <Button
                                 variant="contained"
-                                onClick={() => handleStart(values)}
+                                onClick={handleStart}
                                 sx={{ padding: '4px 12px' }}
                             >
                                 Encode
@@ -145,7 +148,7 @@ export default function HuffmanCoding() {
                                 Reset
                             </Button>
                         </Box>
-                    )}
+                    }
                 />
             </Stack>
             <Box

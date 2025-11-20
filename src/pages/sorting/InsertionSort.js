@@ -74,7 +74,7 @@ for i = 1 to (n - 1):
     const handleStop = () => {
         setNumbers([]);
         setCurrentStep('');
-        it?.end();
+        it?.exit();
         arr = undefined;
     };
 

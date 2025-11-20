@@ -121,7 +121,7 @@ function heapify(i):
     const handleStop = () => {
         setNumbers([]);
         setCurrentStep('');
-        it?.end();
+        it?.exit();
         arr = undefined;
     };
 

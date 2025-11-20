@@ -79,7 +79,7 @@ function RadixSort() {
   const handleStop = () => {
     setNumbers([]);
     setNextExp(0);
-    it?.end();
+    it?.exit();
     arr = undefined;
   };
 

@@ -104,7 +104,7 @@ function merge(start, mid, end):
 
     const handleStop = () => {
         setNumbers([]);
-        it?.end();
+        it?.exit();
         arr = undefined;
     };
 

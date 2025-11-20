@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { forwardRef, useImperativeHandle, useState } from 'react';
 import {
   Select,
   Input,
@@ -12,8 +12,8 @@ import { randomInt, sleep } from '@/common/utils';
 import { showToast } from '../toast';
 import { Pause, PlayArrow } from '@mui/icons-material';
 
-function InputNumbers(props) {
-  const [values, setValues] = useState([]);
+const InputNumbers = forwardRef((props, ref) => {
+  const [numbers, setNumbers] = useState([]);
   const [status, setStatus] = useState(0);
   const { min = 7, max = 12 } = props;
 
@@ -23,21 +23,21 @@ function InputNumbers(props) {
     for (let i = 0; i < size; i++) {
       values.push(randomInt());
     }
-    setValues(values);
+    setNumbers(values);
     props.onSelect?.(size);
   };
 
   const handleInput = (e, i) => {
-    let val = e.target.value.trim().slice(0, 3);
-    if (!isNaN(val)) {
-      values[i] = parseInt(val) || '';
-      setValues([...values]);
+    const value = e.target.value.trim().slice(0, 3);
+    if (!isNaN(value)) {
+      numbers[i] = parseInt(value) || '';
+      setNumbers([...numbers]);
     }
   };
 
   const validate = () => {
-    for (let i = 0; i < values.length; i++) {
-      if (typeof values[i] !== 'number') {
+    for (let i = 0; i < numbers.length; i++) {
+      if (typeof numbers[i] !== 'number') {
         showToast({
           message: 'Please enter valid numbers.',
           variant: 'error',
@@ -50,7 +50,7 @@ function InputNumbers(props) {
 
   const startToEnd = async () => {
     setStatus(1);
-    await props.onStart(values);
+    await props.onStart(numbers);
     setStatus(2);
   };
 
@@ -76,18 +76,23 @@ function InputNumbers(props) {
   const handleReset = () => {
     props.onReset();
     setStatus(0);
-    setValues([]);
+    setNumbers([]);
   };
+
+  useImperativeHandle(ref, () => ({
+    values: numbers,
+    validate,
+  }));
 
   return (
     <Box className={styles.inputNumbers}>
       <Typography variant="subtitle1" fontWeight={600} width="max-content">
-        {!values.length
+        {!numbers.length
           ? 'Select number of elements: '
           : props.label || 'Enter numbers: '}
         &nbsp;
       </Typography>
-      {!values.length ? (
+      {!numbers.length ? (
         <Select onChange={handleSelect} className={styles.select} size="small">
           <MenuItem></MenuItem>
           {Array.from(Array(max - min + 1))
@@ -100,7 +105,7 @@ function InputNumbers(props) {
         </Select>
       ) : (
         <Box display="flex">
-          {values.map((val, i) => (
+          {numbers.map((val, i) => (
             <Input
               key={i}
               value={val}
@@ -110,8 +115,10 @@ function InputNumbers(props) {
           ))}
         </Box>
       )}
-      {values.length > 0 &&
-        (props.buttons ? props.buttons(values) : (
+      {numbers.length > 0 &&
+        (props.buttons ? (
+          props.buttons
+        ) : (
           <Box display="flex" gap={1}>
             <Button
               variant="contained"
@@ -133,6 +140,6 @@ function InputNumbers(props) {
         ))}
     </Box>
   );
-}
+});
 
 export default InputNumbers;

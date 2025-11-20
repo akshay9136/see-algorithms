@@ -112,7 +112,7 @@ function partition(start, end):
     const handleStop = () => {
         setNumbers([]);
         setCurrentStep('');
-        it?.end();
+        it?.exit();
         arr = undefined;
     };
 
