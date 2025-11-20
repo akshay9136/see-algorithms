@@ -6,7 +6,6 @@ import {
   MenuItem,
   Typography,
   Box,
-  IconButton,
 } from '@mui/material';
 import styles from './numbers.module.css';
 import { randomInt, sleep } from '@/common/utils';
@@ -111,26 +110,27 @@ function InputNumbers(props) {
           ))}
         </Box>
       )}
-      {values.length > 0 && (
-        <Box display="flex" gap={1.5}>
-          <Button
-            variant="contained"
-            startIcon={status === 1 ? <Pause /> : <PlayArrow />}
-            onClick={handleStart}
-            sx={{ padding: '4px 12px' }}
-            aria-live="polite"
-          >
-            {props.startBtnText || 'Play'}
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={handleReset}
-            sx={{ padding: '4px 12px' }}
-          >
-            {props.stopBtnText || 'Reset'}
-          </Button>
-        </Box>
-      )}
+      {values.length > 0 &&
+        (props.buttons ? props.buttons(values) : (
+          <Box display="flex" gap={1}>
+            <Button
+              variant="contained"
+              startIcon={status === 1 ? <Pause /> : <PlayArrow />}
+              onClick={handleStart}
+              sx={{ padding: '4px 12px' }}
+              aria-live="polite"
+            >
+              {props.startBtnText || 'Play'}
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={handleReset}
+              sx={{ padding: '4px 12px' }}
+            >
+              {props.stopBtnText || 'Reset'}
+            </Button>
+          </Box>
+        ))}
     </Box>
   );
 }
