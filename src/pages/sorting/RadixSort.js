@@ -2,15 +2,13 @@ import { useEffect, useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import { InputNumbers, Numbox } from '@/components/numbers';
 import useAnimator from '@/hooks/useAnimator';
-import { sound } from '@/common/utils';
-import Timer from '@/common/timer';
+import { sleep, sound } from '@/common/utils';
+import { Iterator } from '@/common/timer';
 
-const sleep = (t) => Timer.sleep(t);
-
-var a, n;
+var arr, n;
 var max, exp;
 var out, b;
-var delay = 500;
+var it, delay = 500;
 
 function RadixSort() {
   const [numbers, setNumbers] = useState([]);
@@ -18,73 +16,71 @@ function RadixSort() {
   const [nextExp, setNextExp] = useState(0);
 
   const enqueue = async (i) => {
-    let j = Math.floor(a[i] / exp) % 10;
+    const j = Math.floor(arr[i] / exp) % 10;
     b[j].push(i);
-    sound('swap');
     animate(`#box${i}`, { height: 30 });
-    let dy = b[j].length * 36;
+    const dy = b[j].length * 36;
+    sound('swap');
     await txy(`#box${i}`, j * 60, 240 - dy);
-    await sleep(delay * 2);
-  };
-
-  const radixSort = async () => {
-    await sleep(delay * 2);
-    b = [];
-    for (let j = 0; j < 10; j++) b[j] = [];
-    for (let i = 0; i < n; i++) {
-      await enqueue(i);
-    }
-    await sleep(delay);
-    out = [];
-    for (let j = 9; j >= 0; j--) {
-      await dequeue(j);
-    }
-    a = out.reverse();
-    setNextExp(0);
-    await sleep(delay);
-    for (let i = 0; i < n; i++) {
-      tx(`#box${i}`, i * 60, 0);
-    }
-    setNumbers(a.slice());
-    await sleep(delay);
-    exp *= 10;
-    if (Math.floor(max / exp) > 0) {
-      setNextExp(exp);
-      await radixSort();
-    }
   };
 
   const dequeue = async (j) => {
     while (b[j].length) {
-      let i = b[j].pop();
-      out.push(a[i]);
-      sound('swap');
-      let k = n - out.length;
+      const i = b[j].pop();
+      out.push(arr[i]);
+      const k = n - out.length;
       animate(`#box${i}`, { height: 40 });
+      sound('swap');
       await txy(`#box${i}`, k * 60, 0);
       await sleep(delay);
     }
   };
 
-  const handleStart = async (values) => {
+  async function* radixSort() {
+    yield 1000;
+    while (Math.floor(max / exp) > 0) {
+      setNextExp(exp);
+      b = [[], [], [], [], [], [], [], [], [], []];
+      yield 1000;
+      for (let i = 0; i < n; i++) {
+        await enqueue(i);
+        yield delay;
+      }
+      yield delay;
+      out = [];
+      for (let j = 9; j >= 0; j--) {
+        await dequeue(j);
+        yield 0;
+      }
+      exp *= 10;
+      arr = out.reverse();
+      setNextExp(0);
+      yield delay;
+      for (let i = 0; i < n; i++) {
+        tx(`#box${i}`, i * 60, 0);
+      }
+      setNumbers(arr.slice());
+      yield delay;
+    }
+  }
+
+  const handleStart = (values) => {
+    if (arr) return it.start();
     setNumbers(values);
     sound('pop');
-    a = values.slice();
-    n = a.length;
-    max = a[0];
-    for (let i = 1; i < n; i++) {
-      if (a[i] > max) max = a[i];
-    }
+    arr = values.slice();
+    n = arr.length;
+    max = Math.max(...arr);
     exp = 1;
-    await sleep(delay * 2);
-    setNextExp(1);
-    radixSort().catch(handleStop);
+    it = Iterator(radixSort);
+    return it.start();
   };
 
   const handleStop = () => {
     setNumbers([]);
     setNextExp(0);
-    Timer.clear();
+    it?.end();
+    arr = undefined;
   };
 
   useEffect(() => handleStop, []);
@@ -117,10 +113,14 @@ function RadixSort() {
         digit. It starts with the least significant digit (rightmost) and works
         to the most significant digit (leftmost). Numbers are placed into
         buckets based on each digit&apos;s value, then collected back together
-        in order. This process is repeated for each digit, leading to a sorted
+        in order. This process is repeated for each digit, leading to arr sorted
         list.
       </Typography>
-      <InputNumbers onStart={handleStart} onStop={handleStop} />
+      <InputNumbers
+        onStart={handleStart}
+        onReset={handleStop}
+        onStop={() => it?.stop()}
+      />
 
       <Box className="radixSort" pt={2} ref={scope}>
         <Box display="flex">

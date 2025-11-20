@@ -32,13 +32,13 @@ function AddPoints(props) {
         props.start();
         setContext({ playStatus: 1 });
         break;
-      case -1:
-        setContext({ playStatus: 1 });
-        Timer.resume();
+      case 1:
+        Timer.pause();
+        setContext({ playStatus: -1 });
         break;
       default:
-        setContext({ playStatus: -1 });
-        Timer.pause();
+        setContext({ playStatus: 1 });
+        Timer.resume();
     }
   };
 
@@ -55,14 +55,18 @@ function AddPoints(props) {
         </Typography>
         <Button
           variant="contained"
-          startIcon={playStatus > 0 ? <Pause /> : <PlayArrow />}
+          startIcon={playStatus === 1 ? <Pause /> : <PlayArrow />}
           onClick={handlePlay}
-          sx={{ mr: 1.5 }}
+          sx={{ mr: 1.5, p: '4px 12px' }}
           aria-live="polite"
         >
           PLAY
         </Button>
-        <Button variant="contained" onClick={handleReset}>
+        <Button
+          variant="outlined"
+          onClick={handleReset}
+          sx={{ p: '4px 12px' }}
+        >
           RESET
         </Button>
       </Box>

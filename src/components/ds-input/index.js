@@ -35,7 +35,6 @@ const DSInput = forwardRef((props, ref) => {
 
   useImperativeHandle(ref, () => ({
     getValue: () => number,
-    validate,
   }));
 
   return (

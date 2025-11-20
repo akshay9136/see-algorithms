@@ -5,11 +5,10 @@ import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import { sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
-import Timer from '@/common/timer';
+import { Iterator } from '@/common/timer';
 
-const sleep = (t) => Timer.sleep(t);
-
-var arr, delay = 800;
+var arr, it;
+var delay = 800;
 
 export default function QuickSort() {
     const [numbers, setNumbers] = useState([]);
@@ -34,8 +33,6 @@ function partition(start, end):
     if arr[i] > pivot: swap(i, end)
 `);
 
-    if (!numbers.length) arr = [];
-
     const swapNums = async (a, b) => {
         const d = b - a;
         await Promise.all([ty(`#box${a}`, 50), ty(`#box${b}`, -50)]);
@@ -50,19 +47,18 @@ function partition(start, end):
         await Promise.all([tx(`#box${a}`, 0, 0), tx(`#box${b}`, 0, 0)]);
     };
 
-    const divide = async (start, end) => {
+    async function* divide(start, end) {
         setCurrentStep('1');
         bgcolor(`#box${end}`, Colors.sorted);
-        await sleep(delay);
-        let i = start,
-            j = end - 1;
+        yield delay;
+        let i = start, j = end - 1;
         setCurrentStep('2');
         bgcolor(`#box${i}`, Colors.compare);
         bgcolor(`#box${j}`, Colors.compare);
-        await sleep(delay);
+        yield delay;
         while (i < j) {
             setCurrentStep('3');
-            await sleep(delay);
+            yield delay;
             if (arr[i] <= arr[end]) {
                 i++;
                 setCurrentStep('4,5');
@@ -77,47 +73,46 @@ function partition(start, end):
                 setCurrentStep('8');
                 await swapNums(i, j);
             }
-            await sleep(delay);
+            yield delay;
         }
-        setCurrentStep('');
         if (i < end && arr[i] > arr[end]) {
             bgcolor(`#box${i}`, Colors.sorted);
-            await sleep(delay);
+            yield delay;
             setCurrentStep('9');
             await swapNums(i, end);
-            await sleep(delay / 2);
+            yield delay / 2;
             bgcolor(`#box${end}`, Colors.white);
         } else {
             bgcolor(`#box${i}`, Colors.white);
             i = end;
         }
+        setCurrentStep('');
         return i;
-    };
+    }
 
-    const quickSort = async (start, end) => {
+    async function* quickSort(start, end) {
+        yield delay;
         if (start >= end) {
             bgcolor(`#box${start}`, Colors.sorted);
             return;
         }
-        const pivot = await divide(start, end);
-        await sleep(delay);
-        await quickSort(start, pivot - 1);
-        await sleep(delay);
-        await quickSort(pivot + 1, end);
-    };
+        const pivot = yield* divide(start, end);
+        yield* quickSort(start, pivot - 1);
+        yield* quickSort(pivot + 1, end);
+    }
 
     const handleStart = (values) => {
+        if (arr) return it.start();
         setNumbers(values);
         arr = values.slice();
-        sleep(delay)
-            .then(() => quickSort(0, arr.length - 1))
-            .catch(() => handleStop());
+        it = Iterator(quickSort, 0, arr.length - 1);
+        return it.start();
     };
 
     const handleStop = () => {
         setNumbers([]);
         setCurrentStep('');
-        Timer.clear();
+        it?.end();
         arr = undefined;
     };
 
@@ -135,16 +130,20 @@ function partition(start, end):
                 most popular sorting techniques.
             </Typography>
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
-              {partitionAlgo}
-              <Stack spacing={3}>
-                {algorithm}
-                <InputNumbers onStart={handleStart} onStop={handleStop} />
-                <Box className="sorting d-flex" pt={8} ref={scope}>
-                    {numbers.map((num, i) => (
-                        <Numbox key={i} index={i} value={num} />
-                    ))}
-                </Box>
-              </Stack>
+                {partitionAlgo}
+                <Stack spacing={3}>
+                    {algorithm}
+                    <InputNumbers
+                        onStart={handleStart}
+                        onReset={handleStop}
+                        onStop={() => it?.stop()}
+                    />
+                    <Box className="sorting d-flex" pt={8} ref={scope}>
+                        {numbers.map((num, i) => (
+                            <Numbox key={i} index={i} value={num} />
+                        ))}
+                    </Box>
+                </Stack>
             </Box>
         </Stack>
     );

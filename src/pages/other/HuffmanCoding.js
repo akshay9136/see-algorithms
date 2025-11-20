@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { Edge, InputNumbers, Node } from '@/components/numbers';
 import styles from '@/components/numbers/numbers.module.css';
 import useAnimator from '@/hooks/useAnimator';
@@ -15,6 +15,7 @@ export default function HuffmanCoding() {
     const [numbers, setNumbers] = useState([]);
     const [characters, setCharacters] = useState([]);
     const [charcodes, setCharcodes] = useState({});
+    const [resetKey, setResetKey] = useState(Date.now());
     const [scope, animator] = useAnimator();
     const { bgcolor } = animator;
     const toChar = (i) => charAt(65 + i);
@@ -67,7 +68,11 @@ export default function HuffmanCoding() {
         }
     };
 
-    const handleStart = (values) => {
+    const handleStart = async (values) => {
+        if (Tree) {
+            setNumbers([]);
+            await sleep(delay);
+        }
         queue = values.map((value, i) => {
             return { value, char: characters[i] };
         });
@@ -81,6 +86,7 @@ export default function HuffmanCoding() {
         setNumbers([]);
         setCharacters([]);
         setCharcodes({});
+        setResetKey(Date.now());
         Tree = null;
     };
 
@@ -113,18 +119,33 @@ export default function HuffmanCoding() {
                     </Box>
                 )}
                 <InputNumbers
+                    key={resetKey}
                     min={5}
                     max={8}
                     label="Frequency: "
-                    onStart={handleStart}
-                    onStop={handleStop}
                     onSelect={(n) => {
                         const arr = Array.from(Array(n));
                         setCharacters(arr.map((_, i) => toChar(i)));
                         sound('pop');
                     }}
-                    startBtnText="Encode"
-                    stopBtnText="Clear"
+                    buttons={(values) => (
+                        <Box display="flex" gap={1}>
+                            <Button
+                                variant="contained"
+                                onClick={() => handleStart(values)}
+                                sx={{ padding: '4px 12px' }}
+                            >
+                                Encode
+                            </Button>
+                            <Button
+                                variant="outlined"
+                                onClick={handleStop}
+                                sx={{ padding: '4px 12px' }}
+                            >
+                                Reset
+                            </Button>
+                        </Box>
+                    )}
                 />
             </Stack>
             <Box

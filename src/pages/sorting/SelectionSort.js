@@ -5,12 +5,11 @@ import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import { sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
-import Timer from '@/common/timer';
+import { Iterator } from '@/common/timer';
 import Link from 'next/link';
 
-const sleep = (t) => Timer.sleep(t);
-
-var arr, delay = 500;
+var arr, it;
+var delay = 500;
 
 export default function SelectionSort() {
     const [numbers, setNumbers] = useState([]);
@@ -24,33 +23,35 @@ for i = 0 to (n - 1):
     if min != i: swap(i, min)
 `);
 
-    const sortNumbers = async () => {
+    async function* selectionSort() {
         let n = arr.length;
         for (let i = 0; i < n - 1; i++) {
+            yield 1000;
             setCurrentStep('1');
             sound('pop');
             await ty(`#box${i}`, -50);
-            await sleep(delay);
+            yield delay;
             let k = i;
             for (let j = i + 1; j < n; j++) {
                 setCurrentStep('2,3');
                 bgcolor(`#box${j - 1}`, Colors.white);
                 bgcolor(`#box${j}`, Colors.compare);
-                await sleep(delay);
+                yield delay;
                 if (arr[j] < arr[k]) {
                     setCurrentStep('4');
                     ty(`#box${k}`, 0);
                     k = j;
                     sound('pop');
                     await ty(`#box${k}`, -50);
-                    await sleep(delay);
+                    yield delay;
                 }
             }
             bgcolor(`#box${n - 1}`, Colors.white);
-            await sleep(delay);
+            yield delay;
             if (k > i) {
                 setCurrentStep('5');
                 await ty(`#box${i}`, 50);
+                yield 0;
                 sound('swap');
                 await swapNumbers(i, k);
             } else {
@@ -58,11 +59,11 @@ for i = 0 to (n - 1):
                 await ty(`#box${k}`, 0);
             }
             bgcolor(`#box${i}`, Colors.sorted);
-            await sleep(1000);
         }
         setCurrentStep('');
+        yield delay;
         bgcolor(`#box${n - 1}`, Colors.sorted);
-    };
+    }
 
     const swapNumbers = async (i, j) => {
         let k = j - i;
@@ -77,17 +78,17 @@ for i = 0 to (n - 1):
     };
 
     const handleStart = (values) => {
+        if (arr) return it.start();
         setNumbers(values);
         arr = values.slice();
-        sleep(1000).then(() => {
-            sortNumbers().catch(handleStop);
-        });
+        it = Iterator(selectionSort);
+        return it.start();
     };
 
     const handleStop = () => {
         setNumbers([]);
         setCurrentStep('');
-        Timer.clear();
+        it?.end();
         arr = undefined;
     };
 
@@ -108,7 +109,11 @@ for i = 0 to (n - 1):
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
                 {algorithm}
                 <Stack spacing={3}>
-                    <InputNumbers onStart={handleStart} onStop={handleStop} />
+                    <InputNumbers
+                        onStart={handleStart}
+                        onReset={handleStop}
+                        onStop={() => it?.stop()}
+                    />
                     <Box className="sorting d-flex" pt={8} ref={scope}>
                         {numbers.map((num, i) => (
                             <Numbox key={i} index={i} value={num} />

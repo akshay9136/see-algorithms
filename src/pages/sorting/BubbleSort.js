@@ -5,11 +5,10 @@ import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import { sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
-import Timer from '@/common/timer';
+import { Iterator } from '@/common/timer';
 
-const sleep = (t) => Timer.sleep(t);
-
-var arr, delay = 800;
+var arr, it;
+var delay = 800;
 
 export default function BubbleSort() {
     const [numbers, setNumbers] = useState([]);
@@ -37,23 +36,23 @@ for i = 1 to (n - 1):
         if (u > 0) bgcolor(`#box${u - 1}`, Colors.white);
     };
 
-    const bubbleSort = async () => {
+    async function* bubbleSort() {
         let n = arr.length;
         for (let i = 1; i < n; i++) {
-            await sleep(delay);
+            yield delay;
             setCurrentStep('0,1');
-            await sleep(delay);
+            yield delay;
             let swap = false;
             for (let j = 0; j < n - i; j++) {
                 setCurrentStep('2,3');
                 await compare(j, j + 1);
-                await sleep(delay);
+                yield delay;
                 if (arr[j] > arr[j + 1]) {
                     swap = true;
                     setCurrentStep('4,5');
                     sound('swap');
                     await swapNumbers(j, j + 1);
-                    await sleep(delay);
+                    yield delay;
                 }
             }
             let k = n - i;
@@ -61,6 +60,7 @@ for i = 1 to (n - 1):
             bgcolor(`#box${k}`, Colors.sorted);
             if (!swap) {
                 setCurrentStep('6');
+                yield delay;
                 for (let j = 0; j < n - i; j++) {
                     bgcolor(`#box${j}`, Colors.sorted);
                 }
@@ -69,18 +69,20 @@ for i = 1 to (n - 1):
         }
         bgcolor(`#box${0}`, Colors.sorted);
         setCurrentStep('');
-    };
+    }
 
     const handleStart = (values) => {
+        if (arr) return it.start();
         setNumbers(values);
         arr = values.slice();
-        bubbleSort().catch(handleStop);
+        it = Iterator(bubbleSort);
+        return it.start();
     };
 
     const handleStop = () => {
         setNumbers([]);
         setCurrentStep('');
-        Timer.clear();
+        it?.end();
         arr = undefined;
     };
 
@@ -100,7 +102,11 @@ for i = 1 to (n - 1):
             <Box display="flex" gap={3} flexWrap="wrap">
                 {algorithm}
                 <Stack spacing={3}>
-                    <InputNumbers onStart={handleStart} onStop={handleStop} />
+                    <InputNumbers
+                        onStart={handleStart}
+                        onReset={handleStop}
+                        onStop={() => it?.stop()}
+                    />
                     <Box display="flex" pt={4} className="sorting" ref={scope}>
                         {numbers.map((num, i) => (
                             <Numbox key={i} index={i} value={num} />

@@ -8,12 +8,13 @@ import {
   Box,
 } from '@mui/material';
 import styles from './numbers.module.css';
-import { randomInt } from '@/common/utils';
+import { randomInt, sleep } from '@/common/utils';
 import { showToast } from '../toast';
+import { Pause, PlayArrow } from '@mui/icons-material';
 
 function InputNumbers(props) {
   const [values, setValues] = useState([]);
-  const [status, setStatus] = useState(false);
+  const [status, setStatus] = useState(0);
   const { min = 7, max = 12 } = props;
 
   const handleSelect = (e) => {
@@ -41,24 +42,41 @@ function InputNumbers(props) {
           message: 'Please enter valid numbers.',
           variant: 'error',
         });
-        setStatus(false);
         return false;
       }
     }
     return true;
   };
 
-  const handleSubmit = () => {
-    if (!status) {
-      if (validate()) {
-        setTimeout(() => setStatus(true), 100);
-        props.onStart(values);
-      }
-    } else {
-      props.onStop();
-      setTimeout(() => setStatus(false), 100);
-      setValues([]);
+  const startToEnd = async () => {
+    setStatus(1);
+    await props.onStart(values);
+    setStatus(2);
+  };
+
+  const handleStart = async () => {
+    switch (status) {
+      case 0:
+        if (validate()) startToEnd();
+        break;
+      case 1:
+        setStatus(-1);
+        props.onStop();
+        break;
+      case 2:
+        props.onReset();
+        await sleep(500);
+        if (validate()) startToEnd();
+        break;
+      default:
+        startToEnd();
     }
+  };
+
+  const handleReset = () => {
+    props.onReset();
+    setStatus(0);
+    setValues([]);
   };
 
   return (
@@ -92,13 +110,27 @@ function InputNumbers(props) {
           ))}
         </Box>
       )}
-      {values.length > 0 && (
-        <Button variant="contained" onClick={handleSubmit}>
-          {!status
-            ? props.startBtnText || 'Start'
-            : props.stopBtnText || 'Stop'}
-        </Button>
-      )}
+      {values.length > 0 &&
+        (props.buttons ? props.buttons(values) : (
+          <Box display="flex" gap={1}>
+            <Button
+              variant="contained"
+              startIcon={status === 1 ? <Pause /> : <PlayArrow />}
+              onClick={handleStart}
+              sx={{ padding: '4px 12px' }}
+              aria-live="polite"
+            >
+              {props.startBtnText || 'Play'}
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={handleReset}
+              sx={{ padding: '4px 12px' }}
+            >
+              {props.stopBtnText || 'Reset'}
+            </Button>
+          </Box>
+        ))}
     </Box>
   );
 }
