@@ -2,6 +2,7 @@ import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { getAlgorithmSEO } from './config';
 import { algorithms } from '@/common/appData';
+import Head from 'next/head';
 
 const AlgorithmSEO = ({ children, algorithmId, customSEO = {} }) => {
   const router = useRouter();
@@ -67,10 +68,12 @@ const AlgorithmSEO = ({ children, algorithmId, customSEO = {} }) => {
   return (
     <>
       <NextSeo {...seoConfig} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+      </Head>
       {children}
     </>
   );

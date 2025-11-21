@@ -93,6 +93,7 @@ function avlTree(animator, setCurrentStep) {
         postCleanup(ll);
         updateHeight(node);
         updateHeight(left);
+        await sleep(delay * 3);
     };
 
     const rotateRight = async (node) => {
@@ -124,6 +125,7 @@ function avlTree(animator, setCurrentStep) {
         postCleanup(rr);
         updateHeight(node);
         updateHeight(right);
+        await sleep(delay * 3);
     };
 
     const rebalance = async (node) => {
@@ -134,35 +136,29 @@ function avlTree(animator, setCurrentStep) {
         updateHeight(node);
         await sleep(delay);
         let nodeBf = balanceFactor(node);
-        let rotated = false;
         if (nodeBf > 1) {
             const childBf = balanceFactor(node.left);
             if (childBf > 0) {
                 setCurrentStep('5');
-                rotateLeft(node);
+                await rotateLeft(node);
             } else {
                 setCurrentStep('7');
-                rotateRight(node.left);
-                await sleep(delay * 2);
+                await rotateRight(node.left);
                 setCurrentStep('8');
-                rotateLeft(node);
+                await rotateLeft(node);
             }
-            rotated = true;
         } else if (nodeBf < -1) {
             const childBf = balanceFactor(node.right);
             if (childBf < 0) {
                 setCurrentStep('11');
-                rotateRight(node);
+                await rotateRight(node);
             } else {
                 setCurrentStep('13');
-                rotateLeft(node.right);
-                await sleep(delay * 2);
+                await rotateLeft(node.right);
                 setCurrentStep('14');
-                rotateRight(node);
+                await rotateRight(node);
             }
-            rotated = true;
         }
-        if (rotated) await sleep(delay);
         await bgcolor(`#node${node.index}`, Colors.white);
         setCurrentStep('');
         await sleep(delay);
