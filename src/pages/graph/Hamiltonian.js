@@ -65,14 +65,14 @@ async function findCycle(i) {
         let ei = Graph.edgeIndex(i, j);
         if (hasValue(ei) && v[j] === 0) {
             sound('pop');
-            await spanEdge(i, j);
             appendCell('#path', charAt(65 + j));
+            await spanEdge(i, j);
             v[j] = 1;
             if (await findCycle(j)) return true;
             v[j] = 0;
             sound('pop');
-            await backtrack(i, j);
             $('#path').children().last().remove();
+            await backtrack(i, j);
             await Timer.sleep(delay);
         }
     }
@@ -93,8 +93,7 @@ function backtrack(i, j) {
             if (i !== seg[0]) {
                 edge.attr('stroke-dashoffset', d - dash);
             }
-            return Timer.sleep(20)
-              .then(() => span(dash + t));
+            return Timer.sleep(20).then(() => span(dash + t));
         } else edge.remove();
     }
     return span(2);

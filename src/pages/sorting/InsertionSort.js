@@ -57,7 +57,7 @@ for i = 1 to (n - 1):
             yield delay;
         }
         setCurrentStep('');
-    };
+    }
 
     useEffect(() => {
         numbers.forEach((_, i) => tx(`#box${i}`, 0, 0));
@@ -81,7 +81,7 @@ for i = 1 to (n - 1):
     useEffect(() => handleStop, []);
 
     return (
-        <Stack spacing={3}>
+        <Stack spacing={2}>
             <Typography variant="body1">
                 Ever organized a hand of playing cards? Then you already know{' '}
                 <strong>Insertion Sort</strong>! This algorithm takes each
@@ -90,6 +90,30 @@ for i = 1 to (n - 1):
                 the right spot of a sorted hand, making it intuitive and
                 efficient for small dataset, especially for partially sorted
                 lists.
+            </Typography>
+            <Typography variant="h6" component="h2">
+                Things to Observe
+            </Typography>
+            <Typography
+                component="div"
+                variant="body1"
+                sx={{ '& li': { mb: 1 } }}
+            >
+                <ul>
+                    <li>
+                        <strong>Inserting into Place:</strong> Watch how each
+                        element is picked from the unsorted part and slides into
+                        its correct position in the sorted part on the left,
+                        just like organizing a hand of playing cards.
+                    </li>
+                    <li>
+                        <strong>Adaptive Performance:</strong> Try visualizing a
+                        nearly sorted list. You&apos;ll notice Insertion Sort
+                        runs much faster because it only has to shift a few
+                        elements for each insertion. This makes it very
+                        efficient for lists that are already mostly sorted.
+                    </li>
+                </ul>
             </Typography>
             <Box display="flex" gap={3} flexWrap="wrap">
                 {algorithm}

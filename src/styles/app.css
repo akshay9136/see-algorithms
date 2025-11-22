@@ -139,6 +139,7 @@
     background-color: #87cefa;
 }
 
+#path .cell,
 #sorted .cell {
     background-color: orange;
 }

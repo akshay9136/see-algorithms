@@ -108,7 +108,10 @@ async function topsort() {
                 await Timer.sleep(delay / 2);
             }
         }
-        await drop(i);
+        $('.vrtx').eq(i).css('opacity', 0);
+        $('.vlbl').eq(i).css('opacity', 0);
+        await Timer.sleep(delay / 2);
+        appendCell('#sorted', charAt(65 + i));
         await Timer.sleep(delay).then(topsort);
     } else {
         const graph = Graph.skeleton();
@@ -131,14 +134,4 @@ function extract(p, q, ei) {
     }
     edge.removeAttr('stroke');
     edge.removeAttr('marker-end');
-}
-
-function drop(i) {
-    const cy = Number($('.vrtx').eq(i).attr('cy'));
-    if (cy < $('#plane').height() + 20) {
-        $('.vrtx').eq(i).attr('cy', cy + 5);
-        $('.vlbl').eq(i).attr('y', cy + 10);
-        return Timer.sleep(20).then(() => drop(i));
-    }
-    appendCell('#sorted', charAt(65 + i));
 }

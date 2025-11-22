@@ -66,7 +66,7 @@ function merge(start, mid, end):
             arr[start + i] = temp[i];
         }
         setNumbers(arr.slice());
-    };
+    }
 
     const split = (start, end, ypos) => {
         const promises = [];
@@ -111,7 +111,7 @@ function merge(start, mid, end):
     useEffect(() => handleStop, []);
 
     return (
-        <Stack spacing={3}>
+        <Stack spacing={2}>
             <Typography variant="body1">
                 <strong>Merge Sort</strong> is more advanced, divide-and-conquer
                 algorithm that recursively splits an unsorted list into smaller
@@ -119,6 +119,31 @@ function merge(start, mid, end):
                 are then merged back together in a sorted manner. With a time
                 complexity of O(n log n), Merge Sort is efficient and stable,
                 making it suitable for handling large datasets.
+            </Typography>
+            <Typography variant="h6" component="h2">
+                Things to Observe
+            </Typography>
+            <Typography
+                component="div"
+                variant="body1"
+                sx={{ '& li': { mb: 1 }, mt: 1 }}
+            >
+                <ul>
+                    <li>
+                        <strong>Divide Recursively:</strong> Watch how the
+                        algorithm first breaks the array down recursively into
+                        single-element sub-arrays. The visualization shows this
+                        by moving the elements downwards.
+                    </li>
+                    <li>
+                        <strong>Conquer (Merge):</strong> Observe how these
+                        sub-arrays are then merged back together in sorted
+                        order. This merging step is where the core sorting logic
+                        happens, comparing elements from the sub-arrays and
+                        placing them into a temporary array before updating the
+                        main one.
+                    </li>
+                </ul>
             </Typography>
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
                 {mergeAlgo}

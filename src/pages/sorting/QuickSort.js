@@ -119,7 +119,7 @@ function partition(start, end):
     useEffect(() => handleStop, []);
 
     return (
-        <Stack spacing={3}>
+        <Stack spacing={2}>
             <Typography variant="body1">
                 <strong>Quick Sort</strong> is the speedster of sorting
                 algorithms. It picks a <strong>pivot</strong> element and then
@@ -128,6 +128,30 @@ function partition(start, end):
                 groups, Quick Sort efficiently sorts even the largest datasets.
                 It is perfect blend of strategy and speed, making it one of the
                 most popular sorting techniques.
+            </Typography>
+            <Typography variant="h6" component="h2">
+                Things to Observe
+            </Typography>
+            <Typography
+                component="div"
+                variant="body1"
+                sx={{ '& li': { mb: 1 } }}
+            >
+                <ul>
+                    <li>
+                        <strong>Pivot and Partition:</strong> In each step,
+                        notice how a {'"pivot"'} element is chosen (in this
+                        visualization, it&apos;s the last element of the
+                        segment) and the other elements are partitioned into two
+                        groups: those smaller and those larger than the pivot.
+                    </li>
+                    <li>
+                        <strong>Divide and Conquer:</strong> Watch how the
+                        algorithm recursively breaks the array down into
+                        smaller sub-arrays around the pivots, sorting each one
+                        independently.
+                    </li>
+                </ul>
             </Typography>
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
                 {partitionAlgo}

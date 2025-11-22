@@ -5,10 +5,10 @@ import useAnimator from '@/hooks/useAnimator';
 import { sleep, sound } from '@/common/utils';
 import { Iterator } from '@/common/timer';
 
-var arr, n;
-var max, exp;
-var out, b;
-var it, delay = 500;
+var arr, out, n;
+var max, exp, b;
+var it,
+  delay = 500;
 
 function RadixSort() {
   const [numbers, setNumbers] = useState([]);
@@ -107,7 +107,7 @@ function RadixSort() {
   };
 
   return (
-    <Stack spacing={3}>
+    <Stack spacing={2}>
       <Typography variant="body1">
         <strong>Radix Sort</strong> organizes numbers by sorting them digit by
         digit. It starts with the least significant digit (rightmost) and works
@@ -116,13 +116,31 @@ function RadixSort() {
         in order. This process is repeated for each digit, leading to arr sorted
         list.
       </Typography>
+      <Typography variant="h6" component="h2">
+        Things to Observe
+      </Typography>
+      <Typography component="div" variant="body1" sx={{ '& li': { mb: 1 } }}>
+        <ul>
+          <li>
+            <strong>Digit by Digit:</strong> Notice how the sorting happens in
+            passes, one for each digit place (ones, tens, hundreds, etc.),
+            starting from the rightmost digit. The currently sorted digit is
+            highlighted in pink.
+          </li>
+          <li>
+            <strong>Bucketing:</strong> In each pass, watch how the numbers are
+            distributed into {'"buckets"'} (0-9) based on the value of the
+            current digit. They are then collected back from the buckets in
+            order, preserving the relative order from the previous pass.
+          </li>
+        </ul>
+      </Typography>
       <InputNumbers
         onStart={handleStart}
         onReset={handleStop}
         onStop={() => it?.stop()}
       />
-
-      <Box className="radixSort" pt={2} ref={scope}>
+      <Box className="radixSort" pt={3} ref={scope}>
         <Box display="flex">
           {numbers.map((num, i) => (
             <Numbox

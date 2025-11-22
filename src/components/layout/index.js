@@ -42,7 +42,7 @@ function Layout({ children }) {
         <Stack overflow="auto" ref={scrollRef}>
           <Box className="content" flex={1}>
             {algoId && (
-              <Typography variant="h6" component="h1" fontWeight={600} mb={2}>
+              <Typography variant="h5" component="h1" fontWeight={600} mb={2}>
                 {algoName}
               </Typography>
             )}
