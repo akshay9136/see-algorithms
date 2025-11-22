@@ -81,16 +81,10 @@ export default function Features() {
                 gutterBottom
                 mb={2}
                 color="grey.900"
-                fontSize="1.1rem"
               >
                 {feat.title}
               </Typography>
-              <Typography
-                variant="body2"
-                color="grey.600"
-                lineHeight={1.6}
-                fontSize="0.9rem"
-              >
+              <Typography lineHeight={1.6} variant="body2" color="grey.600">
                 {feat.description}
               </Typography>
             </CardContent>

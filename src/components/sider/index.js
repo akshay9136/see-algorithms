@@ -49,7 +49,7 @@ function Sider({ selected }) {
                 }
                 className={styles.category}
               >
-                <Typography variant="button" className={styles.categoryText}>
+                <Typography variant="subtitle1" className={styles.categoryText}>
                   {cat}
                 </Typography>
               </AccordionSummary>

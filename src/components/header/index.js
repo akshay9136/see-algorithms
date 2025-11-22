@@ -48,7 +48,7 @@ function Header(props) {
       <Box display="flex" alignItems="center">
         <MenuOpen
           onClick={() => props.toggleMenu()}
-          className={`d-md-none d-sm-block ${styles.menuIcon}`}
+          className={`d-lg-none ${styles.menuIcon}`}
           color="primary"
         />
         <Image
@@ -57,14 +57,14 @@ function Header(props) {
           priority
           width="200"
           height="40"
-          className={`${styles.logo} d-none d-md-block`}
+          className={`${styles.logo} d-none d-lg-block`}
           onClick={() => router.push('/')}
           style={{ cursor: 'pointer' }}
         />
         <Typography
           variant="button"
           fontWeight={600}
-          className={`${styles.heading} d-md-none d-sm-block`}
+          className={`${styles.heading} d-lg-none`}
           onClick={() => router.push('/')}
           style={{ cursor: 'pointer' }}
         >
@@ -72,7 +72,7 @@ function Header(props) {
         </Typography>
       </Box>
       {/* Desktop Navigation */}
-      <Box className="d-none d-md-flex" alignItems="center">
+      <Box className="d-none d-lg-flex" alignItems="center">
         <Button
           onClick={() => handleNavigation('/about')}
           startIcon={<Info />}
@@ -107,7 +107,7 @@ function Header(props) {
         </Button>
       </Box>
       {/* Mobile Navigation - Dropdown Menu */}
-      <Box className="d-md-none d-block">
+      <Box className="d-lg-none">
         <IconButton
           onClick={handleClick}
           size="small"

@@ -23,7 +23,8 @@
     width: fit-content;
 }
 
-.content > div > p {
+.content > div > p,
+.content > div > div > ul {
     width: calc(100vw - 3rem);
 }
 
@@ -93,14 +94,15 @@
     position: relative;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
     .resizable {
         width: 700px;
         min-width: 700px;
         height: 500px;
     }
 
-    .content > div > p {
+    .content > div > p,
+    .content > div > div > ul {
         width: auto;
     }
 }

@@ -36,7 +36,7 @@ function Layout({ children }) {
       </Drawer>
       {algoId && <AlgorithmSEO algorithmId={algoId} />}
       <Box className="d-flex contentRow">
-        <Box className="d-none d-md-block" width="max-content" minWidth={250}>
+        <Box className="d-none d-lg-block" minWidth={250}>
           <Sider selected={algoId} />
         </Box>
         <Stack overflow="auto" ref={scrollRef}>
