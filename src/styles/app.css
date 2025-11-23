@@ -40,6 +40,7 @@
 
 .sorting {
     height: 200px;
+    position: relative;
 }
 
 .heapSort,

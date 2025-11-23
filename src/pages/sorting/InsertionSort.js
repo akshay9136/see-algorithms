@@ -25,48 +25,44 @@ for i = 1 to (n - 1):
 
     async function* insertionSort() {
         yield delay;
-        bgcolor(`#box${0}`, Colors.sorted);
+        bgcolor(arr[0].id, Colors.sorted);
         yield delay;
         for (let i = 1; i < arr.length; i++) {
             setCurrentStep('1,2');
+            let temp = arr[i];
             sound('pop');
-            await ty(`#box${i}`, -50);
+            await ty(temp.id, -50);
             setCurrentStep('3');
             yield delay;
-            let num = arr[i];
             let j = i - 1;
-            while (j >= 0 && arr[j] > num) {
-                arr[j + 1] = arr[j];
+            while (j >= 0 && arr[j].val > temp.val) {
                 setCurrentStep('3,4,5');
                 sound('swap');
-                await tx(`#box${j}`, 60);
+                await tx(arr[j].id, (j + 1) * 60);
+                arr[j + 1] = arr[j];
                 yield 0;
                 j--;
             }
             sound('swap');
             if (j < i - 1) {
-                arr[j + 1] = num;
                 let k = i - (j + 1);
-                await tx(`#box${i}`, -k * 60, k * 0.2);
+                await tx(temp.id, (j + 1) * 60, k * 0.2);
+                arr[j + 1] = temp;
                 yield 0;
             }
             setCurrentStep('6');
-            await ty(`#box${i}`, 0);
-            await bgcolor(`#box${i}`, Colors.sorted);
-            setNumbers(arr.slice());
+            await ty(temp.id, 0);
+            await bgcolor(temp.id, Colors.sorted);
             yield delay;
         }
         setCurrentStep('');
     }
 
-    useEffect(() => {
-        numbers.forEach((_, i) => tx(`#box${i}`, 0, 0));
-    }, [numbers]);
-
     const handleStart = (values) => {
         if (arr) return it.start();
         setNumbers(values);
-        arr = values.slice();
+        sound('pop');
+        arr = values.map((val, i) => ({ val, id: `#box${i}` }));
         it = Iterator(insertionSort);
         return it.start();
     };
@@ -125,7 +121,13 @@ for i = 1 to (n - 1):
                     />
                     <Box className="sorting d-flex" pt={8} ref={scope}>
                         {numbers.map((num, i) => (
-                            <Numbox key={i} index={i} value={num} />
+                            <Numbox
+                                key={i}
+                                index={i}
+                                value={num}
+                                animate={{ x: i * 60 }}
+                                style={{ position: 'absolute' }}
+                            />
                         ))}
                     </Box>
                 </Stack>

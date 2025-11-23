@@ -10,8 +10,7 @@ import { Iterator } from '@/common/timer';
 import Link from 'next/link';
 
 var arr, Tree;
-var it,
-    delay = 1000;
+var it, delay = 1000;
 
 export default function HeapSort() {
     const [numbers, setNumbers] = useState([]);

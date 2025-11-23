@@ -7,21 +7,20 @@ import { Iterator } from '@/common/timer';
 
 var arr, out, n;
 var max, exp, b;
-var it,
-  delay = 500;
+var it, delay = 500;
 
 function RadixSort() {
   const [numbers, setNumbers] = useState([]);
-  const [scope, { txy, tx, animate }] = useAnimator();
+  const [scope, { txy, animate }] = useAnimator();
   const [nextExp, setNextExp] = useState(0);
 
   const enqueue = async (i) => {
-    const j = Math.floor(arr[i] / exp) % 10;
+    const j = Math.floor(arr[i].val / exp) % 10;
     b[j].push(i);
-    animate(`#box${i}`, { height: 30 });
+    animate(arr[i].id, { height: 30 });
     const dy = b[j].length * 36;
     sound('swap');
-    await txy(`#box${i}`, j * 60, 240 - dy);
+    await txy(arr[i].id, j * 60, 240 - dy);
   };
 
   const dequeue = async (j) => {
@@ -29,9 +28,9 @@ function RadixSort() {
       const i = b[j].pop();
       out.push(arr[i]);
       const k = n - out.length;
-      animate(`#box${i}`, { height: 40 });
+      animate(arr[i].id, { height: 40 });
       sound('swap');
-      await txy(`#box${i}`, k * 60, 0);
+      await txy(arr[i].id, k * 60, 0);
       await sleep(delay);
     }
   };
@@ -56,11 +55,6 @@ function RadixSort() {
       arr = out.reverse();
       setNextExp(0);
       yield delay;
-      for (let i = 0; i < n; i++) {
-        tx(`#box${i}`, i * 60, 0);
-      }
-      setNumbers(arr.slice());
-      yield delay;
     }
   }
 
@@ -68,11 +62,11 @@ function RadixSort() {
     if (arr) return it.start();
     setNumbers(values);
     sound('pop');
-    arr = values.slice();
-    n = arr.length;
-    max = Math.max(...arr);
+    arr = values.map((val, i) => ({ val, id: `#box${i}`}));
+    max = Math.max(...values);
     exp = 1;
     it = Iterator(radixSort);
+    n = arr.length;
     return it.start();
   };
 
