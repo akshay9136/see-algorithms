@@ -1,11 +1,11 @@
 import { Box, Button, Typography } from '@mui/material';
 import { useContext, useEffect } from 'react';
 import { PlayArrow, Pause } from '@mui/icons-material';
-import Graph from '@/common/graph';
-import $ from 'jquery';
-import styles from '../draw-graph/draw-graph.module.css';
 import { addPoints, randomize } from '@/helpers/convexHull';
+import Graph from '@/common/graph';
 import Timer from '@/common/timer';
+import $ from 'jquery';
+import styles from '@/styles/draw-graph.module.css';
 import AppContext from '@/common/context';
 
 function AddPoints(props) {

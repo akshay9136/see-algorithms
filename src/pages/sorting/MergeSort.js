@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
+import { InputNumbers, Numbox } from '@/components/common';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import { InputNumbers, Numbox } from '@/components/numbers';
 import { sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import { Iterator } from '@/common/timer';

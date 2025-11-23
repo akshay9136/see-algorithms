@@ -119,13 +119,6 @@ export const algorithmSeoMap = {
     keywords:
       'depth first search, DFS, graph algorithm, graph traversal, visualization, stack',
   },
-  Dijkstra: {
-    title: "Dijkstra's Visualization - See Algorithms",
-    description:
-      "Learn Dijkstra's shortest path algorithm with interactive visualization. Understand how to find shortest paths in weighted graphs.",
-    keywords:
-      'dijkstra algorithm, shortest path, graph algorithm, weighted graph, visualization, greedy algorithm',
-  },
   TopSort: {
     title: 'Topological Sorting Visualization - See Algorithms',
     description:
@@ -133,19 +126,26 @@ export const algorithmSeoMap = {
     keywords:
       'topological sorting, topological ordering, DAG, directed acyclic graph, graph algorithm, visualization',
   },
-  PrimsMST: {
-    title: "Prim's Minimum Spanning Tree - See Algorithms",
+  Dijkstras: {
+    title: "Dijkstra's Visualization - See Algorithms",
     description:
-      "Master Prim's algorithm for finding minimum spanning trees with interactive visualization. Learn this greedy MST algorithm step by step.",
+      "Learn Dijkstra's shortest path algorithm with interactive visualization. Understand how to find shortest paths in weighted graphs.",
     keywords:
-      'prims algorithm, minimum spanning tree, MST, graph algorithm, greedy algorithm, visualization',
+      'dijkstra algorithm, shortest path, graph algorithm, weighted graph, visualization, greedy algorithm',
   },
-  KruskalsMST: {
+  Kruskals: {
     title: "Kruskal's Minimum Spanning Tree - See Algorithms",
     description:
       "Learn Kruskal's algorithm for minimum spanning trees with interactive visualization. Master this union-find based MST algorithm.",
     keywords:
       'kruskals algorithm, minimum spanning tree, MST, union find, graph algorithm, visualization',
+  },
+  Prims: {
+    title: "Prim's Minimum Spanning Tree - See Algorithms",
+    description:
+      "Master Prim's algorithm for finding minimum spanning trees with interactive visualization. Learn this greedy MST algorithm step by step.",
+    keywords:
+      'prims algorithm, minimum spanning tree, MST, graph algorithm, greedy algorithm, visualization',
   },
   Hamiltonian: {
     title: 'Hamiltonian Path Visualization - See Algorithms',

@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
-import DSInput from '@/components/ds-input';
-import useAlgorithm from '@/hooks/useAlgorithm';
-import { createGrid, sound } from '@/common/utils';
+import { DSInput } from '@/components/common';
 import { showToast } from '@/components/toast';
+import { createGrid, sound } from '@/common/utils';
+import useAlgorithm from '@/hooks/useAlgorithm';
 
 var cells, n = 10;
 var front = 0, rear = 0;
 var size = 0;
 
 export default function CircularQueue(props) {
-    const [enqueueAlgorithm] = useAlgorithm(`
+    const [enqueueAlgo] = useAlgorithm(`
 function enqueue(value):
     if front == rear and size == n:
         alert "Queue is full."
@@ -19,7 +19,7 @@ function enqueue(value):
         rear = (rear + 1) % n
         size = size + 1
 `);
-    const [dequeueAlgorithm] = useAlgorithm(`
+    const [dequeueAlgo] = useAlgorithm(`
 function dequeue():
     if front == rear and size == 0:
         alert "Queue is empty."
@@ -63,8 +63,8 @@ function dequeue():
                 continuous flow of data.
             </Typography>
             <Box display="flex" gap={3} flexWrap="wrap">
-                {enqueueAlgorithm}
-                {dequeueAlgorithm}
+                {enqueueAlgo}
+                {dequeueAlgo}
             </Box>
             <DSInput {...props} buttons={buttons} />
             <Box id="cqueue" className="alphaGrid numGrid" />

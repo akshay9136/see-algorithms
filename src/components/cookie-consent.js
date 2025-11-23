@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Snackbar, Alert, Button, Box, Typography, Link } from '@mui/material';
 import { Cookie, Close } from '@mui/icons-material';
 

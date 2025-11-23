@@ -1,11 +1,10 @@
-import React from 'react';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { useRouter } from 'next/router';
 
 const PageNotFound = () => {
   const router = useRouter();
   return (
-    <div>
+    <Box width={500}>
       <h1>404</h1>
       <hr />
       <h4>Oops! page not found</h4>
@@ -13,7 +12,7 @@ const PageNotFound = () => {
       <Button variant="contained" color="primary" onClick={() => router.back()}>
         Go Back
       </Button>
-    </div>
+    </Box>
   );
 };
 

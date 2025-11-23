@@ -1,10 +1,10 @@
 import { Stack, Typography } from '@mui/material';
 import AddPoints from '@/components/convex-hull/add-points';
 import Graph, { Segment } from '@/common/graph';
+import Timer from '@/common/timer';
 import $ from 'jquery';
 import { addPoints } from '@/helpers/convexHull';
 import { Colors } from '@/common/constants';
-import Timer from '@/common/timer';
 
 export default function ConvexHull(props) {
   return (

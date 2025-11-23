@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import DSInput from '@/components/ds-input';
 import { Box, Stack, Typography } from '@mui/material';
-import { Edge, Node } from '@/components/numbers';
+import { DSInput, Edge, Node } from '@/components/common';
 import binaryTree from '@/common/binaryTree';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import { sleep, sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
+import { sleep, sound } from '@/common/utils';
 
 var arr = [], Tree;
 var delay = 500;

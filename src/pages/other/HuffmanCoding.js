@@ -1,12 +1,12 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Box, Button, Stack, Typography } from '@mui/material';
-import { Edge, InputNumbers, Node } from '@/components/numbers';
-import styles from '@/components/numbers/numbers.module.css';
+import { Edge, InputNumbers, Node } from '@/components/common';
 import useAnimator from '@/hooks/useAnimator';
 import binaryTree from '@/common/binaryTree';
 import { charAt, sleep, sound, traverse } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import $ from 'jquery';
+import styles from '@/styles/numbers.module.css';
 
 var Tree, delay = 500;
 var queue, codes;
@@ -105,7 +105,7 @@ export default function HuffmanCoding() {
             <Stack spacing={1}>
                 {characters.length > 0 && (
                     <Box className={styles.inputNumbers}>
-                        <Typography variant="subtitle1" fontWeight="bold">
+                        <Typography variant="subtitle1" fontWeight="bold" mr={2}>
                             Character:
                         </Typography>
                         {characters.map((char) => (
@@ -113,7 +113,7 @@ export default function HuffmanCoding() {
                                 key={char}
                                 variant="subtitle2"
                                 fontWeight="bold"
-                                sx={{ margin: '0 1.2rem' }}
+                                mr="2.4rem"
                             >
                                 {char}
                             </Typography>

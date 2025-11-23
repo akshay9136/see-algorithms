@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
-import { Edge, InputNumbers, Node } from '@/components/numbers';
+import { Edge, InputNumbers, Node } from '@/components/common';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import binaryTree from '@/common/binaryTree';

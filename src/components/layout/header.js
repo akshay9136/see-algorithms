@@ -1,15 +1,4 @@
 import {
-  MenuOpen,
-  Info,
-  Policy,
-  Description,
-  MoreVert,
-  Email,
-} from '@mui/icons-material';
-import styles from './header.module.css';
-import { useRouter } from 'next/router';
-import Image from 'next/image';
-import {
   Typography,
   Menu,
   MenuItem,
@@ -17,7 +6,18 @@ import {
   Button,
   Box,
 } from '@mui/material';
+import {
+  MenuOpen,
+  Info,
+  Policy,
+  Description,
+  MoreVert,
+  Email,
+} from '@mui/icons-material';
+import styles from '@/styles/header.module.css';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 function Header(props) {
   const router = useRouter();

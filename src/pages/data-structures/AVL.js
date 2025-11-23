@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
-import { Edge, Node } from '@/components/numbers';
-import DSInput from '@/components/ds-input';
+import { DSInput, Edge, Node } from '@/components/common';
 import avlTree from '@/helpers/avlTree';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import useAnimator from '@/hooks/useAnimator';
 import { copyBST, sleep } from '@/common/utils';
-import { showToast } from '@/components/toast';
 import { useRouter } from 'next/router';
 import { Share } from '@mui/icons-material';
+import { showToast } from '@/components/toast';
 
 var arr = [], Tree;
 var deleted = {};

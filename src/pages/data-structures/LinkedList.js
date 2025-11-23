@@ -1,16 +1,15 @@
 import { useEffect, useState, useRef } from 'react';
 import {
-  Box,
   Stack,
+  Box,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
 } from '@mui/material';
-import { Edge } from '@/components/numbers';
-import DSInput from '@/components/ds-input';
+import { DSInput, Edge } from '@/components/common';
 import useAnimator from '@/hooks/useAnimator';
-import { sleep } from '@/common/utils';
 import linkedList from '@/helpers/linkedList';
+import { sleep } from '@/common/utils';
 import { motion } from 'framer-motion';
 import { showToast } from '@/components/toast';
 
@@ -129,7 +128,6 @@ export default function LinkedList(props) {
             </ToggleButtonGroup>
           </motion.div>
         ))}
-
         {nodes.slice(1).map((_, i) => (
           <Edge key={i} index={i} style={{ width: 40 }} />
         ))}

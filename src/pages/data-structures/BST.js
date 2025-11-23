@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
-import { Edge, Node } from '@/components/numbers';
-import DSInput from '@/components/ds-input';
+import { DSInput, Edge, Node } from '@/components/common';
 import binarySearchTree from '@/helpers/binarySearchTree';
 import useAnimator from '@/hooks/useAnimator';
 import { copyBST, randomInt, sleep } from '@/common/utils';
-import { useRouter } from 'next/router';
 import { Refresh, Share } from '@mui/icons-material';
+import { useRouter } from 'next/router';
 
 var arr = [], Tree;
 

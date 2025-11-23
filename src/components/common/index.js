@@ -1,8 +1,10 @@
 import InputNumbers from './input-numbers';
+import DrawGraph from './draw-graph';
+import DSInput from './ds-input';
 import { motion } from 'framer-motion';
-import styles from './numbers.module.css';
+import styles from '@/styles/numbers.module.css';
 
-export { InputNumbers };
+export { InputNumbers, DrawGraph, DSInput };
 
 export function Numbox({ index, value, ...rest }) {
   return (

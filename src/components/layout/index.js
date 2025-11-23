@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { Box, Drawer, Stack, Typography } from '@mui/material';
-import Header from '../header';
-import Sider from '../sider';
+import AlgorithmSEO from '../algorithm-seo';
+import Sider from './sider';
+import Header from './header';
+import Footer from './footer';
 import { algorithms } from '@/common/appData';
 import { useRouter } from 'next/router';
-import AlgorithmSEO from '../algorithm-seo';
-import Footer from './footer';
 
 function Layout({ children }) {
   const [menuVisible, setMenuVisible] = useState(false);

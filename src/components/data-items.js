@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import {
   List,
   ListItem,
@@ -6,11 +6,11 @@ import {
   ListItemText,
   ListSubheader,
 } from '@mui/material';
-import { DeleteOutline } from '@mui/icons-material';
+import styles from '@/styles/data-items.module.css';
 import AppContext from '@/common/context';
-import styles from './data-items.module.css';
 import { createGraph } from '@/helpers/drawGraph';
 import { useRouter } from 'next/router';
+import { DeleteOutline } from '@mui/icons-material';
 
 function DataItems() {
   const { savedData, setContext } = useContext(AppContext);

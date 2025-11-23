@@ -1,8 +1,8 @@
 import { useState, forwardRef, useImperativeHandle } from 'react';
 import { Input, Button, Typography, Box } from '@mui/material';
-import styles from '../numbers/numbers.module.css';
 import { randomInt } from '@/common/utils';
 import { showToast } from '../toast';
+import styles from '@/styles/numbers.module.css';
 
 const DSInput = forwardRef((props, ref) => {
   const [number, setNumber] = useState(props.keepEmpty ? '' : randomInt());
@@ -48,7 +48,7 @@ const DSInput = forwardRef((props, ref) => {
         onChange={handleInput}
         className={styles.number}
       />
-      <Box display="flex" width="max-content">
+      <Box display="flex">
         {props.buttons.map((btn, i) => (
           <Button
             key={i}

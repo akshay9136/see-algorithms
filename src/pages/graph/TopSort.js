@@ -1,9 +1,9 @@
-import DrawGraph from '@/components/draw-graph';
-import { Box, Stack, Typography } from '@mui/material';
+import { DrawGraph } from '@/components/common';
+import { Box, Stack, Typography } from '@mui/material'
 import $ from 'jquery';
-import useAlgorithm from '@/hooks/useAlgorithm';
 import Graph, { Path, Point } from '@/common/graph';
-import Timer from '@/common/timer';
+import Timer from '@/common/timer';;
+import useAlgorithm from '@/hooks/useAlgorithm';
 import {
     appendCell,
     charAt,

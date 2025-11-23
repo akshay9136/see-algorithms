@@ -1,4 +1,4 @@
-import DrawGraph from '@/components/draw-graph';
+import { DrawGraph } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
@@ -16,7 +16,7 @@ import {
 import { Colors } from '@/common/constants';
 import Link from 'next/link';
 
-export default function Dijkstra(props) {
+export default function Dijkstras(props) {
     return (
         <Stack spacing={3}>
             <Typography variant="body1">

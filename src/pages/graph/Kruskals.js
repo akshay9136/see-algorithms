@@ -1,12 +1,12 @@
-import DrawGraph from '@/components/draw-graph';
-import Graph, { Path } from '@/common/graph';
+import { DrawGraph } from '@/components/common';
 import { Stack, Typography } from '@mui/material';
 import $ from 'jquery';
+import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
-import { hasValue, sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
+import { hasValue, sound } from '@/common/utils';
 
-export default function KruskalsMST(props) {
+export default function Kruskals(props) {
     return (
         <Stack spacing={3}>
             <Typography variant="body1">

@@ -9,13 +9,13 @@ import {
   Box,
 } from '@mui/material';
 import { PlayArrow, Pause, Refresh, Share } from '@mui/icons-material';
-import styles from './draw-graph.module.css';
-import AppContext from '@/common/context';
+import styles from '@/styles/draw-graph.module.css';
 import useGraphControls from '@/hooks/useGraphControls';
-import { useRouter } from 'next/router';
-import Timer from '@/common/timer';
+import AppContext from '@/common/context';
 import Graph from '@/common/graph';
+import Timer from '@/common/timer';
 import { createGraph, getCostMatrix } from '@/common/utils';
+import { useRouter } from 'next/router';
 import { showToast } from '../toast';
 
 function DrawGraph(props) {

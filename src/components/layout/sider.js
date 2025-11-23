@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
-import { List, ListItemButton, Typography } from '@mui/material';
-import styles from './sider.module.css';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  ListItemButton,
+  List,
+  Typography,
+} from '@mui/material';
+import styles from '@/styles/sider.module.css';
 import { algorithms, categories } from '@/common/appData';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { ExpandMore } from '@mui/icons-material';
 import Link from 'next/link';
 
 function Sider({ selected }) {
@@ -41,7 +45,7 @@ function Sider({ selected }) {
             >
               <AccordionSummary
                 expandIcon={
-                  <ExpandMoreIcon
+                  <ExpandMore
                     className={`${styles.expandIcon} ${
                       isExpanded ? styles.expandIconExpanded : ''
                     }`}

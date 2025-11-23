@@ -7,9 +7,9 @@ import {
   Typography,
   Box,
 } from '@mui/material';
-import styles from './numbers.module.css';
-import { randomInt, sleep } from '@/common/utils';
+import styles from '@/styles/numbers.module.css';
 import { showToast } from '../toast';
+import { randomInt, sleep } from '@/common/utils';
 import { Pause, PlayArrow } from '@mui/icons-material';
 
 const InputNumbers = forwardRef((props, ref) => {
@@ -86,7 +86,7 @@ const InputNumbers = forwardRef((props, ref) => {
 
   return (
     <Box className={styles.inputNumbers}>
-      <Typography variant="subtitle1" fontWeight={600} width="max-content">
+      <Typography variant="subtitle1" fontWeight={600}>
         {!numbers.length
           ? 'Select number of elements: '
           : props.label || 'Enter numbers: '}
@@ -127,14 +127,14 @@ const InputNumbers = forwardRef((props, ref) => {
               sx={{ padding: '4px 12px' }}
               aria-live="polite"
             >
-              {props.startBtnText || 'Play'}
+              Play
             </Button>
             <Button
               variant="outlined"
               onClick={handleReset}
               sx={{ padding: '4px 12px' }}
             >
-              {props.stopBtnText || 'Reset'}
+              Reset
             </Button>
           </Box>
         ))}

@@ -1,7 +1,8 @@
-import DrawGraph from '@/components/draw-graph';
+import { DrawGraph } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
+import Timer from '@/common/timer';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import {
     appendCell,
@@ -11,7 +12,6 @@ import {
     sound,
     spanEdge,
 } from '@/common/utils';
-import Timer from '@/common/timer';
 import { Colors } from '@/common/constants';
 
 export default function BFS(props) {

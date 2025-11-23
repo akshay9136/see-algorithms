@@ -56,19 +56,19 @@ export const algorithms = [
         meta: 'Explore Breadth-First Search (BFS) and learn how this graph traversal algorithm explores all nodes level by level in a graph.',
     },
     {
-        id: 'PrimsMST',
+        id: 'Prims',
         name: "Prim's Algorithm",
         category: 'Graph',
         meta: "Discover how Prim's Algorithm builds a minimum spanning tree by adding the nearest node with minimum weight.",
     },
     {
-        id: 'KruskalsMST',
+        id: 'Kruskals',
         name: "Kruskal's Algorithm",
         category: 'Graph',
         meta: "Explore how Kruskal's Algorithm finds the minimum spanning tree in a graph by connecting edges in order of increasing weight.",
     },
     {
-        id: 'Dijkstra',
+        id: 'Dijkstras',
         name: "Dijkstra's Algorithm",
         category: 'Graph',
         meta: "Discover how Dijkstra's Algorithm finds the shortest path between nodes in a graph using priority queue.",

@@ -1,4 +1,4 @@
-import DrawGraph from '@/components/draw-graph';
+import { DrawGraph } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
 import $ from 'jquery';
 import Graph from '@/common/graph';
