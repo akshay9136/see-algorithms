@@ -4,10 +4,10 @@ import { DSInput, Edge, Node } from '@/components/common';
 import avlTree from '@/helpers/avlTree';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import useAnimator from '@/hooks/useAnimator';
-import { copyBST, sleep } from '@/common/utils';
 import { useRouter } from 'next/router';
-import { Share } from '@mui/icons-material';
 import { showToast } from '@/components/toast';
+import { copyBinaryTree, sleep } from '@/common/utils';
+import { Share } from '@mui/icons-material';
 
 var arr = [], Tree;
 var deleted = {};
@@ -79,7 +79,7 @@ function rebalance(node):
         { text: 'Clear', onClick: reset, disabled: !arr.length },
         {
             text: <Share fontSize="small" />,
-            onClick: () => copyBST(Tree.root()),
+            onClick: () => copyBinaryTree(Tree.root()),
             disabled: !arr.length,
         },
     ];

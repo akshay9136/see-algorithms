@@ -216,7 +216,7 @@ function traverse(node, fn) {
     }
 }
 
-const copyBST = (root) => {
+const copyBinaryTree = (root) => {
     const data = [];
     traverse(root, (node) => data.push(node.value));
     const nodes = JSON.stringify(data);
@@ -245,7 +245,7 @@ export {
     clearGraph,
     createGraph,
     traverse,
-    copyBST,
+    copyBinaryTree,
 };
 
 export const sound = (name) => {

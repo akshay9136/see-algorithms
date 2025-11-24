@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import { DSInput, Edge, Node } from '@/components/common';
+import { useRouter } from 'next/router';
 import binarySearchTree from '@/helpers/binarySearchTree';
 import useAnimator from '@/hooks/useAnimator';
-import { copyBST, randomInt, sleep } from '@/common/utils';
+import { copyBinaryTree, randomInt, sleep } from '@/common/utils';
 import { Refresh, Share } from '@mui/icons-material';
-import { useRouter } from 'next/router';
 
 var arr = [], Tree;
 
@@ -56,7 +56,7 @@ export default function BST(props) {
         { text: <Refresh />, onClick: randomTree, title: 'New binary tree' },
         {
             text: <Share fontSize="small" />,
-            onClick: () => copyBST(Tree.root()),
+            onClick: () => copyBinaryTree(Tree.root()),
             title: 'Share this binary tree',
             disabled: !arr.length,
         },

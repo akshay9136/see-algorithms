@@ -3,10 +3,10 @@ import { Box, Button, Stack, Typography } from '@mui/material';
 import { Edge, InputNumbers, Node } from '@/components/common';
 import useAnimator from '@/hooks/useAnimator';
 import binaryTree from '@/common/binaryTree';
+import styles from '@/styles/numbers.module.css';
 import { charAt, sleep, sound, traverse } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import $ from 'jquery';
-import styles from '@/styles/numbers.module.css';
 
 var Tree, delay = 500;
 var queue, codes;
@@ -19,6 +19,7 @@ export default function HuffmanCoding() {
     const numbersRef = useRef(null);
     const [scope, animator] = useAnimator();
     const { bgcolor } = animator;
+
     const toChar = (i) => charAt(65 + i);
 
     const extractMin = () => {

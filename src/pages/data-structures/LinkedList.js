@@ -9,8 +9,8 @@ import {
 import { DSInput, Edge } from '@/components/common';
 import useAnimator from '@/hooks/useAnimator';
 import linkedList from '@/helpers/linkedList';
-import { sleep } from '@/common/utils';
 import { motion } from 'framer-motion';
+import { sleep } from '@/common/utils';
 import { showToast } from '@/components/toast';
 
 var list, delay = 500;
