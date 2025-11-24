@@ -6,11 +6,6 @@
   width: 500px;
 }
 
-.toolbar .title {
-  margin-right: auto;
-  margin-bottom: 0.5rem;
-}
-
 .plane {
   width: 100%;
   height: 100%;
@@ -34,10 +29,5 @@
 @media (min-width: 1024px) {
   .toolbar {
     width: auto;
-  }
-
-  .toolbar .title {
-    margin-bottom: -4px;
-    font-size: 1.15rem;
   }
 }

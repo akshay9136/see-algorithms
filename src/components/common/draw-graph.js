@@ -68,8 +68,8 @@ function DrawGraph(props) {
 
   return (
     <Box className="drawGraph" aria-label="Graph controls and visualization">
-      <Box mb={1.5} className={styles.toolbar}>
-        <Typography variant="h6" className={styles.title} ml={1}>
+      <Box mb={1} className={styles.toolbar}>
+        <Typography variant="h6" ml={1} mr="auto">
           Draw Graph
         </Typography>
 

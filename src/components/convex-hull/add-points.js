@@ -50,7 +50,7 @@ function AddPoints(props) {
   return (
     <Box className="drawGraph" aria-label="Convex hull visualization">
       <Box className={styles.toolbar} mb={1.5}>
-        <Typography variant="h6" className={styles.title} ml={1}>
+        <Typography variant="h6" ml={1} mr="auto">
           Add Points
         </Typography>
         <Button
