@@ -94,13 +94,15 @@
     position: relative;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
     .resizable {
         width: 700px;
         min-width: 700px;
         height: 500px;
     }
+}
 
+@media (min-width: 1024px) {
     .content > div > p,
     .content > div > div > ul {
         width: auto;

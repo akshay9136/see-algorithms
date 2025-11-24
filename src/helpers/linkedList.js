@@ -19,7 +19,7 @@ const arrowStyle = {
 };
 
 function linkedList({ tx, ty, txy, bgcolor, animate }) {
-  const head = { index: 0 };
+  const head = { key: 0, id: '#box0' };
   const arr = [head];
 
   const length = (node) => (node ? 1 + length(node.next) : -1);
@@ -32,23 +32,24 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
   const insertAtTail = async (value) => {
     const node = await findNode((x) => !x.next);
     sound('pop');
-    const index = arr.length;
-    node.next = { value, index, prev: node };
+    const key = arr.length;
+    const eid = `#edge${key - 1}`;
+    node.next = { value, key, eid, prev: node };
     arr.push(node.next);
     const nodeX = length(head) * STEP_SIZE;
-    txy(`#box${index}`, nodeX, NODE_TOP);
-    await txy(`#edge${index - 1}`, nodeX - EDGE_WIDTH, EDGE_TOP);
-    bgcolor(`#edge${index - 1}`, Colors.stroke);
-    $(`#arrow${index - 1}`).css(arrowStyle);
+    txy(`#box${key}`, nodeX, NODE_TOP);
+    await txy(eid, nodeX - EDGE_WIDTH, EDGE_TOP);
+    $(`#arrow${key - 1}`).css(arrowStyle);
+    bgcolor(eid, Colors.stroke);
   };
 
   const findNode = async (predicate) => {
     if (predicate(head, 0)) return head;
     let node = head.next, vi = 1;
     while (node) {
-      await bgcolor(`#next${node.index}`, Colors.visited);
+      await bgcolor(`#next${node.key}`, Colors.visited);
       await sleep(delay);
-      await bgcolor(`#next${node.index}`, Colors.white);
+      await bgcolor(`#next${node.key}`, Colors.white);
       if (predicate(node, vi)) break;
       node = node.next;
       vi++;
@@ -62,25 +63,26 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
     }
     const prev = await findNode((_, i) => i === k);
     if (k > 0) sound('swap');
-    const index = arr.length;
-    await tx(`#box${index}`, k * STEP_SIZE);
-    await txy(`#edge${index - 1}`, k * STEP_SIZE + 30, 80);
-    animate(`#edge${index - 1}`, { rotate: -90 }, dur);
-    bgcolor(`#edge${index - 1}`, Colors.stroke);
-    $(`#arrow${index - 1}`).css(arrowStyle);
+    const key = arr.length;
+    const eid = `#edge${key - 1}`;
+    await tx(`#box${key}`, k * STEP_SIZE);
+    await txy(eid, k * STEP_SIZE + 30, 80);
+    animate(eid, { rotate: -90 }, dur);
+    bgcolor(eid, Colors.stroke);
+    $(`#arrow${key - 1}`).css(arrowStyle);
     const next = prev.next;
-    animate(`#edge${next.index - 1}`, { rotate: 45, width: 55 }, dur);
-    ty(`#edge${next.index - 1}`, 40);
+    animate(next.eid, { rotate: 45, width: 55 }, dur);
+    ty(next.eid, 40);
     await sleep(delay * 2);
     sound('swap');
     shiftNodes(prev, k + 2);
     const nodeX = (k + 1) * STEP_SIZE;
-    txy(`#box${index}`, nodeX, NODE_TOP);
-    txy(`#edge${index - 1}`, nodeX - EDGE_WIDTH, EDGE_TOP);
-    animate(`#edge${index - 1}`, { rotate: 0 }, dur);
-    animate(`#edge${next.index - 1}`, { rotate: 0, width: EDGE_WIDTH }, dur);
-    ty(`#edge${next.index - 1}`, EDGE_TOP);
-    const newNode = { value, index, prev };
+    txy(`#box${key}`, nodeX, NODE_TOP);
+    txy(eid, nodeX - EDGE_WIDTH, EDGE_TOP);
+    animate(eid, { rotate: 0 }, dur);
+    animate(next.eid, { rotate: 0, width: EDGE_WIDTH }, dur);
+    ty(next.eid, EDGE_TOP);
+    const newNode = { value, key, eid, prev };
     newNode.next = prev.next;
     prev.next = newNode;
     arr.push(newNode);
@@ -90,8 +92,8 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
     let cur = node.next;
     while (cur) {
       const shiftX = vi * STEP_SIZE;
-      tx(`#box${cur.index}`, shiftX);
-      tx(`#edge${cur.index - 1}`, shiftX - EDGE_WIDTH);
+      tx(`#box${cur.key}`, shiftX);
+      tx(cur.eid, shiftX - EDGE_WIDTH);
       cur = cur.next;
       vi++;
     }
@@ -106,8 +108,8 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
       });
       return;
     }
-    animate(`#box${node.index}`, { opacity: 0 });
-    animate(`#edge${node.index - 1}`, { opacity: 0 });
+    animate(node.id, { opacity: 0 });
+    animate(node.eid, { opacity: 0 });
     await sleep(delay);
     sound('swap');
     shiftNodes(node, k + 1);

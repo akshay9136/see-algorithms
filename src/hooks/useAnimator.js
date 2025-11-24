@@ -8,11 +8,11 @@ export default function useAnimator() {
         if (node) {
             node.x = node.x + dx;
             node.y = node.y - dy;
-            txy(`#node${node.index}`, node.x, node.y, t);
+            txy(node.id, node.x, node.y, t);
             if (node.parent) {
                 const ex = node.x + 25;
                 const ey = node.y + 20;
-                txy(`#edge${node.key - 1}`, ex, ey, t);
+                txy(node.eid, ex, ey, t);
             }
             cleanup(node.left, dx, dy, t);
             cleanup(node.right, dx, dy, t);

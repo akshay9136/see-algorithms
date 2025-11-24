@@ -64,19 +64,19 @@ function heapify(i):
                 setCurrentStep('2,3');
                 await Tree.swapNodes(first, last);
             }
-            await bgcolor(`#node${last.index}`, Colors.sorted);
+            await bgcolor(last.id, Colors.sorted);
             yield delay;
             setCurrentStep('2,4');
             yield* heapify(Tree.node(0), i);
         }
         setCurrentStep('');
         const head = Tree.node(0);
-        await bgcolor(`#node${head.index}`, Colors.sorted);
+        await bgcolor(head.id, Colors.sorted);
         yield delay;
         for (let i = 0; i < n; i++) {
-            txy(`#node${Tree.node(i).index}`, i * 50, 0);
+            txy(Tree.node(i).id, i * 50, 0);
             if (i < n - 1) {
-                animate(`#edge${i}`, { width: 0 }, 0);
+                animate(`#edge${i}`, { opacity: 0 });
             }
         }
     }
@@ -93,26 +93,25 @@ function heapify(i):
     };
 
     async function* heapify(node, n) {
-        const index = node.index;
-        await bgcolor(`#node${index}`, Colors.compare);
+        await bgcolor(node.id, Colors.compare);
         yield delay / 2;
         const max = getLargest(node, n);
         if (max !== node) {
-            await bgcolor(`#node${max.index}`, Colors.compare);
+            await bgcolor(max.id, Colors.compare);
             sound('swap');
             await Tree.swapNodes(node, max);
-            await bgcolor(`#node${node.index}`, Colors.white);
+            await bgcolor(node.id, Colors.white);
             yield* heapify(max, n);
         } else {
-            await bgcolor(`#node${index}`, Colors.white);
+            await bgcolor(node.id, Colors.white);
         }
     }
 
     const handleStart = (values) => {
         if (arr) return it.start();
-        setNumbers(values);
         arr = values.slice();
         sound('pop');
+        setNumbers(values);
         Tree = binaryTree(animator);
         it = Iterator(heapSort);
         return it.start();

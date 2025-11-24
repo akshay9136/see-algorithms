@@ -13,7 +13,8 @@ import { sleep } from '@/common/utils';
 import { motion } from 'framer-motion';
 import { showToast } from '@/components/toast';
 
-var list, delay = 500;
+var list,
+  delay = 500;
 
 export default function LinkedList(props) {
   const [nodes, setNodes] = useState(['H']);
@@ -36,11 +37,11 @@ export default function LinkedList(props) {
   const insertAtIndex = async (index) => {
     const value = dsInputRef.current.getValue();
     if (typeof value !== 'number') {
-        showToast({
-            message: 'Please enter a number.',
-            variant: 'error',
-        });
-        return;
+      showToast({
+        message: 'Please enter a number.',
+        variant: 'error',
+      });
+      return;
     }
     setNodes([...nodes, value]);
     await sleep(delay);
@@ -85,25 +86,17 @@ export default function LinkedList(props) {
       <Stack spacing={2}>
         <DSInput {...props} buttons={buttons} ref={dsInputRef} />
         <DSInput
-            {...props}
-            buttons={buttons2}
-            label="Enter an index: "
-            keepEmpty
+          {...props}
+          buttons={buttons2}
+          label="Enter an index: "
+          keepEmpty
         />
       </Stack>
-      <Box
-        ref={scope}
-        sx={{
-          height: 200,
-          position: 'relative',
-          width: '100%',
-          overflow: 'auto',
-        }}
-      >
+      <Box ref={scope} className="sorting" overflow="auto">
         {nodes.map((value, i) => (
           <motion.div key={i} id={`box${i}`} style={{ position: 'absolute' }}>
             <ToggleButtonGroup
-              color={i > 0 ? "info" : "warning"}
+              color={i > 0 ? 'info' : 'warning'}
               value="data"
               size="small"
               sx={{ width: 60, gap: '1px' }}

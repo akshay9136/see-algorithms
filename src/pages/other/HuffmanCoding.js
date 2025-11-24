@@ -61,8 +61,8 @@ export default function HuffmanCoding() {
             }
             if (!left && !right) {
                 codes[char] = node.data;
-                bgcolor(`#node${node.index}`, Colors.enqueue);
-                $(`#nodeBf${node.index}`).text(char);
+                bgcolor(node.id, Colors.enqueue);
+                $(`#nodeBf${node.key}`).text(char);
             }
             renderTree(left, node, true);
             renderTree(right, node);

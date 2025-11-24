@@ -10,9 +10,11 @@ const nodeAngle = ({ x, parent, isLeft }) => {
 };
 
 const _findNode = (node, fn) => {
-    if (!node) return;
-    if (fn(node)) return node;
-    return _findNode(node.left, fn) || _findNode(node.right, fn);
+    if (node) {
+      if (fn(node)) return node;
+      const { left, right } = node;
+      return _findNode(left, fn) || _findNode(right, fn);
+    }
 };
 
 function binaryTree({ tx, txy, bgcolor, animate }) {
@@ -31,24 +33,24 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
             node.x = p.x + dx;
         }
         node.y = p.y + dy;
-        node.index = arr.length;
         node.key = arr.length;
+        node.id = `#node${node.key}`;
+        node.eid = `#edge${node.key - 1}`
         arr.push(node);
         return node;
     };
 
     const append = (node, td = 0.3) => {
         const [width, rotate] = nodeAngle(node);
-        const ei = node.key - 1;
-        animate(`#edge${ei}`, { width }, { duration: td });
-        animate(`#edge${ei}`, { rotate }, { duration: td });
+        animate(node.eid, { width }, { duration: td });
+        animate(node.eid, { rotate }, { duration: td });
     };
 
     const shiftNode = (node, d, td) => {
         if (!node) return;
         const x2 = onLeft ? node.x - d : node.x + d;
-        tx(`#node${node.index}`, x2, td);
-        tx(`#edge${node.key - 1}`, x2 + 25, td);
+        tx(node.id, x2, td);
+        tx(node.eid, x2 + 25, td);
         node.x = x2;
         shiftNode(node.left, d, td);
         shiftNode(node.right, d, td);
@@ -57,10 +59,8 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
     const shiftRoot = (node, d, fromLeft, td) => {
         if (!node) return;
         const x2 = onLeft ? node.x - d : node.x + d;
-        tx(`#node${node.index}`, x2, td);
-        if (node.parent) {
-            tx(`#edge${node.key - 1}`, x2 + 25, td);
-        }
+        tx(node.id, x2, td);
+        if (node.parent) tx(node.eid, x2 + 25, td);
         node.x = x2;
         if (onLeft && !fromLeft) shiftNode(node.left, d, td);
         if (!onLeft && fromLeft) shiftNode(node.right, d, td);
@@ -107,15 +107,15 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
         cleanup,
         append,
         swapNodes(a, b) {
-            let tmp = a.value;
+            let temp = a.value;
             a.value = b.value;
-            b.value = tmp;
-            tmp = a.index;
-            a.index = b.index;
-            b.index = tmp;
+            b.value = temp;
+            temp = a.id;
+            a.id = b.id;
+            b.id = temp;
             return Promise.all([
-                txy(`#node${a.index}`, a.x, a.y, 1),
-                txy(`#node${b.index}`, b.x, b.y, 1),
+                txy(a.id, a.x, a.y, 1),
+                txy(b.id, b.x, b.y, 1),
             ]);
         },
         insert(value, parent, isLeft) {
@@ -123,20 +123,21 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
                 const el = document.getElementById('binaryTree');
                 const rect = el.getBoundingClientRect();
                 const x1 = rect.width / 2.5;
-                root = { value, index: 0, key: 0, x: x1, y: 50 };
-                txy(`#node${0}`, x1, 50);
-                animate(`#node${0}`, { opacity: 1 });
+                const id = `#node${0}`;
+                root = { value, id, key: 0, x: x1, y: 50 };
+                txy(id, x1, 50);
+                animate(id, { opacity: 1 });
                 arr.push(root);
                 return root;
             }
             const node = createNode({ value, parent, isLeft });
             setNodePath(node);
             cleanup(node);
-            txy(`#node${node.index}`, node.x, node.y);
-            txy(`#edge${node.index - 1}`, node.x + 25, node.y + 20);
+            txy(node.id, node.x, node.y);
+            txy(node.eid, node.x + 25, node.y + 20);
             append(node);
-            animate(`#node${node.index}`, { opacity: 1 });
-            bgcolor(`#edge${node.index - 1}`, Colors.stroke);
+            animate(node.id, { opacity: 1 });
+            bgcolor(node.eid, Colors.stroke);
             return node;
         },
         root(node) {

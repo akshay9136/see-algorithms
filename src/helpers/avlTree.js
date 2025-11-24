@@ -18,22 +18,22 @@ function avlTree(animator, setCurrentStep) {
 
     const updateHeight = (node) => {
         node.height = 1 + Math.max(height(node.left), height(node.right));
-        $(`#nodeBf${node.index}`).text(balanceFactor(node));
+        $(`#nodeBf${node.key}`).text(balanceFactor(node));
     };
 
     const rotateStep1 = (node, left) => {
-        const { parent, isLeft, key } = node;
+        const { parent, isLeft, eid } = node;
         if (parent) {
             parent[isLeft ? 'left' : 'right'] = left;
         } else Tree.root(left);
         left.x = node.x;
         left.y = node.y;
-        txy(`#node${left.index}`, left.x, left.y, 1);
+        txy(left.id, left.x, left.y, 1);
         left.parent = parent;
         left.isLeft = isLeft;
         node.parent = left;
-        node.key = left.key;
-        left.key = key;
+        node.eid = left.eid;
+        left.eid = eid;
     };
 
     const rotateStep2 = (node, right) => {
@@ -42,15 +42,15 @@ function avlTree(animator, setCurrentStep) {
             const dy = right.y - node.y;
             node.x = right.x;
             node.y = right.y;
-            txy(`#node${node.index}`, node.x, node.y, 1);
-            tx(`#edge${node.key - 1}`, node.x + 25, 1);
+            txy(node.id, node.x, node.y, 1);
+            tx(node.eid, node.x + 25, 1);
             Tree.append(node, 1);
             cleanup(right, dx, -dy, 1);
         } else {
             node.x = node.x + (node.isLeft ? -dx : dx);
             node.y = node.y + dy;
-            txy(`#node${node.index}`, node.x, node.y, 1);
-            tx(`#edge${node.key - 1}`, node.x + 25, 1);
+            txy(node.id, node.x, node.y, 1);
+            tx(node.eid, node.x + 25, 1);
             Tree.cleanup(node, 1);
             Tree.append(node, 1);
         }
@@ -130,7 +130,7 @@ function avlTree(animator, setCurrentStep) {
 
     const rebalance = async (node) => {
         if (!node) return;
-        bgcolor(`#node${node.index}`, Colors.compare);
+        bgcolor(node.id, Colors.compare);
         setCurrentStep('1,2');
         await sleep(delay);
         updateHeight(node);
@@ -159,7 +159,7 @@ function avlTree(animator, setCurrentStep) {
                 await rotateRight(node);
             }
         }
-        await bgcolor(`#node${node.index}`, Colors.white);
+        await bgcolor(node.id, Colors.white);
         setCurrentStep('');
         await sleep(delay);
         await rebalance(node.parent);
@@ -182,7 +182,7 @@ function avlTree(animator, setCurrentStep) {
         async insert(num) {
             const node = await Tree.insert(num);
             node.height = 0;
-            $(`#nodeBf${node.index}`).text(0);
+            $(`#nodeBf${node.key}`).text(0);
             await sleep(delay * 2);
             await rebalance(node.parent);
         },
