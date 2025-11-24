@@ -3,9 +3,9 @@ import { Box, Stack, Typography } from '@mui/material';
 import { InputNumbers, Numbox } from '@/components/common';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import { sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import { Iterator } from '@/common/timer';
+import { sound, withBoxId } from '@/common/utils';
 
 var arr, it;
 var delay = 800;
@@ -33,67 +33,63 @@ function partition(start, end):
     if arr[i] > pivot: swap(i, end)
 `);
 
-    const swapNums = async (a, b) => {
-        const d = b - a;
-        await Promise.all([ty(`#box${a}`, 50), ty(`#box${b}`, -50)]);
-        sound('swap');
-        await Promise.all([
-            tx(`#box${a}`, d * 60, 0.2 * d),
-            tx(`#box${b}`, -d * 60, 0.2 * d),
-        ]);
-        await Promise.all([ty(`#box${a}`, 0), ty(`#box${b}`, 0)]);
-        arr.swap(a, b);
-        setNumbers(arr.slice());
-        await Promise.all([tx(`#box${a}`, 0, 0), tx(`#box${b}`, 0, 0)]);
-    };
-
     async function* divide(start, end) {
         setCurrentStep('1');
-        bgcolor(`#box${end}`, Colors.sorted);
+        bgcolor(arr[end].id, Colors.sorted);
         yield delay;
         let i = start, j = end - 1;
         setCurrentStep('2');
-        bgcolor(`#box${i}`, Colors.compare);
-        bgcolor(`#box${j}`, Colors.compare);
+        bgcolor(arr[i].id, Colors.compare);
+        bgcolor(arr[j].id, Colors.compare);
         yield delay;
+        const pivot = arr[end].val;
         while (i < j) {
             setCurrentStep('3');
             yield delay;
-            if (arr[i] <= arr[end]) {
+            if (arr[i].val <= pivot) {
                 i++;
                 setCurrentStep('4,5');
-                bgcolor(`#box${i - 1}`, Colors.white);
-                bgcolor(`#box${i}`, Colors.compare);
-            } else if (arr[j] > arr[end]) {
+                bgcolor(arr[i].id, Colors.compare);
+                bgcolor(arr[i - 1].id, Colors.white);
+            } else if (arr[j].val > pivot) {
                 j--;
                 setCurrentStep('6,7');
-                bgcolor(`#box${j + 1}`, Colors.white);
-                bgcolor(`#box${j}`, Colors.compare);
+                bgcolor(arr[j].id, Colors.compare);
+                bgcolor(arr[j + 1].id, Colors.white);
             } else {
                 setCurrentStep('8');
-                await swapNums(i, j);
+                await swapNumbers(i, j);
             }
             yield delay;
         }
-        if (i < end && arr[i] > arr[end]) {
-            bgcolor(`#box${i}`, Colors.sorted);
-            yield delay;
+        if (i < end && arr[i].val > pivot) {
             setCurrentStep('9');
-            await swapNums(i, end);
+            await swapNumbers(i, end);
             yield delay / 2;
-            bgcolor(`#box${end}`, Colors.white);
+            bgcolor(arr[end].id, Colors.white);
         } else {
-            bgcolor(`#box${i}`, Colors.white);
-            i = end;
+            bgcolor(arr[i].id, Colors.sorted);
         }
         setCurrentStep('');
         return i;
     }
 
+    const swapNumbers = async (u, v) => {
+        const d = v - u;
+        await Promise.all([ty(arr[u].id, 50), ty(arr[v].id, -50)]);
+        sound('swap');
+        await Promise.all([
+            tx(arr[u].id, v * 60, 0.2 * d),
+            tx(arr[v].id, u * 60, 0.2 * d),
+        ]);
+        await Promise.all([ty(arr[u].id, 0), ty(arr[v].id, 0)]);
+        arr.swap(u, v);
+    };
+
     async function* quickSort(start, end) {
         yield delay;
         if (start >= end) {
-            bgcolor(`#box${start}`, Colors.sorted);
+            bgcolor(arr[start].id, Colors.sorted);
             return;
         }
         const pivot = yield* divide(start, end);
@@ -104,7 +100,8 @@ function partition(start, end):
     const handleStart = (values) => {
         if (arr) return it.start();
         setNumbers(values);
-        arr = values.slice();
+        sound('pop');
+        arr = values.map(withBoxId);
         it = Iterator(quickSort, 0, arr.length - 1);
         return it.start();
     };
@@ -147,8 +144,8 @@ function partition(start, end):
                     </li>
                     <li>
                         <strong>Divide and Conquer:</strong> Watch how the
-                        algorithm recursively breaks the array down into
-                        smaller sub-arrays around the pivots, sorting each one
+                        algorithm recursively breaks the array down into smaller
+                        sub-arrays around the pivots, sorting each one
                         independently.
                     </li>
                 </ul>
@@ -162,9 +159,14 @@ function partition(start, end):
                         onReset={handleStop}
                         onStop={() => it?.stop()}
                     />
-                    <Box className="sorting d-flex" pt={8} ref={scope}>
+                    <Box className="sorting" pt={8} ref={scope}>
                         {numbers.map((num, i) => (
-                            <Numbox key={i} index={i} value={num} />
+                            <Numbox
+                                key={i}
+                                index={i}
+                                value={num}
+                                animate={{ x: i * 60 }}
+                            />
                         ))}
                     </Box>
                 </Stack>

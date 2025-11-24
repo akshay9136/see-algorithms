@@ -11,9 +11,9 @@ const nodeAngle = ({ x, parent, isLeft }) => {
 
 const _findNode = (node, fn) => {
     if (node) {
-      if (fn(node)) return node;
-      const { left, right } = node;
-      return _findNode(left, fn) || _findNode(right, fn);
+        if (fn(node)) return node;
+        const { left, right } = node;
+        return _findNode(left, fn) || _findNode(right, fn);
     }
 };
 
@@ -35,7 +35,7 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
         node.y = p.y + dy;
         node.key = arr.length;
         node.id = `#node${node.key}`;
-        node.eid = `#edge${node.key - 1}`
+        node.eid = `#edge${node.key - 1}`;
         arr.push(node);
         return node;
     };

@@ -3,9 +3,9 @@ import { Box, Stack, Typography } from '@mui/material';
 import { InputNumbers, Numbox } from '@/components/common';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import { sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import { Iterator } from '@/common/timer';
+import { sound, withBoxId } from '@/common/utils';
 
 var arr, it;
 var delay = 800;
@@ -40,7 +40,7 @@ for i = 1 to (n - 1):
                 sound('swap');
                 await tx(arr[j].id, (j + 1) * 60);
                 arr[j + 1] = arr[j];
-                yield 0;
+                yield 200;
                 j--;
             }
             sound('swap');
@@ -62,7 +62,7 @@ for i = 1 to (n - 1):
         if (arr) return it.start();
         setNumbers(values);
         sound('pop');
-        arr = values.map((val, i) => ({ val, id: `#box${i}` }));
+        arr = values.map(withBoxId);
         it = Iterator(insertionSort);
         return it.start();
     };
@@ -119,14 +119,13 @@ for i = 1 to (n - 1):
                         onReset={handleStop}
                         onStop={() => it?.stop()}
                     />
-                    <Box className="sorting d-flex" pt={8} ref={scope}>
+                    <Box className="sorting" pt={8} ref={scope}>
                         {numbers.map((num, i) => (
                             <Numbox
                                 key={i}
                                 index={i}
                                 value={num}
                                 animate={{ x: i * 60 }}
-                                style={{ position: 'absolute' }}
                             />
                         ))}
                     </Box>

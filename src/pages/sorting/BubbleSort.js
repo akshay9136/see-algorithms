@@ -3,9 +3,9 @@ import { Box, Stack, Typography } from '@mui/material';
 import { InputNumbers, Numbox } from '@/components/common';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import { sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import { Iterator } from '@/common/timer';
+import { sound, withBoxId } from '@/common/utils';
 
 var arr, it;
 var delay = 800;
@@ -23,17 +23,15 @@ for i = 1 to (n - 1):
     if not swapped: break
 `);
 
-    const swapNumbers = async (u, v) => {
-        await Promise.all([tx(`#box${u}`, 60), tx(`#box${v}`, -60)]);
+    const swapNums = async (u, v) => {
+        await Promise.all([tx(arr[u].id, v * 60), tx(arr[v].id, u * 60)]);
         arr.swap(u, v);
-        setNumbers(arr.slice());
-        await Promise.all([tx(`#box${u}`, 0, 0), tx(`#box${v}`, 0, 0)]);
     };
 
     const compare = async (u, v) => {
-        bgcolor(`#box${u}`, Colors.compare);
-        bgcolor(`#box${v}`, Colors.compare);
-        if (u > 0) bgcolor(`#box${u - 1}`, Colors.white);
+        bgcolor(arr[u].id, Colors.compare);
+        bgcolor(arr[v].id, Colors.compare);
+        if (u > 0) bgcolor(arr[u - 1].id, Colors.white);
     };
 
     async function* bubbleSort() {
@@ -47,34 +45,34 @@ for i = 1 to (n - 1):
                 setCurrentStep('2,3');
                 await compare(j, j + 1);
                 yield delay;
-                if (arr[j] > arr[j + 1]) {
+                if (arr[j].val > arr[j + 1].val) {
                     swap = true;
                     setCurrentStep('4,5');
                     sound('swap');
-                    await swapNumbers(j, j + 1);
+                    await swapNums(j, j + 1);
                     yield delay;
                 }
             }
             let k = n - i;
-            bgcolor(`#box${k - 1}`, Colors.white);
-            bgcolor(`#box${k}`, Colors.sorted);
+            bgcolor(arr[k - 1].id, Colors.white);
+            bgcolor(arr[k].id, Colors.sorted);
             if (!swap) {
                 setCurrentStep('6');
                 yield delay;
-                for (let j = 0; j < n - i; j++) {
-                    bgcolor(`#box${j}`, Colors.sorted);
-                }
                 break;
             }
         }
-        bgcolor(`#box${0}`, Colors.sorted);
+        arr.forEach((_, i) => {
+            bgcolor(`#box${i}`, Colors.sorted);
+        });
         setCurrentStep('');
     }
 
     const handleStart = (values) => {
         if (arr) return it.start();
         setNumbers(values);
-        arr = values.slice();
+        sound('pop');
+        arr = values.map(withBoxId);
         it = Iterator(bubbleSort);
         return it.start();
     };
@@ -132,9 +130,14 @@ for i = 1 to (n - 1):
                         onReset={handleStop}
                         onStop={() => it?.stop()}
                     />
-                    <Box display="flex" pt={4} className="sorting" ref={scope}>
+                    <Box className="sorting" pt={4} ref={scope}>
                         {numbers.map((num, i) => (
-                            <Numbox key={i} index={i} value={num} />
+                            <Numbox
+                                key={i}
+                                index={i}
+                                value={num}
+                                animate={{ x: i * 60 }}
+                            />
                         ))}
                     </Box>
                 </Stack>

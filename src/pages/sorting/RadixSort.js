@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import { InputNumbers, Numbox } from '@/components/common';
-import useAnimator from '@/hooks/useAnimator';
-import { sleep, sound } from '@/common/utils';
 import { Iterator } from '@/common/timer';
+import { sleep, sound, withBoxId } from '@/common/utils';
+import useAnimator from '@/hooks/useAnimator';
 
 var arr, out, n;
 var max, exp, b;
@@ -14,7 +14,7 @@ function RadixSort() {
   const [scope, { txy, animate }] = useAnimator();
   const [nextExp, setNextExp] = useState(0);
 
-  const enqueue = async (i) => {
+  async function enqueue(i) {
     const j = Math.floor(arr[i].val / exp) % 10;
     b[j].push(i);
     animate(arr[i].id, { height: 30 });
@@ -23,7 +23,7 @@ function RadixSort() {
     await txy(arr[i].id, j * 60, 240 - dy);
   };
 
-  const dequeue = async (j) => {
+  async function* dequeue(j) {
     while (b[j].length) {
       const i = b[j].pop();
       out.push(arr[i]);
@@ -31,7 +31,7 @@ function RadixSort() {
       animate(arr[i].id, { height: 40 });
       sound('swap');
       await txy(arr[i].id, k * 60, 0);
-      await sleep(delay);
+      yield delay;
     }
   };
 
@@ -48,8 +48,7 @@ function RadixSort() {
       yield delay;
       out = [];
       for (let j = 9; j >= 0; j--) {
-        await dequeue(j);
-        yield 0;
+        yield* dequeue(j);
       }
       exp *= 10;
       arr = out.reverse();
@@ -62,11 +61,11 @@ function RadixSort() {
     if (arr) return it.start();
     setNumbers(values);
     sound('pop');
-    arr = values.map((val, i) => ({ val, id: `#box${i}`}));
+    arr = values.map(withBoxId);
+    n = arr.length;
     max = Math.max(...values);
     exp = 1;
     it = Iterator(radixSort);
-    n = arr.length;
     return it.start();
   };
 
@@ -142,10 +141,7 @@ function RadixSort() {
               index={i}
               value={renderDigits(num)}
               animate={{ x: i * 60 }}
-              style={{
-                position: 'absolute',
-                fontWeight: 600,
-              }}
+              style={{ fontWeight: 'bold' }}
             />
           ))}
         </Box>
@@ -168,8 +164,7 @@ function RadixSort() {
 
 const styles = {
   bucket: () => ({
-    position: 'absolute',
-    fontWeight: 600,
+    fontWeight: 'bold',
     fontSize: '1rem',
     background: 'transparent',
     border: 0,

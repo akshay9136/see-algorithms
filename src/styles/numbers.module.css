@@ -25,6 +25,7 @@
     justify-content: center;
     background-color: white;
     font-weight: 600;
+    position: absolute;
 }
 
 .node {

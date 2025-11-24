@@ -270,6 +270,8 @@ export const randomInt = () => Math.floor(Math.random() * 99) + 1;
 
 export const bgcolor = (id, color) => $(id).css('background-color', color);
 
+export const withBoxId = (val, i) => ({ val, id: `#box${i}` });
+
 export const sleep = (t) => {
     return new Promise((resolve) => setTimeout(resolve, t));
 };

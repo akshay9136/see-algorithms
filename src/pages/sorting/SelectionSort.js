@@ -3,10 +3,10 @@ import { Box, Stack, Typography } from '@mui/material';
 import { InputNumbers, Numbox } from '@/components/common';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import { sound } from '@/common/utils';
+import Link from 'next/link';
+import { sound, withBoxId } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import { Iterator } from '@/common/timer';
-import Link from 'next/link';
 
 var arr, it;
 var delay = 500;
@@ -29,58 +29,58 @@ for i = 0 to (n - 1):
             yield 1000;
             setCurrentStep('1');
             sound('pop');
-            await ty(`#box${i}`, -50);
+            await ty(arr[i].id, -50);
             yield delay;
             let k = i;
             for (let j = i + 1; j < n; j++) {
                 setCurrentStep('2,3');
-                bgcolor(`#box${j - 1}`, Colors.white);
-                bgcolor(`#box${j}`, Colors.compare);
+                bgcolor(arr[j].id, Colors.compare);
+                bgcolor(arr[j - 1].id, Colors.white);
                 yield delay;
-                if (arr[j] < arr[k]) {
+                if (arr[j].val < arr[k].val) {
                     setCurrentStep('4');
-                    ty(`#box${k}`, 0);
+                    ty(arr[k].id, 0);
                     k = j;
                     sound('pop');
-                    await ty(`#box${k}`, -50);
+                    await ty(arr[k].id, -50);
                     yield delay;
                 }
             }
-            bgcolor(`#box${n - 1}`, Colors.white);
+            bgcolor(arr[n - 1].id, Colors.white);
             yield delay;
             if (k > i) {
                 setCurrentStep('5');
-                await ty(`#box${i}`, 50);
+                await ty(arr[i].id, 50);
                 yield 0;
                 sound('swap');
-                await swapNumbers(i, k);
+                await swapMin(i, k);
             } else {
                 sound('swap');
-                await ty(`#box${k}`, 0);
+                await ty(arr[k].id, 0);
             }
-            bgcolor(`#box${i}`, Colors.sorted);
+            bgcolor(arr[i].id, Colors.sorted);
+            yield delay;
+            setCurrentStep('');
         }
-        setCurrentStep('');
         yield delay;
-        bgcolor(`#box${n - 1}`, Colors.sorted);
+        bgcolor(arr[n - 1].id, Colors.sorted);
     }
 
-    const swapNumbers = async (i, j) => {
-        let k = j - i;
+    const swapMin = async (u, v) => {
+        let d = v - u;
         await Promise.all([
-            tx(`#box${i}`, k * 60, 0.2 * k),
-            tx(`#box${j}`, -k * 60, 0.2 * k),
+            tx(arr[u].id, v * 60, 0.2 * d),
+            tx(arr[v].id, u * 60, 0.2 * d),
         ]);
-        await Promise.all([ty(`#box${i}`, 0), ty(`#box${j}`, 0)]);
-        arr.swap(i, j);
-        setNumbers(arr.slice());
-        await Promise.all([tx(`#box${i}`, 0, 0), tx(`#box${j}`, 0, 0)]);
+        await Promise.all([ty(arr[u].id, 0), ty(arr[v].id, 0)]);
+        arr.swap(u, v);
     };
 
     const handleStart = (values) => {
         if (arr) return it.start();
         setNumbers(values);
-        arr = values.slice();
+        sound('pop');
+        arr = values.map(withBoxId);
         it = Iterator(selectionSort);
         return it.start();
     };
@@ -130,7 +130,7 @@ for i = 0 to (n - 1):
                     </li>
                 </ul>
             </Typography>
-            <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
+            <Box display="flex" gap={3} flexWrap="wrap">
                 {algorithm}
                 <Stack spacing={3}>
                     <InputNumbers
@@ -138,9 +138,14 @@ for i = 0 to (n - 1):
                         onReset={handleStop}
                         onStop={() => it?.stop()}
                     />
-                    <Box className="sorting d-flex" pt={8} ref={scope}>
+                    <Box className="sorting" pt={8} ref={scope}>
                         {numbers.map((num, i) => (
-                            <Numbox key={i} index={i} value={num} />
+                            <Numbox
+                                key={i}
+                                index={i}
+                                value={num}
+                                animate={{ x: i * 60 }}
+                            />
                         ))}
                     </Box>
                 </Stack>

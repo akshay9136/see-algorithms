@@ -3,16 +3,16 @@ import { Box, Stack, Typography } from '@mui/material';
 import { InputNumbers, Numbox } from '@/components/common';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import { sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import { Iterator } from '@/common/timer';
+import { sound, withBoxId } from '@/common/utils';
 
 var arr, it;
 var delay = 500;
 
 export default function MergeSort() {
     const [numbers, setNumbers] = useState([]);
-    const [scope, { tx, ty, txy, bgcolor }] = useAnimator();
+    const [scope, { ty, txy, bgcolor }] = useAnimator();
     const [algorithm] = useAlgorithm(`
 function mergeSort(start, end):
     if start < end:
@@ -44,7 +44,7 @@ function merge(start, mid, end):
 
     const getMergeIndex = (p, q, mid, end) => {
         if (p <= mid && q <= end) {
-            return arr[p] <= arr[q] ? p : q;
+            return arr[p].val <= arr[q].val ? p : q;
         }
         return p <= mid ? p : q;
     };
@@ -56,16 +56,15 @@ function merge(start, mid, end):
             let s = getMergeIndex(p, q, mid, end);
             temp.push(arr[s]);
             sound('swap');
-            await txy(`#box${s}`, 60 * (r - s), ypos - 60);
-            await bgcolor(`#box${s}`, Colors.sorted);
-            yield 0;
+            await txy(arr[s].id, 60 * r, ypos - 60);
+            await bgcolor(arr[s].id, Colors.sorted);
+            yield 100;
             s === q ? q++ : p++;
             r++;
         }
         for (let i = 0; i < temp.length; i++) {
             arr[start + i] = temp[i];
         }
-        setNumbers(arr.slice());
     }
 
     const split = (start, end, ypos) => {
@@ -90,14 +89,10 @@ function merge(start, mid, end):
         yield* merge(start, mid, end, ypos);
     }
 
-    useEffect(() => {
-        numbers.forEach((_, i) => tx(`#box${i}`, 0, 0));
-    }, [numbers]);
-
     const handleStart = (values) => {
         if (arr) return it.start();
         setNumbers(values);
-        arr = values.slice();
+        arr = values.map(withBoxId);
         it = Iterator(mergeSort, 0, arr.length - 1, 60);
         return it.start();
     };
@@ -145,7 +140,7 @@ function merge(start, mid, end):
                     </li>
                 </ul>
             </Typography>
-            <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
+            <Box display="flex" gap={3} flexWrap="wrap">
                 {mergeAlgo}
                 <Stack spacing={3}>
                     {algorithm}
@@ -154,9 +149,14 @@ function merge(start, mid, end):
                         onReset={handleStop}
                         onStop={() => it?.stop()}
                     />
-                    <Box className="d-flex mergeSort" pt={4} ref={scope}>
+                    <Box className="mergeSort" pt={4} ref={scope}>
                         {numbers.map((num, i) => (
-                            <Numbox key={i} index={i} value={num} />
+                            <Numbox
+                                key={i}
+                                index={i}
+                                value={num}
+                                animate={{ x: i * 60 }}
+                            />
                         ))}
                     </Box>
                 </Stack>

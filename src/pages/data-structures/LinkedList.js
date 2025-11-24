@@ -13,13 +13,12 @@ import { sleep } from '@/common/utils';
 import { motion } from 'framer-motion';
 import { showToast } from '@/components/toast';
 
-var list,
-  delay = 500;
+var list, delay = 500;
 
 export default function LinkedList(props) {
   const [nodes, setNodes] = useState(['H']);
   const [scope, animator] = useAnimator();
-  const dsInputRef = useRef(null);
+  const inputRef = useRef(null);
   const { txy } = animator;
 
   const insertAtHead = async (value) => {
@@ -35,7 +34,7 @@ export default function LinkedList(props) {
   };
 
   const insertAtIndex = async (index) => {
-    const value = dsInputRef.current.getValue();
+    const value = inputRef.current.getValue();
     if (typeof value !== 'number') {
       showToast({
         message: 'Please enter a number.',
@@ -84,7 +83,7 @@ export default function LinkedList(props) {
         deletions, but slower for direct access to an element.
       </Typography>
       <Stack spacing={2}>
-        <DSInput {...props} buttons={buttons} ref={dsInputRef} />
+        <DSInput {...props} buttons={buttons} ref={inputRef} />
         <DSInput
           {...props}
           buttons={buttons2}
@@ -96,17 +95,17 @@ export default function LinkedList(props) {
         {nodes.map((value, i) => (
           <motion.div key={i} id={`box${i}`} style={{ position: 'absolute' }}>
             <ToggleButtonGroup
-              color={i > 0 ? 'info' : 'warning'}
-              value="data"
               size="small"
               sx={{ width: 60, gap: '1px' }}
+              value="data"
+              color={i > 0 ? 'info' : 'warning'}
             >
               <ToggleButton
                 value="data"
                 sx={{
                   width: 45,
-                  fontSize: 16,
                   padding: '4px 8px',
+                  fontSize: 16,
                   border: '1.5px solid gray',
                   fontWeight: 'bold',
                 }}
