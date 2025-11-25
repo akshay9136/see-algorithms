@@ -8,8 +8,7 @@ import {
   Box,
 } from '@mui/material';
 import styles from '@/styles/numbers.module.css';
-import { showToast } from '../toast';
-import { randomInt, sleep } from '@/common/utils';
+import { randomInt, showError, sleep } from '@/common/utils';
 import { Pause, PlayArrow } from '@mui/icons-material';
 
 const InputNumbers = forwardRef((props, ref) => {
@@ -38,10 +37,7 @@ const InputNumbers = forwardRef((props, ref) => {
   const validate = () => {
     for (let i = 0; i < numbers.length; i++) {
       if (typeof numbers[i] !== 'number') {
-        showToast({
-          message: 'Please enter valid numbers.',
-          variant: 'error',
-        });
+        showError('Please enter valid numbers.');
         return false;
       }
     }

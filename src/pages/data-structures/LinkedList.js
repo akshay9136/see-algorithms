@@ -10,8 +10,7 @@ import { DSInput, Edge } from '@/components/common';
 import useAnimator from '@/hooks/useAnimator';
 import linkedList from '@/helpers/linkedList';
 import { motion } from 'framer-motion';
-import { sleep } from '@/common/utils';
-import { showToast } from '@/components/toast';
+import { showError, sleep } from '@/common/utils';
 
 var list, delay = 500;
 
@@ -36,10 +35,7 @@ export default function LinkedList(props) {
   const insertAtIndex = async (index) => {
     const value = inputRef.current.getValue();
     if (typeof value !== 'number') {
-      showToast({
-        message: 'Please enter a number.',
-        variant: 'error',
-      });
+      showError('Please enter a number.');
       return;
     }
     setNodes([...nodes, value]);
@@ -47,8 +43,11 @@ export default function LinkedList(props) {
     await list.insertAtIndex(value, index);
   };
 
-  const deleteAtIndex = (index) => {
-    return list.deleteAtIndex(index);
+  const deleteAtIndex = async (index) => {
+    const found = await list.deleteAtIndex(index);
+    if (!found) {
+      showError('Index is out of bound.');
+    }
   };
 
   const reset = () => {

@@ -6,6 +6,7 @@ import {
   CardContent,
   Grid,
   Link,
+  Stack,
 } from '@mui/material';
 import Head from 'next/head';
 
@@ -43,7 +44,7 @@ export default function AboutUs() {
         <Box sx={{ mt: 6 }}>
           <Grid container spacing={4}>
             <Grid item xs={12} md={8}>
-              <Typography variant="h5" gutterBottom fontWeight={600}>
+              <Typography variant="h6" gutterBottom fontWeight={600}>
                 Our Mission
               </Typography>
               <Typography variant="body1" paragraph>
@@ -61,10 +62,10 @@ export default function AboutUs() {
               </Typography>
 
               <Typography
-                variant="h5"
+                variant="h6"
                 gutterBottom
                 fontWeight={600}
-                sx={{ mt: 4 }}
+                sx={{ my: 2 }}
               >
                 Why We Built This
               </Typography>
@@ -84,10 +85,10 @@ export default function AboutUs() {
               </Typography>
 
               <Typography
-                variant="h5"
+                variant="h6"
                 gutterBottom
                 fontWeight={600}
-                sx={{ mt: 4 }}
+                sx={{ my: 2 }}
               >
                 What Makes Us Different
               </Typography>
@@ -114,23 +115,23 @@ export default function AboutUs() {
 
             <Grid item xs={12} md={4}>
               <Card elevation={3} sx={{ mb: 3 }}>
-                <CardContent>
+                <CardContent component={Stack} spacing={2}>
                   <Typography variant="h6" gutterBottom fontWeight={600}>
                     Our Values
                   </Typography>
-                  <Typography variant="body2" paragraph>
+                  <Typography variant="body2">
                     <strong>Accessibility:</strong> Making complex concepts
                     understandable for all skill levels
                   </Typography>
-                  <Typography variant="body2" paragraph>
+                  <Typography variant="body2">
                     <strong>Quality:</strong> Providing accurate,
                     well-researched educational content
                   </Typography>
-                  <Typography variant="body2" paragraph>
+                  <Typography variant="body2">
                     <strong>Innovation:</strong> Using cutting-edge technology
                     to enhance learning
                   </Typography>
-                  <Typography variant="body2" paragraph>
+                  <Typography variant="body2">
                     <strong>Community:</strong> Building a supportive learning
                     environment for all users
                   </Typography>
@@ -138,20 +139,14 @@ export default function AboutUs() {
               </Card>
 
               <Card elevation={3}>
-                <CardContent>
+                <CardContent component={Stack} spacing={2}>
                   <Typography variant="h6" gutterBottom fontWeight={600}>
                     Algorithm Categories
                   </Typography>
-                  <Typography variant="body2" paragraph>
-                    • Sorting Algorithms
-                  </Typography>
-                  <Typography variant="body2" paragraph>
-                    • Graph Algorithms
-                  </Typography>
-                  <Typography variant="body2" paragraph>
-                    • Data Structures
-                  </Typography>
-                  <Typography variant="body2" paragraph>
+                  <Typography variant="body2">• Sorting Algorithms</Typography>
+                  <Typography variant="body2">• Graph Algorithms</Typography>
+                  <Typography variant="body2">• Data Structures</Typography>
+                  <Typography variant="body2">
                     • Computational Geometry
                   </Typography>
                 </CardContent>
@@ -161,7 +156,7 @@ export default function AboutUs() {
 
           <Box sx={{ mt: 6 }}>
             <Typography
-              variant="h5"
+              variant="h6"
               gutterBottom
               fontWeight={600}
               align="center"
@@ -176,40 +171,40 @@ export default function AboutUs() {
             <Grid container spacing={2} sx={{ mt: 2 }}>
               <Grid item xs={6} sm={3}>
                 <Card elevation={1} sx={{ p: 2, textAlign: 'center' }}>
-                  <Typography variant="body2" fontWeight={600}>
+                  <Typography variant="subtitle1" fontWeight={600}>
                     Next.js
                   </Typography>
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography variant="body2" color="text.secondary">
                     React Framework
                   </Typography>
                 </Card>
               </Grid>
               <Grid item xs={6} sm={3}>
                 <Card elevation={1} sx={{ p: 2, textAlign: 'center' }}>
-                  <Typography variant="body2" fontWeight={600}>
+                  <Typography variant="subtitle1" fontWeight={600}>
                     Material-UI
                   </Typography>
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography variant="body2" color="text.secondary">
                     Design System
                   </Typography>
                 </Card>
               </Grid>
               <Grid item xs={6} sm={3}>
                 <Card elevation={1} sx={{ p: 2, textAlign: 'center' }}>
-                  <Typography variant="body2" fontWeight={600}>
+                  <Typography variant="subtitle1" fontWeight={600}>
                     Framer Motion
                   </Typography>
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography variant="body2" color="text.secondary">
                     Animations
                   </Typography>
                 </Card>
               </Grid>
               <Grid item xs={6} sm={3}>
                 <Card elevation={1} sx={{ p: 2, textAlign: 'center' }}>
-                  <Typography variant="body2" fontWeight={600}>
+                  <Typography variant="subtitle1" fontWeight={600}>
                     Responsive
                   </Typography>
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography variant="body2" color="text.secondary">
                     Mobile-First
                   </Typography>
                 </Card>
@@ -218,7 +213,7 @@ export default function AboutUs() {
           </Box>
 
           <Box sx={{ mt: 6, textAlign: 'center' }}>
-            <Typography variant="h5" gutterBottom fontWeight={600}>
+            <Typography variant="h6" gutterBottom fontWeight={600}>
               Join Our Learning Community
             </Typography>
             <Typography variant="body1" paragraph>

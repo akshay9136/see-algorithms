@@ -1,7 +1,6 @@
 import { sleep, sound } from '../common/utils';
 import { Colors } from '../common/constants';
 import $ from 'jquery';
-import { showToast } from '@/components/toast';
 
 const STEP_SIZE = 60 + 30;
 const NODE_TOP = 80;
@@ -101,22 +100,15 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
 
   const deleteAtIndex = async (k) => {
     const node = await findNode((_, i) => i - 1 === k);
-    if (!node) {
-      showToast({
-        message: 'Index is out of bound.',
-        variant: 'error',
-      });
-      return;
-    }
+    if (!node) return false;
     animate(node.id, { opacity: 0 });
     animate(node.eid, { opacity: 0 });
     await sleep(delay);
     sound('swap');
     shiftNodes(node, k + 1);
     node.prev.next = node.next;
-    if (node.next) {
-      node.next.prev = node.prev;
-    }
+    if (node.next) node.next.prev = node.prev;
+    return true;
   };
 
   return {

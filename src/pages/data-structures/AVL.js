@@ -5,8 +5,7 @@ import avlTree from '@/helpers/avlTree';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import useAnimator from '@/hooks/useAnimator';
 import { useRouter } from 'next/router';
-import { showToast } from '@/components/toast';
-import { copyBinaryTree, sleep } from '@/common/utils';
+import { copyBinaryTree, showError, sleep } from '@/common/utils';
 import { Share } from '@mui/icons-material';
 
 var arr = [], Tree;
@@ -43,10 +42,7 @@ function rebalance(node):
 
     const insert = async (num) => {
         if (arr.includes(num) && !deleted[num]) {
-            showToast({
-                message: 'Duplicates are not allowed.',
-                variant: 'error',
-            });
+            showError('Duplicates are not allowed.');
             return;
         }
         deleted[num] = false;
@@ -63,7 +59,7 @@ function rebalance(node):
         if (arr.includes(num)) deleted[num] = true;
         await sleep(500);
         await Tree.deleteNode(num);
-        if (!Tree.root()) reset();
+        if (!Tree.root()) setNumbers([]);
     };
 
     const reset = () => setNumbers([]);

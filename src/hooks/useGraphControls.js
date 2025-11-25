@@ -1,13 +1,12 @@
 import { useContext } from 'react';
-import { showToast } from '@/components/toast';
-import Graph, { Path } from '@/common/graph';
-import $ from 'jquery';
+import { clearGraph, createGraph, showError } from '@/common/utils';
 import { drawGraph, switchGraph } from '@/helpers/drawGraph';
 import { randomGraph } from '@/helpers/randomGraph';
-import { clearGraph, createGraph } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import AppContext from '@/common/context';
+import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
+import $ from 'jquery';
 
 function useGraphControls(config, props) {
   const { isDirGraph, playStatus, setContext } = useContext(AppContext);
@@ -25,7 +24,7 @@ function useGraphControls(config, props) {
       message = 'Please draw connected graph.';
     }
     if (message) {
-      showToast({ message, variant: 'error' });
+      showError(message);
       return false;
     }
     return true;

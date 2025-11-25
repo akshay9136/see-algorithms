@@ -10,9 +10,9 @@ import {
     findCurve,
     hasValue,
     charAt,
+    showError,
 } from '../common/utils';
 import Graph, { Path, Point } from '../common/graph';
-import { showToast } from '../components/toast';
 import { Colors } from '../common/constants';
 
 export function drawGraph({ weighted, acyclic }) {
@@ -85,10 +85,7 @@ export function drawGraph({ weighted, acyclic }) {
             if (weighted) addCost(px, p);
             if (Graph.isDirected()) {
                 if (acyclic && Graph.hasCycle()) {
-                    showToast({
-                        message: 'Please draw acyclic graph.',
-                        variant: 'error',
-                    });
+                    showError('Please draw acyclic graph.');
                     Path('.edge:last').remove();
                     Graph.removeEdge(ipx, k);
                     return;

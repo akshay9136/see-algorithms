@@ -229,6 +229,10 @@ const copyBinaryTree = (root) => {
     });
 };
 
+const showError = (msg) => {
+    showToast({ message: msg, variant: 'error' });
+};
+
 export {
     cursorOffset,
     addVertex,
@@ -246,6 +250,7 @@ export {
     createGraph,
     traverse,
     copyBinaryTree,
+    showError,
 };
 
 export const sound = (name) => {

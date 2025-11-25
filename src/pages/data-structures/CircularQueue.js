@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
-import { Box, Stack, Typography } from '@mui/material';
 import { DSInput } from '@/components/common';
-import { showToast } from '@/components/toast';
-import { createGrid, sound } from '@/common/utils';
+import { Box, Stack, Typography } from '@mui/material';
+import { createGrid, showError, sound } from '@/common/utils';
 import useAlgorithm from '@/hooks/useAlgorithm';
 
 var cells, n = 10;
@@ -74,7 +73,7 @@ function dequeue():
 
 function enqueue(num) {
     if (front === rear && size === n) {
-        showToast({ message: 'Queue is full.', variant: 'error' });
+        showError('Queue is full.');
     } else {
         sound('pop');
         cells[n + rear].textContent = num;
@@ -88,7 +87,7 @@ function enqueue(num) {
 
 function dequeue() {
     if (front === rear && size === 0) {
-        showToast({ message: 'Queue is empty.', variant: 'error' });
+        showError('Queue is empty.');
     } else {
         sound('pop');
         cells[front].textContent = '';

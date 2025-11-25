@@ -1,10 +1,10 @@
 import { DrawGraph } from '@/components/common';
 import { Stack, Typography } from '@mui/material';
-import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
 import Timer from '@/common/timer';
 import { Colors } from '@/common/constants';
 import { hasValue, sound } from '@/common/utils';
+import $ from 'jquery';
 
 export default function Kruskals(props) {
     return (

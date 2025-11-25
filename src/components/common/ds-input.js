@@ -1,7 +1,6 @@
 import { useState, forwardRef, useImperativeHandle } from 'react';
 import { Input, Button, Typography, Box } from '@mui/material';
-import { randomInt } from '@/common/utils';
-import { showToast } from '../toast';
+import { randomInt, showError } from '@/common/utils';
 import styles from '@/styles/numbers.module.css';
 
 const DSInput = forwardRef((props, ref) => {
@@ -19,10 +18,7 @@ const DSInput = forwardRef((props, ref) => {
 
   const validate = (callback) => {
     if (typeof number !== 'number') {
-      showToast({
-        message: 'Please enter a number.',
-        variant: 'error',
-      });
+      showError('Please enter a number.');
     } else {
       setStatus(true);
       callback(number).then(() => {
