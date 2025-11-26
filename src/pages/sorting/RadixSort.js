@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import { InputNumbers, Numbox } from '@/components/common';
 import { Iterator } from '@/common/timer';
-import { sleep, sound, withBoxId } from '@/common/utils';
+import { sound, withBoxId } from '@/common/utils';
 import useAnimator from '@/hooks/useAnimator';
 
 var arr, out, n;
@@ -140,7 +140,6 @@ function RadixSort() {
               key={i}
               index={i}
               value={renderDigits(num)}
-              animate={{ x: i * 60 }}
               style={{ fontWeight: 'bold' }}
             />
           ))}

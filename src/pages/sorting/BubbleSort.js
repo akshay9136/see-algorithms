@@ -23,15 +23,15 @@ for i = 1 to (n - 1):
     if not swapped: break
 `);
 
-    const swapNums = async (u, v) => {
-        await Promise.all([tx(arr[u].id, v * 60), tx(arr[v].id, u * 60)]);
-        arr.swap(u, v);
-    };
-
     const compare = async (u, v) => {
         bgcolor(arr[u].id, Colors.compare);
         bgcolor(arr[v].id, Colors.compare);
         if (u > 0) bgcolor(arr[u - 1].id, Colors.white);
+    };
+
+    const swapNumbers = async (u, v) => {
+        await Promise.all([tx(arr[u].id, v * 60), tx(arr[v].id, u * 60)]);
+        arr.swap(u, v);
     };
 
     async function* bubbleSort() {
@@ -49,7 +49,7 @@ for i = 1 to (n - 1):
                     swap = true;
                     setCurrentStep('4,5');
                     sound('swap');
-                    await swapNums(j, j + 1);
+                    await swapNumbers(j, j + 1);
                     yield delay;
                 }
             }
@@ -132,12 +132,7 @@ for i = 1 to (n - 1):
                     />
                     <Box className="sorting" pt={4} ref={scope}>
                         {numbers.map((num, i) => (
-                            <Numbox
-                                key={i}
-                                index={i}
-                                value={num}
-                                animate={{ x: i * 60 }}
-                            />
+                            <Numbox key={i} index={i} value={num} />
                         ))}
                     </Box>
                 </Stack>

@@ -17,9 +17,9 @@ function Sider({ selected }) {
   const { category = 'Sorting' } = algo;
   const [expanded, setExpanded] = useState('');
 
-  const getPathname = (cat, algoId) => {
-    const _cat = cat.split(' ').join('-').toLowerCase();
-    return `/${_cat}/${algoId}`;
+  const getPathname = (_cat, algoId) => {
+    const catId = _cat.split(' ').join('-').toLowerCase();
+    return `/${catId}/${algoId}`;
   };
 
   useEffect(() => {
@@ -28,13 +28,15 @@ function Sider({ selected }) {
 
   return (
     <div className={styles.sider}>
-      {Object.keys(categories).map((cat) => {
-        const isExpanded = cat === expanded;
+      {Object.keys(categories).map((category) => {
+        const isExpanded = category === expanded;
         return (
-          <div key={cat} className={styles.accordion}>
+          <div key={category} className={styles.accordion}>
             <Accordion
               expanded={isExpanded}
-              onChange={() => (isExpanded ? setExpanded('') : setExpanded(cat))}
+              onChange={() =>
+                isExpanded ? setExpanded('') : setExpanded(category)
+              }
               disableGutters
               elevation={0}
               sx={{
@@ -52,20 +54,25 @@ function Sider({ selected }) {
                   />
                 }
                 className={styles.category}
+                sx={{
+                  '& .MuiAccordionSummary-content': {
+                    margin: 0,
+                  },
+                }}
               >
                 <Typography variant="subtitle1" className={styles.categoryText}>
-                  {cat}
+                  {category.toUpperCase()}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails className={styles.accordionDetails}>
                 <List className={styles.algorithmList}>
-                  {categories[cat].map(({ id, name }) => {
+                  {categories[category].map(({ id, name }) => {
                     const isSelected = id === selected;
                     return (
                       <ListItemButton
                         key={id}
                         component={Link}
-                        href={getPathname(cat, id)}
+                        href={getPathname(category, id)}
                         className={`${styles.listItem} ${
                           isSelected ? styles.listItemSelected : ''
                         }`}

@@ -8,7 +8,12 @@ export { InputNumbers, DrawGraph, DSInput };
 
 export function Numbox({ index, value, ...rest }) {
   return (
-    <motion.div className={styles.numbox} id={`box${index}`} {...rest}>
+    <motion.div
+      className={styles.numbox}
+      animate={{ x: index * 60 }}
+      id={`box${index}`}
+      {...rest}
+    >
       {value}
     </motion.div>
   );

@@ -78,6 +78,7 @@ function merge(start, mid, end):
 
     async function* mergeSort(start, end, ypos) {
         if (start === end) return;
+        if (ypos === 60) yield delay;
         yield delay;
         const mid = Math.floor((start + end) / 2);
         await split(start, mid, ypos);
@@ -151,12 +152,7 @@ function merge(start, mid, end):
                     />
                     <Box className="mergeSort" pt={4} ref={scope}>
                         {numbers.map((num, i) => (
-                            <Numbox
-                                key={i}
-                                index={i}
-                                value={num}
-                                animate={{ x: i * 60 }}
-                            />
+                            <Numbox key={i} index={i} value={num} />
                         ))}
                     </Box>
                 </Stack>

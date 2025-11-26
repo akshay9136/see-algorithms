@@ -121,12 +121,7 @@ for i = 1 to (n - 1):
                     />
                     <Box className="sorting" pt={8} ref={scope}>
                         {numbers.map((num, i) => (
-                            <Numbox
-                                key={i}
-                                index={i}
-                                value={num}
-                                animate={{ x: i * 60 }}
-                            />
+                            <Numbox key={i} index={i} value={num} />
                         ))}
                     </Box>
                 </Stack>

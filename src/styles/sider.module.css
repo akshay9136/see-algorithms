@@ -1,5 +1,5 @@
 .sider {
-  width: 100%;
+  min-width: 250px;
   height: 100%;
   position: relative;
   overflow-y: auto;
@@ -51,7 +51,6 @@
 .categoryText {
   position: relative;
   z-index: 1;
-  text-transform: uppercase;
   letter-spacing: 0.5px;
   font-weight: 600 !important;
   font-size: 0.9rem;
