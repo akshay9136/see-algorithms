@@ -216,7 +216,7 @@ function traverse(node, fn) {
     }
 }
 
-const copyBinaryTree = (root) => {
+function copyBinaryTree(root) {
     const data = [];
     traverse(root, (node) => data.push(node.value));
     const nodes = JSON.stringify(data);
@@ -227,10 +227,6 @@ const copyBinaryTree = (root) => {
         message: 'Tree url is copied to clipboard.',
         variant: 'success',
     });
-};
-
-const showError = (msg) => {
-    showToast({ message: msg, variant: 'error' });
 };
 
 export {
@@ -250,7 +246,6 @@ export {
     createGraph,
     traverse,
     copyBinaryTree,
-    showError,
 };
 
 export const sound = (name) => {
@@ -265,22 +260,6 @@ export const groupBy = (arr, key) => {
     }, {});
 };
 
-export const hasValue = (val) => {
-    return val !== null && val !== undefined;
-};
-
-export const charAt = (code) => String.fromCharCode(code);
-
-export const randomInt = () => Math.floor(Math.random() * 99) + 1;
-
-export const bgcolor = (id, color) => $(id).css('background-color', color);
-
-export const withBoxId = (val, i) => ({ val, id: `#box${i}` });
-
-export const sleep = (t) => {
-    return new Promise((resolve) => setTimeout(resolve, t));
-};
-
 export const throttle = (fn, delay) => {
     let prev = 0;
     return (...args) => {
@@ -290,4 +269,24 @@ export const throttle = (fn, delay) => {
             fn(...args);
         }
     }
+};
+
+export const sleep = (t) => {
+    return new Promise((resolve) => setTimeout(resolve, t));
+};
+
+export const charAt = (code) => String.fromCharCode(code);
+
+export const randomInt = () => Math.floor(Math.random() * 99) + 1;
+
+export const hasValue = (val) => {
+    return val !== null && val !== undefined;
+};
+
+export const bgcolor = (id, color) => $(id).css('background-color', color);
+
+export const withBoxId = (val, i) => ({ val, id: `#box${i}` });
+
+export const showError = (msg) => {
+    showToast({ message: msg, variant: 'error' });
 };
