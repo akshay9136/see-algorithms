@@ -1,44 +1,49 @@
 import { Grid, Card, CardContent, Typography, Box } from '@mui/material';
-import { useRouter } from 'next/router';
+import {
+  LightbulbOutlined,
+  PlayCircleOutline,
+  SchoolOutlined,
+  ShapeLine,
+} from '@mui/icons-material';
 import { styles } from './styles';
-import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 const features = [
   {
-    icon: '/icons/steps.png',
-    title: 'Step by Step',
+    icon: <SchoolOutlined sx={{ fontSize: 40, color: 'white' }} />,
+    title: 'Visual Learning',
     description:
-      'Understand algorithms through clear, interactive visuals that break down complex concepts.',
+      "Stop guessing what happens inside the loop. Our visualizer isolates and highlights the algorithm's exact decisions as they occur.",
+    color: '#7c3aed',
+    bgGradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+    path: '/sorting/HeapSort',
+  },
+  {
+    icon: <PlayCircleOutline sx={{ fontSize: 40, color: 'white' }} />,
+    title: 'Playback Control',
+    description:
+      "Don't just watch — control the flow. Pause, resume, and step through animations at your own pace to truly understand the algorithm's behavior.",
     color: '#4f46e5',
     bgGradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     path: '/sorting/MergeSort',
   },
   {
-    icon: '/icons/draw.png',
-    title: 'Draw Graphs',
+    icon: <ShapeLine sx={{ fontSize: 40, color: 'white' }} />,
+    title: 'Custom Inputs',
     description:
-      'Visualize with custom graphs and data structures using our intuitive drawing tools.',
+      'Move beyond static examples. Draw custom directed or undirected graphs, edit weights, create binary trees, or input your own numbers to sort.',
     color: '#059669',
     bgGradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-    path: '/graph/BFS',
+    path: '/graph/Dijkstras',
   },
   {
-    icon: '/icons/save.png',
-    title: 'Save & Share',
+    icon: <LightbulbOutlined sx={{ fontSize: 40, color: 'white' }} />,
+    title: 'Share Scenarios',
     description:
-      'Keep track of your graphs and share them with others in your learning community.',
+      'Created a tricky graph or a specific tree structure? Generate a unique URL to share your exact visualization setup with peers or students instantly.',
     color: '#dc2626',
-    bgGradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-    path: '/graph/Dijkstra',
-  },
-  {
-    icon: '/icons/learn.png',
-    title: 'Simple Learning',
-    description:
-      'Focus on the essentials with concise explanations and progressive difficulty levels.',
-    color: '#7c3aed',
     bgGradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-    path: '/sorting/HeapSort',
+    path: '/data-structures/BST',
   },
 ];
 
@@ -59,19 +64,7 @@ export default function Features() {
 
             {/* Icon container with gradient background */}
             <Box display="flex" justifyContent="center" pt={3}>
-              <Box sx={styles.iconBox(feat)}>
-                <Image
-                  src={feat.icon}
-                  alt={feat.title}
-                  width={70}
-                  height={70}
-                  className="feature-icon"
-                  style={{
-                    transition: 'transform 0.3s ease',
-                    borderRadius: 8,
-                  }}
-                />
-              </Box>
+              <Box sx={styles.iconBox(feat)}>{feat.icon}</Box>
             </Box>
 
             <CardContent sx={{ px: 3, pb: 3, textAlign: 'center' }}>

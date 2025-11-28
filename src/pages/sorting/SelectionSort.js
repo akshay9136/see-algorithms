@@ -79,7 +79,6 @@ for i = 0 to (n - 1):
     const handleStart = (values) => {
         if (arr) return it.start();
         setNumbers(values);
-        sound('pop');
         arr = values.map(withBoxId);
         it = Iterator(selectionSort);
         return it.start();

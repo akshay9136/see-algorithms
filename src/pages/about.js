@@ -32,7 +32,7 @@ export default function AboutUs() {
         </Typography>
 
         <Typography
-          variant="h6"
+          variant="body1"
           align="center"
           color="text.secondary"
           paragraph
