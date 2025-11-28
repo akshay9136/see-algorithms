@@ -10,12 +10,11 @@ import Features from '@/components/features';
 
 export default function HomePage() {
   return (
-    <Container maxWidth="lg">
-      {/* HERO */}
+    <Container maxWidth="lg" sx={{ pl: 0 }}>
       <Grid container spacing={4} alignItems="center">
-        <Grid item xs={12} md={7}>
+        <Grid item xs={12} md={6}>
           <Typography
-            variant="h4"
+            variant="h5"
             component="h1"
             fontWeight={600}
             color="text.primary"
@@ -27,39 +26,27 @@ export default function HomePage() {
             </Box>
           </Typography>
 
-          <Typography
-            variant="h6"
-            component="p"
-            color="text.secondary"
-            fontWeight={400}
-          >
-            Master sorting, searching, and graph algorithms through clean,
-            interactive animations. Build your own data structures and watch
-            them come to life.
+          <Typography variant="body1" color="text.secondary" fontWeight={400}>
+            From sorting and searching to more advanced data structures and
+            algorithms, <strong>see algorithms</strong> provides a hands-on
+            approach to learning. Each animation is carefully crafted to walk
+            you through the inner workings of various algorithms, step by step.
+            Whether you&apos;re a student seeking to solidify your knowledge, an
+            educator looking for dynamic teaching tools, or simply someone with
+            a passion for computer science, you&apos;ll find value in our
+            extensive library of visual resources.
           </Typography>
         </Grid>
 
-        <Grid item xs={12} md={5}>
+        <Grid item xs={12} md={6}>
           <Card elevation={3} sx={{ borderRadius: 2 }}>
             <CardContent>
-              <Box
-                sx={{
-                  height: 220,
-                  bgcolor: 'action.hover',
-                  borderRadius: 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                  [Animated preview placeholder]
-                </Typography>
-              </Box>
+              <img src="/demo.gif" alt="demo" width="100%" />
 
               <Typography
                 variant="caption"
-                sx={{ display: 'block', mt: 1, color: 'text.secondary' }}
+                color="text.secondary"
+                sx={{ display: 'block', mt: 1 }}
               >
                 Use the controls to pause/resume animations, tweak inputs, or
                 generate a shareable URL for the current graph.
