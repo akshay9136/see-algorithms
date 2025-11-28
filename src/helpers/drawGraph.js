@@ -115,7 +115,7 @@ export function drawGraph({ weighted, acyclic }) {
                     addVertex(p, charAt(65 + np));
                     Graph.addPoint(p);
                 }
-            } else {
+            } else if (ipx < np) {
                 addEdge(p, p);
                 $('.vrtx').eq(k).attr('stroke', Colors.visited);
                 if (Graph.isDirected()) {

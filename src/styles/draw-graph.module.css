@@ -26,8 +26,8 @@
   transition: transform 0.2s ease;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .toolbar {
-    width: auto;
+    width: 700px;
   }
 }
