@@ -37,6 +37,10 @@ function Header(props) {
     handleClose();
   };
 
+  const mdBlock = { xs: 'none', md: 'block' };
+  const mdFlex = { xs: 'none', md: 'flex' };
+  const mdNone = { md: 'none' };
+
   const buttonStyle = {
     color: '#1976d2',
     textTransform: 'none',
@@ -48,31 +52,33 @@ function Header(props) {
       <Box display="flex" alignItems="center">
         <MenuOpen
           onClick={() => props.toggleMenu()}
-          className={`d-lg-none ${styles.menuIcon}`}
+          className={styles.menuIcon}
           color="primary"
+          sx={{ display: mdNone }}
         />
-        <Image
-          src="/logo.png"
-          alt="logo"
-          priority
-          width="200"
-          height="40"
-          className={`${styles.logo} d-none d-lg-block`}
-          onClick={() => router.push('/')}
-          style={{ cursor: 'pointer' }}
-        />
+        <Box sx={{ display: mdBlock }}>
+          <Image
+            src="/logo.png"
+            alt="logo"
+            priority
+            width="200"
+            height="40"
+            className={styles.logo}
+            onClick={() => router.push('/')}
+          />
+        </Box>
         <Typography
           variant="button"
           fontWeight={600}
-          className={`${styles.heading} d-lg-none`}
+          className={styles.heading}
           onClick={() => router.push('/')}
-          style={{ cursor: 'pointer' }}
+          sx={{ display: mdNone }}
         >
           SEE ALGORITHMS
         </Typography>
       </Box>
       {/* Desktop Navigation */}
-      <Box className="d-none d-lg-flex" alignItems="center">
+      <Box sx={{ display: mdFlex, alignItems: 'center' }}>
         <Button
           onClick={() => handleNavigation('/about')}
           startIcon={<Info />}
@@ -107,7 +113,7 @@ function Header(props) {
         </Button>
       </Box>
       {/* Mobile Navigation - Dropdown Menu */}
-      <Box className="d-lg-none">
+      <Box sx={{ display: { md: 'none' } }}>
         <IconButton
           onClick={handleClick}
           size="small"

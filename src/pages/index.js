@@ -1,11 +1,4 @@
-import {
-  Box,
-  Container,
-  Grid,
-  Typography,
-  Card,
-  CardContent,
-} from '@mui/material';
+import { Box, Card, Container, Grid, Typography } from '@mui/material';
 import Features from '@/components/features';
 
 export default function HomePage() {
@@ -14,21 +7,26 @@ export default function HomePage() {
       <Grid container spacing={4} alignItems="center">
         <Grid item xs={12} md={6}>
           <Typography
-            variant="h5"
+            variant="h4"
             component="h1"
             fontWeight={600}
+            sx={{ fontSize: { xs: '1.5rem', sm: '2rem' } }}
             color="text.primary"
             gutterBottom
           >
-            Visualize the Logic{' '}
-            <Box component="span" color="warning.main">
+            Visualize the Logic
+            <Box
+              component="span"
+              color="warning.main"
+              sx={{ display: 'block', mt: 0.5 }}
+            >
               Behind the Code
             </Box>
           </Typography>
 
-          <Typography variant="body1" color="text.secondary" fontWeight={400}>
+          <Typography variant="body1" mt={2}>
             From sorting and searching to more advanced data structures and
-            algorithms, <strong>see algorithms</strong> provides a hands-on
+            algorithms, <strong>SEE Algorithms</strong> provides a hands-on
             approach to learning. Each animation is carefully crafted to walk
             you through the inner workings of various algorithms, step by step.
             Whether you&apos;re a student seeking to solidify your knowledge, an
@@ -40,18 +38,22 @@ export default function HomePage() {
 
         <Grid item xs={12} md={6}>
           <Card elevation={3} sx={{ borderRadius: 2 }}>
-            <CardContent>
-              <img src="/demo.gif" alt="demo" width="100%" />
+            <Box sx={{ p: 2 }}>
+              <Typography variant="h6" fontWeight={600} gutterBottom textAlign="center">
+                Visualization Preview
+              </Typography>
+
+              <img src="/preview.gif" alt="preview" width="100%" />
 
               <Typography
-                variant="caption"
+                variant="body2"
                 color="text.secondary"
-                sx={{ display: 'block', mt: 1 }}
+                mt={1.5}
               >
                 Use the controls to pause/resume animations, tweak inputs, or
-                generate a shareable URL for the current graph.
+                generate a shareable URL for the current tree.
               </Typography>
-            </CardContent>
+            </Box>
           </Card>
         </Grid>
       </Grid>
@@ -65,11 +67,12 @@ export default function HomePage() {
           <Typography
             variant="h5"
             component="h2"
-            fontWeight="bold"
+            fontWeight={600}
             gutterBottom
           >
             Bridge the Gap Between Code and Concept
           </Typography>
+
           <Typography variant="body1" sx={{ opacity: 0.9 }}>
             Textbooks and code editors can sometimes make logic feel abstract.{' '}
             <strong>SEE ALGORITHMS</strong> transforms complex logic into clear,

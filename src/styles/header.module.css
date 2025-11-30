@@ -18,6 +18,7 @@
     letter-spacing: 0.5px;
     transition: all 0.3s ease;
     line-height: 1.5;
+    cursor: pointer;
 }
 
 .menuIcon {
@@ -29,6 +30,7 @@
 .logo {
     transition: all 0.3s ease;
     position: relative;
+    cursor: pointer;
 }
 
 .logo:hover {
@@ -49,7 +51,7 @@
 }
 
 /* Desktop styles with light background */
-@media (min-width: 1024px) {
+@media (min-width: 900px) {
     .header {
         background: white;
     }

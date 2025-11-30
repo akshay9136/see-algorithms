@@ -5,7 +5,7 @@ function Footer() {
   return (
     <Box p={2} borderTop={1} borderColor="divider">
       <Typography variant="body2" color="text.secondary" textAlign="center">
-        © 2025 See Algorithms. Code licensed under{' '}
+        © 2025 SEE Algorithms. Code licensed under{' '}
         <Link
           href="https://opensource.org/licenses/MIT"
           target="_blank"

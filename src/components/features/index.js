@@ -63,8 +63,8 @@ export default function Features() {
             <Box className="feature-bg" sx={styles.cardBackground(feat)} />
 
             {/* Icon container with gradient background */}
-            <Box display="flex" justifyContent="center" pt={3}>
-              <Box sx={styles.iconBox(feat)}>{feat.icon}</Box>
+            <Box sx={styles.iconBox(feat)} mt={3} mx="auto">
+              <Box className="feature-icon">{feat.icon}</Box>
             </Box>
 
             <CardContent sx={{ px: 3, pb: 3, textAlign: 'center' }}>
@@ -77,6 +77,7 @@ export default function Features() {
               >
                 {feat.title}
               </Typography>
+
               <Typography lineHeight={1.6} variant="body2" color="grey.600">
                 {feat.description}
               </Typography>
