@@ -10,7 +10,7 @@ import { Refresh, Share } from '@mui/icons-material';
 var arr = [], Tree;
 
 const randomNodes = () => {
-    return [randomInt(), randomInt(), randomInt(), randomInt(), randomInt()];
+    return [randomInt(), randomInt(), randomInt(), randomInt(), randomInt(), randomInt()];
 };
 
 export default function BST(props) {

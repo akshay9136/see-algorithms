@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Typography,
   Box,
@@ -32,7 +31,7 @@ export default function AboutUs() {
         </Typography>
 
         <Typography
-          variant="h6"
+          variant="body1"
           align="center"
           color="text.secondary"
           paragraph

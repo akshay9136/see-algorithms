@@ -1,8 +1,7 @@
-import React from 'react';
 import { Typography, Box, Link } from '@mui/material';
 import Head from 'next/head';
 
-export default function PrivacyPolicy() {
+export default function Privacy() {
   return (
     <>
       <Head>

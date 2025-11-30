@@ -19,6 +19,8 @@ function Layout({ children }) {
     scrollRef.current.scrollTo(0, 0);
   }, [router.pathname]);
 
+  const mdBlock = { xs: 'none', md: 'block' };
+
   return (
     <>
       <Header toggleMenu={() => setMenuVisible(!menuVisible)} />
@@ -35,8 +37,8 @@ function Layout({ children }) {
         <Sider selected={algoId} />
       </Drawer>
       {algoId && <AlgorithmSEO algorithmId={algoId} />}
-      <Box className="d-flex contentRow">
-        <Box className="d-none d-lg-block">
+      <Box display="flex" className="contentRow">
+        <Box sx={{ display: mdBlock }}>
           <Sider selected={algoId} />
         </Box>
         <Stack overflow="auto" ref={scrollRef}>
