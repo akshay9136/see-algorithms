@@ -48,7 +48,7 @@ export default function HomePage() {
               <Typography
                 variant="body2"
                 color="text.secondary"
-                mt={1.5}
+                mt={1}
               >
                 Use the controls to pause/resume animations, tweak inputs, or
                 generate a shareable URL for the current tree.
