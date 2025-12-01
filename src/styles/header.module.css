@@ -1,8 +1,8 @@
 .header {
     height: var(--header-height);
     align-items: center;
-    padding: 0 1rem;
     justify-content: space-between;
+    padding: 0 1rem;
     border-bottom: none;
     background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);

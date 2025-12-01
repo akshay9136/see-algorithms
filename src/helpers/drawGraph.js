@@ -12,7 +12,7 @@ import {
     charAt,
     showError,
 } from '../common/utils';
-import Graph, { Path, Point } from '../common/graph';
+import Graph, { Path, Points } from '../common/graph';
 import { Colors } from '../common/constants';
 
 export function drawGraph({ weighted, acyclic }) {
@@ -25,7 +25,7 @@ export function drawGraph({ weighted, acyclic }) {
         let k;
         for (k = 0; k < Graph.totalPoints(); k++) {
             let q = Graph.point(k);
-            let d = Point.distance(p, q);
+            let d = Points.distance(p, q);
             if (d < 20) {
                 hold = true;
                 break;
@@ -57,7 +57,7 @@ export function drawGraph({ weighted, acyclic }) {
         let k;
         for (k = 0; k < np; k++) {
             let q = Graph.point(k);
-            let d = Point.distance(p, q);
+            let d = Points.distance(p, q);
             if (d < 20) {
                 p = q;
                 break;
@@ -67,7 +67,7 @@ export function drawGraph({ weighted, acyclic }) {
             $('.vrtx').eq(ipx).attr('stroke', Colors.stroke);
             flag = false;
             hold = false;
-            if (Point.equal(p, px) || !isValidEdge(k)) {
+            if (Points.equal(p, px) || !isValidEdge(k)) {
                 Path('.edge:last').remove();
                 return;
             }
@@ -148,7 +148,7 @@ export function drawGraph({ weighted, acyclic }) {
                     Graph.setPoint(ipx, p);
                     moveVertex(ipx, p);
                 } else {
-                    let d = Point.distance(p, px);
+                    let d = Points.distance(p, px);
                     if (d > 5) drag = true;
                 }
             }

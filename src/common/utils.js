@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import Graph, { Path, Point } from './graph';
+import Graph, { Path, Points } from './graph';
 import { Colors } from './constants';
 import { showToast } from '../components/toast';
 import Timer from './timer';
@@ -91,7 +91,7 @@ function addEdge(p, q) {
 }
 
 function addCost(p, q, cost) {
-    cost = cost || (Point.distance(p, q) / 10).toFixed();
+    cost = cost || (Points.distance(p, q) / 10).toFixed();
     const handler = `
         event.stopPropagation();
         this.focus();

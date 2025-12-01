@@ -20,9 +20,20 @@
     margin-right: 1.5rem;
 }
 
+.content > div > div > ul {
+    margin-top: 0;
+}
+
 .content > div > p,
 .content > div > div > ul {
     width: calc(100vw - 3rem);
+}
+
+@media (min-width: 900px) {
+    .content > div > p,
+    .content > div > div > ul {
+        width: auto;
+    }
 }
 
 .drawer {
@@ -82,28 +93,23 @@
 
 .resizable {
     width: 500px;
-    min-width: 500px;
     height: 400px;
+    min-width: 500px;
+    min-height: 400px;
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     resize: both;
-    overflow: auto;
+    overflow: hidden;
     position: relative;
 }
 
 @media (min-width: 600px) {
     .resizable {
         width: 700px;
-        min-width: 700px;
         height: 500px;
-    }
-}
-
-@media (min-width: 900px) {
-    .content > div > p,
-    .content > div > div > ul {
-        width: auto;
+        min-width: 700px;
+        min-height: 500px;
     }
 }
 
