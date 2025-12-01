@@ -1,6 +1,6 @@
 import { Stack, Typography } from '@mui/material';
 import AddPoints from '@/components/convex-hull/add-points';
-import Graph, { Segment } from '@/common/graph';
+import Graph, { Points } from '@/common/graph';
 import Timer from '@/common/timer';
 import $ from 'jquery';
 import { addPoints } from '@/helpers/convexHull';
@@ -49,7 +49,7 @@ function convexHull() {
 async function next(i) {
     if (i < Graph.totalPoints()) {
         let seg = [p, q].map(Graph.point);
-        let ori = Segment.orientation(seg, Graph.point(i));
+        let ori = Points.orientation(...seg, Graph.point(i));
         if (ori === 1) {
             q = i;
             connect(Colors.stroke);

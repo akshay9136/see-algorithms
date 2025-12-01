@@ -1,7 +1,7 @@
 import { DrawGraph } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material'
 import $ from 'jquery';
-import Graph, { Path, Point } from '@/common/graph';
+import Graph, { Path, Points } from '@/common/graph';
 import Timer from '@/common/timer';;
 import useAlgorithm from '@/hooks/useAlgorithm';
 import {
@@ -102,7 +102,7 @@ async function topsort() {
                 }
                 sound('swap');
                 const [p, q] = [i, j].map(Graph.point);
-                const d = Point.distance(p, q);
+                const d = Points.distance(p, q);
                 const r = fromDistance(q, p, d - 25);
                 await extract(p, r, ei);
                 await Timer.sleep(delay / 2);
@@ -123,7 +123,7 @@ async function topsort() {
 
 function extract(p, q, ei) {
     const edge = Path('.edge').eq(ei);
-    const d = Point.distance(p, q);
+    const d = Points.distance(p, q);
     if (d - 25 > 0) {
         const r = fromDistance(q, p, d - 6);
         edge.attr('x2', r.x);

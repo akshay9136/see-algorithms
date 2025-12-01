@@ -56,7 +56,7 @@ function Header(props) {
           color="primary"
           sx={{ display: mdNone }}
         />
-        <Box sx={{ display: mdBlock }}>
+        <Box sx={{ display: mdBlock, height: 40 }}>
           <Image
             src="/logo.png"
             alt="logo"

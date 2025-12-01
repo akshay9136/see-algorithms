@@ -118,23 +118,28 @@ const Graph = {
 
 export default Graph;
 
-export const Point = {
+export const Points = {
     create: (x, y) => ({ x, y }),
 
     equal: (p, q) => p.x === q.x && p.y === q.y,
+    
+    slope: (p, q) => (q.y - p.y) / (q.x - p.x),
 
     distance(p, q) {
         return Math.sqrt((q.x - p.x) ** 2 + (q.y - p.y) ** 2);
     },
-};
 
-export const Segment = {
-    slope: (p, q) => (q.y - p.y) / (q.x - p.x),
+    onSegment(p, q, r) {
+        const cross = (r.x - p.x) * (q.y - p.y) - (r.y - p.y) * (q.x - p.x);
+        if (Math.abs(cross) > 1e-6) return false;
+        const dot = (r.x - p.x) * (r.x - q.x) + (r.y - p.y) * (r.y - q.y);
+        return dot <= 0;
+    },
 
-    orientation([p, q], r) {
-        let d = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
-        if (d === 0) return 0;
-        return d > 0 ? 1 : 2;
+    orientation(p, q, r) {
+        const val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
+        if (Math.abs(val) < 1e-6) return 0; // collinear
+        return val > 0 ? 1 : 2; // clockwise or counterclockwise
     },
 };
 

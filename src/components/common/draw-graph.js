@@ -1,12 +1,12 @@
 import { useState, useContext, useEffect } from 'react';
 import {
+  Box,
   Button,
   Checkbox,
-  TextField,
   FormControlLabel,
   IconButton,
+  TextField,
   Typography,
-  Box,
 } from '@mui/material';
 import { PlayArrow, Pause, Refresh, Share } from '@mui/icons-material';
 import styles from '@/styles/draw-graph.module.css';

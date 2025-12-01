@@ -64,7 +64,9 @@ export default function Features() {
 
             {/* Icon container with gradient background */}
             <Box sx={styles.iconBox(feat)} mt={3} mx="auto">
-              <Box className="feature-icon">{feat.icon}</Box>
+              <Box className="feature-icon" height={40}>
+                {feat.icon}
+              </Box>
             </Box>
 
             <CardContent sx={{ px: 3, pb: 3, textAlign: 'center' }}>

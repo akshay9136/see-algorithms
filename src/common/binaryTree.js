@@ -1,5 +1,5 @@
 import { Colors } from './constants';
-import { Point } from './graph';
+import { Points } from './graph';
 
 const dx = 40, dy = 60;
 
@@ -73,7 +73,7 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
     const cleanup = (node, td = 0.3) => {
         const closer = findNode((nx) => {
             if (nx.parent !== node.parent) {
-                const d = Point.distance(node, nx);
+                const d = Points.distance(node, nx);
                 if (d < 33) return true;
             }
             return false;
