@@ -28,7 +28,8 @@ const features = [
     path: '/sorting/MergeSort',
   },
   {
-    icon: <ShapeLine sx={{ fontSize: 40, color: 'white' }} />,
+    icon: <ShapeLine sx={{ fontSize: 36, color: 'white' }} />,
+    iconSize: 36,
     title: 'Custom Inputs',
     description:
       'Move beyond static examples. Draw custom directed or undirected graphs, edit weights, create binary trees, or input your own numbers to sort.',
@@ -38,7 +39,7 @@ const features = [
   },
   {
     icon: <LightbulbOutlined sx={{ fontSize: 40, color: 'white' }} />,
-    title: 'Share Scenarios',
+    title: 'Share Insights',
     description:
       'Created a tricky graph or a specific tree structure? Generate a unique URL to share your exact visualization setup with peers or students instantly.',
     color: '#dc2626',
@@ -64,7 +65,7 @@ export default function Features() {
 
             {/* Icon container with gradient background */}
             <Box sx={styles.iconBox(feat)} mt={3} mx="auto">
-              <Box className="feature-icon" height={40}>
+              <Box className="feature-icon" height={feat.iconSize || 40}>
                 {feat.icon}
               </Box>
             </Box>
@@ -74,8 +75,8 @@ export default function Features() {
                 variant="h6"
                 fontWeight={700}
                 gutterBottom
-                mb={2}
                 color="grey.900"
+                mb={2}
               >
                 {feat.title}
               </Typography>

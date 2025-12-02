@@ -102,6 +102,7 @@ export function randomGraph(np) {
       Math.floor(Math.random() * reached.length),
       unreached.values().next().value,
     ];
+
     matrix[u][v] = segments.length;
     matrix[v][u] = segments.length;
     segments.push([u, v]);
