@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle, useState } from 'react';
+import { useState } from 'react';
 import {
   Select,
   Input,
@@ -11,7 +11,7 @@ import styles from '@/styles/numbers.module.css';
 import { randomInt, showError, sleep } from '@/common/utils';
 import { Pause, PlayArrow } from '@mui/icons-material';
 
-const InputNumbers = forwardRef((props, ref) => {
+function InputNumbers(props) {
   const [numbers, setNumbers] = useState([]);
   const [status, setStatus] = useState(0);
   const { min = 7, max = 12 } = props;
@@ -35,8 +35,8 @@ const InputNumbers = forwardRef((props, ref) => {
   };
 
   const validate = () => {
-    for (let i = 0; i < numbers.length; i++) {
-      if (typeof numbers[i] !== 'number') {
+    for (let num of numbers) {
+      if (typeof num !== 'number') {
         showError('Please enter valid numbers.');
         return false;
       }
@@ -70,15 +70,10 @@ const InputNumbers = forwardRef((props, ref) => {
   };
 
   const handleReset = () => {
-    props.onReset();
+    props.onReset(true);
     setStatus(0);
     setNumbers([]);
   };
-
-  useImperativeHandle(ref, () => ({
-    values: numbers,
-    validate,
-  }));
 
   return (
     <Box className={styles.inputNumbers}>
@@ -111,31 +106,28 @@ const InputNumbers = forwardRef((props, ref) => {
           ))}
         </Box>
       )}
-      {numbers.length > 0 &&
-        (props.buttons ? (
-          props.buttons
-        ) : (
-          <Box display="flex" gap={1}>
-            <Button
-              variant="contained"
-              startIcon={status === 1 ? <Pause /> : <PlayArrow />}
-              onClick={handleStart}
-              sx={{ padding: '4px 12px' }}
-              aria-live="polite"
-            >
-              Play
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={handleReset}
-              sx={{ padding: '4px 12px' }}
-            >
-              Reset
-            </Button>
-          </Box>
-        ))}
+      {numbers.length > 0 && (
+        <Box display="flex" gap={1}>
+          <Button
+            variant="contained"
+            startIcon={status === 1 ? <Pause /> : <PlayArrow />}
+            onClick={handleStart}
+            sx={{ padding: '4px 12px' }}
+            aria-live="polite"
+          >
+            Play
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={handleReset}
+            sx={{ padding: '4px 12px' }}
+          >
+            Reset
+          </Button>
+        </Box>
+      )}
     </Box>
   );
-});
+};
 
 export default InputNumbers;

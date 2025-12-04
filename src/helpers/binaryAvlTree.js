@@ -6,7 +6,7 @@ import $ from 'jquery';
 const delay = 500;
 const dx = 40, dy = 60;
 
-function avlTree(animator, setCurrentStep) {
+function bianryAvlTree(animator, setCurrentStep) {
     const Tree = binarySearchTree(animator);
     const { bgcolor, tx, txy, cleanup } = animator;
 
@@ -194,4 +194,4 @@ function avlTree(animator, setCurrentStep) {
     });
 }
 
-export default avlTree;
+export default bianryAvlTree;

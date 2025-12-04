@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import { DSInput, Edge, Node } from '@/components/common';
-import avlTree from '@/helpers/avlTree';
+import binaryAvlTree from '@/helpers/binaryAvlTree';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import useAnimator from '@/hooks/useAnimator';
 import { useRouter } from 'next/router';
@@ -50,7 +50,7 @@ function rebalance(node):
         setNumbers(arr.slice());
         await sleep(500);
         if (!numbers.length) {
-            Tree = avlTree(animator, setCurrentStep);
+            Tree = binaryAvlTree(animator, setCurrentStep);
         }
         await Tree.insert(num);
     };
@@ -94,7 +94,7 @@ function rebalance(node):
 
     const insertAll = async () => {
         setNumbers(arr.slice());
-        Tree = avlTree(animator, setCurrentStep);
+        Tree = binaryAvlTree(animator, setCurrentStep);
         await sleep(100);
         arr.forEach((num) => Tree._insert(num));
     };

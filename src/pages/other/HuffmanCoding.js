@@ -1,97 +1,73 @@
-import { useRef, useState } from 'react';
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Box, Stack, Typography } from '@mui/material';
 import { Edge, InputNumbers, Node } from '@/components/common';
 import useAnimator from '@/hooks/useAnimator';
-import binaryTree from '@/common/binaryTree';
-import styles from '@/styles/numbers.module.css';
-import { charAt, sleep, sound, traverse } from '@/common/utils';
+import huffmanTree from '@/helpers/huffmanTree';
+import { Iterator } from '@/common/timer';
 import { Colors } from '@/common/constants';
-import $ from 'jquery';
+import { charAt, sound, traverse } from '@/common/utils';
+import styles from '@/styles/numbers.module.css';
 
-var Tree, delay = 500;
-var queue, codes;
+var it, queue;
 
 export default function HuffmanCoding() {
     const [numbers, setNumbers] = useState([]);
-    const [characters, setCharacters] = useState([]);
-    const [charcodes, setCharcodes] = useState({});
-    const [resetKey, setResetKey] = useState(Date.now());
-    const numbersRef = useRef(null);
+    const [alphabets, setAlphabets] = useState([]);
+    const [coding, setCoding] = useState({});
     const [scope, animator] = useAnimator();
-    const { bgcolor } = animator;
 
     const toChar = (i) => charAt(65 + i);
 
-    const extractMin = () => {
+    const dequeue = () => {
         queue.sort((a, b) => a.value - b.value);
         const min = queue[0];
         queue = queue.slice(1);
         return min;
     };
 
-    const huffmanTree = () => {
-        const left = extractMin();
-        const right = extractMin();
+    const _huffmanTree = () => {
+        const left = dequeue();
+        const right = dequeue();
         const sum = left.value + right.value;
-        const node = { value: sum, left, right };
+        const step = queue.length;
+        const node = { value: sum, left, right, step };
         if (queue.length) {
             queue.push(node);
-            return huffmanTree();
+            return _huffmanTree();
         }
         return node;
     };
 
-    const huffmanCoding = async () => {
-        const root = huffmanTree();
+    async function* encode() {
+        const root = _huffmanTree();
         const arr = [];
         traverse(root, (node) => arr.push(node));
         setNumbers(arr);
-        await sleep(delay);
-        sound('swap');
-        Tree = binaryTree(animator);
-        renderTree(root);
-        setCharcodes(codes);
-    };
+        yield 1000;
+        const Tree = huffmanTree(animator);
+        yield* Tree.renderSteps(root);
+        setCoding(Tree.coding);
+    }
 
-    const renderTree = (_node, parent, isLeft) => {
-        if (_node) {
-            const { value, char, left, right } = _node;
-            const node = Tree.insert(value, parent, isLeft);
-            if (parent) {
-                node.data = (parent.data || '') + (isLeft ? '0' : '1');
-            }
-            if (!left && !right) {
-                codes[char] = node.data;
-                bgcolor(node.id, Colors.enqueue);
-                $(`#nodeBf${node.key}`).text(char);
-            }
-            renderTree(left, node, true);
-            renderTree(right, node);
-        }
-    };
+    const handleStart = (values) => {
+        if (queue) return it.start();
 
-    const handleStart = async () => {
-        const { values, validate } = numbersRef.current;
-        if (!validate()) return;
-        else if (Tree) {
-            setNumbers([]);
-            setCharcodes({});
-            await sleep(delay);
-        }
         queue = values.map((value, i) => {
-            return { value, char: characters[i] };
+            return ({ value, char: alphabets[i] });
         });
-        codes = {};
-        huffmanCoding().catch(() => {});
+        it = Iterator(encode);
+        return it.start();
     };
 
-    const handleStop = () => {
+    const handleStop = (reset) => {
+        if (reset) setAlphabets([]);
         setNumbers([]);
-        setCharacters([]);
-        setCharcodes({});
-        setResetKey(Date.now());
-        Tree = null;
+        setCoding({});
+        it?.exit();
+        queue = undefined;
     };
+
+    useEffect(() => handleStop, []);
 
     return (
         <Stack spacing={3}>
@@ -104,12 +80,12 @@ export default function HuffmanCoding() {
                 Coding minimizes storage space without losing information.
             </Typography>
             <Stack spacing={1}>
-                {characters.length > 0 && (
+                {alphabets.length > 0 && (
                     <Box className={styles.inputNumbers}>
                         <Typography variant="subtitle1" fontWeight="bold" mr={2}>
                             Character:
                         </Typography>
-                        {characters.map((char) => (
+                        {alphabets.map((char) => (
                             <Typography
                                 key={char}
                                 variant="subtitle2"
@@ -122,40 +98,23 @@ export default function HuffmanCoding() {
                     </Box>
                 )}
                 <InputNumbers
-                    key={resetKey}
-                    ref={numbersRef}
                     min={5}
                     max={8}
                     label="Frequency: "
                     onSelect={(n) => {
-                        const arr = Array.from(Array(n));
-                        setCharacters(arr.map((_, i) => toChar(i)));
+                        const arr = Array(n).fill(null);
+                        setAlphabets(arr.map((_, i) => toChar(i)));
                         sound('pop');
                     }}
-                    buttons={
-                        <Box display="flex" gap={1}>
-                            <Button
-                                variant="contained"
-                                onClick={handleStart}
-                                sx={{ padding: '4px 12px' }}
-                            >
-                                Encode
-                            </Button>
-                            <Button
-                                variant="outlined"
-                                onClick={handleStop}
-                                sx={{ padding: '4px 12px' }}
-                            >
-                                Reset
-                            </Button>
-                        </Box>
-                    }
+                    onStart={handleStart}
+                    onReset={handleStop}
+                    onStop={() => it?.stop()}
                 />
             </Stack>
             <Box
                 className="huffmanTree"
                 id="binaryTree"
-                sx={{ width: 800, pt: 1 }}
+                sx={{ width: 700, pt: 1 }}
                 ref={scope}
             >
                 {numbers.slice(1).map((_, i) => (
@@ -171,7 +130,7 @@ export default function HuffmanCoding() {
                         style={{ opacity: 0 }}
                     />
                 ))}
-                {characters.map((char, i) => (
+                {alphabets.map((char, i) => (
                     <Node
                         key={i}
                         index={i + 100}
@@ -185,11 +144,11 @@ export default function HuffmanCoding() {
                         }}
                     />
                 ))}
-                {characters.map((char, i) => (
+                {alphabets.map((char, i) => (
                     <Node
                         key={i}
                         index={i + 200}
-                        value={charcodes[char]}
+                        value={coding[char]}
                         animate={{ x: 50, y: i * 50 }}
                         style={{
                             border: 0,
