@@ -37,23 +37,27 @@ export default function HomePage() {
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Card elevation={3} sx={{ borderRadius: 2 }}>
-            <Box sx={{ p: 2 }}>
-              <Typography variant="h6" fontWeight={600} gutterBottom textAlign="center">
-                Visualization Preview
-              </Typography>
+          <Card elevation={3} sx={{ borderRadius: 2, py: 1 }}>
+            <Typography
+              variant="h6"
+              fontWeight={600}
+              gutterBottom
+              textAlign="center"
+            >
+              Visualization Preview
+            </Typography>
 
-              <img src="/preview.gif" alt="preview" width="100%" />
+            <img src="/preview.gif" alt="preview" width="100%" />
 
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                mt={1}
-              >
-                Use the controls to pause/resume animations, tweak inputs, or
-                generate a shareable URL for the current tree.
-              </Typography>
-            </Box>
+            <Typography
+              variant="caption"
+              display="block"
+              color="text.secondary"
+              px={2}
+            >
+              Use the controls to pause/resume animations, tweak inputs, or
+              generate a shareable URL for the current graph.
+            </Typography>
           </Card>
         </Grid>
       </Grid>
@@ -64,12 +68,7 @@ export default function HomePage() {
 
       <Box bgcolor="success.light" color="primary.contrastText" py={5}>
         <Container maxWidth="md" sx={{ textAlign: 'center' }}>
-          <Typography
-            variant="h5"
-            component="h2"
-            fontWeight={600}
-            gutterBottom
-          >
+          <Typography variant="h5" component="h2" fontWeight={600} gutterBottom>
             Bridge the Gap Between Code and Concept
           </Typography>
 
