@@ -28,7 +28,7 @@ export default function Privacy() {
             Welcome to See Algorithms ({'"we," "our," or "us"'}). This Privacy
             Policy explains how we collect, use, disclose, and safeguard your
             information when you visit our website see-algorithms.com (the
-            {'"Site"'}). Please read this privacy policy carefully. If you do
+            {' "Site"'}). Please read this privacy policy carefully. If you do
             not agree with the terms of this privacy policy, please do not
             access the site.
           </Typography>

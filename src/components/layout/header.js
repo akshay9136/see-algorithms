@@ -13,39 +13,41 @@ import {
   Description,
   MoreVert,
   Email,
+  Favorite,
 } from '@mui/icons-material';
 import styles from '@/styles/header.module.css';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
+const SPONSOR_URL = 'https://github.com/sponsors/akshay9136';
+
 function Header(props) {
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event) => {
+  const openMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const closeMenu = () => {
     setAnchorEl(null);
   };
 
-  const handleNavigation = (path) => {
+  const navigate = (path) => {
     router.push(path);
-    handleClose();
+    closeMenu();
+  };
+
+  const openLink = (url) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+    closeMenu();
   };
 
   const mdBlock = { xs: 'none', md: 'block' };
   const mdFlex = { xs: 'none', md: 'flex' };
   const mdNone = { md: 'none' };
-
-  const buttonStyle = {
-    color: '#1976d2',
-    textTransform: 'none',
-    fontWeight: 500,
-  };
 
   return (
     <Box display="flex" className={styles.header}>
@@ -80,42 +82,45 @@ function Header(props) {
       {/* Desktop Navigation */}
       <Box sx={{ display: mdFlex, alignItems: 'center' }}>
         <Button
-          onClick={() => handleNavigation('/about')}
+          onClick={() => navigate('/about')}
           startIcon={<Info />}
           className={styles.navButton}
-          sx={buttonStyle}
         >
           About
         </Button>
         <Button
-          onClick={() => handleNavigation('/contact')}
+          onClick={() => navigate('/contact')}
           startIcon={<Email />}
           className={styles.navButton}
-          sx={buttonStyle}
         >
           Contact
         </Button>
         <Button
-          onClick={() => handleNavigation('/privacy')}
+          onClick={() => navigate('/privacy')}
           startIcon={<Policy />}
           className={styles.navButton}
-          sx={buttonStyle}
         >
           Privacy
         </Button>
         <Button
-          onClick={() => handleNavigation('/terms')}
+          onClick={() => navigate('/terms')}
           startIcon={<Description />}
           className={styles.navButton}
-          sx={buttonStyle}
         >
           Terms
+        </Button>
+        <Button
+          onClick={() => openLink(SPONSOR_URL)}
+          startIcon={<Favorite fontSize="small" />}
+          className={styles.navButton}
+        >
+          Sponsor
         </Button>
       </Box>
       {/* Mobile Navigation - Dropdown Menu */}
       <Box sx={{ display: { md: 'none' } }}>
         <IconButton
-          onClick={handleClick}
+          onClick={openMenu}
           size="small"
           sx={{ ml: 1 }}
           aria-controls={open ? 'info-menu' : undefined}
@@ -128,26 +133,30 @@ function Header(props) {
           id="info-menu"
           anchorEl={anchorEl}
           open={open}
-          onClose={handleClose}
+          onClose={closeMenu}
           MenuListProps={{
             'aria-labelledby': 'info-button',
           }}
         >
-          <MenuItem onClick={() => handleNavigation('/about')}>
+          <MenuItem onClick={() => navigate('/about')}>
             <Info sx={{ mr: 1 }} fontSize="small" />
             About Us
           </MenuItem>
-          <MenuItem onClick={() => handleNavigation('/contact')}>
+          <MenuItem onClick={() => navigate('/contact')}>
             <Email sx={{ mr: 1 }} fontSize="small" />
             Contact Us
           </MenuItem>
-          <MenuItem onClick={() => handleNavigation('/privacy')}>
+          <MenuItem onClick={() => navigate('/privacy')}>
             <Policy sx={{ mr: 1 }} fontSize="small" />
             Privacy Policy
           </MenuItem>
-          <MenuItem onClick={() => handleNavigation('/terms')}>
+          <MenuItem onClick={() => navigate('/terms')}>
             <Description sx={{ mr: 1 }} fontSize="small" />
             Terms of Service
+          </MenuItem>
+          <MenuItem onClick={() => openLink(SPONSOR_URL)}>
+            <Favorite sx={{ mr: 1 }} fontSize="small" />
+            Sponsor Us
           </MenuItem>
         </Menu>
       </Box>

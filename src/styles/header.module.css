@@ -42,6 +42,7 @@
     padding: 0.5rem 1rem;
     border-radius: 8px;
     transition: all 0.3s ease;
+    text-transform: none;
     font-size: 1rem;
 }
 
