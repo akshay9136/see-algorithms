@@ -1,21 +1,29 @@
-## Welcome to SEE algorithms!
+## Welcome to See Algorithms!
 
 [see-algorithms.com](https://see-algorithms.com/) is a website designed to help you understand basic algorithms through interactive animations and visualization. Whether you're a beginner looking to grasp fundamental concepts or a seasoned developer revisiting the basics, this project offers a unique and engaging way to learn.
 
+![Stars](https://img.shields.io/github/stars/akshay9136/see-algorithms?style=flat)
+![Forks](https://img.shields.io/github/forks/akshay9136/see-algorithms?style=flat)
+![Issues](https://img.shields.io/github/issues/akshay9136/see-algorithms)
+![Website](https://img.shields.io/website?url=https://see-algorithms.com)
+![Vercel Deploy](https://vercelbadge.vercel.app/api/akshay9136/see-algorithms?style=flat)
+![Sponsors](https://img.shields.io/github/sponsors/akshay9136)
+
+<img src="https://raw.githubusercontent.com/akshay9136/see-algorithms/main/public/preview.gif" width="70%" />
+
 ### 🚀 Features
 
-1. **Visual Learning:** See algorithms in action and interact with the steps to understand how they work.
-2. **Multiple Algorithms:** Explore a variety of algorithms, including sorting, searching, and graph traversal.
-3. **Step-by-Step Breakdown:** Follow each algorithm step by step with colorful animations.
-4. **Responsive Design:** Enjoy a seamless experience on both desktop and mobile devices.
-5. **User-Friendly Interface:** Easily navigate through different algorithms and control the input.
+1. **Visual Learning:** Stop guessing what happens inside the loop. Our visualizer isolates and highlights the algorithm's exact decisions as they occur.
+2. **Playback Control:** Don't just watch — control the flow. Pause, resume, and step through animations at your own pace to truly understand the algorithm's behavior.
+3. **Custom Inputs:** Move beyond static examples. Draw custom directed or undirected graphs, edit weights, create binary trees, or input your own numbers to sort.
+4. **Share Insights:** Created a tricky graph or a specific tree structure? Generate a unique URL to share your exact visualization setup with peers or students instantly.
 
 ### 📚 Algorithms Covered
 
-1. Sorting Algorithms: Bubble Sort, Insertion Sort, Selection Sort etc.
-3. Graph Algorithms: Depth First Search, Breadth First Search, etc.
-3. Data Structures: Binary Search Tree, Circular Queue etc.
-4. And more!
+1. Sorting Algorithms: Bubble Sort, Heap Sort, Merge Sort etc.
+3. Graph Algorithms: DFS, BFS, Prim's Algorithm etc.
+3. Data Structures: Linked List, Binary Heap, AVL Tree etc.
+4. Convex Hull, Huffman Coding and more!
 
 ### 🔧 Getting Started
 
