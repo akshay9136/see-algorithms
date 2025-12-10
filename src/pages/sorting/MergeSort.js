@@ -3,9 +3,9 @@ import { Box, Stack, Typography } from '@mui/material';
 import { InputNumbers, Numbox } from '@/components/common';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import { Colors } from '@/common/constants';
-import { Iterator } from '@/common/timer';
+import Iterator from '@/common/iterator';
 import { sound, withBoxId } from '@/common/utils';
+import { Colors } from '@/common/constants';
 
 var arr, it;
 var delay = 500;
@@ -92,9 +92,10 @@ function merge(start, mid, end):
 
     const handleStart = (values) => {
         if (arr) return it.start();
+        const n = arr.length;
         setNumbers(values);
         arr = values.map(withBoxId);
-        it = Iterator(mergeSort, 0, arr.length - 1, 60);
+        it = Iterator.new(mergeSort, 0, n - 1, 60);
         return it.start();
     };
 

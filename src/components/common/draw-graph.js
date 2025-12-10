@@ -13,7 +13,7 @@ import styles from '@/styles/draw-graph.module.css';
 import useGraphControls from '@/hooks/useGraphControls';
 import AppContext from '@/common/context';
 import Graph from '@/common/graph';
-import Timer from '@/common/timer';
+import Iterator from '@/common/iterator';
 import { createGraph, getCostMatrix } from '@/common/utils';
 import { useRouter } from 'next/router';
 import { showToast } from '../toast';
@@ -35,7 +35,9 @@ function DrawGraph(props) {
 
   useEffect(() => {
     refresh();
-    return () => Timer.clear();
+    return () => {
+      Iterator.current()?.exit();
+    }
   }, [algoId, router]);
 
   useEffect(() => {

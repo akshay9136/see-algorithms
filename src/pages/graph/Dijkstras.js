@@ -2,7 +2,6 @@ import { DrawGraph } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
-import Timer from '@/common/timer';
 import {
     bgcolor,
     charAt,
@@ -53,7 +52,7 @@ var n, w, cells;
 var d, v, queue, prev;
 var delay = 1000;
 
-async function start(src) {
+async function* start(src) {
     $('.cost').each(function () {
         this.setAttribute('value', this.value);
         this.setAttribute('readonly', true);
@@ -78,24 +77,27 @@ async function start(src) {
     prev = [];
     $('.vrtx').attr('stroke', Colors.rejected);
     $('.edge').attr('stroke', Colors.rejected);
-    await Timer.sleep(delay);
+    yield delay;
     sound('pop');
     $('.vrtx').eq(src).attr('stroke', Colors.visited);
     $('.vrtx').eq(src).attr('fill', Colors.visited);
     bgcolor(cells[src], Colors.visited);
-    await Timer.sleep(delay);
-    await dijkstra(src);
+    yield delay;
+    yield* dijkstra(src);
 }
 
-async function dijkstra(i) {
+async function* dijkstra(i) {
     let flag = 1;
     w[i] = w[i] || [];
     for (let j = 0; j < n; j++) {
-        if (v.includes(j)) continue;
         const ei = Graph.edgeIndex(i, j);
-
+        if (v.includes(j)) {
+            queue[j] = Infinity;
+            continue;
+        };
         if (hasValue(ei) && d[i] + w[i][j] < d[j]) {
             d[j] = d[i] + w[i][j];
+            queue[j] = d[j];
             Path('.edge').eq(ei).attr('stroke', Colors.enqueue);
             $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
             $('.vrtx').eq(j).attr('fill', Colors.enqueue);
@@ -112,14 +114,11 @@ async function dijkstra(i) {
             flag = 3;
         }
     }
-    for (let j = 0; j < n; j++) {
-        queue[j] = v.indexOf(j) === -1 ? d[j] : Infinity;
-    }
-    await Timer.sleep(delay * flag);
-    await dequeue();
+    yield delay * flag;
+    yield* dequeue();
 }
 
-async function dequeue() {
+async function* dequeue() {
     const min = queue.reduce((a, b) => (b < a ? b : a), Infinity);
     if (min === Infinity) return;
     const j = queue.indexOf(min);
@@ -127,10 +126,10 @@ async function dequeue() {
     v.push(j);
     sound('pop');
     bgcolor(cells[j], Colors.visited);
-    await spanEdge(i, j);
+    yield* spanEdge(i, j);
     $('.vrtx').eq(j).attr('fill', Colors.visited);
     if (v.length < n) {
-        await Timer.sleep(delay);
-        await dijkstra(j);
+        yield delay;
+        yield* dijkstra(j);
     }
 }

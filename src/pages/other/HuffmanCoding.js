@@ -3,7 +3,7 @@ import { Box, Stack, Typography } from '@mui/material';
 import { Edge, InputNumbers, Node } from '@/components/common';
 import useAnimator from '@/hooks/useAnimator';
 import huffmanTree from '@/helpers/huffmanTree';
-import { Iterator } from '@/common/timer';
+import Iterator from '@/common/iterator';
 import { Colors } from '@/common/constants';
 import { charAt, sound, traverse } from '@/common/utils';
 import styles from '@/styles/numbers.module.css';
@@ -55,7 +55,7 @@ export default function HuffmanCoding() {
         queue = values.map((value, i) => {
             return ({ value, char: alphabets[i] });
         });
-        it = Iterator(encode);
+        it = Iterator.new(encode);
         return it.start();
     };
 

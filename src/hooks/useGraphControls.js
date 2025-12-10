@@ -5,7 +5,7 @@ import { randomGraph } from '@/helpers/randomGraph';
 import { Colors } from '@/common/constants';
 import AppContext from '@/common/context';
 import Graph, { Path } from '@/common/graph';
-import Timer from '@/common/timer';
+import Iterator from '@/common/iterator';
 import $ from 'jquery';
 
 function useGraphControls(config, props) {
@@ -30,18 +30,25 @@ function useGraphControls(config, props) {
     return true;
   };
 
+  const startToEnd = async () => {
+    setContext({ playStatus: 1 });
+    await Iterator.current().start();
+    setContext({ playStatus: 2 });
+  }
+
   const handlePlay = async () => {
+    const src = source.charCodeAt(0) - 65;
+
     switch (playStatus) {
       case 0:
         if (validate()) {
           $('#plane').off();
-          setContext({ playStatus: 1 });
-          await props.onStart(source.charCodeAt(0) - 65);
-          setContext({ playStatus: 2 });
+          Iterator.new(props.onStart, src);
+          await startToEnd();
         }
         break;
       case 1:
-        Timer.pause();
+        Iterator.current().stop();
         setContext({ playStatus: -1 });
         break;
       case 2:
@@ -49,19 +56,17 @@ function useGraphControls(config, props) {
         $('.vrtx').attr('stroke', Colors.stroke);
         $('.vrtx').attr('fill', Colors.vertex);
         Path('.edge').attr('stroke', Colors.stroke);
-        setContext({ playStatus: 1 });
-        await Timer.sleep(1000);
-        await props.onStart(source.charCodeAt(0) - 65);
-        setContext({ playStatus: 2 });
+        Iterator.new(props.onStart, src);
+        await startToEnd();
         break;
       default:
-        Timer.resume();
-        setContext({ playStatus: 1 });
+        await startToEnd();
     }
   };
 
   const handleClear = () => {
     props.onClear?.();
+    Iterator.current()?.exit();
     clearGraph();
     drawGraph(config);
     setContext({ playStatus: 0 });
@@ -74,6 +79,7 @@ function useGraphControls(config, props) {
   };
 
   const refresh = () => {
+    Iterator.current()?.exit();
     props.onClear?.();
     clearGraph();
     Graph.initialize(randomGraph(8));

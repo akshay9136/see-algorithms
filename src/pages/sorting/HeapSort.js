@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import { Edge, InputNumbers, Node } from '@/components/common';
+import binaryTree from '@/common/binaryTree';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import binaryTree from '@/common/binaryTree';
+import Iterator from '@/common/iterator';
 import { sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
-import { Iterator } from '@/common/timer';
 import Link from 'next/link';
 
 var arr, Tree;
@@ -113,7 +113,7 @@ function heapify(i):
         sound('pop');
         setNumbers(values);
         Tree = binaryTree(animator);
-        it = Iterator(heapSort);
+        it = Iterator.new(heapSort);
         return it.start();
     };
 

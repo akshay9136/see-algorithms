@@ -2,7 +2,6 @@ import $ from 'jquery';
 import Graph, { Path, Points } from './graph';
 import { Colors } from './constants';
 import { showToast } from '../components/toast';
-import Timer from './timer';
 
 const mouseEvents = ['click', 'mousedown', 'mouseup', 'mousemove', 'mouseenter', 'mouseleave'];
 const touchEvents = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
@@ -159,31 +158,31 @@ function getCostMatrix() {
     return mat;
 }
 
-function spanEdge(i, j) {
+function* spanEdge(i, j) {
     const ei = Graph.edgeIndex(i, j);
     const edge = cloneEdge(i, j);
     const d = edge[0].getTotalLength();
-    const t = d / 40;
+    const t = d / 50;
     const seg = Graph.segments()[ei];
 
-    function span(dash) {
+    function* span(dash) {
         if (dash < d) {
             edge.attr('stroke-dasharray', `${dash} ${d - dash}`);
             if (i !== seg[0]) {
                 edge.attr('stroke-dashoffset', dash);
             }
-            return Timer.sleep(20).then(() => span(dash + t));
+            yield 20;
+            yield* span(dash + t);
         } else {
             edge.remove();
             $('.edge').eq(ei).attr('stroke', Colors.visited);
             $('.vrtx').eq(j).attr('stroke', Colors.visited);
         }
     }
-    return span(2);
+    yield* span(2);
 }
 
 function clearGraph() {
-    Timer.clear();
     $('#plane').off();
     $('#plane').children().not(':first').remove();
     Graph.clear();
@@ -191,6 +190,7 @@ function clearGraph() {
 
 function createGraph(data, weighted) {
     const { points, segments, directed, matrix, costMatrix } = data;
+
     points.forEach((p, i) => {
         addVertex(p, charAt(65 + i));
     });

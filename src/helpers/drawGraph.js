@@ -18,14 +18,27 @@ import { Colors } from '../common/constants';
 export function drawGraph({ weighted, acyclic }) {
     var px, ipx, flag, hold, drag;
 
+    const isInputActive = () => {
+        const active = document.activeElement;
+        if (active?.className === 'cost') {
+            active.blur();
+            $('.cost').each(function () {
+                $(this).attr('value', $(this).val());
+            });
+            return true;
+        }
+        return false;
+    };
+
     $('#plane').on('mousedown touchstart', (e) => {
         e.preventDefault();
-        if (flag) return;
+        if (flag || isInputActive()) return;
+
         let p = cursorOffset(e);
-        let k;
-        for (k = 0; k < Graph.totalPoints(); k++) {
-            let q = Graph.point(k);
-            let d = Points.distance(p, q);
+        let k = 0;
+        for (; k < Graph.totalPoints(); k++) {
+            const q = Graph.point(k);
+            const d = Points.distance(p, q);
             if (d < 20) {
                 hold = true;
                 break;
@@ -39,14 +52,10 @@ export function drawGraph({ weighted, acyclic }) {
         return !hasValue(Graph.edgeIndex(ipx, ip));
     }
 
-    $('#plane').on('click touchend', function (e) {
+    $('#plane').on('click touchend', (e) => {
         e.preventDefault();
-        let active = document.activeElement;
-        if (active?.className === 'cost') {
-            active.blur();
-            active.setAttribute('value', active.value);
-            return;
-        }
+        if (isInputActive()) return;
+
         if (hold && drag) {
             hold = false;
             drag = false;
@@ -56,8 +65,8 @@ export function drawGraph({ weighted, acyclic }) {
         let np = Graph.totalPoints();
         let k;
         for (k = 0; k < np; k++) {
-            let q = Graph.point(k);
-            let d = Points.distance(p, q);
+            const q = Graph.point(k);
+            const d = Points.distance(p, q);
             if (d < 20) {
                 p = q;
                 break;
@@ -83,6 +92,7 @@ export function drawGraph({ weighted, acyclic }) {
             }
             Graph.addSegment(ipx, k);
             if (weighted) addCost(px, p);
+
             if (Graph.isDirected()) {
                 if (acyclic && Graph.hasCycle()) {
                     showError('Please draw acyclic graph.');
@@ -93,14 +103,14 @@ export function drawGraph({ weighted, acyclic }) {
                 let q = fromDistance(px, p, 22);
                 if (overlaps(k)) {
                     q = fromDistance(px, p, 22);
-                    let [cx, cy] = findCurve(px, q);
+                    const [cx, cy] = findCurve(px, q);
                     Path('.edge:last').attr('cx', cx);
                     Path('.edge:last').attr('cy', cy);
                     $('.cost:last').parent().attr('x', cx);
                     $('.cost:last').parent().attr('y', cy);
-                    let [u, v] = [k, ipx].map(Graph.point);
-                    let [cu, cv] = findCurve(u, fromDistance(u, v, 22));
-                    let ei = Graph.edgeIndex(k, ipx);
+                    const [u, v] = [k, ipx].map(Graph.point);
+                    const [cu, cv] = findCurve(u, fromDistance(u, v, 22));
+                    const ei = Graph.edgeIndex(k, ipx);
                     Path('.edge').eq(ei).attr('cx', cu);
                     Path('.edge').eq(ei).attr('cy', cv);
                     $('.cost').eq(ei).parent().attr('x', cu);
@@ -129,8 +139,8 @@ export function drawGraph({ weighted, acyclic }) {
     });
 
     function overlaps(ip) {
-        let u = Graph.edgeIndex(ipx, ip);
-        let v = Graph.edgeIndex(ip, ipx);
+        const u = Graph.edgeIndex(ipx, ip);
+        const v = Graph.edgeIndex(ip, ipx);
         return hasValue(u) && hasValue(v);
     }
 
@@ -139,16 +149,16 @@ export function drawGraph({ weighted, acyclic }) {
         throttle((e) => {
             e.preventDefault();
             if (flag) {
-                let p = cursorOffset(e);
+                const p = cursorOffset(e);
                 Path('.edge:last').attr('x2', p.x);
                 Path('.edge:last').attr('y2', p.y);
             } else if (hold) {
-                let p = cursorOffset(e);
+                const p = cursorOffset(e);
                 if (drag) {
                     Graph.setPoint(ipx, p);
                     moveVertex(ipx, p);
                 } else {
-                    let d = Points.distance(p, px);
+                    const d = Points.distance(p, px);
                     if (d > 5) drag = true;
                 }
             }
@@ -169,19 +179,21 @@ export function drawGraph({ weighted, acyclic }) {
 
 export function switchGraph() {
     Graph.switchType();
+    const segments = Graph.segments();
+
     if (Graph.isDirected()) {
-        Graph.segments().forEach((seg, i) => {
-            let [p, q] = seg.map(Graph.point);
-            let r = fromDistance(p, q, 22);
-            let el = Path('.edge').eq(i);
+        segments.forEach((seg, i) => {
+            const [p, q] = seg.map(Graph.point);
+            const r = fromDistance(p, q, 22);
+            const el = Path('.edge').eq(i);
             el.attr('x2', r.x);
             el.attr('y2', r.y);
             el.attr('marker-end', 'url(#arrow)');
         });
     } else {
-        Graph.segments().forEach((seg, i) => {
-            let [, q] = seg.map(Graph.point);
-            let el = Path('.edge').eq(i);
+        segments.forEach((seg, i) => {
+            const [, q] = seg.map(Graph.point);
+            const el = Path('.edge').eq(i);
             el.attr('x2', q.x);
             el.attr('y2', q.y);
             el.removeAttr('marker-end');

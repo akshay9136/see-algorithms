@@ -2,7 +2,6 @@ import { DrawGraph } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
-import Timer from '@/common/timer';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import {
     appendCell,
@@ -57,24 +56,24 @@ var v, stack;
 var i, prev;
 var delay = 800;
 
-async function start(source) {
+async function* start(source) {
     v = [source];
     stack = [];
     prev = [];
     i = source;
     $('.vrtx').attr('stroke', Colors.rejected);
     $('.edge').attr('stroke', Colors.rejected);
-    await Timer.sleep(delay);
+    yield delay;
     sound('pop');
     $('.vrtx').eq(i).attr('stroke', Colors.visited);
     $('.vrtx').eq(i).attr('fill', Colors.visited);
     appendCell('#stack', charAt(65 + i));
     bgcolor('.cell:eq(0)', Colors.visited);
-    await Timer.sleep(delay);
-    await explore(0);
+    yield delay;
+    yield* explore(0);
 }
 
-async function explore(j) {
+async function* explore(j) {
     if (j < Graph.totalPoints()) {
         const ei = Graph.edgeIndex(i, j);
         if (hasValue(ei)) {
@@ -87,26 +86,26 @@ async function explore(j) {
                 v.push(j);
                 prev[j] = i;
                 appendCell('#stack', charAt(65 + j));
-                await Timer.sleep(delay);
+                yield delay;
             }
         }
-        await explore(j + 1);
+        yield* explore(j + 1);
     } else {
-        await Timer.sleep(delay / 2);
-        await visit();
+        yield delay / 2;
+        yield* visit();
     }
 }
 
-async function visit() {
+async function* visit() {
     $('.vrtx').eq(i).attr('fill', Colors.vertex);
-    await Timer.sleep(delay / 2);
+    yield delay / 2;
     if (stack.length) {
         i = stack.pop();
         sound('pop');
         bgcolor(`.cell:eq(${v.indexOf(i)})`, Colors.visited);
-        await spanEdge(prev[i], i);
+        yield* spanEdge(prev[i], i);
         $('.vrtx').eq(i).attr('fill', Colors.visited);
-        await Timer.sleep(delay);
-        await explore(0);
+        yield delay;
+        yield* explore(0);
     }
 }

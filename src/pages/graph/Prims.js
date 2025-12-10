@@ -1,8 +1,7 @@
 import { DrawGraph } from '@/components/common';
 import { Stack, Typography } from '@mui/material';
-import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
-import Timer from '@/common/timer';
+import $ from 'jquery';
 import { Colors } from '@/common/constants';
 import { hasValue, spanEdge, getCostMatrix, sound } from '@/common/utils';
 
@@ -33,7 +32,7 @@ var n, w, mst;
 var queue;
 var delay = 1000;
 
-async function start(src) {
+async function* start(src) {
     $('.cost').each(function () {
         this.setAttribute('value', this.value);
         this.setAttribute('readonly', true);
@@ -44,37 +43,37 @@ async function start(src) {
     mst = [];
     $('.vrtx').attr('stroke', Colors.rejected);
     $('.edge').attr('stroke', Colors.rejected);
-    await Timer.sleep(delay);
+    yield delay;
     sound('pop');
     $('.vrtx').eq(src).attr('stroke', Colors.visited);
     $('.vrtx').eq(src).attr('fill', Colors.visited);
-    await Timer.sleep(delay);
-    await explore(src);
+    yield delay;
+    yield* explore(src);
 }
 
-async function explore(i) {
+async function* explore(i) {
     mst.push(i);
-    queue = queue.concat(Array(n).fill(Infinity));
     w[i] = w[i] || [];
-    w[i].forEach((val, j) => {
-        queue[n * i + j] = val;
-    });
     let flag = 0.5;
-    for (let k = 0; k < n; k++) {
-        if (mst.includes(k)) continue;
-        if (hasValue(w[i][k])) {
-            const ei = Graph.edgeIndex(i, k);
+    for (let j = 0; j < n; j++) {
+        if (mst.includes(j)) {
+            queue[n * j + i] = Infinity;
+            continue;
+        }
+        if (hasValue(w[i][j])) {
+            queue[n * i + j] = w[i][j];
+            const ei = Graph.edgeIndex(i, j);
             Path('.edge').eq(ei).attr('stroke', Colors.enqueue);
-            $('.vrtx').eq(k).attr('stroke', Colors.enqueue);
-            $('.vrtx').eq(k).attr('fill', Colors.enqueue);
+            $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
+            $('.vrtx').eq(j).attr('fill', Colors.enqueue);
             flag = 1;
         }
     }
-    await Timer.sleep(delay * flag);
-    await dequeue();
+    yield delay * flag;
+    yield* dequeue();
 }
 
-async function dequeue() {
+async function* dequeue() {
     const min = queue.reduce((a, b) => (b < a ? b : a), Infinity);
     if (min === Infinity) return;
     const k = queue.indexOf(min);
@@ -83,10 +82,10 @@ async function dequeue() {
     const j = k % n;
     if (mst.includes(j)) return dequeue();
     sound('pop');
-    await spanEdge(i, j);
+    yield* spanEdge(i, j);
     $('.vrtx').eq(j).attr('fill', Colors.visited);
     if (mst.length < n) {
-        await Timer.sleep(delay);
-        await explore(j);
+        yield delay;
+        yield* explore(j);
     }
 }

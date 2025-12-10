@@ -3,10 +3,10 @@ import { Box, Stack, Typography } from '@mui/material';
 import { InputNumbers, Numbox } from '@/components/common';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import Link from 'next/link';
+import Iterator from '@/common/iterator';
 import { sound, withBoxId } from '@/common/utils';
 import { Colors } from '@/common/constants';
-import { Iterator } from '@/common/timer';
+import Link from 'next/link';
 
 var arr, it;
 var delay = 500;
@@ -80,7 +80,7 @@ for i = 0 to (n - 1):
         if (arr) return it.start();
         setNumbers(values);
         arr = values.map(withBoxId);
-        it = Iterator(selectionSort);
+        it = Iterator.new(selectionSort);
         return it.start();
     };
 

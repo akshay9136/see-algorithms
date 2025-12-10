@@ -1,10 +1,9 @@
 import { DrawGraph } from '@/components/common';
 import { Stack, Typography } from '@mui/material';
 import Graph, { Path } from '@/common/graph';
-import Timer from '@/common/timer';
+import $ from 'jquery';
 import { Colors } from '@/common/constants';
 import { hasValue, sound } from '@/common/utils';
-import $ from 'jquery';
 
 export default function Kruskals(props) {
     return (
@@ -28,11 +27,10 @@ export default function Kruskals(props) {
     );
 }
 
-var parent;
-var arr, mst;
+var arr, mst, parent;
 var delay = 1000;
 
-async function start() {
+async function* start() {
     arr = [];
     $('.cost').each(function () {
         let w = Number($(this).val()) || 1;
@@ -53,11 +51,11 @@ async function start() {
     }
     arr.sort((a, b) => a.w - b.w);
     mst = [];
-    await Timer.sleep(delay);
-    await nextMin(0);
+    yield delay;
+    yield* nextMin(0);
 }
 
-async function nextMin(k) {
+async function* nextMin(k) {
     if (k < arr.length) {
         const { u, v, i } = arr[k];
         const edge = Path('.edge').eq(i);
@@ -71,7 +69,7 @@ async function nextMin(k) {
             $('.vrtx').eq(u).attr('fill', Colors.visited);
             $('.vrtx').eq(v).attr('fill', Colors.visited);
             edge.attr('stroke', Colors.visited);
-            await Timer.sleep(delay / 2);
+            yield delay / 2;
             $('.vrtx').eq(u).attr('fill', Colors.vertex);
             $('.vrtx').eq(v).attr('fill', Colors.vertex);
             mst.push(arr[k]);
@@ -80,13 +78,13 @@ async function nextMin(k) {
             $('.vrtx').eq(u).attr('stroke', 'orangered');
             $('.vrtx').eq(v).attr('stroke', 'orangered');
             edge.attr('stroke', 'orangered');
-            await Timer.sleep(delay / 2);
+            yield delay / 2;
             $('.vrtx').eq(u).attr('stroke', Colors.visited);
             $('.vrtx').eq(v).attr('stroke', Colors.visited);
             edge.attr('stroke', Colors.rejected);
         }
-        await Timer.sleep(delay);
-        await nextMin(k + 1);
+        yield delay;
+        yield* nextMin(k + 1);
     }
 }
 

@@ -1,8 +1,7 @@
 import { DrawGraph } from '@/components/common';
-import { Box, Stack, Typography } from '@mui/material'
+import { Box, Stack, Typography } from '@mui/material';
 import $ from 'jquery';
 import Graph, { Path, Points } from '@/common/graph';
-import Timer from '@/common/timer';;
 import useAlgorithm from '@/hooks/useAlgorithm';
 import {
     appendCell,
@@ -70,7 +69,7 @@ function indegree():
 var indeg, stack;
 var delay = 800;
 
-async function start() {
+async function* start() {
     indeg = Graph.indegree();
     $('.vrtx').attr('stroke', Colors.rejected);
     $('.edge').attr('stroke', Colors.rejected);
@@ -81,21 +80,22 @@ async function start() {
             stack.push(i);
         }
     }
-    await Timer.sleep(delay).then(topsort);
+    yield delay;
+    yield* topsort();
 }
 
-async function topsort() {
+async function* topsort() {
     if (stack.length > 0) {
         const i = stack.pop();
         $('.vrtx').eq(i).attr('fill', Colors.visited);
         sound('pop');
-        await Timer.sleep(delay);
+        yield delay;
         for (let j = 0; j < indeg.length; j++) {
             const ei = Graph.edgeIndex(i, j);
             if (hasValue(ei) && indeg[j] > 0) {
                 --indeg[j];
                 Path('.edge').eq(ei).attr('stroke', Colors.visited);
-                await Timer.sleep(delay / 2);
+                yield delay / 2;
                 if (indeg[j] === 0) {
                     $('.vrtx').eq(j).attr('stroke', Colors.visited);
                     stack.push(j);
@@ -104,15 +104,16 @@ async function topsort() {
                 const [p, q] = [i, j].map(Graph.point);
                 const d = Points.distance(p, q);
                 const r = fromDistance(q, p, d - 25);
-                await extract(p, r, ei);
-                await Timer.sleep(delay / 2);
+                yield* extract(p, r, ei);
+                yield delay / 2;
             }
         }
         $('.vrtx').eq(i).css('opacity', 0);
         $('.vlbl').eq(i).css('opacity', 0);
-        await Timer.sleep(delay / 2);
+        yield delay / 2;
         appendCell('#sorted', charAt(65 + i));
-        await Timer.sleep(delay).then(topsort);
+        yield delay;
+        yield* topsort();
     } else {
         const graph = Graph.skeleton();
         clearGraph();
@@ -121,16 +122,17 @@ async function topsort() {
     }
 }
 
-function extract(p, q, ei) {
+function* extract(p, q, ei) {
     const edge = Path('.edge').eq(ei);
     const d = Points.distance(p, q);
     if (d - 25 > 0) {
-        const r = fromDistance(q, p, d - 6);
+        const r = fromDistance(q, p, d - 5);
         edge.attr('x2', r.x);
         edge.attr('y2', r.y);
         edge.attr('cx', (p.x + r.x) / 2);
         edge.attr('cy', (p.y + r.y) / 2);
-        return Timer.sleep(20).then(() => extract(p, r, ei));
+        yield 20;
+        yield* extract(p, r, ei);
     }
     edge.removeAttr('stroke');
     edge.removeAttr('marker-end');

@@ -3,9 +3,9 @@ import { Box, Stack, Typography } from '@mui/material';
 import { InputNumbers, Numbox } from '@/components/common';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import { Colors } from '@/common/constants';
-import { Iterator } from '@/common/timer';
+import Iterator from '@/common/iterator';
 import { sound, withBoxId } from '@/common/utils';
+import { Colors } from '@/common/constants';
 
 var arr, it;
 var delay = 800;
@@ -73,7 +73,7 @@ for i = 1 to (n - 1):
         setNumbers(values);
         sound('pop');
         arr = values.map(withBoxId);
-        it = Iterator(bubbleSort);
+        it = Iterator.new(bubbleSort);
         return it.start();
     };
 

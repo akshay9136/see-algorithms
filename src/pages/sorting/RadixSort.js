@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import { InputNumbers, Numbox } from '@/components/common';
-import { Iterator } from '@/common/timer';
 import { sound, withBoxId } from '@/common/utils';
 import useAnimator from '@/hooks/useAnimator';
+import Iterator from '@/common/iterator';
 
 var arr, out, n;
 var max, exp, b;
@@ -65,7 +65,7 @@ function RadixSort() {
     n = arr.length;
     max = Math.max(...values);
     exp = 1;
-    it = Iterator(radixSort);
+    it = Iterator.new(radixSort);
     return it.start();
   };
 

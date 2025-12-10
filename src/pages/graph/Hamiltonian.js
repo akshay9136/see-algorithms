@@ -2,7 +2,6 @@ import { DrawGraph } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
 import $ from 'jquery';
 import Graph from '@/common/graph';
-import Timer from '@/common/timer';
 import {
     appendCell,
     charAt,
@@ -38,63 +37,64 @@ export default function Hamiltonian(props) {
 var src, v;
 var delay = 1000;
 
-async function start(source) {
+async function* start(source) {
     v = Array(Graph.totalPoints()).fill(0);
     src = source;
     v[src] = 1;
     $('.vrtx').attr('stroke', Colors.rejected);
     $('.edge').attr('stroke', Colors.rejected);
-    await Timer.sleep(delay);
+    yield delay;
     sound('pop');
     $('.vrtx').eq(src).attr('stroke', Colors.visited);
     $('.vrtx').eq(src).attr('fill', Colors.visited);
     appendCell('#path', charAt(65 + src));
-    await findCycle(src);
+    yield* findCycle(src);
 }
 
-async function findCycle(i) {
+async function* findCycle(i) {
     if (v.indexOf(0) === -1) {
         let ei = Graph.edgeIndex(i, src);
         if (hasValue(ei)) {
-            await spanEdge(i, src);
+            yield* spanEdge(i, src);
             return true;
         }
     }
-    await Timer.sleep(delay);
+    yield delay;
     for (let j = 0; j < Graph.totalPoints(); j++) {
         let ei = Graph.edgeIndex(i, j);
         if (hasValue(ei) && v[j] === 0) {
             sound('pop');
             appendCell('#path', charAt(65 + j));
-            await spanEdge(i, j);
+            yield* spanEdge(i, j);
             v[j] = 1;
-            if (await findCycle(j)) return true;
+            if (yield* findCycle(j)) return true;
             v[j] = 0;
             sound('pop');
             $('#path').children().last().remove();
-            await backtrack(i, j);
-            await Timer.sleep(delay);
+            yield* backtrack(i, j);
+            yield delay;
         }
     }
 }
 
-function backtrack(i, j) {
+function* backtrack(i, j) {
     const ei = Graph.edgeIndex(i, j);
     $('.edge').eq(ei).attr('stroke', Colors.rejected);
     $('.vrtx').eq(j).attr('stroke', Colors.rejected);
     const edge = cloneEdge(i, j);
     const d = edge[0].getTotalLength();
-    const t = d / 40;
+    const t = d / 50;
     const seg = Graph.segments()[ei];
 
-    function span(dash) {
+    function* span(dash) {
         if (dash < d) {
             edge.attr('stroke-dasharray', `${d - dash} ${dash}`);
             if (i !== seg[0]) {
                 edge.attr('stroke-dashoffset', d - dash);
             }
-            return Timer.sleep(20).then(() => span(dash + t));
+            yield 20;
+            yield* span(dash + t);
         } else edge.remove();
     }
-    return span(2);
+    yield* span(2);
 }
