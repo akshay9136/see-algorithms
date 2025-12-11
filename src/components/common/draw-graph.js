@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, memo } from 'react';
 import {
   Box,
   Button,
@@ -9,12 +9,12 @@ import {
   Typography,
 } from '@mui/material';
 import { PlayArrow, Pause, Refresh, Share } from '@mui/icons-material';
-import styles from '@/styles/draw-graph.module.css';
-import useGraphControls from '@/hooks/useGraphControls';
-import AppContext from '@/common/context';
-import Graph from '@/common/graph';
-import Iterator from '@/common/iterator';
 import { createGraph, getCostMatrix } from '@/common/utils';
+import useGraphControls from '@/hooks/useGraphControls';
+import styles from '@/styles/draw-graph.module.css';
+import AppContext from '@/common/context';
+import Iterator from '@/common/iterator';
+import Graph from '@/common/graph';
 import { useRouter } from 'next/router';
 import { showToast } from '../toast';
 
@@ -35,9 +35,7 @@ function DrawGraph(props) {
 
   useEffect(() => {
     refresh();
-    return () => {
-      Iterator.current()?.exit();
-    }
+    return () => Iterator.current()?.exit();
   }, [algoId, router]);
 
   useEffect(() => {
@@ -55,10 +53,8 @@ function DrawGraph(props) {
   }, [router]);
 
   const handleSave = () => {
-    const data = JSON.stringify({
-      ...Graph.skeleton(),
-      costMatrix: getCostMatrix(),
-    });
+    const weights = getCostMatrix();
+    const data = JSON.stringify({ ...Graph.skeleton(), weights });
     const origin = window.location.origin;
     const url = `${origin}${router.pathname}?skeleton=${btoa(data)}`;
     navigator.clipboard.writeText(url);
@@ -155,24 +151,30 @@ function DrawGraph(props) {
         </Box>
       </Box>
       <Box mb={1} className="resizable">
-        <svg id="plane" className={styles.plane} role="graphics-document">
-          <defs>
-            <marker
-              id="arrow"
-              viewBox="0 0 10 10"
-              refX="5"
-              refY="5"
-              markerWidth="4"
-              markerHeight="4"
-              orient="auto-start-reverse"
-            >
-              <path d="M 0 0 L 10 5 L 0 10 z" fill="#555" />
-            </marker>
-          </defs>
-        </svg>
+        <Plane />
       </Box>
     </Box>
   );
 }
+
+const Plane = memo(function () {
+  return (
+    <svg id="plane" className={styles.plane} role="graphics-document">
+      <defs>
+        <marker
+          id="arrow"
+          viewBox="0 0 10 10"
+          refX="5"
+          refY="5"
+          markerWidth="4"
+          markerHeight="4"
+          orient="auto-start-reverse"
+        >
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#555" />
+        </marker>
+      </defs>
+    </svg>
+  );
+});
 
 export default DrawGraph;

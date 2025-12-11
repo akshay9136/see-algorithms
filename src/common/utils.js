@@ -81,10 +81,10 @@ function findCurve(p, q) {
 }
 
 function addEdge(p, q) {
-    let cx = (p.x + q.x) / 2;
-    let cy = (p.y + q.y) / 2;
-    let d = `M ${p.x} ${p.y} Q ${cx} ${cy} ${q.x} ${q.y}`;
-    let edge = `<path class="edge" d="${d}" stroke-width="2.5" stroke="${Colors.stroke}" fill="transparent" />`;
+    const cx = (p.x + q.x) / 2;
+    const cy = (p.y + q.y) / 2;
+    const d = `M ${p.x} ${p.y} Q ${cx} ${cy} ${q.x} ${q.y}`;
+    const edge = `<path class="edge" d="${d}" stroke-width="2.5" stroke="${Colors.stroke}" fill="transparent" />`;
     document.getElementById('plane').innerHTML += edge;
     $('.edge:last').insertBefore($('.vgrp:first'));
 }
@@ -115,8 +115,9 @@ function cloneEdge(i, j) {
     let d = Path('.edge').eq(ei).attr('d');
     let edge = `<path stroke-width="4" stroke="${Colors.visited}" fill="transparent" d="${d}"  />`;
     document.getElementById('plane').innerHTML += edge;
-    $('path:last').insertBefore($('.vgrp:first'));
-    return $('path:last');
+    let last = $('#plane path:last');
+    last.insertBefore($('.vgrp:first'));
+    return last;
 }
 
 function fromDistance(start, end, distance) {
@@ -189,7 +190,7 @@ function clearGraph() {
 }
 
 function createGraph(data, weighted) {
-    const { points, segments, directed, matrix, costMatrix } = data;
+    const { points, segments, directed, matrix, weights } = data;
 
     points.forEach((p, i) => {
         addVertex(p, charAt(65 + i));
@@ -209,7 +210,7 @@ function createGraph(data, weighted) {
             }
         }
         if (weighted) {
-            addCost(p, q, costMatrix?.[i][j]);
+            addCost(p, q, weights?.[i][j]);
         }
     });
 }

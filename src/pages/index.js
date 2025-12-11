@@ -37,7 +37,7 @@ export default function HomePage() {
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Card elevation={3} sx={{ borderRadius: 2, py: 1 }}>
+          <Card elevation={3} sx={{ borderRadius: 2, py: 1.5 }}>
             <Typography
               variant="h6"
               fontWeight={600}
@@ -46,15 +46,9 @@ export default function HomePage() {
             >
               Visualization Preview
             </Typography>
-
             <img src="/preview.gif" alt="preview" width="100%" />
 
-            <Typography
-              variant="caption"
-              display="block"
-              color="text.secondary"
-              px={2}
-            >
+            <Typography variant="body2" color="text.secondary" px={2}>
               Use the controls to pause/resume animations, tweak inputs, or
               generate a shareable URL for the current graph.
             </Typography>

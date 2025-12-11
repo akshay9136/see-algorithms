@@ -145,7 +145,7 @@ export const Points = {
 
 import $ from 'jquery';
 
-export function Path(el = '#plane path') {
+export function Path(el) {
     const _path = typeof el === 'string' ? $(el) : el;
     return {
         eq: (i) => Path(_path.eq(i)),

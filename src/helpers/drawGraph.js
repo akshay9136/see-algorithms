@@ -18,7 +18,7 @@ import { Colors } from '../common/constants';
 export function drawGraph({ weighted, acyclic }) {
     var px, ipx, flag, hold, drag;
 
-    const isInputActive = () => {
+    function isInputActive() {
         const active = document.activeElement;
         if (active?.className === 'cost') {
             active.blur();
@@ -28,7 +28,7 @@ export function drawGraph({ weighted, acyclic }) {
             return true;
         }
         return false;
-    };
+    }
 
     $('#plane').on('mousedown touchstart', (e) => {
         e.preventDefault();

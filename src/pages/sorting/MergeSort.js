@@ -92,9 +92,9 @@ function merge(start, mid, end):
 
     const handleStart = (values) => {
         if (arr) return it.start();
-        const n = arr.length;
         setNumbers(values);
         arr = values.map(withBoxId);
+        const n = arr.length;
         it = Iterator.new(mergeSort, 0, n - 1, 60);
         return it.start();
     };
