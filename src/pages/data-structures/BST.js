@@ -71,7 +71,9 @@ export default function BST(props) {
                     arr = JSON.parse(atob(nodes));
                 }
                 insertAll();
-            } catch {}
+            } catch {
+                console.log('Error parsing nodes');
+            }
         }
     }, [router]);
 

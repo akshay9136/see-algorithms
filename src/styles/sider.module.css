@@ -66,7 +66,7 @@
 }
 
 .listItem {
-  margin: 0.25rem 0.75rem !important;
+  margin: 4px 12px !important;
   border-radius: 8px !important;
   transition: all 0.2s ease !important;
   border: 1px solid transparent !important;

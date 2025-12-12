@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import { DSInput, Edge } from '@/components/common';
 import useAnimator from '@/hooks/useAnimator';
+import useAlgorithm from '@/hooks/useAlgorithm';
 import linkedList from '@/helpers/linkedList';
 import { motion } from 'framer-motion';
 import { showError, sleep } from '@/common/utils';
@@ -17,6 +18,45 @@ var list, delay = 500;
 export default function LinkedList(props) {
   const [nodes, setNodes] = useState(['H']);
   const [scope, animator] = useAnimator();
+  const [insertAlgo1] = useAlgorithm(`
+function insertAtHead(value):
+    node = new Node(value)
+    node.next = head.next
+    head.next = node
+`)
+  const [insertAlgo2] = useAlgorithm(`
+function insertAtTail(value):
+    node = new Node(value)
+    cur = head
+    while cur.next is not null:
+        cur = cur.next
+    cur.next = node
+`)
+  const [insertAlgo3] = useAlgorithm(`
+function insertAt(index, value):
+    if index == 0:
+        insertAtHead(value)
+        return
+    cur = head
+    for i = 1 to index:
+        if cur.next is null: break
+        cur = cur.next
+    node = new Node(value)
+    node.next = cur.next
+    cur.next = node
+`)
+  const [deleteAlgo] = useAlgorithm(`
+function deleteAt(index):
+    cur = head
+    prev = null
+    for i = 0 to index:
+        prev = cur
+        cur = cur.next
+        if cur is null:
+            alert "Invalid index."
+            return
+    prev.next = cur.next
+`)
   const inputRef = useRef(null);
   const { txy } = animator;
 
@@ -32,7 +72,7 @@ export default function LinkedList(props) {
     await list.insertAtTail(value);
   };
 
-  const insertAtIndex = async (index) => {
+  const insertAt = async (index) => {
     const value = inputRef.current.getValue();
     if (typeof value !== 'number') {
       showError('Please enter a number.');
@@ -40,14 +80,12 @@ export default function LinkedList(props) {
     }
     setNodes([...nodes, value]);
     await sleep(delay);
-    await list.insertAtIndex(value, index);
+    await list.insertAt(value, index);
   };
 
-  const deleteAtIndex = async (index) => {
-    const found = await list.deleteAtIndex(index);
-    if (!found) {
-      showError('Index is out of bound.');
-    }
+  const deleteAt = async (index) => {
+    const found = await list.deleteAt(index);
+    if (!found) showError('Invalid index.');
   };
 
   const reset = () => {
@@ -61,8 +99,8 @@ export default function LinkedList(props) {
   ];
 
   const buttons2 = [
-    { text: 'Insert', onClick: insertAtIndex, validate: true },
-    { text: 'Delete', onClick: deleteAtIndex, validate: true, keepEmpty: true },
+    { text: 'Insert', onClick: insertAt, validate: true },
+    { text: 'Delete', onClick: deleteAt, validate: true, keepEmpty: true },
     { text: 'Clear', onClick: reset, disabled: nodes.length <= 1 },
   ];
 
@@ -81,6 +119,14 @@ export default function LinkedList(props) {
         grow or shrink dynamically. This makes them efficient for insertions and
         deletions, but slower for direct access to an element.
       </Typography>
+      <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
+        <Stack spacing={2}>
+          {insertAlgo1}
+          {insertAlgo2}
+        </Stack>
+        {insertAlgo3}
+        {deleteAlgo}
+      </Box>
       <Stack spacing={2}>
         <DSInput {...props} buttons={buttons} ref={inputRef} />
         <DSInput

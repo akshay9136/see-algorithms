@@ -17,8 +17,8 @@ export default function BubbleSort() {
 for i = 1 to (n - 1):
     swapped = false
     for j = 1 to (n - i):
-        if arr[j] < arr[j + 1]:
-            swap(j, j + 1)
+        if arr[j] < arr[j - 1]:
+            swap(j, j - 1)
             swapped = true
     if not swapped: break
 `);
@@ -97,7 +97,7 @@ for i = 1 to (n - 1):
                 complexity. It’s often used for educational purposes or as a
                 baseline for comparison with other sorting algorithms.
             </Typography>
-            <Typography variant="h6" component="h2">
+            <Typography variant="h6" component="h2" fontSize="1.2rem">
                 Things to Observe
             </Typography>
             <Typography

@@ -18,14 +18,14 @@ const arrowStyle = {
 };
 
 function linkedList({ tx, ty, txy, bgcolor, animate }) {
-  const head = { key: 0, id: '#box0' };
+  const head = { key: 0 };
   const arr = [head];
 
   const length = (node) => (node ? 1 + length(node.next) : -1);
 
   const insertAtHead = (value) => {
     if (!head.next) return insertAtTail(value);
-    return insertAtIndex(value, 0);
+    return insertAt(value, 0);
   };
 
   const insertAtTail = async (value) => {
@@ -56,7 +56,7 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
     return node;
   };
 
-  const insertAtIndex = async (value, k) => {
+  const insertAt = async (value, k) => {
     if (k >= length(head)) {
       return insertAtTail(value);
     }
@@ -98,10 +98,10 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
     }
   };
 
-  const deleteAtIndex = async (k) => {
+  const deleteAt = async (k) => {
     const node = await findNode((_, i) => i - 1 === k);
     if (!node) return false;
-    animate(node.id, { opacity: 0 });
+    animate(`#box${node.key}`, { opacity: 0 });
     animate(node.eid, { opacity: 0 });
     await sleep(delay);
     sound('swap');
@@ -114,8 +114,8 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
   return {
     insertAtHead,
     insertAtTail,
-    insertAtIndex,
-    deleteAtIndex,
+    insertAt,
+    deleteAt,
   };
 }
 
