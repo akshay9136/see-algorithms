@@ -30,7 +30,8 @@ const DSInput = forwardRef((props, ref) => {
   };
 
   useImperativeHandle(ref, () => ({
-    getValue: () => number,
+    value: number,
+    setDisabled: setStatus,
   }));
 
   return (

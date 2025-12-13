@@ -9,9 +9,14 @@ import { Refresh, Share } from '@mui/icons-material';
 
 var arr = [], Tree;
 
-const randomNodes = () => {
-    return [randomInt(), randomInt(), randomInt(), randomInt(), randomInt(), randomInt()];
-};
+const randomNodes = () => [
+    randomInt(),
+    randomInt(),
+    randomInt(),
+    randomInt(),
+    randomInt(),
+    randomInt(),
+];
 
 export default function BST(props) {
     const router = useRouter();

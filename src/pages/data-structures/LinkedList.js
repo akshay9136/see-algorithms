@@ -57,35 +57,46 @@ function deleteAt(index):
             return
     prev.next = cur.next
 `)
-  const inputRef = useRef(null);
-  const { txy } = animator;
+  const inputRef1 = useRef(null);
+  const inputRef2 = useRef(null);
 
   const insertAtHead = async (value) => {
+    const { setDisabled } = inputRef2.current;
+    setDisabled(true);
     setNodes([...nodes, value]);
     await sleep(delay);
     await list.insertAtHead(value);
+    setDisabled(false);
   };
 
   const insertAtTail = async (value) => {
+    const { setDisabled } = inputRef2.current;
+    setDisabled(true);
     setNodes([...nodes, value]);
     await sleep(delay);
     await list.insertAtTail(value);
+    setDisabled(false);
   };
 
   const insertAt = async (index) => {
-    const value = inputRef.current.getValue();
+    const { value, setDisabled } = inputRef1.current;
     if (typeof value !== 'number') {
       showError('Please enter a number.');
       return;
     }
+    setDisabled(true);
     setNodes([...nodes, value]);
     await sleep(delay);
     await list.insertAt(value, index);
+    setDisabled(false);
   };
 
   const deleteAt = async (index) => {
+    const { setDisabled } = inputRef1.current;
+    setDisabled(true);
     const found = await list.deleteAt(index);
     if (!found) showError('Invalid index.');
+    setDisabled(false);
   };
 
   const reset = () => {
@@ -106,7 +117,7 @@ function deleteAt(index):
 
   useEffect(() => {
     reset();
-    txy(`#box${0}`, 0, 80, 0);
+    animator.txy(`#box${0}`, 0, 80, 0);
     return reset;
   }, []);
 
@@ -128,12 +139,13 @@ function deleteAt(index):
         {deleteAlgo}
       </Box>
       <Stack spacing={2}>
-        <DSInput {...props} buttons={buttons} ref={inputRef} />
+        <DSInput {...props} buttons={buttons} ref={inputRef1} />
         <DSInput
           {...props}
           buttons={buttons2}
           label="Enter an index: "
           keepEmpty
+          ref={inputRef2}
         />
       </Stack>
       <Box ref={scope} className="sorting" overflow="auto">
