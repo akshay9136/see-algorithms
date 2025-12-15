@@ -65,20 +65,19 @@
 }
 
 .alphaGrid {
-    font-size: 1rem;
-    font-weight: 600;
-    min-height: 40px;
+    min-height: 36px;
 }
 
 .alphaGrid .cell {
-    width: 46px;
-    height: 40px;
-    border-radius: 10px;
+    width: 42px;
+    height: 36px;
     margin-right: 8px;
-    border: 2px solid #636363;
+    border-radius: 8px;
+    border: 1.5px solid #636363;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-weight: 600;
 }
 
 .numGrid .cell {
@@ -116,9 +115,9 @@
 .algorithm {
     padding: 8px 0;
     font-size: 14px;
-    width: fit-content;
     background-color: #eee;
     border-radius: 8px;
+    width: fit-content;
 }
 
 .algorithm pre {
