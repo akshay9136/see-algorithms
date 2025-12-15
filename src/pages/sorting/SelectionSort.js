@@ -17,7 +17,7 @@ export default function SelectionSort() {
     const [algorithm, setCurrentStep] = useAlgorithm(`
 for i = 0 to (n - 1):
     min = i
-    for j = i + 1 to (n):
+    for j = i + 1 to (n - 1):
         if arr[j] < arr[min]:
             min = j
     if min != i: swap(i, min)

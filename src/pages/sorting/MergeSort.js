@@ -21,26 +21,6 @@ function mergeSort(start, end):
         mergeSort(mid + 1, end)
         merge(start, mid, end)
 `);
-    const [mergeAlgo] = useAlgorithm(`
-function merge(start, mid, end):
-    i = start, j = mid + 1
-    temp = []
-    while i <= mid and j <= end:
-        if arr[i] <= arr[j]:
-            append arr[i] to temp
-            i = i + 1
-        else:
-            append arr[j] to temp
-            j = j + 1
-    while i <= mid:
-        append arr[i] to temp
-        i = i + 1
-    while j <= end:
-        append arr[j] to temp
-        j = j + 1
-    for i = start to end:
-        arr[i] = temp[i - start]
-`);
 
     const getMergeIndex = (p, q, mid, end) => {
         if (p <= mid && q <= end) {
@@ -142,16 +122,15 @@ function merge(start, mid, end):
                     </li>
                 </ul>
             </Typography>
-            <Box display="flex" gap={3} flexWrap="wrap">
-                {mergeAlgo}
+            <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
+                {algorithm}
                 <Stack spacing={3}>
-                    {algorithm}
                     <InputNumbers
                         onStart={handleStart}
                         onReset={handleStop}
                         onStop={() => it?.stop()}
                     />
-                    <Box className="mergeSort" pt={4} ref={scope}>
+                    <Box className="mergeSort" pt={3} ref={scope}>
                         {numbers.map((num, i) => (
                             <Numbox key={i} index={i} value={num} />
                         ))}

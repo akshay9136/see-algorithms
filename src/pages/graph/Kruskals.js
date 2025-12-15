@@ -41,7 +41,6 @@ export default function Kruskals(props) {
         }
         arr.sort((a, b) => a.w - b.w);
         yield delay;
-        sound('pop');
         yield* nextMin(0);
     }
 
@@ -54,6 +53,7 @@ export default function Kruskals(props) {
             [...union[y2]].forEach((v, i) => {
                 promises.push(txy(`#node${v}`, x + i * 50, y1 * 50));
             });
+            sound('swap');
             await Promise.all(promises);
             union[y1] = new Set([...union[y1], ...union[y2]]);
             union[y2] = new Set();
@@ -68,6 +68,7 @@ export default function Kruskals(props) {
         $('.vrtx').eq(v).attr('stroke', Colors.visited);
         $('.vrtx').eq(u).attr('fill', Colors.visited);
         $('.vrtx').eq(v).attr('fill', Colors.visited);
+        sound('pop');
         await Promise.all([
             bgcolor(`#node${u}`, Colors.visited),
             bgcolor(`#node${v}`, Colors.visited),
@@ -84,9 +85,9 @@ export default function Kruskals(props) {
             bgcolor(`#node${u}`, Colors.white),
             bgcolor(`#node${v}`, Colors.white),
         ]);
-        if (k + 1 < arr.length) {
+        const rest = union.filter((set) => set.size > 0);
+        if (rest.length > 1) {
             yield delay;
-            sound('pop');
             yield* nextMin(k + 1);
         }
     }
@@ -144,6 +145,7 @@ export default function Kruskals(props) {
                     <Typography
                         variant="subtitle1"
                         fontWeight="bold"
+                        fontSize={18}
                         position="absolute"
                         left="50%"
                         top={0}
