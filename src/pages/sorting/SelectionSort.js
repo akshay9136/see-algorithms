@@ -129,7 +129,7 @@ for i = 0 to (n - 1):
                     </li>
                 </ul>
             </Typography>
-            <Box display="flex" gap={3} flexWrap="wrap">
+            <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
                 {algorithm}
                 <Stack spacing={3}>
                     <InputNumbers

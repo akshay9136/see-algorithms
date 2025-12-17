@@ -3,6 +3,7 @@ import { Box, Stack, Typography } from '@mui/material';
 import { InputNumbers, Numbox } from '@/components/common';
 import { sound, withBoxId } from '@/common/utils';
 import useAnimator from '@/hooks/useAnimator';
+import useAlgorithm from '@/hooks/useAlgorithm';
 import Iterator from '@/common/iterator';
 
 var arr, out, n;
@@ -13,6 +14,22 @@ function RadixSort() {
   const [numbers, setNumbers] = useState([]);
   const [scope, { txy, animate }] = useAnimator();
   const [nextExp, setNextExp] = useState(0);
+  const [algorithm] = useAlgorithm(`
+max = largest(arr)
+exp = 1
+while (max / exp) > 0:
+    buckets[0..9] = empty stacks
+    for i = 0 to (n - 1):
+        d = (arr[i] / exp) % 10
+        push arr[i] to buckets[d]
+    k = n - 1
+    for j = 9 to 0:
+        b = buckets[j]
+        while b is not empty:
+            arr[k] = b.pop()
+            k = k - 1
+    exp = exp * 10
+`);
 
   async function enqueue(i) {
     const j = Math.floor(arr[i].val / exp) % 10;
@@ -21,7 +38,7 @@ function RadixSort() {
     const dy = b[j].length * 36;
     sound('swap');
     await txy(arr[i].id, j * 60, 240 - dy);
-  };
+  }
 
   async function* dequeue(j) {
     while (b[j].length) {
@@ -33,7 +50,7 @@ function RadixSort() {
       await txy(arr[i].id, k * 60, 0);
       yield delay;
     }
-  };
+  }
 
   async function* radixSort() {
     yield 1000;
@@ -128,34 +145,39 @@ function RadixSort() {
           </li>
         </ul>
       </Typography>
-      <InputNumbers
-        onStart={handleStart}
-        onReset={handleStop}
-        onStop={() => it?.stop()}
-      />
-      <Box className="radixSort" pt={3} ref={scope}>
-        <Box display="flex">
-          {numbers.map((num, i) => (
-            <Numbox
-              key={i}
-              index={i}
-              value={renderDigits(num)}
-              style={{ fontWeight: 'bold' }}
-            />
-          ))}
-        </Box>
-        <Box display="flex">
-          {numbers.length > 0 &&
-            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
-              <Numbox
-                key={i}
-                index={numbers.length + i}
-                value={i}
-                animate={{ x: i * 60, y: 240 }}
-                style={styles.bucket()}
-              />
-            ))}
-        </Box>
+      <Box display="flex" gap={3} flexWrap="wrap">
+        {algorithm}
+        <Stack spacing={2}>
+          <InputNumbers
+            onStart={handleStart}
+            onReset={handleStop}
+            onStop={() => it?.stop()}
+          />
+          <Box className="radixSort" pt={3} ref={scope}>
+            <Box display="flex">
+              {numbers.map((num, i) => (
+                <Numbox
+                  key={i}
+                  index={i}
+                  value={renderDigits(num)}
+                  style={{ fontWeight: 'bold' }}
+                />
+              ))}
+            </Box>
+            <Box display="flex">
+              {numbers.length > 0 &&
+                [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
+                  <Numbox
+                    key={i}
+                    index={numbers.length + i}
+                    value={i}
+                    animate={{ x: i * 60, y: 240 }}
+                    style={styles.bucket()}
+                  />
+                ))}
+            </Box>
+          </Box>
+        </Stack>
       </Box>
     </Stack>
   );
