@@ -14,6 +14,7 @@ function useGraphControls(config, props) {
 
   const validate = () => {
     let np = Graph.totalPoints();
+    console.log('asdf', np)
     let char = String.fromCharCode(64 + np);
     let message = '';
     if (np <= 1) {

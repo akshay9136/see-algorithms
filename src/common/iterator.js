@@ -38,6 +38,7 @@ function newIterator(generator, ...args) {
 
     exit() {
       iterator.return();
+      running = false;
     },
   };
 }

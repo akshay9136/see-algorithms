@@ -1,19 +1,25 @@
+import { useEffect, useState } from 'react';
 import { DrawGraph, Node } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
 import Graph, { Path } from '@/common/graph';
 import $ from 'jquery';
 import useAnimator from '@/hooks/useAnimator';
-import { useState } from 'react';
 import { charAt, hasValue, sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 
-var arr, union;
+var arr, union, parent;
 var delay = 800;
 
 export default function Kruskals(props) {
     const [scope, { txy, bgcolor }] = useAnimator();
     const [size, setSize] = useState(0);
     if (size === 0) arr = [];
+
+    useEffect(() => {
+        for (let i = 0; i < size; i++) {
+            $(`#nodeBf${i}`).text(charAt(65 + i));
+        }
+    }, [size]);
 
     async function* start() {
         $('.vrtx').attr('stroke', Colors.rejected);
@@ -27,9 +33,11 @@ export default function Kruskals(props) {
             arr.push({ w });
         });
         union = [];
+        parent = [];
         for (let i = 0; i < size; i++) {
             union[i] = new Set();
             union[i].add(i);
+            parent[i] = i;
             for (let j = 0; j < size; j++) {
                 let ei = Graph.edgeIndex(i, j);
                 if (hasValue(ei)) {
@@ -44,19 +52,28 @@ export default function Kruskals(props) {
         yield* nextMin(0);
     }
 
+    function findRoot(u) {
+        if (parent[u] !== u) {
+            return findRoot(parent[u]);
+        }
+        return parent[u];
+    }
+
     async function findUnion(u, v) {
-        const y1 = union.findIndex((s) => s.has(v));
-        const y2 = union.findIndex((s) => s.has(u));
-        if (y1 !== y2) {
-            const x = union[y1].size * 50;
+        const x1 = findRoot(v);
+        const x2 = findRoot(u);
+        if (x1 !== x2) {
+            const y = union[x1].size * 50;
             const promises = [];
-            [...union[y2]].forEach((v, i) => {
-                promises.push(txy(`#node${v}`, x + i * 50, y1 * 50));
+            [...union[x2]].forEach((v, i) => {
+                promises.push(txy(`#node${v}`, x1 * 70, y + i * 50));
             });
             sound('swap');
             await Promise.all(promises);
-            union[y1] = new Set([...union[y1], ...union[y2]]);
-            union[y2] = new Set();
+            union[x1] = new Set([...union[x1], ...union[x2]]);
+            union[x2] = new Set();
+            parent[x2] = x1;
+            $(`#nodeBf${x2}`).text(charAt(65 + x1));
             return true;
         }
         return false;
@@ -93,7 +110,7 @@ export default function Kruskals(props) {
     }
 
     return (
-        <Stack spacing={2}>
+        <Stack spacing={2} width="fit-content">
             <Typography variant="body1">
                 <strong>Kruskal&apos;s Algorithm</strong> is another way to find
                 a Minimum Spanning Tree (MST) in a graph. It works by
@@ -136,19 +153,21 @@ export default function Kruskals(props) {
                     customSource={false}
                 />
                 <Box
-                    pt={6}
-                    width={400}
-                    height={500}
+                    pt={4}
+                    width={size * 70}
+                    height={size * 60}
+                    minHeight={300}
                     ref={scope}
                     position="relative"
+                    overflow="hidden"
                 >
                     <Typography
                         variant="subtitle1"
                         fontWeight="bold"
                         fontSize={18}
-                        position="absolute"
-                        left="50%"
-                        top={0}
+                        textAlign="center"
+                        position="relative"
+                        top={-40}
                     >
                         Union-Find
                     </Typography>
@@ -157,8 +176,9 @@ export default function Kruskals(props) {
                             key={i}
                             index={i}
                             value={charAt(65 + i)}
-                            animate={{ y: i * 50 }}
+                            animate={{ x: i * 70 }}
                             style={{ fontWeight: 'bold' }}
+                            showBf={true}
                         />
                     ))}
                 </Box>
