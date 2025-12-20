@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { DrawGraph, Node } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
-import Graph, { Path } from '@/common/graph';
 import $ from 'jquery';
-import useAnimator from '@/hooks/useAnimator';
-import { charAt, hasValue, sound } from '@/common/utils';
+import Graph, { Path } from '@/common/graph';
+import { charAt, sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
+import useAnimator from '@/hooks/useAnimator';
 
 var arr, union, parent;
 var delay = 800;
@@ -22,32 +22,26 @@ export default function Kruskals(props) {
     }, [size]);
 
     async function* start() {
+        sound('pop');
         $('.vrtx').attr('stroke', Colors.rejected);
         $('.edge').attr('stroke', Colors.rejected);
         yield 0;
         const size = Graph.totalPoints();
         setSize(size);
         arr = [];
-        $('.cost').each(function () {
-            let w = Number($(this).val()) || 1;
-            arr.push({ w });
+        $('.cost').each(function (i) {
+            const [u, v] = Graph.segments()[i];
+            const w = Number($(this).val()) || 1;
+            arr.push({ u, v, w, i });
         });
+        arr.sort((a, b) => a.w - b.w);
         union = [];
         parent = [];
         for (let i = 0; i < size; i++) {
             union[i] = new Set();
             union[i].add(i);
             parent[i] = i;
-            for (let j = 0; j < size; j++) {
-                let ei = Graph.edgeIndex(i, j);
-                if (hasValue(ei)) {
-                    arr[ei].u = i;
-                    arr[ei].v = j;
-                    arr[ei].i = ei;
-                }
-            }
         }
-        arr.sort((a, b) => a.w - b.w);
         yield delay;
         yield* nextMin(0);
     }
@@ -59,24 +53,18 @@ export default function Kruskals(props) {
         return parent[u];
     }
 
-    async function findUnion(u, v) {
-        const x1 = findRoot(v);
-        const x2 = findRoot(u);
-        if (x1 !== x2) {
-            const y = union[x1].size * 50;
-            const promises = [];
-            [...union[x2]].forEach((v, i) => {
-                promises.push(txy(`#node${v}`, x1 * 70, y + i * 50));
-            });
-            sound('swap');
-            await Promise.all(promises);
-            union[x1] = new Set([...union[x1], ...union[x2]]);
-            union[x2] = new Set();
-            parent[x2] = x1;
-            $(`#nodeBf${x2}`).text(charAt(65 + x1));
-            return true;
-        }
-        return false;
+    async function merge(x1, x2) {
+        const y = union[x1].size * 50;
+        const promises = [];
+        [...union[x2]].forEach((v, i) => {
+            promises.push(txy(`#node${v}`, x1 * 70, y + i * 50));
+        });
+        await Promise.all(promises);
+        union[x1] = new Set([...union[x1], ...union[x2]]);
+        union[x2] = new Set();
+        parent[x2] = x1;
+        $(`#nodeBf${x2}`).text(charAt(65 + x1));
+        sound('pop');
     }
 
     async function* nextMin(k) {
@@ -85,15 +73,18 @@ export default function Kruskals(props) {
         $('.vrtx').eq(v).attr('stroke', Colors.visited);
         $('.vrtx').eq(u).attr('fill', Colors.visited);
         $('.vrtx').eq(v).attr('fill', Colors.visited);
-        sound('pop');
         await Promise.all([
             bgcolor(`#node${u}`, Colors.visited),
             bgcolor(`#node${v}`, Colors.visited),
         ]);
         yield delay / 2;
-        const isValid = await findUnion(u, v);
-        if (isValid && arr.length) {
+        const x1 = findRoot(v);
+        const x2 = findRoot(u);
+        if (x1 !== x2) {
+            await merge(x1, x2);
+            if (!arr.length) return;
             Path('.edge').eq(i).attr('stroke', Colors.visited);
+            Path('.edge').eq(i).attr('stroke-width', 3);
         }
         yield delay / 2;
         $('.vrtx').eq(u).attr('fill', Colors.vertex);

@@ -106,14 +106,14 @@ export const algorithmSeoMap = {
       'radix sort, sorting algorithm, non-comparison sort, integer sort, visualization',
   },
   BFS: {
-    title: 'Breadth-First Search (BFS) Visualization - See Algorithms',
+    title: 'Breadth-First Search (BFS) - See Algorithms',
     description:
       'Learn BFS algorithm with interactive graph visualization. Understand how breadth-first search explores graphs level by level.',
     keywords:
       'breadth first search, BFS, graph algorithm, graph traversal, visualization, shortest path',
   },
   DFS: {
-    title: 'Depth-First Search (DFS) Visualization - See Algorithms',
+    title: 'Depth-First Search (DFS) - See Algorithms',
     description:
       'Master DFS algorithm with interactive visualization. Learn how depth-first search explores graphs using stack-based approach.',
     keywords:
@@ -127,7 +127,7 @@ export const algorithmSeoMap = {
       'topological sorting, topological ordering, DAG, directed acyclic graph, graph algorithm, visualization',
   },
   Dijkstras: {
-    title: "Dijkstra's Visualization - See Algorithms",
+    title: "Dijkstra's Shortest Path - See Algorithms",
     description:
       "Learn Dijkstra's shortest path algorithm with interactive visualization. Understand how to find shortest paths in weighted graphs.",
     keywords:
@@ -146,6 +146,13 @@ export const algorithmSeoMap = {
       "Master Prim's algorithm for finding minimum spanning trees with interactive visualization. Learn this greedy MST algorithm step by step.",
     keywords:
       'prims algorithm, minimum spanning tree, MST, graph algorithm, greedy algorithm, visualization',
+  },
+  Boruvkas: {
+    title: "Borůvka's Minimum Spanning Tree - See Algorithms",
+    description:
+      "Discover Borůvka's algorithm for finding minimum spanning trees with interactive visualization. Learn this greedy MST algorithm step by step.",
+    keywords:
+      'boruvkas algorithm, minimum spanning tree, MST, graph algorithm, greedy algorithm, visualization',
   },
   Hamiltonian: {
     title: 'Hamiltonian Path Visualization - See Algorithms',

@@ -177,6 +177,7 @@ function* spanEdge(i, j) {
         } else {
             edge.remove();
             $('.edge').eq(ei).attr('stroke', Colors.visited);
+            $('.edge').eq(ei).attr('stroke-width', 3);
             $('.vrtx').eq(j).attr('stroke', Colors.visited);
         }
     }

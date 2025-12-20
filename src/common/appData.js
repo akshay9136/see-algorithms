@@ -56,6 +56,12 @@ export const algorithms = [
         meta: 'Explore Breadth-First Search (BFS) and learn how this graph traversal algorithm explores all nodes level by level in a graph.',
     },
     {
+        id: 'Dijkstras',
+        name: "Dijkstra's Algorithm",
+        category: 'Graph',
+        meta: "Discover how Dijkstra's Algorithm finds the shortest path between nodes in a graph using priority queue.",
+    },
+    {
         id: 'Prims',
         name: "Prim's Algorithm",
         category: 'Graph',
@@ -68,22 +74,22 @@ export const algorithms = [
         meta: "Explore how Kruskal's Algorithm finds the minimum spanning tree in a graph by connecting edges in order of increasing weight.",
     },
     {
-        id: 'Dijkstras',
-        name: "Dijkstra's Algorithm",
+        id: 'Boruvkas',
+        name: "Borůvka's Algorithm",
         category: 'Graph',
-        meta: "Discover how Dijkstra's Algorithm finds the shortest path between nodes in a graph using priority queue.",
-    },
-    {
-        id: 'TopSort',
-        name: 'Topological Sorting',
-        category: 'Graph',
-        meta: 'Learn Topological Sorting to order nodes in a directed graph, ensuring that each node appears before its dependencies.',
+        meta: "Discover how Borůvka's Algorithm finds the minimum spanning tree by repeatedly connecting components with the cheapest edge.",
     },
     {
         id: 'Hamiltonian',
         name: 'Hamiltonian Cycle',
         category: 'Graph',
         meta: 'Learn about Hamiltonian Cycle, a path in a graph that visits each vertex exactly once and returns to the starting point.',
+    },
+    {
+        id: 'TopSort',
+        name: 'Topological Sorting',
+        category: 'Graph',
+        meta: 'Learn Topological Sorting to order nodes in a directed graph, ensuring that each node appears before its dependencies.',
     },
     {
         id: 'CircularQueue',
