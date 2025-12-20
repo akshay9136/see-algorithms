@@ -35,11 +35,6 @@ function rebalance(node):
         rebalance(node.parent)
 `);
 
-    if (!numbers.length) {
-        arr = [];
-        deleted = {};
-    }
-
     const insert = async (num) => {
         if (arr.includes(num) && !deleted[num]) {
             showError('Duplicates are not allowed.');
@@ -63,6 +58,10 @@ function rebalance(node):
     };
 
     const reset = () => setNumbers([]);
+    if (!numbers.length) {
+        arr = [];
+        deleted = {};
+    }
 
     const buttons = [
         { text: 'Insert', onClick: insert, validate: true },

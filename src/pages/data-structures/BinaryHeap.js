@@ -8,7 +8,7 @@ import { Colors } from '@/common/constants';
 import { sleep, sound } from '@/common/utils';
 
 var arr = [], Tree;
-var delay = 500;
+var delay = 400;
 
 export default function BinaryHeap(props) {
     const [numbers, setNumbers] = useState([]);
@@ -20,15 +20,13 @@ function heapify(node):
         swap(node, parent)
         heapify(parent)
 `);
-    const { bgcolor } = animator;
-    if (!numbers.length) arr = [];
 
     const insert = async (num) => {
         arr.push(num);
         setNumbers(arr.slice());
         await sleep(delay);
         sound('pop');
-        if (Tree === undefined) {
+        if (!numbers.length) {
             Tree = binaryTree(animator);
             Tree.insert(num);
         } else {
@@ -43,10 +41,12 @@ function heapify(node):
 
     const heapify = async (node) => {
         const parent = node.parent;
+        const { bgcolor } = animator;
         if (parent && node.value > parent.value) {
             await bgcolor(node.id, Colors.compare);
             await sleep(delay);
             await bgcolor(parent.id, Colors.compare);
+            await sleep(delay / 2);
             sound('swap');
             await Tree.swapNodes(node, parent);
             await sleep(delay / 2);
@@ -58,6 +58,7 @@ function heapify(node):
     };
 
     const reset = () => setNumbers([]);
+    if (!numbers.length) arr = [];
 
     const buttons = [
         { text: 'Insert', onClick: insert, validate: true },
@@ -92,6 +93,5 @@ function heapify(node):
                 ))}
             </Box>
         </Stack>
-
     );
 }
