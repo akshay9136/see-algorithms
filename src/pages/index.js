@@ -1,9 +1,17 @@
 import { Box, Card, Container, Grid, Typography } from '@mui/material';
 import Features from '@/components/features';
+import Head from 'next/head';
 
 export default function HomePage() {
   return (
     <Container maxWidth="lg" sx={{ pl: 0 }}>
+      <Head>
+        <meta
+          name="impact-site-verification"
+          value="a7e7b9b7-e9c4-4487-a779-71356560214e"
+        />
+      </Head>
+
       <Grid container spacing={4} alignItems="center">
         <Grid item xs={12} md={6}>
           <Typography

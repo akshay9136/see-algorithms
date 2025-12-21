@@ -17,7 +17,7 @@ export default function Privacy() {
         </Typography>
 
         <Typography variant="body2" color="text.secondary" gutterBottom>
-          Last updated: 2 Oct 2025
+          Last updated: 21 Dec 2025
         </Typography>
 
         <Box sx={{ mt: 4 }}>
@@ -52,11 +52,6 @@ export default function Privacy() {
               you access and use the Site, including your IP address, browser
               type, operating system, and pages visited.
             </Typography>
-            <Typography variant="body1" paragraph>
-              <strong>Local Storage:</strong> We use localStorage only to
-              remember your cookie consent preference. We do not store your
-              algorithm data, graph visualizations, or learning preferences.
-            </Typography>
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
@@ -73,47 +68,22 @@ export default function Privacy() {
               • Improve, personalize, and expand our Site
             </Typography>
             <Typography variant="body1" paragraph>
-              • Remember your cookie consent preference
-            </Typography>
-            <Typography variant="body1" paragraph>
               • Display relevant ads through Google AdSense
             </Typography>
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
-            4. Google AdSense
+            4. Cookies and Local Storage
           </Typography>
           <Typography variant="body1" paragraph>
-            We use Google AdSense to display advertisements on our Site. Google
-            AdSense may use cookies and similar technologies to serve ads based
-            on your visits to our Site and other sites on the Internet. You may
-            opt out of personalized advertising by visiting{' '}
-            <Link
-              href="https://www.google.com/settings/ads"
-              target="_blank"
-              rel="noopener"
-            >
-              Google Ad Settings
-            </Link>
-            .
+            We do not use cookies, local storage, or similar tracking
+            technologies to collect or store information on your device. We do
+            not track your browsing history or store preferences between
+            sessions.
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
-            5. Cookies and Local Storage
-          </Typography>
-          <Typography variant="body1" paragraph>
-            We use cookies and local storage to enhance your experience on our
-            Site. Cookies are small data files stored on your device. Local
-            storage allows us to save your cookie consent preference locally on
-            your device.
-          </Typography>
-          <Typography variant="body1" paragraph>
-            You can control cookie settings through your browser preferences.
-            However, disabling cookies may affect the functionality of our Site.
-          </Typography>
-
-          <Typography variant="h6" gutterBottom fontWeight={600}>
-            6. Data Security
+            5. Data Security
           </Typography>
           <Typography variant="body1" paragraph>
             We implement appropriate security measures to protect your
@@ -123,7 +93,7 @@ export default function Privacy() {
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
-            7. Third-Party Services
+            6. Third-Party Services
           </Typography>
           <Typography variant="body1" paragraph>
             Our Site may contain links to third-party websites. We are not
@@ -133,7 +103,7 @@ export default function Privacy() {
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
-            8. Children&apos;s Privacy
+            7. Children&apos;s Privacy
           </Typography>
           <Typography variant="body1" paragraph>
             Our Site is designed for educational purposes and is suitable for
@@ -144,7 +114,7 @@ export default function Privacy() {
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
-            9. Changes to This Privacy Policy
+            8. Changes to This Privacy Policy
           </Typography>
           <Typography variant="body1" paragraph>
             We may update this Privacy Policy from time to time. We will notify
@@ -154,7 +124,7 @@ export default function Privacy() {
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
-            10. Contact Us
+            9. Contact Us
           </Typography>
           <Typography variant="body1" paragraph>
             If you have any questions about this Privacy Policy, please contact

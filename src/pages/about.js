@@ -228,6 +228,16 @@ export default function AboutUs() {
 
           <Box sx={{ mt: 4, textAlign: 'center' }}>
             <Typography variant="h6" gutterBottom fontWeight={600}>
+              Affiliate Disclosure
+            </Typography>
+            <Typography variant="body1" paragraph>
+              As an Amazon Associate, I earn from qualifying purchases. This
+              helps support the site at no extra cost to you.
+            </Typography>
+          </Box>
+
+          <Box sx={{ mt: 4, textAlign: 'center' }}>
+            <Typography variant="h6" gutterBottom fontWeight={600}>
               Contact & Support
             </Typography>
             <Typography variant="body1" paragraph>
