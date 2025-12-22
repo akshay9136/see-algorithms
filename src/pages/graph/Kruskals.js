@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
 import { DrawGraph, Node } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
+import useAnimator from '@/hooks/useAnimator';
 import { charAt, sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
-import useAnimator from '@/hooks/useAnimator';
 
 var arr, union, parent;
 var delay = 800;

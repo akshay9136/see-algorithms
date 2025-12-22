@@ -34,23 +34,21 @@ function DrawGraph(props) {
     useGraphControls(config, props);
 
   useEffect(() => {
-    refresh();
+    if (router.isReady) {
+      const { skeleton } = router.query;
+      if (skeleton) {
+        handleClear();
+        try {
+          const data = JSON.parse(atob(skeleton));
+          Graph.initialize(data);
+          createGraph(data, config.weighted);
+        } catch {
+          handleClear();
+        }
+      } else refresh();
+    }
     return () => Iterator.current()?.exit();
   }, [algoId, router]);
-
-  useEffect(() => {
-    const { skeleton } = router.query;
-    if (skeleton) {
-      handleClear();
-      try {
-        const data = JSON.parse(atob(skeleton));
-        Graph.initialize(data);
-        createGraph(data, config.weighted);
-      } catch {
-        handleClear();
-      }
-    }
-  }, [router]);
 
   const handleSave = () => {
     const weights = getCostMatrix();

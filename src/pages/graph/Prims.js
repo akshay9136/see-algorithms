@@ -1,9 +1,9 @@
 import { DrawGraph } from '@/components/common';
 import { Stack, Typography } from '@mui/material';
-import Graph, { Path } from '@/common/graph';
 import $ from 'jquery';
-import { Colors } from '@/common/constants';
+import Graph, { Path } from '@/common/graph';
 import { hasValue, spanEdge, getCostMatrix, sound } from '@/common/utils';
+import { Colors } from '@/common/constants';
 
 export default function Prims(props) {
     return (

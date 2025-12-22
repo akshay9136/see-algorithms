@@ -73,7 +73,6 @@ async function* start(src) {
             d[i] = Infinity;
         }
     }
-    queue = [src];
     prev = [];
     $('.vrtx').attr('stroke', Colors.rejected);
     $('.edge').attr('stroke', Colors.rejected);
@@ -90,14 +89,11 @@ async function* dijkstra(i) {
     let flag = 1;
     w[i] = w[i] || [];
     for (let j = 0; j < n; j++) {
+        if (v.includes(j)) continue;
         const ei = Graph.edgeIndex(i, j);
-        if (v.includes(j)) {
-            queue[j] = Infinity;
-            continue;
-        };
+
         if (hasValue(ei) && d[i] + w[i][j] < d[j]) {
             d[j] = d[i] + w[i][j];
-            queue[j] = d[j];
             Path('.edge').eq(ei).attr('stroke', Colors.enqueue);
             $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
             $('.vrtx').eq(j).attr('fill', Colors.enqueue);
@@ -114,14 +110,14 @@ async function* dijkstra(i) {
             flag = 3;
         }
     }
+    d[i] = Infinity;
     yield delay * flag;
     yield* dequeue();
 }
 
 async function* dequeue() {
-    const min = queue.reduce((a, b) => (b < a ? b : a), Infinity);
-    if (min === Infinity) return;
-    const j = queue.indexOf(min);
+    const min = d.reduce((a, b) => (b < a ? b : a), Infinity);
+    const j = d.indexOf(min);
     const i = prev[j];
     v.push(j);
     sound('pop');
