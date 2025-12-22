@@ -112,10 +112,8 @@
 
 .algorithmText {
   position: relative;
-  z-index: 1;
   transition: color 0.2s ease;
-  font-weight: 600 !important;
-  color: #374151 !important;
+  z-index: 1;
 }
 
 .listItemSelected .algorithmText {

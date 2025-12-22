@@ -54,7 +54,7 @@ export default function Features() {
   return (
     <Grid container spacing={4} pb={4}>
       {features.map((feat, index) => (
-        <Grid item sm={6} md={3} key={index} mx="auto">
+        <Grid item sm={6} lg={3} key={index} mx="auto">
           <Card
             elevation={0}
             sx={styles.card(feat)}

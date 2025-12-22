@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { Box, Drawer, Stack, Typography } from '@mui/material';
+import { Box, Divider, Drawer, Stack, Typography } from '@mui/material';
 import AlgorithmSEO from '../algorithm-seo';
+import Affiliates from './affiliates';
 import Sider from './sider';
 import Header from './header';
 import Footer from './footer';
@@ -55,6 +56,12 @@ function Layout({ children }) {
               </Typography>
             )}
             {children}
+            {algoId && (
+              <>
+                <Divider sx={{ my: 4 }} />
+                <Affiliates />
+              </>
+            )}
           </Box>
           <Footer />
         </Stack>

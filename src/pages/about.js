@@ -231,8 +231,13 @@ export default function AboutUs() {
               Affiliate Disclosure
             </Typography>
             <Typography variant="body1" paragraph>
-              As an Amazon Associate, I earn from qualifying purchases. This
-              helps support the site at no extra cost to you.
+              This site may contain affiliate links. I may earn a commission if
+              you purchase through them. This helps support the site at no extra
+              cost to you.
+            </Typography>
+            <Typography variant="body1" paragraph>
+              I only recommend products and services that I believe will add
+              value to my users. Thank you for your support!
             </Typography>
           </Box>
 

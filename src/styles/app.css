@@ -12,12 +12,7 @@
 .content {
     width: fit-content;
     padding: 1.5rem;
-    padding-right: 0;
     background-color: #f8fbff;
-}
-
-.content > div {
-    margin-right: 1.5rem;
 }
 
 .content > div > div > ul {
@@ -30,6 +25,10 @@
 }
 
 @media (min-width: 900px) {
+    .content {
+        padding: 2rem;
+    }
+
     .content > div > p,
     .content > div > div > ul {
         width: auto;
