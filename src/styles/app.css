@@ -20,7 +20,8 @@
 }
 
 .content > div > p,
-.content > div > div > ul {
+.content > div > div > ul,
+.content > section {
     width: calc(100vw - 3rem);
 }
 
@@ -30,7 +31,8 @@
     }
 
     .content > div > p,
-    .content > div > div > ul {
+    .content > div > div > ul,
+    .content > section {
         width: auto;
     }
 }
@@ -71,8 +73,8 @@
     width: 42px;
     height: 36px;
     margin-right: 8px;
-    border-radius: 8px;
-    border: 1.5px solid #636363;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;

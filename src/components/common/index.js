@@ -26,7 +26,7 @@ export const Node = memo(
   function ({ index, value, showBf, ...rest }) {
     return (
       <motion.div
-        className={`${styles.numbox} ${styles.node}`}
+        className={`${styles.numbox} ${styles.node} treeNode`}
         id={`node${index}`}
         {...rest}
       >
@@ -40,7 +40,11 @@ export const Node = memo(
 export const Edge = memo(
   function ({ index, value, ...rest }) {
     return (
-      <motion.div className={styles.edge} id={`edge${index}`} {...rest}>
+      <motion.div
+        className={styles.edge + ' nodeEdge'}
+        id={`edge${index}`}
+        {...rest}
+      >
         {value}
         <div className={styles.arrow} id={`arrow${index}`} />
       </motion.div>

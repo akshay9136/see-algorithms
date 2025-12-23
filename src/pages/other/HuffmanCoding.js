@@ -137,7 +137,7 @@ export default function HuffmanCoding() {
                         value={char}
                         animate={{ y: i * 50 }}
                         style={{
-                            borderRadius: 8,
+                            borderRadius: 4,
                             backgroundColor: Colors.vertex,
                             fontWeight: 'bold',
                             fontSize: 14,
@@ -152,9 +152,9 @@ export default function HuffmanCoding() {
                         animate={{ x: 50, y: i * 50 }}
                         style={{
                             border: 0,
+                            boxShadow: 'none',
                             justifyContent: 'flex-start',
                             background: 'transparent',
-                            fontWeight: 'bold',
                         }}
                     />
                 ))}

@@ -74,7 +74,7 @@ function heapify(i):
         await bgcolor(head.id, Colors.sorted);
         yield delay;
         for (let i = 0; i < n; i++) {
-            txy(Tree.node(i).id, i * 50, 0);
+            txy(Tree.node(i).id, i * 56, 0);
             if (i < n - 1) {
                 animate(`#edge${i}`, { opacity: 0 });
             }
@@ -187,7 +187,7 @@ function heapify(i):
                                 key={i}
                                 index={i}
                                 value={num}
-                                animate={{ x: i * 50 }}
+                                animate={{ x: i * 56 }}
                             />
                         ))}
                     </Box>

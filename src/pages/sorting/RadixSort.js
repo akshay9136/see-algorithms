@@ -160,7 +160,6 @@ while (max / exp) > 0:
                   key={i}
                   index={i}
                   value={renderDigits(num)}
-                  style={{ fontWeight: 'bold' }}
                 />
               ))}
             </Box>
@@ -172,7 +171,10 @@ while (max / exp) > 0:
                     index={numbers.length + i}
                     value={i}
                     animate={{ x: i * 60, y: 240 }}
-                    style={styles.bucket()}
+                    style={{
+                      background: 'transparent',
+                      border: 0,
+                    }}
                   />
                 ))}
             </Box>
@@ -182,16 +184,5 @@ while (max / exp) > 0:
     </Stack>
   );
 }
-
-const styles = {
-  bucket: () => ({
-    fontWeight: 'bold',
-    fontSize: '1rem',
-    background: 'transparent',
-    border: 0,
-    borderTop: '1.5px solid grey',
-    borderRadius: '8px',
-  }),
-};
 
 export default RadixSort;

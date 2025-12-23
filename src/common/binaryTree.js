@@ -74,7 +74,7 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
         const closer = findNode((nx) => {
             if (nx.parent !== node.parent) {
                 const d = Points.distance(node, nx);
-                if (d < 33) return true;
+                if (d < 36) return true;
             }
             return false;
         });

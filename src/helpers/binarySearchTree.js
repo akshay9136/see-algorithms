@@ -99,8 +99,16 @@ function binarySearchTree(animator) {
                 const _node = Tree.insert(num, node, isLeft);
                 await sleep(delay);
                 await bgcolor(node.id, Colors.white);
+                animate('.nodeEdge', {
+                    height: 2,
+                    backgroundColor: Colors.stroke,
+                });
                 return _node;
             } else {
+                await animate(node[next].eid, {
+                    height: 3,
+                    backgroundColor: Colors.compare,
+                });
                 await bgcolor(node.id, Colors.white);
                 return this.insert(num, node[next]);
             }

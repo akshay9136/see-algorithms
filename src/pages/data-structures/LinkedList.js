@@ -163,15 +163,14 @@ function deleteAt(index):
                   width: 45,
                   padding: '4px 8px',
                   fontSize: 16,
-                  border: '1.5px solid gray',
-                  fontWeight: 'bold',
+                  border: '1px solid',
                 }}
               >
                 {value}
               </ToggleButton>
               <ToggleButton
                 value="next"
-                sx={{ flex: 1, border: '1.5px solid gray' }}
+                sx={{ flex: 1, border: '1px solid' }}
                 id={`next${i}`}
               />
             </ToggleButtonGroup>

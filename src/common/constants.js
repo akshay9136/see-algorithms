@@ -3,8 +3,8 @@ export const Colors = {
   compare: '#ffac1c',
   sorted: '#9acd32',
   vertex: '#EEEEEE',
-  stroke: '#848484',
+  stroke: 'rgba(0, 0, 0, 0.5)',
   enqueue: '#87cefa',
-  rejected: '#d3d3d3',
+  rejected: 'rgba(0, 0, 0, 0.2)',
   visited: '#ff9800',
 };
