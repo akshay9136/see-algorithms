@@ -57,14 +57,24 @@ function binarySearchTree(animator) {
         }
     };
 
-    const findNode = async (num, node) => {
+    const search = async (num, node, insert) => {
         await bgcolor(node.id, Colors.compare);
         await sleep(delay);
-        await bgcolor(node.id, Colors.white);
-        if (num === node.value) return node;
-        const next = num < node.value ? 'left' : 'right';
+        if (!insert && num === node.value) {
+            await bgcolor(node.id, Colors.white);
+            return node;
+        }
+        const next = num <= node.value ? 'left' : 'right';
         if (node[next]) {
-            return findNode(num, node[next]);
+            await animate(node[next].eid, {
+                height: 3,
+                backgroundColor: Colors.compare,
+            });
+            await bgcolor(node.id, Colors.white);
+            return search(num, node[next], insert);
+        } else {
+            await bgcolor(node.id, Colors.white);
+            if (insert) return node;
         }
     };
 
@@ -83,38 +93,28 @@ function binarySearchTree(animator) {
                 ? this._insert(num, node[next])
                 : Tree.insert(num, node, isLeft);
         },
-        async insert(num, node) {
-            if (Tree.root()) {
-                node = node || Tree.root();
-            } else {
+        async insert(num) {
+            if (!Tree.root()) {
                 sound('pop');
                 return Tree.insert(num);
             }
-            await bgcolor(node.id, Colors.compare);
+            const parent = await search(num, Tree.root(), true);
+            const isLeft = num <= parent.value;
+            sound('pop');
+            const node = Tree.insert(num, parent, isLeft);
             await sleep(delay);
-            const isLeft = num <= node.value;
-            const next = isLeft ? 'left' : 'right';
-            if (!node[next]) {
-                sound('pop');
-                const _node = Tree.insert(num, node, isLeft);
-                await sleep(delay);
-                await bgcolor(node.id, Colors.white);
-                animate('.nodeEdge', {
-                    height: 2,
-                    backgroundColor: Colors.stroke,
-                });
-                return _node;
-            } else {
-                await animate(node[next].eid, {
-                    height: 3,
-                    backgroundColor: Colors.compare,
-                });
-                await bgcolor(node.id, Colors.white);
-                return this.insert(num, node[next]);
-            }
+            animate('.nodeEdge', {
+                height: 2,
+                backgroundColor: Colors.stroke,
+            });
+            return node;
         },
         async deleteNode(num) {
-            const node = await findNode(num, Tree.root());
+            const node = await search(num, Tree.root());
+            animate('.nodeEdge', {
+                height: 2,
+                backgroundColor: Colors.stroke,
+            });
             if (!node) return;
             animate(node.id, { opacity: 0 });
             sound('pop');
