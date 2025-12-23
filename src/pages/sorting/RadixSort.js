@@ -172,7 +172,9 @@ while (max / exp) > 0:
                     value={i}
                     animate={{ x: i * 60, y: 240 }}
                     style={{
+                      fontWeight: 'bold',
                       background: 'transparent',
+                      color: '#606060',
                       border: 0,
                     }}
                   />

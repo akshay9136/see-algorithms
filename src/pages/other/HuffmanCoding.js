@@ -137,10 +137,10 @@ export default function HuffmanCoding() {
                         value={char}
                         animate={{ y: i * 50 }}
                         style={{
-                            borderRadius: 4,
+                            borderRadius: 8,
                             backgroundColor: Colors.vertex,
                             fontWeight: 'bold',
-                            fontSize: 14,
+                            color: '#404040',
                         }}
                     />
                 ))}
@@ -149,7 +149,7 @@ export default function HuffmanCoding() {
                         key={i}
                         index={i + 200}
                         value={coding[char]}
-                        animate={{ x: 50, y: i * 50 }}
+                        animate={{ x: 56, y: i * 50 }}
                         style={{
                             border: 0,
                             boxShadow: 'none',

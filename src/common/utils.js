@@ -30,7 +30,7 @@ function addVertex(p, vlbl) {
         Colors.vertex
     }" style="cursor:pointer" /><text class="vlbl" x="${p.x}" y="${
         p.y + 5
-    }" text-anchor="middle" style="cursor:pointer">${vlbl}</text></g>`;
+    }" text-anchor="middle" style="cursor:pointer" fill="#505050" font-weight="bold">${vlbl}</text></g>`;
 }
 
 function moveVertex(i, p) {

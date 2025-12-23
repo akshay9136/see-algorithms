@@ -168,7 +168,6 @@ export default function Kruskals(props) {
                             index={i}
                             value={charAt(65 + i)}
                             animate={{ x: i * 70 }}
-                            style={{ fontWeight: 'bold' }}
                             showBf={true}
                         />
                     ))}
