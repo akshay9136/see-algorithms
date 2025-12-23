@@ -3,7 +3,7 @@
   flex-wrap: wrap;
   align-items: center;
   position: relative;
-  width: 500px;
+  min-width: 700px;
 }
 
 .plane {
@@ -24,10 +24,4 @@
 .buttonGroup button:hover {
   transform: translateY(-1px);
   transition: transform 0.2s ease;
-}
-
-@media (min-width: 600px) {
-  .toolbar {
-    width: 700px;
-  }
 }

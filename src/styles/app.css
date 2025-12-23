@@ -92,25 +92,16 @@
 }
 
 .resizable {
-    width: 500px;
-    height: 400px;
-    min-width: 500px;
-    min-height: 400px;
+    min-width: 700px;
+    min-height: 500px;
+    width: 700px;
+    height: 500px;
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     resize: both;
     overflow: hidden;
     position: relative;
-}
-
-@media (min-width: 600px) {
-    .resizable {
-        width: 700px;
-        height: 500px;
-        min-width: 700px;
-        min-height: 500px;
-    }
 }
 
 .algorithm {
