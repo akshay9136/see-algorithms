@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BST Visualization renders with initial nodes 1`] = `
+[
+  "{"tx":"310","ty":"50"}",
+  "{"tx":"240","ty":"110"}",
+  "{"tx":"280","ty":"170"}",
+  "{"tx":"240","ty":"230"}",
+  "{"tx":"380","ty":"110"}",
+  "{"tx":"340","ty":"170"}",
+]
+`;

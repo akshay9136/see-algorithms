@@ -20,12 +20,6 @@ export const algorithms = [
         meta: 'Explore how Selection Sort finds the smallest item and places it at the correct position in each iteration.',
     },
     {
-        id: 'RadixSort',
-        name: 'Radix Sort',
-        category: 'Sorting',
-        meta: 'Discover how numbers are sorted digit by digit (by placing them into buckets) in this unique algorithm called Radix Sort.',
-    },
-    {
         id: 'HeapSort',
         name: 'Heap Sort',
         category: 'Sorting',
@@ -42,6 +36,12 @@ export const algorithms = [
         name: 'Quick Sort',
         category: 'Sorting',
         meta: 'See how data is partitioned and sorted efficiently in each step of this fast sorting algorithm called Quick Sort.',
+    },
+    {
+        id: 'RadixSort',
+        name: 'Radix Sort',
+        category: 'Sorting',
+        meta: 'Discover how numbers are sorted digit by digit (by placing them into buckets) in this unique algorithm called Radix Sort.',
     },
     {
         id: 'DFS',

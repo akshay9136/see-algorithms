@@ -77,13 +77,6 @@ export const algorithmSeoMap = {
     keywords:
       'merge sort, mergesort, sorting algorithm, divide conquer, stable sort, O(n log n)',
   },
-  HeapSort: {
-    title: 'Heap Sort Visualization - See Algorithms',
-    description:
-      'Learn Heap Sort with interactive visualization. Understand how this comparison-based sorting algorithm uses binary heap data structure.',
-    keywords:
-      'heap sort, heapsort, sorting algorithm, binary heap, visualization, O(n log n)',
-  },
   InsertionSort: {
     title: 'Insertion Sort Visualization - See Algorithms',
     description:
@@ -97,6 +90,13 @@ export const algorithmSeoMap = {
       'Understand Selection Sort through interactive visualization. Learn this simple comparison-based sorting algorithm.',
     keywords:
       'selection sort, sorting algorithm, visualization, comparison sort, simple algorithm',
+  },
+  HeapSort: {
+    title: 'Heap Sort Visualization - See Algorithms',
+    description:
+      'Learn Heap Sort with interactive visualization. Understand how this comparison-based sorting algorithm uses binary heap data structure.',
+    keywords:
+      'heap sort, heapsort, sorting algorithm, binary heap, visualization, O(n log n)',
   },
   RadixSort: {
     title: 'Radix Sort Visualization - See Algorithms',

@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bubble sort visualization renders in correct order after animation 1`] = `
+[
+  "{"tx":"180"}",
+  "{"tx":"0"}",
+  "{"tx":"360"}",
+  "{"tx":"120"}",
+  "{"tx":"480"}",
+  "{"tx":"60"}",
+  "{"tx":"300"}",
+  "{"tx":"420"}",
+  "{"tx":"240"}",
+]
+`;
+
+exports[`Heap sort visualization renders in correct order after animation 1`] = `
+[
+  "{"tx":"168","ty":"0"}",
+  "{"tx":"0","ty":"0"}",
+  "{"tx":"336","ty":"0"}",
+  "{"tx":"112","ty":"0"}",
+  "{"tx":"448","ty":"0"}",
+  "{"tx":"56","ty":"0"}",
+  "{"tx":"280","ty":"0"}",
+  "{"tx":"392","ty":"0"}",
+  "{"tx":"224","ty":"0"}",
+]
+`;
+
+exports[`Insertion sort visualization renders in correct order after animation 1`] = `
+[
+  "{"tx":"180"}",
+  "{"ty":"0","tx":"0"}",
+  "{"ty":"0","tx":"360"}",
+  "{"ty":"0","tx":"120"}",
+  "{"ty":"0","tx":"480"}",
+  "{"ty":"0","tx":"60"}",
+  "{"ty":"0","tx":"300"}",
+  "{"ty":"0","tx":"420"}",
+  "{"ty":"0","tx":"240"}",
+]
+`;
+
+exports[`Merge sort visualization renders in correct order after animation 1`] = `
+[
+  "{"ty":"0","tx":"180"}",
+  "{"ty":"0","tx":"0"}",
+  "{"ty":"0","tx":"360"}",
+  "{"ty":"0","tx":"120"}",
+  "{"ty":"0","tx":"480"}",
+  "{"ty":"0","tx":"60"}",
+  "{"ty":"0","tx":"300"}",
+  "{"ty":"0","tx":"420"}",
+  "{"ty":"0","tx":"240"}",
+]
+`;
+
+exports[`Quick sort visualization renders in correct order after animation 1`] = `
+[
+  "{"ty":"0","tx":"180"}",
+  "{"ty":"0","tx":"0"}",
+  "{"ty":"0","tx":"360"}",
+  "{"ty":"0","tx":"120"}",
+  "{"ty":"0","tx":"480"}",
+  "{"ty":"0","tx":"60"}",
+  "{"ty":"0","tx":"300"}",
+  "{}",
+  "{"ty":"0","tx":"240"}",
+]
+`;
+
+exports[`Radix sort visualization renders in correct order after animation 1`] = `
+[
+  "{"tx":"180","ty":"0"}",
+  "{"tx":"0","ty":"0"}",
+  "{"tx":"360","ty":"0"}",
+  "{"tx":"120","ty":"0"}",
+  "{"tx":"480","ty":"0"}",
+  "{"tx":"60","ty":"0"}",
+  "{"tx":"300","ty":"0"}",
+  "{"tx":"420","ty":"0"}",
+  "{"tx":"240","ty":"0"}",
+]
+`;
+
+exports[`Selection sort visualization renders in correct order after animation 1`] = `
+[
+  "{"ty":"0","tx":"180"}",
+  "{"ty":"0","tx":"0"}",
+  "{"ty":"0","tx":"360"}",
+  "{"ty":"0","tx":"120"}",
+  "{"ty":"0","tx":"480"}",
+  "{"ty":"0","tx":"60"}",
+  "{"ty":"0","tx":"300"}",
+  "{"ty":"0"}",
+  "{"ty":"0","tx":"240"}",
+]
+`;

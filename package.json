@@ -7,7 +7,11 @@
     "build": "next build",
     "postbuild": "next-sitemap",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:ci": "jest --coverage --runInBand",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -33,7 +37,13 @@
     "eslint-config-next": "14.2.5",
     "eslint-plugin-react": "^7.37.4",
     "globals": "^16.0.0",
-    "sass": "^1.77.8"
+    "jest": "^29.6.1",
+    "babel-jest": "^29.6.1",
+    "jest-environment-jsdom": "^29.6.1",
+    "identity-obj-proxy": "^3.0.0",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/user-event": "^14.4.3"
   },
   "homepage": "https://akshay9136.github.io/see-algorithms/"
 }
