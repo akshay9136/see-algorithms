@@ -10,9 +10,9 @@ const DSInput = forwardRef((props, ref) => {
   const handleInput = (e) => {
     const value = e.target.value.trim().slice(0, 3);
     if (value.length) {
-        if (!isNaN(value)) {
-            setNumber(parseInt(value));
-        }
+      if (!isNaN(value)) {
+        setNumber(parseInt(value));
+      }
     } else setNumber('');
   };
 
@@ -36,14 +36,20 @@ const DSInput = forwardRef((props, ref) => {
 
   return (
     <Box className={styles.inputNumbers}>
-      <Typography variant="subtitle1" fontWeight={600}>
+      <Typography
+        component="label"
+        htmlFor="dsInput"
+        variant="subtitle1"
+        fontWeight={600}
+      >
         {props.label || 'Enter a number:'} &nbsp;
       </Typography>
       <Input
+        id="dsInput"
+        className={styles.number}
         size="small"
         value={number}
         onChange={handleInput}
-        className={styles.number}
       />
       <Box display="flex">
         {props.buttons.map((btn, i) => (

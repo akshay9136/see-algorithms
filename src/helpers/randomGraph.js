@@ -14,8 +14,8 @@ function randomPoints(n) {
   for (let r = 0; r < 4; r++) {
     for (let c = 0; c < 4; c++) {
       corners.push({
-        x: rectX + c * stepX,
-        y: rectY + r * stepY,
+        x: Math.round(rectX + c * stepX),
+        y: Math.round(rectY + r * stepY),
       });
     }
   }

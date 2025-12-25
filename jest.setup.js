@@ -11,6 +11,8 @@ Element.prototype.getBoundingClientRect = jest.fn(() => {
   return { width: 700, height: 500 };
 });
 
+SVGElement.prototype.getTotalLength = jest.fn(() => 100);
+
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
 }));
@@ -18,6 +20,10 @@ jest.mock('next/router', () => ({
 jest.mock('@/common/utils', () => ({
   ...jest.requireActual('@/common/utils'),
   sleep: () => Promise.resolve(),
+  cursorOffset: (e) => {
+    return { x: e.clientX, y: e.clientY };
+  },
+  throttle: (fn) => fn,
 }));
 
 // Mock useAnimator to provide immediate, synchronous animator helpers

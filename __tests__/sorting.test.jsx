@@ -1,5 +1,5 @@
-import { render } from '@testing-library/react';
-import { runAnimation } from './test-utils/sorting';
+import { testAnimation } from './test-utils/sorting';
+
 import BubbleSort from '@/pages/sorting/BubbleSort';
 import InsertionSort from '@/pages/sorting/InsertionSort';
 import SelectionSort from '@/pages/sorting/SelectionSort';
@@ -8,83 +8,30 @@ import MergeSort from '@/pages/sorting/MergeSort';
 import QuickSort from '@/pages/sorting/QuickSort';
 import RadixSort from '@/pages/sorting/RadixSort';
 
-const numbers = [4, 1, 7, 3, 9, 2, 6, 8, 5];
-
 describe('Bubble sort visualization', () => {
-  test('renders in correct order after animation', async () => {
-    const { container } = render(<BubbleSort />);
-    await runAnimation(numbers);
-    const nodes = container.querySelectorAll('.numbox');
-    expect(
-      Array.from(nodes).map((el) => JSON.stringify(el.dataset))
-    ).toMatchSnapshot();
-  });
+  testAnimation(BubbleSort);
 });
 
 describe('Insertion sort visualization', () => {
-  test('renders in correct order after animation', async () => {
-    const { container } = render(<InsertionSort />);
-    await runAnimation(numbers);
-    const nodes = container.querySelectorAll('.numbox');
-    expect(
-      Array.from(nodes).map((el) => JSON.stringify(el.dataset))
-    ).toMatchSnapshot();
-  });
+  testAnimation(InsertionSort);
 });
 
 describe('Selection sort visualization', () => {
-  test('renders in correct order after animation', async () => {
-    const { container } = render(<SelectionSort />);
-    await runAnimation(numbers);
-    const nodes = container.querySelectorAll('.numbox');
-    expect(
-      Array.from(nodes).map((el) => JSON.stringify(el.dataset))
-    ).toMatchSnapshot();
-  });
+  testAnimation(SelectionSort);
 });
 
 describe('Heap sort visualization', () => {
-  test('renders in correct order after animation', async () => {
-    const { container } = render(<HeapSort />);
-    await runAnimation(numbers);
-    const nodes = container.querySelectorAll('.node');
-    expect(
-      Array.from(nodes).map((el) => JSON.stringify(el.dataset))
-    ).toMatchSnapshot();
-  });
+  testAnimation(HeapSort);
 });
 
 describe('Merge sort visualization', () => {
-  test('renders in correct order after animation', async () => {
-    const { container } = render(<MergeSort />);
-    await runAnimation(numbers);
-    const nodes = container.querySelectorAll('.numbox');
-    expect(
-      Array.from(nodes).map((el) => JSON.stringify(el.dataset))
-    ).toMatchSnapshot();
-  });
+  testAnimation(MergeSort);
 });
 
 describe('Quick sort visualization', () => {
-  test('renders in correct order after animation', async () => {
-    const { container } = render(<QuickSort />);
-    await runAnimation(numbers);
-    const nodes = container.querySelectorAll('.numbox');
-    expect(
-      Array.from(nodes).map((el) => JSON.stringify(el.dataset))
-    ).toMatchSnapshot();
-  });
+  testAnimation(QuickSort);
 });
 
 describe('Radix sort visualization', () => {
-  test('renders in correct order after animation', async () => {
-    const { container } = render(<RadixSort />);
-    await runAnimation(numbers);
-    const nodes = container.querySelectorAll('.numbox');
-    expect(
-      Array.from(nodes)
-        .slice(0, numbers.length)
-        .map((el) => JSON.stringify(el.dataset))
-    ).toMatchSnapshot();
-  });
+  testAnimation(RadixSort);
 });

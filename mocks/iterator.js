@@ -13,8 +13,8 @@ function newIterator(generator, ...args) {
           Promise.resolve().then(loop);
         }
       })
-      .catch(() => {
-        console.log('Iterator error');
+      .catch((err) => {
+        console.log('Iterator error', err);
         running = false;
       });
   }

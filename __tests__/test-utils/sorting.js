@@ -1,12 +1,12 @@
-import { screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent, render } from '@testing-library/react';
 
-export async function runAnimation(numbers) {
-  const combobox = screen.getByRole('combobox');
-  fireEvent.mouseDown(combobox);
+const numbers = [4, 1, 7, 3, 9, 2, 6, 8, 5];
+
+export async function runAnimation(container) {
+  fireEvent.mouseDown(screen.getByRole('combobox'));
   const option = await screen.findByText(String(numbers.length));
   fireEvent.click(option);
-  const header = await screen.findByText(/Enter numbers/i);
-  const inputs = header.parentElement.querySelectorAll('input[type="text"]');
+  const inputs = container.querySelectorAll('input[type="text"]');
   expect(inputs.length).toBe(numbers.length);
 
   numbers.forEach((v, i) => {
@@ -17,7 +17,20 @@ export async function runAnimation(numbers) {
   const playBtn = await screen.findByRole('button', { name: /play/i });
   fireEvent.click(playBtn);
   await screen.findByTestId('PauseIcon');
-  // animation is running 
+  // animation is running
   await screen.findByTestId('PlayArrowIcon');
   // animation ended
+}
+
+export function testAnimation(Component) {
+  test('renders in correct order after animation', async () => {
+    const { container } = render(<Component />);
+    await runAnimation(container);
+    const nodes = container.querySelectorAll('.numbox');
+    expect(
+      Array.from(nodes)
+        .slice(0, numbers.length)
+        .map((el) => JSON.stringify(el.dataset))
+    ).toMatchSnapshot();
+  });
 }

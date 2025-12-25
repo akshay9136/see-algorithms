@@ -1,8 +1,10 @@
 module.exports = () => {
   const txy = (id, x, y) => {
     const el = document.querySelector(id);
-    if (x !== null) el.dataset.tx = x;
-    if (y !== null) el.dataset.ty = y;
+    if (el !== null) {
+      if (x !== null) el.dataset.tx = x;
+      if (y !== null) el.dataset.ty = y;
+    }
     return Promise.resolve();
   };
 
@@ -11,7 +13,9 @@ module.exports = () => {
 
   const bgcolor = (id, color) => {
     const el = document.querySelector(id);
-    el.style.backgroundColor = color;
+    if (el !== null) {
+      el.style.backgroundColor = color;
+    }
     return Promise.resolve();
   };
 

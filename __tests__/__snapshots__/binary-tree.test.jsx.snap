@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AVL tree visualization deletes node and rebalances tree 1`] = `
+[
+  "{"tx":"240","ty":"110"}",
+  "{"tx":"240","ty":"110"}",
+  "{"tx":"320","ty":"110"}",
+  "{"tx":"280","ty":"50"}",
+]
+`;
+
+exports[`AVL tree visualization inserts node and rebalances tree 1`] = `
+[
+  "{"tx":"280","ty":"50"}",
+  "{"tx":"240","ty":"110"}",
+  "{"tx":"360","ty":"170"}",
+  "{"tx":"280","ty":"170"}",
+  "{"tx":"320","ty":"110"}",
+]
+`;
+
+exports[`AVL tree visualization renders with initial nodes 1`] = `
+[
+  "{"tx":"280","ty":"50"}",
+  "{"tx":"240","ty":"110"}",
+  "{"tx":"320","ty":"110"}",
+  "{"tx":"280","ty":"170"}",
+]
+`;
+
+exports[`Binary search tree visualization deletes node at correct position 1`] = `
+[
+  "{"tx":"310","ty":"50"}",
+  "{"tx":"240","ty":"110"}",
+  "{"tx":"240","ty":"110"}",
+  "{"tx":"200","ty":"170"}",
+  "{"tx":"380","ty":"110"}",
+  "{"tx":"340","ty":"170"}",
+]
+`;
+
+exports[`Binary search tree visualization renders with initial nodes 1`] = `
+[
+  "{"tx":"310","ty":"50"}",
+  "{"tx":"240","ty":"110"}",
+  "{"tx":"280","ty":"170"}",
+  "{"tx":"240","ty":"230"}",
+  "{"tx":"380","ty":"110"}",
+  "{"tx":"340","ty":"170"}",
+]
+`;

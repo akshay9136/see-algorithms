@@ -1,0 +1,325 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Boruvkas algorithm visualization runs animation correctly 1`] = `
+NodeList [
+  <path
+    class="edge"
+    d="M 248 177 Q 325.5 177 403 177"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 248 177 Q 170.5 232.5 93 288"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 248 398 Q 170.5 398 93 398"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 403 177 Q 480.5 121.5 558 66"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 248 398 Q 170.5 343 93 288"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 403 288 Q 480.5 232.5 558 177"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 403 288 Q 403 232.5 403 177"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+]
+`;
+
+exports[`Breadth first search visualization runs animation correctly 1`] = `
+NodeList [
+  <path
+    class="edge"
+    d="M 403 66 Q 325.5 66 248 66"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 403 177 Q 480.5 232.5 558 288"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 248 288 Q 248 343 248 398"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 403 398 Q 480.5 398 558 398"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 248 288 Q 325.5 343 403 398"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 403 177 Q 325.5 121.5 248 66"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 248 66 Q 248 177 248 288"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+]
+`;
+
+exports[`Depth first search visualization runs animation correctly 1`] = `
+NodeList [
+  <path
+    class="edge"
+    d="M 403 66 Q 325.5 66 248 66"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 403 177 Q 403 287.5 403 398"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 403 177 Q 480.5 232.5 558 288"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 248 288 Q 248 343 248 398"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 558 288 Q 558 343 558 398"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 403 177 Q 325.5 121.5 248 66"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 248 66 Q 248 177 248 288"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+]
+`;
+
+exports[`Dijkstras algorithm visualization runs animation correctly 1`] = `
+NodeList [
+  <path
+    class="edge"
+    d="M 248 66 Q 248 121.5 248 177"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 248 66 Q 325.5 66 403 66"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 248 177 Q 248 232.5 248 288"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 403 66 Q 480.5 66 558 66"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 248 288 Q 325.5 343 403 398"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 248 288 Q 170.5 288 93 288"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 248 398 Q 170.5 343 93 288"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+]
+`;
+
+exports[`Kruskals algorithm visualization runs animation correctly 1`] = `
+NodeList [
+  <path
+    class="edge"
+    d="M 248 177 Q 325.5 177 403 177"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 248 177 Q 170.5 232.5 93 288"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 248 398 Q 170.5 398 93 398"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 403 177 Q 480.5 121.5 558 66"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 248 398 Q 170.5 343 93 288"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 403 288 Q 480.5 232.5 558 177"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 403 288 Q 403 232.5 403 177"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+]
+`;
+
+exports[`Prims algorithm visualization runs animation correctly 1`] = `
+NodeList [
+  <path
+    class="edge"
+    d="M 248 177 Q 325.5 177 403 177"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 248 177 Q 170.5 232.5 93 288"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 248 398 Q 170.5 398 93 398"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 403 177 Q 480.5 121.5 558 66"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 248 398 Q 170.5 343 93 288"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 403 288 Q 480.5 232.5 558 177"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+  <path
+    class="edge"
+    d="M 403 288 Q 403 232.5 403 177"
+    fill="transparent"
+    stroke="#ff9800"
+    stroke-width="3"
+  />,
+]
+`;

@@ -2,10 +2,10 @@ import '@/styles/globals.css';
 import '@/styles/app.css';
 import { useEffect, useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import { DefaultSeo } from 'next-seo';
 import { defaultSeoConfig } from '../components/algorithm-seo/config';
+import { DefaultSeo } from 'next-seo';
 import AppContext, { initialState } from '../common/context';
+import CssBaseline from '@mui/material/CssBaseline';
 import Layout from '@/components/layout';
 import Toast from '@/components/toast';
 import { Analytics } from '@vercel/analytics/next';
@@ -57,9 +57,7 @@ export default function App({ Component, pageProps }) {
         });
       }
     };
-
     window.addEventListener('click', handleClick);
-
     return () => {
       window.removeEventListener('click', handleClick);
     };
@@ -82,10 +80,10 @@ export default function App({ Component, pageProps }) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <AppContext.Provider value={{ ...state, setContext }}>
-          <Toast />
           <Layout>
             <Component {...pageProps} />
           </Layout>
+          <Toast />
         </AppContext.Provider>
       </ThemeProvider>
     </>
