@@ -15,10 +15,10 @@ const userDrag = (el) => {
     fireEvent.mouseDown(el, { clientX: x, clientY: y });
     fireEvent.mouseMove(el, { clientX: x + 10, clientY: y });
     fireEvent.mouseMove(el, { clientX: x + 20, clientY: y });
-  }
+  };
 };
 
-describe('Draw graph with custom controls', () => {
+describe('Graph visualization editor', () => {
   var container;
 
   beforeEach(async () => {
@@ -61,6 +61,8 @@ describe('Draw graph with custom controls', () => {
     });
   });
 
+  const selectAll = (query) => container.querySelectorAll(query);
+
   test('draws graph using mouse events', async () => {
     const checkbox = screen.getByLabelText('Directed');
     fireEvent.click(checkbox);
@@ -69,24 +71,22 @@ describe('Draw graph with custom controls', () => {
     const fireClick = userClick(plane);
     fireClick(100, 100);
     fireClick(200, 100);
-    let nodes, edges;
-    nodes = container.querySelectorAll('.vrtx');
-    expect(nodes).toHaveLength(2);
+    expect(selectAll('.vrtx')).toHaveLength(2);
     fireClick(100, 100);
     fireEvent.mouseMove(plane, { clientX: 150, clientY: 100 });
     fireClick(200, 100);
     fireClick(200, 100);
     fireClick(150, 200);
-    nodes = container.querySelectorAll('.vrtx');
-    expect(nodes).toHaveLength(3);
-    edges = container.querySelectorAll('.edge');
-    expect(edges).toHaveLength(2);
+    expect(selectAll('.vrtx')).toHaveLength(3);
+    expect(selectAll('.edge')).toHaveLength(2);
     userDrag(plane)(150, 200); // drags to x + 20
     fireClick(170, 200);
     fireClick(200, 100);
-    nodes = container.querySelectorAll('.vrtx');
-    expect(nodes).toHaveLength(3);
-    edges = container.querySelectorAll('.edge');
-    expect(edges).toHaveLength(3);
+    expect(selectAll('.vrtx')).toHaveLength(3);
+    expect(selectAll('.edge')).toHaveLength(3);
+    fireClick(200, 100);
+    fireClick(170, 200);
+    expect(selectAll('.vrtx')).toHaveLength(3);
+    expect(selectAll('.edge')).toHaveLength(3);
   });
 });

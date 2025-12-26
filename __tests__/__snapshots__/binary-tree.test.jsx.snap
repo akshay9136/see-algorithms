@@ -11,15 +11,15 @@ exports[`AVL tree visualization deletes node and rebalances tree 1`] = `
 
 exports[`AVL tree visualization inserts node and rebalances tree 1`] = `
 [
-  "{"tx":"280","ty":"50"}",
   "{"tx":"240","ty":"110"}",
+  "{"tx":"200","ty":"170"}",
   "{"tx":"360","ty":"170"}",
-  "{"tx":"280","ty":"170"}",
+  "{"tx":"280","ty":"50"}",
   "{"tx":"320","ty":"110"}",
 ]
 `;
 
-exports[`AVL tree visualization renders with initial nodes 1`] = `
+exports[`AVL tree visualization renders tree with initial nodes 1`] = `
 [
   "{"tx":"280","ty":"50"}",
   "{"tx":"240","ty":"110"}",
@@ -39,7 +39,19 @@ exports[`Binary search tree visualization deletes node at correct position 1`] =
 ]
 `;
 
-exports[`Binary search tree visualization renders with initial nodes 1`] = `
+exports[`Binary search tree visualization deletes node having children 1`] = `
+[
+  "{"tx":"310","ty":"50"}",
+  "{"tx":"240","ty":"110"}",
+  "{"tx":"280","ty":"170"}",
+  "{"tx":"240","ty":"110"}",
+  "{"tx":"380","ty":"110"}",
+  "{"tx":"340","ty":"170"}",
+  "{"tx":"200","ty":"170"}",
+]
+`;
+
+exports[`Binary search tree visualization renders tree with initial nodes 1`] = `
 [
   "{"tx":"310","ty":"50"}",
   "{"tx":"240","ty":"110"}",
