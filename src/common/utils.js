@@ -125,8 +125,8 @@ function fromDistance(start, end, distance) {
     let y = end.y - start.y;
     let z = Math.sqrt(x * x + y * y);
     let ratio = distance / z;
-    let deltaX = x * ratio;
-    let deltaY = y * ratio;
+    let deltaX = Math.round(x * ratio);
+    let deltaY = Math.round(y * ratio);
     return { x: end.x - deltaX, y: end.y - deltaY };
 }
 

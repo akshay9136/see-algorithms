@@ -159,9 +159,10 @@ export function Path(el) {
                 coords[prop] = val;
                 const newD = `M ${coords.x1} ${coords.y1} Q ${coords.cx} ${coords.cy} ${coords.x2} ${coords.y2}`;
                 _path.attr('d', newD);
+            } else {
+                if (!hasVal) return _path.attr(prop);
+                _path.attr(prop, val);
             }
-            if (!hasVal) return _path.attr(prop);
-            _path.attr(prop, val);
         },
         remove: () => _path.remove(),
         removeAttr: (prop) => _path.removeAttr(prop),

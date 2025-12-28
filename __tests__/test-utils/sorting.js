@@ -1,4 +1,5 @@
 import { screen, fireEvent, render } from '@testing-library/react';
+import App from '../../mocks/context';
 
 const numbers = [4, 1, 7, 3, 9, 2, 6, 8, 5];
 
@@ -33,4 +34,17 @@ export function testAnimation(Component) {
         .map((el) => JSON.stringify(el.dataset))
     ).toMatchSnapshot();
   });
+}
+
+export async function validateInput(Component) {
+  const { container } = render(<App Component={Component} />);
+  fireEvent.mouseDown(screen.getByRole('combobox'));
+  const option = await screen.findByText(String(numbers.length));
+  fireEvent.click(option);
+  const input = container.querySelector('input[type="text"]');
+  fireEvent.change(input, { target: { value: '' } });
+
+  const button = screen.getByRole('button', { name: /play/i });
+  fireEvent.click(button);
+  await screen.findByRole('presentation');
 }

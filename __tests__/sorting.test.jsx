@@ -1,4 +1,4 @@
-import { testAnimation } from './test-utils/sorting';
+import { testAnimation, validateInput } from './test-utils/sorting';
 
 import BubbleSort from '@/pages/sorting/BubbleSort';
 import InsertionSort from '@/pages/sorting/InsertionSort';
@@ -10,6 +10,8 @@ import RadixSort from '@/pages/sorting/RadixSort';
 
 describe('Bubble sort visualization', () => {
   testAnimation(BubbleSort);
+
+  test('validates input before sorting', () => validateInput(BubbleSort));
 });
 
 describe('Insertion sort visualization', () => {

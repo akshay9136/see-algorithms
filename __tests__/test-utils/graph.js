@@ -20,7 +20,7 @@ export async function runAnimation(source) {
 export async function renderGraph(Component) {
   const { container } = render(<App Component={Component} />);
   await waitFor(() => {
-    // wait till the tree is rendered
+    // wait till the graph is rendered
     const nodes = container.querySelectorAll('.vrtx');
     expect(nodes).toHaveLength(8);
   });
@@ -58,3 +58,19 @@ export async function clearGraph(container) {
     expect(container.querySelector('.edge')).toBe(null);
   });
 }
+
+export const userClick = (el) => {
+  return (x, y) => {
+    fireEvent.mouseDown(el, { clientX: x, clientY: y });
+    fireEvent.click(el, { clientX: x, clientY: y });
+  };
+};
+
+export const userDrag = (el) => {
+  return (x, y) => {
+    fireEvent.mouseDown(el, { clientX: x, clientY: y });
+    fireEvent.mouseMove(el, { clientX: x + 10, clientY: y });
+    fireEvent.mouseMove(el, { clientX: x + 20, clientY: y });
+    fireEvent.click(el, { clientX: x + 20, clientY: y });
+  };
+};

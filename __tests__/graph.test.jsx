@@ -1,6 +1,12 @@
-import { render, waitFor } from '@testing-library/react';
-import { runAnimation, testAnimation } from './test-utils/graph';
+import {
+  clearGraph,
+  renderGraph,
+  runAnimation,
+  testAnimation,
+  userClick,
+} from './test-utils/graph';
 import { useRouter } from 'next/router';
+import { screen } from '@testing-library/react';
 import DFS from '@/pages/graph/DFS';
 import BFS from '@/pages/graph/BFS';
 import Dijkstras from '@/pages/graph/Dijkstras';
@@ -8,7 +14,6 @@ import Prims from '@/pages/graph/Prims';
 import Kruskals from '@/pages/graph/Kruskals';
 import Boruvkas from '@/pages/graph/Boruvkas';
 import TopSort from '@/pages/graph/TopSort';
-import App from '../mocks/context';
 
 describe('Depth first search visualization', () => {
   beforeEach(() => {
@@ -126,14 +131,31 @@ describe('Topological sorting visualization', () => {
   });
 
   test('runs animation correctly', async () => {
-    const { container } = render(<App Component={TopSort} />);
-    await waitFor(() => {
-      const nodes = container.querySelectorAll('.vrtx');
-      expect(nodes).toHaveLength(8);
-    });
+    const container = await renderGraph(TopSort);
     await runAnimation();
     const row = container.querySelector('#sorted');
     const values = Array.from(row.children).map((el) => el.textContent);
     expect(values).toEqual(['A', 'D', 'G', 'H', 'F', 'C', 'E', 'B']);
+  });
+
+  test('shows alert if graph is cyclic', async () => {
+    const container = await renderGraph(TopSort);
+    const selectAll = (query) => container.querySelectorAll(query);
+    await clearGraph(container);
+    const plane = container.querySelector('#plane');
+    const fireClick = userClick(plane);
+    fireClick(100, 100);
+    fireClick(200, 100);
+    fireClick(150, 200);
+    expect(selectAll('.vrtx')).toHaveLength(3);
+    fireClick(100, 100);
+    fireClick(200, 100);
+    fireClick(200, 100);
+    fireClick(150, 200);
+    expect(selectAll('.edge')).toHaveLength(2);
+    fireClick(150, 200);
+    fireClick(100, 100);
+    await screen.findByRole('presentation');
+    expect(selectAll('.edge')).toHaveLength(2);
   });
 });

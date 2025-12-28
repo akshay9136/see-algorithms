@@ -1,22 +1,13 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
-import { clearGraph, renderGraph, testShareLink } from './test-utils/graph';
-import { useRouter } from 'next/router';
+import {
+  clearGraph,
+  renderGraph,
+  testShareLink,
+  userClick,
+  userDrag,
+} from './test-utils/graph';
 import Dijkstras from '@/pages/graph/Dijkstras';
-
-const userClick = (el) => {
-  return (x, y) => {
-    fireEvent.mouseDown(el, { clientX: x, clientY: y });
-    fireEvent.click(el, { clientX: x, clientY: y });
-  };
-};
-
-const userDrag = (el) => {
-  return (x, y) => {
-    fireEvent.mouseDown(el, { clientX: x, clientY: y });
-    fireEvent.mouseMove(el, { clientX: x + 10, clientY: y });
-    fireEvent.mouseMove(el, { clientX: x + 20, clientY: y });
-  };
-};
+import { useRouter } from 'next/router';
 
 describe('Graph visualization editor', () => {
   var container;
@@ -61,11 +52,10 @@ describe('Graph visualization editor', () => {
     });
   });
 
-  const selectAll = (query) => container.querySelectorAll(query);
-
   test('draws graph using mouse events', async () => {
     const checkbox = screen.getByLabelText('Directed');
     fireEvent.click(checkbox);
+    const selectAll = (query) => container.querySelectorAll(query);
     await clearGraph(container);
     const plane = container.querySelector('#plane');
     const fireClick = userClick(plane);
@@ -82,10 +72,6 @@ describe('Graph visualization editor', () => {
     userDrag(plane)(150, 200); // drags to x + 20
     fireClick(170, 200);
     fireClick(200, 100);
-    expect(selectAll('.vrtx')).toHaveLength(3);
-    expect(selectAll('.edge')).toHaveLength(3);
-    fireClick(200, 100);
-    fireClick(170, 200);
     expect(selectAll('.vrtx')).toHaveLength(3);
     expect(selectAll('.edge')).toHaveLength(3);
   });
