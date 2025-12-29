@@ -1,14 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import { InputNumbers, Numbox } from '@/components/common';
+import { sound, withBoxId } from '@/common/utils';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import Iterator from '@/common/iterator';
-import { sound, withBoxId } from '@/common/utils';
 import { Colors } from '@/common/constants';
 
-var arr, it;
-var delay = 500;
+var arr, delay = 500;
 
 export default function MergeSort() {
     const [numbers, setNumbers] = useState([]);
@@ -70,22 +68,16 @@ function mergeSort(start, end):
         yield* merge(start, mid, end, ypos);
     }
 
-    const handleStart = (values) => {
-        if (arr) return it.start();
+    async function* handleSort(values) {
         setNumbers(values);
         arr = values.map(withBoxId);
-        const n = arr.length;
-        it = Iterator.new(mergeSort, 0, n - 1, 60);
-        return it.start();
-    };
+        yield* mergeSort(0, arr.length - 1, 60);
+    }
 
     const handleStop = () => {
         setNumbers([]);
-        it?.exit();
         arr = undefined;
     };
-
-    useEffect(() => handleStop, []);
 
     return (
         <Stack spacing={2}>
@@ -125,11 +117,8 @@ function mergeSort(start, end):
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
                 {algorithm}
                 <Stack spacing={3}>
-                    <InputNumbers
-                        onStart={handleStart}
-                        onReset={handleStop}
-                        onStop={() => it?.stop()}
-                    />
+                    <InputNumbers onStart={handleSort} onReset={handleStop} />
+
                     <Box className="mergeSort" pt={3} ref={scope}>
                         {numbers.map((num, i) => (
                             <Numbox key={i} index={i} value={num} />

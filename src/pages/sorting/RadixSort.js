@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import { InputNumbers, Numbox } from '@/components/common';
 import { sound, withBoxId } from '@/common/utils';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import Iterator from '@/common/iterator';
 
 var arr, out, n;
 var max, exp, b;
-var it, delay = 500;
+
+var delay = 500;
 
 function RadixSort() {
   const [numbers, setNumbers] = useState([]);
@@ -52,7 +52,13 @@ while (max / exp) > 0:
     }
   }
 
-  async function* radixSort() {
+  async function* handleSort(values) {
+    setNumbers(values);
+    sound('pop');
+    arr = values.map(withBoxId);
+    n = arr.length;
+    max = Math.max(...values);
+    exp = 1;
     yield 1000;
     while (Math.floor(max / exp) > 0) {
       setNextExp(exp);
@@ -74,26 +80,11 @@ while (max / exp) > 0:
     }
   }
 
-  const handleStart = (values) => {
-    if (arr) return it.start();
-    setNumbers(values);
-    sound('pop');
-    arr = values.map(withBoxId);
-    n = arr.length;
-    max = Math.max(...values);
-    exp = 1;
-    it = Iterator.new(radixSort);
-    return it.start();
-  };
-
   const handleStop = () => {
     setNumbers([]);
     setNextExp(0);
-    it?.exit();
     arr = undefined;
   };
-
-  useEffect(() => handleStop, []);
 
   const renderDigits = (num) => {
     let digits = [];
@@ -148,19 +139,12 @@ while (max / exp) > 0:
       <Box display="flex" gap={3} flexWrap="wrap">
         {algorithm}
         <Stack spacing={2}>
-          <InputNumbers
-            onStart={handleStart}
-            onReset={handleStop}
-            onStop={() => it?.stop()}
-          />
+          <InputNumbers onStart={handleSort} onReset={handleStop} />
+
           <Box className="radixSort" pt={3} ref={scope}>
             <Box display="flex">
               {numbers.map((num, i) => (
-                <Numbox
-                  key={i}
-                  index={i}
-                  value={renderDigits(num)}
-                />
+                <Numbox key={i} index={i} value={renderDigits(num)} />
               ))}
             </Box>
             <Box display="flex">

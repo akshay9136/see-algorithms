@@ -38,7 +38,6 @@ function useGraphControls(config, props) {
 
   const handlePlay = async () => {
     const src = source.charCodeAt(0) - 65;
-
     switch (playStatus) {
       case 0:
         if (validate()) {
@@ -56,8 +55,11 @@ function useGraphControls(config, props) {
         $('.vrtx').attr('stroke', Colors.stroke);
         $('.vrtx').attr('fill', Colors.vertex);
         Path('.edge').attr('stroke', Colors.stroke);
-        Iterator.new(props.onStart, src);
-        await startToEnd();
+        Path('.edge').attr('stroke-width', 2.5);
+        if (validate()) {
+            Iterator.new(props.onStart, src);
+            await startToEnd();
+        }
         break;
       default:
         await startToEnd();

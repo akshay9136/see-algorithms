@@ -1,14 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import { InputNumbers, Numbox } from '@/components/common';
+import { sound, withBoxId } from '@/common/utils';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import Iterator from '@/common/iterator';
-import { sound, withBoxId } from '@/common/utils';
 import { Colors } from '@/common/constants';
 
-var arr, it;
-var delay = 800;
+var arr, delay = 800;
 
 export default function InsertionSort() {
     const [numbers, setNumbers] = useState([]);
@@ -23,7 +21,10 @@ for i = 1 to (n - 1):
     arr[j + 1] = key
 `);
 
-    async function* insertionSort() {
+    async function* handleSort(values) {
+        setNumbers(values);
+        sound('pop');
+        arr = values.map(withBoxId);
         yield delay;
         bgcolor(arr[0].id, Colors.sorted);
         yield delay;
@@ -58,23 +59,11 @@ for i = 1 to (n - 1):
         setCurrentStep('');
     }
 
-    const handleStart = (values) => {
-        if (arr) return it.start();
-        setNumbers(values);
-        sound('pop');
-        arr = values.map(withBoxId);
-        it = Iterator.new(insertionSort);
-        return it.start();
-    };
-
     const handleStop = () => {
         setNumbers([]);
         setCurrentStep('');
-        it?.exit();
         arr = undefined;
     };
-
-    useEffect(() => handleStop, []);
 
     return (
         <Stack spacing={2}>
@@ -114,11 +103,8 @@ for i = 1 to (n - 1):
             <Box display="flex" gap={3} flexWrap="wrap">
                 {algorithm}
                 <Stack spacing={3}>
-                    <InputNumbers
-                        onStart={handleStart}
-                        onReset={handleStop}
-                        onStop={() => it?.stop()}
-                    />
+                    <InputNumbers onStart={handleSort} onReset={handleStop} />
+
                     <Box className="sorting" pt={8} ref={scope}>
                         {numbers.map((num, i) => (
                             <Numbox key={i} index={i} value={num} />

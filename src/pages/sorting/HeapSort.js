@@ -1,16 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import { Edge, InputNumbers, Node } from '@/components/common';
 import binaryTree from '@/common/binaryTree';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import Iterator from '@/common/iterator';
 import { sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import Link from 'next/link';
 
 var arr, Tree;
-var it, delay = 1000;
+var delay = 1000;
 
 export default function HeapSort() {
     const [numbers, setNumbers] = useState([]);
@@ -39,7 +38,11 @@ function heapify(i):
         heapify(largest)
 `);
 
-    async function* heapSort() {
+    async function* handleSort(values) {
+        setNumbers(values);
+        sound('pop');
+        arr = values.slice();
+        Tree = binaryTree(animator);
         yield 1500;
         const n = arr.length;
         sound('swap');
@@ -107,24 +110,11 @@ function heapify(i):
         }
     }
 
-    const handleStart = (values) => {
-        if (arr) return it.start();
-        arr = values.slice();
-        sound('pop');
-        setNumbers(values);
-        Tree = binaryTree(animator);
-        it = Iterator.new(heapSort);
-        return it.start();
-    };
-
     const handleStop = () => {
         setNumbers([]);
         setCurrentStep('');
-        it?.exit();
         arr = undefined;
     };
-
-    useEffect(() => handleStop, []);
 
     return (
         <Stack spacing={2}>
@@ -168,11 +158,7 @@ function heapify(i):
                 {heapifyAlgo}
                 <Stack spacing={3}>
                     {algorithm}
-                    <InputNumbers
-                        onStart={handleStart}
-                        onReset={handleStop}
-                        onStop={() => it?.stop()}
-                    />
+                    <InputNumbers onStart={handleSort} onReset={handleStop} />
                     <Box
                         className="heapSort"
                         id="binaryTree"

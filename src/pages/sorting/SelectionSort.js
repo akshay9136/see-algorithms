@@ -1,15 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import { InputNumbers, Numbox } from '@/components/common';
+import { sound, withBoxId } from '@/common/utils';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import Iterator from '@/common/iterator';
-import { sound, withBoxId } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import Link from 'next/link';
 
-var arr, it;
-var delay = 500;
+var arr, delay = 500;
 
 export default function SelectionSort() {
     const [numbers, setNumbers] = useState([]);
@@ -23,8 +21,10 @@ for i = 0 to (n - 1):
     if min != i: swap(i, min)
 `);
 
-    async function* selectionSort() {
-        let n = arr.length;
+    async function* handleSort(values) {
+        setNumbers(values);
+        arr = values.map(withBoxId);
+        const n = arr.length;
         for (let i = 0; i < n - 1; i++) {
             yield 1000;
             setCurrentStep('1');
@@ -67,7 +67,7 @@ for i = 0 to (n - 1):
     }
 
     const swapMin = async (u, v) => {
-        let d = v - u;
+        const d = v - u;
         await Promise.all([
             tx(arr[u].id, v * 60, 0.2 * d),
             tx(arr[v].id, u * 60, 0.2 * d),
@@ -76,22 +76,11 @@ for i = 0 to (n - 1):
         arr.swap(u, v);
     };
 
-    const handleStart = (values) => {
-        if (arr) return it.start();
-        setNumbers(values);
-        arr = values.map(withBoxId);
-        it = Iterator.new(selectionSort);
-        return it.start();
-    };
-
     const handleStop = () => {
         setNumbers([]);
         setCurrentStep('');
-        it?.exit();
         arr = undefined;
     };
-
-    useEffect(() => handleStop, []);
 
     return (
         <Stack spacing={2}>
@@ -132,11 +121,8 @@ for i = 0 to (n - 1):
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
                 {algorithm}
                 <Stack spacing={3}>
-                    <InputNumbers
-                        onStart={handleStart}
-                        onReset={handleStop}
-                        onStop={() => it?.stop()}
-                    />
+                    <InputNumbers onStart={handleSort} onReset={handleStop} />
+
                     <Box className="sorting" pt={8} ref={scope}>
                         {numbers.map((num, i) => (
                             <Numbox key={i} index={i} value={num} />

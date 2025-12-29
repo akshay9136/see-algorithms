@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import { Edge, InputNumbers, Node } from '@/components/common';
+import { charAt, sound, traverse } from '@/common/utils';
 import useAnimator from '@/hooks/useAnimator';
 import huffmanTree from '@/helpers/huffmanTree';
-import Iterator from '@/common/iterator';
-import { Colors } from '@/common/constants';
-import { charAt, sound, traverse } from '@/common/utils';
 import styles from '@/styles/numbers.module.css';
+import { Colors } from '@/common/constants';
 
 var it, queue;
 
@@ -38,7 +37,8 @@ export default function HuffmanCoding() {
         return node;
     };
 
-    async function* encode() {
+    async function* handleStart(values) {
+        queue = values.map((value, i) => ({ value, char: alphabets[i] }));
         const root = _huffmanTree();
         const arr = [];
         traverse(root, (node) => arr.push(node));
@@ -49,25 +49,12 @@ export default function HuffmanCoding() {
         setCoding(Tree.coding);
     }
 
-    const handleStart = (values) => {
-        if (queue) return it.start();
-
-        queue = values.map((value, i) => {
-            return ({ value, char: alphabets[i] });
-        });
-        it = Iterator.new(encode);
-        return it.start();
-    };
-
     const handleStop = (reset) => {
         if (reset) setAlphabets([]);
         setNumbers([]);
         setCoding({});
-        it?.exit();
         queue = undefined;
     };
-
-    useEffect(() => handleStop, []);
 
     return (
         <Stack spacing={3}>
@@ -82,7 +69,11 @@ export default function HuffmanCoding() {
             <Stack spacing={1}>
                 {alphabets.length > 0 && (
                     <Box className={styles.inputNumbers}>
-                        <Typography variant="subtitle1" fontWeight="bold" mr={2}>
+                        <Typography
+                            variant="subtitle1"
+                            fontWeight="bold"
+                            mr={2}
+                        >
                             Character:
                         </Typography>
                         {alphabets.map((char) => (
@@ -108,7 +99,6 @@ export default function HuffmanCoding() {
                     }}
                     onStart={handleStart}
                     onReset={handleStop}
-                    onStop={() => it?.stop()}
                 />
             </Stack>
             <Box

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Select,
   Input,
@@ -10,6 +10,7 @@ import {
 import styles from '@/styles/numbers.module.css';
 import { randomInt, showError, sleep } from '@/common/utils';
 import { Pause, PlayArrow } from '@mui/icons-material';
+import Iterator from '@/common/iterator';
 
 function InputNumbers(props) {
   const [numbers, setNumbers] = useState([]);
@@ -46,23 +47,29 @@ function InputNumbers(props) {
 
   const startToEnd = async () => {
     setStatus(1);
-    await props.onStart(numbers);
+    await Iterator.current().start();
     setStatus(2);
   };
 
   const handleStart = async () => {
     switch (status) {
       case 0:
-        if (validate()) startToEnd();
+        if (validate()) {
+          Iterator.new(props.onStart, numbers);
+          startToEnd();
+        }
         break;
       case 1:
+        Iterator.current().stop();
         setStatus(-1);
-        props.onStop();
         break;
       case 2:
         props.onReset();
         await sleep(500);
-        if (validate()) startToEnd();
+        if (validate()) {
+          Iterator.new(props.onStart, numbers);
+          startToEnd();
+        }
         break;
       default:
         startToEnd();
@@ -73,7 +80,10 @@ function InputNumbers(props) {
     props.onReset(true);
     setStatus(0);
     setNumbers([]);
+    Iterator.current()?.exit();
   };
+
+  useEffect(() => handleReset, []);
 
   return (
     <Box className={styles.inputNumbers}>
@@ -128,6 +138,6 @@ function InputNumbers(props) {
       )}
     </Box>
   );
-};
+}
 
 export default InputNumbers;
