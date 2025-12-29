@@ -6,7 +6,8 @@
 ![Forks](https://img.shields.io/github/forks/akshay9136/see-algorithms?style=flat)
 ![Issues](https://img.shields.io/github/issues/akshay9136/see-algorithms)
 ![Website](https://img.shields.io/website?url=https://see-algorithms.com)
-![Vercel Deploy](https://vercelbadge.vercel.app/api/akshay9136/see-algorithms?style=flat)
+![Deploy](https://vercelbadge.vercel.app/api/akshay9136/see-algorithms?style=flat)
+![Coverage](https://codecov.io/gh/akshay9136/see-algorithms/branch/main/graph/badge.svg)
 ![Sponsors](https://img.shields.io/github/sponsors/akshay9136)
 
 <img src="https://raw.githubusercontent.com/akshay9136/see-algorithms/main/public/preview.gif" width="70%" />

@@ -30,13 +30,13 @@ describe('Binary search tree visualization', () => {
 
   test('renders tree with random nodes', async () => {
     const container = await renderTree(BST);
-    const clear = screen.getByRole('button', { name: /clear/i });
-    fireEvent.click(clear);
+    const button = screen.getByRole('button', { name: /clear/i });
+    fireEvent.click(button);
     await waitFor(() => {
       expect(container.querySelector('.node')).toBe(null);
     });
-    const refresh = screen.getByTestId('RefreshIcon');
-    fireEvent.click(refresh);
+    const icon = screen.getByTestId('RefreshIcon');
+    fireEvent.click(icon);
     await waitFor(() => {
       const nodes = container.querySelectorAll('.node');
       expect(nodes).toHaveLength(6);
