@@ -1,6 +1,6 @@
 import binarySearchTree from './binarySearchTree';
-import { sleep, sound } from '../common/utils';
 import { Colors } from '../common/constants';
+import { sound } from '../common/utils';
 import $ from 'jquery';
 
 const delay = 500;
@@ -64,7 +64,7 @@ function bianryAvlTree(animator, setCurrentStep) {
         }
     };
 
-    const rotateLeft = async (node) => {
+    function* rotateLeft(node) {
         const { left, right } = node;
         let ll = left.left;
         let lx = dx, ly = dy;
@@ -93,10 +93,10 @@ function bianryAvlTree(animator, setCurrentStep) {
         postCleanup(ll);
         updateHeight(node);
         updateHeight(left);
-        await sleep(delay * 3);
+        yield delay * 3;
     };
 
-    const rotateRight = async (node) => {
+    function* rotateRight(node) {
         const { left, right } = node;
         let rr = right.right;
         let rx = dx, ry = dy;
@@ -125,44 +125,44 @@ function bianryAvlTree(animator, setCurrentStep) {
         postCleanup(rr);
         updateHeight(node);
         updateHeight(right);
-        await sleep(delay * 3);
+        yield delay * 3;
     };
 
-    const rebalance = async (node) => {
+    async function* rebalance(node) {
         if (!node) return;
         bgcolor(node.id, Colors.compare);
         setCurrentStep('1,2');
-        await sleep(delay);
+        yield delay;
         updateHeight(node);
-        await sleep(delay);
-        let nodeBf = balanceFactor(node);
+        yield delay;
+        const nodeBf = balanceFactor(node);
         if (nodeBf > 1) {
             const childBf = balanceFactor(node.left);
             if (childBf > 0) {
                 setCurrentStep('5');
-                await rotateLeft(node);
+                yield* rotateLeft(node);
             } else {
                 setCurrentStep('7');
-                await rotateRight(node.left);
+                yield* rotateRight(node.left);
                 setCurrentStep('8');
-                await rotateLeft(node);
+                yield* rotateLeft(node);
             }
         } else if (nodeBf < -1) {
             const childBf = balanceFactor(node.right);
             if (childBf < 0) {
                 setCurrentStep('11');
-                await rotateRight(node);
+                yield* rotateRight(node);
             } else {
                 setCurrentStep('13');
-                await rotateLeft(node.right);
+                yield* rotateLeft(node.right);
                 setCurrentStep('14');
-                await rotateRight(node);
+                yield* rotateRight(node);
             }
         }
-        await bgcolor(node.id, Colors.white);
         setCurrentStep('');
-        await sleep(delay);
-        await rebalance(node.parent);
+        await bgcolor(node.id, Colors.white);
+        yield delay;
+        yield* rebalance(node.parent);
     };
 
     const backtrack = (node) => {
@@ -179,17 +179,17 @@ function bianryAvlTree(animator, setCurrentStep) {
             node.height = 0;
             backtrack(node);
         },
-        async insert(num) {
-            const node = await Tree.insert(num);
+        async *insert(num) {
+            const node = yield* Tree.insert(num);
             node.height = 0;
             $(`#nodeBf${node.key}`).text(0);
-            await sleep(delay * 2);
-            await rebalance(node.parent);
+            yield delay * 2;
+            yield* rebalance(node.parent);
         },
-        async deleteNode(num) {
-            const affected = await Tree.deleteNode(num);
-            await sleep(delay * 2);
-            await rebalance(affected);
+        async *deleteNode(num) {
+            const affected = yield* Tree.deleteNode(num);
+            yield delay * 2;
+            yield* rebalance(affected);
         },
     });
 }

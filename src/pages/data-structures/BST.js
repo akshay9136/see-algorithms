@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
+import { copyBinaryTree, randomInt, sleep } from '@/common/utils';
 import { Box, Stack, Typography } from '@mui/material';
 import { DSInput, Edge, Node } from '@/components/common';
+import { Refresh, Share } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 import binarySearchTree from '@/helpers/binarySearchTree';
 import useAnimator from '@/hooks/useAnimator';
-import { copyBinaryTree, randomInt, sleep } from '@/common/utils';
-import { Refresh, Share } from '@mui/icons-material';
 
 var arr = [], Tree;
 
@@ -24,19 +24,19 @@ export default function BST(props) {
     const [scope, animator] = useAnimator();
     if (!numbers.length) arr = [];
 
-    const insert = async (num) => {
+    async function* insert(num) {
         arr.push(num);
         setNumbers(arr.slice());
-        await sleep(500);
+        yield 500;
         if (!numbers.length) {
             Tree = binarySearchTree(animator);
         }
-        await Tree.insert(num);
+        yield* Tree.insert(num);
     };
 
-    const remove = async (num) => {
-        await sleep(500);
-        await Tree.deleteNode(num);
+    async function* remove(num) {
+        yield 500;
+        yield* Tree.deleteNode(num);
         if (!Tree.root()) reset();
     };
 

@@ -65,13 +65,13 @@ function dequeue():
                 {enqueueAlgo}
                 {dequeueAlgo}
             </Box>
-            <DSInput {...props} buttons={buttons} />
+            <DSInput {...props} buttons={buttons} hidePlayIcon />
             <Box id="cqueue" className="alphaGrid numGrid" />
         </Stack>
     );
 }
 
-function enqueue(num) {
+async function* enqueue(num) {
     if (front === rear && size === n) {
         showError('Queue is full.');
     } else {
@@ -82,7 +82,6 @@ function enqueue(num) {
         cells[n + n + rear].textContent = 'Rear';
         size++;
     }
-    return Promise.resolve();
 }
 
 function dequeue() {
@@ -96,5 +95,4 @@ function dequeue() {
         cells[front].textContent = 'Front';
         size--;
     }
-    return Promise.resolve();
 }

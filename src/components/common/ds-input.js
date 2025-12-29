@@ -1,11 +1,15 @@
 import { useState, forwardRef, useImperativeHandle } from 'react';
 import { Input, Button, Typography, Box } from '@mui/material';
 import { randomInt, showError } from '@/common/utils';
+import { Pause, PlayArrow } from '@mui/icons-material';
+import Iterator from '@/common/iterator';
 import styles from '@/styles/numbers.module.css';
+
+var playBtn;
 
 const DSInput = forwardRef((props, ref) => {
   const [number, setNumber] = useState(props.keepEmpty ? '' : randomInt());
-  const [status, setStatus] = useState(false);
+  const [status, setStatus] = useState(0);
 
   const handleInput = (e) => {
     const value = e.target.value.trim().slice(0, 3);
@@ -16,23 +20,40 @@ const DSInput = forwardRef((props, ref) => {
     } else setNumber('');
   };
 
-  const validate = (callback) => {
+  const validate = () => {
     if (typeof number !== 'number') {
       showError('Please enter a number.');
-    } else {
-      setStatus(true);
-      callback(number).then(() => {
-          setStatus(false);
-          if (!props.keepEmpty) setNumber(randomInt());
-        })
-        .catch(() => {});
+      return false;
+    }
+    return true;
+  };
+
+  const startToEnd = async () => {
+    setStatus(1);
+    await Iterator.current().start();
+    if (!props.keepEmpty) setNumber(randomInt());
+    setStatus(0);
+  };
+
+  const handlePlay = async (btn) => {
+    switch (status) {
+      case 0:
+        if (validate()) {
+          Iterator.new(btn.onClick, number);
+          startToEnd(btn);
+          playBtn = btn;
+        }
+        break;
+      case 1:
+        Iterator.current().stop();
+        setStatus(-1);
+        break;
+      default:
+        startToEnd(playBtn);
     }
   };
 
-  useImperativeHandle(ref, () => ({
-    value: number,
-    setDisabled: setStatus,
-  }));
+  useImperativeHandle(ref, () => ({ value: number, setStatus }));
 
   return (
     <Box className={styles.inputNumbers}>
@@ -52,20 +73,30 @@ const DSInput = forwardRef((props, ref) => {
         onChange={handleInput}
       />
       <Box display="flex">
+        {!props.hidePlayIcon && (
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={handlePlay}
+            disabled={status === 0}
+            aria-live="polite"
+            sx={{ minWidth: 40, mr: 1, px: 0 }}
+          >
+            {status === 1 ? <Pause /> : <PlayArrow />}
+          </Button>
+        )}
         {props.buttons.map((btn, i) => (
           <Button
             key={i}
             size="small"
             variant="outlined"
             onClick={() => {
-              const fn = (val) => btn.onClick(val);
-              if (btn.validate) validate(fn);
-              else fn();
+              btn.validate ? handlePlay(btn) : btn.onClick();
             }}
-            disabled={status || btn.disabled}
-            sx={{ mr: 1, minWidth: 40 }}
-            title={btn.title}
+            disabled={status === 0 ? btn.disabled : true}
             aria-label={btn.text}
+            title={btn.title}
+            sx={{ mr: 1, minWidth: 40 }}
           >
             {btn.text}
           </Button>

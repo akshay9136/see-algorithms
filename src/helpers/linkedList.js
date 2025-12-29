@@ -30,11 +30,11 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
 
   const insertAtTail = async (value) => {
     const node = await findNode((x) => !x.next);
-    sound('pop');
     const key = arr.length;
     const eid = `#edge${key - 1}`;
     node.next = { value, key, eid, prev: node };
     arr.push(node.next);
+    sound('pop');
     const nodeX = length(head) * STEP_SIZE;
     txy(`#box${key}`, nodeX, NODE_TOP);
     await txy(eid, nodeX - EDGE_WIDTH, EDGE_TOP);
@@ -111,12 +111,7 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
     return true;
   };
 
-  return {
-    insertAtHead,
-    insertAtTail,
-    insertAt,
-    deleteAt,
-  };
+  return { insertAtHead, insertAtTail, insertAt, deleteAt };
 }
 
 export default linkedList;

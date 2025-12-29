@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
+import { copyBinaryTree, showError, sleep } from '@/common/utils';
 import { DSInput, Edge, Node } from '@/components/common';
 import binaryAvlTree from '@/helpers/binaryAvlTree';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import useAnimator from '@/hooks/useAnimator';
 import { useRouter } from 'next/router';
-import { copyBinaryTree, showError, sleep } from '@/common/utils';
 import { Share } from '@mui/icons-material';
 
 var arr = [], Tree;
@@ -35,7 +35,7 @@ function rebalance(node):
         rebalance(node.parent)
 `);
 
-    const insert = async (num) => {
+    async function* insert(num) {
         if (arr.includes(num) && !deleted[num]) {
             showError('Duplicates are not allowed.');
             return;
@@ -43,17 +43,17 @@ function rebalance(node):
         deleted[num] = false;
         arr.push(num);
         setNumbers(arr.slice());
-        await sleep(500);
+        yield 500;
         if (!numbers.length) {
             Tree = binaryAvlTree(animator, setCurrentStep);
         }
-        await Tree.insert(num);
+        yield* Tree.insert(num);
     };
 
-    const remove = async (num) => {
+    async function* remove(num) {
         if (arr.includes(num)) deleted[num] = true;
-        await sleep(500);
-        await Tree.deleteNode(num);
+        yield 500;
+        yield* Tree.deleteNode(num);
         if (!Tree.root()) setNumbers([]);
     };
 

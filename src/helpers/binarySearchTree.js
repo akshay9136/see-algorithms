@@ -1,5 +1,5 @@
 import binaryTree from '@/common/binaryTree';
-import { sleep, sound } from '../common/utils';
+import { sound } from '../common/utils';
 import { Colors } from '../common/constants';
 
 const delay = 500;
@@ -8,16 +8,16 @@ function binarySearchTree(animator) {
     const Tree = binaryTree(animator);
     const { bgcolor, txy, animate, cleanup } = animator;
 
-    const smallest = async (node) => {
+    async function* smallest(node) {
         await bgcolor(node.id, Colors.compare);
-        await sleep(delay);
+        yield delay;
         await bgcolor(node.id, Colors.white);
         if (!node.left) return node;
-        return smallest(node.left);
+        return yield* smallest(node.left);
     };
 
-    const replaceNode = async (node) => {
-        const child = await smallest(node.right);
+    async function* replaceNode(node) {
+        const child = yield* smallest(node.right);
         const { right, parent } = child;
         sound('swap');
         await txy(child.id, node.x, node.y);
@@ -57,21 +57,17 @@ function binarySearchTree(animator) {
         }
     };
 
-    const search = async (num, node, insert) => {
+    async function* search(num, node, insert) {
         await bgcolor(node.id, Colors.compare);
-        await sleep(delay);
+        yield delay;
         if (!insert && num === node.value) {
             await bgcolor(node.id, Colors.white);
             return node;
         }
         const next = num <= node.value ? 'left' : 'right';
         if (node[next]) {
-            await animate(node[next].eid, {
-                height: 3,
-                backgroundColor: Colors.compare,
-            });
             await bgcolor(node.id, Colors.white);
-            return search(num, node[next], insert);
+            return yield* search(num, node[next], insert);
         } else {
             await bgcolor(node.id, Colors.white);
             if (insert) return node;
@@ -93,28 +89,20 @@ function binarySearchTree(animator) {
                 ? this._insert(num, node[next])
                 : Tree.insert(num, node, isLeft);
         },
-        async insert(num) {
+        async *insert(num) {
             if (!Tree.root()) {
                 sound('pop');
                 return Tree.insert(num);
             }
-            const parent = await search(num, Tree.root(), true);
+            const parent = yield* search(num, Tree.root(), true);
             const isLeft = num <= parent.value;
             sound('pop');
             const node = Tree.insert(num, parent, isLeft);
-            await sleep(delay);
-            animate('.nodeEdge', {
-                height: 2,
-                backgroundColor: Colors.stroke,
-            });
+            yield delay;
             return node;
         },
-        async deleteNode(num) {
-            const node = await search(num, Tree.root());
-            animate('.nodeEdge', {
-                height: 2,
-                backgroundColor: Colors.stroke,
-            });
+        async *deleteNode(num) {
+            const node = yield* search(num, Tree.root());
             if (!node) return;
             animate(node.id, { opacity: 0 });
             sound('pop');
@@ -125,10 +113,11 @@ function binarySearchTree(animator) {
                 animate(node.eid, { opacity: 0 });
                 return parent;
             } else {
-                await sleep(delay);
-                return left && right
-                    ? replaceNode(node)
-                    : removeNode(node, left || right);
+                yield delay;
+                if (left && right) {
+                    return yield* replaceNode(node);
+                }
+                return removeNode(node, left || right);
             }
         },
     });

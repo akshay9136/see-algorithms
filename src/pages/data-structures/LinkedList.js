@@ -7,11 +7,11 @@ import {
   Typography,
 } from '@mui/material';
 import { DSInput, Edge } from '@/components/common';
+import { showError, sleep } from '@/common/utils';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import linkedList from '@/helpers/linkedList';
 import { motion } from 'framer-motion';
-import { showError, sleep } from '@/common/utils';
 
 var list, delay = 500;
 
@@ -23,7 +23,7 @@ function insertAtHead(value):
     node = new Node(value)
     node.next = head.next
     head.next = node
-`)
+`);
   const [insertAlgo2] = useAlgorithm(`
 function insertAtTail(value):
     node = new Node(value)
@@ -31,7 +31,7 @@ function insertAtTail(value):
     while cur.next is not null:
         cur = cur.next
     cur.next = node
-`)
+`);
   const [insertAlgo3] = useAlgorithm(`
 function insertAt(index, value):
     if index == 0:
@@ -44,7 +44,7 @@ function insertAt(index, value):
     node = new Node(value)
     node.next = cur.next
     cur.next = node
-`)
+`);
   const [deleteAlgo] = useAlgorithm(`
 function deleteAt(index):
     cur = head
@@ -56,58 +56,58 @@ function deleteAt(index):
             alert "Invalid index."
             return
     prev.next = cur.next
-`)
+`);
   const inputRef1 = useRef(null);
   const inputRef2 = useRef(null);
 
-  const insertAtHead = async (value) => {
-    const { setDisabled } = inputRef2.current;
-    setDisabled(true);
+  async function* insertAtHead(value) {
+    const { setStatus } = inputRef2.current;
+    setStatus(1);
     setNodes([...nodes, value]);
     await sleep(delay);
     await list.insertAtHead(value);
-    setDisabled(false);
-  };
+    setStatus(0);
+  }
 
-  const insertAtTail = async (value) => {
-    const { setDisabled } = inputRef2.current;
-    setDisabled(true);
+  async function* insertAtTail(value) {
+    const { setStatus } = inputRef2.current;
+    setStatus(1);
     setNodes([...nodes, value]);
     await sleep(delay);
     await list.insertAtTail(value);
-    setDisabled(false);
-  };
+    setStatus(0);
+  }
 
-  const insertAt = async (index) => {
-    const { value, setDisabled } = inputRef1.current;
+  async function* insertAt(index) {
+    const { value, setStatus } = inputRef1.current;
     if (typeof value !== 'number') {
       showError('Please enter a number.');
       return;
     }
-    setDisabled(true);
+    setStatus(1);
     setNodes([...nodes, value]);
     await sleep(delay);
     await list.insertAt(value, index);
-    setDisabled(false);
-  };
+    setStatus(0);
+  }
 
-  const deleteAt = async (index) => {
-    const { setDisabled } = inputRef1.current;
-    setDisabled(true);
+  async function* deleteAt(index) {
+    const { setStatus } = inputRef1.current;
+    setStatus(1);
     const found = await list.deleteAt(index);
     if (!found) showError('Invalid index.');
-    setDisabled(false);
-  };
-
-  const reset = () => {
-    setNodes(['H']);
-    list = linkedList(animator);
-  };
+    setStatus(0);
+  }
 
   const buttons = [
     { text: 'Insert at head', onClick: insertAtHead, validate: true },
     { text: 'Insert at tail', onClick: insertAtTail, validate: true },
   ];
+
+  const reset = () => {
+    setNodes(['H']);
+    list = linkedList(animator);
+  };
 
   const buttons2 = [
     { text: 'Insert', onClick: insertAt, validate: true },
@@ -139,11 +139,12 @@ function deleteAt(index):
         {deleteAlgo}
       </Box>
       <Stack spacing={2}>
-        <DSInput {...props} buttons={buttons} ref={inputRef1} />
+        <DSInput {...props} buttons={buttons} hidePlayIcon ref={inputRef1} />
         <DSInput
           {...props}
           buttons={buttons2}
           label="Enter an index: "
+          hidePlayIcon
           keepEmpty
           ref={inputRef2}
         />

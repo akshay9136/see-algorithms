@@ -5,7 +5,7 @@ import binaryTree from '@/common/binaryTree';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import { Colors } from '@/common/constants';
-import { sleep, sound } from '@/common/utils';
+import { sound } from '@/common/utils';
 
 var arr = [], Tree;
 var delay = 400;
@@ -21,10 +21,10 @@ function heapify(node):
         heapify(parent)
 `);
 
-    const insert = async (num) => {
+    async function* insert(num) {
         arr.push(num);
         setNumbers(arr.slice());
-        await sleep(delay);
+        yield delay;
         sound('pop');
         if (!numbers.length) {
             Tree = binaryTree(animator);
@@ -34,26 +34,26 @@ function heapify(node):
             const parent = Tree.node(Math.floor((size - 1) / 2));
             const isLeft = size % 2 === 1;
             const node = Tree.insert(num, parent, isLeft);
-            await sleep(delay * 2);
-            await heapify(node);
+            yield delay * 2;
+            yield* heapify(node);
         }
     };
 
-    const heapify = async (node) => {
+    async function* heapify(node) {
         const parent = node.parent;
         const { bgcolor } = animator;
         if (parent && node.value > parent.value) {
             await bgcolor(node.id, Colors.compare);
-            await sleep(delay);
+            yield delay;
             await bgcolor(parent.id, Colors.compare);
-            await sleep(delay / 2);
+            yield delay / 2;
             sound('swap');
             await Tree.swapNodes(node, parent);
-            await sleep(delay / 2);
+            yield delay / 2;
             await bgcolor(node.id, Colors.white);
-            await heapify(parent);
+            yield* heapify(parent);
         }
-        await sleep(delay / 2);
+        yield delay / 2;
         await bgcolor(node.id, Colors.white);
     };
 
