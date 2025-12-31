@@ -34,7 +34,7 @@ function useGraphControls(config, props) {
     setContext({ playStatus: 1 });
     await Iterator.current().start();
     setContext({ playStatus: 2 });
-  }
+  };
 
   const handlePlay = async () => {
     const src = source.charCodeAt(0) - 65;

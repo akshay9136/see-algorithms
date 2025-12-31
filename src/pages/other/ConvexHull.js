@@ -1,11 +1,10 @@
 import { Stack, Typography } from '@mui/material';
-import AddPoints from '@/components/convex-hull/add-points';
 import Graph, { Points } from '@/common/graph';
-import Timer from '@/common/timer';
+import AddPoints from '@/components/convex-hull/add-points';
 import $ from 'jquery';
 import { addPoints } from '@/helpers/convexHull';
-import { svgElement } from '@/common/utils';
 import { Colors } from '@/common/constants';
+import { svgElement } from '@/common/utils';
 
 export default function ConvexHull(props) {
   return (
@@ -19,7 +18,7 @@ export default function ConvexHull(props) {
         algorithm, which finds the convex hull by iteratively wrapping a
         &apos;gift&apos; around the set of points.
       </Typography>
-      <AddPoints {...props} start={start} />
+      <AddPoints {...props} onStart={start} />
     </Stack>
   );
 }
@@ -27,7 +26,7 @@ export default function ConvexHull(props) {
 var cvx, left, p, q;
 var delay = 500;
 
-function start() {
+async function* start() {
     cvx = [];
     left = 0;
     for (let i = 1; i < Graph.totalPoints(); i++) {
@@ -36,32 +35,34 @@ function start() {
         if (x1 < x2) left = i;
     }
     p = left;
-    Timer.sleep(delay).then(convexHull);
+    yield delay;
+    yield* convexHull();
 }
 
-function convexHull() {
+async function* convexHull() {
     cvx.push(p);
     $('.vrtx').eq(p).attr('fill', Colors.visited);
     $('.vrtx').eq(p).attr('stroke', Colors.visited);
     q = (p + 1) % Graph.totalPoints();
-    Timer.sleep(delay).then(() => next(0));
+    yield delay;
+    yield* next(0);
 }
 
-async function next(i) {
+async function* next(i) {
     if (i < Graph.totalPoints()) {
         let seg = [p, q].map(Graph.point);
         let ori = Points.orientation(...seg, Graph.point(i));
         if (ori === 1) {
             q = i;
             connect(Colors.stroke);
-            await Timer.sleep(delay);
+            yield delay;
             $('#plane path').last().remove();
         }
-        next(i + 1);
+        yield* next(i + 1);
     } else {
         connect(Colors.visited);
         p = q;
-        p !== left ? convexHull() : addPoints(cvx);
+        p !== left ? yield* convexHull() : addPoints(cvx);
     }
 }
 

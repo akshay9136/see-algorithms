@@ -91,7 +91,7 @@ function DrawGraph(props) {
                 />
               }
               label="Directed"
-              sx={{ mr: 1 }}
+              sx={{ mr: 0.5 }}
             />
           )}
 
@@ -106,10 +106,8 @@ function DrawGraph(props) {
               label="Source"
               variant="outlined"
               size="small"
-              InputProps={{
-                sx: { fontSize: '0.9rem' },
-              }}
-              sx={{ maxWidth: '75px' }}
+              InputProps={{ sx: { fontSize: '0.9rem' } }}
+              sx={{ maxWidth: '75px', mr: 0.5 }}
             />
           )}
 
@@ -119,10 +117,7 @@ function DrawGraph(props) {
             onClick={handlePlay}
             disabled={Boolean(props.isDAG && playStatus)}
             aria-live="polite"
-            sx={{
-              minWidth: '80px',
-              padding: '4px 12px',
-            }}
+            sx={{ minWidth: '80px', padding: '4px 12px' }}
           >
             PLAY
           </Button>
@@ -130,10 +125,7 @@ function DrawGraph(props) {
           <Button
             variant="outlined"
             onClick={handleClear}
-            sx={{
-              minWidth: '70px',
-              padding: '4px 12px',
-            }}
+            sx={{ minWidth: '70px', padding: '4px 12px' }}
           >
             CLEAR
           </Button>
@@ -143,6 +135,7 @@ function DrawGraph(props) {
             color="primary"
             title="Share Graph"
             aria-label="Share Graph"
+            sx={{ p: 0.5 }}
           >
             <Share />
           </IconButton>
