@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { DSInput } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
 import { createGrid, showError, sound } from '@/common/utils';
+import $ from 'jquery';
 import useAlgorithm from '@/hooks/useAlgorithm';
 
 var cells, n = 10;
@@ -29,18 +30,16 @@ function dequeue():
 `);
 
     useEffect(() => {
-        document.querySelector('#cqueue').innerHTML = '';
+        $('#cqueue').html('');
         createGrid(n, '#cqueue');
         createGrid(n, '#cqueue');
         createGrid(n, '#cqueue');
-        cells = document.querySelectorAll('.cell');
-        cells[front].textContent = 'Front';
-        cells[n + n + rear].textContent = 'Rear';
+        cells = $('.cell');
+        cells.eq(front).text('Front');
+        cells.eq(n + n + rear).text('Rear');
         for (let k = 0; k < n; k++) {
-            cells[k].setAttribute('style', 'vertical-align:bottom;');
-            cells[k + n + n].setAttribute('style', 'vertical-align:top;');
-            cells[k + n + n].style.border = 'none';
-            cells[k].style.border = 'none';
+            cells.eq(k).css({ verticalAlign: 'bottom', border: 'none' });
+            cells.eq(k + n + n).css({ verticalAlign: 'top', border: 'none' });
         }
     }, []);
 
@@ -76,10 +75,10 @@ async function* enqueue(num) {
         showError('Queue is full.');
     } else {
         sound('pop');
-        cells[n + rear].textContent = num;
-        cells[n + n + rear].textContent = '';
+        cells.eq(n + rear).text(num);
+        cells.eq(n + n + rear).text('');
         rear = ++rear % n;
-        cells[n + n + rear].textContent = 'Rear';
+        cells.eq(n + n + rear).text('Rear');
         size++;
     }
 }
@@ -89,10 +88,10 @@ function dequeue() {
         showError('Queue is empty.');
     } else {
         sound('pop');
-        cells[front].textContent = '';
-        cells[front + n].textContent = '';
+        cells.eq(front).text('');
+        cells.eq(front + n).text('');
         front = ++front % n;
-        cells[front].textContent = 'Front';
+        cells.eq(front).text('Front');
         size--;
     }
 }

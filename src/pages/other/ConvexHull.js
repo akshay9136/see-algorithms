@@ -4,6 +4,7 @@ import Graph, { Points } from '@/common/graph';
 import Timer from '@/common/timer';
 import $ from 'jquery';
 import { addPoints } from '@/helpers/convexHull';
+import { svgElement } from '@/common/utils';
 import { Colors } from '@/common/constants';
 
 export default function ConvexHull(props) {
@@ -67,7 +68,8 @@ async function next(i) {
 function connect(color) {
     let u = Graph.point(p);
     let v = Graph.point(q);
-    let edge = `<path d="M${u.x} ${u.y} L${v.x} ${v.y}" stroke-width="2" stroke="${color}" />`;
-    document.getElementById('plane').innerHTML += edge;
-    $('path:last').insertBefore($('.vrtx:first'));
+    let d = `M${u.x} ${u.y} L${v.x} ${v.y}`;
+    let props = { d, stroke: color, 'stroke-width': 2 };
+    let edge = svgElement('path', props);
+    $('.vrtx:first').before(edge);
 }

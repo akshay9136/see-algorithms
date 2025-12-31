@@ -5,8 +5,9 @@ import $ from 'jquery';
 const { orientation, onSegment } = Points;
 
 function randomPoints(n) {
-  const width = $('#plane').width() / 1.5;
-  const height = $('#plane').height() / 1.5;
+  const rect = $('#plane')[0].getBoundingClientRect();
+  const width = rect.width / 1.5;
+  const height = rect.height / 1.5;
   const rectX = width / 5, rectY = height / 5;
   const stepX = width / 3, stepY = height / 3;
 
@@ -75,7 +76,8 @@ export function randomGraph(np) {
 
   const isValidEdge = (u, v) => {
     const d = Points.distance(points[u], points[v]);
-    const gap = $('#plane').width() / 3;
+    const rect = $('#plane')[0].getBoundingClientRect();
+    const gap = rect.width / 3;
     return d < gap && !wouldIntersect(u, v) && !wouldOverlap(u, v);
   };
 

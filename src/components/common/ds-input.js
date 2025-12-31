@@ -80,6 +80,7 @@ const DSInput = forwardRef((props, ref) => {
             onClick={handlePlay}
             disabled={status === 0}
             aria-live="polite"
+            title="Pause/Play"
             sx={{ minWidth: 40, mr: 1, px: 0 }}
           >
             {status === 1 ? <Pause /> : <PlayArrow />}

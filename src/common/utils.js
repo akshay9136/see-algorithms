@@ -1,5 +1,5 @@
-import $ from 'jquery';
 import Graph, { Path, Points } from './graph';
+import $ from 'jquery';
 import { Colors } from './constants';
 import { showToast } from '../components/toast';
 
@@ -7,10 +7,10 @@ const mouseEvents = ['click', 'mousedown', 'mouseup', 'mousemove', 'mouseenter',
 const touchEvents = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
 
 function cursorOffset(e) {
-    let out = { x: 0, y: 0 };
-    let { left, top } = $('#plane').offset();
+    const out = { x: 0, y: 0 };
+    const { left, top } = $('#plane').offset();
     if (touchEvents.includes(e.type)) {
-        let touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+        const touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
         out.x = touch.pageX - left;
         out.y = touch.pageY - top;
     } else if (mouseEvents.includes(e.type)) {
@@ -22,15 +22,42 @@ function cursorOffset(e) {
     return out;
 }
 
+function svgElement(tag, attrs, text) {
+    const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    Object.entries(attrs).forEach(([key, value]) => {
+        el.setAttribute(key, value);
+    });
+    if (text) el.textContent = text;
+    return el;
+}
+
 function addVertex(p, vlbl) {
-    document.getElementById('plane').innerHTML +=
-    `<g class="vgrp"><ellipse class="vrtx" cx="${p.x}" cy="${
-        p.y
-    }" rx="18" ry="16" stroke="${Colors.stroke}" stroke-width="2" fill="${
-        Colors.vertex
-    }" style="cursor:pointer" /><text class="vlbl" x="${p.x}" y="${
-        p.y + 5
-    }" text-anchor="middle" style="cursor:pointer" fill="#505050" font-weight="bold">${vlbl}</text></g>`;
+    const props = {
+        class: 'vrtx',
+        cx: p.x,
+        cy: p.y,
+        rx: 18,
+        ry: 16,
+        'stroke-width': 2,
+        stroke: Colors.stroke,
+        fill: Colors.vertex,
+        style: 'cursor:pointer',
+    };
+    const labelProps = {
+        class: 'vlbl',
+        x: p.x,
+        y: p.y + 5,
+        style: 'cursor:pointer',
+        fill: '#505050',
+        'font-weight': 'bold',
+        'text-anchor': 'middle',
+    };
+    const group = svgElement('g', { class: 'vgrp' });
+    group.append(
+        svgElement('ellipse', props),
+        svgElement('text', labelProps, vlbl)
+    );
+    $('#plane').append(group);
 }
 
 function moveVertex(i, p) {
@@ -38,6 +65,7 @@ function moveVertex(i, p) {
     $('.vrtx').eq(i).attr('cy', p.y);
     $('.vlbl').eq(i).attr('x', p.x);
     $('.vlbl').eq(i).attr('y', p.y + 5);
+
     Graph.segments().forEach((seg, ei) => {
         if (seg.includes(i)) {
             let [u, v] = seg.map(Graph.point);
@@ -84,9 +112,14 @@ function addEdge(p, q) {
     const cx = (p.x + q.x) / 2;
     const cy = (p.y + q.y) / 2;
     const d = `M ${p.x} ${p.y} Q ${cx} ${cy} ${q.x} ${q.y}`;
-    const edge = `<path class="edge" d="${d}" stroke-width="2.5" stroke="${Colors.stroke}" fill="transparent" />`;
-    document.getElementById('plane').innerHTML += edge;
-    $('.edge:last').insertBefore($('.vgrp:first'));
+    const props = {
+        class: 'edge',
+        stroke: Colors.stroke,
+        fill: 'transparent',
+        'stroke-width': 2.5,
+    };
+    const edge = svgElement('path', { d, ...props });
+    $('.vgrp:first').before(edge);
 }
 
 function addCost(p, q, cost) {
@@ -97,27 +130,38 @@ function addCost(p, q, cost) {
         const random = 0.5 + Math.random() * 1.5;
         cost = Math.floor(baseCost * random).toString();
     }
-    const handler = `
-        event.stopPropagation();
-        this.focus();
-        var value = this.value;
-        this.value = '';
-        this.value = value;`;
-    const element = `
-        <foreignObject width="32" height="24" x="${(p.x + q.x) / 2}" y="${(p.y + q.y) / 2}">
-            <input class="cost" value="${cost}" maxlength="${3}" onclick="${handler}" ontouchend="${handler}">
-        </foreignObject>`;
-    document.getElementById('plane').innerHTML += element;
+    const parent = svgElement('foreignObject', {
+        width: 32,
+        height: 24,
+        x: (p.x + q.x) / 2,
+        y: (p.y + q.y) / 2,
+    });
+    const input = document.createElement('input');
+    input.value = cost;
+    input.maxLength = 3;
+    input.className = 'cost';
+
+    const handler = (e) => {
+        e.stopPropagation();
+        input.focus();
+    };
+    input.addEventListener('click', handler);
+    input.addEventListener('touchend', handler);
+    parent.append(input);
+    $('#plane').append(parent);
 }
 
 function cloneEdge(i, j) {
-    let ei = Graph.edgeIndex(i, j);
-    let d = Path('.edge').eq(ei).attr('d');
-    let edge = `<path stroke-width="4" stroke="${Colors.visited}" fill="transparent" d="${d}"  />`;
-    document.getElementById('plane').innerHTML += edge;
-    let last = $('#plane path:last');
-    last.insertBefore($('.vgrp:first'));
-    return last;
+    const ei = Graph.edgeIndex(i, j);
+    const props = {
+        d: Path('.edge').eq(ei).attr('d'),
+        stroke: Colors.visited,
+        fill: 'transparent',
+        'stroke-width': 4,
+    };
+    const edge = svgElement('path', props);
+    $('.vgrp:first').before(edge);
+    return edge;
 }
 
 function fromDistance(start, end, distance) {
@@ -131,18 +175,21 @@ function fromDistance(start, end, distance) {
 }
 
 function createGrid(n, id) {
-    let row = document.createElement('div');
-    row.setAttribute('class', 'd-flex');
+    const row = document.createElement('div');
+    row.className = 'd-flex';
     for (let j = 0; j < n; j++) {
-        let cell = document.createElement('div');
-        cell.setAttribute('class', 'cell');
+        const cell = document.createElement('div');
+        cell.className = 'cell';
         row.appendChild(cell);
     }
     $(id).append(row);
 }
 
 function appendCell(rowId, val) {
-    $(rowId).append(`<div class="cell">${val}</div>`);
+    const cell = document.createElement('div');
+    cell.textContent = val;
+    cell.className = 'cell';
+    $(rowId).append(cell);
 }
 
 function getCostMatrix() {
@@ -162,15 +209,15 @@ function getCostMatrix() {
 function* spanEdge(i, j) {
     const ei = Graph.edgeIndex(i, j);
     const edge = cloneEdge(i, j);
-    const d = edge[0].getTotalLength();
+    const d = edge.getTotalLength();
     const t = d / 50;
     const seg = Graph.segments()[ei];
 
     function* span(dash) {
         if (dash < d) {
-            edge.attr('stroke-dasharray', `${dash} ${d - dash}`);
+            $(edge).attr('stroke-dasharray', `${dash} ${d - dash}`);
             if (i !== seg[0]) {
-                edge.attr('stroke-dashoffset', dash);
+                $(edge).attr('stroke-dashoffset', dash);
             }
             yield 20;
             yield* span(dash + t);
@@ -239,6 +286,7 @@ function copyBinaryTree(root) {
 
 export {
     cursorOffset,
+    svgElement,
     addVertex,
     addEdge,
     addCost,

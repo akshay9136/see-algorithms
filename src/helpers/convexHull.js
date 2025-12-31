@@ -1,20 +1,22 @@
-import $ from 'jquery';
 import Graph, { Points } from '../common/graph';
-import { cursorOffset, throttle } from '../common/utils';
+import { cursorOffset, throttle, svgElement } from '../common/utils';
 import { Colors } from '../common/constants';
+import $ from 'jquery';
 
 function print(p) {
-    let dot = `<circle class="vrtx" cx="${p.x}" cy="${p.y}" r="4" fill="${Colors.stroke}" />`;
-    document.getElementById('plane').innerHTML += dot;
+    let props = { class: 'vrtx', cx: p.x, cy: p.y, r: 4, fill: Colors.stroke };
+    let dot = svgElement('circle', props);
+    $('#plane').append(dot);
     Graph.addPoint(p);
 }
 
 export function randomize() {
     for (let i = 0; i < 30; i++) {
-        let x = Math.random() * ($('#plane').width() - 100) + 50;
-        let y = Math.random() * ($('#plane').height() - 100) + 50;
-        let p = Points.create(x, y);
+        let rect = $('#plane')[0].getBoundingClientRect();
         let np = Graph.totalPoints();
+        let x = Math.random() * (rect.width - 100) + 50;
+        let y = Math.random() * (rect.height - 100) + 50;
+        let p = Points.create(x, y);
         let j;
         for (j = 0; j < np; j++) {
             let d = Points.distance(p, Graph.point(j));
@@ -103,8 +105,10 @@ export function addPoints(cvx) {
             }
             let u = Graph.point(p);
             let v = Graph.point(q);
-            let edge = `<path d="M${u.x} ${u.y} L${v.x} ${v.y}" stroke-width="2" stroke="${Colors.visited}" />`;
-            document.getElementById('plane').innerHTML += edge;
+            let d = `M${u.x} ${u.y} L${v.x} ${v.y}`;
+            let props = { d, stroke: Colors.visited, 'stroke-width': 2 };
+            let edge = svgElement('path', props);
+            $('#plane').append(edge);
             p = q;
         } while (p !== left);
     }

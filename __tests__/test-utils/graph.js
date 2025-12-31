@@ -34,7 +34,7 @@ export function testAnimation(Component, callback) {
     const query = `.edge[stroke="${Colors.visited}"]`;
     const path = container.querySelectorAll(query);
     expect(path).toMatchSnapshot();
-    callback?.(container);
+    if (callback) callback(container);
   });
 }
 

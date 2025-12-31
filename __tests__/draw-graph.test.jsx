@@ -10,9 +10,11 @@ import Dijkstras from '@/pages/graph/Dijkstras';
 import { useRouter } from 'next/router';
 
 describe('Graph visualization editor', () => {
-  var container;
+  var container,
+    selectAll = (query) => container.querySelectorAll(query);
 
   beforeEach(async () => {
+    jest.spyOn(Math, 'random').mockReturnValueOnce(0.3);
     useRouter.mockReturnValue({
       query: {},
       isReady: true,
@@ -55,7 +57,6 @@ describe('Graph visualization editor', () => {
   test('draws graph using mouse events', async () => {
     const checkbox = screen.getByLabelText('Directed');
     fireEvent.click(checkbox);
-    const selectAll = (query) => container.querySelectorAll(query);
     await clearGraph(container);
     const plane = container.querySelector('#plane');
     const fireClick = userClick(plane);
