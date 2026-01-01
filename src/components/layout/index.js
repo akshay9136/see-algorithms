@@ -10,15 +10,15 @@ import { useRouter } from 'next/router';
 
 function Layout({ children }) {
   const [menuVisible, setMenuVisible] = useState(false);
-  const router = useRouter();
-  const algoId = router.pathname.split('/')[2];
+  const { pathname } = useRouter();
+  const algoId = pathname.split('/')[2];
   const { name: algoName } = algorithms.findObj('id', algoId) || {};
   const scrollRef = useRef(null);
 
   useEffect(() => {
     setMenuVisible(false);
     scrollRef.current.scrollTo(0, 0);
-  }, [router.pathname]);
+  }, [pathname]);
 
   const mdBlock = { xs: 'none', md: 'block' };
 
@@ -37,7 +37,8 @@ function Layout({ children }) {
       >
         <Sider selected={algoId} />
       </Drawer>
-      {algoId && <AlgorithmSEO algorithmId={algoId} />}
+      {algoId && <AlgorithmSEO />}
+
       <Box display="flex" className="contentRow">
         <Box sx={{ display: mdBlock }}>
           <Sider selected={algoId} />

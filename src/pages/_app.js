@@ -65,17 +65,15 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
+      <DefaultSeo {...defaultSeoConfig} />
       <Analytics />
       {isProd && hasContent && (
-        <>
-          <DefaultSeo {...defaultSeoConfig} />
-          <Script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7905328601622622"
-            crossOrigin="anonymous"
-            strategy="afterInteractive"
-          />
-        </>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7905328601622622"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
       )}
       <ThemeProvider theme={theme}>
         <CssBaseline />

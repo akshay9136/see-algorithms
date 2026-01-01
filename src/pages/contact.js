@@ -10,8 +10,8 @@ import {
   Alert,
   Link,
 } from '@mui/material';
-import Head from 'next/head';
 import { Email, GitHub } from '@mui/icons-material';
+import { CustomSeo } from '@/components/common';
 import emailjs from '@emailjs/browser';
 
 export default function ContactUs() {
@@ -68,13 +68,7 @@ export default function ContactUs() {
 
   return (
     <>
-      <Head>
-        <title>Contact Us - See Algorithms</title>
-        <meta
-          name="description"
-          content="Get in touch with See Algorithms - We'd love to hear your feedback, questions, or suggestions."
-        />
-      </Head>
+      <CustomSeo />
       <Box>
         <Typography
           variant="h5"

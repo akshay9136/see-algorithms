@@ -1,30 +1,30 @@
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
-import { getAlgorithmSEO } from './config';
+import { getSeoConfig } from './config';
 import { algorithms } from '@/common/appData';
 import Head from 'next/head';
 
-const AlgorithmSEO = ({ children, algorithmId, customSEO = {} }) => {
-  const router = useRouter();
-  const algorithmSEO = getAlgorithmSEO(algorithmId);
-  const title = algorithmSEO.title;
-  const { name: algoName, category } =
-    algorithms.findObj('id', algorithmId) || {};
+const AlgorithmSEO = () => {
+  const { pathname } = useRouter();
+  const algoId = pathname.split('/')[2];
+  const { title, description, keywords } = getSeoConfig(algoId);
+  const { name: algoName, category } = algorithms.findObj('id', algoId) || {};
+  const url = `https://see-algorithms.com${pathname}`;
 
   const seoConfig = {
-    title: customSEO.title || title,
-    description: customSEO.description || algorithmSEO.description,
-    canonical: `https://see-algorithms.com${router.asPath}`,
+    title,
+    description,
+    canonical: url,
     openGraph: {
-      title: customSEO.title || title,
-      description: customSEO.description || algorithmSEO.description,
-      url: `https://see-algorithms.com${router.asPath}`,
+      title,
+      description,
+      url,
       type: 'article',
     },
     additionalMetaTags: [
       {
         name: 'keywords',
-        content: customSEO.keywords || algorithmSEO.keywords,
+        content: keywords,
       },
       {
         name: 'article:section',
@@ -42,12 +42,12 @@ const AlgorithmSEO = ({ children, algorithmId, customSEO = {} }) => {
     '@context': 'https://schema.org',
     '@type': 'LearningResource',
     name: title,
-    description: algorithmSEO.description,
+    description,
     educationalLevel: 'Beginner to Advanced',
     learningResourceType: 'Interactive Visualization',
     educationalUse: ['learning', 'demonstration'],
     teaches: algoName,
-    url: `https://see-algorithms.com${router.asPath}`,
+    url,
     provider: {
       '@type': 'Organization',
       name: 'See Algorithms',
@@ -74,7 +74,6 @@ const AlgorithmSEO = ({ children, algorithmId, customSEO = {} }) => {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </Head>
-      {children}
     </>
   );
 };

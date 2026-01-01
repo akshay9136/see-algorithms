@@ -1,16 +1,10 @@
+import { CustomSeo } from '@/components/common';
 import { Typography, Box, Link } from '@mui/material';
-import Head from 'next/head';
 
 export default function TermsOfService() {
   return (
     <>
-      <Head>
-        <title>Terms of Service - See Algorithms</title>
-        <meta
-          name="description"
-          content="Terms of Service for See Algorithms - Learn about the terms and conditions for using our educational platform."
-        />
-      </Head>
+      <CustomSeo />
       <Box maxWidth="md">
         <Typography variant="h5" component="h1" gutterBottom fontWeight={600}>
           Terms of Service

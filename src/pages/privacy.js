@@ -1,16 +1,10 @@
-import { Typography, Box, Link } from '@mui/material';
-import Head from 'next/head';
+import { CustomSeo } from '@/components/common';
+import { Typography, Box } from '@mui/material';
 
 export default function Privacy() {
   return (
     <>
-      <Head>
-        <title>Privacy Policy - See Algorithms</title>
-        <meta
-          name="description"
-          content="Privacy Policy for See Algorithms - Learn how we collect, use, and protect your data."
-        />
-      </Head>
+      <CustomSeo />
       <Box maxWidth="md">
         <Typography variant="h5" component="h1" gutterBottom fontWeight={600}>
           Privacy Policy

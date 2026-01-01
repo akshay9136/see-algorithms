@@ -34,14 +34,6 @@ export const defaultSeoConfig = {
       property: 'article:author',
       content: 'https://see-algorithms.com/about',
     },
-    {
-      name: 'robots',
-      content: 'index,follow',
-    },
-    {
-      name: 'googlebot',
-      content: 'index,follow',
-    },
   ],
   additionalLinkTags: [
     {
@@ -55,7 +47,7 @@ export const defaultSeoConfig = {
   ],
 };
 
-export const algorithmSeoMap = {
+export const algoConfigMap = {
   BubbleSort: {
     title: 'Bubble Sort Visualization - See Algorithms',
     description:
@@ -212,15 +204,15 @@ export const algorithmSeoMap = {
   },
 };
 
-export const getAlgorithmSEO = (algorithm) => {
-  const algorithmSEO = algorithmSeoMap[algorithm];
-  if (!algorithmSEO) {
-    const algoName = algorithm.replace(/([A-Z])/g, ' $1').trim();
+export const getSeoConfig = (algoId) => {
+  const config = algoConfigMap[algoId];
+  if (!config) {
+    const algoName = algoId.replace(/([A-Z])/g, ' $1').trim();
     return {
       title: `${algoName} - See Algorithms`,
       description: `Learn ${algoName} algorithm with interactive visualization and step-by-step explanation.`,
       keywords: `${algoName.toLowerCase()}, algorithm, visualization, computer science, programming`,
     };
   }
-  return algorithmSEO;
+  return config;
 };

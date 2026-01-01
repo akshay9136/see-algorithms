@@ -1,3 +1,4 @@
+import { CustomSeo } from '@/components/common';
 import {
   Typography,
   Box,
@@ -7,18 +8,11 @@ import {
   Link,
   Stack,
 } from '@mui/material';
-import Head from 'next/head';
 
 export default function AboutUs() {
   return (
     <>
-      <Head>
-        <title>About Us - See Algorithms</title>
-        <meta
-          name="description"
-          content="Learn about See Algorithms - Our mission to make algorithm learning accessible through interactive visualizations."
-        />
-      </Head>
+      <CustomSeo />
       <Box>
         <Typography
           variant="h5"

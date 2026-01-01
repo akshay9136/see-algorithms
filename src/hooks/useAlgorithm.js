@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-const useAlgorithm = (algo) => {
+function useAlgorithm(algorithm) {
   const [currentStep, setCurrentStep] = useState('');
   const _currentStep = currentStep.length
     ? currentStep.split(',').map(Number)
     : [];
   const steps = (
     <div className="algorithm">
-      {algo
+      {algorithm
         .split('\n')
         .slice(1, -1)
         .map((step, i) => (

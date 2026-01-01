@@ -1,11 +1,12 @@
-import InputNumbers from './input-numbers';
-import DrawGraph from './draw-graph';
-import DSInput from './ds-input';
+import styles from '@/styles/numbers.module.css';
 import { motion } from 'framer-motion';
 import { memo } from 'react';
-import styles from '@/styles/numbers.module.css';
+import InputNumbers from './input-numbers';
+import DrawGraph from './draw-graph';
+import CustomSeo from './custom-seo';
+import DSInput from './ds-input';
 
-export { InputNumbers, DrawGraph, DSInput };
+export { InputNumbers, DrawGraph, CustomSeo, DSInput };
 
 export const Numbox = memo(
   function ({ index, value, ...rest }) {
