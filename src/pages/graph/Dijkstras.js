@@ -68,7 +68,6 @@ async function* start(src) {
     d[src] = 0;
     for (let i = 0; i < n; i++) {
         cells[i].textContent = charAt(65 + i);
-        cells[i + n].style.fontWeight = 500;
         if (i !== src) {
             cells[i + n].textContent = 'Inf';
             d[i] = Infinity;

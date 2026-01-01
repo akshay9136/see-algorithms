@@ -161,9 +161,9 @@ function deleteAt(index):
               <ToggleButton
                 value="data"
                 sx={{
+                  fontSize: '1rem',
                   width: 45,
                   padding: '4px 8px',
-                  fontSize: 16,
                   border: '1px solid',
                 }}
               >

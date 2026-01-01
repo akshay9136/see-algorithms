@@ -125,7 +125,7 @@ function addEdge(p, q) {
 function addCost(p, q, cost) {
     if (!cost) {
         const distance = Points.distance(p, q);
-        const baseCost = distance / 10;
+        const baseCost = distance / 20;
         // Generate random cost between 50% and 200% of base cost
         const random = 0.5 + Math.random() * 1.5;
         cost = Math.floor(baseCost * random).toString();

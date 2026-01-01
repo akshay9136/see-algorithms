@@ -17,7 +17,14 @@ function Toast() {
             onClose={() => setOptions({})}
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
-            {message && <Alert severity={variant}>{message}</Alert>}
+            {message && (
+                <Alert
+                    severity={variant}
+                    sx={{ fontWeight: 600, fontSize: '1rem' }}
+                >
+                    {message}
+                </Alert>
+            )}
         </Snackbar>
     );
 }

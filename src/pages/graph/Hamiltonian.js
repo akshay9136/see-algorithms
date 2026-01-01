@@ -7,6 +7,7 @@ import {
     charAt,
     cloneEdge,
     hasValue,
+    showError,
     sound,
     spanEdge,
 } from '@/common/utils';
@@ -49,6 +50,8 @@ async function* start(source) {
     $('.vrtx').eq(src).attr('fill', Colors.visited);
     appendCell('#path', charAt(65 + src));
     yield* findCycle(src);
+
+    if (v.indexOf(0) > -1) showError('Cycle not found.');
 }
 
 async function* findCycle(i) {
@@ -79,18 +82,18 @@ async function* findCycle(i) {
 
 function* backtrack(i, j) {
     const ei = Graph.edgeIndex(i, j);
-    $('.edge').eq(ei).attr('stroke', Colors.rejected);
-    $('.vrtx').eq(j).attr('stroke', Colors.rejected);
+    $('.edge').eq(ei).attr('stroke', Colors.enqueue);
+    $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
     const edge = cloneEdge(i, j);
-    const d = edge[0].getTotalLength();
+    const d = edge.getTotalLength();
     const t = d / 50;
     const seg = Graph.segments()[ei];
 
     function* span(dash) {
         if (dash < d) {
-            edge.attr('stroke-dasharray', `${d - dash} ${dash}`);
+            $(edge).attr('stroke-dasharray', `${d - dash} ${dash}`);
             if (i !== seg[0]) {
-                edge.attr('stroke-dashoffset', d - dash);
+                $(edge).attr('stroke-dashoffset', d - dash);
             }
             yield 20;
             yield* span(dash + t);
