@@ -1,5 +1,5 @@
 import binaryTree from '@/common/binaryTree';
-import { sound } from '../common/utils';
+import { showError, sound } from '../common/utils';
 import { Colors } from '../common/constants';
 
 const delay = 500;
@@ -103,7 +103,10 @@ function binarySearchTree(animator) {
         },
         async *deleteNode(num) {
             const node = yield* search(num, Tree.root());
-            if (!node) return;
+            if (!node) {
+              showError(`Node (${num}) does not exist.`);
+              return;
+            }
             animate(node.id, { opacity: 0 });
             sound('pop');
             const { left, right, parent } = node;

@@ -1,4 +1,4 @@
-import { sleep, sound } from '../common/utils';
+import { showError, sleep, sound } from '../common/utils';
 import { Colors } from '../common/constants';
 import $ from 'jquery';
 
@@ -57,8 +57,11 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
   };
 
   const insertAt = async (value, k) => {
-    if (k >= length(head)) {
-      return insertAtTail(value);
+    if (k === length(head)) return insertAtTail(value);
+
+    if (k > length(head) || k < 0) {
+      showError('Index is out of bounds.');
+      return true;
     }
     const prev = await findNode((_, i) => i === k);
     if (k > 0) sound('swap');
@@ -99,16 +102,18 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
   };
 
   const deleteAt = async (k) => {
+    if (k >= length(head) || k < 0) {
+      showError('Index is out of bounds.');
+      return;
+    }
     const node = await findNode((_, i) => i - 1 === k);
-    if (!node) return false;
     animate(`#box${node.key}`, { opacity: 0 });
     animate(node.eid, { opacity: 0 });
     await sleep(delay);
-    sound('swap');
+    if (node.next) sound('swap');
     shiftNodes(node, k + 1);
     node.prev.next = node.next;
     if (node.next) node.next.prev = node.prev;
-    return true;
   };
 
   return { insertAtHead, insertAtTail, insertAt, deleteAt };

@@ -20,7 +20,7 @@ function Toast() {
             {message && (
                 <Alert
                     severity={variant}
-                    sx={{ fontWeight: 600, fontSize: '1rem' }}
+                    sx={{ fontWeight: 600, fontSize: '0.9rem' }}
                 >
                     {message}
                 </Alert>

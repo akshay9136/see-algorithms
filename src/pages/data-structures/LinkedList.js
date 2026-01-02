@@ -52,9 +52,6 @@ function deleteAt(index):
     for i = 0 to index:
         prev = cur
         cur = cur.next
-        if cur is null:
-            alert "Invalid index."
-            return
     prev.next = cur.next
 `);
   const inputRef1 = useRef(null);
@@ -87,15 +84,16 @@ function deleteAt(index):
     setStatus(1);
     setNodes([...nodes, value]);
     await sleep(delay);
-    await list.insertAt(value, index);
+    const flag = await list.insertAt(value, index);
+    await sleep(delay);
+    if (flag) setNodes(nodes); // if index is out of bounds
     setStatus(0);
   }
 
   async function* deleteAt(index) {
     const { setStatus } = inputRef1.current;
     setStatus(1);
-    const found = await list.deleteAt(index);
-    if (!found) showError('Invalid index.');
+    await list.deleteAt(index);
     setStatus(0);
   }
 
