@@ -30,8 +30,9 @@ function InputNumbers(props) {
   const handleInput = (e, i) => {
     const value = e.target.value.trim().slice(0, 3);
     if (!isNaN(value)) {
-      numbers[i] = parseInt(value) || '';
-      setNumbers([...numbers]);
+      const _numbers = numbers.slice();
+      _numbers[i] = parseInt(value) || '';
+      setNumbers(_numbers);
     }
   };
 

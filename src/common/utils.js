@@ -346,3 +346,11 @@ export const withBoxId = (val, i) => ({ val, id: `#box${i}` });
 export const showError = (msg) => {
     showToast({ message: msg, variant: 'error' });
 };
+
+export const logError = (error) => {
+    fetch('/api/log-error', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(error),
+    });
+};

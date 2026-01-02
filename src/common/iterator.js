@@ -1,4 +1,4 @@
-import { sleep } from './utils';
+import { logError, sleep } from './utils';
 
 function newIterator(generator, ...args) {
   let iterator = generator(...args);
@@ -17,9 +17,13 @@ function newIterator(generator, ...args) {
           sleep(value).then(loop);
         }
       })
-      .catch(() => {
-        console.log('Iterator error');
+      .catch((err) => {
         running = false;
+        logError({
+          title: 'Iterator error',
+          message: err.message,
+          page: window.location.pathname,
+        });
       });
   }
 

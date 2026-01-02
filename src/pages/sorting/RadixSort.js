@@ -52,7 +52,8 @@ while (max / exp) > 0:
     }
   }
 
-  async function* handleSort(values) {
+  async function* handleSort(_values) {
+    const values = _values.map((v) => Math.abs(v));
     setNumbers(values);
     sound('pop');
     arr = values.map(withBoxId);

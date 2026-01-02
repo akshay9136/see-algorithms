@@ -22,8 +22,8 @@ const theme = createTheme({
 
 export default function App({ Component, pageProps }) {
   const [state, setState] = useState(initialState);
-  const router = useRouter();
-  const hasContent = router.pathname !== '/404';
+  const { pathname } = useRouter();
+  const hasContent = pathname !== '/404';
 
   const setContext = (slice) => {
     setState((state) => ({ ...state, ...slice }));
@@ -44,7 +44,7 @@ export default function App({ Component, pageProps }) {
         const buttonInfo = {
           text: button.textContent.trim(),
           title: button.title,
-          page: router.pathname,
+          page: pathname,
         };
 
         fetch('/api/log-event', {
@@ -61,7 +61,7 @@ export default function App({ Component, pageProps }) {
     return () => {
       window.removeEventListener('click', handleClick);
     };
-  }, [router.pathname]);
+  }, [pathname]);
 
   return (
     <>
