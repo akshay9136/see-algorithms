@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { DSInput } from '@/components/common';
-import { Box, Stack, Typography } from '@mui/material';
 import { createGrid, showError, sound } from '@/common/utils';
+import { Box, Stack, Typography } from '@mui/material';
+import { DSInput } from '@/components/common';
 import $ from 'jquery';
 import useAlgorithm from '@/hooks/useAlgorithm';
 
@@ -34,7 +34,7 @@ function dequeue():
         createGrid(n, '#cqueue');
         createGrid(n, '#cqueue');
         createGrid(n, '#cqueue');
-        cells = $('.cell');
+        cells = $('#cqueue').find('.cell');
         cells.eq(front).text('Front');
         cells.eq(n + n + rear).text('Rear');
         for (let k = 0; k < n; k++) {
