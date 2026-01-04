@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Box, Stack, Typography } from '@mui/material';
 import { copyBinaryTree, showError, sleep } from '@/common/utils';
+import { Box, Stack, Typography } from '@mui/material';
 import { DSInput, Edge, Node } from '@/components/common';
 import binaryAvlTree from '@/helpers/binaryAvlTree';
 import useAlgorithm from '@/hooks/useAlgorithm';
