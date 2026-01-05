@@ -70,6 +70,7 @@ function dequeue():
     );
 }
 
+// eslint-disable-next-line require-yield
 async function* enqueue(num) {
     if (front === rear && size === n) {
         showError('Queue is full.');

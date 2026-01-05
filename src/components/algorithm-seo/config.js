@@ -153,19 +153,19 @@ export const algoConfigMap = {
     keywords:
       'hamiltonian path, hamiltonian cycle, graph traversal, backtracking, graph algorithm, visualization',
   },
-  CircularQueue: {
-    title: 'Circular Queue Visualization - See Algorithms',
-    description:
-      'Learn Circular Queue data structure with interactive visualization. Understand FIFO operations with efficient space utilization.',
-    keywords:
-      'circular queue, queue data structure, FIFO, enqueue, dequeue, ring buffer, visualization',
-  },
   LinkedList: {
     title: 'Linked List Visualization - See Algorithms',
     description:
       'Learn about Linked Lists, a fundamental data structure where elements are linked in a sequence, enabling efficient insertions and deletions.',
     keywords:
       'linked list, data structure, linear data structure, node, pointer, visualization, algorithm learning',
+  },
+  CircularQueue: {
+    title: 'Circular Queue Visualization - See Algorithms',
+    description:
+      'Learn Circular Queue data structure with interactive visualization. Understand FIFO operations with efficient space utilization.',
+    keywords:
+      'circular queue, queue data structure, FIFO, enqueue, dequeue, ring buffer, visualization',
   },
   BinaryHeap: {
     title: 'Binary Heap Visualization - See Algorithms',
@@ -187,6 +187,13 @@ export const algoConfigMap = {
       'Learn AVL Trees with interactive visualization. See how this self-balancing BST uses rotations to maintain balance, ensuring efficient search.',
     keywords:
       'avl tree, self-balancing tree, binary search tree, data structure, tree rotations, visualization',
+  },
+  RedBlackTree: {
+    title: 'Red-Black Tree Visualization - See Algorithms',
+    description:
+      'Learn Red-Black Trees with interactive visualization. See how this self-balancing BST uses colors and rotations to maintain balance.',
+    keywords:
+      'red-black tree, self-balancing tree, binary search tree, data structure, tree rotations, visualization',
   },
   ConvexHull: {
     title: 'Convex Hull Visualization - See Algorithms',

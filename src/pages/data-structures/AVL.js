@@ -2,17 +2,17 @@ import { useEffect, useState } from 'react';
 import { copyBinaryTree, showError, sleep } from '@/common/utils';
 import { Box, Stack, Typography } from '@mui/material';
 import { DSInput, Edge, Node } from '@/components/common';
+import { Share } from '@mui/icons-material';
 import binaryAvlTree from '@/helpers/binaryAvlTree';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import useAnimator from '@/hooks/useAnimator';
-import { useRouter } from 'next/router';
-import { Share } from '@mui/icons-material';
+import useTreeUrl from '@/hooks/useTreeUrl';
 
 var arr = [], Tree;
 var deleted = {};
 
 export default function AVL(props) {
-    const router = useRouter();
+    const [nodes] = useTreeUrl();
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
     const [algorithm, setCurrentStep] = useAlgorithm(`
@@ -58,6 +58,7 @@ function rebalance(node):
     };
 
     const reset = () => setNumbers([]);
+
     if (!numbers.length) {
         arr = [];
         deleted = {};
@@ -80,24 +81,15 @@ function rebalance(node):
     ];
 
     useEffect(() => {
-        if (router.isReady && !arr.length) {
-            const { nodes } = router.query;
-            try {
-                if (nodes) {
-                    arr = JSON.parse(atob(nodes));
-                    insertAll();
-                }
-            } catch {
-                console.log('Error parsing nodes');
-            }
-        }
-    }, [router]);
+        if (nodes) insertAll(nodes);
+    }, [nodes]);
 
-    const insertAll = async () => {
+    const insertAll = async (nodes) => {
+        arr = nodes.slice();
         setNumbers(arr.slice());
         Tree = binaryAvlTree(animator, setCurrentStep);
         await sleep(100);
-        arr.forEach((num) => Tree._insert(num));
+        nodes.forEach((num) => Tree._insert(num));
     };
 
     return (

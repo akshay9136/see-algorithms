@@ -12,8 +12,10 @@ function binarySearchTree(animator) {
         await bgcolor(node.id, Colors.compare);
         yield delay;
         await bgcolor(node.id, Colors.white);
-        if (!node.left) return node;
-        return yield* smallest(node.left);
+        if (node.left) {
+            return yield* smallest(node.left);
+        }
+        return node;
     };
 
     async function* replaceNode(node) {
@@ -68,10 +70,8 @@ function binarySearchTree(animator) {
         if (node[next]) {
             await bgcolor(node.id, Colors.white);
             return yield* search(num, node[next], insert);
-        } else {
-            await bgcolor(node.id, Colors.white);
-            if (insert) return node;
         }
+        if (insert) return node;
     };
 
     return Object.freeze({
@@ -99,6 +99,7 @@ function binarySearchTree(animator) {
             sound('pop');
             const node = Tree.insert(num, parent, isLeft);
             yield delay;
+            bgcolor(parent.id, Colors.white);
             return node;
         },
         async *deleteNode(num) {

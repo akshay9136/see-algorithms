@@ -6,20 +6,9 @@ import $ from 'jquery';
 const delay = 500;
 const dx = 40, dy = 60;
 
-function bianryAvlTree(animator, setCurrentStep) {
+function redBlackTree(animator) {
     const Tree = binarySearchTree(animator);
-    const { bgcolor, tx, txy, cleanup } = animator;
-
-    const height = (node) => (node ? node.height : -1);
-
-    const balanceFactor = (node) => {
-        return height(node.left) - height(node.right);
-    };
-
-    const updateHeight = (node) => {
-        node.height = 1 + Math.max(height(node.left), height(node.right));
-        $(`#nodeBf${node.key}`).text(balanceFactor(node));
-    };
+    const { bgcolor, tx, txy, animate, cleanup } = animator;
 
     const rotateStep1 = (node, left) => {
         const { parent, isLeft, eid } = node;
@@ -67,7 +56,8 @@ function bianryAvlTree(animator, setCurrentStep) {
     function* rotateLeft(node) {
         const { left, right } = node;
         let ll = left.left;
-        let lx = dx, ly = dy;
+        let lx = dx,
+            ly = dy;
         if (ll) {
             lx = left.x - ll.x;
             ly = ll.y - left.y;
@@ -92,15 +82,16 @@ function bianryAvlTree(animator, setCurrentStep) {
         if (ll) Tree.append(ll, 1);
         postCleanup(ll);
         yield delay * 2;
-        updateHeight(node);
-        updateHeight(left);
+        updateColor(node, 'R');
+        updateColor(left, 'B');
         yield delay;
-    };
+    }
 
     function* rotateRight(node) {
         const { left, right } = node;
         let rr = right.right;
-        let rx = dx, ry = dy;
+        let rx = dx,
+            ry = dy;
         if (rr) {
             rx = right.x - rr.x;
             ry = rr.y - right.y;
@@ -125,75 +116,78 @@ function bianryAvlTree(animator, setCurrentStep) {
         if (rr) Tree.append(rr, 1);
         postCleanup(rr);
         yield delay * 2;
-        updateHeight(node);
-        updateHeight(right);
+        updateColor(node, 'R');
+        updateColor(right, 'B');
         yield delay;
-    };
+    }
 
     async function* rebalance(node) {
         if (!node) return;
-        bgcolor(node.id, Colors.compare);
-        setCurrentStep('1,2');
-        yield delay;
-        updateHeight(node);
-        yield delay;
-        const nodeBf = balanceFactor(node);
-        if (nodeBf > 1) {
-            const childBf = balanceFactor(node.left);
-            if (childBf > 0) {
-                setCurrentStep('5');
-                yield* rotateLeft(node);
+        const parent = node.parent;
+        if (node.color === 'R' && parent.color === 'R') {
+            yield delay;
+            await bgcolor(node.id, Colors.compare);
+            const pop = parent.parent;
+            const uncle = pop[parent.isLeft ? 'right' : 'left'];
+            yield delay;
+            if (!uncle || uncle.color === 'B') {
+                if (parent.isLeft) {
+                    if (node.isLeft) {
+                        yield* rotateLeft(pop);
+                    } else {
+                        yield* rotateRight(parent);
+                        yield* rotateLeft(pop);
+                    }
+                } else {
+                    if (node.isLeft) {
+                        yield* rotateLeft(parent);
+                        yield* rotateRight(pop);
+                    } else {
+                        yield* rotateRight(pop);
+                    }
+                }
+                await bgcolor(node.id, Colors.white);
             } else {
-                setCurrentStep('7');
-                yield* rotateRight(node.left);
-                setCurrentStep('8');
-                yield* rotateLeft(node);
-            }
-        } else if (nodeBf < -1) {
-            const childBf = balanceFactor(node.right);
-            if (childBf < 0) {
-                setCurrentStep('11');
-                yield* rotateRight(node);
-            } else {
-                setCurrentStep('13');
-                yield* rotateLeft(node.right);
-                setCurrentStep('14');
-                yield* rotateRight(node);
+                updateColor(parent, 'B');
+                updateColor(uncle, 'B');
+                yield delay;
+                if (pop.parent) {
+                    updateColor(pop, 'R');
+                    yield delay;
+                }
+                await bgcolor(node.id, Colors.white);
+                yield* rebalance(pop);
             }
         }
-        setCurrentStep('');
-        await bgcolor(node.id, Colors.white);
-        yield delay;
-        yield* rebalance(node.parent);
-    };
+    }
 
-    const backtrack = (node) => {
-        if (node) {
-            updateHeight(node);
-            backtrack(node.parent);
-        }
+    const updateColor = (node, color) => {
+        $(`#nodeBf${node.key}`).text(color);
+        node.color = color;
+        animate(`#nodeBf${node.key}`, {
+            backgroundColor: color === 'R' ? '#ff0000' : '#000',
+            color: 'white',
+        });
     };
 
     return Object.freeze({
         ...Tree,
-        _insert(num, _node) {
-            const node = Tree._insert(num, _node);
-            node.height = 0;
-            backtrack(node);
+        _insert(num, color) {
+            const node = Tree._insert(num);
+            updateColor(node, color);
         },
         async *insert(num) {
             const node = yield* Tree.insert(num);
-            node.height = 0;
-            $(`#nodeBf${node.key}`).text(0);
-            yield delay * 2;
-            yield* rebalance(node.parent);
+            updateColor(node, node.parent ? 'R' : 'B');
+            yield delay;
+            yield* rebalance(node);
         },
         async *deleteNode(num) {
             const affected = yield* Tree.deleteNode(num);
-            yield delay * 2;
+            yield delay;
             yield* rebalance(affected);
         },
     });
 }
 
-export default bianryAvlTree;
+export default redBlackTree;

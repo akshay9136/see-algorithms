@@ -3,9 +3,9 @@ import { copyBinaryTree, randomInt, sleep } from '@/common/utils';
 import { Box, Stack, Typography } from '@mui/material';
 import { DSInput, Edge, Node } from '@/components/common';
 import { Refresh, Share } from '@mui/icons-material';
-import { useRouter } from 'next/router';
 import binarySearchTree from '@/helpers/binarySearchTree';
 import useAnimator from '@/hooks/useAnimator';
+import useTreeUrl from '@/hooks/useTreeUrl';
 
 var arr = [], Tree;
 
@@ -19,7 +19,7 @@ const randomNodes = () => [
 ];
 
 export default function BST(props) {
-    const router = useRouter();
+    const [nodes, isReady] = useTreeUrl();
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
     if (!numbers.length) arr = [];
@@ -45,8 +45,7 @@ export default function BST(props) {
     const randomTree = async () => {
         if (arr.length) reset();
         await sleep(100);
-        arr = randomNodes();
-        insertAll();
+        insertAll(randomNodes());
     };
 
     const buttons = [
@@ -68,25 +67,16 @@ export default function BST(props) {
     ];
 
     useEffect(() => {
-        if (router.isReady && !arr.length) {
-            arr = randomNodes();
-            const { nodes } = router.query;
-            try {
-                if (nodes) {
-                    arr = JSON.parse(atob(nodes));
-                }
-                insertAll();
-            } catch {
-                console.log('Error parsing nodes');
-            }
-        }
-    }, [router]);
+        if (nodes) insertAll(nodes);
+        else if (isReady) insertAll(randomNodes());
+    }, [nodes, isReady]);
 
-    const insertAll = async () => {
+    const insertAll = async (nodes) => {
+        arr = nodes.slice();
         setNumbers(arr.slice());
         Tree = binarySearchTree(animator);
         await sleep(100);
-        arr.forEach((num) => Tree._insert(num));
+        nodes.forEach((num) => Tree._insert(num));
     };
 
     return (
