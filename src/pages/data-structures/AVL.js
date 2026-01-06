@@ -2,17 +2,17 @@ import { useEffect, useState } from 'react';
 import { copyBinaryTree, showError, sleep } from '@/common/utils';
 import { Box, Stack, Typography } from '@mui/material';
 import { DSInput, Edge, Node } from '@/components/common';
-import { Share } from '@mui/icons-material';
-import binaryAvlTree from '@/helpers/binaryAvlTree';
+import { Refresh, Share } from '@mui/icons-material';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import useAnimator from '@/hooks/useAnimator';
 import useTreeUrl from '@/hooks/useTreeUrl';
+import binaryAvlTree from '@/helpers/binaryAvlTree';
 
 var arr = [], Tree;
 var deleted = {};
 
 export default function AVL(props) {
-    const [nodes] = useTreeUrl();
+    const [nodes, isReady] = useTreeUrl();
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
     const [algorithm, setCurrentStep] = useAlgorithm(`
@@ -57,12 +57,11 @@ function rebalance(node):
         if (!Tree.root()) setNumbers([]);
     };
 
-    const reset = () => setNumbers([]);
-
-    if (!numbers.length) {
-        arr = [];
-        deleted = {};
-    }
+    const reset = () => {
+      setNumbers([]);
+      arr = [];
+      deleted = {};
+    };
 
     const buttons = [
         { text: 'Insert', onClick: insert, validate: true },
@@ -73,24 +72,26 @@ function rebalance(node):
             disabled: !arr.length,
         },
         { text: 'Clear', onClick: reset, disabled: !arr.length },
+        // { text: <Refresh />, onClick: refresh, title: 'New tree' },
         {
             text: <Share fontSize="small" />,
             onClick: () => copyBinaryTree(Tree.root()),
             disabled: !arr.length,
+            title: 'Share this tree',
         },
     ];
 
-    useEffect(() => {
-        if (nodes) insertAll(nodes);
-    }, [nodes]);
-
-    const insertAll = async (nodes) => {
+    const newTree = async (nodes) => {
         arr = nodes.slice();
         setNumbers(arr.slice());
         Tree = binaryAvlTree(animator, setCurrentStep);
         await sleep(100);
         nodes.forEach((num) => Tree._insert(num));
     };
+
+    useEffect(() => {
+        if (nodes) newTree(nodes);
+    }, [nodes]);
 
     return (
         <Stack spacing={3}>

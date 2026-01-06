@@ -9,20 +9,12 @@ import useTreeUrl from '@/hooks/useTreeUrl';
 
 var arr = [], Tree;
 
-const randomNodes = () => [
-    randomInt(),
-    randomInt(),
-    randomInt(),
-    randomInt(),
-    randomInt(),
-    randomInt(),
-];
+const randomNodes = () => Array(6).fill(0).map(randomInt);
 
 export default function BST(props) {
     const [nodes, isReady] = useTreeUrl();
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
-    if (!numbers.length) arr = [];
 
     async function* insert(num) {
         arr.push(num);
@@ -40,12 +32,15 @@ export default function BST(props) {
         if (!Tree.root()) reset();
     };
 
-    const reset = () => setNumbers([]);
+    const reset = () => {
+        setNumbers([]);
+        arr = [];
+    };
 
-    const randomTree = async () => {
-        if (arr.length) reset();
+    const refresh = async () => {
+        reset();
         await sleep(100);
-        insertAll(randomNodes());
+        newTree(randomNodes());
     };
 
     const buttons = [
@@ -57,27 +52,26 @@ export default function BST(props) {
             disabled: !arr.length,
         },
         { text: 'Clear', onClick: reset, disabled: !arr.length },
-        { text: <Refresh />, onClick: randomTree, title: 'New binary tree' },
+        { text: <Refresh />, onClick: refresh, title: 'New tree' },
         {
             text: <Share fontSize="small" />,
             onClick: () => copyBinaryTree(Tree.root()),
-            title: 'Share this binary tree',
             disabled: !arr.length,
+            title: 'Share this tree',
         },
     ];
 
-    useEffect(() => {
-        if (nodes) insertAll(nodes);
-        else if (isReady) insertAll(randomNodes());
-    }, [nodes, isReady]);
-
-    const insertAll = async (nodes) => {
+    const newTree = async (nodes) => {
         arr = nodes.slice();
         setNumbers(arr.slice());
         Tree = binarySearchTree(animator);
         await sleep(100);
         nodes.forEach((num) => Tree._insert(num));
     };
+
+    useEffect(() => {
+        if (isReady) newTree(nodes || randomNodes());
+    }, [nodes, isReady]);
 
     return (
         <Stack spacing={3}>
