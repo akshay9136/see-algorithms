@@ -3,40 +3,40 @@ import { useRouter } from 'next/router';
 import {
   deleteNode,
   insertNode,
+  mapDataset,
+  mapInnerText,
   renderTree,
   testShareLink,
 } from './test-utils/binary-tree';
 import BST from '@/pages/data-structures/BST';
 import AVL from '@/pages/data-structures/AVL';
+import RBT from '@/pages/data-structures/RedBlackTree';
 
 describe('Binary search tree visualization', () => {
-  beforeEach(() => {
+  var container;
+
+  beforeEach(async () => {
     useRouter.mockReturnValue({
       query: { nodes: 'WzUwLDI4LDQxLDMzLDc4LDU3XQ==' }, // 6 nodes,
       isReady: true,
     });
+    container = await renderTree(BST);
   });
 
-  testShareLink(BST);
+  testShareLink();
 
-  test('renders tree with initial nodes', async () => {
-    const container = await renderTree(BST);
+  test('renders tree with initial nodes', () => {
     const nodes = container.querySelectorAll('.node');
     expect(nodes).toHaveLength(6);
-    expect(
-      Array.from(nodes).map((el) => JSON.stringify(el.dataset))
-    ).toMatchSnapshot();
+    expect(mapDataset(nodes)).toMatchSnapshot();
   });
 
   test('renders tree with random nodes', async () => {
-    const container = await renderTree(BST);
-    const button = screen.getByRole('button', { name: /clear/i });
-    fireEvent.click(button);
+    fireEvent.click(screen.getByText('Clear'));
     await waitFor(() => {
       expect(container.querySelector('.node')).toBe(null);
     });
-    const icon = screen.getByTestId('RefreshIcon');
-    fireEvent.click(icon);
+    fireEvent.click(screen.getByTestId('RefreshIcon'));
     await waitFor(() => {
       const nodes = container.querySelectorAll('.node');
       expect(nodes).toHaveLength(6);
@@ -44,7 +44,6 @@ describe('Binary search tree visualization', () => {
   });
 
   test('inserts node at correct position', async () => {
-    const container = await renderTree(BST);
     await insertNode(47);
     const nodes = container.querySelectorAll('.node');
     expect(nodes).toHaveLength(7);
@@ -52,46 +51,39 @@ describe('Binary search tree visualization', () => {
   });
 
   test('deletes node at correct position', async () => {
-    const container = await renderTree(BST);
     await deleteNode(28);
     const nodes = container.querySelectorAll('.node');
     expect(Object.values(nodes[2].dataset)).toEqual(['240', '110']);
-    expect(
-      Array.from(nodes).map((el) => JSON.stringify(el.dataset))
-    ).toMatchSnapshot();
+    expect(mapDataset(nodes)).toMatchSnapshot();
   });
 
   test('deletes node having children', async () => {
-    const container = await renderTree(BST);
     await insertNode(23);
     await deleteNode(28);
     const nodes = container.querySelectorAll('.node');
     expect(Object.values(nodes[3].dataset)).toEqual(['240', '110']);
-    expect(
-      Array.from(nodes).map((el) => JSON.stringify(el.dataset))
-    ).toMatchSnapshot();
+    expect(mapDataset(nodes)).toMatchSnapshot();
   });
 });
 
 describe('AVL tree visualization', () => {
-  beforeEach(() => {
+  var container;
+
+  beforeEach(async () => {
     const query = { nodes: 'WzMyLDIyLDc1LDY1XQ==' }; // 4 nodes
     useRouter.mockReturnValue({ query, isReady: true });
+    container = await renderTree(AVL);
   });
 
-  testShareLink(AVL);
-
   test('renders tree with initial nodes', async () => {
-    const container = await renderTree(AVL);
     const nodes = container.querySelectorAll('.node');
     expect(nodes).toHaveLength(4);
-    expect(
-      Array.from(nodes).map((el) => JSON.stringify(el.dataset))
-    ).toMatchSnapshot();
+    expect(mapDataset(nodes)).toMatchSnapshot();
+    const spans = container.querySelectorAll('.node span');
+    expect(mapInnerText(spans)).toEqual(['-1', '0', '1', '0']);
   });
 
   test('inserts node and rebalances tree', async () => {
-    const container = await renderTree(AVL);
     await insertNode(69);
     const nodes = container.querySelectorAll('.node');
     expect(nodes).toHaveLength(5);
@@ -99,17 +91,41 @@ describe('AVL tree visualization', () => {
     await insertNode(36);
     const nodes2 = container.querySelectorAll('.node');
     expect(Object.values(nodes2[3].dataset)).toEqual(['280', '50']);
-    expect(
-      Array.from(nodes).map((el) => JSON.stringify(el.dataset))
-    ).toMatchSnapshot();
+    expect(mapDataset(nodes2)).toMatchSnapshot();
   });
 
   test('deletes node and rebalances tree', async () => {
-    const container = await renderTree(AVL);
     await deleteNode(22);
     const nodes = container.querySelectorAll('.node');
-    expect(
-      Array.from(nodes).map((el) => JSON.stringify(el.dataset))
-    ).toMatchSnapshot();
+    expect(mapDataset(nodes)).toMatchSnapshot();
+  });
+});
+
+describe('Red-Black tree visualization', () => {
+  var container;
+
+  beforeEach(async () => {
+    const nodes =
+      'W1s2NSwiQiJdLFszMCwiUiJdLFsxNCwiQiJdLFs1MywiQiJdLFs0MiwiUiJdLFs2MCwiUiJdLFs4NCwiQiJdXQ==';
+
+    useRouter.mockReturnValue({ query: { nodes }, isReady: true });
+    container = await renderTree(RBT);
+  });
+
+  test('renders tree with initial nodes', () => {
+    const nodes = container.querySelectorAll('.node');
+    expect(nodes).toHaveLength(7);
+    expect(mapDataset(nodes)).toMatchSnapshot();
+    const spans = container.querySelectorAll('.node span');
+    expect(mapInnerText(spans)).toEqual(['B', 'R', 'B', 'B', 'R', 'R', 'B']);
+  });
+
+  test('inserts node and rebalances tree', async () => {
+    await insertNode(35);
+    const nodes = container.querySelectorAll('.node');
+    expect(nodes).toHaveLength(8);
+    expect(Object.values(nodes[3].dataset)).toEqual(['250', '50']);
+    expect(Object.values(nodes[5].dataset)).toEqual(['280', '170']);
+    expect(mapDataset(nodes)).toMatchSnapshot();
   });
 });

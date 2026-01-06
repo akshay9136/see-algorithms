@@ -43,8 +43,7 @@ export function testShareLink() {
     Object.assign(navigator, {
       clipboard: { writeText: jest.fn() },
     });
-    const button = screen.getByTestId('ShareIcon');
-    fireEvent.click(button);
+    fireEvent.click(screen.getByTestId('ShareIcon'));
     expect(navigator.clipboard.writeText).toHaveBeenCalled();
     await screen.findByRole('presentation');
   });

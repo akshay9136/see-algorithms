@@ -16,6 +16,7 @@ exports[`AVL tree visualization inserts node and rebalances tree 1`] = `
   "{"tx":"360","ty":"170"}",
   "{"tx":"280","ty":"50"}",
   "{"tx":"320","ty":"110"}",
+  "{"tx":"280","ty":"170"}",
 ]
 `;
 
@@ -59,5 +60,30 @@ exports[`Binary search tree visualization renders tree with initial nodes 1`] = 
   "{"tx":"240","ty":"230"}",
   "{"tx":"380","ty":"110"}",
   "{"tx":"340","ty":"170"}",
+]
+`;
+
+exports[`Red-Black tree visualization inserts node and rebalances tree 1`] = `
+[
+  "{"tx":"320","ty":"110"}",
+  "{"tx":"180","ty":"110"}",
+  "{"tx":"140","ty":"170"}",
+  "{"tx":"250","ty":"50"}",
+  "{"tx":"220","ty":"170"}",
+  "{"tx":"280","ty":"170"}",
+  "{"tx":"360","ty":"170"}",
+  "{"tx":"180","ty":"230"}",
+]
+`;
+
+exports[`Red-Black tree visualization renders tree with initial nodes 1`] = `
+[
+  "{"tx":"280","ty":"50"}",
+  "{"tx":"240","ty":"110"}",
+  "{"tx":"200","ty":"170"}",
+  "{"tx":"280","ty":"170"}",
+  "{"tx":"240","ty":"230"}",
+  "{"tx":"320","ty":"230"}",
+  "{"tx":"320","ty":"110"}",
 ]
 `;

@@ -11,14 +11,20 @@ export async function renderTree(Component) {
   return container;
 }
 
-export function testShareLink(Component) {
+export function mapDataset(nodes) {
+  return Array.from(nodes).map((el) => JSON.stringify(el.dataset));
+}
+
+export function mapInnerText(nodes) {
+  return Array.from(nodes).map((el) => el.textContent);
+}
+
+export function testShareLink() {
   test('copies sharable link to clipboard', async () => {
     Object.assign(navigator, {
       clipboard: { writeText: jest.fn() },
     });
-    await renderTree(Component);
-    const button = screen.getByTestId('ShareIcon');
-    fireEvent.click(button);
+    fireEvent.click(screen.getByTestId('ShareIcon'));
     expect(navigator.clipboard.writeText).toHaveBeenCalled();
     await screen.findByRole('presentation');
   });
