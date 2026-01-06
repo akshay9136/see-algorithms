@@ -20,7 +20,7 @@ function mergeSort(start, end):
         merge(start, mid, end)
 `);
 
-    const getMergeIndex = (p, q, mid, end) => {
+    const getIndex = (p, q, mid, end) => {
         if (p <= mid && q <= end) {
             return arr[p].val <= arr[q].val ? p : q;
         }
@@ -31,7 +31,7 @@ function mergeSort(start, end):
         let p = start, q = mid + 1;
         let r = start, temp = [];
         while (r <= end) {
-            let s = getMergeIndex(p, q, mid, end);
+            const s = getIndex(p, q, mid, end);
             temp.push(arr[s]);
             sound('swap');
             await txy(arr[s].id, 60 * r, ypos - 60);
@@ -40,9 +40,9 @@ function mergeSort(start, end):
             s === q ? q++ : p++;
             r++;
         }
-        for (let i = 0; i < temp.length; i++) {
+        temp.forEach((_, i) => {
             arr[start + i] = temp[i];
-        }
+        });
     }
 
     const split = (start, end, ypos) => {

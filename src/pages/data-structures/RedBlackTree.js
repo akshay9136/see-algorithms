@@ -2,16 +2,16 @@ import { useEffect, useState } from 'react';
 import { copyBinaryTree, showError, sleep } from '@/common/utils';
 import { Box, Stack, Typography } from '@mui/material';
 import { DSInput, Edge, Node } from '@/components/common';
-import { Share } from '@mui/icons-material';
-import redBlackTree from '@/helpers/redBlackTree';
+import { Refresh, Share } from '@mui/icons-material';
 import useAnimator from '@/hooks/useAnimator';
 import useTreeUrl from '@/hooks/useTreeUrl';
+import redBlackTree from '@/helpers/redBlackTree';
 
 var arr = [], Tree;
 var deleted = {};
 
-export default function RedBlackTree(props) {
-    const [nodes] = useTreeUrl();
+export default function RBT(props) {
+    const [nodes, isReady] = useTreeUrl();
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
 
@@ -37,35 +37,36 @@ export default function RedBlackTree(props) {
     //     if (!Tree.root()) setNumbers([]);
     // }
 
-    const reset = () => setNumbers([]);
-
-    if (!numbers.length) {
+    const reset = () => {
+        setNumbers([]);
         arr = [];
         deleted = {};
-    }
+    };
 
     const buttons = [
         { text: 'Insert', onClick: insert, validate: true },
         { text: 'Clear', onClick: reset, disabled: !arr.length },
+        // { text: <Refresh />, onClick: refresh, title: 'New tree' },
         {
             text: <Share fontSize="small" />,
             onClick: () =>
                 copyBinaryTree(Tree.root(), (x) => [x.value, x.color]),
             disabled: !arr.length,
+            title: 'Share this tree',
         },
     ];
 
-    useEffect(() => {
-        if (nodes) insertAll(nodes);
-    }, [nodes]);
-
-    const insertAll = async (nodes) => {
+    const newTree = async (nodes) => {
         arr = nodes.map((x) => x[0]);
         setNumbers(arr.slice());
         Tree = redBlackTree(animator);
         await sleep(100);
         nodes.forEach((x) => Tree._insert(...x));
     };
+
+    useEffect(() => {
+        if (nodes) newTree(nodes);
+    }, [nodes]);
 
     return (
         <Stack spacing={3}>
