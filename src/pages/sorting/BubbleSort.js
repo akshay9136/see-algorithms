@@ -29,44 +29,68 @@ for i = 1 to (n - 1):
 
     const swapNumbers = async (u, v) => {
         await Promise.all([tx(arr[u].id, v * 60), tx(arr[v].id, u * 60)]);
+        arr[u].x = v * 60;
+        arr[v].x = u * 60;
         arr.swap(u, v);
     };
 
-    async function* handleSort(values) {
-        setNumbers(values);
-        sound('pop');
-        arr = values.map(withBoxId);
-        let n = arr.length;
-        for (let i = 1; i < n; i++) {
+    async function* animate(i = 1, j = 0, swapped) {
+        for (; i < arr.length; i++) {
             yield delay;
-            setCurrentStep('0,1');
-            yield delay;
-            let swap = false;
-            for (let j = 0; j < n - i; j++) {
+            if (j === 0) {
+                setCurrentStep('0,1');
+                yield delay;
+            }
+            swapped = false;
+            for (; j < arr.length - i; j++) {
                 setCurrentStep('2,3');
                 await compare(j, j + 1);
                 yield delay;
+                yield [arr, i, j, swapped];
+
                 if (arr[j].val > arr[j + 1].val) {
-                    swap = true;
+                    swapped = true;
                     setCurrentStep('4,5');
                     sound('swap');
                     await swapNumbers(j, j + 1);
                     yield delay;
                 }
             }
-            let k = n - i;
+            const k = arr.length - i;
             bgcolor(arr[k - 1].id, Colors.white);
             bgcolor(arr[k].id, Colors.sorted);
-            if (!swap) {
+            if (!swapped) {
                 setCurrentStep('6');
-                yield delay;
                 break;
             }
+            j = 0;
         }
         arr.forEach((_, i) => {
             bgcolor(`#box${i}`, Colors.sorted);
         });
+        yield delay;
         setCurrentStep('');
+    }
+
+    async function* handleBack([_arr, i, j, swapped]) {
+        arr = _arr;
+        const n = arr.length;
+        for (let k = 0; k < n; k++) {
+            const { id, x } = arr[k];
+            bgcolor(id, k < n - i ? Colors.sorted : Colors.white);
+            tx(id, x);
+        }
+        bgcolor(arr[j].id, Colors.compare);
+        bgcolor(arr[j + 1].id, Colors.compare);
+        setCurrentStep('');
+        yield* animate(i, j, swapped);
+    }
+
+    async function* handleStart(values) {
+        setNumbers(values);
+        sound('pop');
+        arr = values.map(withBoxId);
+        yield* animate();
     }
 
     const handleStop = () => {
@@ -114,7 +138,11 @@ for i = 1 to (n - 1):
             <Box display="flex" gap={3} flexWrap="wrap">
                 {algorithm}
                 <Stack spacing={3}>
-                    <InputNumbers onStart={handleSort} onReset={handleStop} />
+                    <InputNumbers
+                        onStart={handleStart}
+                        onReset={handleStop}
+                        onStepBack={handleBack}
+                    />
 
                     <Box className="sorting" pt={4} ref={scope}>
                         {numbers.map((num, i) => (

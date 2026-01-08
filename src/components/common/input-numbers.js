@@ -9,7 +9,12 @@ import {
 } from '@mui/material';
 import styles from '@/styles/numbers.module.css';
 import { randomInt, showError, sleep } from '@/common/utils';
-import { Pause, PlayArrow } from '@mui/icons-material';
+import {
+  NavigateBefore,
+  NavigateNext,
+  Pause,
+  PlayArrow,
+} from '@mui/icons-material';
 import Iterator from '@/common/iterator';
 
 function InputNumbers(props) {
@@ -52,7 +57,7 @@ function InputNumbers(props) {
     setStatus(2);
   };
 
-  const handleStart = async () => {
+  const handlePlay = async () => {
     switch (status) {
       case 0:
         if (validate()) {
@@ -75,6 +80,10 @@ function InputNumbers(props) {
       default:
         startToEnd();
     }
+  };
+
+  const handleBack = () => {
+    Iterator.current().back(props.onStepBack);
   };
 
   const handleReset = () => {
@@ -120,13 +129,34 @@ function InputNumbers(props) {
       {numbers.length > 0 && (
         <Box display="flex" gap={1}>
           <Button
-            variant="contained"
-            startIcon={status === 1 ? <Pause /> : <PlayArrow />}
-            onClick={handleStart}
-            sx={{ padding: '4px 12px' }}
-            aria-live="polite"
+            size="small"
+            variant="outlined"
+            onClick={handleBack}
+            disabled={[0, 1].includes(status)}
+            title="Back"
+            sx={{ minWidth: 40, px: 0 }}
           >
-            Play
+            <NavigateBefore />
+          </Button>
+          <Button
+            size="small"
+            variant="contained"
+            onClick={handlePlay}
+            aria-live="polite"
+            title="Pause/Play"
+            sx={{ minWidth: 40, px: 0 }}
+          >
+            {status === 1 ? <Pause /> : <PlayArrow />}
+          </Button>
+          <Button
+            size="small"
+            variant="outlined"
+            // onClick={handleNext}
+            disabled={[0, 1].includes(status)}
+            title="Next"
+            sx={{ minWidth: 40, px: 0 }}
+          >
+            <NavigateNext />
           </Button>
           <Button
             variant="outlined"

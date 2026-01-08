@@ -1,8 +1,13 @@
 import { logError, sleep } from './utils';
 
+function clone(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
 function newIterator(generator, ...args) {
   let iterator = generator(...args);
   let running = false;
+  let steps = [];
   let onEnd;
 
   function loop() {
@@ -14,7 +19,12 @@ function newIterator(generator, ...args) {
           running = false;
           onEnd();
         } else if (running) {
-          sleep(value).then(loop);
+          if (typeof value === 'number') {
+            sleep(value).then(loop);
+          } else {
+            steps.push(clone(value));
+            loop();
+          }
         }
       })
       .catch((err) => {
@@ -38,6 +48,13 @@ function newIterator(generator, ...args) {
 
     stop() {
       running = false;
+    },
+
+    back(handler) {
+      if (steps.length) {
+        iterator = handler(steps.pop());
+        iterator.next();
+      }
     },
 
     exit() {

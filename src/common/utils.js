@@ -341,7 +341,9 @@ export const hasValue = (val) => {
 
 export const bgcolor = (id, color) => $(id).css('background-color', color);
 
-export const withBoxId = (val, i) => ({ val, id: `#box${i}` });
+export const withBoxId = (val, i) => {
+    return { val, id: `#box${i}`, x: i * 60, y: 0 };
+};
 
 export const showError = (msg) => {
     showToast({ message: msg, variant: 'error' });

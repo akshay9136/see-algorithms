@@ -10,8 +10,8 @@ var arr, delay = 800;
 
 export default function InsertionSort() {
     const [numbers, setNumbers] = useState([]);
-    const [scope, { tx, ty, bgcolor }] = useAnimator();
-    const [algorithm, setCurrentStep] = useAlgorithm(`
+    const [scope, { tx, ty, txy, bgcolor }] = useAnimator();
+    const [algorithm] = useAlgorithm(`
 for i = 1 to (n - 1):
     key = arr[i]
     j = i - 1
@@ -21,47 +21,67 @@ for i = 1 to (n - 1):
     arr[j + 1] = key
 `);
 
-    async function* handleSort(values) {
-        setNumbers(values);
-        sound('pop');
-        arr = values.map(withBoxId);
+    async function* animate(i = 1, j, temp) {
         yield delay;
-        bgcolor(arr[0].id, Colors.sorted);
-        yield delay;
-        for (let i = 1; i < arr.length; i++) {
-            setCurrentStep('1,2');
-            let temp = arr[i];
+        for (; i < arr.length; i++) {
+            temp = temp || arr[i];
+            yield [arr, i, j, temp];
             sound('pop');
             await ty(temp.id, -50);
-            setCurrentStep('3');
+            temp.y = -50;
             yield delay;
-            let j = i - 1;
+            j = j ?? i - 1;
             while (j >= 0 && arr[j].val > temp.val) {
-                setCurrentStep('3,4,5');
+                yield [arr, i, j, temp];
                 sound('swap');
                 await tx(arr[j].id, (j + 1) * 60);
+                arr[j].x = (j + 1) * 60;
                 arr[j + 1] = arr[j];
                 yield 200;
                 j--;
             }
             sound('swap');
             if (j < i - 1) {
-                let k = i - (j + 1);
+                yield [arr, i, j, temp];
+                const k = i - (j + 1);
                 await tx(temp.id, (j + 1) * 60, k * 0.2);
+                temp.x = (j + 1) * 60;
                 arr[j + 1] = temp;
-                yield 0;
             }
-            setCurrentStep('6');
+            yield [arr, i, j];
             await ty(temp.id, 0);
-            await bgcolor(temp.id, Colors.sorted);
+            temp.y = 0;
+            bgcolor(temp.id, Colors.sorted);
             yield delay;
+            temp = j = undefined;
         }
-        setCurrentStep('');
+    }
+
+    async function* handleBack([_arr, i, j, temp]) {
+        arr = _arr;
+        for (let k = 0; k < arr.length; k++) {
+            const { id, x, y } = arr[k];
+            bgcolor(id, k <= i ? Colors.sorted : Colors.white);
+            txy(id, x, y);
+        }
+        if (temp) {
+            bgcolor(temp.id, Colors.white);
+            txy(temp.id, temp.x, temp.y);
+        }
+        yield* animate(i, j, temp);
+    }
+
+    async function* handleStart(values) {
+        setNumbers(values);
+        sound('pop');
+        arr = values.map(withBoxId);
+        yield delay;
+        bgcolor(arr[0].id, Colors.sorted);
+        yield* animate();
     }
 
     const handleStop = () => {
         setNumbers([]);
-        setCurrentStep('');
         arr = undefined;
     };
 
@@ -103,7 +123,11 @@ for i = 1 to (n - 1):
             <Box display="flex" gap={3} flexWrap="wrap">
                 {algorithm}
                 <Stack spacing={3}>
-                    <InputNumbers onStart={handleSort} onReset={handleStop} />
+                    <InputNumbers
+                        onStart={handleStart}
+                        onReset={handleStop}
+                        onStepBack={handleBack}
+                    />
 
                     <Box className="sorting" pt={8} ref={scope}>
                         {numbers.map((num, i) => (
