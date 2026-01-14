@@ -36,20 +36,18 @@ for i = 1 to (n - 1):
             setCurrentStep('3');
             yield delay;
             let j = i - 1;
-            while (j >= 0 && arr[j].val > temp.val) {
+            for (; j >= 0 && arr[j].val > temp.val; j--) {
                 setCurrentStep('3,4,5');
                 sound('swap');
                 await tx(arr[j].id, (j + 1) * 60);
                 arr[j + 1] = arr[j];
                 yield 200;
-                j--;
             }
             sound('swap');
             if (j < i - 1) {
                 let k = i - (j + 1);
                 await tx(temp.id, (j + 1) * 60, k * 0.2);
                 arr[j + 1] = temp;
-                yield 0;
             }
             setCurrentStep('6');
             await ty(temp.id, 0);

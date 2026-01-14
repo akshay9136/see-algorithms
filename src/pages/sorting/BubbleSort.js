@@ -22,9 +22,11 @@ for i = 1 to (n - 1):
 `);
 
     const compare = async (u, v) => {
-        bgcolor(arr[u].id, Colors.compare);
-        bgcolor(arr[v].id, Colors.compare);
         if (u > 0) bgcolor(arr[u - 1].id, Colors.white);
+        await Promise.all([
+            bgcolor(arr[u].id, Colors.compare),
+            bgcolor(arr[v].id, Colors.compare),
+        ]);
     };
 
     const swapNumbers = async (u, v) => {
@@ -41,13 +43,13 @@ for i = 1 to (n - 1):
             yield delay;
             setCurrentStep('0,1');
             yield delay;
-            let swap = false;
+            let swapped = false;
             for (let j = 0; j < n - i; j++) {
                 setCurrentStep('2,3');
                 await compare(j, j + 1);
                 yield delay;
                 if (arr[j].val > arr[j + 1].val) {
-                    swap = true;
+                    swapped = true;
                     setCurrentStep('4,5');
                     sound('swap');
                     await swapNumbers(j, j + 1);
@@ -57,15 +59,15 @@ for i = 1 to (n - 1):
             let k = n - i;
             bgcolor(arr[k - 1].id, Colors.white);
             bgcolor(arr[k].id, Colors.sorted);
-            if (!swap) {
+            if (!swapped) {
                 setCurrentStep('6');
-                yield delay;
                 break;
             }
         }
         arr.forEach((_, i) => {
             bgcolor(`#box${i}`, Colors.sorted);
         });
+        yield delay;
         setCurrentStep('');
     }
 

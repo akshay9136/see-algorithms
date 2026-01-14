@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import styles from '@/styles/numbers.module.css';
 import { randomInt, showError, sleep } from '@/common/utils';
-import { Pause, PlayArrow } from '@mui/icons-material';
+import { NavigateNext, Pause, PlayArrow } from '@mui/icons-material';
 import Iterator from '@/common/iterator';
 
 function InputNumbers(props) {
@@ -46,19 +46,29 @@ function InputNumbers(props) {
     return true;
   };
 
-  const startToEnd = async () => {
+  const resume = async () => {
     setStatus(1);
     await Iterator.current().start();
     setStatus(2);
   };
 
-  const handleStart = async () => {
+  const restart = () => {
+    if (validate()) {
+      Iterator.new(props.onStart, numbers);
+      resume();
+    }
+  };
+
+  const handleNext = async () => {
+    setStatus(1);
+    const { done } = await Iterator.current().next();
+    setStatus(done ? 2 : -1);
+  };
+
+  const handlePlay = () => {
     switch (status) {
       case 0:
-        if (validate()) {
-          Iterator.new(props.onStart, numbers);
-          startToEnd();
-        }
+        restart();
         break;
       case 1:
         Iterator.current().stop();
@@ -66,14 +76,10 @@ function InputNumbers(props) {
         break;
       case 2:
         props.onReset();
-        await sleep(500);
-        if (validate()) {
-          Iterator.new(props.onStart, numbers);
-          startToEnd();
-        }
+        sleep(500).then(restart);
         break;
       default:
-        startToEnd();
+        resume();
     }
   };
 
@@ -122,11 +128,21 @@ function InputNumbers(props) {
           <Button
             variant="contained"
             startIcon={status === 1 ? <Pause /> : <PlayArrow />}
-            onClick={handleStart}
+            onClick={handlePlay}
             sx={{ padding: '4px 12px' }}
             aria-live="polite"
           >
             Play
+          </Button>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={handleNext}
+            disabled={status !== -1}
+            title="Next Step"
+            sx={{ minWidth: 40, px: 0 }}
+          >
+            <NavigateNext />
           </Button>
           <Button
             variant="outlined"

@@ -34,15 +34,15 @@ for i = 0 to (n - 1):
             let k = i;
             for (let j = i + 1; j < n; j++) {
                 setCurrentStep('2,3');
-                bgcolor(arr[j].id, Colors.compare);
                 bgcolor(arr[j - 1].id, Colors.white);
+                bgcolor(arr[j].id, Colors.compare);
                 yield delay;
                 if (arr[j].val < arr[k].val) {
                     setCurrentStep('4');
-                    ty(arr[k].id, 0);
-                    k = j;
                     sound('pop');
-                    await ty(arr[k].id, -50);
+                    ty(arr[k].id, 0);
+                    ty(arr[j].id, -50);
+                    k = j;
                     yield delay;
                 }
             }
@@ -51,7 +51,6 @@ for i = 0 to (n - 1):
             if (k > i) {
                 setCurrentStep('5');
                 await ty(arr[i].id, 50);
-                yield 0;
                 sound('swap');
                 await swapMin(i, k);
             } else {

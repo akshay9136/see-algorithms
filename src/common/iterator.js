@@ -40,6 +40,10 @@ function newIterator(generator, ...args) {
       running = false;
     },
 
+    next() {
+      return iterator.next();
+    },
+
     exit() {
       iterator.return();
       running = false;

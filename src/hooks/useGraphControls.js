@@ -30,20 +30,20 @@ function useGraphControls(config, props) {
     return true;
   };
 
-  const startToEnd = async () => {
+  const resume = async () => {
     setContext({ playStatus: 1 });
     await Iterator.current().start();
     setContext({ playStatus: 2 });
   };
 
-  const handlePlay = async () => {
+  const handlePlay = () => {
     const src = source.charCodeAt(0) - 65;
     switch (playStatus) {
       case 0:
         if (validate()) {
           $('#plane').off();
           Iterator.new(props.onStart, src);
-          await startToEnd();
+          resume();
         }
         break;
       case 1:
@@ -58,11 +58,11 @@ function useGraphControls(config, props) {
         Path('.edge').attr('stroke-width', 2.5);
         if (validate()) {
             Iterator.new(props.onStart, src);
-            await startToEnd();
+            resume();
         }
         break;
       default:
-        await startToEnd();
+        resume();
     }
   };
 

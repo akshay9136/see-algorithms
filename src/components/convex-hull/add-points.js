@@ -4,8 +4,8 @@ import { addPoints, randomize } from '@/helpers/convexHull';
 import { PlayArrow, Pause, Refresh } from '@mui/icons-material';
 import $ from 'jquery';
 import Graph from '@/common/graph';
-import AppContext from '@/common/context';
 import Iterator from '@/common/iterator';
+import AppContext from '@/common/context';
 import styles from '@/styles/draw-graph.module.css';
 import { Colors } from '@/common/constants';
 
@@ -26,7 +26,7 @@ function AddPoints(props) {
     randomize();
   };
 
-  const startToEnd = async () => {
+  const resume = async () => {
     setContext({ playStatus: 1 });
     await Iterator.current().start();
     setContext({ playStatus: 2 });
@@ -37,7 +37,7 @@ function AddPoints(props) {
       case 0:
         $('#plane').off();
         Iterator.new(props.onStart);
-        startToEnd();
+        resume();
         break;
       case 1:
         Iterator.current().stop();
@@ -48,10 +48,10 @@ function AddPoints(props) {
         $('.vrtx').attr('stroke', Colors.stroke);
         $('.vrtx').attr('fill', Colors.stroke);
         Iterator.new(props.onStart);
-        startToEnd();
+        resume();
         break;
       default:
-        startToEnd();
+        resume();
     }
   };
 

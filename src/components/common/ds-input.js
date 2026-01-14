@@ -5,8 +5,6 @@ import { Pause, PlayArrow } from '@mui/icons-material';
 import Iterator from '@/common/iterator';
 import styles from '@/styles/numbers.module.css';
 
-var playBtn;
-
 const DSInput = forwardRef((props, ref) => {
   const [number, setNumber] = useState(props.keepEmpty ? '' : randomInt());
   const [status, setStatus] = useState(0);
@@ -28,20 +26,19 @@ const DSInput = forwardRef((props, ref) => {
     return true;
   };
 
-  const startToEnd = async () => {
+  const resume = async () => {
     setStatus(1);
     await Iterator.current().start();
     if (!props.keepEmpty) setNumber(randomInt());
     setStatus(0);
   };
 
-  const handlePlay = async (btn) => {
+  const handlePlay = (btn) => {
     switch (status) {
       case 0:
         if (validate()) {
           Iterator.new(btn.onClick, number);
-          startToEnd(btn);
-          playBtn = btn;
+          resume();
         }
         break;
       case 1:
@@ -49,7 +46,7 @@ const DSInput = forwardRef((props, ref) => {
         setStatus(-1);
         break;
       default:
-        startToEnd(playBtn);
+        resume();
     }
   };
 
