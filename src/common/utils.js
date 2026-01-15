@@ -271,7 +271,7 @@ function traverse(node, fn) {
     }
 }
 
-function copyBinaryTree(root, fn = (x) => x.value) {
+function copyBinaryTree(root, fn = (a) => a.value) {
     const data = [];
     traverse(root, (node) => data.push(fn(node)));
     const nodes = JSON.stringify(data);

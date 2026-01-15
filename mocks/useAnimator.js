@@ -23,16 +23,14 @@ module.exports = () => {
 
   const cleanup = (node, dx, dy) => {
     if (node) {
-      node.x = node.x + dx;
-      node.y = node.y - dy;
-      txy(node.id, node.x, node.y);
-      if (node.parent) {
-        const ex = node.x + 25;
-        const ey = node.y + 20;
-        txy(node.eid, ex, ey);
-      }
-      cleanup(node.left, dx, dy);
-      cleanup(node.right, dx, dy);
+        node.update({ x: node.x + dx, y: node.y - dy });
+        txy(node.id, node.x, node.y);
+        if (node.parent) {
+            const { x, y } = node;
+            txy(node.eid, x + 25, y + 20);
+        }
+        cleanup(node.left, dx, dy);
+        cleanup(node.right, dx, dy);
     }
   };
 

@@ -18,14 +18,15 @@ function huffmanTree(animator) {
             animate(node.id, { opacity: 0 });
             if (parent) {
                 $(node.eid).css('opacity', 0);
-                node.data = (parent.data || '') + (isLeft ? '0' : '1');
-                node.level = parent.level + 1;
+                const data = (parent.data || '') + (isLeft ? '0' : '1');
+                node.update({ data, level: parent.level + 1 });
                 if (node.level > maxLevel) maxLevel++;
-            } else node.level = 0;
-
+            } else {
+                node.update({ level: 0 });
+            }
             if (!left && !right) {
-                coding[char] = node.data;
                 bgcolor(node.id, Colors.enqueue);
+                coding[char] = node.data;
                 $(`#nodeBf${node.key}`).text(char);
             } else {
                 steps[_node.step] = node;
@@ -38,11 +39,9 @@ function huffmanTree(animator) {
     const levelDown = (level) => {
         for (let i = 0; Tree.node(i); i++) {
             const node = Tree.node(i);
-            node.y = node.y + level * 60;
+            node.update({ y: node.y + level * 60 });
             ty(node.id, node.y);
-            if (node.parent) {
-                ty(node.eid, node.y + 20);
-            }
+            if (node.parent) ty(node.eid, node.y + 20);
         }
     };
 
@@ -52,14 +51,11 @@ function huffmanTree(animator) {
         renderTree(root);
         levelDown(-maxLevel);
         steps.reverse();
-        for (let i = 0; i < steps.length; i++) {
-            const node = steps[i];
+        for (const node of steps) {
             const { left, right } = node;
             if (!isParent(left) || !isParent(right)) {
-                await Promise.all([
-                    animate(left.id, { opacity: 1 }),
-                    animate(right.id, { opacity: 1 }),
-                ]);
+                animate(left.id, { opacity: 1 });
+                animate(right.id, { opacity: 1 });
                 yield delay;
             }
             if (node.level < maxLevel) {

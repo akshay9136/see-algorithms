@@ -50,7 +50,7 @@ export default function RBT(props) {
         {
             text: <Share fontSize="small" />,
             onClick: () =>
-                copyBinaryTree(Tree.root(), (x) => [x.value, x.color]),
+                copyBinaryTree(Tree.root(), (a) => [a.value, a.color]),
             disabled: !arr.length,
             title: 'Share this tree',
         },

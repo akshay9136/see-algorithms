@@ -10,36 +10,34 @@ function redBlackTree(animator) {
     const Tree = binarySearchTree(animator);
     const { bgcolor, tx, txy, animate, cleanup } = animator;
 
-    const rotateStep1 = (node, left) => {
-        const { parent, isLeft, eid } = node;
+    const rotateStep1 = (node, child) => {
+        const { parent, isLeft, x, y, eid } = node;
         if (parent) {
-            parent[isLeft ? 'left' : 'right'] = left;
-        } else Tree.root(left);
-        left.x = node.x;
-        left.y = node.y;
-        txy(left.id, left.x, left.y, 1);
-        left.parent = parent;
-        left.isLeft = isLeft;
-        node.parent = left;
-        node.eid = left.eid;
-        left.eid = eid;
+            parent[isLeft ? 'left' : 'right'] = child;
+        } else Tree.root(child);
+        node.parent = child;
+        node.update({ eid: child.eid, isLeft: !child.isLeft });
+        child.parent = parent;
+        child.update({ x, y, eid, isLeft });
+        txy(child.id, x, y, 1);
     };
 
-    const rotateStep2 = (node, right) => {
-        if (right) {
-            const dx = right.x - node.x;
-            const dy = right.y - node.y;
-            node.x = right.x;
-            node.y = right.y;
-            txy(node.id, node.x, node.y, 1);
-            tx(node.eid, node.x + 25, 1);
+    const rotateStep2 = (node, child) => {
+        if (child) {
+            const { x: cx, y: cy } = child;
+            const dx = cx - node.x;
+            const dy = cy - node.y;
+            txy(node.id, cx, cy, 1);
+            tx(node.eid, cx + 25, 1);
+            node.update({ x: cx, y: cy });
             Tree.append(node, 1);
-            cleanup(right, dx, -dy, 1);
+            cleanup(child, dx, -dy, 1);
         } else {
-            node.x = node.x + (node.isLeft ? -dx : dx);
-            node.y = node.y + dy;
-            txy(node.id, node.x, node.y, 1);
-            tx(node.eid, node.x + 25, 1);
+            const x2 = node.x + (node.isLeft ? -dx : dx);
+            const y2 = node.y + dy;
+            txy(node.id, x2, y2, 1);
+            tx(node.eid, x2 + 25, 1);
+            node.update({ x: x2, y: y2 });
             Tree.cleanup(node, 1);
             Tree.append(node, 1);
         }
@@ -53,18 +51,16 @@ function redBlackTree(animator) {
         }
     };
 
-    function* rotateLeft(node) {
+    function* rotateRight(node) {
         const { left, right } = node;
         let ll = left.left;
-        let lx = dx,
-            ly = dy;
+        let lx = dx, ly = dy;
         if (ll) {
             lx = left.x - ll.x;
             ly = ll.y - left.y;
         }
         sound('swap');
         rotateStep1(node, left);
-        node.isLeft = false;
         node.left = null;
         const lr = left.right;
         left.right = node;
@@ -72,7 +68,7 @@ function redBlackTree(animator) {
         if (lr) {
             const rlx = node.x - dx;
             lr.parent = node;
-            lr.isLeft = true;
+            lr.update({ isLeft: true });
             node.left = lr;
             cleanup(lr, rlx - lr.x, 0, 1);
             Tree.append(lr, 1);
@@ -87,18 +83,16 @@ function redBlackTree(animator) {
         yield delay;
     }
 
-    function* rotateRight(node) {
+    function* rotateLeft(node) {
         const { left, right } = node;
         let rr = right.right;
-        let rx = dx,
-            ry = dy;
+        let rx = dx, ry = dy;
         if (rr) {
             rx = right.x - rr.x;
             ry = rr.y - right.y;
         }
         sound('swap');
         rotateStep1(node, right);
-        node.isLeft = true;
         node.right = null;
         const rl = right.left;
         right.left = node;
@@ -106,7 +100,7 @@ function redBlackTree(animator) {
         if (rl) {
             const lrx = node.x + dx;
             rl.parent = node;
-            rl.isLeft = false;
+            rl.update({ isLeft: false });
             node.right = rl;
             cleanup(rl, lrx - rl.x, 0, 1);
             Tree.append(rl, 1);
@@ -133,17 +127,17 @@ function redBlackTree(animator) {
             if (!uncle || uncle.color === 'B') {
                 if (parent.isLeft) {
                     if (node.isLeft) {
-                        yield* rotateLeft(pop);
+                        yield* rotateRight(pop);
                     } else {
-                        yield* rotateRight(parent);
-                        yield* rotateLeft(pop);
+                        yield* rotateLeft(parent);
+                        yield* rotateRight(pop);
                     }
                 } else {
                     if (node.isLeft) {
-                        yield* rotateLeft(parent);
-                        yield* rotateRight(pop);
+                        yield* rotateRight(parent);
+                        yield* rotateLeft(pop);
                     } else {
-                        yield* rotateRight(pop);
+                        yield* rotateLeft(pop);
                     }
                 }
                 await bgcolor(node.id, Colors.white);
@@ -163,10 +157,10 @@ function redBlackTree(animator) {
 
     const updateColor = (node, color) => {
         $(`#nodeBf${node.key}`).text(color);
-        node.color = color;
+        node.update({ color });
         animate(`#nodeBf${node.key}`, {
             backgroundColor: color === 'R' ? '#ff0000' : '#000',
-            color: 'white',
+            color: '#fff',
         });
     };
 

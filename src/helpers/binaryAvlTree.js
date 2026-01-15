@@ -17,40 +17,39 @@ function bianryAvlTree(animator, setCurrentStep) {
     };
 
     const updateHeight = (node) => {
-        node.height = 1 + Math.max(height(node.left), height(node.right));
+        const h = 1 + Math.max(height(node.left), height(node.right));
+        node.update({ height: h });
         $(`#nodeBf${node.key}`).text(balanceFactor(node));
     };
 
-    const rotateStep1 = (node, left) => {
-        const { parent, isLeft, eid } = node;
+    const rotateStep1 = (node, child) => {
+        const { parent, isLeft, x, y, eid } = node;
         if (parent) {
-            parent[isLeft ? 'left' : 'right'] = left;
-        } else Tree.root(left);
-        left.x = node.x;
-        left.y = node.y;
-        txy(left.id, left.x, left.y, 1);
-        left.parent = parent;
-        left.isLeft = isLeft;
-        node.parent = left;
-        node.eid = left.eid;
-        left.eid = eid;
+            parent[isLeft ? 'left' : 'right'] = child;
+        } else Tree.root(child);
+        node.parent = child;
+        node.update({ eid: child.eid, isLeft: !child.isLeft });
+        child.parent = parent;
+        child.update({ x, y, eid, isLeft });
+        txy(child.id, x, y, 1);
     };
 
-    const rotateStep2 = (node, right) => {
-        if (right) {
-            const dx = right.x - node.x;
-            const dy = right.y - node.y;
-            node.x = right.x;
-            node.y = right.y;
-            txy(node.id, node.x, node.y, 1);
-            tx(node.eid, node.x + 25, 1);
+    const rotateStep2 = (node, child) => {
+        if (child) {
+            const { x: cx, y: cy } = child;
+            const dx = cx - node.x;
+            const dy = cy - node.y;
+            txy(node.id, cx, cy, 1);
+            tx(node.eid, cx + 25, 1);
+            node.update({ x: cx, y: cy });
             Tree.append(node, 1);
-            cleanup(right, dx, -dy, 1);
+            cleanup(child, dx, -dy, 1);
         } else {
-            node.x = node.x + (node.isLeft ? -dx : dx);
-            node.y = node.y + dy;
-            txy(node.id, node.x, node.y, 1);
-            tx(node.eid, node.x + 25, 1);
+            const x2 = node.x + (node.isLeft ? -dx : dx);
+            const y2 = node.y + dy;
+            txy(node.id, x2, y2, 1);
+            tx(node.eid, x2 + 25, 1);
+            node.update({ x: x2, y: y2 });
             Tree.cleanup(node, 1);
             Tree.append(node, 1);
         }
@@ -64,7 +63,7 @@ function bianryAvlTree(animator, setCurrentStep) {
         }
     };
 
-    function* rotateLeft(node) {
+    function* rotateRight(node) {
         const { left, right } = node;
         let ll = left.left;
         let lx = dx, ly = dy;
@@ -74,7 +73,6 @@ function bianryAvlTree(animator, setCurrentStep) {
         }
         sound('swap');
         rotateStep1(node, left);
-        node.isLeft = false;
         node.left = null;
         const lr = left.right;
         left.right = node;
@@ -82,7 +80,7 @@ function bianryAvlTree(animator, setCurrentStep) {
         if (lr) {
             const rlx = node.x - dx;
             lr.parent = node;
-            lr.isLeft = true;
+            lr.update({ isLeft: true });
             node.left = lr;
             cleanup(lr, rlx - lr.x, 0, 1);
             Tree.append(lr, 1);
@@ -95,9 +93,9 @@ function bianryAvlTree(animator, setCurrentStep) {
         updateHeight(node);
         updateHeight(left);
         yield delay;
-    };
+    }
 
-    function* rotateRight(node) {
+    function* rotateLeft(node) {
         const { left, right } = node;
         let rr = right.right;
         let rx = dx, ry = dy;
@@ -107,7 +105,6 @@ function bianryAvlTree(animator, setCurrentStep) {
         }
         sound('swap');
         rotateStep1(node, right);
-        node.isLeft = true;
         node.right = null;
         const rl = right.left;
         right.left = node;
@@ -115,7 +112,7 @@ function bianryAvlTree(animator, setCurrentStep) {
         if (rl) {
             const lrx = node.x + dx;
             rl.parent = node;
-            rl.isLeft = false;
+            rl.update({ isLeft: false });
             node.right = rl;
             cleanup(rl, lrx - rl.x, 0, 1);
             Tree.append(rl, 1);
@@ -128,7 +125,7 @@ function bianryAvlTree(animator, setCurrentStep) {
         updateHeight(node);
         updateHeight(right);
         yield delay;
-    };
+    }
 
     async function* rebalance(node) {
         if (!node) return;
@@ -142,30 +139,30 @@ function bianryAvlTree(animator, setCurrentStep) {
             const childBf = balanceFactor(node.left);
             if (childBf > 0) {
                 setCurrentStep('5');
-                yield* rotateLeft(node);
+                yield* rotateRight(node);
             } else {
                 setCurrentStep('7');
-                yield* rotateRight(node.left);
+                yield* rotateLeft(node.left);
                 setCurrentStep('8');
-                yield* rotateLeft(node);
+                yield* rotateRight(node);
             }
         } else if (nodeBf < -1) {
             const childBf = balanceFactor(node.right);
             if (childBf < 0) {
                 setCurrentStep('11');
-                yield* rotateRight(node);
+                yield* rotateLeft(node);
             } else {
                 setCurrentStep('13');
-                yield* rotateLeft(node.right);
+                yield* rotateRight(node.right);
                 setCurrentStep('14');
-                yield* rotateRight(node);
+                yield* rotateLeft(node);
             }
         }
         setCurrentStep('');
         await bgcolor(node.id, Colors.white);
         yield delay;
         yield* rebalance(node.parent);
-    };
+    }
 
     const backtrack = (node) => {
         if (node) {
@@ -178,12 +175,11 @@ function bianryAvlTree(animator, setCurrentStep) {
         ...Tree,
         _insert(num, _node) {
             const node = Tree._insert(num, _node);
-            node.height = 0;
             backtrack(node);
         },
         async *insert(num) {
             const node = yield* Tree.insert(num);
-            node.height = 0;
+            node.update({ height: 0 });
             $(`#nodeBf${node.key}`).text(0);
             yield delay * 2;
             yield* rebalance(node.parent);

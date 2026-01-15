@@ -7,7 +7,7 @@ import huffmanTree from '@/helpers/huffmanTree';
 import styles from '@/styles/numbers.module.css';
 import { Colors } from '@/common/constants';
 
-var it, queue;
+var queue;
 
 export default function HuffmanCoding() {
     const [numbers, setNumbers] = useState([]);

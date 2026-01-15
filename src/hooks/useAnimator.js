@@ -6,13 +6,11 @@ export default function useAnimator() {
     const cleanup = (node, dx, dy, t = 0.5) => {
         const { txy } = animator;
         if (node) {
-            node.x = node.x + dx;
-            node.y = node.y - dy;
+            node.update({ x: node.x + dx, y: node.y - dy });
             txy(node.id, node.x, node.y, t);
             if (node.parent) {
-                const ex = node.x + 25;
-                const ey = node.y + 20;
-                txy(node.eid, ex, ey, t);
+                const { x, y } = node;
+                txy(node.eid, x + 25, y + 20, t);
             }
             cleanup(node.left, dx, dy, t);
             cleanup(node.right, dx, dy, t);

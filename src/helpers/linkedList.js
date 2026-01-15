@@ -29,7 +29,7 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
   };
 
   const insertAtTail = async (value) => {
-    const node = await findNode((x) => !x.next);
+    const node = await findNode((a) => !a.next);
     const key = arr.length;
     const eid = `#edge${key - 1}`;
     node.next = { value, key, eid, prev: node };
