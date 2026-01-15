@@ -125,19 +125,19 @@ export const algoConfigMap = {
     keywords:
       'dijkstra algorithm, shortest path, graph algorithm, weighted graph, visualization, greedy algorithm',
   },
-  Kruskals: {
-    title: "Kruskal's Minimum Spanning Tree - See Algorithms",
-    description:
-      "Learn Kruskal's algorithm for minimum spanning trees with interactive visualization. Master this union-find based MST algorithm.",
-    keywords:
-      'kruskals algorithm, minimum spanning tree, MST, union find, graph algorithm, visualization',
-  },
   Prims: {
     title: "Prim's Minimum Spanning Tree - See Algorithms",
     description:
       "Master Prim's algorithm for finding minimum spanning trees with interactive visualization. Learn this greedy MST algorithm step by step.",
     keywords:
       'prims algorithm, minimum spanning tree, MST, graph algorithm, greedy algorithm, visualization',
+  },
+  Kruskals: {
+    title: "Kruskal's Minimum Spanning Tree - See Algorithms",
+    description:
+      "Learn Kruskal's algorithm for minimum spanning trees with interactive visualization. Master this union-find based MST algorithm.",
+    keywords:
+      'kruskals algorithm, minimum spanning tree, MST, union find, graph algorithm, visualization',
   },
   Boruvkas: {
     title: "Borůvka's Minimum Spanning Tree - See Algorithms",
