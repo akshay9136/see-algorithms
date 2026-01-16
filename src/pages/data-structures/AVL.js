@@ -54,13 +54,13 @@ function rebalance(node):
         if (arr.includes(num)) deleted[num] = true;
         yield 500;
         yield* Tree.deleteNode(num);
-        if (!Tree.root()) setNumbers([]);
+        if (!Tree.root()) reset();
     };
 
     const reset = () => {
-      setNumbers([]);
-      arr = [];
-      deleted = {};
+        setNumbers([]);
+        arr = [];
+        deleted = {};
     };
 
     const buttons = [

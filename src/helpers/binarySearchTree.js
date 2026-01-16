@@ -48,16 +48,8 @@ function binarySearchTree(animator) {
         const dx = node.x - child.x;
         const dy = child.y - node.y;
         cleanup(child, dx, dy);
-        postCleanup(child);
+        Tree.cleanup(child);
         return child;
-    };
-
-    const postCleanup = (node) => {
-        if (node) {
-            Tree.cleanup(node);
-            postCleanup(node.left);
-            postCleanup(node.right);
-        }
     };
 
     async function* findNode(num, node) {

@@ -30,13 +30,6 @@ export default function RBT(props) {
         yield* Tree.insert(num);
     }
 
-    // async function* remove(num) {
-    //     if (arr.includes(num)) deleted[num] = true;
-    //     yield 500;
-    //     yield* Tree.deleteNode(num);
-    //     if (!Tree.root()) setNumbers([]);
-    // }
-
     const reset = () => {
         setNumbers([]);
         arr = [];

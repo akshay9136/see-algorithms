@@ -1,5 +1,6 @@
 import { Colors } from './constants';
 import { Points } from './graph';
+import { sound } from './utils';
 
 const dx = 40, dy = 60;
 
@@ -9,7 +10,7 @@ const nodeAngle = ({ x, parent, isLeft }) => {
     return [Math.hypot(dy, dx), isLeft ? -a : -(180 - a)];
 };
 
-function binaryTree({ tx, txy, bgcolor, animate }) {
+function binaryTree({ tx, txy, bgcolor, animate, cleanup }) {
     var root, onLeft;
     var arr = [];
 
@@ -46,15 +47,18 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
         };
     };
 
-    const append = (node, td = 0.3) => {
-        const [width, rotate] = nodeAngle(node);
-        animate(node.eid, { width }, { duration: td });
-        animate(node.eid, { rotate }, { duration: td });
+    const append = (node, t = 0.3) => {
+        if (node) {
+            node = node.refresh();
+            const [width, rotate] = nodeAngle(node);
+            animate(node.eid, { width }, { duration: t });
+            animate(node.eid, { rotate }, { duration: t });
+        }
     };
 
     const findNode = (fn) => arr.map((a) => Node(a.key)).find(fn);
 
-    const cleanup = (node, td = 0.3) => {
+    const _cleanup = (node, t = 0.3) => {
         const closer = findNode((a) => {
             if (a.key !== node.key && !a.deleted) {
                 const d = Points.distance(node, a);
@@ -66,39 +70,41 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
             const diff = node.isLeft ? closer.x - node.x : node.x - closer.x;
             const dx = diff + 60;
             node = closer.isLeft === onLeft ? node : closer;
-            const rx = findSubroot(node.parent);
-            shiftNode(rx, dx, td);
-            shiftRoot(rx.parent, dx / 2, rx.isLeft, td);
+            const rx = subroot(node.parent);
+            shiftNode(rx, dx, t);
+            shiftRoot(rx?.parent, dx / 2, rx?.isLeft, t);
         }
     };
 
-    const findSubroot = (node) => {
-        if (node.isLeft === onLeft) return node;
-        return findSubroot(node.parent);
+    const subroot = (node) => {
+        if (node.key !== root) {
+            if (node.isLeft === onLeft) return node;
+            return subroot(node.parent);
+        }
     };
 
-    const shiftNode = (node, d, td) => {
+    const shiftNode = (node, d, t) => {
         if (!node) return;
         const x2 = onLeft ? node.x - d : node.x + d;
-        tx(node.id, x2, td);
-        tx(node.eid, x2 + 25, td);
+        tx(node.id, x2, t);
+        tx(node.eid, x2 + 25, t);
         node.update({ x: x2 });
-        shiftNode(node.left, d, td);
-        shiftNode(node.right, d, td);
+        shiftNode(node.left, d, t);
+        shiftNode(node.right, d, t);
     };
 
-    const shiftRoot = (node, d, fromLeft, td) => {
+    const shiftRoot = (node, d, fromLeft, t) => {
         if (!node) return;
         const x2 = onLeft ? node.x - d : node.x + d;
-        tx(node.id, x2, td);
+        tx(node.id, x2, t);
         node.update({ x: x2 });
-        if (node.parent) tx(node.eid, x2 + 25, td);
-        if (onLeft && !fromLeft) shiftNode(node.left, d, td);
-        if (!onLeft && fromLeft) shiftNode(node.right, d, td);
-        if (node.left) append(node.left, td);
-        if (node.right) append(node.right, td);
+        if (node.parent) tx(node.eid, x2 + 25, t);
+        if (onLeft && !fromLeft) shiftNode(node.left, d, t);
+        if (!onLeft && fromLeft) shiftNode(node.right, d, t);
+        if (node.left) append(node.left, t);
+        if (node.right) append(node.right, t);
         // shift parent till root
-        shiftRoot(node.parent, d, node.isLeft, td);
+        shiftRoot(node.parent, d, node.isLeft, t);
     };
 
     const setNodePath = (node) => {
@@ -109,19 +115,44 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
         setNodePath(node.parent);
     };
 
+    const rotateStep1 = (node, child) => {
+        const { parent, isLeft, x, y, eid } = node;
+        if (parent) {
+            parent[isLeft ? 'left' : 'right'] = child;
+        } else root = child.key;
+        node.parent = child;
+        node.update({ eid: child.eid, isLeft: !child.isLeft });
+        child.parent = parent;
+        child.update({ x, y, eid, isLeft });
+        txy(child.id, x, y, 1);
+    };
+
+    const rotateStep2 = (node, child) => {
+        if (child) {
+            const { x: cx, y: cy } = child;
+            const dx = cx - node.x;
+            const dy = cy - node.y;
+            txy(node.id, cx, cy, 1);
+            tx(node.eid, cx + 25, 1);
+            node.update({ x: cx, y: cy });
+            append(node, 1);
+            cleanup(child, dx, -dy, 1);
+        } else {
+            const x2 = node.x + (node.isLeft ? -dx : dx);
+            const y2 = node.y + dy;
+            txy(node.id, x2, y2, 1);
+            tx(node.eid, x2 + 25, 1);
+            node.update({ x: x2, y: y2 });
+            _cleanup(node, 1);
+            append(node, 1);
+        }
+    };
+
     return Object.freeze({
         node: (i) => Node(i),
-        findNode,
-        cleanup,
-        append,
-        swapNodes(a, b) {
-            const { id, value } = a;
-            a.update({ id: b.id, value: b.value });
-            b.update({ id, value });
-            return Promise.all([
-                txy(a.id, a.x, a.y, 1),
-                txy(b.id, b.x, b.y, 1),
-            ]);
+        root(node) {
+            if (node !== undefined) root = node?.key;
+            return Node(root);
         },
         insert(value, parent, isLeft) {
             if (!parent) {
@@ -155,14 +186,80 @@ function binaryTree({ tx, txy, bgcolor, animate }) {
             txy(node.eid, node.x + 25, node.y + 20);
             append(node);
             setNodePath(node);
-            cleanup(node);
+            _cleanup(node);
             animate(node.id, { opacity: 1 });
             bgcolor(node.eid, Colors.stroke);
             return node.refresh();
         },
-        root(node) {
-            if (node !== undefined) root = node?.key;
-            return Node(root);
+        swapNodes(a, b) {
+            const { id, value } = a;
+            a.update({ id: b.id, value: b.value });
+            b.update({ id, value });
+            return Promise.all([
+                txy(a.id, a.x, a.y, 1),
+                txy(b.id, b.x, b.y, 1),
+            ]);
+        },
+        rotateRight(node) {
+            const { left, right } = node;
+            let ll = left.left;
+            let lx = dx, ly = dy;
+            if (ll) {
+                lx = left.x - ll.x;
+                ly = ll.y - left.y;
+            }
+            sound('swap');
+            rotateStep1(node, left);
+            node.left = null;
+            const lr = left.right;
+            left.right = node;
+            rotateStep2(node, right);
+            if (lr) {
+                const rlx = node.x - dx;
+                lr.parent = node;
+                lr.update({ isLeft: true });
+                node.left = lr;
+                cleanup(lr, rlx - lr.x, 0, 1);
+                append(lr, 1);
+                this.cleanup(lr);
+            }
+            cleanup(ll, lx, ly, 1);
+            append(ll, 1);
+            this.cleanup(ll);
+        },
+        rotateLeft(node) {
+            const { left, right } = node;
+            let rr = right.right;
+            let rx = dx, ry = dy;
+            if (rr) {
+                rx = right.x - rr.x;
+                ry = rr.y - right.y;
+            }
+            sound('swap');
+            rotateStep1(node, right);
+            node.right = null;
+            const rl = right.left;
+            right.left = node;
+            rotateStep2(node, left);
+            if (rl) {
+                const lrx = node.x + dx;
+                rl.parent = node;
+                rl.update({ isLeft: false });
+                node.right = rl;
+                cleanup(rl, lrx - rl.x, 0, 1);
+                append(rl, 1);
+                this.cleanup(rl);
+            }
+            cleanup(rr, rx, ry, 1);
+            append(rr, 1);
+            this.cleanup(rr);
+        },
+        cleanup(node) {
+            if (node) {
+                _cleanup(node, 1);
+                this.cleanup(node.left);
+                this.cleanup(node.right);
+            }
         },
         slice() {
             return { arr: arr.slice(), root };
