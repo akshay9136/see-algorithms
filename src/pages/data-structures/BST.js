@@ -22,13 +22,13 @@ export default function BST(props) {
             Tree = binarySearchTree(animator);
         }
         yield* Tree.insert(num);
-    };
+    }
 
     async function* remove(num) {
         yield 500;
         yield* Tree.deleteNode(num);
         if (!Tree.root()) reset();
-    };
+    }
 
     const reset = () => {
         setNumbers([]);
@@ -72,7 +72,7 @@ export default function BST(props) {
     }, [nodes, isReady]);
 
     return (
-        <Stack spacing={3}>
+        <Stack spacing={2}>
             <Typography variant="body1">
                 A <strong>Binary Search Tree</strong> (BST) is like a
                 well-organized library where each book (node) has a clear place
@@ -81,6 +81,31 @@ export default function BST(props) {
                 larger values. This structure allows for efficient searching,
                 adding, and removing of books, as you can quickly navigate left
                 or right to find or insert a book in its proper place.
+            </Typography>
+            <Typography variant="h6" component="h2">
+                How it Works
+            </Typography>
+            <Typography
+                component="div"
+                variant="body1"
+                sx={{ '& li': { mb: 1 } }}
+            >
+                <ul>
+                    <li>
+                        <strong>Insertion</strong> walks down the tree by
+                        repeatedly choosing left or right based on comparison,
+                        stopping only when it finds an empty spot. The new node
+                        is attached as a leaf.
+                    </li>
+                    <li>
+                        <strong>Deletion</strong> first locates the target node,
+                        then carefully reconnects its children so the BST rule
+                        still holds. If the node has no children, it is simply
+                        removed. If it has one child, that child takes its
+                        place. If the node has two children, the tree replaces
+                        it with a nearby node that preserves ordering.
+                    </li>
+                </ul>
             </Typography>
             <DSInput {...props} buttons={buttons} />
             <Box ref={scope} className="resizable" id="binaryTree">

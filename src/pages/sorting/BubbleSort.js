@@ -88,7 +88,7 @@ for i = 1 to (n - 1):
                 complexity. It’s often used for educational purposes or as a
                 baseline for comparison with other sorting algorithms.
             </Typography>
-            <Typography variant="h6" component="h2" fontSize="1.2rem">
+            <Typography variant="h6" component="h2">
                 Things to Observe
             </Typography>
             <Typography

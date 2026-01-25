@@ -57,7 +57,7 @@ export default function HuffmanCoding() {
     };
 
     return (
-        <Stack spacing={3}>
+        <Stack spacing={2}>
             <Typography variant="body1">
                 <strong>Huffman Coding</strong> is a lossless data compression
                 algorithm that reduces the size of data by assigning shorter
@@ -66,6 +66,18 @@ export default function HuffmanCoding() {
                 used in file compression formats like ZIP and JPEG, Huffman
                 Coding minimizes storage space without losing information.
             </Typography>
+            <Typography variant="h6" component="h2">
+                How it Works
+            </Typography>
+            <Typography variant="body1">
+                The algorithm starts by treating every symbol as an independent
+                node, each weighted by its frequency. It repeatedly merges the{' '}
+                <strong>two minimum nodes</strong> into a new parent node whose
+                weight is their sum. This merging continues until there is only
+                a single tree. Traversing from the root to a leaf produces a
+                binary code, where each left or right move adds a bit.
+            </Typography>
+            <br />
             <Stack spacing={1}>
                 {alphabets.length > 0 && (
                     <Box className={styles.inputNumbers}>

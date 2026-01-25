@@ -28,12 +28,12 @@ export default function SplayTree(props) {
             Tree = splayTree(animator);
         }
         yield* Tree.insert(num);
-    };
+    }
 
     async function* search(num) {
         yield 500;
         yield* Tree.search(num);
-    };
+    }
 
     // async function* remove(num) {
     //     if (arr.includes(num)) deleted[num] = true;
@@ -85,14 +85,43 @@ export default function SplayTree(props) {
     }, [nodes, isReady]);
 
     return (
-        <Stack spacing={3}>
+        <Stack spacing={2}>
             <Typography variant="body1">
-                A <strong>Splay Tree</strong> is a self-balancing binary search
-                tree that always moves the most recently accessed element to the
-                root. This ensures that the most frequently accessed elements are
-                quickly accessible, making it an efficient data structure for
-                applications where frequent access to recently used elements is
-                common.
+                A <strong>Splay Tree</strong> is a self-adjusting binary search
+                tree that reshapes itself based on how it’s used. Instead of
+                trying to stay balanced all the time, it aggressively moves
+                recently accessed nodes closer to the root. The idea is simple:
+                if you touched it, you’ll probably touch it again. Over time,
+                the tree adapts to access patterns rather than an abstract
+                notion of balance.
+            </Typography>
+            <Typography variant="h6" component="h2">
+                How it Works
+            </Typography>
+            <Typography
+                component="div"
+                variant="body1"
+                sx={{ '& li': { mb: 1 } }}
+            >
+                <ul>
+                    <li>
+                        When you search, insert, or delete a node, the tree
+                        performs a series of rotations called{' '}
+                        <strong>splaying</strong> to bring that node to the
+                        root.
+                    </li>
+                    <li>
+                        There are three types of rotations depending on the
+                        node’s position: <strong>zig</strong> (single rotation),{' '}
+                        <strong>zig-zig</strong> (double rotation in same
+                        direction), and <strong>zig-zag</strong> (double
+                        rotation in opposite directions).
+                    </li>
+                    <li>
+                        After splaying, frequently accessed nodes stay near the
+                        root, making repeated operations faster.
+                    </li>
+                </ul>
             </Typography>
             <DSInput {...props} buttons={buttons} />
             <Box ref={scope} className="resizable" id="binaryTree">

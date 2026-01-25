@@ -48,14 +48,14 @@ function rebalance(node):
             Tree = binaryAvlTree(animator, setCurrentStep);
         }
         yield* Tree.insert(num);
-    };
+    }
 
     async function* remove(num) {
         if (arr.includes(num)) deleted[num] = true;
         yield 500;
         yield* Tree.deleteNode(num);
         if (!Tree.root()) reset();
-    };
+    }
 
     const reset = () => {
         setNumbers([]);
@@ -94,17 +94,71 @@ function rebalance(node):
     }, [nodes]);
 
     return (
-        <Stack spacing={3}>
+        <Stack spacing={2}>
             <Typography variant="body1">
                 Named after its inventors Adelson-Velsky and Landis, an{' '}
                 <strong>AVL Tree</strong> rigorously maintains balance by
                 ensuring that for every node, the difference between the heights
-                of its left and right subtrees (known as the &quot;balance
-                factor&quot;) is never more than 1 or less than -1. If an
-                operation violates this condition, the tree automatically
-                rebalances itself through a series of rotations. This ensures
-                that operations like search, insert, and delete have a
-                worst-case time complexity of O(log n).
+                of its left and right subtrees is{' '}
+                <strong>never more than 1</strong>. If an operation violates
+                this condition, the tree automatically rebalances itself through
+                a series of rotations. This ensures that operations like search,
+                insert, and delete have a worst-case time complexity of O(log
+                n).
+            </Typography>
+            <Typography variant="h6" component="h2">
+                How it Works
+            </Typography>
+            <Typography variant="body1">
+                Every time a node is inserted or deleted, the AVL tree checks
+                the <strong>balance factor</strong> of each affected node. If a
+                node becomes unbalanced, rotations are performed to restore
+                balance. There are four types of rotations:
+            </Typography>
+            <Typography
+                component="div"
+                variant="body1"
+                sx={{ '& li': { mb: 1 } }}
+            >
+                <ul>
+                    <li>
+                        <strong>Right Rotation (LL)</strong> – Applied when a
+                        left child’s left subtree causes imbalance.
+                    </li>
+                    <li>
+                        <strong>Left Rotation (RR)</strong> – Applied when a
+                        right child’s right subtree causes imbalance.
+                    </li>
+                    <li>
+                        <strong>Left-Right Rotation (LR)</strong> – Applied when
+                        a left child’s right subtree causes imbalance.
+                    </li>
+                    <li>
+                        <strong>Right-Left Rotation (RL)</strong> – Applied when
+                        a right child’s left subtree causes imbalance.
+                    </li>
+                </ul>
+            </Typography>
+            <Typography variant="h6" component="h2">
+                Step by Step
+            </Typography>
+            <Typography
+                component="div"
+                variant="body1"
+                sx={{ '& li': { mb: 1 } }}
+            >
+                <ol>
+                    <li>Insert or delete a node like in a normal BST.</li>
+                    <li>
+                        Traverse back up to the root, updating height and
+                        checking the balance factor of each ancestor.
+                    </li>
+                    <li>
+                        If a node is unbalanced, identify the type of rotation
+                        needed (LL, RR, LR, RL).
+                    </li>
+                    <li>Perform the rotation to restore the AVL property.</li>
+                </ol>
             </Typography>
             <Box display="flex" gap={3} flexWrap="wrap">
                 {algorithm}

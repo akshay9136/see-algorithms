@@ -62,17 +62,50 @@ export default function RBT(props) {
     }, [nodes]);
 
     return (
-        <Stack spacing={3}>
+        <Stack spacing={2}>
             <Typography variant="body1">
                 A <strong>Red-Black Tree</strong> is a self-balancing binary
-                search tree where each node has an additional color property
-                (red or black). The tree maintains balance through five key
-                properties: the root is always black, all leaves (null nodes)
-                are black, <strong>red nodes cannot have red children</strong>,
-                and every path from a node to its descendant leaves contains the
-                same number of black nodes. These rules ensure that the tree
-                remains approximately balanced, guaranteeing O(log n) time
-                complexity for search, insert, and delete operations.
+                search tree where each node has a color – either red or black.
+                These colors enforce rules that keep the tree roughly balanced,
+                ensuring that the longest path from root to a leaf is no more
+                than twice the shortest path. This guarantees predictable
+                performance for searches, insertions, and deletions.
+            </Typography>
+            <Typography variant="h6" component="h2">
+                How it Works
+            </Typography>
+            <Typography>
+                When a node is inserted or deleted, the tree may temporarily
+                violate its color rules. To restore balance, the tree uses a
+                combination of recoloring and rotations. It maintains balance
+                through four key properties: the root is always black, all
+                leaves (null nodes) are black,{' '}
+                <strong>red nodes cannot have red children</strong>, and every
+                path from a node to its descendant leaves contains the same
+                number of black nodes.
+            </Typography>
+            <Typography variant="h6" component="h2">
+                Step by Step
+            </Typography>
+            <Typography
+                component="div"
+                variant="body1"
+                sx={{ '& li': { mb: 1 } }}
+            >
+                <ol>
+                    <li>
+                        Insert a node as in a normal BST and color it red.
+                    </li>
+                    <li>Check the tree for violations of Red-Black rules.</li>
+                    <li>
+                        If there’s a violation, apply rotations (left or right)
+                        and recoloring to restore properties.
+                    </li>
+                    <li>
+                        Repeat until all rules are satisfied from the modified
+                        node to the root.
+                    </li>
+                </ol>
             </Typography>
             <Stack spacing={2}>
                 <DSInput {...props} buttons={buttons} />
