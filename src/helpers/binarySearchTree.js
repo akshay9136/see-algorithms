@@ -57,10 +57,11 @@ function binarySearchTree(animator) {
         yield delay;
         if (num === node.value) return node;
         const next = num <= node.value ? 'left' : 'right';
-        await bgcolor(node.id, Colors.white);
         if (node[next]) {
+            await bgcolor(node.id, Colors.white);
             return yield* findNode(num, node[next]);
         }
+        return node;
     };
 
     async function* search(num, node) {
@@ -100,10 +101,12 @@ function binarySearchTree(animator) {
             await bgcolor(parent.id, Colors.white);
             return node;
         },
+        findNode,
         async *deleteNode(num) {
             const node = yield* findNode(num, Tree.root());
-            if (!node) {
-              showError(`Node (${num}) does not exist.`);
+            await bgcolor(node.id, Colors.white);
+            if (node.value !== num) {
+              showError(`Node (${num}) not found.`);
               return;
             }
             animate(node.id, { opacity: 0 });

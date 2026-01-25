@@ -284,6 +284,14 @@ function copyBinaryTree(root, fn = (a) => a.value) {
     });
 };
 
+function randomNodes(size = 6) {
+    const result = new Set();
+    while (result.size < size) {
+        result.add(randomInt());
+    }
+    return Array.from(result);
+}
+
 export {
     cursorOffset,
     svgElement,
@@ -302,6 +310,7 @@ export {
     createGraph,
     traverse,
     copyBinaryTree,
+    randomNodes,
 };
 
 export const sound = (name) => {

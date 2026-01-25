@@ -16,9 +16,23 @@ function binaryTree({ tx, txy, bgcolor, animate, cleanup }) {
 
     const Node = (key) => {
         if (!arr[key]) return null;
-        return {
-            ...arr[key],
+        const _node = {};
 
+        const defineGetter = (prop) => {
+            if (_node.hasOwnProperty(prop)) return;
+
+            Object.defineProperty(_node, prop, {
+                get() {
+                    return arr[key][prop];
+                },
+                enumerable: true,
+                configurable: true,
+            });
+        };
+
+        Object.keys(arr[key]).forEach(defineGetter);
+
+        const relations = {
             get left() {
                 return Node(arr[key].left);
             },
@@ -39,17 +53,20 @@ function binaryTree({ tx, txy, bgcolor, animate, cleanup }) {
             },
             update(b) {
                 arr[key] = { ...arr[key], ...b };
-                Object.assign(this, b);
-            },
-            refresh() {
-                return Node(key);
+                Object.keys(b).forEach(defineGetter);
             },
         };
+
+        Object.defineProperties(
+            _node,
+            Object.getOwnPropertyDescriptors(relations),
+        );
+
+        return _node;
     };
 
     const append = (node, t = 0.3) => {
         if (node) {
-            node = node.refresh();
             const [width, rotate] = nodeAngle(node);
             animate(node.eid, { width }, { duration: t });
             animate(node.eid, { rotate }, { duration: t });
@@ -167,8 +184,8 @@ function binaryTree({ tx, txy, bgcolor, animate, cleanup }) {
                 root = 0;
                 return this.root();
             }
+            const p = parent;
             const key = arr.length;
-            const p = parent.refresh();
             arr.push({
                 id: `#node${key}`,
                 eid: `#edge${key - 1}`,
@@ -189,7 +206,7 @@ function binaryTree({ tx, txy, bgcolor, animate, cleanup }) {
             _cleanup(node);
             animate(node.id, { opacity: 1 });
             bgcolor(node.eid, Colors.stroke);
-            return node.refresh();
+            return node;
         },
         swapNodes(a, b) {
             const { id, value } = a;

@@ -22,6 +22,7 @@ export const algorithms = [
     { id: 'BST', name: 'Binary Search Tree', category: 'Data Structures' },
     { id: 'AVL', name: 'AVL Tree', category: 'Data Structures' },
     { id: 'RedBlackTree', name: 'Red-Black Tree', category: 'Data Structures' },
+    { id: 'SplayTree', name: 'Splay Tree', category: 'Data Structures' },
     { id: 'ConvexHull', name: 'Convex Hull', category: 'Other' },
     { id: 'HuffmanCoding', name: 'Huffman Coding', category: 'Other' },
 ];

@@ -17,7 +17,7 @@ export default function RBT(props) {
 
     async function* insert(num) {
         if (arr.includes(num) && !deleted[num]) {
-            showError('Duplicates are not allowed.');
+            showError(`Node (${num}) already exists.`);
             return;
         }
         deleted[num] = false;

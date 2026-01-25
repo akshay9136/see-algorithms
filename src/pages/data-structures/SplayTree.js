@@ -1,38 +1,51 @@
 import { useEffect, useState } from 'react';
-import { copyBinaryTree, randomNodes, sleep } from '@/common/utils';
+import { copyBinaryTree, randomNodes, showError, sleep } from '@/common/utils';
 import { Box, Stack, Typography } from '@mui/material';
 import { DSInput, Edge, Node } from '@/components/common';
 import { Refresh, Share } from '@mui/icons-material';
-import binarySearchTree from '@/helpers/binarySearchTree';
 import useAnimator from '@/hooks/useAnimator';
 import useTreeUrl from '@/hooks/useTreeUrl';
+import splayTree from '@/helpers/splayTree';
 
 var arr = [], Tree;
+var deleted = {};
 
-export default function BST(props) {
+export default function SplayTree(props) {
     const [nodes, isReady] = useTreeUrl();
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
 
     async function* insert(num) {
+        if (arr.includes(num) && !deleted[num]) {
+            showError(`Node (${num}) already exists.`);
+            return;
+        }
+        deleted[num] = false;
         arr.push(num);
         setNumbers(arr.slice());
         yield 500;
         if (!numbers.length) {
-            Tree = binarySearchTree(animator);
+            Tree = splayTree(animator);
         }
         yield* Tree.insert(num);
     };
 
-    async function* remove(num) {
+    async function* search(num) {
         yield 500;
-        yield* Tree.deleteNode(num);
-        if (!Tree.root()) reset();
+        yield* Tree.search(num);
     };
+
+    // async function* remove(num) {
+    //     if (arr.includes(num)) deleted[num] = true;
+    //     yield 500;
+    //     yield* Tree.deleteNode(num);
+    //     if (!Tree.root()) reset();
+    // };
 
     const reset = () => {
         setNumbers([]);
         arr = [];
+        deleted = {};
     };
 
     const refresh = async () => {
@@ -44,8 +57,8 @@ export default function BST(props) {
     const buttons = [
         { text: 'Insert', onClick: insert, validate: true },
         {
-            text: 'Delete',
-            onClick: remove,
+            text: 'Search',
+            onClick: search,
             validate: true,
             disabled: !arr.length,
         },
@@ -62,7 +75,7 @@ export default function BST(props) {
     const newTree = async (nodes) => {
         arr = nodes.slice();
         setNumbers(arr.slice());
-        Tree = binarySearchTree(animator);
+        Tree = splayTree(animator);
         await sleep(100);
         nodes.forEach((num) => Tree._insert(num));
     };
@@ -74,13 +87,12 @@ export default function BST(props) {
     return (
         <Stack spacing={3}>
             <Typography variant="body1">
-                A <strong>Binary Search Tree</strong> (BST) is like a
-                well-organized library where each book (node) has a clear place
-                based on its value. In a BST, each node has up to two children:
-                the left child holds smaller values, and the right child holds
-                larger values. This structure allows for efficient searching,
-                adding, and removing of books, as you can quickly navigate left
-                or right to find or insert a book in its proper place.
+                A <strong>Splay Tree</strong> is a self-balancing binary search
+                tree that always moves the most recently accessed element to the
+                root. This ensures that the most frequently accessed elements are
+                quickly accessible, making it an efficient data structure for
+                applications where frequent access to recently used elements is
+                common.
             </Typography>
             <DSInput {...props} buttons={buttons} />
             <Box ref={scope} className="resizable" id="binaryTree">

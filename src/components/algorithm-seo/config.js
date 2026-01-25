@@ -179,21 +179,28 @@ export const algoConfigMap = {
     description:
       'Learn Binary Search Tree data structure with interactive visualization. Understand BST operations: insert, delete, search.',
     keywords:
-      'binary search tree, BST, data structure, tree visualization, search, insert, delete',
+      'binary search tree, BST, data structure, visualization, search, insert, delete',
   },
   AVL: {
     title: 'AVL Tree Visualization - See Algorithms',
     description:
       'Learn AVL Trees with interactive visualization. See how this self-balancing BST uses rotations to maintain balance, ensuring efficient search.',
     keywords:
-      'avl tree, self-balancing tree, binary search tree, data structure, tree rotations, visualization',
+      'avl tree, self-balancing tree, BST, data structure, tree rotations, visualization',
   },
   RedBlackTree: {
     title: 'Red-Black Tree Visualization - See Algorithms',
     description:
       'Learn Red-Black Trees with interactive visualization. See how this self-balancing BST uses colors and rotations to maintain balance.',
     keywords:
-      'red-black tree, self-balancing tree, binary search tree, data structure, tree rotations, visualization',
+      'red-black tree, self-balancing tree, BST, data structure, tree rotations, visualization',
+  },
+  SplayTree: {
+    title: 'Splay Tree Visualization - See Algorithms',
+    description:
+      'Learn Splay Trees with interactive visualization. Understand how this self-balancing BST uses rotations to maintain balance.',
+    keywords:
+      'splay tree, self-balancing tree, BST, data structure, tree rotations, visualization',
   },
   ConvexHull: {
     title: 'Convex Hull Visualization - See Algorithms',
