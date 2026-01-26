@@ -17,7 +17,7 @@ import Link from 'next/link';
 
 export default function Dijkstras(props) {
     return (
-        <Stack spacing={3}>
+        <Stack spacing={2}>
             <Typography variant="body1">
                 <strong>Dijkstra&apos;s Algorithm</strong> finds the shortest
                 path from a source node to all other nodes in a graph with
@@ -28,6 +28,39 @@ export default function Dijkstras(props) {
                 selecting the unvisited node with the smallest known distance to
                 visit next. This process continues until all nodes have been
                 visited, making it essential for network routing problems.
+            </Typography>
+            <Typography variant="h6" component="h2">
+                Step by Step
+            </Typography>
+            <Typography
+                component="div"
+                variant="body1"
+                sx={{ '& li': { mb: 1 } }}
+            >
+                <ul>
+                    <li>
+                        Initialize distances from the source node to all other
+                        nodes as infinity, and the distance to the source itself
+                        as 0.
+                    </li>
+                    <li>
+                        Maintain a set of visited nodes, initially empty. Add
+                        the source node to the set.
+                    </li>
+                    <li>
+                        While there are unvisited nodes, select the unvisited
+                        node with the smallest known distance.
+                    </li>
+                    <li>
+                        For each neighbor of the selected node, calculate the
+                        distance through the current node and update it if it’s
+                        shorter than the previously known distance.
+                    </li>
+                    <li>
+                        Mark the selected node as visited and repeat until all
+                        nodes have been visited.
+                    </li>
+                </ul>
             </Typography>
             <Stack spacing={2}>
                 <DrawGraph

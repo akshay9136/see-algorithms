@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
 import useAnimator from '@/hooks/useAnimator';
-import { charAt, sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
+import { charAt, sound } from '@/common/utils';
 
 var arr, union, parent;
 var delay = 800;
