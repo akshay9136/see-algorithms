@@ -126,8 +126,7 @@ while (max / exp) > 0:
           <li>
             <strong>Digit by Digit:</strong> Notice how the sorting happens in
             passes, one for each digit place (ones, tens, hundreds, etc.),
-            starting from the rightmost digit. The currently sorted digit is
-            highlighted in pink.
+            starting from the rightmost digit.
           </li>
           <li>
             <strong>Bucketing:</strong> In each pass, watch how the numbers are

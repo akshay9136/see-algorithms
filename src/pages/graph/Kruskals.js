@@ -110,6 +110,40 @@ export default function Kruskals(props) {
                 is efficient for sparse graphs and uses a{' '}
                 <strong>union-find</strong> data structure to detect cycles.
             </Typography>
+            <Typography variant="h6" component="h2">
+                Step by Step
+            </Typography>
+            <Typography
+                component="ul"
+                variant="body1"
+                sx={{ '& li': { mb: 1 } }}
+            >
+                <li>
+                    Sort all edges in non-decreasing order of their weights.
+                </li>
+                <li>
+                    Initialize a <strong>Disjoint-set</strong> structure with
+                    each vertex in its own set.
+                </li>
+                <li>
+                    For each edge (u, v) in the sorted list:
+                    <ul style={{ marginTop: 8 }}>
+                        <li>
+                            Use <strong>Find</strong> operation to determine the
+                            sets of u and v.
+                        </li>
+                        <li>
+                            If the sets are different, the edge does not form a
+                            cycle. Add it to the MST.
+                        </li>
+                        <li>
+                            Merge the two sets using <strong>Union</strong>{' '}
+                            operation.
+                        </li>
+                    </ul>
+                </li>
+                <li>Repeat until the MST contains V-1 edges.</li>
+            </Typography>
             <Typography variant="h6" component="h2" fontSize="1.2rem">
                 Things to Observe
             </Typography>
@@ -162,15 +196,17 @@ export default function Kruskals(props) {
                     >
                         Union-Find
                     </Typography>
-                    {Array(size).fill(null).map((_, i) => (
-                        <Node
-                            key={i}
-                            index={i}
-                            value={charAt(65 + i)}
-                            animate={{ x: i * 70 }}
-                            showBf={true}
-                        />
-                    ))}
+                    {Array(size)
+                        .fill(null)
+                        .map((_, i) => (
+                            <Node
+                                key={i}
+                                index={i}
+                                value={charAt(65 + i)}
+                                animate={{ x: i * 70 }}
+                                showBf={true}
+                            />
+                        ))}
                 </Box>
             </Box>
         </Stack>

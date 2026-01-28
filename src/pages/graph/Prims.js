@@ -7,7 +7,7 @@ import { Colors } from '@/common/constants';
 
 export default function Prims(props) {
     return (
-        <Stack spacing={3}>
+        <Stack spacing={2}>
             <Typography variant="body1">
                 <strong>Prim&apos;s Algorithm</strong> builds a Minimum Spanning
                 Tree (MST) by starting with a single node and
@@ -17,6 +17,22 @@ export default function Prims(props) {
                 all nodes are part of the tree, ensuring the total weight of all
                 edges is as low as possible. It is perfect for problems like
                 designing cost-effective road or utility networks.
+            </Typography>
+            <Typography variant="h6" component="h2">
+                Step by Step
+            </Typography>
+            <Typography
+                component="div"
+                variant="body1"
+                sx={{ '& li': { mb: 1 } }}
+            >
+                <ul>
+                    <li>Initialize an empty set of edges for the MST.</li>
+                    <li>Start with an arbitrary vertex and mark it as visited (part of MST).</li>
+                    <li>Find the cheapest edge connecting a vertex in the MST to a vertex outside the MST.</li>
+                    <li>Add this edge to the MST and mark the new vertex as visited.</li>
+                    <li>Repeat until all vertices are part of the MST.</li>
+                </ul>
             </Typography>
             <DrawGraph
                 {...props}

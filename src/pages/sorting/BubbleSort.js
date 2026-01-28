@@ -99,17 +99,16 @@ for i = 1 to (n - 1):
                 <ul>
                     <li>
                         <strong>Bubbling Up:</strong> In each pass through the
-                        list, notice how the largest unsorted element gradually
+                        list, notice how the largest unsorted element gradually{' '}
                         {'"bubbles up"'} to its correct position at the end of
                         the array. This is why the sorted portion of the array
                         grows from right to left.
                     </li>
                     <li>
-                        <strong>Early Termination:</strong> This visualization
-                        uses an optimized version of Bubble Sort. If a full pass
-                        is completed with no swaps, the algorithm knows the list
-                        is already sorted and stops early. Try a nearly-sorted
-                        list to see this in action!
+                        <strong>Early Termination:</strong> If a full pass is
+                        completed with no swaps, the algorithm knows the list is
+                        already sorted and stops early. Try a nearly-sorted list
+                        to see this in action!
                     </li>
                 </ul>
             </Typography>
