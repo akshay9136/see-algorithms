@@ -86,8 +86,7 @@ for i = 1 to (n - 1):
                     <li>
                         <strong>Inserting into Place:</strong> Watch how each
                         element is picked from the unsorted part and slides into
-                        its correct position in the sorted part on the left,
-                        just like organizing a hand of playing cards.
+                        its correct position in the sorted part on the left.
                     </li>
                     <li>
                         <strong>Adaptive Performance:</strong> Try visualizing a

@@ -101,16 +101,14 @@ function mergeSort(start, end):
                     <li>
                         <strong>Divide Recursively:</strong> Watch how the
                         algorithm first breaks the array down recursively into
-                        single-element sub-arrays. The visualization shows this
-                        by moving the elements downwards.
+                        single-element sub-arrays.
                     </li>
                     <li>
-                        <strong>Conquer (Merge):</strong> Observe how these
-                        sub-arrays are then merged back together in sorted
-                        order. This merging step is where the core sorting logic
-                        happens, comparing elements from the sub-arrays and
-                        placing them into a temporary array before updating the
-                        main one.
+                        <strong>Conquer (Merge):</strong> These sub-arrays are
+                        then merged back together in sorted order. This merging
+                        step is where the core sorting logic happens, comparing
+                        elements from the sub-arrays and placing them into a
+                        temporary array before updating the main one.
                     </li>
                 </ul>
             </Typography>

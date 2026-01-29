@@ -2,6 +2,7 @@ import { DrawGraph } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
+import useAlgorithm from '@/hooks/useAlgorithm';
 import {
     bgcolor,
     charAt,
@@ -16,6 +17,22 @@ import { Colors } from '@/common/constants';
 import Link from 'next/link';
 
 export default function Dijkstras(props) {
+    const [algorithm] = useAlgorithm(`
+dist = map vertex -> Infinity
+dist[src] = 0
+heap = new MinHeap()
+heap.insert(src, 0)
+while heap is not empty:
+    (u, d) = heap.extract()
+    if u is not visited:
+        mark u as visited
+        for each neighbor v of u:
+            alt = d + weight(u, v)
+            if alt < dist[v]:
+                dist[v] = alt
+                heap.insert(v, alt)
+`);
+
     return (
         <Stack spacing={2}>
             <Typography variant="body1">
@@ -29,54 +46,24 @@ export default function Dijkstras(props) {
                 visit next. This process continues until all nodes have been
                 visited, making it essential for network routing problems.
             </Typography>
-            <Typography variant="h6" component="h2">
-                Step by Step
-            </Typography>
-            <Typography
-                component="div"
-                variant="body1"
-                sx={{ '& li': { mb: 1 } }}
-            >
-                <ul>
-                    <li>
-                        Initialize distances from the source node to all other
-                        nodes as infinity, and the distance to the source itself
-                        as 0.
-                    </li>
-                    <li>
-                        Maintain a set of visited nodes, initially empty. Add
-                        the source node to the set.
-                    </li>
-                    <li>
-                        While there are unvisited nodes, select the unvisited
-                        node with the smallest known distance.
-                    </li>
-                    <li>
-                        For each neighbor of the selected node, calculate the
-                        distance through the current node and update it if it’s
-                        shorter than the previously known distance.
-                    </li>
-                    <li>
-                        Mark the selected node as visited and repeat until all
-                        nodes have been visited.
-                    </li>
-                </ul>
-            </Typography>
-            <Stack spacing={2}>
-                <DrawGraph
-                    {...props}
-                    onStart={start}
-                    weighted={true}
-                    onClear={() => {
-                        $('#vert').html('');
-                        $('#dist').html('');
-                    }}
-                />
-                <Stack spacing={1}>
-                    <Box id="vert" className="d-flex alphaGrid" />
-                    <Box id="dist" className="d-flex alphaGrid" />
+            <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
+                {algorithm}
+                <Stack spacing={2}>
+                    <DrawGraph
+                        {...props}
+                        onStart={start}
+                        weighted={true}
+                        onClear={() => {
+                            $('#vert').html('');
+                            $('#dist').html('');
+                        }}
+                    />
+                    <Stack spacing={1}>
+                        <Box id="vert" className="d-flex alphaGrid" />
+                        <Box id="dist" className="d-flex alphaGrid" />
+                    </Stack>
                 </Stack>
-            </Stack>
+            </Box>
         </Stack>
     );
 }
