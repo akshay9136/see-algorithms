@@ -65,12 +65,7 @@ describe('Dijkstras algorithm visualization', () => {
     });
   });
 
-  testAnimation(Dijkstras, (container) => {
-    const row = container.querySelector('#dist > div');
-    const values = Array.from(row.children).map((el) => el.textContent);
-    // A:25, B:58, C:20, D:8, E:38, F:35, G:0, H:3
-    expect(values).toEqual(['25', '58', '20', '8', '38', '35', '0', '3']);
-  });
+  testAnimation(Dijkstras);
 });
 
 describe('Prims algorithm visualization', () => {

@@ -4,14 +4,11 @@ import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import {
-    bgcolor,
     charAt,
-    createGrid,
     getCostMatrix,
     hasValue,
-    sleep,
-    sound,
     spanEdge,
+    svgElement,
 } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import Link from 'next/link';
@@ -48,29 +45,28 @@ while heap is not empty:
             </Typography>
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
                 {algorithm}
-                <Stack spacing={2}>
-                    <DrawGraph
-                        {...props}
-                        onStart={start}
-                        weighted={true}
-                        onClear={() => {
-                            $('#vert').html('');
-                            $('#dist').html('');
-                        }}
-                    />
-                    <Stack spacing={1}>
-                        <Box id="vert" className="d-flex alphaGrid" />
-                        <Box id="dist" className="d-flex alphaGrid" />
-                    </Stack>
-                </Stack>
+                <DrawGraph {...props} onStart={start} weighted={true} />
             </Box>
         </Stack>
     );
 }
 
-var n, w, cells;
-var d, v, prev;
+var n, v, w;
+var d, prev;
 var delay = 1000;
+
+const svgLabel = (i, text) => {
+    const p = Graph.point(i);
+    const props = {
+        class: 'vtag',
+        x: p.x + 20,
+        y: p.y - 10,
+        fill: '#505050',
+        'font-size': 14,
+        'font-weight': 'bold',
+    };
+    return svgElement('text', props, text);
+};
 
 async function* start(src) {
     $('.cost').each(function () {
@@ -81,26 +77,25 @@ async function* start(src) {
     w = getCostMatrix();
     v = [src];
     d = [];
-    createGrid(n, '#vert');
-    createGrid(n, '#dist');
-    cells = document.querySelectorAll('.cell');
-    cells[src + n].textContent = 0;
     d[src] = 0;
+    prev = [];
     for (let i = 0; i < n; i++) {
-        cells[i].textContent = charAt(65 + i);
+        const label = svgLabel(i, charAt(65 + i));
+        $('.vgrp').eq(i).append(label);
         if (i !== src) {
-            cells[i + n].textContent = 'Inf';
+            $('.vlbl').eq(i).html('<tspan dy="0.1em">&infin;</tspan>');
+            $('.vlbl').eq(i).css('font-size', 20);
             d[i] = Infinity;
+        } else {
+            $('.vlbl').eq(i).text('0');
+            $('.vlbl').eq(i).css('font-size', 14);
         }
     }
-    prev = [];
     $('.vrtx').attr('stroke', Colors.rejected);
     $('.edge').attr('stroke', Colors.rejected);
     yield delay;
-    sound('pop');
     $('.vrtx').eq(src).attr('stroke', Colors.visited);
     $('.vrtx').eq(src).attr('fill', Colors.visited);
-    bgcolor(cells[src], Colors.visited);
     yield delay;
     yield* dijkstra(src);
 }
@@ -114,20 +109,15 @@ async function* dijkstra(i) {
 
         if (hasValue(ei) && d[i] + w[i][j] < d[j]) {
             d[j] = d[i] + w[i][j];
+            const ej = Graph.edgeIndex(prev[j], j);
             Path('.edge').eq(ei).attr('stroke', Colors.enqueue);
+            Path('.edge').eq(ej).attr('stroke', Colors.rejected);
             $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
             $('.vrtx').eq(j).attr('fill', Colors.enqueue);
-            bgcolor(cells[j], Colors.enqueue);
-
-            sleep(delay).then(() => {
-                cells[j + n].style.opacity = 0;
-            });
-            sleep(1500).then(() => {
-                cells[j + n].textContent = d[j];
-                cells[j + n].style.opacity = 1;
-            });
+            $('.vlbl').eq(j).text(d[j]);
+            $('.vlbl').eq(j).css('font-size', 14);
             prev[j] = i;
-            flag = 3;
+            flag = 2;
         }
     }
     d[i] = Infinity;
@@ -140,8 +130,6 @@ async function* dequeue() {
     const j = d.indexOf(min);
     const i = prev[j];
     v.push(j);
-    sound('pop');
-    bgcolor(cells[j], Colors.visited);
     yield* spanEdge(i, j);
     $('.vrtx').eq(j).attr('fill', Colors.visited);
     if (v.length < n) {

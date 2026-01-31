@@ -106,7 +106,7 @@ async function* visit() {
         bgcolor(`.cell:eq(${v.indexOf(i)})`, Colors.visited);
         yield* spanEdge(prev[i], i);
         $('.vrtx').eq(i).attr('fill', Colors.visited);
-        yield delay
+        yield delay;
         yield* explore(0);
     }
 }
