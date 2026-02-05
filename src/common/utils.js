@@ -48,7 +48,7 @@ function addVertex(p, vlbl) {
         x: p.x,
         y: p.y + 5,
         style: 'cursor:pointer',
-        fill: '#505050',
+        fill: '#404040',
         'font-weight': 'bold',
         'text-anchor': 'middle',
     };
@@ -180,7 +180,7 @@ function createGrid(n, id) {
     for (let j = 0; j < n; j++) {
         const cell = document.createElement('div');
         cell.className = 'cell';
-        row.appendChild(cell);
+        row.append(cell);
     }
     $(id).append(row);
 }

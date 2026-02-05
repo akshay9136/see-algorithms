@@ -16,23 +16,9 @@ function binaryTree({ tx, txy, bgcolor, animate, cleanup }) {
 
     const Node = (key) => {
         if (!arr[key]) return null;
-        const _node = {};
+        return {
+            ...arr[key],
 
-        const defineGetter = (prop) => {
-            if (_node.hasOwnProperty(prop)) return;
-
-            Object.defineProperty(_node, prop, {
-                get() {
-                    return arr[key][prop];
-                },
-                enumerable: true,
-                configurable: true,
-            });
-        };
-
-        Object.keys(arr[key]).forEach(defineGetter);
-
-        const relations = {
             get left() {
                 return Node(arr[key].left);
             },
@@ -53,20 +39,17 @@ function binaryTree({ tx, txy, bgcolor, animate, cleanup }) {
             },
             update(b) {
                 arr[key] = { ...arr[key], ...b };
-                Object.keys(b).forEach(defineGetter);
+                Object.assign(this, b);
+            },
+            refresh() {
+                return Node(key);
             },
         };
-
-        Object.defineProperties(
-            _node,
-            Object.getOwnPropertyDescriptors(relations),
-        );
-
-        return _node;
     };
 
     const append = (node, t = 0.3) => {
         if (node) {
+            node = node.refresh();
             const [width, rotate] = nodeAngle(node);
             animate(node.eid, { width }, { duration: t });
             animate(node.eid, { rotate }, { duration: t });
@@ -166,7 +149,10 @@ function binaryTree({ tx, txy, bgcolor, animate, cleanup }) {
     };
 
     return Object.freeze({
-        node: (i) => Node(i),
+        node: (i) => {
+            const _node = arr.filter((a) => !a.deleted)[i];
+            return Node(_node?.key);
+        },
         root(node) {
             if (node !== undefined) root = node?.key;
             return Node(root);
@@ -184,7 +170,7 @@ function binaryTree({ tx, txy, bgcolor, animate, cleanup }) {
                 root = 0;
                 return this.root();
             }
-            const p = parent;
+            const p = parent.refresh();
             const key = arr.length;
             arr.push({
                 id: `#node${key}`,
@@ -206,12 +192,13 @@ function binaryTree({ tx, txy, bgcolor, animate, cleanup }) {
             _cleanup(node);
             animate(node.id, { opacity: 1 });
             bgcolor(node.eid, Colors.stroke);
-            return node;
+            return node.refresh();
         },
         swapNodes(a, b) {
             const { id, value } = a;
             a.update({ id: b.id, value: b.value });
             b.update({ id, value });
+            sound('swap');
             return Promise.all([
                 txy(a.id, a.x, a.y, 1),
                 txy(b.id, b.x, b.y, 1),
@@ -278,12 +265,8 @@ function binaryTree({ tx, txy, bgcolor, animate, cleanup }) {
                 this.cleanup(node.right);
             }
         },
-        slice() {
-            return { arr: arr.slice(), root };
-        },
-        reset(data) {
-            arr = data.arr;
-            root = data.root;
+        size() {
+            return arr.filter((a) => !a.deleted).length;
         },
     });
 }

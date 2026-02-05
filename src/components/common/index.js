@@ -23,6 +23,25 @@ export const Numbox = memo(
   }
 );
 
+export const Numtag = memo(
+  function ({ index, value, ...rest }) {
+    return (
+      <motion.span
+        id={`tag${index}`}
+        style={{
+          color: '#606060',
+          position: 'absolute',
+          fontWeight: 'bold',
+          fontSize: 14,
+        }}
+        {...rest}
+      >
+        {value}
+      </motion.span>
+    );
+  }
+);
+
 export const Node = memo(
   function ({ index, value, showBf, ...rest }) {
     return (

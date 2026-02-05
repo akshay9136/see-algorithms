@@ -60,8 +60,8 @@ const svgLabel = (i, text) => {
     const props = {
         class: 'vtag',
         x: p.x + 20,
-        y: p.y - 10,
-        fill: '#505050',
+        y: p.y - 12,
+        fill: '#606060',
         'font-size': 14,
         'font-weight': 'bold',
     };

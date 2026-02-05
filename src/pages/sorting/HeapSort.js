@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
-import { Edge, InputNumbers, Node } from '@/components/common';
-import binaryTree from '@/common/binaryTree';
+import { Edge, InputNumbers, Node, Numtag } from '@/components/common';
+import binaryHeap from '@/helpers/binaryHeap';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import { sound } from '@/common/utils';
@@ -38,26 +38,36 @@ function heapify(i):
         heapify(largest)
 `);
 
-    async function* handleSort(values) {
-        setNumbers(values);
-        sound('pop');
-        arr = values.slice();
-        Tree = binaryTree(animator);
-        yield 1500;
-        const n = arr.length;
-        sound('swap');
+    async function* buildHeap(n) {
         Tree.insert(arr[0]);
         for (let i = 1; i < n; i++) {
             const j = Math.floor((i + 1) / 2) - 1;
             const parent = Tree.node(j);
             Tree.insert(arr[i], parent, i % 2 === 1);
         }
+        for (let i = 0; i < n; i++) {
+            const node = Tree.node(i);
+            txy(`#tag${i}`, node.x + 20, node.y - 22);
+        }
         yield 1500;
         setCurrentStep('0,1');
         const k = Math.floor(n / 2) - 1;
+        const { heapify } = Tree;
         for (let i = k; i >= 0; i--) {
             yield* heapify(Tree.node(i), n);
         }
+    }
+
+    async function* handleSort(values) {
+        setNumbers(values);
+        sound('pop');
+        arr = values.slice();
+        Tree = binaryHeap(animator);
+        const { heapify, swapNodes } = Tree;
+        const n = arr.length;
+        yield 1500;
+        sound('swap');
+        yield* buildHeap(n);
         yield delay;
         for (let i = n - 1; i > 0; i--) {
             const first = Tree.node(0);
@@ -65,7 +75,7 @@ function heapify(i):
             if (first.value !== last.value) {
                 sound('swap');
                 setCurrentStep('2,3');
-                await Tree.swapNodes(first, last);
+                await swapNodes(first, last);
             }
             await bgcolor(last.id, Colors.sorted);
             yield delay;
@@ -78,35 +88,10 @@ function heapify(i):
         yield delay;
         for (let i = 0; i < n; i++) {
             txy(Tree.node(i).id, i * 56, 0);
+            txy(`#tag${i}`, i * 56 + 20, -22);
             if (i < n - 1) {
                 animate(`#edge${i}`, { opacity: 0 });
             }
-        }
-    }
-
-    const getLargest = (node, n) => {
-        const { left, right } = node;
-        if (left && left.key < n) {
-            if (left.value > node.value) node = left;
-        }
-        if (right && right.key < n) {
-            if (right.value > node.value) node = right;
-        }
-        return node;
-    };
-
-    async function* heapify(node, n) {
-        await bgcolor(node.id, Colors.compare);
-        yield delay / 2;
-        const max = getLargest(node, n);
-        if (max !== node) {
-            await bgcolor(max.id, Colors.compare);
-            sound('swap');
-            await Tree.swapNodes(node, max);
-            await bgcolor(node.id, Colors.white);
-            yield* heapify(max, n);
-        } else {
-            await bgcolor(node.id, Colors.white);
         }
     }
 
@@ -162,7 +147,7 @@ function heapify(i):
                     <Box
                         className="heapSort"
                         id="binaryTree"
-                        sx={{ width: 600, pt: 1 }}
+                        sx={{ width: 600, pt: 3 }}
                         ref={scope}
                     >
                         {numbers.slice(1).map((_, i) => (
@@ -174,6 +159,14 @@ function heapify(i):
                                 index={i}
                                 value={num}
                                 animate={{ x: i * 56 }}
+                            />
+                        ))}
+                        {numbers.map((_, i) => (
+                            <Numtag
+                                key={i}
+                                index={i}
+                                value={i}
+                                animate={{ x: i * 56 + 20, y: -22 }}
                             />
                         ))}
                     </Box>

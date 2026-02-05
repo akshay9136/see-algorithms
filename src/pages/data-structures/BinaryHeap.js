@@ -1,24 +1,38 @@
 import { useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
-import { DSInput, Edge, Node } from '@/components/common';
-import binaryTree from '@/common/binaryTree';
+import { DSInput, Edge, Node, Numtag } from '@/components/common';
+import binaryHeap from '@/helpers/binaryHeap';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import { Colors } from '@/common/constants';
 import { sound } from '@/common/utils';
+import Link from 'next/link';
 
 var arr = [], Tree;
-var delay = 400;
+var delay = 500;
 
 export default function BinaryHeap(props) {
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
-    const [algorithm] = useAlgorithm(`
-function heapify(node):
-    parent = node.parent
-    if parent and node.value > parent.value:
-        swap(node, parent)
-        heapify(parent)
+    const { txy } = animator;
+    const [insertAlgo] = useAlgorithm(`
+function insert(value):
+    arr[n] = value
+    i = n, n = n + 1
+    while i > 0:
+        parent = (i - 1) / 2
+        if arr[parent] >= arr[i]:
+            break
+        swap(parent, i)
+        i = parent
+`);
+    const [extractAlgo] = useAlgorithm(`
+function extract():
+    if n == 0: return null
+    max = arr[0]
+    arr[0] = arr[n - 1]
+    n = n - 1
+    heapify(0)
+    return max
 `);
 
     async function* insert(num) {
@@ -27,57 +41,63 @@ function heapify(node):
         yield delay;
         sound('pop');
         if (!numbers.length) {
-            Tree = binaryTree(animator);
-            Tree.insert(num);
+            Tree = binaryHeap(animator);
+            const node = Tree.insert(num);
+            txy(`#tag0`, node.x + 20, node.y - 22);
         } else {
-            const size = numbers.length;
+            const size = Tree.size();
             const parent = Tree.node(Math.floor((size - 1) / 2));
             const isLeft = size % 2 === 1;
             const node = Tree.insert(num, parent, isLeft);
-            yield delay * 2;
-            yield* heapify(node);
-        }
-    };
-
-    async function* heapify(node) {
-        const parent = node.parent;
-        const { bgcolor } = animator;
-        if (parent && node.value > parent.value) {
-            await bgcolor(node.id, Colors.compare);
+            for (let i = 0; i <= size; i++) {
+                const node = Tree.node(i);
+                txy(`#tag${i}`, node.x + 20, node.y - 22);
+            }
             yield delay;
-            await bgcolor(parent.id, Colors.compare);
-            yield delay / 2;
-            sound('swap');
-            await Tree.swapNodes(node, parent);
-            yield delay / 2;
-            await bgcolor(node.id, Colors.white);
-            yield* heapify(parent);
+            yield* Tree.heapifyUp(node);
         }
-        yield delay / 2;
-        await bgcolor(node.id, Colors.white);
-    };
+    }
 
-    const reset = () => setNumbers([]);
-    if (!numbers.length) arr = [];
+    async function* extract() {
+        yield delay;
+        const size = Tree.size();
+        txy(`#tag${size - 1}`, -20, 0, 0);
+        yield* Tree.extract();
+        if (!Tree.root()) reset();
+    }
+
+    const reset = () => {
+        setNumbers([]);
+        arr = [];
+    };
 
     const buttons = [
         { text: 'Insert', onClick: insert, validate: true },
+        {
+            text: 'Extract',
+            onClick: extract,
+            validate: true,
+            disabled: !arr.length,
+        },
         { text: 'Clear', onClick: reset },
     ];
 
     return (
         <Stack spacing={3}>
             <Typography variant="body1">
-                A Binary Heap is like a <strong>priority queue</strong> in a
-                bustling airport, where the most important passengers (highest
-                or lowest priority) are always at the front. It is a complete
-                binary tree where each parent node is either greater than or
-                less than its child nodes, depending on whether it is a max-heap
-                (highest value at the top) or a min-heap (lowest value at the
-                top). This arrangement makes it easy to quickly access and
-                remove the highest or lowest priority element.
+                A <strong>Binary Heap</strong> is a complete binary tree where
+                each node satisfies the heap property: in a{' '}
+                <strong>max-heap</strong>, parents are greater than or equal to
+                their children, while in a min-heap, they are less than or
+                equal. <Link href="/sorting/HeapSort">Heap Sort</Link> utilizes
+                this structure by building a max-heap and repeatedly extracting
+                the root element to the end of the array, resulting in an
+                efficient O(n log n) sorting algorithm.
             </Typography>
-            {algorithm}
+            <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
+                {insertAlgo}
+                {extractAlgo}
+            </Box>
             <DSInput {...props} buttons={buttons} />
             <Box ref={scope} className="resizable" id="binaryTree">
                 {numbers.slice(1).map((_, i) => (
@@ -89,6 +109,15 @@ function heapify(node):
                         index={i}
                         value={num}
                         style={{ opacity: 0 }}
+                    />
+                ))}
+                {numbers.map((_, i) => (
+                    <Numtag
+                        key={i}
+                        index={i}
+                        value={i}
+                        animate={{ x: -20 }}
+                        transition={{ duration: 0 }}
                     />
                 ))}
             </Box>
