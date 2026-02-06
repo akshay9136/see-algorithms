@@ -84,14 +84,15 @@ function extract():
         <Stack spacing={2}>
             <Typography variant="body1">
                 A <strong>Binary Heap</strong> is a complete binary tree
-                commonly used as a <strong>priority queue</strong>, where each
-                node satisfies the heap property: in a max-heap, parents are
-                greater than or equal to their children, while in a min-heap,
-                they are less than or equal.{' '}
-                <Link href="/sorting/HeapSort">Heap Sort</Link> utilizes this
-                structure by building a <strong>max-heap</strong> and repeatedly
-                extracting the root element to the end of the array, resulting
-                in an efficient O(n log n) sorting algorithm.
+                (typically stored in an array), where each node satisfies the
+                heap property: in a max-heap, parents are greater than or equal
+                to their children, while in a min-heap, they are less than or
+                equal. <Link href="/sorting/HeapSort">Heap Sort</Link> utilizes
+                this structure by building a <strong>max-heap</strong> and
+                repeatedly extracting the root element to the end of the array,
+                resulting in an efficient O(n log n) sorting algorithm. Beyond
+                sorting, heaps are widely used to implement{' '}
+                <strong>priority queues</strong>.
             </Typography>
             <Typography variant="h6" component="h2">
                 How it Works
