@@ -17,7 +17,7 @@ function bianryAvlTree(animator, setCurrentStep) {
     const updateHeight = (node) => {
         const h = 1 + Math.max(height(node.left), height(node.right));
         node.update({ height: h });
-        $(`#nodeBf${node.key}`).text(balanceFactor(node));
+        $(`#nodeTag${node.key}`).text(balanceFactor(node));
     };
 
     function* rotateRight(node) {
@@ -91,7 +91,7 @@ function bianryAvlTree(animator, setCurrentStep) {
         async *insert(num) {
             const node = yield* Tree.insert(num);
             node.update({ height: 0 });
-            $(`#nodeBf${node.key}`).text(0);
+            $(`#nodeTag${node.key}`).text(0);
             yield delay * 2;
             yield* rebalance(node.parent);
         },

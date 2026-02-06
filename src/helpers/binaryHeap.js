@@ -70,6 +70,7 @@ function binaryHeap(animator) {
         if (root.key !== last.key) {
             sound('swap');
             await txy(id, root.x, root.y);
+            await txy(`#key${Tree.size() - 1}`, -20, 0, 0);
             animate(last.eid, { opacity: 0 });
             root.update({ id, value });
             last.update({ deleted: true });

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
-import { Edge, InputNumbers, Node, Numtag } from '@/components/common';
+import { Edge, InputNumbers, Node, Numkey } from '@/components/common';
 import binaryHeap from '@/helpers/binaryHeap';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
@@ -47,7 +47,7 @@ function heapify(i):
         }
         for (let i = 0; i < n; i++) {
             const node = Tree.node(i);
-            txy(`#tag${i}`, node.x + 20, node.y - 22);
+            txy(`#key${i}`, node.x + 20, node.y - 24);
         }
         yield 1500;
         setCurrentStep('0,1');
@@ -88,7 +88,7 @@ function heapify(i):
         yield delay;
         for (let i = 0; i < n; i++) {
             txy(Tree.node(i).id, i * 56, 0);
-            txy(`#tag${i}`, i * 56 + 20, -22);
+            txy(`#key${i}`, i * 56 + 20, -22);
             if (i < n - 1) {
                 animate(`#edge${i}`, { opacity: 0 });
             }
@@ -162,11 +162,11 @@ function heapify(i):
                             />
                         ))}
                         {numbers.map((_, i) => (
-                            <Numtag
+                            <Numkey
                                 key={i}
                                 index={i}
                                 value={i}
-                                animate={{ x: i * 56 + 20, y: -22 }}
+                                animate={{ x: i * 56 + 20, y: -24 }}
                             />
                         ))}
                     </Box>

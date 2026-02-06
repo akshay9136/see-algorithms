@@ -12,7 +12,7 @@ import { showError, sleep } from '@/common/utils';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import linkedList from '@/helpers/linkedList';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 var list, delay = 500;
 

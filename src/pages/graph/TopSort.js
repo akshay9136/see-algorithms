@@ -54,14 +54,16 @@ function indegree():
                 {algorithm}
                 {indegreeAlgo}
             </Box>
-            <DrawGraph
-                {...props}
-                onStart={start}
-                onClear={() => $('#sorted').html('')}
-                allowDirected={false}
-                customSource={false}
-            />
-            <Box id="sorted" className="d-flex alphaGrid" />
+            <Stack spacing={2}>
+                <DrawGraph
+                    {...props}
+                    onStart={start}
+                    onClear={() => $('#sorted').html('')}
+                    allowDirected={false}
+                    customSource={false}
+                />
+                <Box id="sorted" className="d-flex alphaGrid" />
+            </Stack>
         </Stack>
     );
 }
@@ -87,8 +89,9 @@ async function* start() {
 async function* topsort() {
     if (stack.length > 0) {
         const i = stack.pop();
-        $('.vrtx').eq(i).attr('fill', Colors.visited);
         sound('pop');
+        $('.vrtx').eq(i).attr('fill', Colors.visited);
+        appendCell('#sorted', charAt(65 + i));
         yield delay;
         for (let j = 0; j < indeg.length; j++) {
             const ei = Graph.edgeIndex(i, j);
@@ -108,10 +111,6 @@ async function* topsort() {
                 yield delay / 2;
             }
         }
-        $('.vrtx').eq(i).css('opacity', 0);
-        $('.vlbl').eq(i).css('opacity', 0);
-        yield delay / 2;
-        appendCell('#sorted', charAt(65 + i));
         yield delay;
         yield* topsort();
     } else {

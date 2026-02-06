@@ -6,6 +6,7 @@ import { Refresh, Share } from '@mui/icons-material';
 import useAnimator from '@/hooks/useAnimator';
 import useTreeUrl from '@/hooks/useTreeUrl';
 import redBlackTree from '@/helpers/redBlackTree';
+import Link from 'next/link';
 
 var arr = [], Tree;
 var deleted = {};
@@ -88,24 +89,26 @@ export default function RBT(props) {
                 Step by Step
             </Typography>
             <Typography
-                component="div"
+                component="ol"
                 variant="body1"
                 sx={{ '& li': { mb: 1 } }}
             >
-                <ol>
-                    <li>
-                        Insert a node as in a normal BST and color it red.
-                    </li>
-                    <li>Check the tree for violations of Red-Black rules.</li>
-                    <li>
-                        If there’s a violation, apply rotations (left or right)
-                        and recoloring to restore properties.
-                    </li>
-                    <li>
-                        Repeat until all rules are satisfied from the modified
-                        node to the root.
-                    </li>
-                </ol>
+                <li>
+                    Insert a node like in a normal{' '}
+                    <Link href="/data-structures/BST">
+                        <strong>BST</strong>
+                    </Link>{' '}
+                    and color it red.
+                </li>
+                <li>Check the tree for violations of Red-Black rules.</li>
+                <li>
+                    If there’s a violation, apply rotations (left or right) and
+                    recoloring to restore properties.
+                </li>
+                <li>
+                    Repeat until all rules are satisfied from the modified node
+                    to the root.
+                </li>
             </Typography>
             <Stack spacing={2}>
                 <DSInput {...props} buttons={buttons} />

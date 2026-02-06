@@ -1,4 +1,4 @@
-import { useAnimate } from 'framer-motion';
+import { useAnimate } from 'motion/react';
 
 export default function useAnimator() {
     const [scope, animate] = useAnimate();

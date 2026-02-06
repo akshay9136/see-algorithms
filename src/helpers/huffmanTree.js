@@ -27,7 +27,7 @@ function huffmanTree(animator) {
             if (!left && !right) {
                 bgcolor(node.id, Colors.enqueue);
                 coding[char] = node.data;
-                $(`#nodeBf${node.key}`).text(char);
+                $(`#nodeTag${node.key}`).text(char);
             } else {
                 steps[_node.step] = node;
             }

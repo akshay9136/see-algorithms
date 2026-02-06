@@ -17,7 +17,7 @@ export default function Kruskals(props) {
 
     useEffect(() => {
         for (let i = 0; i < size; i++) {
-            $(`#nodeBf${i}`).text(charAt(65 + i));
+            $(`#nodeTag${i}`).text(charAt(65 + i));
         }
     }, [size]);
 
@@ -63,7 +63,7 @@ export default function Kruskals(props) {
         union[x1] = new Set([...union[x1], ...union[x2]]);
         union[x2] = new Set();
         parent[x2] = x1;
-        $(`#nodeBf${x2}`).text(charAt(65 + x1));
+        $(`#nodeTag${x2}`).text(charAt(65 + x1));
         sound('pop');
     }
 
@@ -123,7 +123,7 @@ export default function Kruskals(props) {
                 </li>
                 <li>
                     Initialize a <strong>Disjoint-set</strong> structure with
-                    each vertex in its own set.
+                    each vertex in its own set (component).
                 </li>
                 <li>
                     For each edge (u, v) in the sorted list:

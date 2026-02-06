@@ -67,8 +67,8 @@ function redBlackTree(animator) {
     }
 
     const updateColor = (node, color) => {
-        $(`#nodeBf${node.key}`).text(color);
-        $(`#nodeBf${node.key}`).css({
+        $(`#nodeTag${node.key}`).text(color);
+        $(`#nodeTag${node.key}`).css({
             backgroundColor: color === 'R' ? '#ff0000' : '#000',
             color: '#fff',
         });

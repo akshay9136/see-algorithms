@@ -9,12 +9,12 @@ function splayTree(animator) {
     const { bgcolor } = animator;
 
     function* rotateRight(node) {
-        Tree.rotateRight(node);
+        Tree.rotateRight(node.refresh());
         yield delay * 2;
     }
 
     function* rotateLeft(node) {
-        Tree.rotateLeft(node);
+        Tree.rotateLeft(node.refresh());
         yield delay * 2;
     }
 
@@ -50,6 +50,7 @@ function splayTree(animator) {
                     yield* rotateRight(pop);
                 }
             }
+            node = node.refresh();
         }
     }
 

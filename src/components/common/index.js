@@ -1,5 +1,5 @@
 import styles from '@/styles/numbers.module.css';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { memo } from 'react';
 import InputNumbers from './input-numbers';
 import DrawGraph from './draw-graph';
@@ -23,11 +23,11 @@ export const Numbox = memo(
   }
 );
 
-export const Numtag = memo(
+export const Numkey = memo(
   function ({ index, value, ...rest }) {
     return (
       <motion.span
-        id={`tag${index}`}
+        id={`key${index}`}
         style={{
           color: '#606060',
           position: 'absolute',
@@ -51,7 +51,7 @@ export const Node = memo(
         {...rest}
       >
         {value}
-        {showBf && <span id={'nodeBf' + index} />}
+        {showBf && <span id={'nodeTag' + index} />}
       </motion.div>
     );
   }
