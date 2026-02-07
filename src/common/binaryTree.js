@@ -56,7 +56,7 @@ function binaryTree({ tx, txy, bgcolor, animate, cleanup }) {
         }
     };
 
-    const findNode = (fn) => arr.map((a) => Node(a.key)).find(fn);
+    const findNode = (fn) => Node(arr.find(fn)?.key);
 
     const _cleanup = (node, t = 0.3) => {
         const closer = findNode((a) => {
@@ -260,7 +260,7 @@ function binaryTree({ tx, txy, bgcolor, animate, cleanup }) {
         },
         cleanup(node) {
             if (node) {
-                _cleanup(node, 1);
+                _cleanup(node.refresh(), 1);
                 this.cleanup(node.left);
                 this.cleanup(node.right);
             }
