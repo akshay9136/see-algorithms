@@ -22,12 +22,16 @@ heap.insert(src, 0)
 while heap is not empty:
     (u, d) = heap.extract()
     if u is not visited:
-        mark u as visited
-        for each neighbor v of u:
-            alt = d + weight(u, v)
-            if alt < dist[v]:
-                dist[v] = alt
-                heap.insert(v, alt)
+        relax(u, d)
+`);
+const [relaxAlgo] = useAlgorithm(`
+function relax(u, d):
+    mark u as visited
+    for each neighbor v of u:
+        alt = d + weight(u, v)
+        if alt < dist[v]:
+            dist[v] = alt
+            heap.insert(v, alt)
 `);
 
     return (
@@ -45,6 +49,7 @@ while heap is not empty:
             </Typography>
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
                 {algorithm}
+                {relaxAlgo}
                 <DrawGraph {...props} onStart={start} weighted={true} />
             </Box>
         </Stack>
