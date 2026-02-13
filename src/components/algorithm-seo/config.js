@@ -24,7 +24,7 @@ export const defaultSeoConfig = {
     {
       name: 'keywords',
       content:
-        'algorithms, visualization, sorting, data structures, computer science, programming, education, interactive learning, bubble sort, quick sort, merge sort, binary search tree, graph algorithms',
+        'algorithms, visualization, sorting, data structures, computer science, programming, education, interactive learning, binary search tree, graph algorithms',
     },
     {
       name: 'author',
@@ -52,169 +52,121 @@ export const metaConfigs = {
     title: 'Bubble Sort Visualizer | Simple Sorting Algorithm',
     description:
       'Visualize Bubble Sort with full control. Pause, step through swaps, and use your own numbers. Master this O(n²) algorithm with our interactive tool.',
-    keywords:
-      'bubble sort, sorting visualizer, algorithm animation, step-by-step, custom input sorting, interactive bubble sort, computer science education, python sort, java sort',
   },
   QuickSort: {
-    title: 'Quick Sort Visualizer | Divide & Conquer with Custom Input',
+    title: 'Quick Sort Visualizer | Divide & Conquer Algorithm',
     description:
-      'The best Quick Sort visualization. Watch the pivot partition strategy in real-time. Use custom arrays to see worst-case scenarios. Learn O(n log n) logic.',
-    keywords:
-      'quick sort, quicksort visualizer, divide and conquer, pivot partition, algorithm animation, custom array sorting, interactive learning, recursion visualizer, best sorting algorithm',
+      'Visualize Quick Sort step-by-step. Watch pivot partition strategy in real-time, use custom arrays, and understand O(n log n) sorting with an interactive tool.',
   },
   MergeSort: {
-    title: 'Merge Sort Visualizer | Stable Sort with Recursive Steps',
+    title: 'Merge Sort Visualizer | Stable Sort with Recursion',
     description:
-      'Interactive Merge Sort guide. Visualize the divide and conquer process step-by-step. Great for understanding recursion and stable sorting. O(n log n).',
-    keywords:
-      'merge sort, mergesort visualizer, stable sort, recursion visualization, divide and conquer, algorithm animation, interactive sorting, python merge sort, java merge sort',
+      'Interactive Merge Sort guide. Visualize the divide and conquer process step-by-step. Great for understanding recursion and stable O(n log n) sorting.',
   },
   InsertionSort: {
-    title: 'Insertion Sort Visualizer | Adaptive Sort for Small Datasets',
+    title: 'Insertion Sort Visualizer | Adaptive Sorting Algorithm',
     description:
-      'Watch Insertion Sort build a sorted array one item at a time. Perfect for understanding adaptive sorting on nearly sorted data. Interactive & Step-by-Step.',
-    keywords:
-      'insertion sort, online algorithm, adaptive sort, sorting visualizer, step-by-step animation, o(n^2), algorithm guide, simple sorting methods, insertion sort python',
+      'Watch Insertion Sort build a sorted array one item at a time. Perfect for understanding adaptive sorting on nearly sorted data. Interactive O(n²) guide.',
   },
   SelectionSort: {
-    title: 'Selection Sort Visualizer | In-Place Comparison Sorting',
+    title: 'Selection Sort Visualizer | In-Place Comparison Sort',
     description:
       'Visualize Selection Sort finding minimums. Simple, interactive animation to understand in-place comparison sorting and O(n²) complexity.',
-    keywords:
-      'selection sort, in-place sort, comparison sort, sorting visualizer, algorithm animation, computer science basics, interactive learning, selection sort python, selection sort cpp',
   },
   HeapSort: {
-    title: 'Heap Sort Visualizer | Interactive Binary Heap Operations',
+    title: 'Heap Sort Visualizer | Sorting with Binary Heap',
     description:
       'Master Heap Sort. Visualize the heapify process and heap operations (extract-max) in real-time. Understand priority queues and O(n log n) sorting.',
-    keywords:
-      'heap sort, heapsort visualizer, binary heap, priority queue, heapify animation, max heap, min heap, data structure visualization, algorithm guide, heap sort python',
   },
   RadixSort: {
-    title: 'Radix Sort Visualizer | Non-Comparison Integer Sorting',
+    title: 'Radix Sort Visualizer | Digit-By-Digit Integer Sort',
     description:
       'Visualize Radix Sort. See how numbers are sorted by digit buckets without comparison. Understand linear O(nk) time complexity with animations.',
-    keywords:
-      'radix sort, integer sort, bucket sort, non-comparison sort, counting sort, sorting visualizer, algorithm animation, linear time sorting, fast integer sorting',
   },
   BFS: {
-    title: 'Breadth-First Search Visualizer | BFS on Custom Graphs',
+    title: 'Breadth-First Search Visualizer | Graph Traversal | BFS',
     description:
       'Interactive BFS tool. Draw your own graphs and watch Breadth-First Search find the shortest path level-by-level. Perfect for graph theory students.',
-    keywords:
-      'BFS, breadth first search, graph visualizer, shortest path, custom graph, graph traversal, queue, level order, interactive graph, bfs python',
   },
   DFS: {
-    title: 'Depth-First Search Visualizer | DFS & Maze Solving',
+    title: 'Depth-First Search Visualizer | Graph Traversal | DFS',
     description:
       'Visualize DFS exploring graphs. Draw custom graphs to see recursion and backtracking in action. Understand stack-based traversal and maze solving.',
-    keywords:
-      'DFS, depth first search, graph visualizer, recursion, backtracking, stack, connected components, maze solver, custom graph, dfs python',
   },
   TopSort: {
     title: 'Topological Sort Visualizer | DAG Dependency Resolution',
     description:
       'Visualize Topological Sorting on your own Directed Acyclic Graphs (DAGs). Understand dependency resolution and task scheduling algorithms.',
-    keywords:
-      'topological sort, kahn algorithm, DAG, directed acyclic graph, dependency ordering, task scheduling, graph visualizer, interactive top sort, graph algorithms',
   },
   Dijkstras: {
-    title: "Dijkstra's Algorithm Visualizer | Shortest Path on Weighted Graphs",
+    title: "Dijkstra's Algorithm Visualizer | Shortest Path Finder",
     description:
-      "The best Dijkstra's visualization. Draw weighted graphs, set start/end nodes, and watch the greedy shortest path algorithm. Detailed step-by-step mode.",
-    keywords:
-      'dijkstras algorithm, shortest path visualizer, weighted graph, greedy algorithm, priority queue, pathfinding, interactive graph, dijkstra python, route planning',
+      "Visualize Dijkstra's algorithm step-by-step. Draw weighted graphs, set custom source, and watch the greedy shortest-path finder. Interactive graph tool.",
   },
   Prims: {
-    title: "Prim's Algorithm Visualizer | Minimum Spanning Tree (MST)",
+    title: "Prim's Algorithm Visualizer | Greedy MST Construction",
     description:
       "Visualize Prim's algorithm building MSTs. Draw custom weighted graphs and watch the greedy strategy connect nodes with minimum cost.",
-    keywords:
-      'prims algorithm, MST, minimum spanning tree, greedy strategy, weighted graph, network design, graph visualizer, interactive mst, prims python',
   },
   Kruskals: {
     title: "Kruskal's Algorithm Visualizer | MST with Union-Find",
     description:
       "Interactive Kruskal's visualization. See how it selects edges and uses Union-Find to avoid cycles while building a Minimum Spanning Tree.",
-    keywords:
-      'kruskals algorithm, MST, minimum spanning tree, union find, disjoint set, graph visualizer, edge selection, greedy algorithm, kruskals python',
   },
   Boruvkas: {
     title: "Borůvka's Algorithm Visualizer | Parallel MST Construction",
     description:
       "Visualize Borůvka's algorithm. Watch components merge in parallel to form a Minimum Spanning Tree. Advanced graph theory visualization.",
-    keywords:
-      'boruvkas algorithm, MST, minimum spanning tree, component merging, parallel algorithm, graph visualizer, boruvka step-by-step, advanced graph algorithms',
   },
   Hamiltonian: {
     title: 'Hamiltonian Path Visualizer | Backtracking & NP-Complete',
     description:
-      'Visualize the Hamiltonian Path problem. Draw graphs and watch backtracking algorithms attempt to visit every node exactly once.',
-    keywords:
-      'hamiltonian path, hamiltonian cycle, np-complete, backtracking visualizer, traveling salesman, graph theory, custom graph, algorithm challenge',
+      'Visualize the Hamiltonian Path. Draw graphs and watch backtracking algorithms attempt to visit every node exactly once. Interactive graph tool.',
   },
   LinkedList: {
-    title: 'Linked List Visualizer | Interactive Insert, Delete, Traverse',
+    title: 'Linked List Visualizer | Insert, Delete, Traverse',
     description:
-      'Interactive Linked List guide. Add, remove, and traverse nodes in real-time. Understand pointers and memory allocation visually.',
-    keywords:
-      'linked list, singly linked list, doubly linked list, node pointer, data structure visualizer, memory management, interactive list, algorithm basic',
+      'Interactive Linked List guide. Insert, delete, and traverse nodes in real-time. Understand pointers and memory allocation visually.',
   },
   CircularQueue: {
     title: 'Circular Queue Visualizer | Ring Buffer FIFO Operations',
     description:
-      'Visualize Circular Queue (Ring Buffer) mechanics. See how pointers wrap around in a fixed-size array. ideal for understanding standard buffers.',
-    keywords:
-      'circular queue, ring buffer, fifo, queue operations, buffer management, array visualizer, data structure animation, enqueue dequeue, memory efficiency',
+      'Visualize Circular Queue (Ring Buffer) mechanics. See how pointers wrap around in a fixed-size array. Ideal for understanding standard buffers.',
   },
   BinaryHeap: {
     title: 'Binary Heap Visualizer | Interactive Min/Max Heap',
     description:
       'Visualize Binary Heaps. Insert values and watch heapify-up/down operations maintain the heap property. Compare Min-Heap and Max-Heap behavior.',
-    keywords:
-      'binary heap, priority queue, min heap, max heap, heapify, complete binary tree, array representation, data structure visualizer, heap sort preparation',
   },
   BST: {
-    title: 'BST Visualizer | Binary Search Tree Operations',
+    title: 'Binary Search Tree Visualizer | Interactive BST Operations',
     description:
-      'Interactive BST tool. Insert, search, and delete nodes. visualizing how the tree structure changes. Understand O(log n) vs O(n) cases.',
-    keywords:
-      'BST, binary search tree, tree traversal, search algorithm, node insertion, data structure visualizer, tree balancing concepts, interactive bst',
+      'Interactive BST tool. Insert, search, and delete nodes and visualize how the tree structure changes. Understand O(log n) vs O(n) search.',
   },
   AVL: {
-    title: 'AVL Tree Visualizer | Self-Balancing Rotations',
+    title: 'AVL Tree Visualizer | Self-Balancing Rotations | BST',
     description:
       'Watch AVL Trees balance themselves. Visualize LL, RR, LR, and RL rotations in real-time as you insert nodes. Master self-balancing logic.',
-    keywords:
-      'avl tree, self-balancing tree, tree rotation, height balanced, bst, data structure visualizer, interactive avl, balance factor, algorithm animation',
   },
   RedBlackTree: {
-    title: 'Red-Black Tree Visualizer | Coloring & Rotation Steps',
+    title: 'Red-Black Tree Visualizer | Coloring & Rotations | BST',
     description:
-      'Master Red-Black Trees. Insert nodes and watch the recoloring and rotation rules maintain balance. The standard for implemented libraries.',
-    keywords:
-      'red-black tree, rbt, tree coloring, tree rotation, self-balancing bst, data structure visualizer, interactive red black tree, balanced search tree',
+      'Master Red-Black Trees. Insert nodes and watch the recoloring and rotation rules maintain balance. Understand O(log n) search.',
   },
   SplayTree: {
-    title: 'Splay Tree Visualizer | Move-to-Front Splaying',
+    title: 'Splay Tree Visualizer | Self-Adjusting Binary Tree',
     description:
       'Visualize Splay Trees. Access nodes and watch them bubble to the root via splaying operations. Understand cache optimization and locality.',
-    keywords:
-      'splay tree, self-adjusting tree, splaying, amortization, cache locality, data structure visualizer, interactive tree, recently accessed, move-to-front',
   },
   ConvexHull: {
-    title: 'Convex Hull Visualizer | Graham Scan & Jarvis March',
+    title: 'Convex Hull Visualizer | Jarvis March Wrapping',
     description:
-      'Computational Geometry made easy. Draw points and watch Graham Scan or Jarvis March algorithms wrap them in a Convex Hull.',
-    keywords:
-      'convex hull, computational geometry, graham scan, jarvis march, polygon wrapping, geometric algorithms, algorithm visualizer, interactive geometry',
+      'Interactive tool for Convex Hull. Add points and watch Jarvis March algorithm wrap them in a hull step-by-step. Computational geometry guide.',
   },
   HuffmanCoding: {
-    title: 'Huffman Coding Visualizer | Build Prefix Trees',
+    title: 'Huffman Coding Visualizer | Data Compression Algorithm',
     description:
-      'Visualize Huffman Coding. Enter text and watch the optimal prefix tree being built. Understand lossless compression step-by-step.',
-    keywords:
-      'huffman coding, data compression, prefix tree, greedy algorithm, encoding, lossless compression, algorithm visualizer, interactive huffman, binary tree',
+      'Visualize Huffman Coding. Enter frequencies and watch the optimal prefix tree being built. Understand lossless compression step-by-step.',
   },
 };
 
@@ -223,9 +175,8 @@ export const getSeoConfig = (algoId) => {
   if (!config) {
     const algoName = algoId.replace(/([A-Z])/g, ' $1').trim();
     return {
-      title: `${algoName} - See Algorithms`,
-      description: `Learn ${algoName} algorithm with interactive visualization and step-by-step explanation.`,
-      keywords: `${algoName.toLowerCase()}, algorithm, visualization, computer science, programming`,
+      title: `${algoName} Visualizer | See Algorithms`,
+      description: `Interactive ${algoName} visualizer. Step-by-step animation and custom input. Learn the algorithm with See Algorithms.`,
     };
   }
   return config;

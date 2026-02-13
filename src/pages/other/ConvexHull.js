@@ -8,7 +8,7 @@ import { svgElement } from '@/common/utils';
 
 export default function ConvexHull(props) {
   return (
-    <Stack spacing={3}>
+    <Stack spacing={2}>
       <Typography variant="body1">
         A <strong>Convex Hull</strong> is the smallest convex polygon that
         encloses a given set of points. It is a fundamental concept in
@@ -16,7 +16,18 @@ export default function ConvexHull(props) {
         processing, and pattern recognition. The algorithm visualized here is
         the <strong>Jarvis March</strong> or <strong>Gift Wrapping</strong>{' '}
         algorithm, which finds the convex hull by iteratively wrapping a
-        &apos;gift&apos; around the set of points.
+        {"'gift'"} around the set of points.
+      </Typography>
+      <Typography variant="h6" component="h2">
+        How it Works
+      </Typography>
+      <Typography variant="body1">
+        The Jarvis March algorithm starts by finding the leftmost point and then
+        iteratively wrapping a {"'gift'"} around the set of points. It uses the
+        orientation of three points to determine if a point is inside or outside
+        the hull. If a point is outside the hull, it is added to the hull and
+        the next point is selected. This process continues until the hull is
+        complete.
       </Typography>
       <AddPoints {...props} onStart={start} />
     </Stack>

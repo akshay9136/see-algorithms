@@ -7,7 +7,7 @@ import Head from 'next/head';
 const AlgorithmSEO = () => {
   const { pathname } = useRouter();
   const algoId = pathname.split('/')[2];
-  const { title, description, keywords } = getSeoConfig(algoId);
+  const { title, description } = getSeoConfig(algoId);
   const { name: algoName, category } = algorithms.findObj('id', algoId) || {};
   const url = `https://see-algorithms.com${pathname}`;
 
@@ -22,10 +22,6 @@ const AlgorithmSEO = () => {
       type: 'article',
     },
     additionalMetaTags: [
-      {
-        name: 'keywords',
-        content: keywords,
-      },
       {
         name: 'article:section',
         content: category,
