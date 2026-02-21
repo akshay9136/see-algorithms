@@ -38,7 +38,7 @@ function indegree():
 `);
 
     return (
-        <Stack spacing={3}>
+        <Stack spacing={2}>
             <Typography variant="body1">
                 <strong>Topological Sorting</strong> is an ordering of nodes in
                 a directed acyclic graph (DAG) where each node appears before
@@ -50,11 +50,14 @@ function indegree():
                 removing nodes with no incoming edges (zero in-degree) and
                 adding them to the order.
             </Typography>
+            <Typography variant="h6" component="h2">
+                Pseudocode
+            </Typography>
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
                 {algorithm}
                 {indegreeAlgo}
             </Box>
-            <Stack spacing={2}>
+            <Stack spacing={2} pt={1}>
                 <DrawGraph
                     {...props}
                     onStart={start}

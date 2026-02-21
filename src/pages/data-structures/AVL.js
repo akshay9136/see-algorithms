@@ -118,7 +118,7 @@ function rebalance(node):
             <Typography
                 component="ul"
                 variant="body1"
-                sx={{ '& li': { mb: 1 }, mb: 0 }}
+                sx={{ '& li': { mb: 1 } }}
             >
                 <li>
                     <strong>Right Rotation (LL)</strong> – Applied when a left
@@ -160,6 +160,9 @@ function rebalance(node):
                     needed (LL, RR, LR, RL).
                 </li>
                 <li>Perform the rotation to restore the AVL property.</li>
+            </Typography>
+            <Typography variant="h6" component="h2">
+                Pseudocode
             </Typography>
             <Box display="flex" gap={3} flexWrap="wrap">
                 {algorithm}

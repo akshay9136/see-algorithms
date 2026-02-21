@@ -29,6 +29,7 @@ export default function ConvexHull(props) {
         the next point is selected. This process continues until the hull is
         complete.
       </Typography>
+      <br />
       <AddPoints {...props} onStart={start} />
     </Stack>
   );

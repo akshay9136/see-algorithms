@@ -148,27 +148,25 @@ export default function Kruskals(props) {
                 Things to Observe
             </Typography>
             <Typography
-                component="div"
+                component="ul"
                 variant="body1"
                 sx={{ '& li': { mb: 1 } }}
             >
-                <ul>
-                    <li>
-                        <strong>Component Merging:</strong> Observe how adding
-                        an edge merges two previously separate components into
-                        one. The visualization shows nodes moving together as
-                        components are unified, demonstrating how the algorithm
-                        gradually connects all vertices.
-                    </li>
-                    <li>
-                        <strong>Cycle Detection:</strong> Watch how union-find
-                        data structure efficiently checks if two vertices are
-                        not in the same connected component before adding an
-                        edge.
-                    </li>
-                </ul>
+                <li>
+                    <strong>Component Merging:</strong> Observe how adding
+                    an edge merges two previously separate components into
+                    one. The visualization shows nodes moving together as
+                    components are unified, demonstrating how the algorithm
+                    gradually connects all vertices.
+                </li>
+                <li>
+                    <strong>Cycle Detection:</strong> Watch how union-find
+                    data structure efficiently checks if two vertices are
+                    not in the same connected component before adding an
+                    edge.
+                </li>
             </Typography>
-            <Box display="flex" gap={2} flexWrap="wrap">
+            <Box display="flex" gap={2} flexWrap="wrap" pt={1}>
                 <DrawGraph
                     {...props}
                     onStart={start}
