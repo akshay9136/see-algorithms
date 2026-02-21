@@ -84,11 +84,10 @@ for i = 0 to (n - 1):
     return (
         <Stack spacing={2}>
             <Typography variant="body1">
-                <strong>Selection Sort</strong> is like a choosy person picking
-                the best apples. It scans the unsorted section, selects the
-                smallest item, and places it at the correct position. This
-                process repeats until the entire list is sorted. Selection sort
-                minimizes the number of swaps needed compared to{' '}
+                <strong>Selection Sort</strong> is another comparison-based
+                algorithm that sorts an array by repeatedly finding the minimum
+                element from the unsorted part and moving it to its correct
+                position. It minimizes the number of swaps needed compared to{' '}
                 <Link href="/sorting/BubbleSort">Bubble Sort</Link>, which makes
                 it useful when the cost of moving items is high, but finding the
                 smallest item is easy.
@@ -97,25 +96,24 @@ for i = 0 to (n - 1):
                 Things to Observe
             </Typography>
             <Typography
-                component="div"
+                component="ul"
                 variant="body1"
-                sx={{ '& li': { mb: 1 } }}
+                sx={{ '& li': { mb: 1 }, mb: 0 }}
             >
-                <ul>
-                    <li>
-                        <strong>Finding the Minimum:</strong> In each pass,
-                        watch how the algorithm scans the entire unsorted
-                        portion of the array to find the single smallest
-                        element.
-                    </li>
-                    <li>
-                        <strong>One Swap Per Pass:</strong> Notice that there is
-                        only one swap at the very end of each pass. This is a
-                        key difference from Bubble Sort and is the reason why
-                        Selection Sort is preferred when write operations are
-                        expensive.
-                    </li>
-                </ul>
+                <li>
+                    <strong>Finding the Minimum:</strong> In each pass, watch
+                    how the algorithm scans the entire unsorted portion of the
+                    array to find the single smallest element.
+                </li>
+                <li>
+                    <strong>One Swap Per Pass:</strong> Notice that there is
+                    only one swap at the very end of each pass. This is a key
+                    difference from Bubble Sort and is the reason why Selection
+                    Sort is preferred when write operations are expensive.
+                </li>
+            </Typography>
+            <Typography variant="h6" component="h2" pb={1}>
+                Visualization
             </Typography>
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
                 {algorithm}

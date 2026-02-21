@@ -119,25 +119,25 @@ function heapify(i):
                 Things to Observe
             </Typography>
             <Typography
-                component="div"
+                component="ul"
                 variant="body1"
-                sx={{ '& li': { mb: 1 } }}
+                sx={{ '& li': { mb: 1 }, mb: 0 }}
             >
-                <ul>
-                    <li>
-                        <strong>Building the Heap:</strong> The first phase of
-                        the algorithm rearranges the array into a Max Heap,
-                        where the element at the root of any sub-tree is the
-                        largest.
-                    </li>
-                    <li>
-                        <strong>Extracting the Max:</strong> In the second
-                        phase, watch how the largest element (at the root) is
-                        repeatedly swapped with the last element of the heap,
-                        and the heap is rebuilt. This process gradually builds
-                        the sorted array from the end.
-                    </li>
-                </ul>
+                <li>
+                    <strong>Building the Heap:</strong> The first phase of the
+                    algorithm rearranges the array into a Max Heap, where the
+                    element at the root of any sub-tree is the largest.
+                </li>
+                <li>
+                    <strong>Extracting the Max:</strong> In the second phase,
+                    watch how the largest element (at the root) is repeatedly
+                    swapped with the last element of the heap, and the heap is
+                    rebuilt. This process gradually builds the sorted array from
+                    the end.
+                </li>
+            </Typography>
+            <Typography variant="h6" component="h2" pb={1}>
+                Visualization
             </Typography>
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
                 {heapifyAlgo}

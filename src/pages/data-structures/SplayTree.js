@@ -99,29 +99,29 @@ export default function SplayTree(props) {
                 How it Works
             </Typography>
             <Typography
-                component="div"
+                component="ul"
                 variant="body1"
-                sx={{ '& li': { mb: 1 } }}
+                sx={{ '& li': { mb: 1 }, mb: 0 }}
             >
-                <ul>
-                    <li>
-                        When you search, insert, or delete a node, the tree
-                        performs a series of rotations called{' '}
-                        <strong>splaying</strong> to bring that node to the
-                        root.
-                    </li>
-                    <li>
-                        There are three types of rotations depending on the
-                        node’s position: <strong>zig</strong> (single rotation),{' '}
-                        <strong>zig-zig</strong> (double rotation in same
-                        direction), and <strong>zig-zag</strong> (double
-                        rotation in opposite directions).
-                    </li>
-                    <li>
-                        After splaying, frequently accessed nodes stay near the
-                        root, making repeated operations faster.
-                    </li>
-                </ul>
+                <li>
+                    When you search, insert, or delete a node, the tree performs
+                    a series of rotations called <strong>splaying</strong> to
+                    bring that node to the root.
+                </li>
+                <li>
+                    There are three types of rotations depending on the node’s
+                    position: <strong>zig</strong> (single rotation),{' '}
+                    <strong>zig-zig</strong> (double rotation in same
+                    direction), and <strong>zig-zag</strong> (double rotation in
+                    opposite directions).
+                </li>
+                <li>
+                    After splaying, frequently accessed nodes stay near the
+                    root, making repeated operations faster.
+                </li>
+            </Typography>
+            <Typography variant="h6" component="h2">
+                Visualizer
             </Typography>
             <DSInput {...props} buttons={buttons} />
             <Box ref={scope} className="resizable" id="binaryTree">

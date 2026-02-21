@@ -161,6 +161,9 @@ function rebalance(node):
                 </li>
                 <li>Perform the rotation to restore the AVL property.</li>
             </Typography>
+            <Typography variant="h6" component="h2">
+                Visualization
+            </Typography>
             <Box display="flex" gap={3} flexWrap="wrap">
                 {algorithm}
                 <Stack spacing={2}>

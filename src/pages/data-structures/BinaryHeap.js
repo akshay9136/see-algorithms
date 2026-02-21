@@ -98,25 +98,26 @@ function extract():
                 How it Works
             </Typography>
             <Typography
-                component="div"
+                component="ul"
                 variant="body1"
-                sx={{ '& li': { mb: 1 } }}
+                sx={{ '& li': { mb: 1 }, mb: 0 }}
             >
-                <ul>
-                    <li>
-                        <strong>Insertion:</strong> The new element is added to
-                        the end of the heap and then {'"bubbled up"'}{' '}
-                        (heapify-up) by repeatedly swapping it with its parent
-                        until the heap property is restored.
-                    </li>
-                    <li>
-                        <strong>Extraction:</strong> The root element is removed
-                        and replaced by the last element in the heap. This
-                        element is then {'"bubbled down"'} (heapify-down) by
-                        swapping it with its children until the heap property is
-                        satisfied.
-                    </li>
-                </ul>
+                <li>
+                    <strong>Insertion:</strong> The new element is added to
+                    the end of the heap and then {'"bubbled up"'}{' '}
+                    (heapify-up) by repeatedly swapping it with its parent
+                    until the heap property is restored.
+                </li>
+                <li>
+                    <strong>Extraction:</strong> The root element is removed
+                    and replaced by the last element in the heap. This
+                    element is then {'"bubbled down"'} (heapify-down) by
+                    swapping it with its children until the heap property is
+                    satisfied.
+                </li>
+            </Typography>
+            <Typography variant="h6" component="h2">
+                Operations
             </Typography>
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
                 {insertAlgo}

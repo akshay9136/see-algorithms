@@ -121,13 +121,16 @@ function deleteAt(index):
   }, []);
 
   return (
-    <Stack spacing={3}>
+    <Stack spacing={2}>
       <Typography variant="body1">
         A <strong>Linked List</strong> is a linear data structure where elements
         are stored in nodes, and each node points to the next node in the
         sequence. Unlike arrays, linked lists do not have a fixed size and can
         grow or shrink dynamically. This makes them efficient for insertions and
         deletions, but slower for direct access to an element.
+      </Typography>
+      <Typography variant="h6" component="h2">
+        Operations
       </Typography>
       <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
         <Stack spacing={2}>
@@ -137,17 +140,19 @@ function deleteAt(index):
         {insertAlgo3}
         {deleteAlgo}
       </Box>
-      <Stack spacing={2}>
-        <DSInput {...props} buttons={buttons} hidePlayIcon ref={inputRef1} />
-        <DSInput
-          {...props}
-          buttons={buttons2}
-          label="Enter an index: "
-          hidePlayIcon
-          keepEmpty
-          ref={inputRef2}
-        />
-      </Stack>
+      <Typography variant="h6" component="h2" py={1}>
+        Visualizer
+      </Typography>
+      <DSInput {...props} buttons={buttons} hidePlayIcon ref={inputRef1} />
+      <DSInput
+        {...props}
+        buttons={buttons2}
+        label="Enter an index: "
+        hidePlayIcon
+        keepEmpty
+        ref={inputRef2}
+      />
+      <br />
       <Box ref={scope} className="sorting" overflow="auto">
         {nodes.map((value, i) => (
           <motion.div key={i} id={`box${i}`} style={{ position: 'absolute' }}>

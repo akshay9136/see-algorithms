@@ -93,24 +93,25 @@ function mergeSort(start, end):
                 Things to Observe
             </Typography>
             <Typography
-                component="div"
+                component="ul"
                 variant="body1"
-                sx={{ '& li': { mb: 1 }, mt: 1 }}
+                sx={{ '& li': { mb: 1 }, mb: 0 }}
             >
-                <ul>
-                    <li>
-                        <strong>Divide Recursively:</strong> Watch how the
-                        algorithm first breaks the array down recursively into
-                        single-element sub-arrays.
-                    </li>
-                    <li>
-                        <strong>Conquer (Merge):</strong> These sub-arrays are
-                        then merged back together in sorted order. This merging
-                        step is where the core sorting logic happens, comparing
-                        elements from the sub-arrays and placing them into a
-                        temporary array before updating the main one.
-                    </li>
-                </ul>
+                <li>
+                    <strong>Divide Recursively:</strong> Watch how the
+                    algorithm first breaks the array down recursively into
+                    single-element sub-arrays.
+                </li>
+                <li>
+                    <strong>Conquer (Merge):</strong> These sub-arrays are
+                    then merged back together in sorted order. This merging
+                    step is where the core sorting logic happens, comparing
+                    elements from the sub-arrays and placing them into a
+                    temporary array before updating the main one.
+                </li>
+            </Typography>
+            <Typography variant="h6" component="h2" pb={1}>
+                Visualization
             </Typography>
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
                 {algorithm}

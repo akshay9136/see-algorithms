@@ -77,7 +77,9 @@ export default function HuffmanCoding() {
                 a single tree. Traversing from the root to a leaf produces a
                 binary code, where each left or right move adds a bit.
             </Typography>
-            <br />
+            <Typography variant="h6" component="h2" pt={1}>
+                Visualizer
+            </Typography>
             <Stack spacing={1}>
                 {alphabets.length > 0 && (
                     <Box className={styles.inputNumbers}>

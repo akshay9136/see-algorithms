@@ -121,25 +121,26 @@ function partition(start, end):
                 Things to Observe
             </Typography>
             <Typography
-                component="div"
+                component="ul"
                 variant="body1"
-                sx={{ '& li': { mb: 1 } }}
+                sx={{ '& li': { mb: 1 }, mb: 0 }}
             >
-                <ul>
-                    <li>
-                        <strong>Pivot and Partition:</strong> In each step,
-                        notice how a {'"pivot"'} element is chosen (in this
-                        visualization, it&apos;s the last element of the
-                        segment) and the other elements are partitioned into two
-                        groups: those smaller and those larger than the pivot.
-                    </li>
-                    <li>
-                        <strong>Divide and Conquer:</strong> Watch how the
-                        algorithm recursively breaks the array down into smaller
-                        sub-arrays around the pivots, sorting each one
-                        independently.
-                    </li>
-                </ul>
+                <li>
+                    <strong>Pivot and Partition:</strong> In each step,
+                    notice how a {'"pivot"'} element is chosen (in this
+                    visualization, it&apos;s the last element of the
+                    segment) and the other elements are partitioned into two
+                    groups: those smaller and those larger than the pivot.
+                </li>
+                <li>
+                    <strong>Divide and Conquer:</strong> Watch how the
+                    algorithm recursively breaks the array down into smaller
+                    sub-arrays around the pivots, sorting each one
+                    independently.
+                </li>
+            </Typography>
+            <Typography variant="h6" component="h2" pb={1}>
+                Visualization
             </Typography>
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
                 {partitionAlgo}

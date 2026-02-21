@@ -92,25 +92,26 @@ for i = 1 to (n - 1):
                 Things to Observe
             </Typography>
             <Typography
-                component="div"
+                component="ul"
                 variant="body1"
-                sx={{ '& li': { mb: 1 } }}
+                sx={{ '& li': { mb: 1 }, mb: 0 }}
             >
-                <ul>
-                    <li>
-                        <strong>Bubbling Up:</strong> In each pass through the
-                        list, notice how the largest unsorted element gradually{' '}
-                        {'"bubbles up"'} to its correct position at the end of
-                        the array. This is why the sorted portion of the array
-                        grows from right to left.
-                    </li>
-                    <li>
-                        <strong>Early Termination:</strong> If a full pass is
-                        completed with no swaps, the algorithm knows the list is
-                        already sorted and stops early. Try a nearly-sorted list
-                        to see this in action!
-                    </li>
-                </ul>
+                <li>
+                    <strong>Bubbling Up:</strong> In each pass through the list,
+                    notice how the largest unsorted element gradually{' '}
+                    {'"bubbles up"'} to its correct position at the end of the
+                    array. This is why the sorted portion of the array grows
+                    from right to left.
+                </li>
+                <li>
+                    <strong>Early Termination:</strong> If a full pass is
+                    completed with no swaps, the algorithm knows the list is
+                    already sorted and stops early. Try a nearly-sorted list to
+                    see this in action!
+                </li>
+            </Typography>
+            <Typography variant="h6" component="h2" pb={1}>
+                Visualization
             </Typography>
             <Box display="flex" gap={3} flexWrap="wrap">
                 {algorithm}

@@ -97,7 +97,7 @@ while (max / exp) > 0:
         digits.push(
           <span key={j} style={{ color: '#e91e63' }}>
             {r}
-          </span>
+          </span>,
         );
       } else {
         digits.push(<span key={j}>{r}</span>);
@@ -121,20 +121,25 @@ while (max / exp) > 0:
       <Typography variant="h6" component="h2">
         Things to Observe
       </Typography>
-      <Typography component="div" variant="body1" sx={{ '& li': { mb: 1 } }}>
-        <ul>
-          <li>
-            <strong>Digit by Digit:</strong> Notice how the sorting happens in
-            passes, one for each digit place (ones, tens, hundreds, etc.),
-            starting from the rightmost digit.
-          </li>
-          <li>
-            <strong>Bucketing:</strong> In each pass, watch how the numbers are
-            distributed into {'"buckets"'} (0-9) based on the value of the
-            current digit. They are then collected back from the buckets in
-            order, preserving the relative order from the previous pass.
-          </li>
-        </ul>
+      <Typography
+        component="ul"
+        variant="body1"
+        sx={{ '& li': { mb: 1 }, mb: 0 }}
+      >
+        <li>
+          <strong>Digit by Digit:</strong> Notice how the sorting happens in
+          passes, one for each digit place (ones, tens, hundreds, etc.),
+          starting from the rightmost digit.
+        </li>
+        <li>
+          <strong>Bucketing:</strong> In each pass, watch how the numbers are
+          distributed into {'"buckets"'} (0-9) based on the value of the current
+          digit. They are then collected back from the buckets in order,
+          preserving the relative order from the previous pass.
+        </li>
+      </Typography>
+      <Typography variant="h6" component="h2" pb={1}>
+        Visualization
       </Typography>
       <Box display="flex" gap={3} flexWrap="wrap">
         {algorithm}

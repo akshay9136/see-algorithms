@@ -47,9 +47,16 @@ function relax(u, d):
                 visit next. This process continues until all nodes have been
                 visited, making it essential for network routing problems.
             </Typography>
-            <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
-                {algorithm}
-                {relaxAlgo}
+            <Box display="flex" gap={3} flexWrap="wrap">
+                <Stack spacing={2}>
+                    <Typography variant="h6" component="h2" pt={1}>
+                        Visualization
+                    </Typography>
+                    <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
+                        {algorithm}
+                        {relaxAlgo}
+                    </Box>
+                </Stack>
                 <DrawGraph {...props} onStart={start} weighted={true} />
             </Box>
         </Stack>

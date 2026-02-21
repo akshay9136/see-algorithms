@@ -110,6 +110,9 @@ export default function RBT(props) {
                     to the root.
                 </li>
             </Typography>
+            <Typography variant="h6" component="h2">
+                Visualizer
+            </Typography>
             <Stack spacing={2}>
                 <DSInput {...props} buttons={buttons} />
                 <Box ref={scope} className="resizable" id="binaryTree">

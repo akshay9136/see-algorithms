@@ -38,7 +38,12 @@ while stack is not empty:
                 pathfinding, and solving puzzles.
             </Typography>
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
-                {algorithm}
+                <Stack spacing={2}>
+                    <Typography variant="h6" component="h2" pt={1}>
+                        Visualization
+                    </Typography>
+                    {algorithm}
+                </Stack>
                 <Stack spacing={2}>
                     <DrawGraph
                         {...props}

@@ -86,26 +86,27 @@ export default function BST(props) {
                 How it Works
             </Typography>
             <Typography
-                component="div"
+                component="ul"
                 variant="body1"
                 sx={{ '& li': { mb: 1 } }}
             >
-                <ul>
-                    <li>
-                        <strong>Insertion</strong> walks down the tree by
-                        repeatedly choosing left or right based on comparison,
-                        stopping only when it finds an empty spot. The new node
-                        is attached as a leaf.
-                    </li>
-                    <li>
-                        <strong>Deletion</strong> first locates the target node,
-                        then carefully reconnects its children so the BST rule
-                        still holds. If the node has no children, it is simply
-                        removed. If it has one child, that child takes its
-                        place. If the node has two children, the tree replaces
-                        it with a nearby node that preserves ordering.
-                    </li>
-                </ul>
+                <li>
+                    <strong>Insertion</strong> walks down the tree by repeatedly
+                    choosing left or right based on comparison, stopping only
+                    when it finds an empty spot. The new node is attached as a
+                    leaf.
+                </li>
+                <li>
+                    <strong>Deletion</strong> first locates the target node,
+                    then carefully reconnects its children so the BST rule still
+                    holds. If the node has no children, it is simply removed. If
+                    it has one child, that child takes its place. If the node
+                    has two children, the tree replaces it with a nearby node
+                    that preserves ordering.
+                </li>
+            </Typography>
+            <Typography variant="h6" component="h2">
+                BST Visualizer
             </Typography>
             <DSInput {...props} buttons={buttons} />
             <Box ref={scope} className="resizable" id="binaryTree">

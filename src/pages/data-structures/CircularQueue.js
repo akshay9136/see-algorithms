@@ -49,7 +49,7 @@ function dequeue():
     ];
 
     return (
-        <Stack spacing={3}>
+        <Stack spacing={2}>
             <Typography variant="body1">
                 <strong>Circular Queue</strong> allows efficient use of space by
                 reusing empty spots left by removed elements. In a circular
@@ -60,10 +60,16 @@ function dequeue():
                 where you have a fixed amount of memory and need to handle a
                 continuous flow of data.
             </Typography>
+            <Typography variant="h6" component="h2">
+                Operations
+            </Typography>
             <Box display="flex" gap={3} flexWrap="wrap">
                 {enqueueAlgo}
                 {dequeueAlgo}
             </Box>
+            <Typography variant="h6" component="h2" py={1}>
+                Visualizer
+            </Typography>
             <DSInput {...props} buttons={buttons} hidePlayIcon />
             <Box id="cqueue" className="alphaGrid numGrid" />
         </Stack>
