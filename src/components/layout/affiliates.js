@@ -11,26 +11,26 @@ import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 
 const RESOURCES = [
   {
-    title: 'Grokking Algorithms',
+    title: 'Coding Interview Bootcamp: Algorithms + Data Structures',
     description:
-      'A friendly, fully illustrated guide. The best starting point for visual learners.',
-    link: 'https://amzn.to/3YFdbKs',
+      'Learn essential data structures and algorithms step-by-step with practical JavaScript examples.',
+    link: 'https://trk.udemy.com/QYOyr6',
     tag: 'Beginner Friendly',
     color: 'success',
   },
   {
-    title: 'A Common-Sense Guide to Data Structures and Algorithms',
+    title: 'JavaScript Algorithms & Data Structures Masterclass',
     description:
-      'A practical guide with clear explanations and real-world examples.',
-    link: 'https://amzn.to/4aL8B4T',
+      'Master DSA fundamentals, problem-solving techniques, and advanced structures using JavaScript.',
+    link: 'https://trk.udemy.com/9VWgPj',
     tag: 'Practical Guide',
     color: 'warning',
   },
   {
-    title: 'Introduction to Algorithms',
+    title: 'Master the Coding Interview: Data Structures + Algorithms',
     description:
-      'The definitive guide (CLRS). Comprehensive and rigorous, perfect for deep diving into theory.',
-    link: 'https://amzn.to/4aYPsfx',
+      'Prepare for top tech interviews with advanced DSA concepts and real-world coding challenges.',
+    link: 'https://trk.udemy.com/GbjmB9',
     tag: 'Deep Dive',
     color: 'info',
   },
@@ -107,7 +107,7 @@ function Affiliates() {
         color="text.disabled"
         mt={4}
       >
-        As an Amazon Associate, I earn from qualifying purchases. This helps
+        As an Udemy Associate, I earn from qualifying purchases. This helps
         support the site at no extra cost to you.
       </Typography>
     </Box>
