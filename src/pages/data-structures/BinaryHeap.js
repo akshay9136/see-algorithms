@@ -91,8 +91,7 @@ function extract():
                 this structure by building a <strong>max-heap</strong> and
                 repeatedly extracting the root element to the end of the array,
                 resulting in an efficient O(n log n) sorting algorithm. Beyond
-                sorting, heaps are widely used to implement{' '}
-                <strong>priority queues</strong>.
+                sorting, heaps are widely used to implement priority queues.
             </Typography>
             <Typography variant="h6" component="h2">
                 How it Works

@@ -10,26 +10,27 @@
 }
 
 .content {
+    min-height: 100%;
     width: fit-content;
-    padding: 1.5rem;
+    padding: 2rem;
     background-color: #f8fbff;
-}
-
-.content ul,
-.content ol {
-    margin-top: 0;
 }
 
 .content > div > p,
 .content ul,
 .content ol,
 .content > section {
-    width: calc(100vw - 3rem);
+    width: calc(100vw - 4rem);
+}
+
+.content > div > p,
+.article > div > p {
+    text-align: justify;
 }
 
 @media (min-width: 900px) {
     .content {
-        padding: 2rem;
+        padding: 2.5rem;
     }
 
     .content > div > p,

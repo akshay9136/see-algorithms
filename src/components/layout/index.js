@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Box, Divider, Drawer, Stack, Typography } from '@mui/material';
+import { Box, Container, Divider, Drawer, Typography } from '@mui/material';
 import AlgorithmSEO from '../algorithm-seo';
 import Affiliates from './affiliates';
 import Sider from './sider';
@@ -37,19 +37,18 @@ function Layout({ children }) {
       >
         <Sider selected={algoId} />
       </Drawer>
-      {algoId && <AlgorithmSEO />}
+      {algoName && <AlgorithmSEO />}
 
       <Box display="flex" className="contentRow">
         <Box sx={{ display: mdBlock }}>
           <Sider selected={algoId} />
         </Box>
-        <Stack overflow="auto" ref={scrollRef}>
-          <Box className="content" flex={1}>
-            {algoId && (
+        <Box overflow="auto" ref={scrollRef}>
+          <Container maxWidth="xl" className="content">
+            {algoName && (
               <Typography
                 variant="h5"
                 component="h1"
-                fontSize="1.4rem"
                 fontWeight={600}
                 mb={2}
               >
@@ -63,9 +62,9 @@ function Layout({ children }) {
                 <Affiliates />
               </>
             )}
-          </Box>
+          </Container>
           <Footer />
-        </Stack>
+        </Box>
       </Box>
     </>
   );

@@ -14,6 +14,7 @@ import {
   MoreVert,
   Email,
   Favorite,
+  Article,
 } from '@mui/icons-material';
 import styles from '@/styles/header.module.css';
 import { useState } from 'react';
@@ -82,6 +83,13 @@ function Header(props) {
       {/* Desktop Navigation */}
       <Box sx={{ display: mdFlex, alignItems: 'center' }}>
         <Button
+          onClick={() => navigate('/articles')}
+          startIcon={<Article />}
+          className={styles.navButton}
+        >
+          Articles
+        </Button>
+        <Button
           onClick={() => navigate('/about')}
           startIcon={<Info />}
           className={styles.navButton}
@@ -138,6 +146,10 @@ function Header(props) {
             'aria-labelledby': 'info-button',
           }}
         >
+          <MenuItem onClick={() => navigate('/articles')}>
+            <Article sx={{ mr: 1 }} fontSize="small" />
+            Articles
+          </MenuItem>
           <MenuItem onClick={() => navigate('/about')}>
             <Info sx={{ mr: 1 }} fontSize="small" />
             About Us

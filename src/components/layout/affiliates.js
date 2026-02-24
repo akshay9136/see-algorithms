@@ -127,6 +127,7 @@ const styles = {
     },
     border: 1,
     borderColor: 'divider',
+    borderRadius: 2,
   },
   cardAction: {
     height: '100%',
