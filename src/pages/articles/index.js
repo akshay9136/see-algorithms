@@ -23,9 +23,17 @@ const articles = [
     id: 'inplace-sorting',
     title: 'In-place Sorting',
     summary:
-      'Understand how algorithms manage space — and why restraint often leads to elegance.',
+      'Understand how in-place sorting algorithms minimize extra space while reorganizing data.',
     category: 'Sorting',
     date: '2026-02-24',
+  },
+  {
+    id: 'stable-sorting',
+    title: 'Stable Sorting',
+    summary:
+      'Understand the importance of maintaining original order when sorting data with duplicate keys.',
+    category: 'Sorting',
+    date: '2026-02-25',
   },
 ];
 

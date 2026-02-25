@@ -8,15 +8,15 @@ export default function InplaceSorting() {
       </Typography>
 
       <Typography variant="subtitle1" color="text.secondary" paragraph>
-        Understand how algorithms manage space — and why restraint often leads
-        to elegance.
+        Understand how in-place sorting algorithms minimize extra space while
+        reorganizing data.
       </Typography>
 
       <Divider sx={{ my: 3 }} />
 
       <Box mb={4}>
         <Typography variant="h5" component="h2" gutterBottom>
-          What Does {'"In-Place"'} Really Mean?
+          What Does &quot;In-Place&quot; Mean?
         </Typography>
 
         <Typography paragraph>
