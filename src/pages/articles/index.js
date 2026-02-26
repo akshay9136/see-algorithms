@@ -5,37 +5,12 @@ import {
   CardActionArea,
   CardContent,
   Chip,
-  Stack,
+  Container,
+  Grid,
   Typography,
 } from '@mui/material';
+import { articles } from '@/common/appData';
 import Link from 'next/link';
-
-const articles = [
-  {
-    id: 'why-sorting-matters',
-    title: 'Why Sorting is Important',
-    summary:
-      'Understanding why sorting matters is more important than memorizing how sorting works.',
-    category: 'Sorting',
-    date: '2026-02-24',
-  },
-  {
-    id: 'inplace-sorting',
-    title: 'In-place Sorting',
-    summary:
-      'Understand how in-place sorting algorithms minimize extra space while reorganizing data.',
-    category: 'Sorting',
-    date: '2026-02-24',
-  },
-  {
-    id: 'stable-sorting',
-    title: 'Stable Sorting',
-    summary:
-      'Understand the importance of maintaining original order when sorting data with duplicate keys.',
-    category: 'Sorting',
-    date: '2026-02-25',
-  },
-];
 
 const tabs = ['All', 'Sorting', 'Graph', 'Data Structures'];
 
@@ -48,69 +23,20 @@ const ArticleList = () => {
       : articles;
 
   return (
-    <Stack spacing={3}>
+    <Container maxWidth="lg" sx={{ p: 0 }}>
       <Typography
         variant="h4"
         component="h1"
-        gutterBottom
         fontWeight="bold"
         textAlign="center"
       >
         Articles
       </Typography>
-
-      {/* <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 4 }}>
-        <Tabs
-          value={activeTab}
-          onChange={(e, value) => setActiveTab(value)}
-          sx={{
-            '& .MuiTab-root': {
-              fontWeight: 700,
-              fontSize: '1rem',
-              textTransform: 'none',
-            },
-            width: 'max-content',
-          }}
-        >
-          {tabs.map((tab) => (
-            <Tab key={tab} label={tab} />
-          ))}
-        </Tabs>
-      </Box> */}
-
-      {filtered.map((article) => (
-        <Card
-          key={article.id}
-          elevation={1}
-          sx={{
-            borderRadius: 3,
-            transition: 'all 0.3s ease',
-            '&:hover': {
-              transform: 'translateX(4px)',
-              boxShadow: 4,
-            },
-          }}
-        >
-          <CardActionArea component={Link} href={`/articles/${article.id}`}>
-            <CardContent sx={{ p: 3 }}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}
-              >
-                <Chip
-                  label={article.category}
-                  size="small"
-                  color="primary"
-                  variant="outlined"
-                  sx={{ fontWeight: 'bold', lineHeight: 1.4 }}
-                />
-                <Typography variant="caption" color="text.disabled">
-                  {article.date}
-                </Typography>
-              </Box>
+      <br />
+      <Grid container spacing={3}>
+        {filtered.map((article) => (
+          <Grid item xs={12} sm={4} key={article.id}>
+            <ActionCard href={`/articles/${article.id}`} {...article}>
               <Typography
                 variant="h6"
                 component="h3"
@@ -130,11 +56,42 @@ const ArticleList = () => {
               >
                 {article.summary}
               </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-      ))}
-    </Stack>
+            </ActionCard>
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
+  );
+};
+
+const ActionCard = ({ children, href, category, date }) => {
+  const tagColor =
+    category === 'Sorting'
+      ? 'info'
+      : category === 'Graph'
+      ? 'error'
+      : 'success';
+
+  return (
+    <Card elevation={2} sx={{ height: '100%', borderRadius: 2 }}>
+      <CardActionArea component={Link} href={href}>
+        <CardContent sx={{ p: 3 }}>
+          <Box display="flex" alignItems="center" gap={1}>
+            <Chip
+              label={category}
+              size="small"
+              color={tagColor}
+              variant="outlined"
+              sx={{ fontWeight: 'bold', lineHeight: 1.4 }}
+            />
+            <Typography variant="caption" ml="auto">
+              {date}
+            </Typography>
+          </Box>
+          {children}
+        </CardContent>
+      </CardActionArea>
+    </Card>
   );
 };
 

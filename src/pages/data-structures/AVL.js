@@ -147,9 +147,7 @@ function rebalance(node):
             >
                 <li>
                     Insert or delete a node like in a normal{' '}
-                    <Link href="/data-structures/BST">
-                        <strong>BST</strong>.
-                    </Link>
+                    <Link href="/data-structures/BST">BST</Link>.
                 </li>
                 <li>
                     Traverse back up to the root, updating height and checking

@@ -95,10 +95,8 @@ export default function RBT(props) {
             >
                 <li>
                     Insert a node like in a normal{' '}
-                    <Link href="/data-structures/BST">
-                        <strong>BST</strong>
-                    </Link>{' '}
-                    and color it red.
+                    <Link href="/data-structures/BST">BST</Link> and color it
+                    red.
                 </li>
                 <li>Check the tree for violations of Red-Black rules.</li>
                 <li>

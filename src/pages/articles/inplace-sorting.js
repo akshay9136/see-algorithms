@@ -1,4 +1,5 @@
 import { Container, Typography, Box, Divider } from '@mui/material';
+import Link from 'next/link';
 
 export default function InplaceSorting() {
   return (
@@ -59,19 +60,28 @@ export default function InplaceSorting() {
 
         <Typography component="ul" sx={{ '& li': { mb: 1 } }}>
           <li>
-            <strong>Bubble Sort</strong> – Repeatedly swaps adjacent elements.
+            <Link href="/sorting/BubbleSort">
+              <strong>Bubble Sort</strong>
+            </Link>{' '}
+            – Repeatedly swaps adjacent elements.
           </li>
           <li>
-            <strong>Insertion Sort</strong> – Shifts elements to insert each
-            item into its correct position.
+            <Link href="/sorting/InsertionSort">
+              <strong>Insertion Sort</strong>
+            </Link>{' '}
+            – Shifts elements to insert each item into its correct position.
           </li>
           <li>
-            <strong>Selection Sort</strong> – Selects the minimum element and
-            swaps it into place.
+            <Link href="/sorting/SelectionSort">
+              <strong>Selection Sort</strong>
+            </Link>{' '}
+            – Selects the minimum element and swaps it into place.
           </li>
           <li>
-            <strong>Heap Sort</strong> – Uses the array itself to represent the
-            heap structure.
+            <Link href="/sorting/HeapSort">
+              <strong>Heap Sort</strong>
+            </Link>{' '}
+            – Uses the array itself to represent the heap structure.
           </li>
         </Typography>
       </Box>
@@ -83,9 +93,9 @@ export default function InplaceSorting() {
 
         <Typography paragraph>
           Not all sorting algorithms follow this principle. For example,{' '}
-          <strong>Merge Sort</strong> traditionally uses an additional array to
-          merge sorted halves. That extra storage makes it not strictly in-place
-          in its common implementation.
+          <Link href="/sorting/Merge">Merge Sort</Link> traditionally uses an
+          additional array to merge sorted halves. That extra storage makes it
+          not strictly in-place in its common implementation.
         </Typography>
 
         <Typography paragraph>
@@ -120,9 +130,9 @@ export default function InplaceSorting() {
 
         <Typography paragraph>
           For beginners who already understand basic sorting techniques,
-          mastering the concept of “in-place” deepens algorithmic maturity. It
-          shifts focus from simply getting a sorted result to understanding how
-          that result is achieved.
+          mastering the concept of {'"in-place"'} deepens algorithmic maturity.
+          It shifts focus from simply getting a sorted result to understanding
+          how that result is achieved.
         </Typography>
 
         <Typography paragraph>

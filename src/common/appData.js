@@ -16,7 +16,11 @@ export const algorithms = [
     { id: 'Dijkstras', name: "Dijkstra's Algorithm", category: 'Graph' },
     { id: 'TopSort', name: 'Topological Sorting', category: 'Graph' },
     { id: 'Hamiltonian', name: 'Hamiltonian Cycle', category: 'Graph' },
-    { id: 'CircularQueue', name: 'Circular Queue', category: 'Data Structures' },
+    {
+        id: 'CircularQueue',
+        name: 'Circular Queue',
+        category: 'Data Structures',
+    },
     { id: 'LinkedList', name: 'Linked List', category: 'Data Structures' },
     { id: 'BinaryHeap', name: 'Binary Heap', category: 'Data Structures' },
     { id: 'BST', name: 'Binary Search Tree', category: 'Data Structures' },
@@ -28,3 +32,38 @@ export const algorithms = [
 ];
 
 export const categories = groupBy(algorithms, 'category');
+
+export const articles = [
+    {
+        id: 'why-sorting-matters',
+        title: 'Why Sorting is Important',
+        summary:
+            'Understanding why sorting matters is more important than memorizing how sorting works.',
+        category: 'Sorting',
+        date: '2026-02-24',
+    },
+    {
+        id: 'inplace-sorting',
+        title: 'In-place Sorting',
+        summary:
+            'Understand how in-place sorting algorithms minimize extra space while reorganizing data.',
+        category: 'Sorting',
+        date: '2026-02-24',
+    },
+    {
+        id: 'stable-sorting',
+        title: 'Stable Sorting',
+        summary:
+            'Understand the importance of maintaining original order when sorting data with duplicate keys.',
+        category: 'Sorting',
+        date: '2026-02-25',
+    },
+    {
+        id: 'shortest-path-vs-mst',
+        title: 'Shortest Path vs MST',
+        summary:
+            'Understand the difference in objectives between Shortest Path and MST algorithms.',
+        category: 'Graph',
+        date: '2026-02-26',
+    },
+];
