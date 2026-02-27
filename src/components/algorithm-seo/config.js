@@ -168,15 +168,35 @@ export const metaConfigs = {
     description:
       'Visualize Huffman Coding. Enter frequencies and watch the optimal prefix tree being built. Understand lossless compression step-by-step.',
   },
+  'inplace-sorting': {
+    title: 'In-place Sorting Algorithms | Minimize Extra Space',
+    description:
+      'Understand how in-place sorting algorithms minimize extra space while reorganizing data. Learn about the trade-offs and nuances.',
+  },
+  'shortest-path-vs-mst': {
+    title: 'Shortest Path vs MST Algorithms | Difference in Objectives',
+    description:
+      'Visualize the difference between Shortest Path and MST algorithms. Understand the objectives of these algorithms and how they are different.',
+  },
+  'why-sorting-matters': {
+    title: 'Why Sorting is Important | Why Sorting Matters',
+    description:
+      'Understand the importance of sorting algorithms and how they are used in real-world applications. Perfect for students and educators.',
+  },
+  'stable-sorting': {
+    title: 'Stable Sorting Algorithms | Maintaining Original Order',
+    description:
+      'Learn how algorithms maintain original order when sorting data with duplicate keys. Understand the importance of stability in sorting algorithms.',
+  },
 };
 
-export const getSeoConfig = (algoId) => {
-  const config = metaConfigs[algoId];
+export const getSeoConfig = (pageId) => {
+  const config = metaConfigs[pageId];
   if (!config) {
-    const algoName = algoId.replace(/([A-Z])/g, ' $1').trim();
+    const name = pageId.replace(/([A-Z])/g, ' $1').trim();
     return {
-      title: `${algoName} Visualizer | See Algorithms`,
-      description: `Interactive ${algoName} visualizer. Step-by-step animation and custom input. Learn the algorithm with See Algorithms.`,
+      title: `${name} Visualizer | See Algorithms`,
+      description: `Interactive ${name} visualizer. Step-by-step animation and custom input. Learn the algorithm with See Algorithms.`,
     };
   }
   return config;

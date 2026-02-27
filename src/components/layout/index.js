@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Box, Container, Divider, Drawer, Typography } from '@mui/material';
 import AlgorithmSEO from '../algorithm-seo';
-import Affiliates from './affiliates';
+import Affiliates from '../affiliates';
 import Sider from './sider';
 import Header from './header';
 import Footer from './footer';
@@ -11,8 +11,8 @@ import { useRouter } from 'next/router';
 function Layout({ children }) {
   const [menuVisible, setMenuVisible] = useState(false);
   const { pathname } = useRouter();
-  const algoId = pathname.split('/')[2];
-  const { name: algoName } = algorithms.findObj('id', algoId) || {};
+  const pageId = pathname.split('/')[2];
+  const { name: title } = algorithms.findObj('id', pageId) || {};
   const scrollRef = useRef(null);
 
   useEffect(() => {
@@ -35,28 +35,28 @@ function Layout({ children }) {
           backdrop: { className: 'backdrop' },
         }}
       >
-        <Sider selected={algoId} />
+        <Sider selected={pageId} />
       </Drawer>
-      {algoName && <AlgorithmSEO />}
+      {pageId && <AlgorithmSEO />}
 
       <Box display="flex" className="contentRow">
         <Box sx={{ display: mdBlock }}>
-          <Sider selected={algoId} />
+          <Sider selected={pageId} />
         </Box>
         <Box overflow="auto" ref={scrollRef}>
           <Container maxWidth="xl" className="content">
-            {algoName && (
+            {title && (
               <Typography
                 variant="h5"
                 component="h1"
                 fontWeight={600}
                 mb={2}
               >
-                {algoName}
+                {title}
               </Typography>
             )}
             {children}
-            {algoId && (
+            {pageId && (
               <>
                 <Divider sx={{ my: 4 }} />
                 <Affiliates />

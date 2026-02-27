@@ -6,9 +6,9 @@ import Head from 'next/head';
 
 const AlgorithmSEO = () => {
   const { pathname } = useRouter();
-  const algoId = pathname.split('/')[2];
-  const { title, description } = getSeoConfig(algoId);
-  const { name: algoName, category } = algorithms.findObj('id', algoId) || {};
+  const pageId = pathname.split('/')[2];
+  const { title, description } = getSeoConfig(pageId);
+  const { name, category } = algorithms.findObj('id', pageId) || {};
   const url = `https://see-algorithms.com${pathname}`;
 
   const seoConfig = {
@@ -28,7 +28,7 @@ const AlgorithmSEO = () => {
       },
       {
         name: 'article:tag',
-        content: algoName,
+        content: name,
       },
     ],
   };
@@ -42,7 +42,7 @@ const AlgorithmSEO = () => {
     educationalLevel: 'Beginner to Advanced',
     learningResourceType: 'Interactive Visualization',
     educationalUse: ['learning', 'demonstration'],
-    teaches: algoName,
+    teaches: name,
     url,
     provider: {
       '@type': 'Organization',
