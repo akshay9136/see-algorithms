@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function InplaceSorting() {
   return (
     <Article
-      title="In-Place Sorting"
+      title="In-Place Sorting Algorithms"
       summary="Understand how in-place sorting algorithms minimize extra space while reorganizing data."
     >
 
@@ -40,23 +40,17 @@ export default function InplaceSorting() {
           array is required for the final result.
         </Typography>
 
-        <Typography component="ul" sx={{ '& li': { mb: 1 } }}>
+        <Typography component="ul" sx={{ '& li': { mb: 1 }, pl: 2 }}>
           <li>
-            <Link href="/sorting/BubbleSort">
-              <strong>Bubble Sort</strong>
-            </Link>{' '}
+            <strong>Bubble Sort</strong>{' '}
             – Repeatedly swaps adjacent elements.
           </li>
           <li>
-            <Link href="/sorting/InsertionSort">
-              <strong>Insertion Sort</strong>
-            </Link>{' '}
+            <strong>Insertion Sort</strong>{' '}
             – Shifts elements to insert each item into its correct position.
           </li>
           <li>
-            <Link href="/sorting/SelectionSort">
-              <strong>Selection Sort</strong>
-            </Link>{' '}
+            <strong>Selection Sort</strong>{' '}
             – Selects the minimum element and swaps it into place.
           </li>
           <li>

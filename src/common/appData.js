@@ -44,7 +44,7 @@ export const articles = [
     },
     {
         id: 'inplace-sorting',
-        title: 'In-place Sorting',
+        title: 'In-place Sorting Algorithms',
         summary:
             'Understand how in-place sorting algorithms minimize extra space while reorganizing data.',
         category: 'Sorting',
@@ -52,7 +52,7 @@ export const articles = [
     },
     {
         id: 'stable-sorting',
-        title: 'Stable Sorting',
+        title: 'Stable Sorting Algorithms',
         summary:
             'Understand the importance of maintaining original order when sorting data with duplicate keys.',
         category: 'Sorting',
@@ -65,5 +65,13 @@ export const articles = [
             'Understand the difference in objectives between Shortest Path and MST algorithms.',
         category: 'Graph',
         date: '2026-02-26',
+    },
+    {
+        id: 'quick-sort-illusion',
+        title: 'When Quicksort Slows Down',
+        summary:
+            'Speed in algorithms is the consequence of structural balance and careful decisions.',
+        category: 'Sorting',
+        date: '2026-02-28',
     },
 ];

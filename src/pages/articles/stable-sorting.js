@@ -4,7 +4,7 @@ import { Paper, Typography } from '@mui/material';
 export default function StableSorting() {
   return (
     <Article
-      title="Stable Sorting"
+      title="Stable Sorting Algorithms"
       summary="Understand the importance of maintaining original order when sorting data with duplicate keys."
     >
       <Section title='What Does "Stable" Mean?'>
@@ -51,7 +51,7 @@ Unstable Result:
       </Section>
 
       <Section title="Which Algorithms Are Stable?">
-        <Typography component="ul" sx={{ my: 2, '& li': { mb: 1 } }}>
+        <Typography component="ul" sx={{ '& li': { mb: 1 }, my: 2, pl: 2 }}>
           <li>
             <strong>Bubble Sort</strong> – Stable
           </li>

@@ -179,7 +179,7 @@ export const metaConfigs = {
       'Visualize the difference between Shortest Path and MST algorithms. Understand the objectives of these algorithms and how they are different.',
   },
   'why-sorting-matters': {
-    title: 'Why Sorting is Important | Why Sorting Matters',
+    title: 'Why Sorting is Important | Real-World Applications',
     description:
       'Understand the importance of sorting algorithms and how they are used in real-world applications. Perfect for students and educators.',
   },
@@ -187,6 +187,11 @@ export const metaConfigs = {
     title: 'Stable Sorting Algorithms | Maintaining Original Order',
     description:
       'Learn how algorithms maintain original order when sorting data with duplicate keys. Understand the importance of stability in sorting algorithms.',
+  },
+  'quick-sort-illusion': {
+    title: 'When Quicksort Slows Down | Pivot Selection | Sorting',
+    description:
+      'Learn how already sorted data can slow down Quicksort. Understand the importance of pivot selection and how it affects the performance.',
   },
 };
 
