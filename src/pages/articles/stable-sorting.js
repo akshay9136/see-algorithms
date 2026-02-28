@@ -1,25 +1,14 @@
-import { Container, Typography, Box, Divider, Paper } from '@mui/material';
+import Article, { Section } from '@/components/article';
+import { Paper, Typography } from '@mui/material';
 
 export default function StableSorting() {
   return (
-    <Container maxWidth="md" sx={{ p: 0 }} className="article">
-      <Typography variant="h4" component="h1" gutterBottom fontWeight="bold">
-        Stable Sorting
-      </Typography>
-
-      <Typography variant="subtitle1" color="text.secondary" paragraph>
-        Understand the importance of maintaining original order when sorting
-        data with duplicate keys.
-      </Typography>
-
-      <Divider sx={{ my: 3 }} />
-
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          What Does &quot;Stable&quot; Mean?
-        </Typography>
-
-        <Typography paragraph>
+    <Article
+      title="Stable Sorting"
+      summary="Understand the importance of maintaining original order when sorting data with duplicate keys."
+    >
+      <Section title='What Does "Stable" Mean?'>
+        <Typography variant="body1" paragraph>
           A sorting algorithm is <strong>stable</strong> if it preserves the
           relative order of elements that compare equal.
         </Typography>
@@ -31,13 +20,9 @@ export default function StableSorting() {
           simple numbers. It becomes meaningful when elements carry identity
           beyond their sorting key.
         </Typography>
-      </Box>
+      </Section>
 
-      <Box sx={{ mb: 3 }}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Why Stability Matters
-        </Typography>
-
+      <Section title="Why Stability Matters">
         <Typography paragraph>
           In real systems, we rarely sort primitive values. We sort objects —
           users, transactions, logs, records.
@@ -48,17 +33,12 @@ export default function StableSorting() {
           attribute, then another, and rely on predictable behavior. This is not
           convenience — it is structural integrity.
         </Typography>
-      </Box>
+      </Section>
 
-      <Paper
-        sx={{ px: 3, py: 2, bgcolor: 'grey.100', mb: 4, width: 'fit-content' }}
-      >
-        <Typography variant="h6" component="h2" gutterBottom>
-          A Small Illustration
-        </Typography>
-
-        <Typography variant="body1" component="pre">
-          {`Input:
+      <Section title="A Small Illustration">
+        <Paper className='algorithm' sx={{ mt: 2 }}>
+          <pre>
+            {`Input Array:
 [ (A, 2), (B, 1), (C, 2) ]
 
 Stable Result:
@@ -66,14 +46,11 @@ Stable Result:
 
 Unstable Result:
 [ (B, 1), (C, 2), (A, 2) ]`}
-        </Typography>
-      </Paper>
+          </pre>
+        </Paper>
+      </Section>
 
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Which Algorithms Are Stable?
-        </Typography>
-
+      <Section title="Which Algorithms Are Stable?">
         <Typography component="ul" sx={{ my: 2, '& li': { mb: 1 } }}>
           <li>
             <strong>Bubble Sort</strong> – Stable
@@ -97,13 +74,9 @@ Unstable Result:
           naturally stable. Algorithms built around swapping distant elements
           often are not.
         </Typography>
-      </Box>
+      </Section>
 
-      <Box>
-        <Typography variant="h5" component="h2" gutterBottom>
-          A Practical Perspective
-        </Typography>
-
+      <Section title="A Practical Perspective">
         <Typography paragraph>
           If you are sorting user-facing data, logs, reports, or layered
           attributes — stability is usually desirable.
@@ -120,7 +93,7 @@ Unstable Result:
           meaning while imposing order. And in engineering, preserving meaning
           is often more important than achieving speed.
         </Typography>
-      </Box>
-    </Container>
+      </Section>
+    </Article>
   );
 }

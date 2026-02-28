@@ -74,7 +74,7 @@ const ActionCard = ({ children, href, category, date }) => {
 
   return (
     <Card elevation={2} sx={{ height: '100%', borderRadius: 2 }}>
-      <CardActionArea component={Link} href={href}>
+      <CardActionArea component={Link} href={href} sx={{ height: '100%' }}>
         <CardContent sx={{ p: 3 }}>
           <Box display="flex" alignItems="center" gap={1}>
             <Chip

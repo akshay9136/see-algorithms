@@ -22,17 +22,15 @@ export default function Prims(props) {
                 Step by Step
             </Typography>
             <Typography
-                component="div"
+                component="ul"
                 variant="body1"
                 sx={{ '& li': { mb: 1 } }}
             >
-                <ul>
-                    <li>Initialize an empty set of edges for the MST.</li>
-                    <li>Start with an arbitrary vertex and mark it as visited (part of MST).</li>
-                    <li>Find the cheapest edge connecting a vertex in the MST to a vertex outside the MST.</li>
-                    <li>Add this edge to the MST and mark the new vertex as visited.</li>
-                    <li>Repeat until all vertices are part of the MST.</li>
-                </ul>
+                <li>Initialize an empty set of edges for the MST.</li>
+                <li>Start with an arbitrary vertex and mark it as visited (part of MST).</li>
+                <li>Find the cheapest edge connecting a vertex in the MST to a vertex outside the MST.</li>
+                <li>Add this edge to the MST and mark the new vertex as visited.</li>
+                <li>Repeat until all vertices are part of the MST.</li>
             </Typography>
             <DrawGraph
                 {...props}

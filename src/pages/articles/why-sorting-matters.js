@@ -1,23 +1,13 @@
-import { Container, Typography, Box, Divider } from '@mui/material';
+import Article, { Section } from '@/components/article';
+import { Typography } from '@mui/material';
 
 export default function WhySortingMatters() {
   return (
-    <Container maxWidth="md" sx={{ p: 0 }} className="article">
-      <Typography variant="h4" component="h1" gutterBottom fontWeight="bold">
-        Why Sorting is Important
-      </Typography>
-
-      <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-        Understanding why sorting matters is more important than memorizing how
-        sorting works.
-      </Typography>
-
-      <Divider sx={{ my: 3 }} />
-
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Order Brings Clarity
-        </Typography>
+    <Article
+      title="Why Sorting is Important"
+      summary="Understanding why sorting matters is more important than memorizing how sorting works."
+    >
+      <Section title="Order Brings Clarity">
         <Typography variant="body1" paragraph>
           Sorting is fundamentally about creating order. In computer science,
           disorder is expensive. When data is unstructured, every operation
@@ -29,12 +19,9 @@ export default function WhySortingMatters() {
           predictable. And predictability is the foundation of efficient
           algorithms.
         </Typography>
-      </Box>
+      </Section>
 
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Faster Searching
-        </Typography>
+      <Section title="Faster Searching">
         <Typography variant="body1" paragraph>
           One of the strongest reasons sorting is important is that it enables
           faster searching. A sorted list allows algorithms to eliminate large
@@ -50,12 +37,9 @@ export default function WhySortingMatters() {
           Sorting is often a one-time cost that enables faster operations
           forever after.
         </Typography>
-      </Box>
+      </Section>
 
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Efficient Data Processing
-        </Typography>
+      <Section title="Efficient Data Processing">
         <Typography variant="body1" paragraph>
           Modern systems process enormous volumes of data — logs, transactions,
           analytics, search indexes. Sorting enables efficient grouping,
@@ -66,12 +50,9 @@ export default function WhySortingMatters() {
           indexes. Even if you never manually call a sorting function, the
           systems you use are constantly organizing data behind the scenes.
         </Typography>
-      </Box>
+      </Section>
 
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Teaches Algorithmic Thinking
-        </Typography>
+      <Section title="Teaches Algorithmic Thinking">
         <Typography variant="body1" paragraph>
           Sorting algorithms are often the first algorithms students study. This
           is not accidental. They teach fundamental ideas: comparison, swapping,
@@ -82,12 +63,9 @@ export default function WhySortingMatters() {
           numbers. You are learning how to reason about efficiency, trade-offs,
           and problem decomposition.
         </Typography>
-      </Box>
+      </Section>
 
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Real-World Applications
-        </Typography>
+      <Section title="Real-World Applications">
         <Typography variant="body1" paragraph>
           Sorting is everywhere — search engines ranking results, e-commerce
           platforms ordering products by price, operating systems scheduling
@@ -98,12 +76,9 @@ export default function WhySortingMatters() {
           datasets, detecting duplicates, computing medians, or solving
           interval-based problems, sorted data simplifies logic.
         </Typography>
-      </Box>
+      </Section>
 
-      <Box>
-        <Typography variant="h5" component="h2" gutterBottom>
-          The Deeper Lesson
-        </Typography>
+      <Section title="The Deeper Lesson">
         <Typography variant="body1" paragraph>
           Sorting is important because it transforms chaos into order. It
           represents a deeper idea in computer science: structure reduces
@@ -111,7 +86,7 @@ export default function WhySortingMatters() {
           algorithms become simpler, systems become reliable. And when systems
           are reliable, scale becomes possible.
         </Typography>
-      </Box>
-    </Container>
+      </Section>
+    </Article>
   );
 }

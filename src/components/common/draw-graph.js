@@ -5,6 +5,7 @@ import {
   Checkbox,
   FormControlLabel,
   IconButton,
+  Paper,
   TextField,
   Typography,
 } from '@mui/material';
@@ -141,9 +142,9 @@ function DrawGraph(props) {
           </IconButton>
         </Box>
       </Box>
-      <Box mb={1} className="resizable">
+      <Paper elevation={3} mb={1} className="resizable">
         <Plane />
-      </Box>
+      </Paper>
     </Box>
   );
 }

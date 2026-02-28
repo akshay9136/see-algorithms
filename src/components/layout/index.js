@@ -50,6 +50,7 @@ function Layout({ children }) {
                 variant="h5"
                 component="h1"
                 fontWeight={600}
+                color="warning.main"
                 mb={2}
               >
                 {title}

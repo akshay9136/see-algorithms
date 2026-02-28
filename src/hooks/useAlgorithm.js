@@ -1,3 +1,4 @@
+import { Paper } from '@mui/material';
 import { useState } from 'react';
 
 function useAlgorithm(algorithm) {
@@ -5,8 +6,9 @@ function useAlgorithm(algorithm) {
   const _currentStep = currentStep.length
     ? currentStep.split(',').map(Number)
     : [];
+
   const steps = (
-    <div className="algorithm">
+    <Paper className="algorithm">
       {algorithm
         .split('\n')
         .slice(1, -1)
@@ -18,8 +20,9 @@ function useAlgorithm(algorithm) {
             {step}
           </pre>
         ))}
-    </div>
+    </Paper>
   );
+
   return [steps, setCurrentStep];
 };
 

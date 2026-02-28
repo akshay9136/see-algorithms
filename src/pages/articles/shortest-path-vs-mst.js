@@ -1,28 +1,14 @@
-import React from 'react';
-import { Container, Typography, Box, Divider } from '@mui/material';
+import Article, { Section } from '@/components/article';
+import { Typography } from '@mui/material';
 import Link from 'next/link';
 
 export default function ShortestPathVsMST() {
   return (
-    <Container maxWidth="md" sx={{ p: 0 }} className="article">
-      <Typography variant="h4" component="h1" gutterBottom fontWeight="bold">
-        Shortest Path vs MST
-      </Typography>
-
-      <Typography variant="subtitle1" color="text.secondary" paragraph>
-        In graph theory, confusion often arises not from complexity, but from
-        similarity. Shortest Path and Minimum Spanning Tree (MST) both deal with
-        weighted graphs. Both aim to {'"minimize"'} something. Yet their
-        intentions are fundamentally different.
-      </Typography>
-
-      <Divider sx={{ my: 3 }} />
-
-      <Box mb={4}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          The Core Question
-        </Typography>
-
+    <Article
+      title="Shortest Path vs MST"
+      summary='In graph theory, confusion often arises not from complexity, but from similarity. Shortest Path and Minimum Spanning Tree (MST) both deal with weighted graphs. Both aim to "minimize" something. Yet their intentions are fundamentally different.'
+    >
+      <Section title="The Core Question">
         <Typography paragraph>
           Every algorithm exists to answer a precise question.
         </Typography>
@@ -41,13 +27,9 @@ export default function ShortestPathVsMST() {
           One is concerned with a journey between two points. The other is
           concerned with building an entire network.
         </Typography>
-      </Box>
+      </Section>
 
-      <Box mb={4}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Shortest Path
-        </Typography>
-
+      <Section title="Shortest Path">
         <Typography paragraph>
           Shortest Path algorithms focus on efficiency between specific nodes.
           They do not care about connecting every vertex — only about minimizing
@@ -66,13 +48,9 @@ export default function ShortestPathVsMST() {
           packet delivery. The goal is directional. There is always a starting
           point. Shortest Path solves: How do I get there efficiently?
         </Typography>
-      </Box>
+      </Section>
 
-      <Box mb={4}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Minimum Spanning Tree
-        </Typography>
-
+      <Section title="Minimum Spanning Tree">
         <Typography paragraph>
           MST algorithms, such as <Link href="/graph/Prims">Prim’s</Link> or{' '}
           <Link href="/graph/Kruskals">Kruskal’s</Link>, are not interested in
@@ -90,13 +68,9 @@ export default function ShortestPathVsMST() {
           roads, or connecting systems where total construction cost must be
           minimized. MST solves: How do I connect everything efficiently?
         </Typography>
-      </Box>
+      </Section>
 
-      <Box mb={4}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Critical Difference
-        </Typography>
-
+      <Section title="Critical Difference">
         <Typography paragraph>
           A shortest path tree minimizes distance from one source. An MST
           minimizes the total weight of all selected edges. These objectives do
@@ -121,19 +95,15 @@ export default function ShortestPathVsMST() {
           <li>Minimizes total edge weight</li>
           <li>Independent of any source vertex</li>
         </Typography>
-      </Box>
+      </Section>
 
-      <Box>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Practical Insight
-        </Typography>
-
+      <Section title="Practical Insight">
         <Typography paragraph>
           If your system needs optimal routing from a central node — think
           Shortest Path. If your system needs cost-efficient infrastructure
           connecting everything — think Minimum Spanning Tree.
         </Typography>
-      </Box>
-    </Container>
+      </Section>
+    </Article>
   );
 }

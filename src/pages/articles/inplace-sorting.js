@@ -1,26 +1,16 @@
-import { Container, Typography, Box, Divider } from '@mui/material';
+import Article, { Section } from '@/components/article';
+import { Typography } from '@mui/material';
 import Link from 'next/link';
 
 export default function InplaceSorting() {
   return (
-    <Container maxWidth="md" sx={{ p: 0 }} className="article">
-      <Typography variant="h4" component="h1" gutterBottom fontWeight="bold">
-        In-Place Sorting
-      </Typography>
+    <Article
+      title="In-Place Sorting"
+      summary="Understand how in-place sorting algorithms minimize extra space while reorganizing data."
+    >
 
-      <Typography variant="subtitle1" color="text.secondary" paragraph>
-        Understand how in-place sorting algorithms minimize extra space while
-        reorganizing data.
-      </Typography>
-
-      <Divider sx={{ my: 3 }} />
-
-      <Box mb={4}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          What Does &quot;In-Place&quot; Mean?
-        </Typography>
-
-        <Typography paragraph>
+      <Section title='What Does "In-Place" Mean?'>
+        <Typography variant="body1" paragraph>
           An in-place sorting algorithm rearranges elements within the original
           data structure without allocating significant additional memory. It
           modifies the input directly instead of creating a separate array to
@@ -32,26 +22,18 @@ export default function InplaceSorting() {
           amount of extra space — typically a few variables for indexing,
           swapping, or temporary storage.
         </Typography>
-      </Box>
+      </Section>
 
-      <Box mb={4}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Why In-Place Matters
-        </Typography>
-
+      <Section title="Why In-Place Matters">
         <Typography paragraph>
           Memory is not infinite. Even when machines grow more powerful, memory
           efficiency remains relevant. Large datasets, embedded systems, and
           performance-critical applications all benefit from algorithms that
           avoid unnecessary allocations.
         </Typography>
-      </Box>
+      </Section>
 
-      <Box mb={4}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Classic Examples
-        </Typography>
-
+      <Section title="Classic Examples">
         <Typography paragraph>
           Several foundational algorithms are naturally in-place. Each of these
           algorithms rearranges elements inside the same array. No auxiliary
@@ -84,13 +66,9 @@ export default function InplaceSorting() {
             – Uses the array itself to represent the heap structure.
           </li>
         </Typography>
-      </Box>
+      </Section>
 
-      <Box mb={4}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          When Sorting Is Not In-Place
-        </Typography>
-
+      <Section title="When Sorting Is Not In-Place">
         <Typography paragraph>
           Not all sorting algorithms follow this principle. For example,{' '}
           <Link href="/sorting/Merge">Merge Sort</Link> traditionally uses an
@@ -103,13 +81,9 @@ export default function InplaceSorting() {
           instead of mutating the original. This improves clarity and
           immutability but increases space usage.
         </Typography>
-      </Box>
+      </Section>
 
-      <Box mb={4}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Trade-offs and Nuances
-        </Typography>
-
+      <Section title="Trade-offs and Nuances">
         <Typography paragraph>
           In-place does not automatically mean optimal. Some in-place algorithms
           have poor performance characteristics. For instance, bubble sort is
@@ -121,13 +95,9 @@ export default function InplaceSorting() {
           can be expensive for large objects. In some contexts, allocating
           temporary storage and reducing swaps may actually improve performance.
         </Typography>
-      </Box>
+      </Section>
 
-      <Box>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Final Reflection
-        </Typography>
-
+      <Section title="Final Reflection">
         <Typography paragraph>
           For beginners who already understand basic sorting techniques,
           mastering the concept of {'"in-place"'} deepens algorithmic maturity.
@@ -139,7 +109,7 @@ export default function InplaceSorting() {
           And in computer science — as in life — how we achieve something often
           matters more than the result itself.
         </Typography>
-      </Box>
-    </Container>
+      </Section>
+    </Article>
   );
 }
