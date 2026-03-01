@@ -62,7 +62,7 @@ export const articles = [
         id: 'shortest-path-vs-mst',
         title: 'Shortest Path vs MST',
         summary:
-            'Understand the difference in objectives between Shortest Path and MST algorithms.',
+            'Understand the difference in objectives of Shortest Path and Minimum Spanning Tree algorithms.',
         category: 'Graph',
         date: '2026-02-26',
     },
@@ -70,8 +70,9 @@ export const articles = [
         id: 'quick-sort-illusion',
         title: 'When Quicksort Slows Down',
         summary:
-            'Speed in algorithms is the consequence of structural balance and careful decisions.',
+            'Speed in sorting algorithms is the consequence of structural balance and careful decisions.',
         category: 'Sorting',
         date: '2026-02-28',
     },
-];
+]
+.sort((a, b) => b.date.localeCompare(a.date));

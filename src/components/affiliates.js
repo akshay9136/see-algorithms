@@ -121,7 +121,7 @@ const styles = {
     height: '100%',
     transition: 'all 0.3s ease',
     '&:hover': {
-      transform: 'translateY(-4px)',
+      transform: 'scale(1.02)',
       borderColor: 'primary.main',
       boxShadow: 6,
     },

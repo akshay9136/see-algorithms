@@ -40,18 +40,24 @@ const ArticleList = () => {
               <Typography
                 variant="h6"
                 component="h3"
-                sx={{ fontWeight: 700, my: 1 }}
+                sx={{
+                  my: 1,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  fontWeight: 700,
+                }}
               >
                 {article.title}
               </Typography>
               <Typography
-                variant="body1"
+                variant="body2"
                 color="text.secondary"
                 sx={{
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
                   display: '-webkit-box',
-                  WebkitLineClamp: 2,
+                  overflow: 'hidden',
+                  WebkitBoxOrient: 'vertical',
+                  WebkitLineClamp: 3,
                 }}
               >
                 {article.summary}
@@ -64,6 +70,21 @@ const ArticleList = () => {
   );
 };
 
+const styles = {
+  card: {
+    height: '100%',
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      transform: 'scale(1.02)',
+      borderColor: 'primary.main',
+      boxShadow: 6,
+    },
+    border: 1,
+    borderColor: 'divider',
+    borderRadius: 2,
+  },
+};
+
 const ActionCard = ({ children, href, category, date }) => {
   const tagColor =
     category === 'Sorting'
@@ -73,7 +94,7 @@ const ActionCard = ({ children, href, category, date }) => {
       : 'success';
 
   return (
-    <Card elevation={2} sx={{ height: '100%', borderRadius: 2 }}>
+    <Card elevation={2} sx={styles.card}>
       <CardActionArea component={Link} href={href} sx={{ height: '100%' }}>
         <CardContent sx={{ p: 3 }}>
           <Box display="flex" alignItems="center" gap={1}>

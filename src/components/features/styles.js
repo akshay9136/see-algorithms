@@ -12,13 +12,10 @@ export const styles = {
     cursor: 'pointer',
 
     '&:hover': {
-      transform: 'translateY(-8px) scale(1.02)',
+      transform: 'scale(1.02)',
       boxShadow: '0 8px 24px rgba(0,0,0,0.16)',
       borderColor: feat.color,
 
-      '& .feature-icon': {
-        transform: 'scale(1.1) rotate(5deg)',
-      },
       '& .feature-bg': {
         opacity: 0.1,
       },
