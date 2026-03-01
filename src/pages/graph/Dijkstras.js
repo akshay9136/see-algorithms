@@ -7,6 +7,7 @@ import {
     charAt,
     getCostMatrix,
     hasValue,
+    sound,
     spanEdge,
     svgElement,
 } from '@/common/utils';
@@ -73,7 +74,7 @@ const svgLabel = (i, text) => {
         class: 'vtag',
         x: p.x + 20,
         y: p.y - 12,
-        fill: '#606060',
+        fill: '#404040',
         'font-size': 14,
         'font-weight': 'bold',
     };
@@ -95,8 +96,8 @@ async function* start(src) {
         const label = svgLabel(i, charAt(65 + i));
         $('.vgrp').eq(i).append(label);
         if (i !== src) {
-            $('.vlbl').eq(i).html('<tspan dy="0.1em">&infin;</tspan>');
-            $('.vlbl').eq(i).css('font-size', 20);
+            const symbol = '<tspan font-family="Montserrat, sans-serif" font-weight="500">&infin;</tspan>';
+            $('.vlbl').eq(i).html(symbol);
             d[i] = Infinity;
         } else {
             $('.vlbl').eq(i).text('0');
@@ -108,6 +109,7 @@ async function* start(src) {
     yield delay;
     $('.vrtx').eq(src).attr('stroke', Colors.visited);
     $('.vrtx').eq(src).attr('fill', Colors.visited);
+    sound('pop');
     yield delay;
     yield* dijkstra(src);
 }
@@ -142,6 +144,7 @@ async function* dequeue() {
     const j = d.indexOf(min);
     const i = prev[j];
     v.push(j);
+    sound('pop');
     yield* spanEdge(i, j);
     $('.vrtx').eq(j).attr('fill', Colors.visited);
     if (v.length < n) {
