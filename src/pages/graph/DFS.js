@@ -38,8 +38,8 @@ while stack is not empty:
                 pathfinding, and solving puzzles.
             </Typography>
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
-                <Stack spacing={2}>
-                    <Typography variant="h6" component="h2" pt={1}>
+                <Stack spacing={2} pt={0.5}>
+                    <Typography variant="h6" component="h2">
                         Pseudocode
                     </Typography>
                     {algorithm}

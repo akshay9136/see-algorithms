@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { copyBinaryTree, showError, sleep } from '@/common/utils';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Paper, Stack, Typography } from '@mui/material';
 import { DSInput, Edge, Node } from '@/components/common';
 import { Refresh, Share } from '@mui/icons-material';
 import useAlgorithm from '@/hooks/useAlgorithm';
@@ -162,11 +162,11 @@ function rebalance(node):
             <Typography variant="h6" component="h2">
                 Pseudocode
             </Typography>
-            <Box display="flex" gap={3} flexWrap="wrap">
+            <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
                 {algorithm}
                 <Stack spacing={2}>
                     <DSInput {...props} buttons={buttons} />
-                    <Box ref={scope} className="resizable" id="binaryTree">
+                    <Paper ref={scope} className="resizable" id="binaryTree">
                         {numbers.slice(1).map((_, i) => (
                             <Edge key={i} index={i} />
                         ))}
@@ -179,7 +179,7 @@ function rebalance(node):
                                 showBf
                             />
                         ))}
-                    </Box>
+                    </Paper>
                 </Stack>
             </Box>
         </Stack>

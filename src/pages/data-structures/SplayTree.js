@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { copyBinaryTree, randomNodes, showError, sleep } from '@/common/utils';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Paper, Stack, Typography } from '@mui/material';
 import { DSInput, Edge, Node } from '@/components/common';
 import { Refresh, Share } from '@mui/icons-material';
 import useAnimator from '@/hooks/useAnimator';
@@ -124,7 +124,7 @@ export default function SplayTree(props) {
                 Visualizer
             </Typography>
             <DSInput {...props} buttons={buttons} />
-            <Box ref={scope} className="resizable" id="binaryTree">
+            <Paper ref={scope} className="resizable" id="binaryTree">
                 {numbers.slice(1).map((_, i) => (
                     <Edge key={i} index={i} />
                 ))}
@@ -136,7 +136,7 @@ export default function SplayTree(props) {
                         style={{ opacity: 0 }}
                     />
                 ))}
-            </Box>
+            </Paper>
         </Stack>
     );
 }

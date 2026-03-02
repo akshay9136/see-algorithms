@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Paper, Stack, Typography } from '@mui/material';
 import { DSInput, Edge, Node, Numkey } from '@/components/common';
 import binaryHeap from '@/helpers/binaryHeap';
 import useAnimator from '@/hooks/useAnimator';
@@ -102,49 +102,59 @@ function extract():
                 sx={{ '& li': { mb: 1 } }}
             >
                 <li>
-                    <strong>Insertion:</strong> The new element is added to
-                    the end of the heap and then {'"bubbled up"'}{' '}
-                    (heapify-up) by repeatedly swapping it with its parent
-                    until the heap property is restored.
+                    <strong>Insertion:</strong> The new element is added to the
+                    end of the heap and then {'"bubbled up"'} (heapify-up) by
+                    repeatedly swapping it with its parent until the heap
+                    property is restored.
                 </li>
                 <li>
-                    <strong>Extraction:</strong> The root element is removed
-                    and replaced by the last element in the heap. This
-                    element is then {'"bubbled down"'} (heapify-down) by
-                    swapping it with its children until the heap property is
-                    satisfied.
+                    <strong>Extraction:</strong> The root element is removed and
+                    replaced by the last element in the heap. This element is
+                    then {'"bubbled down"'} (heapify-down) by swapping it with
+                    its children until the heap property is satisfied.
                 </li>
             </Typography>
-            <Typography variant="h6" component="h2">
-                Pseudocode
-            </Typography>
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
-                {insertAlgo}
-                {extractAlgo}
-            </Box>
-            <br />
-            <DSInput {...props} buttons={buttons} />
-            <Box ref={scope} className="resizable" id="binaryTree">
-                {numbers.slice(1).map((_, i) => (
-                    <Edge key={i} index={i} />
-                ))}
-                {numbers.map((num, i) => (
-                    <Node
-                        key={i}
-                        index={i}
-                        value={num}
-                        style={{ opacity: 0 }}
-                    />
-                ))}
-                {numbers.map((_, i) => (
-                    <Numkey
-                        key={i}
-                        index={i}
-                        value={i}
-                        animate={{ x: -20 }}
-                        transition={{ duration: 0 }}
-                    />
-                ))}
+                <Stack spacing={2}>
+                    <Typography variant="h6" component="h2">
+                        Pseudocode
+                    </Typography>
+                    <Box
+                        display="flex"
+                        gap={3}
+                        flexWrap="wrap"
+                        alignItems="start"
+                    >
+                        {insertAlgo}
+                        {extractAlgo}
+                    </Box>
+                </Stack>
+                <Stack spacing={2}>
+                    <DSInput {...props} buttons={buttons} />
+
+                    <Paper ref={scope} className="resizable" id="binaryTree">
+                        {numbers.slice(1).map((_, i) => (
+                            <Edge key={i} index={i} />
+                        ))}
+                        {numbers.map((num, i) => (
+                            <Node
+                                key={i}
+                                index={i}
+                                value={num}
+                                style={{ opacity: 0 }}
+                            />
+                        ))}
+                        {numbers.map((_, i) => (
+                            <Numkey
+                                key={i}
+                                index={i}
+                                value={i}
+                                animate={{ x: -20 }}
+                                transition={{ duration: 0 }}
+                            />
+                        ))}
+                    </Paper>
+                </Stack>
             </Box>
         </Stack>
     );

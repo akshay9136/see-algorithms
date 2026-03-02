@@ -142,7 +142,7 @@ function DrawGraph(props) {
           </IconButton>
         </Box>
       </Box>
-      <Paper elevation={3} mb={1} className="resizable">
+      <Paper mb={1} className="resizable">
         <Plane />
       </Paper>
     </Box>
