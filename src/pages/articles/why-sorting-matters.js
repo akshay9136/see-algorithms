@@ -1,4 +1,4 @@
-import Article, { Section } from '@/components/article';
+import { Article, Section } from '@/components/common';
 import { Typography } from '@mui/material';
 
 export default function WhySortingMatters() {

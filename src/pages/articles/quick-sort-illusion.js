@@ -1,4 +1,4 @@
-import Article, { Section } from '@/components/article';
+import { Article, Section } from '@/components/common';
 import { Divider, Typography } from '@mui/material';
 import Link from 'next/link';
 

@@ -1,4 +1,4 @@
-import Article, { Section } from '@/components/article';
+import { Article, Section } from '@/components/common';
 import { Typography } from '@mui/material';
 import Link from 'next/link';
 
@@ -8,7 +8,6 @@ export default function InplaceSorting() {
       title="In-Place Sorting Algorithms"
       summary="Understand how in-place sorting algorithms minimize extra space while reorganizing data."
     >
-
       <Section title='What Does "In-Place" Mean?'>
         <Typography variant="body1" paragraph>
           An in-place sorting algorithm rearranges elements within the original

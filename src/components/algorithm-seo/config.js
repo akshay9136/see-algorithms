@@ -193,6 +193,11 @@ export const metaConfigs = {
     description:
       'Learn how already sorted data can slow down Quicksort. Understand the importance of pivot selection and how it affects the performance.',
   },
+  'avl-tree-vs-rb-tree': {
+    title: 'AVL Tree vs Red-Black Tree | Self-Balancing Trees',
+    description:
+      'Learn the difference between AVL Trees and Red-Black Trees. Understand the self-balancing mechanisms and how they differ in practice.',
+  },
 };
 
 export const getSeoConfig = (pageId) => {

@@ -62,7 +62,7 @@ export const articles = [
         id: 'shortest-path-vs-mst',
         title: 'Shortest Path vs MST',
         summary:
-            'Understand the difference in objectives of Shortest Path and Minimum Spanning Tree algorithms.',
+            'Learn the difference in objectives of Shortest Path and Minimum Spanning Tree algorithms.',
         category: 'Graph',
         date: '2026-02-26',
     },
@@ -73,6 +73,14 @@ export const articles = [
             'Speed in sorting algorithms is the consequence of structural balance and careful decisions.',
         category: 'Sorting',
         date: '2026-02-28',
+    },
+    {
+        id: 'avl-tree-vs-rb-tree',
+        title: 'AVL Tree vs Red-Black Tree',
+        summary:
+            'Understand the mechanism of self-balancing Binary Search Trees and how they differ in practice.',
+        category: 'Data Structures',
+        date: '2026-03-03',
     },
 ]
 .sort((a, b) => b.date.localeCompare(a.date));

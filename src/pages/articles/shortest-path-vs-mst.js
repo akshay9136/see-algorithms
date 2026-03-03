@@ -1,6 +1,16 @@
-import Article, { Section } from '@/components/article';
-import { Typography } from '@mui/material';
+import { Article, Section } from '@/components/common';
+import { Paper, Typography } from '@mui/material';
 import Link from 'next/link';
+
+const styles = {
+  card: {
+    maxWidth: 600,
+    maxHeight: { xs: 200, sm: 400 },
+    overflow: 'hidden',
+    borderRadius: 0,
+    my: 3,
+  },
+};
 
 export default function ShortestPathVsMST() {
   return (
@@ -43,10 +53,19 @@ export default function ShortestPathVsMST() {
           source-centric.
         </Typography>
 
+        <Paper sx={styles.card}>
+          <img
+            src="/dijkstras-algo.gif"
+            alt="Dijkstra's Algorithm"
+            width="100%"
+          />
+        </Paper>
+
         <Typography paragraph>
           In real systems, this appears in routing, navigation, and network
           packet delivery. The goal is directional. There is always a starting
-          point. Shortest Path solves: How do I get there efficiently?
+          point. Shortest Path solves:{' '}
+          <strong>How do I get there efficiently?</strong>
         </Typography>
       </Section>
 
@@ -59,14 +78,19 @@ export default function ShortestPathVsMST() {
         </Typography>
 
         <Typography paragraph>
-          The result is a tree — a structure with exactly (V − 1) edges. No
-          direction. Just minimal connectivity.
+          <strong>Prim’s algorithm</strong> requires a starting vertex to grow
+          the tree, but the MST itself is not tied to any source.
         </Typography>
+
+        <Paper sx={styles.card}>
+          <img src="/prims-algo.gif" alt="Prim's Algorithm" width="100%" />
+        </Paper>
 
         <Typography paragraph>
           This is useful in infrastructure design: laying cables, building
           roads, or connecting systems where total construction cost must be
-          minimized. MST solves: How do I connect everything efficiently?
+          minimized. MST solves:{' '}
+          <strong>How do I connect everything efficiently?</strong>
         </Typography>
       </Section>
 
