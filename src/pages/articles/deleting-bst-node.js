@@ -1,5 +1,6 @@
 import { Paper, Typography } from '@mui/material';
 import { Article, Section } from '@/components/common';
+import Link from 'next/link';
 
 const styles = {
   card: {
@@ -19,10 +20,10 @@ export default function DeletingNodeInBST() {
     >
       <Section title="The Responsibility">
         <Typography paragraph>
-          A BST is not merely a collection of nodes. It is a disciplined
-          structure governed by a simple invariant: for every node, values in
-          the left subtree are smaller, and values in the right subtree are
-          larger.
+          A <Link href="/data-structures/BST">BST</Link> is not merely a
+          collection of nodes. It is a disciplined structure governed by a
+          simple invariant: for every node, values in the left subtree are
+          smaller, and values in the right subtree are larger.
         </Typography>
 
         <Typography paragraph>

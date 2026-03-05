@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import LaunchIcon from '@mui/icons-material/Launch';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import Image from 'next/image';
 
 const RESOURCES = [
   {
@@ -100,21 +101,48 @@ function Affiliates() {
         ))}
       </Grid>
 
+      <Box
+        display="flex"
+        justifyContent="center"
+        sx={{ display: { xs: 'none', sm: 'flex' }, mt: 4 }}
+      >
+        <a href={BANNER_LINK} target="_blank" rel="nofollow sponsored">
+          <Image
+            src="/udemy-banner.png"
+            alt="Learn DSA on Udemy"
+            width={800}
+            height={200}
+            style={styles.banner}
+          />
+        </a>
+      </Box>
+
+      <Box sx={{ display: { sm: 'none' }, mt: 4 }}>
+        <a href={BANNER_LINK} target="_blank" rel="nofollow sponsored">
+          <Image
+            src="/udemy-banner-small.png"
+            alt="Learn DSA on Udemy"
+            width={400}
+            height={400}
+            style={styles.banner}
+          />
+        </a>
+      </Box>
+
       <Typography
         variant="caption"
         display="block"
         textAlign="center"
         color="text.disabled"
-        mt={4}
+        mt={2}
       >
-        As an Udemy Associate, I earn from qualifying purchases. This helps
-        support the site at no extra cost to you.
+        As an Udemy Associate, I earn from qualifying purchases.
       </Typography>
     </Box>
   );
 }
 
-export default Affiliates;
+const BANNER_LINK = 'https://trk.udemy.com/c/6805590/3193860/39854';
 
 const styles = {
   card: {
@@ -137,4 +165,11 @@ const styles = {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },
+  banner: {
+    width: '100%',
+    height: 'auto',
+    borderRadius: 8,
+  },
 };
+
+export default Affiliates;
