@@ -198,6 +198,11 @@ export const metaConfigs = {
     description:
       'Learn the difference between AVL Trees and Red-Black Trees. Understand the self-balancing mechanisms and how they differ in practice.',
   },
+  'deleting-bst-node': {
+    title: 'Deleting a Node in BST | Three Possible Cases',
+    description:
+      'Learn how a Binary Search Tree removes nodes while maintaining its ordering. Explore the three situations that arise and how each case works.',
+},
 };
 
 export const getSeoConfig = (pageId) => {

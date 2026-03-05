@@ -82,5 +82,13 @@ export const articles = [
         category: 'Data Structures',
         date: '2026-03-03',
     },
+    {
+        id: 'deleting-bst-node',
+        title: 'Deleting a Node in BST',
+        summary:
+            'Learn how Binary Search Tree preserves the search propery while removing nodes from the tree.',
+        category: 'Data Structures',
+        date: '2026-03-05',
+    },
 ]
 .sort((a, b) => b.date.localeCompare(a.date));
