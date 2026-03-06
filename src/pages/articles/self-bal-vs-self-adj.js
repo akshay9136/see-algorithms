@@ -7,7 +7,8 @@ const styles = {
     maxWidth: 600,
     maxHeight: { xs: 200, sm: 400 },
     overflow: 'hidden',
-    borderRadius: 0,
+    border: 1,
+    borderColor: 'divider',
     mt: 3,
   },
 };
@@ -139,7 +140,7 @@ export default function HowTreesStayEfficient() {
         </Typography>
 
         <Typography paragraph>
-          They are strategies . The wisdom lies in knowing which one your problem
+          They are strategies. The wisdom lies in knowing which one your problem
           demands.
         </Typography>
       </Section>

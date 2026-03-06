@@ -7,7 +7,8 @@ const styles = {
     maxWidth: 600,
     maxHeight: { xs: 200, sm: 400 },
     overflow: 'hidden',
-    borderRadius: 0,
+    border: 1,
+    borderColor: 'divider',
     mt: 3,
   },
 };
@@ -87,13 +88,7 @@ export default function AVLTreeVsRedBlackTree() {
           accepts slight imbalance in exchange for smoother updates.
         </Typography>
 
-        <Paper
-          sx={{
-            ...styles.card,
-            border: 1,
-            borderColor: 'rgba(0, 0, 0, 0.3)',
-          }}
-        >
+        <Paper sx={styles.card}>
           <img src="/red-black-tree.gif" alt="Red-Black Tree" width="100%" />
         </Paper>
       </Section>

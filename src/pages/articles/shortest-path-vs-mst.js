@@ -7,7 +7,8 @@ const styles = {
     maxWidth: 600,
     maxHeight: { xs: 200, sm: 400 },
     overflow: 'hidden',
-    borderRadius: 0,
+    border: 1,
+    borderColor: 'divider',
     my: 3,
   },
 };
