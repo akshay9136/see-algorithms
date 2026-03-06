@@ -89,8 +89,8 @@ const ActionCard = ({ children, href, category, date }) => {
   const tagColor =
     category === 'Sorting'
       ? 'info'
-      : category === 'Graph'
-      ? 'error'
+      : category === 'Graph Theory'
+      ? 'warning'
       : 'success';
 
   return (

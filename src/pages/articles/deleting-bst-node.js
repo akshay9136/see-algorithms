@@ -20,9 +20,9 @@ export default function DeletingNodeInBST() {
     >
       <Section title="The Responsibility">
         <Typography paragraph>
-          A <Link href="/data-structures/BST">BST</Link> is not merely a
-          collection of nodes. It is a disciplined structure governed by a
-          simple invariant: for every node, values in the left subtree are
+          A <Link href="/data-structures/BST">Binary Search Tree</Link> is not
+          merely a collection of nodes. It is a disciplined structure governed
+          by a simple invariant: for every node, values in the left subtree are
           smaller, and values in the right subtree are larger.
         </Typography>
 

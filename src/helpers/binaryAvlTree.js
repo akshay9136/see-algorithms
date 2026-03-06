@@ -55,7 +55,7 @@ function bianryAvlTree(animator, setCurrentStep) {
                 setCurrentStep('7');
                 yield* rotateLeft(node.left);
                 setCurrentStep('8');
-                yield* rotateRight(node);
+                yield* rotateRight(node.refresh());
             }
         } else if (nodeBf < -1) {
             const childBf = balanceFactor(node.right);
@@ -66,7 +66,7 @@ function bianryAvlTree(animator, setCurrentStep) {
                 setCurrentStep('13');
                 yield* rotateRight(node.right);
                 setCurrentStep('14');
-                yield* rotateLeft(node);
+                yield* rotateLeft(node.refresh());
             }
         }
         setCurrentStep('');

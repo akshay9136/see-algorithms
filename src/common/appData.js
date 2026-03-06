@@ -63,7 +63,7 @@ export const articles = [
         title: 'Shortest Path vs MST',
         summary:
             'Learn the difference in objectives of Shortest Path and Minimum Spanning Tree algorithms.',
-        category: 'Graph',
+        category: 'Graph Theory',
         date: '2026-02-26',
     },
     {
@@ -86,9 +86,17 @@ export const articles = [
         id: 'deleting-bst-node',
         title: 'Deleting a Node in BST',
         summary:
-            'Learn how Binary Search Tree preserves the search propery while removing nodes from the tree.',
+            'Learn how Binary Search Tree preserves the ordering while removing nodes from the tree.',
         category: 'Data Structures',
         date: '2026-03-05',
     },
+    {
+        id: 'self-bal-vs-self-adj',
+        title: 'How Trees Stay Efficient',
+        summary:
+            'Learn about self-balancing and self-adjusting Binary Search Trees and how they differ in practice.',
+        category: 'Data Structures',
+        date: '2026-03-06',
+    }
 ]
 .sort((a, b) => b.date.localeCompare(a.date));
