@@ -56,7 +56,11 @@ export default function HomePage() {
             </Typography>
             <img src="/preview.gif" alt="preview" width="100%" />
 
-            <Typography variant="body2" color="text.secondary" px={2}>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ px: 2, mt: 1 }}
+            >
               Use the controls to pause/resume animations, tweak inputs, or
               generate a shareable URL for the current graph.
             </Typography>

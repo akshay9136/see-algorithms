@@ -52,14 +52,14 @@ export default function ContactUs() {
           message: formData.message,
           to_email: 'akarande777@outlook.com',
         },
-        publicKey
+        publicKey,
       );
       setSubmitted(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (err) {
       console.error('Email Error:', err);
       setError(
-        'Failed to send email. Please try again or contact us directly.'
+        'Failed to send email. Please try again or contact us directly.',
       );
     } finally {
       setLoading(false);
@@ -70,21 +70,14 @@ export default function ContactUs() {
     <>
       <CustomSeo />
       <Box>
-        <Typography
-          variant="h5"
-          component="h1"
-          gutterBottom
-          fontWeight={600}
-          align="center"
-        >
+        <Typography variant="h4" component="h1" gutterBottom align="center">
           Contact Us
         </Typography>
 
         <Typography
-          variant="subtitle1"
-          align="center"
+          variant="body1"
+          align="center !important"
           color="text.secondary"
-          paragraph
         >
           We&apos;d love to hear from you! Send us a message and we&apos;ll
           respond as soon as possible.

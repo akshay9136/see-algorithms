@@ -30,9 +30,10 @@ export default function HowTreesStayEfficient() {
 
         <Typography paragraph>
           Two philosophies emerged to protect this structure:{' '}
-          <em>self-balancing trees</em> and <em>self-adjusting trees</em>. Both
-          aim to maintain efficiency, but they approach the problem differently.
-          One enforces discipline at all times. The other learns from usage.
+          <strong>self-balancing</strong> trees and{' '}
+          <strong>self-adjusting</strong> trees. Both aim to maintain
+          efficiency, but they approach the problem differently. One
+          enforces discipline at all times. The other learns from usage.
         </Typography>
       </Section>
 
