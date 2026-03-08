@@ -71,13 +71,7 @@ export default function Features() {
             </Box>
 
             <CardContent sx={{ px: 3, pb: 3, textAlign: 'center' }}>
-              <Typography
-                variant="h6"
-                fontWeight={700}
-                gutterBottom
-                color="grey.900"
-                mb={2}
-              >
+              <Typography variant="h6" color="grey.900" mb={2}>
                 {feat.title}
               </Typography>
 

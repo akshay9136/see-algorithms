@@ -46,17 +46,16 @@ export default function HomePage() {
 
         <Grid item xs={12} md={6}>
           <Card elevation={3} sx={{ borderRadius: 2, py: 1.5 }}>
-            <Typography
-              variant="h6"
-              fontWeight={600}
-              gutterBottom
-              textAlign="center"
-            >
+            <Typography variant="h6" gutterBottom textAlign="center">
               Visualization Preview
             </Typography>
             <img src="/preview.gif" alt="preview" width="100%" />
 
-            <Typography variant="body2" color="text.secondary" px={2}>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ px: 2, mt: 0.5 }}
+            >
               Use the controls to pause/resume animations, tweak inputs, or
               generate a shareable URL for the current graph.
             </Typography>

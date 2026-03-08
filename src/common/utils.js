@@ -271,12 +271,10 @@ function traverse(node, fn) {
     }
 }
 
-function copyBinaryTree(root, fn = (a) => a.value) {
-    const data = [];
-    traverse(root, (node) => data.push(fn(node)));
-    const nodes = JSON.stringify(data);
+function copyBinaryTree(nodes) {
+    const json = JSON.stringify(nodes);
     const origin = window.location.origin;
-    const url = `${origin}${location.pathname}?nodes=${btoa(nodes)}`;
+    const url = `${origin}${location.pathname}?nodes=${btoa(json)}`;
     navigator.clipboard.writeText(url);
     showToast({
         message: 'Tree url is copied to clipboard.',

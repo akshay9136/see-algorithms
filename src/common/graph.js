@@ -33,8 +33,19 @@ const Graph = {
         matrix = [];
     },
 
-    skeleton() {
-        return { points, segments, matrix, directed };
+    skeleton(weighted) {
+        let weights = null;
+        if (weighted) {
+            const { getCostMatrix } = require('./utils');
+            weights = getCostMatrix();
+        }
+        return {
+            points: points.slice(),
+            segments: segments.slice(),
+            matrix: matrix.map((row) => [...row]),
+            directed,
+            weights,
+        };
     },
 
     initialize(data) {
@@ -106,7 +117,7 @@ const Graph = {
             let u = stack.pop();
             segments.forEach(([i, j]) => {
                 if (u === i && ind[j] > 0) {
-                    ind[j]--
+                    ind[j]--;
                     if (ind[j] === 0) stack.push(j);
                 }
             });
@@ -122,7 +133,7 @@ export const Points = {
     create: (x, y) => ({ x, y }),
 
     equal: (p, q) => p.x === q.x && p.y === q.y,
-    
+
     slope: (p, q) => (q.y - p.y) / (q.x - p.x),
 
     distance(p, q) {

@@ -4,6 +4,7 @@ import { drawGraph, switchGraph } from '@/helpers/drawGraph';
 import { randomGraph } from '@/helpers/randomGraph';
 import { Colors } from '@/common/constants';
 import AppContext from '@/common/context';
+import useUndoRedo from './useUndoRedo';
 import Graph, { Path } from '@/common/graph';
 import Iterator from '@/common/iterator';
 import $ from 'jquery';
@@ -11,6 +12,10 @@ import $ from 'jquery';
 function useGraphControls(config, props) {
   const { isDirGraph, playStatus, setContext } = useContext(AppContext);
   const { source, weighted, directed } = config;
+  const history = useUndoRedo();
+  config.history = {
+    commit: () => history.push(Graph.skeleton(weighted)),
+  };
 
   const validate = () => {
     let np = Graph.totalPoints();
@@ -57,8 +62,8 @@ function useGraphControls(config, props) {
         Path('.edge').attr('stroke', Colors.stroke);
         Path('.edge').attr('stroke-width', 2.5);
         if (validate()) {
-            Iterator.new(props.onStart, src);
-            resume();
+          Iterator.new(props.onStart, src);
+          resume();
         }
         break;
       default:
@@ -69,21 +74,37 @@ function useGraphControls(config, props) {
   const handleClear = () => {
     props.onClear?.();
     Iterator.current()?.exit();
+    history.clear();
     clearGraph();
     drawGraph(config);
     setContext({ playStatus: 0 });
   };
 
-  const setDirected = () => {
-    refresh();
-    switchGraph();
-    setContext({ isDirGraph: !isDirGraph });
+  const handleUndo = () => {
+    if (history.canUndo) {
+      const prevGraph = history.undo(Graph.skeleton(weighted));
+      clearGraph();
+      Graph.initialize(prevGraph);
+      createGraph(prevGraph, weighted);
+      drawGraph(config);
+    }
+  };
+
+  const handleRedo = () => {
+    if (history.canRedo) {
+      const nextGraph = history.redo(Graph.skeleton(weighted));
+      clearGraph();
+      Graph.initialize(nextGraph);
+      createGraph(nextGraph, weighted);
+      drawGraph(config);
+    }
   };
 
   const refresh = () => {
     Iterator.current()?.exit();
     props.onClear?.();
     clearGraph();
+    history.clear();
     Graph.initialize(randomGraph(8));
     while (Graph.hasCycle()) {
       Graph.initialize(randomGraph(8));
@@ -94,7 +115,22 @@ function useGraphControls(config, props) {
     setContext({ playStatus: 0 });
   };
 
-  return { handlePlay, handleClear, refresh, setDirected };
+  const setDirected = () => {
+    refresh();
+    switchGraph();
+    setContext({ isDirGraph: !isDirGraph });
+  };
+
+  return {
+    handlePlay,
+    handleClear,
+    handleUndo,
+    handleRedo,
+    canUndo: history.canUndo && playStatus === 0,
+    canRedo: history.canRedo && playStatus === 0,
+    refresh,
+    setDirected,
+  };
 }
 
 export default useGraphControls;

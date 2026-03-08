@@ -84,6 +84,23 @@ function binaryHeap(animator) {
 
     return {
         ...Tree,
+        _insert(num) {
+            const size = Tree.size();
+            const parent = Tree.node(Math.floor((size - 1) / 2));
+            const isLeft = size % 2 === 1;
+            Tree.insert(num, parent, isLeft);
+            for (let i = 0; i <= size; i++) {
+                const node = Tree.node(i);
+                txy(`#key${i}`, node.x + 20, node.y - 24);
+            }
+        },
+        collect() {
+            const nodes = [];
+            for (let i = 0; i < Tree.size(); i++) {
+                nodes.push(Tree.node(i).value);
+            }
+            return nodes;
+        },
         heapify,
         heapifyUp,
         extract,

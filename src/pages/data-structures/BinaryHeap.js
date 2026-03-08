@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { Redo, Undo } from '@mui/icons-material';
 import { Box, Paper, Stack, Typography } from '@mui/material';
 import { DSInput, Edge, Node, Numkey } from '@/components/common';
-import binaryHeap from '@/helpers/binaryHeap';
+import { sleep, sound } from '@/common/utils';
 import useAnimator from '@/hooks/useAnimator';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import { sound } from '@/common/utils';
+import useUndoRedo from '@/hooks/useUndoRedo';
+import binaryHeap from '@/helpers/binaryHeap';
 import Link from 'next/link';
 
 var arr = [], Tree;
@@ -14,6 +16,8 @@ export default function BinaryHeap(props) {
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
     const { txy } = animator;
+    const history = useUndoRedo();
+
     const [insertAlgo] = useAlgorithm(`
 function insert(value):
     arr[n] = value
@@ -36,12 +40,16 @@ function extract():
 `);
 
     async function* insert(num) {
+        if (!numbers.length) {
+            Tree = binaryHeap(animator);
+            arr = [];
+        }
+        history.push(Tree.collect());
         arr.push(num);
         setNumbers(arr.slice());
         yield delay;
         sound('pop');
         if (!numbers.length) {
-            Tree = binaryHeap(animator);
             const node = Tree.insert(num);
             txy(`#key0`, node.x + 20, node.y - 24);
         } else {
@@ -60,13 +68,38 @@ function extract():
 
     async function* extract() {
         yield delay;
+        history.push(Tree.collect());
         yield* Tree.extract();
-        if (!Tree.root()) reset();
+        if (!Tree.root()) setNumbers([]);
     }
+
+    const newTree = async (nodes) => {
+        arr = nodes.slice();
+        setNumbers(arr.slice());
+        Tree = binaryHeap(animator);
+        await sleep(100);
+        nodes.forEach((num) => Tree._insert(num));
+    };
+
+    const handleUndo = async () => {
+        if (history.canUndo) {
+            setNumbers([]);
+            await sleep(100);
+            newTree(history.undo(Tree.collect()));
+        }
+    };
+
+    const handleRedo = async () => {
+        if (history.canRedo) {
+            setNumbers([]);
+            await sleep(100);
+            newTree(history.redo(Tree.collect()));
+        }
+    };
 
     const reset = () => {
         setNumbers([]);
-        arr = [];
+        history.clear();
     };
 
     const buttons = [
@@ -78,6 +111,18 @@ function extract():
             disabled: !arr.length,
         },
         { text: 'Clear', onClick: reset },
+        {
+            text: <Undo />,
+            onClick: handleUndo,
+            title: 'Undo',
+            disabled: !history.canUndo,
+        },
+        {
+            text: <Redo />,
+            onClick: handleRedo,
+            title: 'Redo',
+            disabled: !history.canRedo,
+        },
     ];
 
     return (

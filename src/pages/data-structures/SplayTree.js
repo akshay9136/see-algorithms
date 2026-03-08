@@ -1,57 +1,72 @@
 import { useEffect, useState } from 'react';
 import { copyBinaryTree, randomNodes, showError, sleep } from '@/common/utils';
-import { Box, Paper, Stack, Typography } from '@mui/material';
+import { Paper, Stack, Typography } from '@mui/material';
 import { DSInput, Edge, Node } from '@/components/common';
-import { Refresh, Share } from '@mui/icons-material';
+import { Redo, Refresh, Share, Undo } from '@mui/icons-material';
 import useAnimator from '@/hooks/useAnimator';
 import useTreeUrl from '@/hooks/useTreeUrl';
+import useUndoRedo from '@/hooks/useUndoRedo';
 import splayTree from '@/helpers/splayTree';
 
 var arr = [], Tree;
 var deleted = {};
 
 export default function SplayTree(props) {
-    const [nodes, isReady] = useTreeUrl();
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
+    const [nodes, isReady] = useTreeUrl();
+    const history = useUndoRedo();
 
     async function* insert(num) {
         if (arr.includes(num) && !deleted[num]) {
             showError(`Node (${num}) already exists.`);
             return;
         }
+        if (!numbers.length) {
+            Tree = splayTree(animator);
+            deleted = {};
+            arr = [];
+        }
+        history.push(Tree.collect());
         deleted[num] = false;
         arr.push(num);
         setNumbers(arr.slice());
         yield 500;
-        if (!numbers.length) {
-            Tree = splayTree(animator);
-        }
         yield* Tree.insert(num);
     }
 
     async function* search(num) {
         yield 500;
+        history.push(Tree.collect());
         yield* Tree.search(num);
     }
 
-    // async function* remove(num) {
-    //     if (arr.includes(num)) deleted[num] = true;
-    //     yield 500;
-    //     yield* Tree.deleteNode(num);
-    //     if (!Tree.root()) reset();
-    // };
+    const handleUndo = async () => {
+        if (history.canUndo) {
+            setNumbers([]);
+            await sleep(100);
+            newTree(history.undo(Tree.collect()));
+        }
+    };
 
-    const reset = () => {
-        setNumbers([]);
-        arr = [];
-        deleted = {};
+    const handleRedo = async () => {
+        if (history.canRedo) {
+            setNumbers([]);
+            await sleep(100);
+            newTree(history.redo(Tree.collect()));
+        }
     };
 
     const refresh = async () => {
-        reset();
+        setNumbers([]);
+        history.clear();
         await sleep(100);
         newTree(randomNodes());
+    };
+
+    const reset = () => {
+        setNumbers([]);
+        history.clear();
     };
 
     const buttons = [
@@ -63,6 +78,18 @@ export default function SplayTree(props) {
             disabled: !arr.length,
         },
         { text: 'Clear', onClick: reset, disabled: !arr.length },
+        {
+            text: <Undo />,
+            onClick: handleUndo,
+            title: 'Undo',
+            disabled: !history.canUndo,
+        },
+        {
+            text: <Redo />,
+            onClick: handleRedo,
+            title: 'Redo',
+            disabled: !history.canRedo,
+        },
         { text: <Refresh />, onClick: refresh, title: 'New tree' },
         {
             text: <Share fontSize="small" />,

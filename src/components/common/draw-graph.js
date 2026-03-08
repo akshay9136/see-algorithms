@@ -9,14 +9,21 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { PlayArrow, Pause, Refresh, Share } from '@mui/icons-material';
-import { createGraph, getCostMatrix } from '@/common/utils';
+import {
+  PlayArrow,
+  Pause,
+  Refresh,
+  Share,
+  Undo,
+  Redo,
+} from '@mui/icons-material';
+import { useRouter } from 'next/router';
+import { createGraph } from '@/common/utils';
 import useGraphControls from '@/hooks/useGraphControls';
-import styles from '@/styles/draw-graph.module.css';
 import AppContext from '@/common/context';
 import Iterator from '@/common/iterator';
 import Graph from '@/common/graph';
-import { useRouter } from 'next/router';
+import styles from '@/styles/draw-graph.module.css';
 import { showToast } from '../toast';
 
 function DrawGraph(props) {
@@ -31,8 +38,16 @@ function DrawGraph(props) {
     directed: algoId === 'TopSort' ||
       (isDirGraph && props.allowDirected !== false),
   };
-  const { handlePlay, handleClear, refresh, setDirected } =
-    useGraphControls(config, props);
+  const {
+    handlePlay,
+    handleClear,
+    handleUndo,
+    handleRedo,
+    canUndo,
+    canRedo,
+    refresh,
+    setDirected,
+  } = useGraphControls(config, props);
 
   useEffect(() => {
     if (router.isReady) {
@@ -51,11 +66,10 @@ function DrawGraph(props) {
     return () => Iterator.current()?.exit();
   }, [algoId, router]);
 
-  const handleSave = () => {
-    const weights = getCostMatrix();
-    const data = JSON.stringify({ ...Graph.skeleton(), weights });
+  const handleCopy = () => {
+    const json = JSON.stringify(Graph.skeleton(config.weighted));
     const origin = window.location.origin;
-    const url = `${origin}${router.pathname}?skeleton=${btoa(data)}`;
+    const url = `${origin}${router.pathname}?skeleton=${btoa(json)}`;
     navigator.clipboard.writeText(url);
     showToast({
       message: 'Graph url is copied to clipboard.',
@@ -100,7 +114,7 @@ function DrawGraph(props) {
             <TextField
               value={source}
               onChange={(e) => {
-                let value = e.target.value;
+                const value = e.target.value;
                 setSource(value.charAt(0).toUpperCase());
               }}
               className={styles.source}
@@ -131,8 +145,30 @@ function DrawGraph(props) {
             CLEAR
           </Button>
 
+          <Button
+            onClick={handleUndo}
+            variant="outlined"
+            disabled={!canUndo}
+            title="Undo"
+            aria-label="Undo"
+            sx={{ p: 0.5, minWidth: 40 }}
+          >
+            <Undo />
+          </Button>
+
+          <Button
+            onClick={handleRedo}
+            variant="outlined"
+            disabled={!canRedo}
+            title="Redo"
+            aria-label="Redo"
+            sx={{ p: 0.5, minWidth: 40 }}
+          >
+            <Redo />
+          </Button>
+
           <IconButton
-            onClick={handleSave}
+            onClick={handleCopy}
             color="primary"
             title="Share Graph"
             aria-label="Share Graph"

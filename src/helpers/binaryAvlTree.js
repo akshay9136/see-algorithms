@@ -99,6 +99,7 @@ function bianryAvlTree(animator, setCurrentStep) {
             const affected = yield* Tree.deleteNode(num);
             yield delay * 2;
             yield* rebalance(affected);
+            return affected;
         },
     });
 }

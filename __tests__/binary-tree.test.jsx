@@ -31,15 +31,10 @@ describe('Binary search tree visualization', () => {
     expect(mapDataset(nodes)).toMatchSnapshot();
   });
 
-  test('renders tree with random nodes', async () => {
+  test('removes all nodes on clear', async () => {
     fireEvent.click(screen.getByText('Clear'));
     await waitFor(() => {
       expect(container.querySelector('.node')).toBe(null);
-    });
-    fireEvent.click(screen.getByTestId('RefreshIcon'));
-    await waitFor(() => {
-      const nodes = container.querySelectorAll('.node');
-      expect(nodes).toHaveLength(6);
     });
   });
 

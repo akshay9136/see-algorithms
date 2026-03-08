@@ -24,28 +24,22 @@ const ArticleList = () => {
 
   return (
     <Container maxWidth="lg" sx={{ p: 0 }}>
-      <Typography
-        variant="h4"
-        component="h1"
-        fontWeight="bold"
-        textAlign="center"
-      >
+      <Typography variant="h4" component="h1" textAlign="center">
         Articles
       </Typography>
       <br />
       <Grid container spacing={3}>
         {filtered.map((article) => (
-          <Grid item xs={12} sm={4} key={article.id}>
+          <Grid item xs={12} sm={6} md={4} key={article.id}>
             <ActionCard href={`/articles/${article.id}`} {...article}>
               <Typography
                 variant="h6"
                 component="h3"
                 sx={{
-                  my: 1,
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
-                  fontWeight: 700,
+                  my: 1,
                 }}
               >
                 {article.title}
@@ -90,8 +84,8 @@ const ActionCard = ({ children, href, category, date }) => {
     category === 'Sorting'
       ? 'info'
       : category === 'Graph Theory'
-      ? 'warning'
-      : 'success';
+        ? 'warning'
+        : 'success';
 
   return (
     <Card elevation={2} sx={styles.card}>

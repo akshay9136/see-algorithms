@@ -2,20 +2,22 @@ import { useEffect, useState } from 'react';
 import { copyBinaryTree, showError, sleep } from '@/common/utils';
 import { Box, Paper, Stack, Typography } from '@mui/material';
 import { DSInput, Edge, Node } from '@/components/common';
-import { Refresh, Share } from '@mui/icons-material';
+import { Redo, Refresh, Share, Undo } from '@mui/icons-material';
+import binaryAvlTree from '@/helpers/binaryAvlTree';
 import useAlgorithm from '@/hooks/useAlgorithm';
 import useAnimator from '@/hooks/useAnimator';
 import useTreeUrl from '@/hooks/useTreeUrl';
-import binaryAvlTree from '@/helpers/binaryAvlTree';
+import useUndoRedo from '@/hooks/useUndoRedo';
 import Link from 'next/link';
 
 var arr = [], Tree;
 var deleted = {};
 
 export default function AVL(props) {
-    const [nodes, isReady] = useTreeUrl();
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
+    const [nodes, isReady] = useTreeUrl();
+    const history = useUndoRedo();
     const [algorithm, setCurrentStep] = useAlgorithm(`
 function rebalance(node):
     updateHeight(node)
@@ -41,27 +43,44 @@ function rebalance(node):
             showError(`Node (${num}) already exists.`);
             return;
         }
+        if (!numbers.length) {
+            Tree = binaryAvlTree(animator, setCurrentStep);
+            deleted = {};
+            arr = [];
+        }
+        history.push(Tree.collect());
         deleted[num] = false;
         arr.push(num);
         setNumbers(arr.slice());
         yield 500;
-        if (!numbers.length) {
-            Tree = binaryAvlTree(animator, setCurrentStep);
-        }
         yield* Tree.insert(num);
     }
 
     async function* remove(num) {
         if (arr.includes(num)) deleted[num] = true;
         yield 500;
-        yield* Tree.deleteNode(num);
-        if (!Tree.root()) reset();
+        const prevNodes = Tree.collect();
+        const affected = yield* Tree.deleteNode(num);
+        if (affected !== undefined) {
+            history.push(prevNodes);
+            if (!Tree.root()) setNumbers([]);
+        }
     }
 
-    const reset = () => {
-        setNumbers([]);
-        arr = [];
-        deleted = {};
+    const handleUndo = async () => {
+        if (history.canUndo) {
+            setNumbers([]);
+            await sleep(100);
+            newTree(history.undo(Tree.collect()));
+        }
+    };
+
+    const handleRedo = async () => {
+        if (history.canRedo) {
+            setNumbers([]);
+            await sleep(100);
+            newTree(history.redo(Tree.collect()));
+        }
     };
 
     const buttons = [
@@ -70,14 +89,33 @@ function rebalance(node):
             text: 'Delete',
             onClick: remove,
             validate: true,
-            disabled: !arr.length,
+            disabled: !numbers.length,
         },
-        { text: 'Clear', onClick: reset, disabled: !arr.length },
+        {
+            text: 'Clear',
+            onClick: () => {
+                setNumbers([]);
+                history.clear();
+            },
+            disabled: !numbers.length,
+        },
+        {
+            text: <Undo />,
+            onClick: handleUndo,
+            title: 'Undo',
+            disabled: !history.canUndo,
+        },
+        {
+            text: <Redo />,
+            onClick: handleRedo,
+            title: 'Redo',
+            disabled: !history.canRedo,
+        },
         // { text: <Refresh />, onClick: refresh, title: 'New tree' },
         {
             text: <Share fontSize="small" />,
-            onClick: () => copyBinaryTree(Tree.root()),
-            disabled: !arr.length,
+            onClick: () => copyBinaryTree(Tree.collect()),
+            disabled: !numbers.length,
             title: 'Share this tree',
         },
     ];

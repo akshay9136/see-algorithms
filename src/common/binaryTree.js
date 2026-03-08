@@ -1,6 +1,6 @@
 import { Colors } from './constants';
 import { Points } from './graph';
-import { sound } from './utils';
+import { sound, traverse } from './utils';
 
 const dx = 40, dy = 60;
 
@@ -264,6 +264,11 @@ function binaryTree({ tx, txy, bgcolor, animate, cleanup }) {
                 this.cleanup(node.left);
                 this.cleanup(node.right);
             }
+        },
+        collect(fn = (a) => a.value) {
+            const nodes = [];
+            traverse(Node(root), (a) => nodes.push(fn(a)));
+            return nodes;
         },
         size() {
             return arr.filter((a) => !a.deleted).length;

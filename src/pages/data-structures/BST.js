@@ -1,42 +1,67 @@
 import { useEffect, useState } from 'react';
-import { copyBinaryTree, randomNodes, sleep } from '@/common/utils';
-import { Box, Paper, Stack, Typography } from '@mui/material';
 import { DSInput, Edge, Node } from '@/components/common';
-import { Refresh, Share } from '@mui/icons-material';
+import { Paper, Stack, Typography } from '@mui/material';
+import { Redo, Refresh, Share, Undo } from '@mui/icons-material';
+import { copyBinaryTree, randomNodes, sleep } from '@/common/utils';
 import binarySearchTree from '@/helpers/binarySearchTree';
 import useAnimator from '@/hooks/useAnimator';
 import useTreeUrl from '@/hooks/useTreeUrl';
+import useUndoRedo from '@/hooks/useUndoRedo';
 
 var arr = [], Tree;
 
 export default function BST(props) {
-    const [nodes, isReady] = useTreeUrl();
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
+    const [nodes, isReady] = useTreeUrl();
+    const history = useUndoRedo();
 
     async function* insert(num) {
+        if (!numbers.length) {
+            Tree = binarySearchTree(animator);
+            arr = [];
+        }
+        history.push(Tree.collect());
         arr.push(num);
         setNumbers(arr.slice());
         yield 500;
-        if (!numbers.length) {
-            Tree = binarySearchTree(animator);
-        }
         yield* Tree.insert(num);
     }
 
     async function* remove(num) {
         yield 500;
-        yield* Tree.deleteNode(num);
-        if (!Tree.root()) reset();
+        const prevNodes = Tree.collect();
+        const affected = yield* Tree.deleteNode(num);
+        if (affected !== undefined) {
+            history.push(prevNodes);
+            if (!Tree.root()) setNumbers([]);
+        }
     }
+
+    const handleUndo = async () => {
+        if (history.canUndo) {
+            setNumbers([]);
+            await sleep(100);
+            newTree(history.undo(Tree.collect()));
+        }
+    };
+
+    const handleRedo = async () => {
+        if (history.canRedo) {
+            setNumbers([]);
+            await sleep(100);
+            newTree(history.redo(Tree.collect()));
+        }
+    };
 
     const reset = () => {
         setNumbers([]);
-        arr = [];
+        history.clear();
     };
 
     const refresh = async () => {
-        reset();
+        setNumbers([]);
+        history.clear();
         await sleep(100);
         newTree(randomNodes());
     };
@@ -47,14 +72,26 @@ export default function BST(props) {
             text: 'Delete',
             onClick: remove,
             validate: true,
-            disabled: !arr.length,
+            disabled: !numbers.length,
         },
-        { text: 'Clear', onClick: reset, disabled: !arr.length },
+        { text: 'Clear', onClick: reset, disabled: !numbers.length },
+        {
+            text: <Undo />,
+            onClick: handleUndo,
+            title: 'Undo',
+            disabled: !history.canUndo,
+        },
+        {
+            text: <Redo />,
+            onClick: handleRedo,
+            title: 'Redo',
+            disabled: !history.canRedo,
+        },
         { text: <Refresh />, onClick: refresh, title: 'New tree' },
         {
             text: <Share fontSize="small" />,
-            onClick: () => copyBinaryTree(Tree.root()),
-            disabled: !arr.length,
+            onClick: () => copyBinaryTree(Tree.collect()),
+            disabled: !numbers.length,
             title: 'Share this tree',
         },
     ];

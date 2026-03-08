@@ -15,7 +15,7 @@ import {
 import Graph, { Path, Points } from '../common/graph';
 import { Colors } from '../common/constants';
 
-export function drawGraph({ weighted, acyclic }) {
+export function drawGraph({ weighted, acyclic, history }) {
     var px, ipx, flag, hold, drag;
 
     function isInputActive() {
@@ -80,6 +80,7 @@ export function drawGraph({ weighted, acyclic }) {
                 Path('.edge:last').remove();
                 return;
             }
+            history.commit();
             Path('.edge:last').attr('x2', p.x);
             Path('.edge:last').attr('y2', p.y);
             if (k === np) {
@@ -122,6 +123,7 @@ export function drawGraph({ weighted, acyclic }) {
         } else {
             if (k === np) {
                 if (np < 26) {
+                    history.commit();
                     addVertex(p, charAt(65 + np));
                     Graph.addPoint(p);
                 }
@@ -159,7 +161,10 @@ export function drawGraph({ weighted, acyclic }) {
                     moveVertex(ipx, p);
                 } else {
                     const d = Points.distance(p, px);
-                    if (d > 5) drag = true;
+                    if (d > 5) {
+                        drag = true;
+                        history.commit();
+                    }
                 }
             }
         }, 20)
