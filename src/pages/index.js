@@ -13,12 +13,11 @@ export default function HomePage() {
       </Head>
 
       <Grid container spacing={4} alignItems="center">
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} lg={6}>
           <Typography
             variant="h4"
             component="h1"
-            fontWeight={600}
-            sx={{ fontSize: { xs: '1.5rem', sm: '2rem' } }}
+            sx={{ fontSize: { xs: '2rem', sm: '2.5rem' } }}
             color="text.primary"
             gutterBottom
           >
@@ -34,7 +33,7 @@ export default function HomePage() {
 
           <Typography variant="body1" mt={2}>
             From sorting and searching to more advanced data structures and
-            algorithms, <strong>SEE Algorithms</strong> provides a hands-on
+            algorithms, <strong>See Algorithms</strong> provides a hands-on
             approach to learning. Each animation is carefully crafted to walk
             you through the inner workings of various algorithms, step by step.
             Whether you&apos;re a student seeking to solidify your knowledge, an
@@ -44,7 +43,7 @@ export default function HomePage() {
           </Typography>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} lg={6}>
           <Card elevation={3} sx={{ borderRadius: 2, py: 1.5 }}>
             <Typography variant="h6" gutterBottom textAlign="center">
               Visualization Preview
@@ -54,7 +53,7 @@ export default function HomePage() {
             <Typography
               variant="body2"
               color="text.secondary"
-              sx={{ px: 2, mt: 0.5 }}
+              sx={{ px: 2, mt: 1 }}
             >
               Use the controls to pause/resume animations, tweak inputs, or
               generate a shareable URL for the current graph.

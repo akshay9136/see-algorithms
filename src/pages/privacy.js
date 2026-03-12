@@ -6,7 +6,7 @@ export default function Privacy() {
     <>
       <CustomSeo />
       <Box maxWidth="md">
-        <Typography variant="h5" component="h1" gutterBottom fontWeight={600}>
+        <Typography variant="h4" component="h1" gutterBottom>
           Privacy Policy
         </Typography>
 

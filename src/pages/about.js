@@ -1,34 +1,22 @@
 import { CustomSeo } from '@/components/common';
-import {
-  Typography,
-  Box,
-  Card,
-  CardContent,
-  Grid,
-  Link,
-  Stack,
-} from '@mui/material';
+import { Typography, Box, Card, CardContent, Grid, Link } from '@mui/material';
 
 export default function AboutUs() {
   return (
     <>
       <CustomSeo />
       <Box>
-        <Typography
-          variant="h5"
-          component="h1"
-          gutterBottom
-          fontWeight={600}
-          align="center"
-        >
-          About See Algorithms
+        <Typography variant="h4" component="h1" gutterBottom align="center">
+          About{' '}
+          <Box component="span" color="warning.main" whiteSpace="nowrap">
+            See Algorithms
+          </Box>
         </Typography>
 
         <Typography
-          variant="body1"
-          align="center"
+          variant="subtitle1"
+          textAlign="center !important"
           color="text.secondary"
-          paragraph
         >
           Making Algorithm Learning Accessible Through Interactive
           Visualizations
@@ -37,7 +25,7 @@ export default function AboutUs() {
         <Box sx={{ mt: 6 }}>
           <Grid container spacing={4}>
             <Grid item xs={12} md={8}>
-              <Typography variant="h6" gutterBottom fontWeight={600}>
+              <Typography variant="h5" component="h2" gutterBottom>
                 Our Mission
               </Typography>
               <Typography variant="body1" paragraph>
@@ -47,7 +35,6 @@ export default function AboutUs() {
                 shouldn&apos;t be limited to those with extensive programming
                 experience or mathematical backgrounds.
               </Typography>
-
               <Typography variant="body1" paragraph>
                 Through interactive visualizations and step-by-step animations,
                 we transform complex algorithmic concepts into intuitive, visual
@@ -55,9 +42,9 @@ export default function AboutUs() {
               </Typography>
 
               <Typography
-                variant="h6"
+                variant="h5"
+                component="h2"
                 gutterBottom
-                fontWeight={600}
                 sx={{ my: 2 }}
               >
                 Why We Built This
@@ -69,7 +56,6 @@ export default function AboutUs() {
                 especially when trying to understand how algorithms work in
                 practice.
               </Typography>
-
               <Typography variant="body1" paragraph>
                 Our solution combines the power of modern web technologies with
                 educational best practices to create an immersive learning
@@ -78,12 +64,12 @@ export default function AboutUs() {
               </Typography>
 
               <Typography
-                variant="h6"
+                variant="h5"
+                component="h2"
                 gutterBottom
-                fontWeight={600}
                 sx={{ my: 2 }}
               >
-                What Makes Us Different
+                What We Offer
               </Typography>
               <Typography variant="body1" paragraph>
                 • <strong>Interactive Learning:</strong> Every algorithm comes
@@ -108,23 +94,23 @@ export default function AboutUs() {
 
             <Grid item xs={12} md={4}>
               <Card elevation={3} sx={{ mb: 3 }}>
-                <CardContent component={Stack} spacing={2}>
-                  <Typography variant="h6" gutterBottom fontWeight={600}>
+                <CardContent sx={{ p: 3 }}>
+                  <Typography variant="h6" gutterBottom>
                     Our Values
                   </Typography>
-                  <Typography variant="body2">
+                  <Typography variant="body1" paragraph>
                     <strong>Accessibility:</strong> Making complex concepts
                     understandable for all skill levels
                   </Typography>
-                  <Typography variant="body2">
+                  <Typography variant="body1" paragraph>
                     <strong>Quality:</strong> Providing accurate,
                     well-researched educational content
                   </Typography>
-                  <Typography variant="body2">
+                  <Typography variant="body1" paragraph>
                     <strong>Innovation:</strong> Using cutting-edge technology
                     to enhance learning
                   </Typography>
-                  <Typography variant="body2">
+                  <Typography variant="body1">
                     <strong>Community:</strong> Building a supportive learning
                     environment for all users
                   </Typography>
@@ -132,14 +118,20 @@ export default function AboutUs() {
               </Card>
 
               <Card elevation={3}>
-                <CardContent component={Stack} spacing={2}>
-                  <Typography variant="h6" gutterBottom fontWeight={600}>
+                <CardContent sx={{ p: 3 }}>
+                  <Typography variant="h6" sx={{ mb: 1.5 }}>
                     Algorithm Categories
                   </Typography>
-                  <Typography variant="body2">• Sorting Algorithms</Typography>
-                  <Typography variant="body2">• Graph Algorithms</Typography>
-                  <Typography variant="body2">• Data Structures</Typography>
-                  <Typography variant="body2">
+                  <Typography variant="body1" paragraph>
+                    • Sorting Algorithms
+                  </Typography>
+                  <Typography variant="body1" paragraph>
+                    • Graph Algorithms
+                  </Typography>
+                  <Typography variant="body1" paragraph>
+                    • Data Structures
+                  </Typography>
+                  <Typography variant="body1">
                     • Computational Geometry
                   </Typography>
                 </CardContent>
