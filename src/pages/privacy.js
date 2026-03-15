@@ -125,7 +125,7 @@ export default function Privacy() {
             us at:
           </Typography>
           <Typography variant="body1" paragraph>
-            Email: akarande777@outlook.com
+            Email: hello@see-algorithms.com
           </Typography>
         </Box>
       </Box>

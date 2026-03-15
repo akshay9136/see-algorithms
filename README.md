@@ -71,7 +71,7 @@ Contributions are what make the open-source community such an amazing place to l
 
 If you have any questions, suggestions, or feedback, feel free to reach out.
 
-Email: akarande777@outlook.com
+Email: hello@see-algorithms.com
 
 ## ⭐ Support
 

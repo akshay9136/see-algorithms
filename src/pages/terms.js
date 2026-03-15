@@ -210,7 +210,7 @@ export default function TermsOfService() {
             contact us at:
           </Typography>
           <Typography variant="body1" paragraph>
-            Email: akarande777@outlook.com
+            Email: hello@see-algorithms.com
           </Typography>
           <Typography variant="body1" paragraph>
             Website:{' '}

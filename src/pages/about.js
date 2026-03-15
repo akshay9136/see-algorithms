@@ -237,8 +237,8 @@ export default function AboutUs() {
             </Typography>
             <Typography variant="body1">
               Email:{' '}
-              <Link href="mailto:akarande777@outlook.com">
-                akarande777@outlook.com
+              <Link href="mailto:hello@see-algorithms.com">
+                hello@see-algorithms.com
               </Link>
             </Typography>
             <Typography variant="body1">

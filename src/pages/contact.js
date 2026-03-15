@@ -188,10 +188,10 @@ export default function ContactUs() {
                       For general inquiries, feedback, or support:
                     </Typography>
                     <Link
-                      href="mailto:akarande777@outlook.com"
+                      href="mailto:hello@see-algorithms.com"
                       sx={{ mt: 1, display: 'block' }}
                     >
-                      akarande777@outlook.com
+                      hello@see-algorithms.com
                     </Link>
                   </CardContent>
                 </Card>
