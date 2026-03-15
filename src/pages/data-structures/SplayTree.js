@@ -137,10 +137,27 @@ export default function SplayTree(props) {
                 </li>
                 <li>
                     There are three types of rotations depending on the node’s
-                    position: <strong>zig</strong> (single rotation),{' '}
-                    <strong>zig-zig</strong> (double rotation in same
-                    direction), and <strong>zig-zag</strong> (double rotation in
-                    opposite directions).
+                    position:
+                    <Typography
+                        component="ul"
+                        variant="body1"
+                        sx={{ mt: 2, mb: 2.5, pl: 3 }}
+                    >
+                        <li>
+                            <strong>zig</strong> rotation occurs when the node
+                            is a child of the root (single rotation).
+                        </li>
+                        <li>
+                            <strong>zig-zig</strong> rotation occurs when the
+                            node and its parent are on the same side (double
+                            rotation in same direction).
+                        </li>
+                        <li>
+                            <strong>zig-zag</strong> rotation occurs when the
+                            node and its parent are on opposite sides (double
+                            rotation in opposite directions).
+                        </li>
+                    </Typography>
                 </li>
                 <li>
                     After splaying, frequently accessed nodes stay near the

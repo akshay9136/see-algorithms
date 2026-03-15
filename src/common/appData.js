@@ -90,13 +90,5 @@ export const articles = [
         category: 'Data Structures',
         date: '2026-03-05',
     },
-    {
-        id: 'self-bal-vs-self-adj',
-        title: 'How Trees Stay Efficient',
-        summary:
-            'Learn about self-balancing and self-adjusting Binary Search Trees and how they differ in practice.',
-        category: 'Data Structures',
-        date: '2026-03-06',
-    }
 ]
 .sort((a, b) => b.date.localeCompare(a.date));
