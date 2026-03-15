@@ -1,10 +1,20 @@
 import { Box, Card, Container, Grid, Typography } from '@mui/material';
 import Features from '@/components/features';
+import Carousel from '@/components/carousel';
 import Head from 'next/head';
+
+const PREVIEW_GIFS = [
+  { src: '/dijkstras-algo.gif', alt: "Dijkstra's algorithm visualization" },
+  { src: '/avl-tree.gif', alt: 'AVL Tree visualization' },
+  { src: '/red-black-tree.gif', alt: 'Red-Black Tree visualization' },
+];
+
+// const PRODUCT_LINK =
+//   'https://www.producthunt.com/products/see-algorithms?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-see-algorithms';
 
 export default function HomePage() {
   return (
-    <Container maxWidth="lg" sx={{ pl: 0 }}>
+    <Container maxWidth="lg" sx={{ px: 0 }}>
       <Head>
         <meta
           name="impact-site-verification"
@@ -41,14 +51,38 @@ export default function HomePage() {
             a passion for computer science, you&apos;ll find value in our
             extensive library of visual resources.
           </Typography>
+
+          {/* <Box role="link" mt={3}>
+            <a href={PRODUCT_LINK} target="_blank" rel="noopener noreferrer">
+              <img
+                width="250"
+                alt="See Algorithms | Product Hunt"
+                src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1096476&amp;theme=light&amp;t=1773482805708"
+              />
+            </a>
+          </Box> */}
         </Grid>
 
         <Grid item xs={12} lg={6}>
           <Card elevation={3} sx={{ borderRadius: 2, py: 1.5 }}>
-            <Typography variant="h6" gutterBottom textAlign="center">
+            <Typography variant="h6" textAlign="center" sx={{ mb: 1 }}>
               Visualization Preview
             </Typography>
-            <img src="/preview.gif" alt="preview" width="100%" />
+
+            <Carousel>
+              {PREVIEW_GIFS.map((gif, index) => (
+                <Box key={index} sx={{ width: '100%', flexShrink: 0 }}>
+                  <img
+                    src={gif.src}
+                    alt={gif.alt}
+                    style={{
+                      width: '100%',
+                      border: index > 0 ? '1px solid #e5e5e5' : 'none',
+                    }}
+                  />
+                </Box>
+              ))}
+            </Carousel>
 
             <Typography
               variant="body2"
