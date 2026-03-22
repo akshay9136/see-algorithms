@@ -1,27 +1,38 @@
 import { useEffect, useState } from 'react';
 import { DSInput, Edge, Node } from '@/components/common';
-import { Paper, Stack, Typography } from '@mui/material';
 import { Redo, Refresh, Share, Undo } from '@mui/icons-material';
-import { copyBinaryTree, randomNodes, sleep } from '@/common/utils';
+import { Box, Divider, Paper, Stack, Typography } from '@mui/material';
+import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
+import { copyBinaryTree, randomNodes, showError, sleep } from '@/common/utils';
+import { bstPrompt } from '@/common/prompts';
 import binarySearchTree from '@/helpers/binarySearchTree';
-import useAnimator from '@/hooks/useAnimator';
-import useTreeUrl from '@/hooks/useTreeUrl';
-import useUndoRedo from '@/hooks/useUndoRedo';
+
+const getPrompt = bstPrompt('Binary Search Tree');
 
 var arr = [], Tree;
+var deleted = {};
 
 export default function BST(props) {
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
     const [nodes, isReady] = useTreeUrl();
+    const [summary, explain] = useSummary();
     const history = useUndoRedo();
 
     async function* insert(num) {
+        if (arr.includes(num) && !deleted[num]) {
+            showError(`Node (${num}) already exists.`);
+            return;
+        }
         if (!numbers.length) {
             Tree = binarySearchTree(animator);
+            deleted = {};
             arr = [];
         }
-        history.push(Tree.collect());
+        const prevNodes = Tree.collect();
+        explain(getPrompt(prevNodes, 'Insert', num));
+        history.push(prevNodes);
+        deleted[num] = false;
         arr.push(num);
         setNumbers(arr.slice());
         yield 500;
@@ -29,8 +40,10 @@ export default function BST(props) {
     }
 
     async function* remove(num) {
-        yield 500;
+        if (arr.includes(num)) deleted[num] = true;
         const prevNodes = Tree.collect();
+        explain(getPrompt(prevNodes, 'Delete', num));
+        yield 500;
         const affected = yield* Tree.deleteNode(num);
         if (affected !== undefined) {
             history.push(prevNodes);
@@ -142,23 +155,30 @@ export default function BST(props) {
                     that preserves ordering.
                 </li>
             </Typography>
-            <Typography variant="h6" component="h2">
-                Visualizer
-            </Typography>
-            <DSInput {...props} buttons={buttons} />
-            <Paper ref={scope} className="resizable" id="binaryTree">
-                {numbers.slice(1).map((_, i) => (
-                    <Edge key={i} index={i} />
-                ))}
-                {numbers.map((num, i) => (
-                    <Node
-                        key={i}
-                        index={i}
-                        value={num}
-                        style={{ opacity: 0 }}
-                    />
-                ))}
-            </Paper>
+            <Box display="flex" flexWrap="wrap" gap={3}>
+                <Stack spacing={2}>
+                    <Typography variant="h6" component="h2">
+                        Visualizer
+                    </Typography>
+                    <DSInput {...props} buttons={buttons} />
+
+                    <Paper ref={scope} className="resizable" id="binaryTree">
+                        {numbers.slice(1).map((_, i) => (
+                            <Edge key={i} index={i} />
+                        ))}
+                        {numbers.map((num, i) => (
+                            <Node
+                                key={i}
+                                index={i}
+                                value={num}
+                                style={{ opacity: 0 }}
+                            />
+                        ))}
+                    </Paper>
+                </Stack>
+                <Divider orientation="vertical" flexItem />
+                {summary}
+            </Box>
         </Stack>
     );
 }

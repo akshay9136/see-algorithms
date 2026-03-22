@@ -1,8 +1,7 @@
 import { DrawGraph } from '@/components/common';
-import { Box, Stack, Typography } from '@mui/material';
-import $ from 'jquery';
-import Graph, { Path, Points } from '@/common/graph';
-import useAlgorithm from '@/hooks/useAlgorithm';
+import { Box, Divider, Stack, Typography } from '@mui/material';
+import { useAlgorithm, useSummary } from '@/hooks';
+import { graphAlgoPrompt } from '@/common/prompts';
 import {
     appendCell,
     charAt,
@@ -12,10 +11,16 @@ import {
     hasValue,
     sound,
 } from '@/common/utils';
+import Graph, { Path, Points } from '@/common/graph';
+import $ from 'jquery';
 import { Colors } from '@/common/constants';
 import Link from 'next/link';
 
+const getPrompt = graphAlgoPrompt('Topological Sorting (using stack)');
+
 export default function TopSort(props) {
+    const [summary, explain] = useSummary();
+
     const [algorithm] = useAlgorithm(`
 indeg = indegree()
 stack = new Stack()
@@ -57,16 +62,25 @@ function indegree():
                 {algorithm}
                 {indegreeAlgo}
             </Box>
-            <Stack spacing={2} pt={1}>
-                <DrawGraph
-                    {...props}
-                    onStart={start}
-                    onClear={() => $('#sorted').html('')}
-                    allowDirected={false}
-                    customSource={false}
-                />
-                <Box id="sorted" className="d-flex alphaGrid" />
-            </Stack>
+            <br />
+            <Box display="flex" flexWrap="wrap" gap={3}>
+                <Stack spacing={2}>
+                    <DrawGraph
+                        {...props}
+                        onStart={start}
+                        onClear={() => $('#sorted').html('')}
+                        allowDirected={false}
+                        customSource={false}
+                        explain={() => {
+                            const { matrix } = Graph.skeleton();
+                            explain(getPrompt({ matrix }));
+                        }}
+                    />
+                    <Box id="sorted" className="alphaGrid" />
+                </Stack>
+                <Divider orientation="vertical" flexItem />
+                {summary}
+            </Box>
         </Stack>
     );
 }

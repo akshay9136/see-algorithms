@@ -70,6 +70,7 @@
 }
 
 .alphaGrid {
+    display: flex;
     min-height: 36px;
 }
 

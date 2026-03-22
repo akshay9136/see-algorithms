@@ -178,7 +178,7 @@ function DrawGraph(props) {
           </IconButton>
         </Box>
       </Box>
-      <Paper mb={1} className="resizable">
+      <Paper className="resizable" sx={{ mb: 1 }}>
         <Plane />
       </Paper>
     </Box>

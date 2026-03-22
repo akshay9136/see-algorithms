@@ -1,19 +1,33 @@
 import { useState } from 'react';
-import { Redo, Undo } from '@mui/icons-material';
-import { Box, Paper, Stack, Typography } from '@mui/material';
+import { Redo, Refresh, Undo } from '@mui/icons-material';
 import { DSInput, Edge, Node, Numkey } from '@/components/common';
+import { Box, Divider, Paper, Stack, Typography } from '@mui/material';
+import { useAlgorithm, useAnimator, useSummary, useUndoRedo } from '@/hooks';
 import { sleep, sound } from '@/common/utils';
-import useAnimator from '@/hooks/useAnimator';
-import useAlgorithm from '@/hooks/useAlgorithm';
-import useUndoRedo from '@/hooks/useUndoRedo';
 import binaryHeap from '@/helpers/binaryHeap';
 import Link from 'next/link';
 
 var arr = [], Tree;
 var delay = 500;
 
+const getPrompt = (operation, value) => {
+    const json = JSON.stringify(Tree.collect());
+    return `
+You are explaining the steps to someone observing a visualization of Binary Heap.
+
+Context:
+- A max-heap is represented by the values in this array: ${json}.
+- Operation being performed: ${operation}, ${operation === 'Insert' ? `with value: ${value}` : ''}
+
+Instructions:
+- Explain how this operation will be performed.
+- Keep the explaination short and step wise. Use past tense.
+- Highlight important actions.`;
+};
+
 export default function BinaryHeap(props) {
     const [numbers, setNumbers] = useState([]);
+    const [summary, explain] = useSummary();
     const [scope, animator] = useAnimator();
     const { txy } = animator;
     const history = useUndoRedo();
@@ -44,6 +58,7 @@ function extract():
             Tree = binaryHeap(animator);
             arr = [];
         }
+        explain(getPrompt('Insert', num));
         history.push(Tree.collect());
         arr.push(num);
         setNumbers(arr.slice());
@@ -67,8 +82,9 @@ function extract():
     }
 
     async function* extract() {
-        yield delay;
+        explain(getPrompt('Extract'));
         history.push(Tree.collect());
+        yield delay;
         yield* Tree.extract();
         if (!Tree.root()) setNumbers([]);
     }
@@ -159,21 +175,15 @@ function extract():
                     its children until the heap property is satisfied.
                 </li>
             </Typography>
+            <Typography variant="h6" component="h2">
+                Pseudocode
+            </Typography>
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
-                <Stack spacing={2}>
-                    <Typography variant="h6" component="h2">
-                        Pseudocode
-                    </Typography>
-                    <Box
-                        display="flex"
-                        gap={3}
-                        flexWrap="wrap"
-                        alignItems="start"
-                    >
-                        {insertAlgo}
-                        {extractAlgo}
-                    </Box>
-                </Stack>
+                {insertAlgo}
+                {extractAlgo}
+            </Box>
+            <br />
+            <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
                 <Stack spacing={2}>
                     <DSInput {...props} buttons={buttons} />
 
@@ -200,6 +210,8 @@ function extract():
                         ))}
                     </Paper>
                 </Stack>
+                <Divider orientation="vertical" flexItem />
+                {summary}
             </Box>
         </Stack>
     );

@@ -1,14 +1,20 @@
 import { useEffect, useState } from 'react';
-import { copyBinaryTree, showError, sleep } from '@/common/utils';
-import { Box, Paper, Stack, Typography } from '@mui/material';
 import { DSInput, Edge, Node } from '@/components/common';
 import { Redo, Refresh, Share, Undo } from '@mui/icons-material';
+import { Box, Paper, Stack, Typography } from '@mui/material';
+import { copyBinaryTree, showError, sleep } from '@/common/utils';
+import {
+    useAlgorithm,
+    useAnimator,
+    useSummary,
+    useTreeUrl,
+    useUndoRedo,
+} from '@/hooks';
+import { bstPrompt } from '@/common/prompts';
 import binaryAvlTree from '@/helpers/binaryAvlTree';
-import useAlgorithm from '@/hooks/useAlgorithm';
-import useAnimator from '@/hooks/useAnimator';
-import useTreeUrl from '@/hooks/useTreeUrl';
-import useUndoRedo from '@/hooks/useUndoRedo';
 import Link from 'next/link';
+
+const getPrompt = bstPrompt('AVL Tree');
 
 var arr = [], Tree;
 var deleted = {};
@@ -16,7 +22,8 @@ var deleted = {};
 export default function AVL(props) {
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
-    const [nodes, isReady] = useTreeUrl();
+    const [nodes] = useTreeUrl();
+    const [summary, explain] = useSummary();
     const history = useUndoRedo();
     const [algorithm, setCurrentStep] = useAlgorithm(`
 function rebalance(node):
@@ -48,7 +55,9 @@ function rebalance(node):
             deleted = {};
             arr = [];
         }
-        history.push(Tree.collect());
+        const prevNodes = Tree.collect();
+        explain(getPrompt(prevNodes, 'Insert', num));
+        history.push(prevNodes);
         deleted[num] = false;
         arr.push(num);
         setNumbers(arr.slice());
@@ -58,8 +67,9 @@ function rebalance(node):
 
     async function* remove(num) {
         if (arr.includes(num)) deleted[num] = true;
-        yield 500;
         const prevNodes = Tree.collect();
+        explain(getPrompt(prevNodes, 'Delete', num));
+        yield 500;
         const affected = yield* Tree.deleteNode(num);
         if (affected !== undefined) {
             history.push(prevNodes);
@@ -204,6 +214,7 @@ function rebalance(node):
                 {algorithm}
                 <Stack spacing={2}>
                     <DSInput {...props} buttons={buttons} />
+
                     <Paper ref={scope} className="resizable" id="binaryTree">
                         {numbers.slice(1).map((_, i) => (
                             <Edge key={i} index={i} />
@@ -218,6 +229,8 @@ function rebalance(node):
                             />
                         ))}
                     </Paper>
+                    <br />
+                    {summary}
                 </Stack>
             </Box>
         </Stack>

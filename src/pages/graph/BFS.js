@@ -1,8 +1,9 @@
 import { DrawGraph } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
+import { useAlgorithm, useSummary } from '@/hooks';
+import { graphAlgoPrompt } from '@/common/prompts';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
-import useAlgorithm from '@/hooks/useAlgorithm';
 import {
     appendCell,
     bgcolor,
@@ -13,7 +14,11 @@ import {
 } from '@/common/utils';
 import { Colors } from '@/common/constants';
 
+const getPrompt = graphAlgoPrompt('Breadth-First Search');
+
 export default function BFS(props) {
+    const [summary, explain] = useSummary();
+
     const [algorithm] = useAlgorithm(`
 queue = new Queue()
 queue.enq(src)
@@ -50,9 +55,14 @@ while queue is not empty:
                         {...props}
                         onStart={start}
                         onClear={() => $('#queue').html('')}
+                        explain={(source) => {
+                            const { matrix } = Graph.skeleton();
+                            explain(getPrompt({ matrix, source }));
+                        }}
                     />
-                    <Box id="queue" className="d-flex alphaGrid" />
+                    <Box id="queue" className="alphaGrid" />
                 </Stack>
+                {summary}
             </Box>
         </Stack>
     );

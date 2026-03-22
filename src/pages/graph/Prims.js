@@ -1,11 +1,17 @@
 import { DrawGraph } from '@/components/common';
-import { Stack, Typography } from '@mui/material';
-import $ from 'jquery';
+import { Box, Divider, Stack, Typography } from '@mui/material';
+import { graphAlgoPrompt } from '@/common/prompts';
+import { useSummary } from '@/hooks';
 import Graph, { Path } from '@/common/graph';
+import $ from 'jquery';
 import { hasValue, spanEdge, getCostMatrix, sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 
+const getPrompt = graphAlgoPrompt('Prims Minimum Spanning Tree');
+
 export default function Prims(props) {
+    const [summary, explain] = useSummary();
+
     return (
         <Stack spacing={2}>
             <Typography variant="body1">
@@ -32,12 +38,20 @@ export default function Prims(props) {
                 <li>Add this edge to the MST and mark the new vertex as visited.</li>
                 <li>Repeat until all vertices are part of the MST.</li>
             </Typography>
-            <DrawGraph
-                {...props}
-                onStart={start}
-                weighted={true}
-                allowDirected={false}
-            />
+            <Box display="flex" flexWrap="wrap" gap={3}>
+                <DrawGraph
+                    {...props}
+                    onStart={start}
+                    weighted={true}
+                    allowDirected={false}
+                    explain={(source) => {
+                        const matrix = getCostMatrix();
+                        explain(getPrompt({ matrix, source }));
+                    }}
+                />
+                <Divider orientation="vertical" flexItem />
+                {summary}
+            </Box>
         </Stack>
     );
 }
