@@ -1,19 +1,21 @@
 import { useEffect, useState } from 'react';
-import { copyBinaryTree, showError, sleep } from '@/common/utils';
-import { Paper, Stack, Typography } from '@mui/material';
 import { DSInput, Edge, Node } from '@/components/common';
-import { Redo, Share, Undo } from '@mui/icons-material';
-import useAnimator from '@/hooks/useAnimator';
-import useTreeUrl from '@/hooks/useTreeUrl';
-import useUndoRedo from '@/hooks/useUndoRedo';
+import { Redo, Refresh, Share, Undo } from '@mui/icons-material';
+import { Box, Divider, Paper, Stack, Typography } from '@mui/material';
+import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
+import { copyBinaryTree, showError, sleep } from '@/common/utils';
+import { bstPrompt } from '@/common/prompts';
 import redBlackTree from '@/helpers/redBlackTree';
 import Link from 'next/link';
+
+const getPrompt = bstPrompt('Red-Black Tree');
 
 var arr = [], Tree;
 var deleted = {};
 
 export default function RBT(props) {
     const [numbers, setNumbers] = useState([]);
+    const [summary, explain, abort] = useSummary();
     const [scope, animator] = useAnimator();
     const [nodes, isReady] = useTreeUrl();
     const history = useUndoRedo();
@@ -28,7 +30,9 @@ export default function RBT(props) {
             deleted = {};
             arr = [];
         }
-        history.push(Tree.collect((a) => [a.value, a.color]));
+        const prevNodes = Tree.collect((a) => [a.value, a.color]);
+        explain(getPrompt(prevNodes, 'Insert', num));
+        history.push(prevNodes);
         deleted[num] = false;
         arr.push(num);
         setNumbers(arr.slice());
@@ -62,6 +66,7 @@ export default function RBT(props) {
     const reset = () => {
         setNumbers([]);
         history.clear();
+        abort();
     };
 
     const buttons = [
@@ -146,26 +151,31 @@ export default function RBT(props) {
                     to the root.
                 </li>
             </Typography>
-            <Typography variant="h6" component="h2">
-                Visualizer
-            </Typography>
-            <Stack spacing={2}>
-                <DSInput {...props} buttons={buttons} />
-                <Paper ref={scope} className="resizable" id="binaryTree">
-                    {numbers.slice(1).map((_, i) => (
-                        <Edge key={i} index={i} />
-                    ))}
-                    {numbers.map((num, i) => (
-                        <Node
-                            key={i}
-                            index={i}
-                            value={num}
-                            style={{ opacity: 0 }}
-                            showBf
-                        />
-                    ))}
-                </Paper>
-            </Stack>
+            <Box display="flex" flexWrap="wrap" gap={3}>
+                <Stack spacing={2}>
+                    <Typography variant="h6" component="h2">
+                        Visualizer
+                    </Typography>
+                    <DSInput {...props} buttons={buttons} />
+
+                    <Paper ref={scope} className="resizable" id="binaryTree">
+                        {numbers.slice(1).map((_, i) => (
+                            <Edge key={i} index={i} />
+                        ))}
+                        {numbers.map((num, i) => (
+                            <Node
+                                key={i}
+                                index={i}
+                                value={num}
+                                style={{ opacity: 0 }}
+                                showBf
+                            />
+                        ))}
+                    </Paper>
+                </Stack>
+                <Divider orientation="vertical" flexItem />
+                {summary}
+            </Box>
         </Stack>
     );
 }

@@ -1,6 +1,14 @@
 // Register jest-dom matchers
 require('@testing-library/jest-dom');
 
+// useSummary → /api/summary; jsdom has no fetch
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    ok: true,
+    text: () => Promise.resolve(''),
+  })
+);
+
 Array.prototype.swap = function (u, v) {
   let num = this[u];
   this[u] = this[v];

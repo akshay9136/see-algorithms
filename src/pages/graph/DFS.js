@@ -1,8 +1,9 @@
 import { DrawGraph } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
+import { useAlgorithm, useSummary } from '@/hooks';
+import { graphAlgoPrompt } from '@/common/prompts';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
-import useAlgorithm from '@/hooks/useAlgorithm';
 import {
     appendCell,
     bgcolor,
@@ -13,7 +14,11 @@ import {
 } from '@/common/utils';
 import { Colors } from '@/common/constants';
 
+const getPrompt = graphAlgoPrompt('Depth-First Search');
+
 export default function DFS(props) {
+    const [summary, explain, abortSummary] = useSummary();
+
     const [algorithm] = useAlgorithm(`
 stack = new Stack()
 stack.push(src)
@@ -48,10 +53,18 @@ while stack is not empty:
                     <DrawGraph
                         {...props}
                         onStart={start}
-                        onClear={() => $('#stack').html('')}
+                        onClear={() => {
+                            $('#stack').html('');
+                            abortSummary();
+                        }}
+                        explain={(source) => {
+                            const { matrix } = Graph.skeleton();
+                            explain(getPrompt({ matrix, source }));
+                        }}
                     />
-                    <Box id="stack" className="d-flex alphaGrid" />
+                    <Box id="stack" className="alphaGrid" />
                 </Stack>
+                {summary}
             </Box>
         </Stack>
     );

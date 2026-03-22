@@ -9,10 +9,13 @@ import Graph, { Path } from '@/common/graph';
 import Iterator from '@/common/iterator';
 import $ from 'jquery';
 
+var prevSrc;
+
 function useGraphControls(config, props) {
   const { isDirGraph, playStatus, setContext } = useContext(AppContext);
   const { source, weighted, directed } = config;
   const history = useUndoRedo();
+
   config.history = {
     commit: () => history.push(Graph.skeleton(weighted)),
   };
@@ -48,6 +51,8 @@ function useGraphControls(config, props) {
         if (validate()) {
           $('#plane').off();
           Iterator.new(props.onStart, src);
+          props.explain?.(src);
+          prevSrc = src;
           resume();
         }
         break;
@@ -63,6 +68,10 @@ function useGraphControls(config, props) {
         Path('.edge').attr('stroke-width', 2.5);
         if (validate()) {
           Iterator.new(props.onStart, src);
+          if (src !== prevSrc) {
+            props.explain?.(src);
+            prevSrc = src;
+          }
           resume();
         }
         break;

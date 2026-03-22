@@ -1,19 +1,32 @@
 import { useState } from 'react';
-import { Box, Stack, Typography } from '@mui/material';
 import { Edge, InputNumbers, Node } from '@/components/common';
+import { Box, Divider, Stack, Typography } from '@mui/material';
+import { useAnimator, useSummary } from '@/hooks';
 import { charAt, sound, traverse } from '@/common/utils';
-import useAnimator from '@/hooks/useAnimator';
 import huffmanTree from '@/helpers/huffmanTree';
 import styles from '@/styles/numbers.module.css';
 import { Colors } from '@/common/constants';
 
-var queue;
+var queue, prompt;
+
+const getPrompt = (arr) => {
+    return `
+You are explaining an algorithm to someone observing a visualization of Huffman Coding.
+
+Input: ${JSON.stringify(arr)}
+
+Instructions:
+- Explain the construction of the Huffman Tree and generation of codes using above input.
+- Keep the explaination short and concise. Use past tense.
+- Highlight important actions.`;
+};
 
 export default function HuffmanCoding() {
     const [numbers, setNumbers] = useState([]);
     const [alphabets, setAlphabets] = useState([]);
     const [coding, setCoding] = useState({});
     const [scope, animator] = useAnimator();
+    const [summary, explain, abort] = useSummary();
 
     const toChar = (i) => charAt(65 + i);
 
@@ -39,6 +52,11 @@ export default function HuffmanCoding() {
 
     async function* handleStart(values) {
         queue = values.map((value, i) => ({ value, char: alphabets[i] }));
+        const newPrompt = getPrompt(queue);
+        if (prompt !== newPrompt) {
+            explain(newPrompt);
+            prompt = newPrompt;
+        }
         const root = _huffmanTree();
         const arr = [];
         traverse(root, (node) => arr.push(node));
@@ -50,11 +68,52 @@ export default function HuffmanCoding() {
     }
 
     const handleStop = (reset) => {
-        if (reset) setAlphabets([]);
+        if (reset) {
+            setAlphabets([]);
+            abort();
+        }
         setNumbers([]);
         setCoding({});
         queue = undefined;
     };
+
+    const renderInputs = () => (
+        <Stack spacing={1}>
+            {alphabets.length > 0 && (
+                <Box className={styles.inputNumbers}>
+                    <Typography
+                        variant="subtitle1"
+                        fontWeight="bold"
+                        mr={2}
+                    >
+                        Character:
+                    </Typography>
+                    {alphabets.map((char) => (
+                        <Typography
+                            key={char}
+                            variant="subtitle2"
+                            fontWeight="bold"
+                            mr="2.4rem"
+                        >
+                            {char}
+                        </Typography>
+                    ))}
+                </Box>
+            )}
+            <InputNumbers
+                min={5}
+                max={8}
+                label="Frequency: "
+                onSelect={(n) => {
+                    const arr = Array(n).fill(null);
+                    setAlphabets(arr.map((_, i) => toChar(i)));
+                    sound('pop');
+                }}
+                onStart={handleStart}
+                onReset={handleStop}
+            />
+        </Stack>
+    );
 
     return (
         <Stack spacing={2}>
@@ -77,91 +136,64 @@ export default function HuffmanCoding() {
                 a single tree. Traversing from the root to a leaf produces a
                 binary code, where each left or right move adds a bit.
             </Typography>
-            <Typography variant="h6" component="h2" pt={1}>
-                Visualizer
-            </Typography>
-            <Stack spacing={1}>
-                {alphabets.length > 0 && (
-                    <Box className={styles.inputNumbers}>
-                        <Typography
-                            variant="subtitle1"
-                            fontWeight="bold"
-                            mr={2}
-                        >
-                            Character:
-                        </Typography>
-                        {alphabets.map((char) => (
-                            <Typography
-                                key={char}
-                                variant="subtitle2"
-                                fontWeight="bold"
-                                mr="2.4rem"
-                            >
-                                {char}
-                            </Typography>
+            <br />
+            <Box display="flex" flexWrap="wrap" gap={3}>
+                <Stack spacing={2}>
+                    <Typography variant="h6" component="h2">
+                        Visualizer
+                    </Typography>
+                    {renderInputs()}
+                    <Box
+                        className="huffmanTree"
+                        id="binaryTree"
+                        sx={{ width: 700, pt: 1 }}
+                        ref={scope}
+                    >
+                        {numbers.slice(1).map((_, i) => (
+                            <Edge key={i} index={i} />
+                        ))}
+                        {numbers.map((node, i) => (
+                            <Node
+                                key={i}
+                                index={i}
+                                value={node.value}
+                                showBf={!!node.char}
+                                animate={{ x: i * 50 }}
+                                style={{ opacity: 0 }}
+                            />
+                        ))}
+                        {alphabets.map((char, i) => (
+                            <Node
+                                key={i}
+                                index={i + 100}
+                                value={char}
+                                animate={{ y: i * 50 }}
+                                style={{
+                                    borderRadius: 8,
+                                    backgroundColor: Colors.vertex,
+                                    fontWeight: 'bold',
+                                    color: '#404040',
+                                }}
+                            />
+                        ))}
+                        {alphabets.map((char, i) => (
+                            <Node
+                                key={i}
+                                index={i + 200}
+                                value={coding[char]}
+                                animate={{ x: 56, y: i * 50 }}
+                                style={{
+                                    border: 0,
+                                    boxShadow: 'none',
+                                    justifyContent: 'flex-start',
+                                    background: 'transparent',
+                                }}
+                            />
                         ))}
                     </Box>
-                )}
-                <InputNumbers
-                    min={5}
-                    max={8}
-                    label="Frequency: "
-                    onSelect={(n) => {
-                        const arr = Array(n).fill(null);
-                        setAlphabets(arr.map((_, i) => toChar(i)));
-                        sound('pop');
-                    }}
-                    onStart={handleStart}
-                    onReset={handleStop}
-                />
-            </Stack>
-            <Box
-                className="huffmanTree"
-                id="binaryTree"
-                sx={{ width: 700, pt: 1 }}
-                ref={scope}
-            >
-                {numbers.slice(1).map((_, i) => (
-                    <Edge key={i} index={i} />
-                ))}
-                {numbers.map((node, i) => (
-                    <Node
-                        key={i}
-                        index={i}
-                        value={node.value}
-                        showBf={!!node.char}
-                        animate={{ x: i * 50 }}
-                        style={{ opacity: 0 }}
-                    />
-                ))}
-                {alphabets.map((char, i) => (
-                    <Node
-                        key={i}
-                        index={i + 100}
-                        value={char}
-                        animate={{ y: i * 50 }}
-                        style={{
-                            borderRadius: 8,
-                            backgroundColor: Colors.vertex,
-                            fontWeight: 'bold',
-                            color: '#404040',
-                        }}
-                    />
-                ))}
-                {alphabets.map((char, i) => (
-                    <Node
-                        key={i}
-                        index={i + 200}
-                        value={coding[char]}
-                        animate={{ x: 56, y: i * 50 }}
-                        style={{
-                            border: 0,
-                            boxShadow: 'none',
-                            justifyContent: 'flex-start',
-                            background: 'transparent',
-                        }}
-                    />
-                ))}
+                </Stack>
+                <Divider orientation="vertical" flexItem />
+                {summary}
             </Box>
         </Stack>
     );

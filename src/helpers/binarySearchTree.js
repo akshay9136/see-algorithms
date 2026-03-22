@@ -56,7 +56,7 @@ function binarySearchTree(animator) {
         await bgcolor(node.id, Colors.compare);
         yield delay;
         if (num === node.value) return node;
-        const next = num <= node.value ? 'left' : 'right';
+        const next = num < node.value ? 'left' : 'right';
         if (node[next]) {
             await bgcolor(node.id, Colors.white);
             return yield* findNode(num, node[next]);

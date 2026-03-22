@@ -1,8 +1,9 @@
 import { DrawGraph } from '@/components/common';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Divider, Stack, Typography } from '@mui/material';
+import { useAlgorithm, useSummary } from '@/hooks';
+import { graphAlgoPrompt } from '@/common/prompts';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
-import useAlgorithm from '@/hooks/useAlgorithm';
 import {
     charAt,
     getCostMatrix,
@@ -14,7 +15,11 @@ import {
 import { Colors } from '@/common/constants';
 import Link from 'next/link';
 
+const getPrompt = graphAlgoPrompt('Dijkstras Shortest Path');
+
 export default function Dijkstras(props) {
+    const [summary, explain, abortSummary] = useSummary();
+
     const [algorithm] = useAlgorithm(`
 dist = map vertex -> Infinity
 dist[src] = 0
@@ -25,7 +30,7 @@ while heap is not empty:
     if u is not visited:
         relax(u, d)
 `);
-const [relaxAlgo] = useAlgorithm(`
+    const [relaxAlgo] = useAlgorithm(`
 function relax(u, d):
     mark u as visited
     for each neighbor v of u:
@@ -48,17 +53,27 @@ function relax(u, d):
                 visit next. This process continues until all nodes have been
                 visited, making it essential for network routing problems.
             </Typography>
+            <Typography variant="h6" component="h2">
+                Pseudocode
+            </Typography>
+            <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
+                {algorithm}
+                {relaxAlgo}
+            </Box>
+            <br />
             <Box display="flex" gap={3} flexWrap="wrap">
-                <Stack spacing={2} pt={0.5}>
-                    <Typography variant="h6" component="h2">
-                        Pseudocode
-                    </Typography>
-                    <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
-                        {algorithm}
-                        {relaxAlgo}
-                    </Box>
-                </Stack>
-                <DrawGraph {...props} onStart={start} weighted={true} />
+                <DrawGraph
+                    {...props}
+                    onStart={start}
+                    onClear={abortSummary}
+                    weighted={true}
+                    explain={(source) => {
+                        const matrix = getCostMatrix();
+                        explain(getPrompt({ matrix, source }));
+                    }}
+                />
+                <Divider orientation="vertical" flexItem />
+                {summary}
             </Box>
         </Stack>
     );
@@ -96,7 +111,8 @@ async function* start(src) {
         const label = svgLabel(i, charAt(65 + i));
         $('.vgrp').eq(i).append(label);
         if (i !== src) {
-            const symbol = '<tspan font-family="Montserrat, sans-serif" font-weight="500">&infin;</tspan>';
+            const symbol =
+                '<tspan font-family="Montserrat, sans-serif" font-weight="500">&infin;</tspan>';
             $('.vlbl').eq(i).html(symbol);
             d[i] = Infinity;
         } else {

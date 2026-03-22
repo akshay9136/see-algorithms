@@ -5,6 +5,7 @@ export const initialState = {
     userAuth: null,
     isDirGraph: false,
     playStatus: 0,
+    summaryOn: false,
 };
 
 const AppContext = createContext({

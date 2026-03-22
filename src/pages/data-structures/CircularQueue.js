@@ -71,7 +71,11 @@ function dequeue():
                 Visualizer
             </Typography>
             <DSInput {...props} buttons={buttons} hidePlayIcon />
-            <Box id="cqueue" className="alphaGrid numGrid" />
+            <Box
+                id="cqueue"
+                className="alphaGrid numGrid"
+                display="block !important"
+            />
         </Stack>
     );
 }
