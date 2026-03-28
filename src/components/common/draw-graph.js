@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect, memo } from 'react';
+import { useState, useContext, memo } from 'react';
 import {
   Box,
   Button,
@@ -18,10 +18,8 @@ import {
   Redo,
 } from '@mui/icons-material';
 import { useRouter } from 'next/router';
-import { createGraph } from '@/common/utils';
 import useGraphControls from '@/hooks/useGraphControls';
 import AppContext from '@/common/context';
-import Iterator from '@/common/iterator';
 import Graph from '@/common/graph';
 import styles from '@/styles/draw-graph.module.css';
 import { showToast } from '../toast';
@@ -48,23 +46,6 @@ function DrawGraph(props) {
     refresh,
     setDirected,
   } = useGraphControls(config, props);
-
-  useEffect(() => {
-    if (router.isReady) {
-      const { skeleton } = router.query;
-      if (skeleton) {
-        handleClear();
-        try {
-          const data = JSON.parse(atob(skeleton));
-          Graph.initialize(data);
-          createGraph(data, config.weighted);
-        } catch {
-          handleClear();
-        }
-      } else refresh();
-    }
-    return () => Iterator.current()?.exit();
-  }, [algoId, router]);
 
   const handleCopy = () => {
     const json = JSON.stringify(Graph.skeleton(config.weighted));

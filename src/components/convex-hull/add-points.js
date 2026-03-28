@@ -1,19 +1,21 @@
 import { Box, Button, IconButton, Typography } from '@mui/material';
 import { useContext, useEffect } from 'react';
-import { addPoints, randomize } from '@/helpers/convexHull';
 import { PlayArrow, Pause, Refresh } from '@mui/icons-material';
+import { addPoints, randomize } from '@/helpers/convexHull';
+import { newIterator } from '@/common/iterator';
 import $ from 'jquery';
-import Graph from '@/common/graph';
-import Iterator from '@/common/iterator';
 import AppContext from '@/common/context';
+import Graph from '@/common/graph';
 import styles from '@/styles/draw-graph.module.css';
 import { Colors } from '@/common/constants';
+
+var it;
 
 function AddPoints(props) {
   const { setContext, playStatus } = useContext(AppContext);
 
   const clear = () => {
-    Iterator.current()?.exit();
+    it?.exit();
     Graph.clear();
     $('#plane').off();
     $('#plane').children().remove();
@@ -28,7 +30,7 @@ function AddPoints(props) {
 
   const resume = async () => {
     setContext({ playStatus: 1 });
-    await Iterator.current().start();
+    await it.start();
     setContext({ playStatus: 2 });
   };
 
@@ -36,18 +38,18 @@ function AddPoints(props) {
     switch (playStatus) {
       case 0:
         $('#plane').off();
-        Iterator.new(props.onStart);
+        it = newIterator(props.onStart);
         resume();
         break;
       case 1:
-        Iterator.current().stop();
+        it.stop();
         setContext({ playStatus: -1 });
         break;
       case 2:
         $('#plane path').remove();
         $('.vrtx').attr('stroke', Colors.stroke);
         $('.vrtx').attr('fill', Colors.stroke);
-        Iterator.new(props.onStart);
+        it = newIterator(props.onStart);
         resume();
         break;
       default:
@@ -57,7 +59,7 @@ function AddPoints(props) {
 
   useEffect(() => {
     refresh();
-    return () => Iterator.current()?.exit();
+    return () => it?.exit();
   }, []);
 
   return (

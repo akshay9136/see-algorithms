@@ -202,7 +202,12 @@ export const metaConfigs = {
     title: 'Deleting a Node in BST | Three Possible Cases',
     description:
       'Learn how a Binary Search Tree removes nodes while maintaining its ordering. Explore the three situations that arise and how each case works.',
-},
+  },
+  'sorting-comparison': {
+    title: 'Compare Sorting Algorithms | Real-Time Visualization',
+    description:
+      'Compare multiple sorting algorithms in real-time. Watch how different approaches sort the same list of numbers simultaneously.',
+  },
 };
 
 export const getSeoConfig = (pageId) => {

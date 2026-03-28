@@ -1,9 +1,11 @@
 import { useState, forwardRef, useImperativeHandle } from 'react';
 import { Input, Button, Typography, Box } from '@mui/material';
-import { randomInt, showError } from '@/common/utils';
 import { Pause, PlayArrow } from '@mui/icons-material';
-import Iterator from '@/common/iterator';
+import { newIterator } from '@/common/iterator';
+import { randomInt, showError } from '@/common/utils';
 import styles from '@/styles/numbers.module.css';
+
+var it;
 
 const DSInput = forwardRef((props, ref) => {
   const [number, setNumber] = useState(props.keepEmpty ? '' : randomInt());
@@ -28,7 +30,7 @@ const DSInput = forwardRef((props, ref) => {
 
   const resume = async () => {
     setStatus(1);
-    await Iterator.current().start();
+    await it.start();
     if (!props.keepEmpty) setNumber(randomInt());
     setStatus(0);
   };
@@ -37,12 +39,12 @@ const DSInput = forwardRef((props, ref) => {
     switch (status) {
       case 0:
         if (validate()) {
-          Iterator.new(btn.onClick, number);
+          it = newIterator(btn.onClick, number);
           resume();
         }
         break;
       case 1:
-        Iterator.current().stop();
+        it.stop();
         setStatus(-1);
         break;
       default:

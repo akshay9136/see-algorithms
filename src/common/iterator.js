@@ -1,6 +1,6 @@
 import { logError, sleep } from './utils';
 
-function newIterator(generator, ...args) {
+export function newIterator(generator, ...args) {
   let iterator = generator(...args);
   let running = false;
   let onEnd;
@@ -50,18 +50,3 @@ function newIterator(generator, ...args) {
     },
   };
 }
-
-const Iterator = {
-  it: null,
-
-  new(generator, ...args) {
-    this.it = newIterator(generator, ...args);
-    return this.it;
-  },
-
-  current() {
-    return this.it;
-  },
-};
-
-export default Iterator;

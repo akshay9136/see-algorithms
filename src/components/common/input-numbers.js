@@ -10,12 +10,18 @@ import {
 import styles from '@/styles/numbers.module.css';
 import { randomInt, showError, sleep } from '@/common/utils';
 import { NavigateNext, Pause, PlayArrow } from '@mui/icons-material';
-import Iterator from '@/common/iterator';
+import { newIterator } from '@/common/iterator';
+
+var iterators = [];
 
 function InputNumbers(props) {
   const [numbers, setNumbers] = useState([]);
   const [status, setStatus] = useState(0);
   const { min = 7, max = 12 } = props;
+  const {
+    startHandlers = [props.onStart],
+    resetHandlers = [props.onReset],
+  } = props;
 
   const handleSelect = (e) => {
     const size = parseInt(e.target.value);
@@ -48,20 +54,23 @@ function InputNumbers(props) {
 
   const resume = async () => {
     setStatus(1);
-    await Iterator.current().start();
+    await Promise.all(iterators.map((it) => it.start()));
     setStatus(2);
   };
 
   const restart = () => {
     if (validate()) {
-      Iterator.new(props.onStart, numbers);
+      iterators = startHandlers.map((handler) =>
+        newIterator(handler, numbers),
+      );
       resume();
     }
   };
 
   const handleNext = async () => {
     setStatus(1);
-    const { done } = await Iterator.current().next();
+    const results = await Promise.all(iterators.map((it) => it.next()));
+    const done = results.every((r) => r.done);
     setStatus(done ? 2 : -1);
   };
 
@@ -71,11 +80,11 @@ function InputNumbers(props) {
         restart();
         break;
       case 1:
-        Iterator.current().stop();
+        iterators.forEach((it) => it.stop());
         setStatus(-1);
         break;
       case 2:
-        props.onReset();
+        resetHandlers.forEach((reset) => reset());
         sleep(500).then(restart);
         break;
       default:
@@ -84,10 +93,12 @@ function InputNumbers(props) {
   };
 
   const handleReset = () => {
-    props.onReset(true);
     setStatus(0);
     setNumbers([]);
-    Iterator.current()?.exit();
+    resetHandlers.forEach((reset, i) => {
+      iterators[i]?.exit();
+      reset(true);
+    });
   };
 
   useEffect(() => handleReset, []);

@@ -1,19 +1,22 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { clearGraph, createGraph, showError } from '@/common/utils';
 import { drawGraph, switchGraph } from '@/helpers/drawGraph';
 import { randomGraph } from '@/helpers/randomGraph';
 import { Colors } from '@/common/constants';
 import AppContext from '@/common/context';
-import useUndoRedo from './useUndoRedo';
-import Graph, { Path } from '@/common/graph';
-import Iterator from '@/common/iterator';
 import $ from 'jquery';
+import { useRouter } from 'next/router';
+import { newIterator } from '@/common/iterator';
+import Graph, { Path } from '@/common/graph';
+import useUndoRedo from './useUndoRedo';
 
-var prevSrc;
+var it, prevSrc;
 
 function useGraphControls(config, props) {
   const { isDirGraph, playStatus, setContext } = useContext(AppContext);
   const { source, weighted, directed } = config;
+  const router = useRouter();
+  const algoId = router.pathname.split('/')[2];
   const history = useUndoRedo();
 
   config.history = {
@@ -40,7 +43,7 @@ function useGraphControls(config, props) {
 
   const resume = async () => {
     setContext({ playStatus: 1 });
-    await Iterator.current().start();
+    await it.start();
     setContext({ playStatus: 2 });
   };
 
@@ -50,14 +53,14 @@ function useGraphControls(config, props) {
       case 0:
         if (validate()) {
           $('#plane').off();
-          Iterator.new(props.onStart, src);
           props.explain?.(src);
           prevSrc = src;
+          it = newIterator(props.onStart, src);
           resume();
         }
         break;
       case 1:
-        Iterator.current().stop();
+        it.stop();
         setContext({ playStatus: -1 });
         break;
       case 2:
@@ -67,11 +70,11 @@ function useGraphControls(config, props) {
         Path('.edge').attr('stroke', Colors.stroke);
         Path('.edge').attr('stroke-width', 2.5);
         if (validate()) {
-          Iterator.new(props.onStart, src);
           if (src !== prevSrc) {
             props.explain?.(src);
             prevSrc = src;
           }
+          it = newIterator(props.onStart, src);
           resume();
         }
         break;
@@ -82,7 +85,7 @@ function useGraphControls(config, props) {
 
   const handleClear = () => {
     props.onClear?.();
-    Iterator.current()?.exit();
+    it?.exit();
     history.clear();
     clearGraph();
     drawGraph(config);
@@ -110,7 +113,7 @@ function useGraphControls(config, props) {
   };
 
   const refresh = () => {
-    Iterator.current()?.exit();
+    it?.exit();
     props.onClear?.();
     clearGraph();
     history.clear();
@@ -129,6 +132,23 @@ function useGraphControls(config, props) {
     switchGraph();
     setContext({ isDirGraph: !isDirGraph });
   };
+
+  useEffect(() => {
+    if (router.isReady) {
+      const { skeleton } = router.query;
+      if (skeleton) {
+        handleClear();
+        try {
+          const data = JSON.parse(atob(skeleton));
+          Graph.initialize(data);
+          createGraph(data, config.weighted);
+        } catch {
+          handleClear();
+        }
+      } else refresh();
+    }
+    return () => it?.exit();
+  }, [algoId, router]);
 
   return {
     handlePlay,

@@ -39,16 +39,4 @@ function newIterator(generator, ...args) {
   };
 }
 
-module.exports = {
-  __esModule: true,
-  default: {
-    it: null,
-    new(generator, ...args) {
-      this.it = newIterator(generator, ...args);
-      return this.it;
-    },
-    current() {
-      return this.it;
-    },
-  },
-};
+module.exports = { __esModule: true, newIterator };

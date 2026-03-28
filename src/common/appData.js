@@ -90,5 +90,12 @@ export const articles = [
         category: 'Data Structures',
         date: '2026-03-05',
     },
+    {
+        id: 'sorting-comparison',
+        title: 'Compare Sorting Algorithms',
+        summary: 'Visualize and compare multiple sorting algorithms simultaneously with same input array.',
+        category: 'Sorting',
+        date: '2026-03-28',
+    }
 ]
 .sort((a, b) => b.date.localeCompare(a.date));

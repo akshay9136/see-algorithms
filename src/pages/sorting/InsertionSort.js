@@ -1,68 +1,9 @@
-import { useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
-import { InputNumbers, Numbox } from '@/components/common';
-import { sound, withBoxId } from '@/common/utils';
-import useAnimator from '@/hooks/useAnimator';
-import useAlgorithm from '@/hooks/useAlgorithm';
-import { Colors } from '@/common/constants';
-
-var arr,
-    delay = 800;
+import { InputNumbers } from '@/components/common';
+import { useInsertionSort } from '@/hooks/sorting';
 
 export default function InsertionSort() {
-    const [numbers, setNumbers] = useState([]);
-    const [scope, { tx, ty, bgcolor }] = useAnimator();
-    const [algorithm, setCurrentStep] = useAlgorithm(`
-for i = 1 to (n - 1):
-    key = arr[i]
-    j = i - 1
-    while j >= 0 and arr[j] > key:
-        arr[j + 1] = arr[j]
-        j = j - 1
-    arr[j + 1] = key
-`);
-
-    async function* handleSort(values) {
-        setNumbers(values);
-        sound('pop');
-        arr = values.map(withBoxId);
-        yield delay;
-        bgcolor(arr[0].id, Colors.sorted);
-        yield delay;
-        for (let i = 1; i < arr.length; i++) {
-            setCurrentStep('1,2');
-            let temp = arr[i];
-            sound('pop');
-            await ty(temp.id, -50);
-            setCurrentStep('3');
-            yield delay;
-            let j = i - 1;
-            for (; j >= 0 && arr[j].val > temp.val; j--) {
-                setCurrentStep('3,4,5');
-                sound('swap');
-                await tx(arr[j].id, (j + 1) * 60);
-                arr[j + 1] = arr[j];
-                yield 200;
-            }
-            sound('swap');
-            if (j < i - 1) {
-                let k = i - (j + 1);
-                await tx(temp.id, (j + 1) * 60, k * 0.2);
-                arr[j + 1] = temp;
-            }
-            setCurrentStep('6');
-            await ty(temp.id, 0);
-            await bgcolor(temp.id, Colors.sorted);
-            yield delay;
-        }
-        setCurrentStep('');
-    }
-
-    const handleStop = () => {
-        setNumbers([]);
-        setCurrentStep('');
-        arr = undefined;
-    };
+    const { animation, pseudocode, handleSort, handleStop } = useInsertionSort();
 
     return (
         <Stack spacing={2}>
@@ -100,15 +41,10 @@ for i = 1 to (n - 1):
                 Pseudocode
             </Typography>
             <Box display="flex" gap={3} flexWrap="wrap">
-                {algorithm}
+                {pseudocode}
                 <Stack spacing={3}>
                     <InputNumbers onStart={handleSort} onReset={handleStop} />
-
-                    <Box className="sorting" pt={8} ref={scope}>
-                        {numbers.map((num, i) => (
-                            <Numbox key={i} index={i} value={num} />
-                        ))}
-                    </Box>
+                    {animation}
                 </Stack>
             </Box>
         </Stack>
