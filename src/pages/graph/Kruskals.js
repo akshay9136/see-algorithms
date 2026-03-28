@@ -1,11 +1,11 @@
 import { DrawGraph, Node } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import $ from 'jquery';
+import { useAnimator } from '@/hooks';
 import Graph, { Path } from '@/common/graph';
-import useAnimator from '@/hooks/useAnimator';
-import { Colors } from '@/common/constants';
+import $ from 'jquery';
 import { charAt, sound } from '@/common/utils';
+import { Colors } from '@/common/constants';
 
 var arr, union, parent;
 var delay = 800;
@@ -22,10 +22,10 @@ export default function Kruskals(props) {
     }, [size]);
 
     async function* start() {
-        sound('pop');
         $('.vrtx').attr('stroke', Colors.rejected);
         $('.edge').attr('stroke', Colors.rejected);
-        yield 0;
+        $('.edge').attr('stroke-dasharray', '8,4');
+        yield delay / 2;
         const size = Graph.totalPoints();
         setSize(size);
         arr = [];
@@ -42,7 +42,6 @@ export default function Kruskals(props) {
             union[i].add(i);
             parent[i] = i;
         }
-        yield delay;
         yield* nextMin(0);
     }
 
@@ -53,21 +52,8 @@ export default function Kruskals(props) {
         return parent[u];
     }
 
-    async function merge(x1, x2) {
-        const y = union[x1].size * 50;
-        const promises = [];
-        [...union[x2]].forEach((v, i) => {
-            promises.push(txy(`#node${v}`, x1 * 70, y + i * 50));
-        });
-        await Promise.all(promises);
-        union[x1] = new Set([...union[x1], ...union[x2]]);
-        union[x2] = new Set();
-        parent[x2] = x1;
-        $(`#nodeTag${x2}`).text(charAt(65 + x1));
-        sound('pop');
-    }
-
     async function* nextMin(k) {
+        yield delay;
         const { u, v, i } = arr[k];
         $('.vrtx').eq(u).attr('stroke', Colors.visited);
         $('.vrtx').eq(v).attr('stroke', Colors.visited);
@@ -85,8 +71,9 @@ export default function Kruskals(props) {
             if (!arr.length) return;
             Path('.edge').eq(i).attr('stroke', Colors.visited);
             Path('.edge').eq(i).attr('stroke-width', 3);
+            Path('.edge').eq(i).removeAttr('stroke-dasharray');
         }
-        yield delay / 2;
+        yield delay;
         $('.vrtx').eq(u).attr('fill', Colors.vertex);
         $('.vrtx').eq(v).attr('fill', Colors.vertex);
         await Promise.all([
@@ -94,10 +81,21 @@ export default function Kruskals(props) {
             bgcolor(`#node${v}`, Colors.white),
         ]);
         const rest = union.filter((set) => set.size > 0);
-        if (rest.length > 1) {
-            yield delay;
-            yield* nextMin(k + 1);
-        }
+        if (rest.length > 1) yield* nextMin(k + 1);
+    }
+
+    async function merge(x1, x2) {
+        const y = union[x1].size * 50;
+        const promises = [];
+        [...union[x2]].forEach((v, i) => {
+            promises.push(txy(`#node${v}`, x1 * 60, y + i * 50));
+        });
+        await Promise.all(promises);
+        union[x1] = new Set([...union[x1], ...union[x2]]);
+        union[x2] = new Set();
+        parent[x2] = x1;
+        $(`#nodeTag${x2}`).text(charAt(65 + x1));
+        sound('pop');
     }
 
     return (
@@ -177,7 +175,7 @@ export default function Kruskals(props) {
                 />
                 <Box
                     pt={4}
-                    width={size * 70}
+                    width={size * 60}
                     height={size * 60}
                     minHeight={300}
                     ref={scope}
@@ -194,17 +192,16 @@ export default function Kruskals(props) {
                     >
                         Union-Find
                     </Typography>
-                    {Array(size)
-                        .fill(null)
-                        .map((_, i) => (
-                            <Node
-                                key={i}
-                                index={i}
-                                value={charAt(65 + i)}
-                                animate={{ x: i * 70 }}
-                                showBf={true}
-                            />
-                        ))}
+                    {Array(size).fill(null).map((_, i) => (
+                        <Node
+                            key={i}
+                            index={i}
+                            value={charAt(65 + i)}
+                            animate={{ x: i * 60 }}
+                            showBf={true}
+                            style={{ scale: 0.9 }}
+                        />
+                    ))}
                 </Box>
             </Box>
         </Stack>

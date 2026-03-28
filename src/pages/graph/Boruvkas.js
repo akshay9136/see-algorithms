@@ -2,8 +2,8 @@ import { DrawGraph } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
 import Graph, { Path } from '@/common/graph';
 import $ from 'jquery';
-import { Colors } from '@/common/constants';
 import { sound, getCostMatrix } from '@/common/utils';
+import { Colors } from '@/common/constants';
 
 var union, parent, w;
 var delay = 1000;
@@ -36,7 +36,8 @@ export default function Boruvkas(props) {
 async function* start() {
     $('.vrtx').attr('stroke', Colors.visited);
     $('.edge').attr('stroke', Colors.rejected);
-    yield 0;
+    $('.edge').attr('stroke-dasharray', '8,4');
+    yield delay;
     const n = Graph.totalPoints();
     union = [];
     parent = [];
@@ -46,7 +47,6 @@ async function* start() {
         parent[i] = i;
     }
     w = getCostMatrix();
-    yield delay;
     yield* connect();
 }
 
@@ -72,31 +72,35 @@ async function* connect() {
             }
         }
     }
-    $('.vrtx').attr('fill', Colors.visited);
-    yield delay;
-    merge(Object.values(min));
-    yield delay;
-    $('.vrtx').attr('fill', Colors.vertex);
-
+    yield* merge(Object.values(min));
     const rest = union.filter((set) => set.size > 0);
-    if (rest.length > 1) {
-        yield delay;
-        yield* connect();
-    }
+    if (rest.length > 1) yield* connect();
 }
 
-function merge(minEdges) {
+function* merge(minEdges) {
     for (const { u, v } of minEdges) {
         const x1 = findRoot(v);
         const x2 = findRoot(u);
         if (x1 !== x2) {
+            [x1, x2].map(highlight);
+            yield delay;
             union[x1] = new Set([...union[x1], ...union[x2]]);
             union[x2] = new Set();
             parent[x2] = x1;
             const ei = Graph.edgeIndex(u, v);
+            sound('pop');
             Path('.edge').eq(ei).attr('stroke', Colors.visited);
             Path('.edge').eq(ei).attr('stroke-width', 3);
-            sound('pop');
+            Path('.edge').eq(ei).removeAttr('stroke-dasharray');
+            yield delay;
+            $('.vrtx').attr('fill', Colors.vertex);
+            yield delay;
         }
     }
+}
+
+function highlight(x) {
+    union[x].forEach((v) => {
+        $('.vrtx').eq(v).attr('fill', Colors.visited);
+    });
 }
