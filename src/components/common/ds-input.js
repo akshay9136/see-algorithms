@@ -38,7 +38,7 @@ const DSInput = forwardRef((props, ref) => {
   const handlePlay = (btn) => {
     switch (status) {
       case 0:
-        if (validate()) {
+        if (btn.animate || validate()) {
           it = newIterator(btn.onClick, number);
           resume();
         }
@@ -91,7 +91,7 @@ const DSInput = forwardRef((props, ref) => {
             size="small"
             variant="outlined"
             onClick={() => {
-              btn.validate ? handlePlay(btn) : btn.onClick();
+              (btn.validate || btn.animate) ? handlePlay(btn) : btn.onClick();
             }}
             disabled={status === 0 ? btn.disabled : true}
             aria-label={btn.text}

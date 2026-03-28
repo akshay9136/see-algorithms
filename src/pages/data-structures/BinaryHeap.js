@@ -124,7 +124,7 @@ function extract():
         {
             text: 'Extract',
             onClick: extract,
-            validate: true,
+            animate: true,
             disabled: !numbers.length,
         },
         { text: 'Clear', onClick: reset, disabled: !numbers.length },
