@@ -222,10 +222,12 @@ function* spanEdge(i, j) {
             yield 20;
             yield* span(dash + t);
         } else {
-            edge.remove();
-            $('.edge').eq(ei).attr('stroke', Colors.visited);
-            $('.edge').eq(ei).attr('stroke-width', 3);
             $('.vrtx').eq(j).attr('stroke', Colors.visited);
+            edge.remove();
+            const edge1 = $('.edge').eq(ei);
+            edge1.attr('stroke', Colors.visited);
+            edge1.attr('stroke-width', 3);
+            edge1.removeAttr('stroke-dasharray');
         }
     }
     yield* span(2);

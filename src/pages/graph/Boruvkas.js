@@ -1,8 +1,8 @@
 import { DrawGraph } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
-import Graph, { Path } from '@/common/graph';
+import { sound, getCostMatrix, spanEdge } from '@/common/utils';
+import Graph from '@/common/graph';
 import $ from 'jquery';
-import { sound, getCostMatrix } from '@/common/utils';
 import { Colors } from '@/common/constants';
 
 var union, parent, w;
@@ -82,25 +82,22 @@ function* merge(minEdges) {
         const x1 = findRoot(v);
         const x2 = findRoot(u);
         if (x1 !== x2) {
-            [x1, x2].map(highlight);
-            yield delay;
+            yield* highlight(x2);
+            sound('pop');
+            yield* spanEdge(u, v);
+            yield* highlight(x1);
             union[x1] = new Set([...union[x1], ...union[x2]]);
             union[x2] = new Set();
             parent[x2] = x1;
-            const ei = Graph.edgeIndex(u, v);
-            sound('pop');
-            Path('.edge').eq(ei).attr('stroke', Colors.visited);
-            Path('.edge').eq(ei).attr('stroke-width', 3);
-            Path('.edge').eq(ei).removeAttr('stroke-dasharray');
-            yield delay;
             $('.vrtx').attr('fill', Colors.vertex);
             yield delay;
         }
     }
 }
 
-function highlight(x) {
+function* highlight(x) {
     union[x].forEach((v) => {
         $('.vrtx').eq(v).attr('fill', Colors.visited);
     });
+    yield delay;
 }
