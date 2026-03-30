@@ -27,7 +27,6 @@ export default function HomePage() {
           <Typography
             variant="h4"
             component="h1"
-            sx={{ fontSize: { xs: '2rem', sm: '2.5rem' } }}
             color="text.primary"
             gutterBottom
           >

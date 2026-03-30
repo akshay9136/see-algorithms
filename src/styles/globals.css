@@ -8,3 +8,7 @@ body,
 .d-flex {
   display: flex;
 }
+
+.MuiTypography-h4 {
+  font-size: 2rem;
+}
