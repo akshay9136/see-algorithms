@@ -159,8 +159,8 @@ function binaryTree({ tx, txy, bgcolor, animate, cleanup }) {
         },
         insert(value, parent, isLeft) {
             if (!parent) {
-                const div = document.getElementById('binaryTree');
-                const rect = div.getBoundingClientRect();
+                const plane = document.getElementById('binaryTree');
+                const rect = plane.getBoundingClientRect();
                 const x1 = rect.width / 2.5;
                 const id = `#node${0}`;
                 const node = { value, id, key: 0, x: x1, y: 50 };

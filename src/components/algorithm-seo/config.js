@@ -158,6 +158,11 @@ export const metaConfigs = {
     description:
       'Visualize Splay Trees. Access nodes and watch them bubble to the root via splaying operations. Understand cache optimization and locality.',
   },
+  BTree: {
+    title: 'B-Tree Visualizer | Multi-Way Search Tree',
+    description:
+      'Visualize B-Trees (order 3). Insert keys and watch nodes split and keys promote to maintain balance. Understand multi-way search trees.',
+  },
   ConvexHull: {
     title: 'Convex Hull Visualizer | Jarvis March Wrapping',
     description:

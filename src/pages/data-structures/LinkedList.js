@@ -1,4 +1,3 @@
-/* eslint-disable require-yield */
 import { useEffect, useState, useRef } from 'react';
 import {
   Stack,

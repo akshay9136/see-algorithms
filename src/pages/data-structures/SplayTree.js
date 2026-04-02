@@ -9,7 +9,7 @@ import splayTree from '@/helpers/splayTree';
 
 const getPrompt = bstPrompt('Splay Tree');
 
-var arr = [], Tree;
+var Tree;
 var deleted = {};
 
 export default function SplayTree(props) {
@@ -20,21 +20,19 @@ export default function SplayTree(props) {
     const history = useUndoRedo();
 
     async function* insert(num) {
-        if (arr.includes(num) && !deleted[num]) {
+        if (numbers.includes(num) && !deleted[num]) {
             showError(`Node (${num}) already exists.`);
             return;
         }
         if (!numbers.length) {
             Tree = splayTree(animator);
             deleted = {};
-            arr = [];
         }
         const prevNodes = Tree.collect();
         explain(getPrompt(prevNodes, 'Insert', num));
         history.push(Tree.collect());
         deleted[num] = false;
-        arr.push(num);
-        setNumbers(arr.slice());
+        setNumbers([...numbers, num]);
         yield 500;
         yield* Tree.insert(num);
     }
@@ -46,6 +44,13 @@ export default function SplayTree(props) {
         yield 500;
         yield* Tree.search(num);
     }
+
+    const newTree = async (nodes) => {
+        setNumbers(nodes.slice());
+        Tree = splayTree(animator);
+        await sleep(100);
+        nodes.forEach((num) => Tree._insert(num));
+    };
 
     const handleUndo = async () => {
         if (history.canUndo) {
@@ -81,9 +86,9 @@ export default function SplayTree(props) {
             text: 'Search',
             onClick: search,
             validate: true,
-            disabled: !arr.length,
+            disabled: !numbers.length,
         },
-        { text: 'Clear', onClick: reset, disabled: !arr.length },
+        { text: 'Clear', onClick: reset, disabled: !numbers.length },
         {
             text: <Undo />,
             onClick: handleUndo,
@@ -100,18 +105,10 @@ export default function SplayTree(props) {
         {
             text: <Share fontSize="small" />,
             onClick: () => copyBinaryTree(Tree.root()),
-            disabled: !arr.length,
+            disabled: !numbers.length,
             title: 'Share this tree',
         },
     ];
-
-    const newTree = async (nodes) => {
-        arr = nodes.slice();
-        setNumbers(arr.slice());
-        Tree = splayTree(animator);
-        await sleep(100);
-        nodes.forEach((num) => Tree._insert(num));
-    };
 
     useEffect(() => {
         if (isReady) newTree(nodes || randomNodes());
@@ -143,27 +140,10 @@ export default function SplayTree(props) {
                 </li>
                 <li>
                     There are three types of rotations depending on the node’s
-                    position:
-                    <Typography
-                        component="ul"
-                        variant="body1"
-                        sx={{ mt: 2, mb: 2.5, pl: 3 }}
-                    >
-                        <li>
-                            <strong>zig</strong> rotation occurs when the node
-                            is a child of the root (single rotation).
-                        </li>
-                        <li>
-                            <strong>zig-zig</strong> rotation occurs when the
-                            node and its parent are on the same side (double
-                            rotation in same direction).
-                        </li>
-                        <li>
-                            <strong>zig-zag</strong> rotation occurs when the
-                            node and its parent are on opposite sides (double
-                            rotation in opposite directions).
-                        </li>
-                    </Typography>
+                    position: <strong>zig</strong> (single rotation),{' '}
+                    <strong>zig-zig</strong> (double rotation in same
+                    direction), and <strong>zig-zag</strong> (double rotation in
+                    opposite directions).
                 </li>
                 <li>
                     After splaying, frequently accessed nodes stay near the

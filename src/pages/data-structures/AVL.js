@@ -11,12 +11,12 @@ import {
     useUndoRedo,
 } from '@/hooks';
 import { bstPrompt } from '@/common/prompts';
-import binaryAvlTree from '@/helpers/binaryAvlTree';
+import avlTree from '@/helpers/avlTree';
 import Link from 'next/link';
 
 const getPrompt = bstPrompt('AVL Tree');
 
-var arr = [], Tree;
+var Tree;
 var deleted = {};
 
 export default function AVL(props) {
@@ -46,27 +46,25 @@ function rebalance(node):
 `);
 
     async function* insert(num) {
-        if (arr.includes(num) && !deleted[num]) {
+        if (numbers.includes(num) && !deleted[num]) {
             showError(`Node (${num}) already exists.`);
             return;
         }
         if (!numbers.length) {
-            Tree = binaryAvlTree(animator, setCurrentStep);
+            Tree = avlTree(animator, setCurrentStep);
             deleted = {};
-            arr = [];
         }
         const prevNodes = Tree.collect();
         explain(getPrompt(prevNodes, 'Insert', num));
         history.push(prevNodes);
         deleted[num] = false;
-        arr.push(num);
-        setNumbers(arr.slice());
+        setNumbers([...numbers, num]);
         yield 500;
         yield* Tree.insert(num);
     }
 
     async function* remove(num) {
-        if (arr.includes(num)) deleted[num] = true;
+        if (numbers.includes(num)) deleted[num] = true;
         const prevNodes = Tree.collect();
         explain(getPrompt(prevNodes, 'Delete', num));
         yield 500;
@@ -134,9 +132,8 @@ function rebalance(node):
     ];
 
     const newTree = async (nodes) => {
-        arr = nodes.slice();
-        setNumbers(arr.slice());
-        Tree = binaryAvlTree(animator, setCurrentStep);
+        setNumbers(nodes.slice());
+        Tree = avlTree(animator, setCurrentStep);
         await sleep(100);
         nodes.forEach((num) => Tree._insert(num));
     };

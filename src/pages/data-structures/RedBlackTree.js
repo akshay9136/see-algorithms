@@ -10,7 +10,7 @@ import Link from 'next/link';
 
 const getPrompt = bstPrompt('Red-Black Tree');
 
-var arr = [], Tree;
+var Tree;
 var deleted = {};
 
 export default function RBT(props) {
@@ -21,24 +21,29 @@ export default function RBT(props) {
     const history = useUndoRedo();
 
     async function* insert(num) {
-        if (arr.includes(num) && !deleted[num]) {
+        if (numbers.includes(num) && !deleted[num]) {
             showError(`Node (${num}) already exists.`);
             return;
         }
         if (!numbers.length) {
             Tree = redBlackTree(animator);
             deleted = {};
-            arr = [];
         }
         const prevNodes = Tree.collect((a) => [a.value, a.color]);
         explain(getPrompt(prevNodes, 'Insert', num));
         history.push(prevNodes);
         deleted[num] = false;
-        arr.push(num);
-        setNumbers(arr.slice());
+        setNumbers([...numbers, num]);
         yield 500;
         yield* Tree.insert(num);
     }
+
+    const newTree = async (nodes) => {
+        setNumbers(nodes.map((x) => x[0]));
+        Tree = redBlackTree(animator);
+        await sleep(100);
+        nodes.forEach((x) => Tree._insert(...x));
+    };
 
     const handleUndo = async () => {
         if (history.canUndo) {
@@ -92,14 +97,6 @@ export default function RBT(props) {
             title: 'Share this tree',
         },
     ];
-
-    const newTree = async (nodes) => {
-        arr = nodes.map((x) => x[0]);
-        setNumbers(arr.slice());
-        Tree = redBlackTree(animator);
-        await sleep(100);
-        nodes.forEach((x) => Tree._insert(...x));
-    };
 
     useEffect(() => {
         if (nodes) newTree(nodes);

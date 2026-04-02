@@ -7,7 +7,7 @@ import { sleep, sound } from '@/common/utils';
 import binaryHeap from '@/helpers/binaryHeap';
 import Link from 'next/link';
 
-var arr = [], Tree;
+var Tree;
 var delay = 500;
 
 const getPrompt = (operation, value) => {
@@ -56,12 +56,10 @@ function extract():
     async function* insert(num) {
         if (!numbers.length) {
             Tree = binaryHeap(animator);
-            arr = [];
         }
         explain(getPrompt('Insert', num));
         history.push(Tree.collect());
-        arr.push(num);
-        setNumbers(arr.slice());
+        setNumbers([...numbers, num]);
         yield delay;
         sound('pop');
         if (!numbers.length) {
@@ -90,8 +88,7 @@ function extract():
     }
 
     const newTree = async (nodes) => {
-        arr = nodes.slice();
-        setNumbers(arr.slice());
+        setNumbers(nodes.slice());
         Tree = binaryHeap(animator);
         await sleep(100);
         nodes.forEach((num) => Tree._insert(num));

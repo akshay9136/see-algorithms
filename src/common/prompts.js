@@ -4,7 +4,7 @@ export const bstPrompt = (name) => (nodes, operation, value) => {
 You are explaining the steps to someone observing a visualization of ${name}.
 
 Context:
-- A BST is created by inserting values in this array (Do not explain this): ${json}.
+- The current BST is formed by inserting values of this array: ${json}.
 - Operation being performed: ${operation}, with value: ${value}
 
 Instructions:
@@ -13,8 +13,20 @@ Instructions:
 - Highlight important actions.`;
 };
 
-export const graphAlgoPrompt = (name) => (data) => {
-    return `
+export const bTreePrompt = (keys, value) => `
+You are explaining the steps to someone observing a visualization of B-Tree (order 3).
+
+Context:
+- The current B-Tree contains these keys (level-order): ${JSON.stringify(keys)}.
+- Operation being performed: Insert, with value: ${value}
+
+Instructions:
+- Explain how the insertion is performed step by step.
+- If a node split occurs, explain the process.
+- Keep the explaination concise (within 200 words). Use past tense.
+- Highlight important actions.`;
+
+export const graphAlgoPrompt = (name) => (data) => `
 You are explaining a graph algorithm to someone observing a visualization of ${name}.
 
 Graph Input: ${JSON.stringify(data)}
@@ -24,4 +36,3 @@ Instructions:
 - Use alphabets (A, B, C, D, ..) for the vertices.
 - Keep the explaination concise (within 200 words). Use past tense.
 - Highlight important actions.`;
-};
