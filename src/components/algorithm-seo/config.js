@@ -213,16 +213,26 @@ export const metaConfigs = {
     description:
       'Compare multiple sorting algorithms in real-time. Watch how different approaches sort the same list of numbers simultaneously.',
   },
+  'embed-sorting': {
+    title: 'Embed Sorting Visualizers | Educational Tool',
+    description:
+      'Learn how to embed interactive sorting animations into your blog, Notion, or website. Perfect for technical articles and tutorials.',
+  },
 };
 
-export const getSeoConfig = (pageId) => {
+export const getSeoConfig = (pageId, pathname) => {
   const config = metaConfigs[pageId];
+
   if (!config) {
-    const name = pageId.replace(/([A-Z])/g, ' $1').trim();
-    return {
-      title: `${name} Visualizer | See Algorithms`,
-      description: `Interactive ${name} visualizer. Step-by-step animation and custom input. Learn the algorithm with See Algorithms.`,
-    };
+    if (pathname === '/articles') {
+      return {
+        title: 'Articles (See Algorithms) | Deep-dive into DSA',
+        description:
+          'Learn about sorting efficiency, self-balancing trees, graph theory, and more through interactive articles and visual guides.',
+      };
+    }
+    return defaultSeoConfig;
   }
+
   return config;
 };
