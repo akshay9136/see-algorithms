@@ -13,7 +13,7 @@ const styles = {
   },
 };
 
-export default function DeletingNodeInBST() {
+export default function DeletingBstNode() {
   return (
     <Article
       title="Deleting a Node in BST"
