@@ -10,17 +10,38 @@ import { useRouter } from 'next/router';
 
 function Layout({ children }) {
   const [menuVisible, setMenuVisible] = useState(false);
-  const { pathname } = useRouter();
-  const pageId = pathname.split('/')[2];
+  const { pathname, query } = useRouter();
+  const isEmbed = pathname.includes('/embed/');
+  const pageId = isEmbed ? query.algorithm : pathname.split('/')[2];
   const { name: title } = algorithms.findObj('id', pageId) || {};
   const scrollRef = useRef(null);
 
   useEffect(() => {
     setMenuVisible(false);
-    scrollRef.current.scrollTo(0, 0);
+    scrollRef.current?.scrollTo(0, 0);
   }, [pathname]);
 
-  const mdBlock = { xs: 'none', md: 'block' };
+  if (isEmbed) {
+    return (
+      <Box overflow="auto" width={900} border="1px solid #e0e0e0">
+        {pageId && <AlgorithmSEO />}
+        <Box className="content" minWidth="100%">
+          {title && (
+            <Typography
+              variant="h6"
+              component="h2"
+              fontWeight={600}
+              color="warning.main"
+              mb={2.5}
+            >
+              {title} Visualizer
+            </Typography>
+          )}
+          {children}
+        </Box>
+      </Box>
+    );
+  }
 
   return (
     <>
@@ -37,10 +58,10 @@ function Layout({ children }) {
       >
         <Sider selected={pageId} />
       </Drawer>
-      {pageId && <AlgorithmSEO />}
+      {(pageId || pathname === '/articles') && <AlgorithmSEO />}
 
       <Box display="flex" className="contentRow">
-        <Box sx={{ display: mdBlock }}>
+        <Box sx={{ display: { xs: 'none', md: 'block' } }}>
           <Sider selected={pageId} />
         </Box>
         <Box overflow="auto" ref={scrollRef}>

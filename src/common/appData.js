@@ -97,6 +97,13 @@ export const articles = [
         summary: 'Visualize and compare multiple sorting algorithms simultaneously with same input array.',
         category: 'Sorting',
         date: '2026-03-28',
-    }
+    },
+    {
+        id: 'embed-sorting',
+        title: 'Embed Sorting Visualizers',
+        summary: 'Learn how to embed interactive sorting animations into your blog, Notion, or website.',
+        category: 'Tutorial',
+        date: '2026-04-05',
+    },
 ]
 .sort((a, b) => b.date.localeCompare(a.date));

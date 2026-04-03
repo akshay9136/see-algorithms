@@ -5,11 +5,12 @@ import { algorithms } from '@/common/appData';
 import Head from 'next/head';
 
 const AlgorithmSEO = () => {
-  const { pathname } = useRouter();
-  const pageId = pathname.split('/')[2];
-  const { title, description } = getSeoConfig(pageId);
+  const { pathname, query } = useRouter();
+  const isEmbed = pathname.includes('/embed/');
+  const pageId = isEmbed ? query.algorithm : pathname.split('/')[2];
+  const { title, description } = getSeoConfig(pageId, pathname);
   const { name, category } = algorithms.findObj('id', pageId) || {};
-  const url = `https://see-algorithms.com${pathname}`;
+  const url = 'https://see-algorithms.com' + pathname;
 
   const seoConfig = {
     title,
