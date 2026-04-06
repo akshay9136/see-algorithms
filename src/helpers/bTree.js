@@ -10,6 +10,7 @@ const LEVEL_GAP = 80;
 const TOP_Y = 40;
 
 const delay = 500;
+const nodeColor = '#e3f1fc';
 
 function bTree({ bgcolor }) {
     var root, nextId = 0;
@@ -179,7 +180,7 @@ function bTree({ bgcolor }) {
             await bgcolor(node.id, Colors.compare);
             yield delay;
             if (i < path.length - 1) {
-                await bgcolor(node.id, '#e3f1fc');
+                await bgcolor(node.id, nodeColor);
             }
         }
         sound('pop');
@@ -188,7 +189,7 @@ function bTree({ bgcolor }) {
         insertKey(leaf, value);
         updateView(getSnapshot());
         yield delay * 2;
-        await bgcolor(leaf.id, '#e3f1fc');
+        await bgcolor(leaf.id, nodeColor);
         yield delay;
         // Split as needed
         let node = leaf;
@@ -199,6 +200,27 @@ function bTree({ bgcolor }) {
             node = parent.keys.length > ORDER - 1 ? parent : null;
             yield delay * 2;
         }
+    }
+
+    async function* search(value) {
+        let node = root;
+        while (node) {
+            await bgcolor(node.id, Colors.compare);
+            yield delay;
+            let i = 0, keys = node.keys;
+            while (i < keys.length && value > keys[i]) i++;
+            if (i < keys.length && keys[i] === value) {
+                sound('pop');
+                await bgcolor(node.id, Colors.sorted);
+                yield delay;
+                await bgcolor(node.id, nodeColor);
+                return true;
+            }
+            await bgcolor(node.id, nodeColor);
+            if (node.children.length === 0) break;
+            node = node.children[i];
+        }
+        return false;
     }
 
     return Object.freeze({
@@ -217,6 +239,7 @@ function bTree({ bgcolor }) {
             }
         },
         insert,
+        search,
         collect() {
             if (!root) return [];
             const result = [];

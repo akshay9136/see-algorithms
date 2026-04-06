@@ -12,7 +12,7 @@ export default function useSummary() {
   const { pathname } = useRouter();
   const controlRef = useRef(null);
 
-  const explain = async (prompt) => {
+  const explain = async (data) => {
     if (!summaryOn) return;
     controlRef.current?.abort();
     const controller = new AbortController();
@@ -22,7 +22,7 @@ export default function useSummary() {
       const res = await fetch('/api/summary', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt, pathname }),
+        body: JSON.stringify({ data, pathname }),
         signal: controller.signal,
       });
       if (res.ok) {

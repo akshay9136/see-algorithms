@@ -1,7 +1,6 @@
 import { DrawGraph } from '@/components/common';
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import { useAlgorithm, useSummary } from '@/hooks';
-import { graphAlgoPrompt } from '@/common/prompts';
 import {
     appendCell,
     charAt,
@@ -16,7 +15,6 @@ import $ from 'jquery';
 import { Colors } from '@/common/constants';
 import Link from 'next/link';
 
-const getPrompt = graphAlgoPrompt('Topological Sorting (using stack)');
 
 export default function TopSort(props) {
     const [summary, explain, abortSummary] = useSummary();
@@ -76,7 +74,7 @@ function indegree():
                         customSource={false}
                         explain={() => {
                             const { matrix } = Graph.skeleton();
-                            explain(getPrompt({ matrix }));
+                            explain({ matrix });
                         }}
                     />
                     <Box id="sorted" className="alphaGrid" />

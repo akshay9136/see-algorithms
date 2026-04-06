@@ -10,21 +10,6 @@ import Link from 'next/link';
 var Tree;
 var delay = 500;
 
-const getPrompt = (operation, value) => {
-    const json = JSON.stringify(Tree.collect());
-    return `
-You are explaining the steps to someone observing a visualization of Binary Heap.
-
-Context:
-- A max-heap is represented by the values in this array: ${json}.
-- Operation being performed: ${operation}, ${operation === 'Insert' ? `with value: ${value}` : ''}
-
-Instructions:
-- Explain how this operation will be performed.
-- Keep the explaination short and step wise. Use past tense.
-- Highlight important actions.`;
-};
-
 export default function BinaryHeap(props) {
     const [numbers, setNumbers] = useState([]);
     const [summary, explain, abort] = useSummary();
@@ -57,8 +42,9 @@ function extract():
         if (!numbers.length) {
             Tree = binaryHeap(animator);
         }
-        explain(getPrompt('Insert', num));
-        history.push(Tree.collect());
+        const keys = Tree.collect();
+        explain({ keys, operation: 'Insert', input: num });
+        history.push(keys);
         setNumbers([...numbers, num]);
         yield delay;
         sound('pop');
@@ -80,8 +66,9 @@ function extract():
     }
 
     async function* extract() {
-        explain(getPrompt('Extract'));
-        history.push(Tree.collect());
+        const keys = Tree.collect();
+        explain({ keys, operation: 'Extract' });
+        history.push(keys);
         yield delay;
         yield* Tree.extract();
         if (!Tree.root()) setNumbers([]);

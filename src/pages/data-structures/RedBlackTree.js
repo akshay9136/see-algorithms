@@ -4,11 +4,8 @@ import { Redo, Refresh, Share, Undo } from '@mui/icons-material';
 import { Box, Divider, Paper, Stack, Typography } from '@mui/material';
 import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
 import { copyBinaryTree, showError, sleep } from '@/common/utils';
-import { bstPrompt } from '@/common/prompts';
 import redBlackTree from '@/helpers/redBlackTree';
 import Link from 'next/link';
-
-const getPrompt = bstPrompt('Red-Black Tree');
 
 var Tree;
 var deleted = {};
@@ -29,9 +26,9 @@ export default function RBT(props) {
             Tree = redBlackTree(animator);
             deleted = {};
         }
-        const prevNodes = Tree.collect((a) => [a.value, a.color]);
-        explain(getPrompt(prevNodes, 'Insert', num));
-        history.push(prevNodes);
+        const keys = Tree.collect((a) => [a.value, a.color]);
+        explain({ keys, operation: 'Insert', input: num });
+        history.push(keys);
         deleted[num] = false;
         setNumbers([...numbers, num]);
         yield 500;

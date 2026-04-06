@@ -4,10 +4,7 @@ import { Redo, Refresh, Share, Undo } from '@mui/icons-material';
 import { Box, Divider, Paper, Stack, Typography } from '@mui/material';
 import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
 import { copyBinaryTree, randomNodes, showError, sleep } from '@/common/utils';
-import { bstPrompt } from '@/common/prompts';
 import binarySearchTree from '@/helpers/binarySearchTree';
-
-const getPrompt = bstPrompt('Binary Search Tree');
 
 var Tree;
 var deleted = {};
@@ -28,9 +25,9 @@ export default function BST(props) {
             Tree = binarySearchTree(animator);
             deleted = {};
         }
-        const prevNodes = Tree.collect();
-        explain(getPrompt(prevNodes, 'Insert', num));
-        history.push(prevNodes);
+        const keys = Tree.collect();
+        explain({ keys, operation: 'Insert', input: num });
+        history.push(keys);
         deleted[num] = false;
         setNumbers([...numbers, num]);
         yield 500;
@@ -39,12 +36,12 @@ export default function BST(props) {
 
     async function* remove(num) {
         if (numbers.includes(num)) deleted[num] = true;
-        const prevNodes = Tree.collect();
-        explain(getPrompt(prevNodes, 'Delete', num));
+        const keys = Tree.collect();
+        explain({ keys, operation: 'Delete', input: num });
         yield 500;
         const affected = yield* Tree.deleteNode(num);
         if (affected !== undefined) {
-            history.push(prevNodes);
+            history.push(keys);
             if (!Tree.root()) setNumbers([]);
         }
     }

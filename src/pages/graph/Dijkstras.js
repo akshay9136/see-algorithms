@@ -1,7 +1,6 @@
 import { DrawGraph } from '@/components/common';
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import { useAlgorithm, useSummary } from '@/hooks';
-import { graphAlgoPrompt } from '@/common/prompts';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
 import {
@@ -15,7 +14,6 @@ import {
 import { Colors } from '@/common/constants';
 import Link from 'next/link';
 
-const getPrompt = graphAlgoPrompt('Dijkstras Shortest Path');
 
 export default function Dijkstras(props) {
     const [summary, explain, abortSummary] = useSummary();
@@ -69,7 +67,7 @@ function relax(u, d):
                     weighted={true}
                     explain={(source) => {
                         const matrix = getCostMatrix();
-                        explain(getPrompt({ matrix, source }));
+                        explain({ matrix, source });
                     }}
                 />
                 <Divider orientation="vertical" flexItem />

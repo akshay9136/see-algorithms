@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { Box, Divider, Paper, Stack, Typography } from '@mui/material';
-import { Redo, Share, Undo } from '@mui/icons-material';
-import { copyBinaryTree, showError, sleep } from '@/common/utils';
+import { Redo, Refresh, Share, Undo } from '@mui/icons-material';
+import { copyBinaryTree, randomNodes, showError, sleep } from '@/common/utils';
 import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
-import { bTreePrompt } from '@/common/prompts';
 import { DSInput } from '@/components/common';
 import bTreeHelper from '@/helpers/bTree';
 
@@ -26,11 +25,22 @@ export default function BTree(props) {
         if (!numbers.length) {
             Tree = bTreeHelper(animator);
         }
-        explain(bTreePrompt(Tree.collect(), num));
+        const keys = Tree.collect();
+        explain({ keys, operation: 'Insert', input: num });
         history.push(numbers.slice());
         yield 500;
         setNumbers([...numbers, num]);
         yield* Tree.insert(num, setTreeData);
+    }
+
+    async function* search(num) {
+        const keys = Tree.collect();
+        explain({ keys, operation: 'Search', input: num });
+        yield 500;
+        const found = yield* Tree.search(num);
+        if (!found) {
+            showError(`Key (${num}) not found.`);
+        }
     }
 
     const newTree = async (nums) => {
@@ -64,8 +74,20 @@ export default function BTree(props) {
         abort();
     };
 
+    const refresh = async () => {
+        reset();
+        await sleep(100);
+        newTree(randomNodes());
+    };
+
     const buttons = [
         { text: 'Insert', onClick: insert, validate: true },
+        {
+            text: 'Search',
+            onClick: search,
+            validate: true,
+            disabled: !numbers.length,
+        },
         { text: 'Clear', onClick: reset, disabled: !numbers.length },
         {
             text: <Undo />,
@@ -79,6 +101,7 @@ export default function BTree(props) {
             title: 'Redo',
             disabled: !history.canRedo,
         },
+        { text: <Refresh />, onClick: refresh, title: 'New tree' },
         {
             text: <Share fontSize="small" />,
             onClick: () => copyBinaryTree(numbers),
@@ -88,7 +111,7 @@ export default function BTree(props) {
     ];
 
     useEffect(() => {
-        if (isReady && nodes) newTree(nodes);
+        if (isReady) newTree(nodes || randomNodes());
     }, [nodes, isReady]);
 
     const transition = { duration: 0.5, ease: 'easeInOut' };

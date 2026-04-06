@@ -1,13 +1,11 @@
 import { DrawGraph } from '@/components/common';
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { graphAlgoPrompt } from '@/common/prompts';
 import { useSummary } from '@/hooks';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
 import { hasValue, spanEdge, getCostMatrix, sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 
-const getPrompt = graphAlgoPrompt('Prims Minimum Spanning Tree');
 
 export default function Prims(props) {
     const [summary, explain, abortSummary] = useSummary();
@@ -48,7 +46,7 @@ export default function Prims(props) {
                     allowDirected={false}
                     explain={(source) => {
                         const matrix = getCostMatrix();
-                        explain(getPrompt({ matrix, source }));
+                        explain({ matrix, source });
                     }}
                 />
                 <Divider orientation="vertical" flexItem />

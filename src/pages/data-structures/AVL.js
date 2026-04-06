@@ -10,11 +10,8 @@ import {
     useTreeUrl,
     useUndoRedo,
 } from '@/hooks';
-import { bstPrompt } from '@/common/prompts';
 import avlTree from '@/helpers/avlTree';
 import Link from 'next/link';
-
-const getPrompt = bstPrompt('AVL Tree');
 
 var Tree;
 var deleted = {};
@@ -54,9 +51,9 @@ function rebalance(node):
             Tree = avlTree(animator, setCurrentStep);
             deleted = {};
         }
-        const prevNodes = Tree.collect();
-        explain(getPrompt(prevNodes, 'Insert', num));
-        history.push(prevNodes);
+        const keys = Tree.collect();
+        explain({ keys, operation: 'Insert', input: num });
+        history.push(keys);
         deleted[num] = false;
         setNumbers([...numbers, num]);
         yield 500;
@@ -65,12 +62,12 @@ function rebalance(node):
 
     async function* remove(num) {
         if (numbers.includes(num)) deleted[num] = true;
-        const prevNodes = Tree.collect();
-        explain(getPrompt(prevNodes, 'Delete', num));
+        const keys = Tree.collect();
+        explain({ keys, operation: 'Delete', input: num });
         yield 500;
         const affected = yield* Tree.deleteNode(num);
         if (affected !== undefined) {
-            history.push(prevNodes);
+            history.push(keys);
             if (!Tree.root()) setNumbers([]);
         }
     }

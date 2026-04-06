@@ -89,7 +89,7 @@ export default function HomePage() {
               sx={{ px: 2, mt: 1 }}
             >
               Use the controls to pause/resume animations, tweak inputs, or
-              generate a shareable URL for the current graph.
+              generate a shareable URL for the current graph or tree.
             </Typography>
           </Card>
         </Grid>

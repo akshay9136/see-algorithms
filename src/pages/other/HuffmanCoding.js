@@ -9,18 +9,6 @@ import { Colors } from '@/common/constants';
 
 var queue, prompt;
 
-const getPrompt = (arr) => {
-    return `
-You are explaining an algorithm to someone observing a visualization of Huffman Coding.
-
-Input: ${JSON.stringify(arr)}
-
-Instructions:
-- Explain the construction of the Huffman Tree and generation of codes using above input.
-- Keep the explaination short and concise. Use past tense.
-- Highlight important actions.`;
-};
-
 export default function HuffmanCoding() {
     const [numbers, setNumbers] = useState([]);
     const [alphabets, setAlphabets] = useState([]);
@@ -52,9 +40,9 @@ export default function HuffmanCoding() {
 
     async function* handleStart(values) {
         queue = values.map((value, i) => ({ value, char: alphabets[i] }));
-        const newPrompt = getPrompt(queue);
+        const newPrompt = JSON.stringify(queue);
         if (prompt !== newPrompt) {
-            explain(newPrompt);
+            explain(queue);
             prompt = newPrompt;
         }
         const root = _huffmanTree();
