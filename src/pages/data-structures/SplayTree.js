@@ -45,6 +45,7 @@ export default function SplayTree(props) {
     const newTree = async (nodes) => {
         setNumbers(nodes.slice());
         Tree = splayTree(animator);
+        deleted = {};
         await sleep(100);
         nodes.forEach((num) => Tree._insert(num));
     };

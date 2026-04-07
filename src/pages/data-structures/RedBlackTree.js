@@ -38,6 +38,7 @@ export default function RBT(props) {
     const newTree = async (nodes) => {
         setNumbers(nodes.map((x) => x[0]));
         Tree = redBlackTree(animator);
+        deleted = {};
         await sleep(100);
         nodes.forEach((x) => Tree._insert(...x));
     };

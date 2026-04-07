@@ -49,6 +49,7 @@ export default function BST(props) {
     const newTree = async (nodes) => {
         setNumbers(nodes.slice());
         Tree = binarySearchTree(animator);
+        deleted = {};
         await sleep(100);
         nodes.forEach((num) => Tree._insert(num));
     };

@@ -72,6 +72,14 @@ function rebalance(node):
         }
     }
 
+    const newTree = async (nodes) => {
+        setNumbers(nodes.slice());
+        Tree = avlTree(animator, setCurrentStep);
+        deleted = {};
+        await sleep(100);
+        nodes.forEach((num) => Tree._insert(num));
+    };
+
     const handleUndo = async () => {
         if (history.canUndo) {
             setNumbers([]);
@@ -127,13 +135,6 @@ function rebalance(node):
             title: 'Share this tree',
         },
     ];
-
-    const newTree = async (nodes) => {
-        setNumbers(nodes.slice());
-        Tree = avlTree(animator, setCurrentStep);
-        await sleep(100);
-        nodes.forEach((num) => Tree._insert(num));
-    };
 
     useEffect(() => {
         if (nodes) newTree(nodes);
