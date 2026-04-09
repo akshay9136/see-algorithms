@@ -102,7 +102,7 @@ export const articles = [
         id: 'embed-sorting',
         title: 'Embed Sorting Visualizers',
         summary: 'Learn how to embed interactive sorting animations into your blog, Notion, or website.',
-        category: 'Tutorial',
+        category: 'Sorting',
         date: '2026-04-05',
     },
 ]

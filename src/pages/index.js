@@ -4,13 +4,8 @@ import Carousel from '@/components/carousel';
 import Head from 'next/head';
 
 const PREVIEW_GIFS = [
-  { src: '/dijkstras-algo.gif', alt: "Dijkstra's algorithm visualization" },
   { src: '/avl-tree.gif', alt: 'AVL Tree visualization' },
-  { src: '/red-black-tree.gif', alt: 'Red-Black Tree visualization' },
 ];
-
-// const PRODUCT_LINK =
-//   'https://www.producthunt.com/products/see-algorithms?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-see-algorithms';
 
 export default function HomePage() {
   return (
@@ -50,16 +45,6 @@ export default function HomePage() {
             a passion for computer science, you&apos;ll find value in our
             extensive library of visual resources.
           </Typography>
-
-          {/* <Box role="link" mt={3}>
-            <a href={PRODUCT_LINK} target="_blank" rel="noopener noreferrer">
-              <img
-                width="250"
-                alt="See Algorithms | Product Hunt"
-                src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1096476&amp;theme=light&amp;t=1773482805708"
-              />
-            </a>
-          </Box> */}
         </Grid>
 
         <Grid item xs={12} lg={6}>
@@ -68,25 +53,23 @@ export default function HomePage() {
               Visualization Preview
             </Typography>
 
-            <Carousel>
-              {PREVIEW_GIFS.map((gif, index) => (
-                <Box key={index} sx={{ width: '100%', flexShrink: 0 }}>
-                  <img
-                    src={gif.src}
-                    alt={gif.alt}
-                    style={{
-                      width: '100%',
-                      border: index > 0 ? '1px solid #e5e5e5' : 'none',
-                    }}
-                  />
-                </Box>
-              ))}
-            </Carousel>
+            {PREVIEW_GIFS.map((gif, index) => (
+              <Box key={index} sx={{ width: '100%', flexShrink: 0 }}>
+                <img
+                  src={gif.src}
+                  alt={gif.alt}
+                  style={{
+                    width: '100%',
+                    border: '1px solid #e5e5e5',
+                  }}
+                />
+              </Box>
+            ))}
 
             <Typography
               variant="body2"
               color="text.secondary"
-              sx={{ px: 2, mt: 1 }}
+              sx={{ px: 2, mt: 0.5 }}
             >
               Use the controls to pause/resume animations, tweak inputs, or
               generate a shareable URL for the current graph or tree.
