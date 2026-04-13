@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Divider, Stack, Typography } from '@mui/material';
 import { InputNumbers } from '@/components/common';
 import { useAlgorithm } from '@/hooks';
 import { useQuickSort } from '@/hooks/sorting';
@@ -46,13 +46,20 @@ function quickSort(start, end):
                     independently.
                 </li>
             </Typography>
-            <Typography variant="h6" component="h2">
-                Pseudocode
-            </Typography>
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
-                {pseudocode}
-                <Stack spacing={3}>
+                <Stack spacing={2}>
+                    <Typography variant="h6" component="h2">
+                        Pseudocode
+                    </Typography>
+                    {pseudocode}
+                </Stack>
+                <Divider orientation="vertical" flexItem />
+                <Stack spacing={2}>
+                    <Typography variant="h6" component="h2">
+                        Visualizer
+                    </Typography>
                     {algorithm}
+                    <br />
                     <InputNumbers onStart={handleSort} onReset={handleStop} />
                     {animation}
                 </Stack>

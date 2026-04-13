@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Divider, Stack, Typography } from '@mui/material';
 import { InputNumbers } from '@/components/common';
 import { useInsertionSort } from '@/hooks/sorting';
 
@@ -37,13 +37,20 @@ export default function InsertionSort() {
                     are already mostly sorted.
                 </li>
             </Typography>
-            <Typography variant="h6" component="h2">
-                Pseudocode
-            </Typography>
             <Box display="flex" gap={3} flexWrap="wrap">
-                {pseudocode}
-                <Stack spacing={3}>
+                <Stack spacing={2}>
+                    <Typography variant="h6" component="h2">
+                        Pseudocode
+                    </Typography>
+                    {pseudocode}
+                </Stack>
+                <Divider orientation="vertical" flexItem />
+                <Stack spacing={2}>
+                    <Typography variant="h6" component="h2">
+                        Visualizer
+                    </Typography>
                     <InputNumbers onStart={handleSort} onReset={handleStop} />
+                    <br />
                     {animation}
                 </Stack>
             </Box>

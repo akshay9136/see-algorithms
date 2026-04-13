@@ -152,7 +152,7 @@ function rebalance(node):
                 that operations like search, insert, and delete have a
                 worst-case time complexity of O(log n).
             </Typography>
-            <Box display="flex" gap={4} flexWrap="wrap">
+            <Box display="flex" gap={3} flexWrap="wrap">
                 <Box flex={1}>
                     <Typography variant="h6" component="h2" gutterBottom>
                         How it Works
@@ -187,6 +187,7 @@ function rebalance(node):
                         </li>
                     </Typography>
                 </Box>
+                <Divider orientation="vertical" flexItem />
                 <Box flex={1}>
                     <Typography variant="h6" component="h2" gutterBottom>
                         Step by Step

@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Divider, Stack, Typography } from '@mui/material';
 import { InputNumbers } from '@/components/common';
 import { useBubbleSort } from '@/hooks/sorting';
 
@@ -38,13 +38,20 @@ export default function BubbleSort() {
                     see this in action!
                 </li>
             </Typography>
-            <Typography variant="h6" component="h2">
-                Pseudocode
-            </Typography>
             <Box display="flex" gap={3} flexWrap="wrap">
-                {pseudocode}
-                <Stack spacing={3}>
+                <Stack spacing={2}>
+                    <Typography variant="h6" component="h2">
+                        Pseudocode
+                    </Typography>
+                    {pseudocode}
+                </Stack>
+                <Divider orientation="vertical" flexItem />
+                <Stack spacing={2}>
+                    <Typography variant="h6" component="h2">
+                        Visualizer
+                    </Typography>
                     <InputNumbers onStart={handleSort} onReset={handleStop} />
+                    <br />
                     {animation}
                 </Stack>
             </Box>

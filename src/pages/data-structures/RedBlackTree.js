@@ -126,6 +126,7 @@ export default function RBT(props) {
                         the same number of black nodes.
                     </Typography>
                 </Box>
+                <Divider orientation="vertical" flexItem />
                 <Box flex={1}>
                     <Typography variant="h6" component="h2" gutterBottom>
                         Step by Step
@@ -155,7 +156,7 @@ export default function RBT(props) {
                 </Box>
             </Box>
             <Divider />
-            <Box display="flex" flexWrap="wrap" gap={3}>
+            <Box display="flex" flexWrap="wrap" gap={4}>
                 <Stack spacing={2}>
                     <DSInput {...props} buttons={buttons} />
 
