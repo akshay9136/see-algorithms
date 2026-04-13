@@ -62,9 +62,8 @@ while queue is not empty:
                         }}
                     />
                     <Box id="queue" className="alphaGrid" />
-                    <br />
-                    {summary}
                 </Stack>
+                {summary}
             </Box>
         </Stack>
     );

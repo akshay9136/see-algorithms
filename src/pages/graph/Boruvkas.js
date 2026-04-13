@@ -1,5 +1,5 @@
 import { DrawGraph } from '@/components/common';
-import { Box, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { sound, getCostMatrix, spanEdge } from '@/common/utils';
 import Graph from '@/common/graph';
 import $ from 'jquery';
@@ -10,7 +10,7 @@ var delay = 1000;
 
 export default function Boruvkas(props) {
     return (
-        <Stack spacing={2} width="fit-content">
+        <Stack spacing={3}>
             <Typography variant="body1">
                 <strong>Borůvka&apos;s Algorithm</strong> is a greedy approach
                 to find a Minimum Spanning Tree (MST) in a graph. It works by
@@ -20,15 +20,13 @@ export default function Boruvkas(props) {
                 number of components until the entire graph becomes a single
                 connected tree.
             </Typography>
-            <Box display="flex" gap={2} flexWrap="wrap">
-                <DrawGraph
-                    {...props}
-                    onStart={start}
-                    weighted={true}
-                    allowDirected={false}
-                    customSource={false}
-                />
-            </Box>
+            <DrawGraph
+                {...props}
+                onStart={start}
+                weighted={true}
+                allowDirected={false}
+                customSource={false}
+            />
         </Stack>
     );
 }

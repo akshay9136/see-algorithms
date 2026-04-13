@@ -120,6 +120,12 @@ for each edge (u, v):
                 <strong>Union-Find</strong> data structure to detect cycles.
             </Typography>
             <Box display="flex" gap={4} flexWrap="wrap">
+                <Stack spacing={2}>
+                    <Typography variant="h6" component="h2">
+                        Pseudocode
+                    </Typography>
+                    {algorithm}
+                </Stack>
                 <Stack spacing={2} flex={1}>
                     <Typography variant="h6" component="h2">
                         Step by Step
@@ -127,7 +133,7 @@ for each edge (u, v):
                     <Typography
                         component="ul"
                         variant="body1"
-                        sx={{ '& li': { mb: 1 } }}
+                        sx={{ '& li': { mb: 1 }, pl: 2 }}
                     >
                         <li>
                             Sort all edges in non-decreasing order of their
@@ -156,63 +162,37 @@ for each edge (u, v):
                             </ul>
                         </li>
                     </Typography>
-                    <Typography variant="h6" component="h2" fontSize="1.2rem">
-                        Things to Observe
-                    </Typography>
-                    <Typography
-                        component="ul"
-                        variant="body1"
-                        sx={{ '& li': { mb: 1 }, textAlign: 'justify' }}
-                    >
-                        <li>
-                            <strong>Component Merging:</strong> Observe how
-                            adding an edge merges two previously separate
-                            components into one. The visualization shows nodes
-                            moving together as components are unified,
-                            demonstrating how the algorithm gradually connects
-                            all vertices.
-                        </li>
-                        <li>
-                            <strong>Cycle Detection:</strong> Watch how the
-                            union-find structure identifies edges that would
-                            form a cycle. If two vertices are already in the
-                            same component, the edge is skipped.
-                        </li>
-                    </Typography>
-                    <Typography variant="h6" component="h2">
-                        Pseudocode
-                    </Typography>
-                    {algorithm}
                 </Stack>
-                <Stack spacing={2}>
-                    <DrawGraph
-                        {...props}
-                        onStart={start}
-                        onClear={() => setSize(0)}
-                        weighted={true}
-                        allowDirected={false}
-                        customSource={false}
-                    />
-                    <Box
-                        pt={3}
-                        width={size * 60}
-                        height={size * 60}
-                        minHeight={300}
-                        ref={scope}
-                        position="relative"
-                    >
-                        {Array(size).fill(null).map((_, i) => (
-                            <Node
-                                key={i}
-                                index={i}
-                                value={charAt(65 + i)}
-                                animate={{ x: i * 60 }}
-                                showBf={true}
-                                style={{ scale: 0.9 }}
-                            />
-                        ))}
-                    </Box>
-                </Stack>
+            </Box>
+            <br />
+            <Box display="flex" gap={4} flexWrap="wrap">
+                <DrawGraph
+                    {...props}
+                    onStart={start}
+                    onClear={() => setSize(0)}
+                    weighted={true}
+                    allowDirected={false}
+                    customSource={false}
+                />
+                <Box
+                    pt={3}
+                    width={size * 60}
+                    height={size * 60}
+                    minHeight={300}
+                    ref={scope}
+                    position="relative"
+                >
+                    {Array(size).fill(null).map((_, i) => (
+                        <Node
+                            key={i}
+                            index={i}
+                            value={charAt(65 + i)}
+                            animate={{ x: i * 60 }}
+                            showBf={true}
+                            style={{ scale: 0.9 }}
+                        />
+                    ))}
+                </Box>
             </Box>
         </Stack>
     );

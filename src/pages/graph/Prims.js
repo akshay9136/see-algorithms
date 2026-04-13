@@ -11,7 +11,7 @@ export default function Prims(props) {
     const [algorithm] = useAlgorithm(`
 MST = empty set
 mark src as visited
-while mst does not span all vertices:
+while MST does not span all vertices:
     (u, v) = cheapest edge where
              u ∈ visited and v ∉ visited
     add edge (u, v) to MST

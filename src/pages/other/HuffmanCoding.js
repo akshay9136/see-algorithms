@@ -131,6 +131,7 @@ export default function HuffmanCoding() {
                         Visualizer
                     </Typography>
                     {renderInputs()}
+                    <br />
                     <Box
                         className="huffmanTree"
                         id="binaryTree"

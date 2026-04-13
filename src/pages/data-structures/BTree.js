@@ -153,12 +153,7 @@ export default function BTree(props) {
                 <Stack spacing={2}>
                     <Typography variant="h6" component="h2">
                         Visualizer
-                        <Typography variant="body2" sx={{ mt: 1 }}>
-                            For simplicity, the order of this B-Tree visualizer
-                            is fixed to 3.
-                        </Typography>
                     </Typography>
-
                     <DSInput {...props} buttons={buttons} />
 
                     <Paper ref={scope} className="resizable" id="bTree">
@@ -219,6 +214,10 @@ export default function BTree(props) {
                             ))}
                         </AnimatePresence>
                     </Paper>
+                    <Typography variant="body2" sx={{ mt: 1 }}>
+                        For simplicity, the order of this B-Tree visualizer is
+                        fixed to 3.
+                    </Typography>
                 </Stack>
                 <Divider orientation="vertical" flexItem />
                 {summary}
