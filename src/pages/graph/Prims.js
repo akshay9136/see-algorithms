@@ -1,14 +1,22 @@
 import { DrawGraph } from '@/components/common';
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { useSummary } from '@/hooks';
+import { useAlgorithm, useSummary } from '@/hooks';
 import $ from 'jquery';
 import Graph, { Path } from '@/common/graph';
 import { hasValue, spanEdge, getCostMatrix, sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 
-
 export default function Prims(props) {
     const [summary, explain, abortSummary] = useSummary();
+    const [algorithm] = useAlgorithm(`
+MST = empty set
+mark src as visited
+while mst does not span all vertices:
+    (u, v) = cheapest edge where
+             u ∈ visited and v ∉ visited
+    add edge (u, v) to MST
+    mark v as visited
+`);
 
     return (
         <Stack spacing={2}>
@@ -22,20 +30,39 @@ export default function Prims(props) {
                 edges is as low as possible. It is perfect for problems like
                 designing cost-effective road or utility networks.
             </Typography>
-            <Typography variant="h6" component="h2">
-                Step by Step
-            </Typography>
-            <Typography
-                component="ul"
-                variant="body1"
-                sx={{ '& li': { mb: 1 } }}
-            >
-                <li>Initialize an empty set of edges for the MST.</li>
-                <li>Start with an arbitrary vertex and mark it as visited (part of MST).</li>
-                <li>Find the cheapest edge connecting a vertex in the MST to a vertex outside the MST.</li>
-                <li>Add this edge to the MST and mark the new vertex as visited.</li>
-                <li>Repeat until all vertices are part of the MST.</li>
-            </Typography>
+            <Box display="flex" flexWrap="wrap" gap={4}>
+                <Stack spacing={2}>
+                    <Typography variant="h6" component="h2">
+                        Pseudocode
+                    </Typography>
+                    {algorithm}
+                </Stack>
+                <Stack spacing={2}>
+                    <Typography variant="h6" component="h2">
+                        Step by Step
+                    </Typography>
+                    <Typography
+                        component="ul"
+                        variant="body1"
+                        sx={{ '& li': { mb: 1 }, pl: 2 }}
+                    >
+                        <li>Initialize an empty set of edges for the MST.</li>
+                        <li>
+                            Start with an arbitrary vertex and mark it as
+                            visited (part of MST).
+                        </li>
+                        <li>
+                            Find the cheapest edge connecting a vertex in the
+                            MST to a vertex outside the MST.
+                        </li>
+                        <li>
+                            Add this edge to the MST and mark the new vertex as
+                            visited.
+                        </li>
+                        <li>Repeat until all vertices are part of the MST.</li>
+                    </Typography>
+                </Stack>
+            </Box>
             <br />
             <Box display="flex" flexWrap="wrap" gap={3}>
                 <DrawGraph

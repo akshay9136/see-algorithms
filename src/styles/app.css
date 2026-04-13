@@ -71,7 +71,7 @@
 
 .alphaGrid {
     display: flex;
-    min-height: 36px;
+    min-height: 40px;
 }
 
 .alphaGrid .cell {

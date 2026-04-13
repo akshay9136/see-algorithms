@@ -61,8 +61,9 @@ while stack is not empty:
                         }}
                     />
                     <Box id="stack" className="alphaGrid" />
+                    <br />
+                    {summary}
                 </Stack>
-                {summary}
             </Box>
         </Stack>
     );

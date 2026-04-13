@@ -1,7 +1,7 @@
 import { DrawGraph, Node } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useAnimator } from '@/hooks';
+import { useAlgorithm, useAnimator } from '@/hooks';
 import Graph, { Path } from '@/common/graph';
 import $ from 'jquery';
 import { charAt, sound } from '@/common/utils';
@@ -14,6 +14,17 @@ export default function Kruskals(props) {
     const [scope, { txy, bgcolor }] = useAnimator();
     const [size, setSize] = useState(0);
     if (size === 0) arr = [];
+
+    const [algorithm] = useAlgorithm(`
+sort edges by weight (ascending)
+MST = empty set
+for each vertex v:
+    create a disjoint set {v}
+for each edge (u, v):
+    if find(u) ≠ find(v):
+        add (u, v) to MST
+        union(u, v)
+`);
 
     useEffect(() => {
         for (let i = 0; i < size; i++) {
@@ -106,103 +117,102 @@ export default function Kruskals(props) {
                 iteratively adding the cheapest available edge that connects two
                 previously disconnected components, without forming a cycle. It
                 is efficient for sparse graphs and uses a{' '}
-                <strong>union-find</strong> data structure to detect cycles.
+                <strong>Union-Find</strong> data structure to detect cycles.
             </Typography>
-            <Typography variant="h6" component="h2">
-                Step by Step
-            </Typography>
-            <Typography
-                component="ul"
-                variant="body1"
-                sx={{ '& li': { mb: 1 } }}
-            >
-                <li>
-                    Sort all edges in non-decreasing order of their weights.
-                </li>
-                <li>
-                    Initialize a <strong>Disjoint-set</strong> structure with
-                    each vertex in its own set (component).
-                </li>
-                <li>
-                    For each edge (u, v) in the sorted list:
-                    <ul style={{ marginTop: 8 }}>
-                        <li>
-                            Use <strong>Find</strong> operation to determine the
-                            sets of u and v.
-                        </li>
-                        <li>
-                            If the sets are different, the edge does not form a
-                            cycle. Add it to the MST.
-                        </li>
-                        <li>
-                            Merge the two sets using <strong>Union</strong>{' '}
-                            operation.
-                        </li>
-                    </ul>
-                </li>
-                <li>Repeat until the MST contains V-1 edges.</li>
-            </Typography>
-            <Typography variant="h6" component="h2" fontSize="1.2rem">
-                Things to Observe
-            </Typography>
-            <Typography
-                component="ul"
-                variant="body1"
-                sx={{ '& li': { mb: 1 } }}
-            >
-                <li>
-                    <strong>Component Merging:</strong> Observe how adding
-                    an edge merges two previously separate components into
-                    one. The visualization shows nodes moving together as
-                    components are unified, demonstrating how the algorithm
-                    gradually connects all vertices.
-                </li>
-                <li>
-                    <strong>Cycle Detection:</strong> Watch how union-find
-                    data structure efficiently checks if two vertices are
-                    not in the same connected component before adding an
-                    edge.
-                </li>
-            </Typography>
-            <Box display="flex" gap={2} flexWrap="wrap" pt={1}>
-                <DrawGraph
-                    {...props}
-                    onStart={start}
-                    onClear={() => setSize(0)}
-                    weighted={true}
-                    allowDirected={false}
-                    customSource={false}
-                />
-                <Box
-                    pt={4}
-                    width={size * 60}
-                    height={size * 60}
-                    minHeight={300}
-                    ref={scope}
-                    position="relative"
-                    overflow="hidden"
-                >
-                    <Typography
-                        variant="subtitle1"
-                        fontWeight="bold"
-                        fontSize={18}
-                        textAlign="center"
-                        position="relative"
-                        top={-40}
-                    >
-                        Union-Find
+            <Box display="flex" gap={4} flexWrap="wrap">
+                <Stack spacing={2} flex={1}>
+                    <Typography variant="h6" component="h2">
+                        Step by Step
                     </Typography>
-                    {Array(size).fill(null).map((_, i) => (
-                        <Node
-                            key={i}
-                            index={i}
-                            value={charAt(65 + i)}
-                            animate={{ x: i * 60 }}
-                            showBf={true}
-                            style={{ scale: 0.9 }}
-                        />
-                    ))}
-                </Box>
+                    <Typography
+                        component="ul"
+                        variant="body1"
+                        sx={{ '& li': { mb: 1 } }}
+                    >
+                        <li>
+                            Sort all edges in non-decreasing order of their
+                            weights.
+                        </li>
+                        <li>Initialize an empty set of edges for the MST.</li>
+                        <li>
+                            Initialize a <strong>Disjoint set</strong> structure
+                            with each vertex in its own set.
+                        </li>
+                        <li>
+                            For each edge (u, v) in the sorted list:
+                            <ul style={{ marginTop: 8 }}>
+                                <li>
+                                    Use <strong>Find</strong> operation to
+                                    determine the sets of u and v.
+                                </li>
+                                <li>
+                                    If the sets are different, the edge does not
+                                    form a cycle. Add it to the MST.
+                                </li>
+                                <li>
+                                    Merge the two sets using{' '}
+                                    <strong>Union</strong> operation.
+                                </li>
+                            </ul>
+                        </li>
+                    </Typography>
+                    <Typography variant="h6" component="h2" fontSize="1.2rem">
+                        Things to Observe
+                    </Typography>
+                    <Typography
+                        component="ul"
+                        variant="body1"
+                        sx={{ '& li': { mb: 1 }, textAlign: 'justify' }}
+                    >
+                        <li>
+                            <strong>Component Merging:</strong> Observe how
+                            adding an edge merges two previously separate
+                            components into one. The visualization shows nodes
+                            moving together as components are unified,
+                            demonstrating how the algorithm gradually connects
+                            all vertices.
+                        </li>
+                        <li>
+                            <strong>Cycle Detection:</strong> Watch how the
+                            union-find structure identifies edges that would
+                            form a cycle. If two vertices are already in the
+                            same component, the edge is skipped.
+                        </li>
+                    </Typography>
+                    <Typography variant="h6" component="h2">
+                        Pseudocode
+                    </Typography>
+                    {algorithm}
+                </Stack>
+                <Stack spacing={2}>
+                    <DrawGraph
+                        {...props}
+                        onStart={start}
+                        onClear={() => setSize(0)}
+                        weighted={true}
+                        allowDirected={false}
+                        customSource={false}
+                    />
+                    <Box
+                        pt={3}
+                        width={size * 60}
+                        height={size * 60}
+                        minHeight={300}
+                        ref={scope}
+                        position="relative"
+                    >
+                        {Array(size).fill(null).map((_, i) => (
+                            <Node
+                                key={i}
+                                index={i}
+                                value={charAt(65 + i)}
+                                animate={{ x: i * 60 }}
+                                showBf={true}
+                                style={{ scale: 0.9 }}
+                            />
+                        ))}
+                    </Box>
+                </Stack>
             </Box>
         </Stack>
     );

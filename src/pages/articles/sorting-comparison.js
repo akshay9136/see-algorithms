@@ -59,13 +59,8 @@ export default function SortingComparison() {
   }, []);
 
   return (
-    <Stack spacing={3}>
-      <Typography
-        variant="h5"
-        component="h1"
-        fontWeight={600}
-        color="warning.main"
-      >
+    <Stack spacing={2}>
+      <Typography variant="h4" component="h1" color="warning.main">
         Compare Sorting Algorithms
       </Typography>
 
@@ -77,26 +72,28 @@ export default function SortingComparison() {
         efficiency of the algorithms.
       </Typography>
 
-      <FormGroup row>
-        {ALGORITHMS.map((algo) => (
-          <FormControlLabel
-            key={algo.id}
-            label={algo.name}
-            control={
-              <Checkbox
-                checked={selected.includes(algo.id)}
-                onChange={() => handleToggle(algo.id)}
-                disabled={selected.length === 1 && selected.includes(algo.id)}
-              />
-            }
-          />
-        ))}
-      </FormGroup>
+      <Stack spacing={3}>
+        <FormGroup row>
+          {ALGORITHMS.map((algo) => (
+            <FormControlLabel
+              key={algo.id}
+              label={algo.name}
+              control={
+                <Checkbox
+                  checked={selected.includes(algo.id)}
+                  onChange={() => handleToggle(algo.id)}
+                  disabled={selected.length === 1 && selected.includes(algo.id)}
+                />
+              }
+            />
+          ))}
+        </FormGroup>
 
-      <InputNumbers
-        startHandlers={startHandlers}
-        resetHandlers={resetHandlers}
-      />
+        <InputNumbers
+          startHandlers={startHandlers}
+          resetHandlers={resetHandlers}
+        />
+      </Stack>
       <br />
       <Box display="flex" flexWrap="wrap" gap={3}>
         {selected.map((id) => (

@@ -40,7 +40,7 @@ export default function DeletingBstNode() {
           are exactly three structural possibilities.
         </Typography>
 
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" color="success.main" gutterBottom>
           1. Leaf Node (No Children)
         </Typography>
 
@@ -50,7 +50,7 @@ export default function DeletingBstNode() {
           tree remains valid.
         </Typography>
 
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" color="success.main" gutterBottom>
           2. Node with One Child
         </Typography>
 
@@ -60,7 +60,7 @@ export default function DeletingBstNode() {
           takes its place. The global structure remains correct.
         </Typography>
 
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" color="success.main" gutterBottom>
           3. Node with Two Children
         </Typography>
 
