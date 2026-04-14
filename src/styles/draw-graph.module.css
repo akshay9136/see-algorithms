@@ -6,11 +6,6 @@
   min-width: 700px;
 }
 
-.plane {
-  width: 100%;
-  height: 100%;
-}
-
 /* Add styles for button groups */
 .buttonGroup {
   display: flex;

@@ -3,6 +3,7 @@ import useAnimator from '@/hooks/useAnimator';
 import useSummary from '@/hooks/useSummary';
 import useTreeUrl from '@/hooks/useTreeUrl';
 import useUndoRedo from '@/hooks/useUndoRedo';
+import useGraphScope from '@/hooks/useGraphScope';
 
 export {
     useAlgorithm,
@@ -10,4 +11,5 @@ export {
     useSummary,
     useTreeUrl,
     useUndoRedo,
+    useGraphScope,
 }

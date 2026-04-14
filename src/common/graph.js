@@ -33,12 +33,7 @@ const Graph = {
         matrix = [];
     },
 
-    skeleton(weighted) {
-        let weights = null;
-        if (weighted) {
-            const { getCostMatrix } = require('./utils');
-            weights = getCostMatrix();
-        }
+    skeleton(weights) {
         return {
             points: points.slice(),
             segments: segments.slice(),
@@ -154,10 +149,7 @@ export const Points = {
     },
 };
 
-import $ from 'jquery';
-
-export function Path(el) {
-    const _path = typeof el === 'string' ? $(el) : el;
+export function Path(_path) {
     return {
         eq: (i) => Path(_path.eq(i)),
         attr: (prop, val) => {

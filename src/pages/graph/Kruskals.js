@@ -1,17 +1,17 @@
 import { DrawGraph, Node } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { useAlgorithm, useAnimator } from '@/hooks';
-import Graph, { Path } from '@/common/graph';
-import $ from 'jquery';
 import { charAt, sound } from '@/common/utils';
+import { useAlgorithm, useAnimator, useGraphScope } from '@/hooks';
+import { useEffect, useState } from 'react';
 import { Colors } from '@/common/constants';
+import Graph from '@/common/graph';
 
 var arr, union, parent;
 var delay = 800;
 
 export default function Kruskals(props) {
-    const [scope, { txy, bgcolor }] = useAnimator();
+    const [animScope, { txy, bgcolor }] = useAnimator();
+    const [scope, graphRef] = useGraphScope();
     const [size, setSize] = useState(0);
     if (size === 0) arr = [];
 
@@ -28,21 +28,28 @@ for each edge (u, v):
 
     useEffect(() => {
         for (let i = 0; i < size; i++) {
-            $(`#nodeTag${i}`).text(charAt(65 + i));
+            scope.find(`#nodeTag${i}`).text(charAt(65 + i));
         }
     }, [size]);
 
+    function findRoot(u) {
+        if (parent[u] !== u) {
+            return findRoot(parent[u]);
+        }
+        return parent[u];
+    }
+
     async function* start() {
-        $('.vrtx').attr('stroke', Colors.rejected);
-        $('.edge').attr('stroke', Colors.rejected);
-        $('.edge').attr('stroke-dasharray', '8,4');
+        scope.find('.vrtx').attr('stroke', Colors.rejected);
+        scope.find('.edge').attr('stroke', Colors.rejected);
+        scope.find('.edge').attr('stroke-dasharray', '8,4');
         yield delay / 2;
         const size = Graph.totalPoints();
         setSize(size);
         arr = [];
-        $('.cost').each(function (i) {
+        scope.find('.cost').each(function (i) {
             const [u, v] = Graph.segments()[i];
-            const w = Number($(this).val()) || 1;
+            const w = Number(this.value) || 1;
             arr.push({ u, v, w, i });
         });
         arr.sort((a, b) => a.w - b.w);
@@ -56,20 +63,13 @@ for each edge (u, v):
         yield* nextMin(0);
     }
 
-    function findRoot(u) {
-        if (parent[u] !== u) {
-            return findRoot(parent[u]);
-        }
-        return parent[u];
-    }
-
     async function* nextMin(k) {
         yield delay;
         const { u, v, i } = arr[k];
-        $('.vrtx').eq(u).attr('stroke', Colors.visited);
-        $('.vrtx').eq(v).attr('stroke', Colors.visited);
-        $('.vrtx').eq(u).attr('fill', Colors.visited);
-        $('.vrtx').eq(v).attr('fill', Colors.visited);
+        scope.node(u).attr('stroke', Colors.visited);
+        scope.node(v).attr('stroke', Colors.visited);
+        scope.node(u).attr('fill', Colors.visited);
+        scope.node(v).attr('fill', Colors.visited);
         await Promise.all([
             bgcolor(`#node${u}`, Colors.visited),
             bgcolor(`#node${v}`, Colors.visited),
@@ -80,13 +80,13 @@ for each edge (u, v):
         if (x1 !== x2) {
             await merge(x1, x2);
             if (!arr.length) return;
-            Path('.edge').eq(i).attr('stroke', Colors.visited);
-            Path('.edge').eq(i).attr('stroke-width', 3);
-            Path('.edge').eq(i).removeAttr('stroke-dasharray');
+            scope.path(i).attr('stroke', Colors.visited);
+            scope.path(i).attr('stroke-width', 3);
+            scope.path(i).removeAttr('stroke-dasharray');
         }
         yield delay;
-        $('.vrtx').eq(u).attr('fill', Colors.vertex);
-        $('.vrtx').eq(v).attr('fill', Colors.vertex);
+        scope.node(u).attr('fill', Colors.vertex);
+        scope.node(v).attr('fill', Colors.vertex);
         await Promise.all([
             bgcolor(`#node${u}`, Colors.white),
             bgcolor(`#node${v}`, Colors.white),
@@ -105,12 +105,12 @@ for each edge (u, v):
         union[x1] = new Set([...union[x1], ...union[x2]]);
         union[x2] = new Set();
         parent[x2] = x1;
-        $(`#nodeTag${x2}`).text(charAt(65 + x1));
+        scope.find(`#nodeTag${x2}`).text(charAt(65 + x1));
         sound('pop');
     }
 
     return (
-        <Stack spacing={2} width="fit-content">
+        <Stack spacing={3} width="fit-content">
             <Typography variant="body1">
                 <strong>Kruskal&apos;s Algorithm</strong> is another way to find
                 a Minimum Spanning Tree (MST) in a graph. It works by
@@ -165,9 +165,10 @@ for each edge (u, v):
                 </Stack>
             </Box>
             <br />
-            <Box display="flex" gap={4} flexWrap="wrap">
+            <Box display="flex" flexWrap="wrap" gap={4} ref={graphRef}>
                 <DrawGraph
                     {...props}
+                    scope={scope}
                     onStart={start}
                     onClear={() => setSize(0)}
                     weighted={true}
@@ -179,7 +180,7 @@ for each edge (u, v):
                     width={size * 60}
                     height={size * 60}
                     minHeight={300}
-                    ref={scope}
+                    ref={animScope}
                     position="relative"
                 >
                     {Array(size).fill(null).map((_, i) => (

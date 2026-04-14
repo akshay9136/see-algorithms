@@ -1,28 +1,25 @@
 import $ from 'jquery';
 import {
-    addVertex,
-    addEdge,
-    cursorOffset,
     fromDistance,
-    moveVertex,
     throttle,
-    addCost,
     findCurve,
     hasValue,
     charAt,
     showError,
 } from '../common/utils';
-import Graph, { Path, Points } from '../common/graph';
+import Graph, { Points } from '../common/graph';
 import { Colors } from '../common/constants';
 
-export function drawGraph({ weighted, acyclic, history }) {
-    var px, ipx, flag, hold, drag;
+export function drawGraph({ weighted, acyclic, history, scope }) {
+    var px, ipx, flag;
+    var hold, drag;
+    var plane = scope.find('.plane');
 
     function isInputActive() {
         const active = document.activeElement;
         if (active?.className === 'cost') {
             active.blur();
-            $('.cost').each(function () {
+            scope.find('.cost').each(function () {
                 $(this).attr('value', $(this).val());
             });
             return true;
@@ -30,11 +27,10 @@ export function drawGraph({ weighted, acyclic, history }) {
         return false;
     }
 
-    $('#plane').on('mousedown touchstart', (e) => {
+    plane.on('mousedown touchstart', (e) => {
         e.preventDefault();
         if (flag || isInputActive()) return;
-
-        let p = cursorOffset(e);
+        let p = scope.cursor(e);
         let k = 0;
         for (; k < Graph.totalPoints(); k++) {
             const q = Graph.point(k);
@@ -52,7 +48,7 @@ export function drawGraph({ weighted, acyclic, history }) {
         return !hasValue(Graph.edgeIndex(ipx, ip));
     }
 
-    $('#plane').on('click touchend', (e) => {
+    plane.on('click touchend', (e) => {
         e.preventDefault();
         if (isInputActive()) return;
 
@@ -61,7 +57,7 @@ export function drawGraph({ weighted, acyclic, history }) {
             drag = false;
             return;
         }
-        let p = cursorOffset(e);
+        let p = scope.cursor(e);
         let np = Graph.totalPoints();
         let k;
         for (k = 0; k < np; k++) {
@@ -73,31 +69,32 @@ export function drawGraph({ weighted, acyclic, history }) {
             }
         }
         if (flag) {
-            $('.vrtx').eq(ipx).attr('stroke', Colors.stroke);
+            scope.node(ipx).attr('stroke', Colors.stroke);
+            const lastEdge = scope.path(':last');
             flag = false;
             hold = false;
             if (Points.equal(p, px) || !isValidEdge(k)) {
-                Path('.edge:last').remove();
+                lastEdge.remove();
                 return;
             }
             history.commit();
-            Path('.edge:last').attr('x2', p.x);
-            Path('.edge:last').attr('y2', p.y);
+            lastEdge.attr('x2', p.x);
+            lastEdge.attr('y2', p.y);
             if (k === np) {
                 if (np === 26) {
-                    Path('.edge:last').remove();
+                    lastEdge.remove();
                     return;
                 }
-                addVertex(p, charAt(65 + np));
+                scope.addVertex(p, charAt(65 + np));
                 Graph.addPoint(p);
             }
             Graph.addSegment(ipx, k);
-            if (weighted) addCost(px, p);
+            if (weighted) scope.appendCost(px, p);
 
             if (Graph.isDirected()) {
                 if (acyclic && Graph.hasCycle()) {
-                    showError('Please draw acyclic graph.');
-                    Path('.edge:last').remove();
+                    showError('Please draw acyclic Graph.');
+                    lastEdge.remove();
                     Graph.removeEdge(ipx, k);
                     return;
                 }
@@ -105,33 +102,34 @@ export function drawGraph({ weighted, acyclic, history }) {
                 if (overlaps(k)) {
                     q = fromDistance(px, p, 22);
                     const [cx, cy] = findCurve(px, q);
-                    Path('.edge:last').attr('cx', cx);
-                    Path('.edge:last').attr('cy', cy);
-                    $('.cost:last').parent().attr('x', cx);
-                    $('.cost:last').parent().attr('y', cy);
+                    lastEdge.attr('cx', cx);
+                    lastEdge.attr('cy', cy);
+                    scope.find('.cost:last').parent().attr('x', cx);
+                    scope.find('.cost:last').parent().attr('y', cy);
                     const [u, v] = [k, ipx].map(Graph.point);
                     const [cu, cv] = findCurve(u, fromDistance(u, v, 22));
                     const ei = Graph.edgeIndex(k, ipx);
-                    Path('.edge').eq(ei).attr('cx', cu);
-                    Path('.edge').eq(ei).attr('cy', cv);
-                    $('.cost').eq(ei).parent().attr('x', cu);
-                    $('.cost').eq(ei).parent().attr('y', cv);
+                    scope.path(ei).attr('cx', cu);
+                    scope.path(ei).attr('cy', cv);
+                    const costEl = scope.find('.cost').eq(ei);
+                    costEl.parent().attr('x', cu);
+                    costEl.parent().attr('y', cv);
                 }
-                Path('.edge:last').attr('x2', q.x);
-                Path('.edge:last').attr('y2', q.y);
+                lastEdge.attr('x2', q.x);
+                lastEdge.attr('y2', q.y);
             }
         } else {
             if (k === np) {
                 if (np < 26) {
                     history.commit();
-                    addVertex(p, charAt(65 + np));
+                    scope.addVertex(p, charAt(65 + np));
                     Graph.addPoint(p);
                 }
             } else if (ipx < np) {
-                addEdge(p, p);
-                $('.vrtx').eq(k).attr('stroke', Colors.visited);
+                scope.addEdge(p, p);
+                scope.node(k).attr('stroke', Colors.visited);
                 if (Graph.isDirected()) {
-                    Path('.edge:last').attr('marker-end', 'url(#arrow)');
+                    scope.path(':last').attr('marker-end', 'url(#arrow)');
                 }
                 flag = true;
                 hold = false;
@@ -146,19 +144,19 @@ export function drawGraph({ weighted, acyclic, history }) {
         return hasValue(u) && hasValue(v);
     }
 
-    $('#plane').on(
+    plane.on(
         'mousemove touchmove',
         throttle((e) => {
             e.preventDefault();
             if (flag) {
-                const p = cursorOffset(e);
-                Path('.edge:last').attr('x2', p.x);
-                Path('.edge:last').attr('y2', p.y);
+                const p = scope.cursor(e);
+                scope.path(':last').attr('x2', p.x);
+                scope.path(':last').attr('y2', p.y);
             } else if (hold) {
-                const p = cursorOffset(e);
+                const p = scope.cursor(e);
                 if (drag) {
                     Graph.setPoint(ipx, p);
-                    moveVertex(ipx, p);
+                    scope.moveVertex(ipx, p, scope);
                 } else {
                     const d = Points.distance(p, px);
                     if (d > 5) {
@@ -170,11 +168,11 @@ export function drawGraph({ weighted, acyclic, history }) {
         }, 20)
     );
 
-    $('#plane').on('mouseleave', (e) => {
+    plane.on('mouseleave', (e) => {
         e.preventDefault();
         if (flag) {
-            Path('.edge:last').remove();
-            $('.vrtx').eq(ipx).attr('stroke', Colors.stroke);
+            scope.path(':last').remove();
+            scope.node(ipx).attr('stroke', Colors.stroke);
         }
         flag = false;
         hold = false;
@@ -182,7 +180,7 @@ export function drawGraph({ weighted, acyclic, history }) {
     });
 }
 
-export function switchGraph() {
+export function switchType(scope) {
     Graph.switchType();
     const segments = Graph.segments();
 
@@ -190,18 +188,16 @@ export function switchGraph() {
         segments.forEach((seg, i) => {
             const [p, q] = seg.map(Graph.point);
             const r = fromDistance(p, q, 22);
-            const el = Path('.edge').eq(i);
-            el.attr('x2', r.x);
-            el.attr('y2', r.y);
-            el.attr('marker-end', 'url(#arrow)');
+            scope.path(i).attr('x2', r.x);
+            scope.path(i).attr('y2', r.y);
+            scope.path(i).attr('marker-end', 'url(#arrow)');
         });
     } else {
         segments.forEach((seg, i) => {
             const [, q] = seg.map(Graph.point);
-            const el = Path('.edge').eq(i);
-            el.attr('x2', q.x);
-            el.attr('y2', q.y);
-            el.removeAttr('marker-end');
+            scope.path(i).attr('x2', q.x);
+            scope.path(i).attr('y2', q.y);
+            scope.path(i).removeAttr('marker-end');
         });
     }
 }

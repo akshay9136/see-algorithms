@@ -1,26 +1,33 @@
 import { useContext, useEffect } from 'react';
-import { clearGraph, createGraph, showError } from '@/common/utils';
-import { drawGraph, switchGraph } from '@/helpers/drawGraph';
+import { clearGraph, showError } from '@/common/utils';
+import { drawGraph, switchType } from '@/helpers/drawGraph';
 import { randomGraph } from '@/helpers/randomGraph';
 import { Colors } from '@/common/constants';
 import AppContext from '@/common/context';
+import Graph from '@/common/graph';
 import $ from 'jquery';
 import { useRouter } from 'next/router';
 import { newIterator } from '@/common/iterator';
-import Graph, { Path } from '@/common/graph';
 import useUndoRedo from './useUndoRedo';
 
-var it, prevSrc;
+var iterators = [], prevSrc;
 
 function useGraphControls(config, props) {
   const { isDirGraph, playStatus, setContext } = useContext(AppContext);
-  const { source, weighted, directed } = config;
+  const { source, weighted, directed, scope } = config;
   const router = useRouter();
-  const algoId = router.pathname.split('/')[2];
   const history = useUndoRedo();
+  const {
+    scopes = [scope],
+    startHandlers = [props.onStart],
+    resetHandlers = [props.onClear],
+  } = props;
 
   config.history = {
-    commit: () => history.push(Graph.skeleton(weighted)),
+    commit: () => {
+      const data = Graph.skeleton(scope.costMatrix());
+      history.push(data);
+    },
   };
 
   const validate = () => {
@@ -32,7 +39,7 @@ function useGraphControls(config, props) {
     } else if (source < 'A' || source > char) {
       message = 'Please enter a valid source.';
     } else if (!Graph.isConnected()) {
-      message = 'Please draw connected graph.';
+      message = 'Please draw connected Graph.';
     }
     if (message) {
       showError(message);
@@ -43,7 +50,7 @@ function useGraphControls(config, props) {
 
   const resume = async () => {
     setContext({ playStatus: 1 });
-    await it.start();
+    await Promise.all(iterators.map((it) => it.start()));
     setContext({ playStatus: 2 });
   };
 
@@ -52,29 +59,33 @@ function useGraphControls(config, props) {
     switch (playStatus) {
       case 0:
         if (validate()) {
-          $('#plane').off();
+          $('.plane').off();
           props.explain?.(src);
           prevSrc = src;
-          it = newIterator(props.onStart, src);
+          iterators = startHandlers.map((handler) =>
+            newIterator(handler, src),
+          );
           resume();
         }
         break;
       case 1:
-        it.stop();
+        iterators.forEach((it) => it.stop());
         setContext({ playStatus: -1 });
         break;
       case 2:
         props.onClear?.();
         $('.vrtx').attr('stroke', Colors.stroke);
         $('.vrtx').attr('fill', Colors.vertex);
-        Path('.edge').attr('stroke', Colors.stroke);
-        Path('.edge').attr('stroke-width', 2.5);
+        $('.edge').attr('stroke', Colors.stroke);
+        $('.edge').attr('stroke-width', 2.5);
         if (validate()) {
           if (src !== prevSrc) {
             props.explain?.(src);
             prevSrc = src;
           }
-          it = newIterator(props.onStart, src);
+          iterators = startHandlers.map((handler) =>
+            newIterator(handler, src),
+          );
           resume();
         }
         break;
@@ -83,72 +94,86 @@ function useGraphControls(config, props) {
     }
   };
 
-  const handleClear = () => {
-    props.onClear?.();
-    it?.exit();
+  const commonReset = () => {
     history.clear();
+    resetHandlers.forEach((reset, i) => {
+      iterators[i]?.exit();
+      reset?.();
+    });
     clearGraph();
+  };
+
+  const handleClear = () => {
+    commonReset();
     drawGraph(config);
     setContext({ playStatus: 0 });
   };
 
   const handleUndo = () => {
     if (history.canUndo) {
-      const prevGraph = history.undo(Graph.skeleton(weighted));
+      const data = Graph.skeleton(scope.costMatrix());
+      const prevGraph = history.undo(data);
       clearGraph();
       Graph.initialize(prevGraph);
-      createGraph(prevGraph, weighted);
+      scopes.forEach((scope) => {
+        scope.createGraph(prevGraph, weighted)
+      });
       drawGraph(config);
     }
   };
 
   const handleRedo = () => {
     if (history.canRedo) {
-      const nextGraph = history.redo(Graph.skeleton(weighted));
+      const data = Graph.skeleton(scope.costMatrix());
+      const nextGraph = history.redo(data);
       clearGraph();
       Graph.initialize(nextGraph);
-      createGraph(nextGraph, weighted);
+      scopes.forEach((scope) => {
+        scope.createGraph(nextGraph, weighted)
+      });
       drawGraph(config);
     }
   };
 
   const refresh = () => {
-    it?.exit();
-    props.onClear?.();
-    clearGraph();
-    history.clear();
+    if (!scope) return;
+    commonReset();
     Graph.initialize(randomGraph(8));
     while (Graph.hasCycle()) {
       Graph.initialize(randomGraph(8));
     }
-    createGraph(Graph.skeleton(), weighted);
+    scopes.forEach((scope) => {
+      scope.createGraph(Graph.skeleton(), weighted)
+    });
     drawGraph(config);
-    if (directed) switchGraph();
+    if (directed) switchType(scope);
     setContext({ playStatus: 0 });
   };
 
   const setDirected = () => {
     refresh();
-    switchGraph();
+    switchType(scope);
     setContext({ isDirGraph: !isDirGraph });
   };
 
   useEffect(() => {
-    if (router.isReady) {
+    if (scope && router.isReady) {
       const { skeleton } = router.query;
       if (skeleton) {
         handleClear();
         try {
           const data = JSON.parse(atob(skeleton));
           Graph.initialize(data);
-          createGraph(data, config.weighted);
+          scopes.forEach((scope) => {
+            scope.createGraph(data, weighted)
+          });
         } catch {
           handleClear();
         }
       } else refresh();
     }
-    return () => it?.exit();
-  }, [algoId, router]);
+    return () => commonReset();
+  }, [router, scope]);
 
   return {
     handlePlay,

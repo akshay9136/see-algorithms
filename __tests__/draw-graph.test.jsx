@@ -58,7 +58,7 @@ describe('Graph visualization editor', () => {
     const checkbox = screen.getByLabelText('Directed');
     fireEvent.click(checkbox);
     await clearGraph(container);
-    const plane = container.querySelector('#plane');
+    const plane = container.querySelector('.plane');
     const fireClick = userClick(plane);
     fireClick(100, 100);
     fireClick(200, 100);

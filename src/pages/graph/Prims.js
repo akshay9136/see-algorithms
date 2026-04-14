@@ -1,14 +1,15 @@
 import { DrawGraph } from '@/components/common';
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { useAlgorithm, useSummary } from '@/hooks';
-import $ from 'jquery';
-import Graph, { Path } from '@/common/graph';
-import { hasValue, spanEdge, getCostMatrix, sound } from '@/common/utils';
+import { hasValue, sound } from '@/common/utils';
+import { useAlgorithm, useGraphScope, useSummary } from '@/hooks';
 import { Colors } from '@/common/constants';
+import Graph from '@/common/graph';
 
 export default function Prims(props) {
-    const [summary, explain, abortSummary] = useSummary();
-    const [algorithm] = useAlgorithm(`
+  const [summary, explain, abortSummary] = useSummary();
+  const [scope, graphRef] = useGraphScope();
+
+  const [algorithm] = useAlgorithm(`
 MST = empty set
 mark src as visited
 while MST does not span all vertices:
@@ -18,117 +19,119 @@ while MST does not span all vertices:
     mark v as visited
 `);
 
-    return (
+  return (
+    <Stack spacing={3}>
+      <Typography variant="body1">
+        <strong>Prim&apos;s Algorithm</strong> builds a Minimum Spanning
+        Tree (MST) by starting with a single node and
+        &quot;growing&quot; the tree outward. At every step, it finds
+        the cheapest edge that connects a node inside the growing tree
+        to a node outside of it. This greedy approach continues until
+        all nodes are part of the tree, ensuring the total weight of all
+        edges is as low as possible. It is perfect for problems like
+        designing cost-effective road or utility networks.
+      </Typography>
+      <Box display="flex" flexWrap="wrap" gap={4}>
         <Stack spacing={2}>
-            <Typography variant="body1">
-                <strong>Prim&apos;s Algorithm</strong> builds a Minimum Spanning
-                Tree (MST) by starting with a single node and
-                &quot;growing&quot; the tree outward. At every step, it finds
-                the cheapest edge that connects a node inside the growing tree
-                to a node outside of it. This greedy approach continues until
-                all nodes are part of the tree, ensuring the total weight of all
-                edges is as low as possible. It is perfect for problems like
-                designing cost-effective road or utility networks.
-            </Typography>
-            <Box display="flex" flexWrap="wrap" gap={4}>
-                <Stack spacing={2}>
-                    <Typography variant="h6" component="h2">
-                        Pseudocode
-                    </Typography>
-                    {algorithm}
-                </Stack>
-                <Stack spacing={2}>
-                    <Typography variant="h6" component="h2">
-                        Step by Step
-                    </Typography>
-                    <Typography
-                        component="ul"
-                        variant="body1"
-                        sx={{ '& li': { mb: 1 }, pl: 2 }}
-                    >
-                        <li>Initialize an empty set of edges for the MST.</li>
-                        <li>
-                            Start with an arbitrary vertex and mark it as
-                            visited (part of MST).
-                        </li>
-                        <li>
-                            Find the cheapest edge connecting a vertex in the
-                            MST to a vertex outside the MST.
-                        </li>
-                        <li>
-                            Add this edge to the MST and mark the new vertex as
-                            visited.
-                        </li>
-                        <li>Repeat until all vertices are part of the MST.</li>
-                    </Typography>
-                </Stack>
-            </Box>
-            <br />
-            <Box display="flex" flexWrap="wrap" gap={3}>
-                <DrawGraph
-                    {...props}
-                    onStart={start}
-                    onClear={abortSummary}
-                    weighted={true}
-                    allowDirected={false}
-                    explain={(source) => {
-                        const matrix = getCostMatrix();
-                        explain({ matrix, source });
-                    }}
-                />
-                <Divider orientation="vertical" flexItem />
-                {summary}
-            </Box>
+          <Typography variant="h6" component="h2">
+            Pseudocode
+          </Typography>
+          {algorithm}
         </Stack>
-    );
+        <Stack spacing={2}>
+          <Typography variant="h6" component="h2">
+            Step by Step
+          </Typography>
+          <Typography
+            component="ul"
+            variant="body1"
+            sx={{ '& li': { mb: 1 }, pl: 2 }}
+          >
+            <li>Initialize an empty set of edges for the MST.</li>
+            <li>
+              Start with an arbitrary vertex and mark it as
+              visited (part of MST).
+            </li>
+            <li>
+              Find the cheapest edge connecting a vertex in the
+              MST to a vertex outside the MST.
+            </li>
+            <li>
+              Add this edge to the MST and mark the new vertex as
+              visited.
+            </li>
+            <li>Repeat until all vertices are part of the MST.</li>
+          </Typography>
+        </Stack>
+      </Box>
+      <br />
+      <Box display="flex" flexWrap="wrap" gap={3} ref={graphRef}>
+        <DrawGraph
+          {...props}
+          scope={scope}
+          onStart={Visualizer(scope)}
+          onClear={abortSummary}
+          weighted={true}
+          allowDirected={false}
+          explain={(source) => {
+            const matrix = scope.costMatrix();
+            explain({ matrix, source });
+          }}
+        />
+        <Divider orientation="vertical" flexItem />
+        {summary}
+      </Box>
+    </Stack>
+  );
 }
 
-var n, w, mst;
-var queue;
-var delay = 1000;
+const delay = 1000;
 
-async function* start(src) {
-    $('.cost').each(function () {
-        this.setAttribute('value', this.value);
-        this.setAttribute('readonly', true);
+function Visualizer(scope) {
+  var n, w, queue, mst;
+
+  async function* start(src) {
+    scope.find('.cost').each(function () {
+      this.setAttribute('value', this.value);
+      this.setAttribute('readonly', true);
     });
     n = Graph.totalPoints();
-    w = getCostMatrix();
+    w = scope.costMatrix();
     queue = [];
     mst = [];
-    $('.vrtx').attr('stroke', Colors.rejected);
-    $('.edge').attr('stroke', Colors.rejected);
+    scope.find('.vrtx').attr('stroke', Colors.rejected);
+    scope.find('.edge').attr('stroke', Colors.rejected);
     yield delay;
     sound('pop');
-    $('.vrtx').eq(src).attr('stroke', Colors.visited);
-    $('.vrtx').eq(src).attr('fill', Colors.visited);
+    scope.node(src).attr('stroke', Colors.visited);
+    scope.node(src).attr('fill', Colors.visited);
     yield delay;
     yield* explore(src);
-}
+  }
 
-async function* explore(i) {
+  async function* explore(i) {
     mst.push(i);
     w[i] = w[i] || [];
     let flag = 0.5;
     for (let j = 0; j < n; j++) {
-        if (mst.includes(j)) {
-            queue[n * j + i] = Infinity;
-            continue;
-        }
-        if (hasValue(w[i][j])) {
-            queue[n * i + j] = w[i][j];
-            const ei = Graph.edgeIndex(i, j);
-            Path('.edge').eq(ei).attr('stroke', Colors.enqueue);
-            $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
-            $('.vrtx').eq(j).attr('fill', Colors.enqueue);
-            flag = 1;
-        }
+      if (mst.includes(j)) {
+        queue[n * j + i] = Infinity;
+        continue;
+      }
+      if (hasValue(w[i][j])) {
+        queue[n * i + j] = w[i][j];
+        const ei = Graph.edgeIndex(i, j);
+        scope.path(ei).attr('stroke', Colors.enqueue);
+        scope.node(j).attr('stroke', Colors.enqueue);
+        scope.node(j).attr('fill', Colors.enqueue);
+        flag = 1;
+      }
     }
     yield delay * flag;
     yield* dequeue();
-}
+  }
 
-async function* dequeue() {
+  async function* dequeue() {
     const min = queue.reduce((a, b) => (b < a ? b : a), Infinity);
     if (min === Infinity) return;
     const k = queue.indexOf(min);
@@ -137,10 +140,13 @@ async function* dequeue() {
     const j = k % n;
     if (mst.includes(j)) return dequeue();
     sound('pop');
-    yield* spanEdge(i, j);
-    $('.vrtx').eq(j).attr('fill', Colors.visited);
+    yield* scope.spanEdge(i, j);
+    scope.node(j).attr('fill', Colors.visited);
     if (mst.length < n) {
-        yield delay;
-        yield* explore(j);
+      yield delay;
+      yield* explore(j);
     }
+  }
+
+  return start;
 }

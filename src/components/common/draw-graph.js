@@ -1,4 +1,4 @@
-import { useState, useContext, memo } from 'react';
+import { useState, useContext, useRef, memo } from 'react';
 import {
   Box,
   Button,
@@ -18,24 +18,28 @@ import {
   Redo,
 } from '@mui/icons-material';
 import { useRouter } from 'next/router';
-import useGraphControls from '@/hooks/useGraphControls';
-import AppContext from '@/common/context';
 import Graph from '@/common/graph';
+import AppContext from '@/common/context';
+import useGraphControls from '@/hooks/useGraphControls';
 import styles from '@/styles/draw-graph.module.css';
 import { showToast } from '../toast';
 
 function DrawGraph(props) {
   const { isDirGraph, playStatus } = useContext(AppContext);
   const [source, setSource] = useState('A');
+  const containerRef = useRef(null);
   const router = useRouter();
   const algoId = router.pathname.split('/')[2];
+  const graphRef = useRef(null);
   const config = {
     source,
     weighted: props.weighted || false,
     acyclic: algoId === 'TopSort',
-    directed: algoId === 'TopSort' ||
-      (isDirGraph && props.allowDirected !== false),
+    directed:
+      algoId === 'TopSort' || (isDirGraph && props.allowDirected !== false),
+    scope: props.scope,
   };
+
   const {
     handlePlay,
     handleClear,
@@ -48,7 +52,8 @@ function DrawGraph(props) {
   } = useGraphControls(config, props);
 
   const handleCopy = () => {
-    const json = JSON.stringify(Graph.skeleton(config.weighted));
+    const weights = config.scope.costMatrix();
+    const json = JSON.stringify(Graph.skeleton(weights));
     const origin = window.location.origin;
     const url = `${origin}${router.pathname}?skeleton=${btoa(json)}`;
     navigator.clipboard.writeText(url);
@@ -59,7 +64,11 @@ function DrawGraph(props) {
   };
 
   return (
-    <Box className="drawGraph" aria-label="Graph controls and visualization">
+    <Box
+      className="drawGraph"
+      ref={containerRef}
+      aria-label="Graph controls and visualization"
+    >
       <Box mb={1} className={styles.toolbar}>
         <Typography variant="h6" ml={0.5} mr="auto">
           Draw Graph
@@ -160,7 +169,7 @@ function DrawGraph(props) {
         </Box>
       </Box>
       <Paper className="resizable" sx={{ mb: 1 }}>
-        <Plane />
+        <Plane graphRef={graphRef} />
       </Paper>
     </Box>
   );
@@ -168,7 +177,11 @@ function DrawGraph(props) {
 
 const Plane = memo(function () {
   return (
-    <svg id="plane" className={styles.plane} role="graphics-document">
+    <svg
+      className="plane"
+      style={{ width: '100%', height: '100%' }}
+      role="graphics-document"
+    >
       <defs>
         <marker
           id="arrow"
