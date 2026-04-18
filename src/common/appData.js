@@ -10,6 +10,7 @@ export const algorithms = [
     { id: 'QuickSort', name: 'Quick Sort', category: 'Sorting' },
     { id: 'DFS', name: 'Depth First Search', category: 'Graph' },
     { id: 'BFS', name: 'Breadth First Search', category: 'Graph' },
+    { id: 'dfs-vs-bfs', name: 'DFS vs BFS', category: 'Graph' },
     { id: 'Prims', name: "Prim's Algorithm", category: 'Graph' },
     { id: 'Kruskals', name: "Kruskal's Algorithm", category: 'Graph' },
     { id: 'Boruvkas', name: "Borůvka's Algorithm", category: 'Graph' },

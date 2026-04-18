@@ -103,12 +103,15 @@ function createCell(content) {
     return cell
 }
 
-function clearGraph() {
-  $('.plane').off();
-  $('.plane').each(function () {
-    $(this).children().not(':first').remove();
-  })
-  Graph.clear();
+function clearGraph(scope) {
+  if (scope) {
+    scope.find('.plane').children().not(':first').remove();
+  } else {
+    $('.plane').each(function () {
+      $(this).children().not(':first').remove();
+    });
+    Graph.clear();
+  }
 }
 
 function traverse(node, fn) {
@@ -138,6 +141,17 @@ function randomNodes(size = 6) {
     return Array.from(result);
 }
 
+function muteSounds() {
+    const sound1 = document.getElementById('popSound');
+    const sound2 = document.getElementById('swapSound');
+    sound1.muted = true;
+    sound2.muted = true;
+    return () => {
+        sound1.muted = false;
+        sound2.muted = false;
+    };
+}
+
 export {
     cursorOffset,
     svgElement,
@@ -150,6 +164,7 @@ export {
     traverse,
     copyBinaryTree,
     randomNodes,
+    muteSounds,
 };
 
 export const sound = (name) => {

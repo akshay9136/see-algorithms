@@ -181,7 +181,6 @@ export function drawGraph({ weighted, acyclic, history, scope }) {
 }
 
 export function switchType(scope) {
-    Graph.switchType();
     const segments = Graph.segments();
 
     if (Graph.isDirected()) {

@@ -1,12 +1,12 @@
-import { createScope } from '@/common/graphScope';
+import { createGraphScope } from '@/common/graphScope';
 import { useEffect, useRef, useState } from 'react';
 
 function useGraphScope() {
-  const [scope, setScope] = useState();
+  const [scope, setScope] = useState(null);
   const graphRef = useRef(null);
 
   useEffect(() => {
-    const _scope = createScope(graphRef.current);
+    const _scope = createGraphScope(graphRef.current);
     setScope(_scope);
   }, []);
 

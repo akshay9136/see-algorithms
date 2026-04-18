@@ -64,7 +64,7 @@ while queue is not empty:
 
 const delay = 800;
 
-function Visualizer(scope) {
+export function Visualizer(scope) {
   var v, i, prev, queue;
 
   async function* start(source) {

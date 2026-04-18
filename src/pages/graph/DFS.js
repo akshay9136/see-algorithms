@@ -64,7 +64,7 @@ while stack is not empty:
 
 const delay = 800;
 
-function Visualizer(scope) {
+export function Visualizer(scope) {
   var v, stack, prev, i;
 
   async function* start(src) {

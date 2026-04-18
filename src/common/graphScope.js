@@ -38,7 +38,7 @@ const props = {
   },
 };
 
-export function createScope(container) {
+export function createGraphScope(container) {
   const scope = $(container);
   const plane = scope.find('.plane');
 

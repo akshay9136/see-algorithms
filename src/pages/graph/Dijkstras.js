@@ -105,7 +105,7 @@ function Visualizer(scope) {
       scope.find('.vgrp').eq(i).append(label);
       if (i !== src) {
         const symbol =
-          '<tspan font-family="Montserrat, sans-serif" font-weight="500">&infin;</tspan>';
+          '<tspan font-family="Georgia, serif">&infin;</tspan>';
         scope.find('.vlbl').eq(i).html(symbol);
         d[i] = Infinity;
       } else {

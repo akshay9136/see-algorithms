@@ -37,7 +37,7 @@ function DrawGraph(props) {
     acyclic: algoId === 'TopSort',
     directed:
       algoId === 'TopSort' || (isDirGraph && props.allowDirected !== false),
-    scope: props.scope,
+    scope: props.scopes ? props.scopes[0] : props.scope,
   };
 
   const {
@@ -175,7 +175,7 @@ function DrawGraph(props) {
   );
 }
 
-const Plane = memo(function () {
+export const Plane = memo(function () {
   return (
     <svg
       className="plane"

@@ -128,10 +128,7 @@ function Visualizer(scope) {
       yield* topsort();
     } else {
       const graph = Graph.skeleton();
-      scope.find('.plane').off();
       scope.find('.plane').children().not(':first').remove();
-      Graph.clear();
-      Graph.initialize(graph);
       scope.createGraph(graph);
     }
   }

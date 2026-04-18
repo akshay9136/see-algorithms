@@ -1,26 +1,26 @@
 import { useContext, useEffect } from 'react';
-import { clearGraph, showError } from '@/common/utils';
+import { clearGraph, showError, sleep } from '@/common/utils';
 import { drawGraph, switchType } from '@/helpers/drawGraph';
 import { randomGraph } from '@/helpers/randomGraph';
-import { Colors } from '@/common/constants';
+import $ from 'jquery';
 import AppContext from '@/common/context';
 import Graph from '@/common/graph';
-import $ from 'jquery';
+import useUndoRedo from './useUndoRedo';
 import { useRouter } from 'next/router';
 import { newIterator } from '@/common/iterator';
-import useUndoRedo from './useUndoRedo';
+import { Colors } from '@/common/constants';
 
 var iterators = [], prevSrc;
 
 function useGraphControls(config, props) {
   const { isDirGraph, playStatus, setContext } = useContext(AppContext);
   const { source, weighted, directed, scope } = config;
-  const router = useRouter();
   const history = useUndoRedo();
+  const router = useRouter();
   const {
     scopes = [scope],
     startHandlers = [props.onStart],
-    resetHandlers = [props.onClear],
+    resetHandlers = props.onClear ? [props.onClear] : [],
   } = props;
 
   config.history = {
@@ -50,61 +50,67 @@ function useGraphControls(config, props) {
 
   const resume = async () => {
     setContext({ playStatus: 1 });
+    if (scopes.length > 1 && playStatus === 0) {
+      scopes.slice(1).forEach((scope) => {
+        const data = Graph.skeleton(scope.costMatrix());
+        clearGraph(scope);
+        Graph.initialize(data);
+        scope.createGraph(data, weighted);
+      });
+      await sleep(800);
+    }
     await Promise.all(iterators.map((it) => it.start()));
     setContext({ playStatus: 2 });
   };
 
-  const handlePlay = () => {
+  const restart = () => {
     const src = source.charCodeAt(0) - 65;
+    if (src !== prevSrc) {
+      props.explain?.(src);
+      prevSrc = src;
+    }
+    $('.plane').off();
+    iterators = startHandlers.map((fn) =>
+      newIterator(fn, src),
+    );
+    resume();
+  }
+
+  const handlePlay = () => {
     switch (playStatus) {
       case 0:
-        if (validate()) {
-          $('.plane').off();
-          props.explain?.(src);
-          prevSrc = src;
-          iterators = startHandlers.map((handler) =>
-            newIterator(handler, src),
-          );
-          resume();
-        }
+        if (validate()) restart();
         break;
       case 1:
         iterators.forEach((it) => it.stop());
         setContext({ playStatus: -1 });
         break;
       case 2:
-        props.onClear?.();
-        $('.vrtx').attr('stroke', Colors.stroke);
+        resetHandlers.forEach((fn) => fn());
         $('.vrtx').attr('fill', Colors.vertex);
+        $('.vrtx').attr('stroke', Colors.stroke);
         $('.edge').attr('stroke', Colors.stroke);
         $('.edge').attr('stroke-width', 2.5);
-        if (validate()) {
-          if (src !== prevSrc) {
-            props.explain?.(src);
-            prevSrc = src;
-          }
-          iterators = startHandlers.map((handler) =>
-            newIterator(handler, src),
-          );
-          resume();
-        }
+        if (validate()) restart();
         break;
       default:
         resume();
     }
   };
 
-  const commonReset = () => {
-    history.clear();
+  const cleanup = () => {
+    $('.plane').off();
     resetHandlers.forEach((reset, i) => {
       iterators[i]?.exit();
-      reset?.();
+      reset();
     });
     clearGraph();
+    setContext({ playStatus: 0 });
+    history.clear();
   };
 
   const handleClear = () => {
-    commonReset();
+    cleanup();
     drawGraph(config);
     setContext({ playStatus: 0 });
   };
@@ -116,9 +122,8 @@ function useGraphControls(config, props) {
       clearGraph();
       Graph.initialize(prevGraph);
       scopes.forEach((scope) => {
-        scope.createGraph(prevGraph, weighted)
+        scope.createGraph(prevGraph, weighted);
       });
-      drawGraph(config);
     }
   };
 
@@ -129,30 +134,32 @@ function useGraphControls(config, props) {
       clearGraph();
       Graph.initialize(nextGraph);
       scopes.forEach((scope) => {
-        scope.createGraph(nextGraph, weighted)
+        scope.createGraph(nextGraph, weighted);
       });
-      drawGraph(config);
     }
   };
 
   const refresh = () => {
-    if (!scope) return;
-    commonReset();
+    cleanup();
     Graph.initialize(randomGraph(8));
     while (Graph.hasCycle()) {
       Graph.initialize(randomGraph(8));
     }
     scopes.forEach((scope) => {
-      scope.createGraph(Graph.skeleton(), weighted)
+      scope.createGraph(Graph.skeleton(), weighted);
     });
     drawGraph(config);
-    if (directed) switchType(scope);
+    if (directed) {
+      Graph.switchType();
+      scopes.forEach(switchType);
+    }
     setContext({ playStatus: 0 });
   };
 
   const setDirected = () => {
     refresh();
-    switchType(scope);
+    Graph.switchType();
+    scopes.forEach(switchType);
     setContext({ isDirGraph: !isDirGraph });
   };
 
@@ -165,14 +172,14 @@ function useGraphControls(config, props) {
           const data = JSON.parse(atob(skeleton));
           Graph.initialize(data);
           scopes.forEach((scope) => {
-            scope.createGraph(data, weighted)
+            scope.createGraph(data, weighted);
           });
         } catch {
           handleClear();
         }
       } else refresh();
     }
-    return () => commonReset();
+    return cleanup;
   }, [router, scope]);
 
   return {
