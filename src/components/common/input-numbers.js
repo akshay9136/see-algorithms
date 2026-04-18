@@ -60,8 +60,8 @@ function InputNumbers(props) {
 
   const restart = () => {
     if (validate()) {
-      iterators = startHandlers.map((handler) =>
-        newIterator(handler, numbers),
+      iterators = startHandlers.map((start) =>
+        newIterator(start, numbers),
       );
       resume();
     }

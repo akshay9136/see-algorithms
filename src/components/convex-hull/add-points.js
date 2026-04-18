@@ -1,30 +1,30 @@
-import { Box, Button, IconButton, Typography } from '@mui/material';
-import { useContext, useEffect } from 'react';
+import { Box, Button, IconButton, Paper, Typography } from '@mui/material';
 import { PlayArrow, Pause, Refresh } from '@mui/icons-material';
 import { addPoints, randomize } from '@/helpers/convexHull';
-import { newIterator } from '@/common/iterator';
+import { useContext, useEffect } from 'react';
 import $ from 'jquery';
-import AppContext from '@/common/context';
-import Graph from '@/common/graph';
 import styles from '@/styles/draw-graph.module.css';
+import Graph from '@/common/graph';
+import AppContext from '@/common/context';
 import { Colors } from '@/common/constants';
+import { newIterator } from '@/common/iterator';
 
 var it;
 
-function AddPoints(props) {
+function AddPoints({ scope, graphRef, onStart }) {
   const { setContext, playStatus } = useContext(AppContext);
 
   const clear = () => {
     it?.exit();
     Graph.clear();
-    $('#plane').off();
-    $('#plane').children().remove();
+    $('.plane').off();
+    $('.plane').children().remove();
   };
 
   const refresh = () => {
     clear();
     setContext({ playStatus: 0 });
-    addPoints();
+    addPoints(null, scope);
     randomize();
   };
 
@@ -37,8 +37,8 @@ function AddPoints(props) {
   const handlePlay = () => {
     switch (playStatus) {
       case 0:
-        $('#plane').off();
-        it = newIterator(props.onStart);
+        $('.plane').off();
+        it = newIterator(onStart);
         resume();
         break;
       case 1:
@@ -46,10 +46,10 @@ function AddPoints(props) {
         setContext({ playStatus: -1 });
         break;
       case 2:
-        $('#plane path').remove();
+        $('.edge').remove();
         $('.vrtx').attr('stroke', Colors.stroke);
         $('.vrtx').attr('fill', Colors.stroke);
-        it = newIterator(props.onStart);
+        it = newIterator(onStart);
         resume();
         break;
       default:
@@ -58,14 +58,14 @@ function AddPoints(props) {
   };
 
   useEffect(() => {
-    refresh();
+    if (scope) refresh();
     return () => it?.exit();
-  }, []);
+  }, [scope]);
 
   return (
-    <Box className="drawGraph" aria-label="Convex hull visualization">
-      <Box className={styles.toolbar} mb={1.5}>
-        <Typography variant="h6" ml={1} mr="auto">
+    <Box className="drawGraph" aria-label="Convex hull visualization" ref={graphRef}>
+      <Box className={styles.toolbar} mb={1}>
+        <Typography variant="h6" ml={0.5} mr="auto">
           Add Points
         </Typography>
         <IconButton
@@ -86,9 +86,13 @@ function AddPoints(props) {
           PLAY
         </Button>
       </Box>
-      <Box className="resizable">
-        <svg id="plane" className={styles.plane} role="graphics-document"></svg>
-      </Box>
+      <Paper className="resizable" ref={graphRef}>
+        <svg
+          className="plane"
+          style={{ width: '100%', height: '100%' }}
+          role="graphics-document"
+        ></svg>
+      </Paper>
     </Box>
   );
 }

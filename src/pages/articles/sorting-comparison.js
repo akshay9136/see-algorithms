@@ -8,6 +8,7 @@ import {
   FormGroup,
 } from '@mui/material';
 import { InputNumbers } from '@/components/common';
+import { muteSounds } from '@/common/utils';
 import {
   useBubbleSort,
   useSelectionSort,
@@ -47,16 +48,7 @@ export default function SortingComparison() {
     );
   };
 
-  useEffect(() => {
-    const sound1 = document.getElementById('popSound');
-    const sound2 = document.getElementById('swapSound');
-    sound1.muted = true;
-    sound2.muted = true;
-    return () => {
-      sound1.muted = false;
-      sound2.muted = false;
-    };
-  }, []);
+  useEffect(muteSounds, []);
 
   return (
     <Stack spacing={2}>

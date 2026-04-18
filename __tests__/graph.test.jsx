@@ -28,7 +28,7 @@ describe('Depth first search visualization', () => {
   });
 
   testAnimation(DFS, (container) => {
-    const row = container.querySelector('#stack');
+    const row = container.querySelector('.dfs-path');
     const items = row.textContent.split('');
     expect(items).toEqual(['G', 'A', 'B', 'F', 'C', 'D', 'E', 'H']);
   });
@@ -47,7 +47,7 @@ describe('Breadth first search visualization', () => {
   });
 
   testAnimation(BFS, (container) => {
-    const row = container.querySelector('#queue');
+    const row = container.querySelector('.bfs-path');
     const items = row.textContent.split('');
     expect(items).toEqual(['G', 'A', 'B', 'F', 'C', 'H', 'D', 'E']);
   });
@@ -128,7 +128,7 @@ describe('Topological sorting visualization', () => {
   test('runs animation correctly', async () => {
     const container = await renderGraph(TopSort);
     await runAnimation();
-    const row = container.querySelector('#sorted');
+    const row = container.querySelector('.top-sort');
     const items = row.textContent.split('');
     expect(items).toEqual(['A', 'D', 'G', 'H', 'F', 'C', 'E', 'B']);
   });
@@ -137,7 +137,7 @@ describe('Topological sorting visualization', () => {
     const container = await renderGraph(TopSort);
     const selectAll = (query) => container.querySelectorAll(query);
     await clearGraph(container);
-    const plane = container.querySelector('#plane');
+    const plane = container.querySelector('.plane');
     const fireClick = userClick(plane);
     fireClick(100, 100);
     fireClick(200, 100);

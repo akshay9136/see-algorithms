@@ -1,23 +1,15 @@
 import { DrawGraph } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
-import { useAlgorithm, useSummary } from '@/hooks';
-import $ from 'jquery';
-import Graph, { Path } from '@/common/graph';
-import {
-    appendCell,
-    bgcolor,
-    charAt,
-    hasValue,
-    sound,
-    spanEdge,
-} from '@/common/utils';
+import { charAt, createCell, hasValue, sound } from '@/common/utils';
+import { useAlgorithm, useGraphScope, useSummary } from '@/hooks';
 import { Colors } from '@/common/constants';
-
+import Graph from '@/common/graph';
 
 export default function BFS(props) {
-    const [summary, explain, abortSummary] = useSummary();
+  const [summary, explain, abortSummary] = useSummary();
+  const [scope, graphRef] = useGraphScope();
 
-    const [algorithm] = useAlgorithm(`
+  const [algorithm] = useAlgorithm(`
 queue = new Queue()
 queue.enq(src)
 mark src as visited
@@ -29,100 +21,107 @@ while queue is not empty:
             mark v as visited
 `);
 
-    return (
-        <Stack spacing={3}>
-            <Typography variant="body1">
-                <strong>Breadth-First Search (BFS)</strong> explores a graph
-                much like finding connections in a social network. Starting from
-                a source node, it first visits all of its direct friends
-                (neighbors), then all of their friends, and so on, level by
-                level. It uses a <strong>queue</strong> to keep track of who to
-                visit next, ensuring it doesn&apos;t go too deep down one path.
-                This makes it perfect for finding the shortest path in an
-                unweighted graph.
-            </Typography>
-            <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
-                <Stack spacing={2} pt={0.5}>
-                    <Typography variant="h6" component="h2">
-                        Pseudocode
-                    </Typography>
-                    {algorithm}
-                </Stack>
-                <Stack spacing={2}>
-                    <DrawGraph
-                        {...props}
-                        onStart={start}
-                        onClear={() => {
-                            $('#queue').html('');
-                            abortSummary();
-                        }}
-                        explain={(source) => {
-                            const { matrix } = Graph.skeleton();
-                            explain({ matrix, source });
-                        }}
-                    />
-                    <Box id="queue" className="alphaGrid" />
-                </Stack>
-                {summary}
-            </Box>
+  return (
+    <Stack spacing={3}>
+      <Typography variant="body1">
+        <strong>Breadth-First Search (BFS)</strong> explores a graph much like
+        finding connections in a social network. Starting from a source node, it
+        first visits all of its direct friends (neighbors), then all of their
+        friends, and so on, level by level. It uses a <strong>queue</strong> to
+        keep track of who to visit next, ensuring it doesn&apos;t go too deep
+        down one path. This makes it perfect for finding the shortest path in an
+        unweighted graph.
+      </Typography>
+      <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
+        <Stack spacing={2} pt={0.5}>
+          <Typography variant="h6" component="h2">
+            Pseudocode
+          </Typography>
+          {algorithm}
         </Stack>
-    );
+        <Stack spacing={2} ref={graphRef}>
+          <DrawGraph
+            {...props}
+            scope={scope}
+            onStart={Visualizer(scope)}
+            onClear={() => {
+              scope?.find('.bfs-path').html('');
+              abortSummary();
+            }}
+            explain={(source) => {
+              const { matrix } = Graph.skeleton();
+              explain({ matrix, source });
+            }}
+          />
+          <Box className="alphaGrid bfs-path" />
+          <br />
+          {summary}
+        </Stack>
+      </Box>
+    </Stack>
+  );
 }
 
-var v, queue;
-var i, prev;
-var delay = 800;
+const delay = 800;
 
-async function* start(source) {
+export function Visualizer(scope) {
+  var v, i, prev, queue;
+
+  async function* start(source) {
     v = [source];
     queue = [];
     prev = [];
     i = source;
-    $('.vrtx').attr('stroke', Colors.rejected);
-    $('.edge').attr('stroke', Colors.rejected);
+    scope.find('.vrtx').attr('stroke', Colors.rejected);
+    scope.find('.edge').attr('stroke', Colors.rejected);
     yield delay;
     sound('pop');
-    $('.vrtx').eq(i).attr('stroke', Colors.visited);
-    $('.vrtx').eq(i).attr('fill', Colors.visited);
-    appendCell('#queue', charAt(65 + i));
-    bgcolor('.cell:eq(0)', Colors.visited);
+    scope.node(i).attr('stroke', Colors.visited);
+    scope.node(i).attr('fill', Colors.visited);
+    const row = scope.find('.bfs-path');
+    row.append(createCell(charAt(65 + i)));
+    scope.setColor('.cell:eq(0)', Colors.visited);
     yield delay;
     yield* explore(0);
-}
+  }
 
-async function* explore(j) {
+  async function* explore(j) {
     if (j < Graph.totalPoints()) {
-        const ei = Graph.edgeIndex(i, j);
-        if (hasValue(ei)) {
-            if (!v.includes(j)) {
-                Path('.edge').eq(ei).attr('stroke', Colors.enqueue);
-                $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
-                $('.vrtx').eq(j).attr('fill', Colors.enqueue);
-                queue.push(j);
-                v.push(j);
-                prev[j] = i;
-                sound('pop');
-                appendCell('#queue', charAt(65 + j));
-                yield delay;
-            }
+      const ei = Graph.edgeIndex(i, j);
+      if (hasValue(ei)) {
+        if (!v.includes(j)) {
+          scope.path(ei).attr('stroke', Colors.enqueue);
+          scope.node(j).attr('stroke', Colors.enqueue);
+          scope.node(j).attr('fill', Colors.enqueue);
+          queue.push(j);
+          v.push(j);
+          prev[j] = i;
+          const row = scope.find('.bfs-path');
+          row.append(createCell(charAt(65 + j)));
+          sound('pop');
+          yield delay;
         }
-        yield* explore(j + 1);
+      }
+      yield* explore(j + 1);
     } else {
-        yield delay / 2;
-        yield* visit();
+      yield delay / 2;
+      yield* visit();
     }
-}
+  }
 
-async function* visit() {
-    $('.vrtx').eq(i).attr('fill', Colors.vertex);
+  async function* visit() {
+    scope.node(i).attr('fill', Colors.vertex);
     yield delay / 2;
     if (queue.length) {
-        i = queue.shift();
-        sound('pop');
-        bgcolor(`.cell:eq(${v.indexOf(i)})`, Colors.visited);
-        yield* spanEdge(prev[i], i);
-        $('.vrtx').eq(i).attr('fill', Colors.visited);
-        yield delay;
-        yield* explore(0);
+      i = queue.shift();
+      sound('pop');
+      scope.setColor(`.cell:eq(${v.indexOf(i)})`, Colors.visited);
+      yield* scope.spanEdge(prev[i], i);
+      scope.node(i).attr('fill', Colors.visited);
+      yield delay;
+      yield* explore(0);
     }
+  }
+
+  return start;
 }

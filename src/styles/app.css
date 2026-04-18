@@ -140,13 +140,13 @@
     outline: none;
 }
 
-#stack .cell,
-#queue .cell {
+.dfs-path .cell,
+.bfs-path .cell {
     background-color: #ffd580;
 }
 
-#path .cell,
-#sorted .cell {
+.ham-path .cell,
+.top-sort .cell {
     background-color: orange;
 }
 

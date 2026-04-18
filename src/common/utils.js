@@ -1,16 +1,15 @@
-import Graph, { Path, Points } from './graph';
-import $ from 'jquery';
-import { Colors } from './constants';
+import Graph, { Points } from './graph';
 import { showToast } from '../components/toast';
+import $ from 'jquery';
 
 const mouseEvents = ['click', 'mousedown', 'mouseup', 'mousemove', 'mouseenter', 'mouseleave'];
 const touchEvents = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
 
-function cursorOffset(e) {
+function cursorOffset(e, { left, top }) {
     const out = { x: 0, y: 0 };
-    const { left, top } = $('#plane').offset();
     if (touchEvents.includes(e.type)) {
-        const touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+        const { touches, changedTouches } = e.originalEvent;
+        const touch = touches[0] || changedTouches[0];
         out.x = touch.pageX - left;
         out.y = touch.pageY - top;
     } else if (mouseEvents.includes(e.type)) {
@@ -31,98 +30,7 @@ function svgElement(tag, attrs, text) {
     return el;
 }
 
-function addVertex(p, vlbl) {
-    const props = {
-        class: 'vrtx',
-        cx: p.x,
-        cy: p.y,
-        rx: 18,
-        ry: 16,
-        'stroke-width': 2,
-        stroke: Colors.stroke,
-        fill: Colors.vertex,
-        style: 'cursor:pointer',
-    };
-    const labelProps = {
-        class: 'vlbl',
-        x: p.x,
-        y: p.y + 5,
-        style: 'cursor:pointer',
-        fill: '#404040',
-        'font-weight': 'bold',
-        'text-anchor': 'middle',
-    };
-    const group = svgElement('g', { class: 'vgrp' });
-    group.append(
-        svgElement('ellipse', props),
-        svgElement('text', labelProps, vlbl)
-    );
-    $('#plane').append(group);
-}
-
-function moveVertex(i, p) {
-    $('.vrtx').eq(i).attr('cx', p.x);
-    $('.vrtx').eq(i).attr('cy', p.y);
-    $('.vlbl').eq(i).attr('x', p.x);
-    $('.vlbl').eq(i).attr('y', p.y + 5);
-
-    Graph.segments().forEach((seg, ei) => {
-        if (seg.includes(i)) {
-            let [u, v] = seg.map(Graph.point);
-            let edge = Path('.edge').eq(ei);
-            let cx = (u.x + v.x) / 2;
-            let cy = (u.y + v.y) / 2;
-            let d = `M ${u.x} ${u.y} Q ${cx} ${cy} ${v.x} ${v.y}`;
-            edge.attr('d', d);
-            if (Graph.isDirected()) {
-                let ej = Graph.edgeIndex(seg[1], seg[0]);
-                if (hasValue(ej)) {
-                    [cx, cy] = findCurve(u, v);
-                    edge.attr('cx', cx);
-                    edge.attr('cy', cy);
-                }
-                let q = fromDistance(u, v, 22);
-                edge.attr('x2', q.x);
-                edge.attr('y2', q.y);
-            }
-            let costEl = $('.cost').eq(ei).parent();
-            costEl.attr('x', cx);
-            costEl.attr('y', cy);
-        }
-    });
-}
-
-function findCurve(p, q) {
-    let mx = (p.x + q.x) / 2;
-    let my = (p.y + q.y) / 2;
-    let dx = p.x - q.x;
-    let dy = p.y - q.y;
-    let length = Math.sqrt(dx * dx + dy * dy);
-    let offset = length * 0.1; // Adjust curve strength
-    // Perpendicular vector
-    let nx = -dy / length;
-    let ny = dx / length;
-    // Control point
-    let cx = mx + nx * offset;
-    let cy = my + ny * offset;
-    return [cx, cy];
-}
-
-function addEdge(p, q) {
-    const cx = (p.x + q.x) / 2;
-    const cy = (p.y + q.y) / 2;
-    const d = `M ${p.x} ${p.y} Q ${cx} ${cy} ${q.x} ${q.y}`;
-    const props = {
-        class: 'edge',
-        stroke: Colors.stroke,
-        fill: 'transparent',
-        'stroke-width': 2.5,
-    };
-    const edge = svgElement('path', { d, ...props });
-    $('.vgrp:first').before(edge);
-}
-
-function addCost(p, q, cost) {
+function costInput(p, q, cost) {
     if (!cost) {
         const distance = Points.distance(p, q);
         const baseCost = distance / 20;
@@ -148,20 +56,23 @@ function addCost(p, q, cost) {
     input.addEventListener('click', handler);
     input.addEventListener('touchend', handler);
     parent.append(input);
-    $('#plane').append(parent);
+    return parent;
 }
 
-function cloneEdge(i, j) {
-    const ei = Graph.edgeIndex(i, j);
-    const props = {
-        d: Path('.edge').eq(ei).attr('d'),
-        stroke: Colors.visited,
-        fill: 'transparent',
-        'stroke-width': 4,
-    };
-    const edge = svgElement('path', props);
-    $('.vgrp:first').before(edge);
-    return edge;
+function findCurve(p, q) {
+    let mx = (p.x + q.x) / 2;
+    let my = (p.y + q.y) / 2;
+    let dx = p.x - q.x;
+    let dy = p.y - q.y;
+    let length = Math.sqrt(dx * dx + dy * dy);
+    let offset = length * 0.1; // Adjust curve strength
+    // Perpendicular vector
+    let nx = -dy / length;
+    let ny = dx / length;
+    // Control point
+    let cx = mx + nx * offset;
+    let cy = my + ny * offset;
+    return [cx, cy];
 }
 
 function fromDistance(start, end, distance) {
@@ -185,84 +96,22 @@ function createGrid(n, id) {
     $(id).append(row);
 }
 
-function appendCell(rowId, val) {
+function createCell(content) {
     const cell = document.createElement('div');
-    cell.textContent = val;
+    cell.textContent = content;
     cell.className = 'cell';
-    $(rowId).append(cell);
+    return cell
 }
 
-function getCostMatrix() {
-    const mat = [];
-    Graph.segments().forEach(([i, j], k) => {
-        mat[i] = mat[i] || [];
-        const value = $('.cost').eq(k).val();
-        mat[i][j] = Number(value) || 1;
-        if (!Graph.isDirected()) {
-            mat[j] = mat[j] || [];
-            mat[j][i] = mat[i][j];
-        }
+function clearGraph(scope) {
+  if (scope) {
+    scope.find('.plane').children().not(':first').remove();
+  } else {
+    $('.plane').each(function () {
+      $(this).children().not(':first').remove();
     });
-    return mat;
-}
-
-function* spanEdge(i, j) {
-    const ei = Graph.edgeIndex(i, j);
-    const edge = cloneEdge(i, j);
-    const d = edge.getTotalLength();
-    const t = d / 50;
-    const seg = Graph.segments()[ei];
-
-    function* span(dash) {
-        if (dash < d) {
-            $(edge).attr('stroke-dasharray', `${dash} ${d - dash}`);
-            if (i !== seg[0]) {
-                $(edge).attr('stroke-dashoffset', dash);
-            }
-            yield 20;
-            yield* span(dash + t);
-        } else {
-            $('.vrtx').eq(j).attr('stroke', Colors.visited);
-            edge.remove();
-            const edge1 = $('.edge').eq(ei);
-            edge1.attr('stroke', Colors.visited);
-            edge1.attr('stroke-width', 3);
-            edge1.removeAttr('stroke-dasharray');
-        }
-    }
-    yield* span(2);
-}
-
-function clearGraph() {
-    $('#plane').off();
-    $('#plane').children().not(':first').remove();
     Graph.clear();
-}
-
-function createGraph(data, weighted) {
-    const { points, segments, directed, matrix, weights } = data;
-
-    points.forEach((p, i) => {
-        addVertex(p, charAt(65 + i));
-    });
-    segments.forEach(([i, j]) => {
-        const p = points[i], q = points[j];
-        addEdge(p, q);
-        if (directed) {
-            const { x, y } = fromDistance(p, q, 22);
-            Path('.edge:last').attr('x2', x);
-            Path('.edge:last').attr('y2', y);
-            Path('.edge:last').attr('marker-end', 'url(#arrow)');
-            if (hasValue(matrix[j][i])) {
-                const [cx, cy] = findCurve(p, { x, y });
-                Path('.edge:last').attr('cx', cx);
-                Path('.edge:last').attr('cy', cy);
-            }
-        }
-        if (weighted) {
-            addCost(p, q, weights?.[i][j]);
-        }
-    });
+  }
 }
 
 function traverse(node, fn) {
@@ -292,25 +141,30 @@ function randomNodes(size = 6) {
     return Array.from(result);
 }
 
+function muteSounds() {
+    const sound1 = document.getElementById('popSound');
+    const sound2 = document.getElementById('swapSound');
+    sound1.muted = true;
+    sound2.muted = true;
+    return () => {
+        sound1.muted = false;
+        sound2.muted = false;
+    };
+}
+
 export {
     cursorOffset,
     svgElement,
-    addVertex,
-    addEdge,
-    addCost,
-    moveVertex,
+    costInput,
     findCurve,
-    cloneEdge,
     fromDistance,
     createGrid,
-    appendCell,
-    getCostMatrix,
-    spanEdge,
+    createCell,
     clearGraph,
-    createGraph,
     traverse,
     copyBinaryTree,
     randomNodes,
+    muteSounds,
 };
 
 export const sound = (name) => {

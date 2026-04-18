@@ -218,6 +218,11 @@ export const metaConfigs = {
     description:
       'Learn how to embed interactive sorting animations into your blog, Notion, or website. Perfect for technical articles and tutorials.',
   },
+  'dfs-vs-bfs': {
+    title: 'Compare DFS and BFS | Graph Traversal Algorithms',
+    description:
+      'Visualize Depth-First Search and Breadth-First Search side-by-side. Explore their diverging patterns and search strategies with an interactive tool.',
+  },
 };
 
 export const getSeoConfig = (pageId, pathname) => {
