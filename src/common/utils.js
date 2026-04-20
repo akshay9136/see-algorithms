@@ -1,4 +1,4 @@
-import Graph, { Points } from './graph';
+import { Points } from './graph';
 import { showToast } from '../components/toast';
 import $ from 'jquery';
 
@@ -103,17 +103,6 @@ function createCell(content) {
     return cell
 }
 
-function clearGraph(scope) {
-  if (scope) {
-    scope.find('.plane').children().not(':first').remove();
-  } else {
-    $('.plane').each(function () {
-      $(this).children().not(':first').remove();
-    });
-    Graph.clear();
-  }
-}
-
 function traverse(node, fn) {
     if (node) {
         fn(node);
@@ -160,7 +149,6 @@ export {
     fromDistance,
     createGrid,
     createCell,
-    clearGraph,
     traverse,
     copyBinaryTree,
     randomNodes,

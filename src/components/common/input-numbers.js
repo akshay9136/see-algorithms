@@ -95,10 +95,8 @@ function InputNumbers(props) {
   const handleReset = () => {
     setStatus(0);
     setNumbers([]);
-    resetHandlers.forEach((reset, i) => {
-      iterators[i]?.exit();
-      reset(true);
-    });
+    iterators.forEach((it) => it.exit());
+    resetHandlers.forEach((reset) => reset(true));
   };
 
   useEffect(() => handleReset, []);

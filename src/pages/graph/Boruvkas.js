@@ -35,13 +35,12 @@ export default function Boruvkas(props) {
 
 const delay = 1000;
 
-function Visualizer(scope) {
+export function Visualizer(scope) {
   var union, parent, w;
 
   async function* start() {
     scope.find('.vrtx').attr('stroke', Colors.visited);
     scope.find('.edge').attr('stroke', Colors.rejected);
-    scope.find('.edge').attr('stroke-dasharray', '8,4');
     yield delay;
     const n = Graph.totalPoints();
     union = [];

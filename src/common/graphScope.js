@@ -132,8 +132,8 @@ export function createGraphScope(container) {
     },
 
     *spanEdge(i, j) {
-      const index = Graph.edgeIndex(i, j);
       const cloned = this.cloneEdge(i, j);
+      const index = Graph.edgeIndex(i, j);
       const edge = scope.find('.edge').eq(index);
       const d = edge[0].getTotalLength();
       const t = d / 50;
@@ -163,7 +163,12 @@ export function createGraphScope(container) {
       plane.append(costInput(p, q, cost));
     },
 
+    clearGraph() {
+      plane.children().not(':first').remove();
+    },
+
     createGraph(data, weighted) {
+      this.clearGraph();
       const { points, segments, directed, matrix, weights } = data;
 
       points.forEach((p, i) => {
@@ -205,6 +210,10 @@ export function createGraphScope(container) {
         }
       });
       return mat;
+    },
+    
+    collect() {
+      return Graph.skeleton(this.costMatrix())
     },
   };
 }

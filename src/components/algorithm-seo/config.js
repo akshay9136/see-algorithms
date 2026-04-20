@@ -223,6 +223,11 @@ export const metaConfigs = {
     description:
       'Visualize Depth-First Search and Breadth-First Search side-by-side. Explore their diverging patterns and search strategies with an interactive tool.',
   },
+  'compare-mst': {
+    title: 'Compare MST Algorithms | Real-Time Visualization',
+    description:
+      'Visualize and compare Prim\'s, Kruskal\'s, and Borůvka\'s algorithms side-by-side. Explore how different greedy strategies build MST.',
+  },
 };
 
 export const getSeoConfig = (pageId, pathname) => {

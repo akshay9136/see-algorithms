@@ -1,8 +1,8 @@
 import { DrawGraph, Node } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
-import { charAt, sound } from '@/common/utils';
 import { useAlgorithm, useAnimator, useGraphScope } from '@/hooks';
 import { useEffect, useState } from 'react';
+import { charAt, sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
 
@@ -42,10 +42,9 @@ for each edge (u, v):
     async function* start() {
         scope.find('.vrtx').attr('stroke', Colors.rejected);
         scope.find('.edge').attr('stroke', Colors.rejected);
-        scope.find('.edge').attr('stroke-dasharray', '8,4');
         yield delay / 2;
-        const size = Graph.totalPoints();
-        setSize(size);
+        const np = Graph.totalPoints();
+        setSize(np);
         arr = [];
         scope.find('.cost').each(function (i) {
             const [u, v] = Graph.segments()[i];
@@ -55,16 +54,16 @@ for each edge (u, v):
         arr.sort((a, b) => a.w - b.w);
         union = [];
         parent = [];
-        for (let i = 0; i < size; i++) {
+        for (let i = 0; i < np; i++) {
             union[i] = new Set();
             union[i].add(i);
             parent[i] = i;
         }
+        yield delay;
         yield* nextMin(0);
     }
 
     async function* nextMin(k) {
-        yield delay;
         const { u, v, i } = arr[k];
         scope.node(u).attr('stroke', Colors.visited);
         scope.node(v).attr('stroke', Colors.visited);
@@ -92,7 +91,10 @@ for each edge (u, v):
             bgcolor(`#node${v}`, Colors.white),
         ]);
         const rest = union.filter((set) => set.size > 0);
-        if (rest.length > 1) yield* nextMin(k + 1);
+        if (rest.length > 1) {
+            yield delay;
+            yield* nextMin(k + 1);
+        }
     }
 
     async function merge(x1, x2) {

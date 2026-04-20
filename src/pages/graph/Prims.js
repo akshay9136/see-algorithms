@@ -87,7 +87,7 @@ while MST does not span all vertices:
 
 const delay = 1000;
 
-function Visualizer(scope) {
+export function Visualizer(scope) {
   var n, w, queue, mst;
 
   async function* start(src) {

@@ -93,7 +93,7 @@ export const articles = [
         date: '2026-03-05',
     },
     {
-        id: 'sorting-comparison',
+        id: 'compare-sorting',
         title: 'Compare Sorting Algorithms',
         summary: 'Visualize and compare multiple sorting algorithms simultaneously with same input array.',
         category: 'Sorting',
@@ -105,6 +105,13 @@ export const articles = [
         summary: 'Learn how to embed interactive sorting animations into your blog, Notion, or website.',
         category: 'Sorting',
         date: '2026-04-05',
+    },
+    {
+        id: 'compare-mst',
+        title: 'Compare MST Algorithms',
+        summary: 'Visualize and compare multiple MST algorithms simultaneously with same input graph.',
+        category: 'Graph',
+        date: '2026-04-20',
     },
 ]
 .sort((a, b) => b.date.localeCompare(a.date));

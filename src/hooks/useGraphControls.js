@@ -1,13 +1,13 @@
 import { useContext, useEffect } from 'react';
-import { clearGraph, showError, sleep } from '@/common/utils';
 import { drawGraph, switchType } from '@/helpers/drawGraph';
 import { randomGraph } from '@/helpers/randomGraph';
-import $ from 'jquery';
+import { newIterator } from '@/common/iterator';
 import AppContext from '@/common/context';
 import Graph from '@/common/graph';
+import $ from 'jquery';
 import useUndoRedo from './useUndoRedo';
 import { useRouter } from 'next/router';
-import { newIterator } from '@/common/iterator';
+import { showError, sleep } from '@/common/utils';
 import { Colors } from '@/common/constants';
 
 var iterators = [], prevSrc;
@@ -25,8 +25,7 @@ function useGraphControls(config, props) {
 
   config.history = {
     commit: () => {
-      const data = Graph.skeleton(scope.costMatrix());
-      history.push(data);
+      history.push(scope.collect());
     },
   };
 
@@ -51,11 +50,8 @@ function useGraphControls(config, props) {
   const resume = async () => {
     setContext({ playStatus: 1 });
     if (scopes.length > 1 && playStatus === 0) {
-      scopes.slice(1).forEach((scope) => {
-        const data = Graph.skeleton(scope.costMatrix());
-        clearGraph(scope);
-        Graph.initialize(data);
-        scope.createGraph(data, weighted);
+      scopes.slice(1).forEach((sc) => {
+        sc.createGraph(scope.collect(), weighted);
       });
       await sleep(800);
     }
@@ -100,11 +96,10 @@ function useGraphControls(config, props) {
 
   const cleanup = () => {
     $('.plane').off();
-    resetHandlers.forEach((reset, i) => {
-      iterators[i]?.exit();
-      reset();
-    });
-    clearGraph();
+    iterators.forEach((it) => it.exit());
+    resetHandlers.forEach((reset) => reset());
+    Graph.clear();
+    scopes.forEach((sc) => sc?.clearGraph());
     setContext({ playStatus: 0 });
     history.clear();
   };
@@ -117,25 +112,17 @@ function useGraphControls(config, props) {
 
   const handleUndo = () => {
     if (history.canUndo) {
-      const data = Graph.skeleton(scope.costMatrix());
-      const prevGraph = history.undo(data);
-      clearGraph();
+      const prevGraph = history.undo(scope.collect());
       Graph.initialize(prevGraph);
-      scopes.forEach((scope) => {
-        scope.createGraph(prevGraph, weighted);
-      });
+      scope.createGraph(prevGraph, weighted);
     }
   };
 
   const handleRedo = () => {
     if (history.canRedo) {
-      const data = Graph.skeleton(scope.costMatrix());
-      const nextGraph = history.redo(data);
-      clearGraph();
+      const nextGraph = history.redo(scope.collect());
       Graph.initialize(nextGraph);
-      scopes.forEach((scope) => {
-        scope.createGraph(nextGraph, weighted);
-      });
+      scope.createGraph(nextGraph, weighted);
     }
   };
 
@@ -145,10 +132,11 @@ function useGraphControls(config, props) {
     while (Graph.hasCycle()) {
       Graph.initialize(randomGraph(8));
     }
-    scopes.forEach((scope) => {
-      scope.createGraph(Graph.skeleton(), weighted);
-    });
     drawGraph(config);
+    scope.createGraph(Graph.skeleton(), weighted);
+    scopes.slice(1).forEach((sc) => {
+      sc.createGraph(scope.collect(), weighted);
+    });
     if (directed) {
       Graph.switchType();
       scopes.forEach(switchType);
