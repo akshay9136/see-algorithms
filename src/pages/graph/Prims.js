@@ -1,7 +1,7 @@
 import { DrawGraph } from '@/components/common';
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { hasValue, sound } from '@/common/utils';
 import { useAlgorithm, useGraphScope, useSummary } from '@/hooks';
+import { hasValue, sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
 

@@ -36,7 +36,7 @@ export default function Hamiltonian(props) {
 
 const delay = 1000;
 
-function Visualizer(scope) {
+export function Visualizer(scope) {
   var src, v;
 
   async function* start(source) {

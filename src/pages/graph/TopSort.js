@@ -80,7 +80,7 @@ function indegree():
 
 const delay = 800;
 
-function Visualizer(scope) {
+export function Visualizer(scope) {
   var indeg, stack;
 
   async function* start() {

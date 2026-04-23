@@ -86,7 +86,7 @@ const svgLabel = (index, text) => {
 
 const delay = 1000;
 
-function Visualizer(scope) {
+export function Visualizer(scope) {
   var n, v, w, d, prev;
 
   async function* start(src) {

@@ -28,13 +28,13 @@ function Layout({ children }) {
         <Box className="content" minWidth="100%">
           {title && (
             <Typography
-              variant="h6"
+              variant="h5"
               component="h2"
               fontWeight={600}
               color="warning.main"
               mb={2.5}
             >
-              {title} Visualizer
+              {title}
             </Typography>
           )}
           {children}

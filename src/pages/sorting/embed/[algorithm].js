@@ -11,7 +11,7 @@ import {
     useSelectionSort,
 } from '@/hooks/sorting';
 
-export default function SortingEmbed() {
+export default function EmbedAlgorithm() {
     const router = useRouter();
     const { algorithm } = router.query;
 
