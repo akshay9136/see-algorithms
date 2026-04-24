@@ -4,7 +4,7 @@ import { Colors } from '../common/constants';
 
 const delay = 500;
 
-function binarySearchTree(animator) {
+function searchTree(animator) {
     const Tree = binaryTree(animator);
     const { bgcolor, txy, animate, cleanup } = animator;
 
@@ -129,4 +129,4 @@ function binarySearchTree(animator) {
     });
 }
 
-export default binarySearchTree;
+export default searchTree;

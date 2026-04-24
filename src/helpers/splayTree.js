@@ -1,4 +1,4 @@
-import binarySearchTree from './binarySearchTree';
+import binarySearchTree from './searchTree';
 import { showError } from '@/common/utils';
 import { Colors } from '../common/constants';
 

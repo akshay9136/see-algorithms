@@ -85,17 +85,6 @@ function fromDistance(start, end, distance) {
     return { x: end.x - deltaX, y: end.y - deltaY };
 }
 
-function createGrid(n, id) {
-    const row = document.createElement('div');
-    row.className = 'd-flex';
-    for (let j = 0; j < n; j++) {
-        const cell = document.createElement('div');
-        cell.className = 'cell';
-        row.append(cell);
-    }
-    $(id).append(row);
-}
-
 function createCell(content) {
     const cell = document.createElement('div');
     cell.textContent = content;
@@ -147,7 +136,6 @@ export {
     costInput,
     findCurve,
     fromDistance,
-    createGrid,
     createCell,
     traverse,
     copyBinaryTree,

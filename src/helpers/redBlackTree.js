@@ -1,4 +1,4 @@
-import binarySearchTree from './binarySearchTree';
+import binarySearchTree from './searchTree';
 import { Colors } from '../common/constants';
 import $ from 'jquery';
 

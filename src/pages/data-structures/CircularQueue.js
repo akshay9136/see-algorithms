@@ -1,15 +1,11 @@
-import { useEffect } from 'react';
-import { createGrid, showError, sound } from '@/common/utils';
 import { Box, Stack, Typography } from '@mui/material';
-import { DSInput } from '@/components/common';
-import $ from 'jquery';
+import DSInput from '@/components/common/ds-input';
+import useCircularQueue from '@/hooks/data-structures/useCircularQueue';
 import useAlgorithm from '@/hooks/useAlgorithm';
 
-var cells, n = 10;
-var front = 0, rear = 0;
-var size = 0;
-
 export default function CircularQueue(props) {
+    const { animation, buttons } = useCircularQueue();
+
     const [enqueueAlgo] = useAlgorithm(`
 function enqueue(value):
     if front == rear and size == n:
@@ -28,25 +24,6 @@ function dequeue():
         front = (front + 1) % n
         size = size - 1
 `);
-
-    useEffect(() => {
-        $('#cqueue').html('');
-        createGrid(n, '#cqueue');
-        createGrid(n, '#cqueue');
-        createGrid(n, '#cqueue');
-        cells = $('#cqueue').find('.cell');
-        cells.eq(front).text('Front');
-        cells.eq(n + n + rear).text('Rear');
-        for (let k = 0; k < n; k++) {
-            cells.eq(k).css({ verticalAlign: 'bottom', border: 'none' });
-            cells.eq(k + n + n).css({ verticalAlign: 'top', border: 'none' });
-        }
-    }, []);
-
-    const buttons = [
-        { text: 'Enqueue', onClick: enqueue, validate: true },
-        { text: 'Dequeue', onClick: dequeue },
-    ];
 
     return (
         <Stack spacing={2}>
@@ -71,38 +48,7 @@ function dequeue():
                 Visualizer
             </Typography>
             <DSInput {...props} buttons={buttons} hidePlayIcon />
-            <Box
-                id="cqueue"
-                className="alphaGrid numGrid"
-                display="block !important"
-            />
+            {animation}
         </Stack>
     );
-}
-
-// eslint-disable-next-line require-yield
-async function* enqueue(num) {
-    if (front === rear && size === n) {
-        showError('Queue is full.');
-    } else {
-        sound('pop');
-        cells.eq(n + rear).text(num);
-        cells.eq(n + n + rear).text('');
-        rear = ++rear % n;
-        cells.eq(n + n + rear).text('Rear');
-        size++;
-    }
-}
-
-function dequeue() {
-    if (front === rear && size === 0) {
-        showError('Queue is empty.');
-    } else {
-        sound('pop');
-        cells.eq(front).text('');
-        cells.eq(front + n).text('');
-        front = ++front % n;
-        cells.eq(front).text('Front');
-        size--;
-    }
 }

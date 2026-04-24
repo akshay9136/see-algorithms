@@ -4,7 +4,7 @@ import { Edge, Node, Numkey } from '@/components/common';
 import { sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import { Box } from '@mui/material';
-import binaryHeap from '@/helpers/binaryHeap';
+import binaryHeap from '@/helpers/maxHeap';
 
 var arr, Tree;
 var delay = 1000;

@@ -4,7 +4,7 @@ import { Colors } from '../common/constants';
 
 const delay = 400;
 
-function binaryHeap(animator) {
+function maxHeap(animator) {
     const Tree = binaryTree(animator);
     const { bgcolor, animate, txy } = animator;
 
@@ -107,4 +107,4 @@ function binaryHeap(animator) {
     };
 }
 
-export default binaryHeap;
+export default maxHeap;
