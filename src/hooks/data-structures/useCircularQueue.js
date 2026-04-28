@@ -44,19 +44,19 @@ export default function useCircularQueue() {
     <Box className="alphaGrid numGrid" display="block !important">
       <Box display="flex">
         {numbers.map((_, i) => (
-          <Box className="cell" style={{ border: 0 }}>
+          <Box key={i} className="cell" style={{ border: 0 }}>
             {i === front ? 'Front' : ''}
           </Box>
         ))}
       </Box>
       <Box display="flex">
-        {numbers.map((num) => (
-          <Box className="cell">{num}</Box>
+        {numbers.map((num, i) => (
+          <Box key={i} className="cell">{num}</Box>
         ))}
       </Box>
       <Box display="flex">
         {numbers.map((_, i) => (
-          <Box className="cell" style={{ border: 0 }}>
+          <Box key={i} className="cell" style={{ border: 0 }}>
             {i === rear ? 'Rear' : ''}
           </Box>
         ))}

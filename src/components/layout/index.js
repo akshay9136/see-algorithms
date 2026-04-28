@@ -12,7 +12,9 @@ function Layout({ children }) {
   const [menuVisible, setMenuVisible] = useState(false);
   const { pathname, query } = useRouter();
   const isEmbed = pathname.includes('/embed/');
-  const pageId = isEmbed ? query.algorithm : pathname.split('/')[2];
+  const pageId = isEmbed
+    ? query.algorithm || query.dataStructure
+    : pathname.split('/')[2];
   const { name: title } = algorithms.findObj('id', pageId) || {};
   const scrollRef = useRef(null);
 

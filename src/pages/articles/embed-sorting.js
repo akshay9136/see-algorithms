@@ -47,7 +47,7 @@ export default function EmbedSorting() {
 
         <Paper className="algorithm" sx={{ mb: 3 }}>
           <pre style={{ margin: 0 }}>
-            {`https://see-algorithms.com/sorting/embed/{AlgorithmName}`}
+            {`https://see-algorithms.com/sorting/embed/{Algorithm}`}
           </pre>
         </Paper>
 

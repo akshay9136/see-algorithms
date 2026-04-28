@@ -102,9 +102,23 @@ export const articles = [
     {
         id: 'embed-sorting',
         title: 'Embed Sorting Visualizers',
-        summary: 'Learn how to embed interactive sorting animations into your blog, Notion, or website.',
+        summary: 'Transform your sorting algorithm articles with live, interactive animations that visualize every comparison and swap.',
         category: 'Sorting',
         date: '2026-04-05',
+    },
+    {
+        id: 'embed-graph',
+        title: 'Embed Graph Visualizers',
+        summary: 'Integrate dynamic graph visualizations into your content, letting readers explore traversals and shortest paths interactively.',
+        category: 'Graph',
+        date: '2026-04-28',
+    },
+    {
+        id: 'embed-data-struct',
+        title: 'Embed DS Visualizers',
+        summary: 'Enhance your lessons on complex data structures by integrating our interactive visualizers.',
+        category: 'Data Structures',
+        date: '2026-04-28',
     },
     {
         id: 'compare-mst',

@@ -218,6 +218,16 @@ export const metaConfigs = {
     description:
       'Learn how to embed interactive sorting animations into your blog, Notion, or website. Perfect for technical articles and tutorials.',
   },
+  'embed-graph': {
+    title: 'Embed Graph Visualizers | Interactive Pathfinding',
+    description:
+      'Transform your graph theory articles with interactive visualizers. Learn how to embed dynamic animations into your blog, Notion, or website.',
+  },
+  'embed-data-struct': {
+    title: 'Embed DS Visualizers | Interactive Tree Visuals',
+    description:
+      'Learn how to embed interactive data structure animations into your blog, Notion, or website. Perfect for technical articles and tutorials.',
+  },
   'dfs-vs-bfs': {
     title: 'Compare DFS and BFS | Graph Traversal Algorithms',
     description:
