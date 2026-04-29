@@ -1,6 +1,7 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import { InputNumbers } from '@/components/common';
 import { useBubbleSort } from '@/hooks/sorting';
+import Link from 'next/link';
 
 export default function BubbleSort() {
     const { animation, pseudocode, handleSort, handleStop } = useBubbleSort();
@@ -11,10 +12,12 @@ export default function BubbleSort() {
                 <strong>Bubble Sort</strong> is a simple sorting algorithm that
                 works by repeatedly swapping adjacent elements if they are in
                 the wrong order. This process continues until the list is fully
-                sorted. While it’s easy to understand, Bubble Sort is not very
-                efficient for large datasets due to its quadratic time
-                complexity. It’s often used for educational purposes or as a
-                baseline for comparison with other sorting algorithms.
+                sorted. Unlike{' '}
+                <Link href="/sorting/SelectionSort">Selection Sort</Link>, it is
+                a <Link href="/articles/stable-sorting">stable</Link> algorithm,
+                preserving the relative order of equal elements. While it’s easy
+                to understand, Bubble Sort is not very efficient for large
+                datasets due to its quadratic time complexity.
             </Typography>
             <Typography variant="h6" component="h2">
                 Things to Observe

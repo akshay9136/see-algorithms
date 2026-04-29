@@ -1,9 +1,11 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import { InputNumbers } from '@/components/common';
 import { useInsertionSort } from '@/hooks/sorting';
+import Link from 'next/link';
 
 export default function InsertionSort() {
-    const { animation, pseudocode, handleSort, handleStop } = useInsertionSort();
+    const { animation, pseudocode, handleSort, handleStop } =
+        useInsertionSort();
 
     return (
         <Stack spacing={2}>
@@ -13,8 +15,10 @@ export default function InsertionSort() {
                 at a time. It takes each element from the unsorted part and
                 slides it into its correct position in the sorted part. It is
                 like placing a new card in the right spot of a sorted hand,
-                making it intuitive and efficient for small dataset, especially
-                for partially sorted lists.
+                making it intuitive and efficient for small datasets. Like{' '}
+                <Link href="/sorting/BubbleSort">Bubble Sort</Link>, Insertion
+                Sort is a O(n²) algorithm, but it performs significantly better
+                on nearly sorted data.
             </Typography>
             <Typography variant="h6" component="h2">
                 Things to Observe

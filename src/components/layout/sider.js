@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import {
   Accordion,
   AccordionDetails,
@@ -14,8 +15,9 @@ import Link from 'next/link';
 
 function Sider({ selected }) {
   const algo = algorithms.findObj('id', selected) || {};
-  const { category = 'Sorting' } = algo;
-  const [expanded, setExpanded] = useState('');
+  const [expanded, setExpanded] = useState('Sorting');
+  const { query } = useRouter();
+  var { category = query.category || '' } = algo;
 
   const getPathname = (_cat, algoId) => {
     const catId = _cat.split(' ').join('-').toLowerCase();

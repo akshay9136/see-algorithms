@@ -12,6 +12,18 @@ const nextConfig = {
           { key: 'Content-Security-Policy', value: 'frame-ancestors *' },
         ],
       },
+      {
+        source: '/graph/embed/:path*',
+        headers: [
+          { key: 'Content-Security-Policy', value: 'frame-ancestors *' },
+        ],
+      },
+      {
+        source: '/data-structures/embed/:path*',
+        headers: [
+          { key: 'Content-Security-Policy', value: 'frame-ancestors *' },
+        ],
+      },
     ];
   },
 };

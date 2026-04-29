@@ -13,7 +13,7 @@ const styles = {
   },
 };
 
-export default function AVLTreeVsRedBlackTree() {
+export default function AVLTreeVsRedBlack() {
   return (
     <Article
       title="AVL Tree vs Red-Black Tree"
@@ -21,9 +21,10 @@ export default function AVLTreeVsRedBlackTree() {
     >
       <Section title="The Problem They Solve">
         <Typography paragraph>
-          A Binary Search Tree is elegant when balanced. But if insertions
-          happen in sorted order, it slowly collapses into a linked list. The
-          structure still works, but its spirit is lost.
+          A <Link href="/data-structures/BST">Binary Search Tree</Link> is
+          elegant when balanced. But if insertions happen in sorted order, it
+          slowly collapses into a linked list. The structure still works, but
+          its spirit is lost.
         </Typography>
 
         <Typography paragraph>
@@ -120,12 +121,10 @@ export default function AVLTreeVsRedBlackTree() {
       <Section title="Practical Insight">
         <Typography paragraph>
           AVL Trees represent precision. Red-Black Trees represent resilience.
-        </Typography>
-
-        <Typography paragraph>
-          If you value tighter height guarantees and primarily read-heavy usage,
-          AVL aligns with that mindset. If you value smoother structural updates
-          and broad practicality, Red-Black is often preferred.
+          If your application mostly reads data and rarely changes, AVL&apos;s
+          perfect balance ensures every search is as fast as possible. But if
+          you are constantly adding or removing items, Red-Black is usually the
+          better choice.
         </Typography>
 
         <Typography paragraph>

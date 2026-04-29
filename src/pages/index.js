@@ -2,6 +2,7 @@ import { Box, Card, Container, Grid, Typography } from '@mui/material';
 import Features from '@/components/features';
 import Carousel from '@/components/carousel';
 import Head from 'next/head';
+import Link from 'next/link';
 
 const PREVIEW_GIFS = [
   { src: '/avl-tree.gif', alt: 'AVL Tree visualization' },
@@ -43,7 +44,9 @@ export default function HomePage() {
             Whether you&apos;re a student seeking to solidify your knowledge, an
             educator looking for dynamic teaching tools, or simply someone with
             a passion for computer science, you&apos;ll find value in our
-            extensive library of visual resources.
+            extensive library of visual resources. Explore our{' '}
+            <Link href="/articles">articles</Link> to deepen your
+            understanding.
           </Typography>
         </Grid>
 

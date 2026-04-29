@@ -31,7 +31,10 @@ const ArticleList = () => {
       <Grid container spacing={3}>
         {filtered.map((article) => (
           <Grid item xs={12} sm={6} md={4} key={article.id}>
-            <ActionCard href={`/articles/${article.id}`} {...article}>
+            <ActionCard
+              href={`/articles/${article.id}?category=${article.category}`}
+              {...article}
+            >
               <Typography
                 variant="h6"
                 component="h3"
@@ -83,7 +86,7 @@ const ActionCard = ({ children, href, category, date }) => {
   const tagColor =
     category === 'Sorting'
       ? 'info'
-      : category === 'Graph Theory'
+      : category === 'Graph'
         ? 'warning'
         : 'success';
 

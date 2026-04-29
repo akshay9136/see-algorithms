@@ -65,7 +65,7 @@ export const articles = [
         title: 'Shortest Path vs MST',
         summary:
             'Learn the difference in objectives of Shortest Path and Minimum Spanning Tree algorithms.',
-        category: 'Graph Theory',
+        category: 'Graph',
         date: '2026-02-26',
     },
     {
@@ -77,7 +77,7 @@ export const articles = [
         date: '2026-02-28',
     },
     {
-        id: 'avl-tree-vs-rb-tree',
+        id: 'avl-tree-vs-red-black',
         title: 'AVL Tree vs Red-Black Tree',
         summary:
             'Understand the mechanism of self-balancing Binary Search Trees and how they differ in practice.',

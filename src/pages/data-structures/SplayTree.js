@@ -1,4 +1,5 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
+import Link from 'next/link';
 import DSInput from '@/components/common/ds-input';
 import useSplayTree from '@/hooks/data-structures/useSplayTree';
 
@@ -14,7 +15,9 @@ export default function SplayTree(props) {
                 recently accessed nodes closer to the root. The idea is simple:
                 if you touched it, you’ll probably touch it again. Over time,
                 the tree adapts to access patterns rather than an abstract
-                notion of balance.
+                notion of balance. While <Link href="/data-structures/AVL">AVL Trees</Link> follow
+                strict rules to stay perfectly balanced, Splay Trees focus on
+                being fast over time.
             </Typography>
             <Typography variant="h6" component="h2">
                 How it Works

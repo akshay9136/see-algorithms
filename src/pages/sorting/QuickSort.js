@@ -2,6 +2,7 @@ import { Box, Divider, Stack, Typography } from '@mui/material';
 import { InputNumbers } from '@/components/common';
 import { useAlgorithm } from '@/hooks';
 import { useQuickSort } from '@/hooks/sorting';
+import Link from 'next/link';
 
 export default function QuickSort() {
     const { animation, pseudocode, handleSort, handleStop } = useQuickSort();
@@ -22,7 +23,13 @@ function quickSort(start, end):
                 than the pivot and those greater. By recursively sorting these
                 groups, Quick Sort efficiently sorts even the largest datasets.
                 It is perfect blend of strategy and speed, making it one of the
-                most popular sorting techniques.
+                most popular sorting techniques. However, its performance can
+                degrade in{' '}
+                <Link href="/articles/quick-sort-illusion">
+                    certain cases
+                </Link>
+                , unlike the guaranteed O(n log n) of{' '}
+                <Link href="/sorting/MergeSort">Merge Sort</Link>.
             </Typography>
             <Typography variant="h6" component="h2">
                 Things to Observe

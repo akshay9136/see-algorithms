@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { charAt, sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
+import Link from 'next/link';
 
 var arr, union, parent;
 var delay = 800;
@@ -119,6 +120,11 @@ for each edge (u, v):
                 previously disconnected components, without forming a cycle. It
                 is efficient for sparse graphs and uses a{' '}
                 <strong>Union-Find</strong> data structure to detect cycles.
+                Compare it with{' '}
+                <Link href="/graph/Prims">Prim’s Algorithm</Link>, which grows
+                the MST from a single vertex, or{' '}
+                <Link href="/graph/Boruvkas">Borůvka’s Algorithm</Link> which
+                merges components in parallel.
             </Typography>
             <Box display="flex" gap={4} flexWrap="wrap">
                 <Stack spacing={2}>
@@ -201,63 +207,63 @@ for each edge (u, v):
 }
 
 export function Visualizer(scope) {
-  var arr, union, parent;
+    var arr, union, parent;
 
-  function findRoot(u) {
-    if (parent[u] !== u) {
-      return findRoot(parent[u]);
+    function findRoot(u) {
+        if (parent[u] !== u) {
+            return findRoot(parent[u]);
+        }
+        return parent[u];
     }
-    return parent[u];
-  }
 
-  async function* start() {
-    scope.find('.vrtx').attr('stroke', Colors.rejected);
-    scope.find('.edge').attr('stroke', Colors.rejected);
-    yield delay / 2;
-    const np = Graph.totalPoints();
-    arr = [];
-    scope.find('.cost').each(function (i) {
-      const [u, v] = Graph.segments()[i];
-      const w = Number(this.value) || 1;
-      arr.push({ u, v, w, i });
-    });
-    arr.sort((a, b) => a.w - b.w);
-    union = [];
-    parent = [];
-    for (let i = 0; i < np; i++) {
-      union[i] = new Set();
-      union[i].add(i);
-      parent[i] = i;
+    async function* start() {
+        scope.find('.vrtx').attr('stroke', Colors.rejected);
+        scope.find('.edge').attr('stroke', Colors.rejected);
+        yield delay / 2;
+        const np = Graph.totalPoints();
+        arr = [];
+        scope.find('.cost').each(function (i) {
+            const [u, v] = Graph.segments()[i];
+            const w = Number(this.value) || 1;
+            arr.push({ u, v, w, i });
+        });
+        arr.sort((a, b) => a.w - b.w);
+        union = [];
+        parent = [];
+        for (let i = 0; i < np; i++) {
+            union[i] = new Set();
+            union[i].add(i);
+            parent[i] = i;
+        }
+        yield delay;
+        yield* nextMin(0);
     }
-    yield delay;
-    yield* nextMin(0);
-  }
 
-  async function* nextMin(k) {
-    const { u, v, i } = arr[k];
-    scope.node(u).attr('stroke', Colors.visited);
-    scope.node(v).attr('stroke', Colors.visited);
-    scope.node(u).attr('fill', Colors.visited);
-    scope.node(v).attr('fill', Colors.visited);
-    yield delay;
-    const x1 = findRoot(v);
-    const x2 = findRoot(u);
-    if (x1 !== x2) {
-      union[x1] = new Set([...union[x1], ...union[x2]]);
-      union[x2] = new Set();
-      parent[x2] = x1;
-      scope.path(i).attr('stroke', Colors.visited);
-      scope.path(i).attr('stroke-width', 3);
-      yield delay;
+    async function* nextMin(k) {
+        const { u, v, i } = arr[k];
+        scope.node(u).attr('stroke', Colors.visited);
+        scope.node(v).attr('stroke', Colors.visited);
+        scope.node(u).attr('fill', Colors.visited);
+        scope.node(v).attr('fill', Colors.visited);
+        yield delay;
+        const x1 = findRoot(v);
+        const x2 = findRoot(u);
+        if (x1 !== x2) {
+            union[x1] = new Set([...union[x1], ...union[x2]]);
+            union[x2] = new Set();
+            parent[x2] = x1;
+            scope.path(i).attr('stroke', Colors.visited);
+            scope.path(i).attr('stroke-width', 3);
+            yield delay;
+        }
+        scope.node(u).attr('fill', Colors.vertex);
+        scope.node(v).attr('fill', Colors.vertex);
+        const rest = union.filter((set) => set.size > 0);
+        if (rest.length > 1) {
+            yield delay;
+            yield* nextMin(k + 1);
+        }
     }
-    scope.node(u).attr('fill', Colors.vertex);
-    scope.node(v).attr('fill', Colors.vertex);
-    const rest = union.filter((set) => set.size > 0);
-    if (rest.length > 1) {
-      yield delay;
-      yield* nextMin(k + 1);
-    }
-  }
 
-  return start;
+    return start;
 }

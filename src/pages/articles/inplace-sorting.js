@@ -25,10 +25,11 @@ export default function InplaceSorting() {
 
       <Section title="Why In-Place Matters">
         <Typography paragraph>
-          Memory is not infinite. Even when machines grow more powerful, memory
-          efficiency remains relevant. Large datasets, embedded systems, and
-          performance-critical applications all benefit from algorithms that
-          avoid unnecessary allocations.
+          If you can sort your data without needing an extra space, you save
+          time and resources. In-place sorting is crucial because it avoids the
+          overhead of creating unnecessary copies of your data. This is vital
+          for handling massive datasets where extra memory isn&apos;t available,
+          or for small devices where every byte counts.
         </Typography>
       </Section>
 
@@ -41,15 +42,21 @@ export default function InplaceSorting() {
 
         <Typography component="ul" sx={{ '& li': { mb: 1 }, pl: 2 }}>
           <li>
-            <strong>Bubble Sort</strong>{' '}
+            <Link href="/sorting/BubbleSort">
+              <strong>Bubble Sort</strong>
+            </Link>{' '}
             – Repeatedly swaps adjacent elements.
           </li>
           <li>
-            <strong>Insertion Sort</strong>{' '}
+            <Link href="/sorting/InsertionSort">
+              <strong>Insertion Sort</strong>
+            </Link>{' '}
             – Shifts elements to insert each item into its correct position.
           </li>
           <li>
-            <strong>Selection Sort</strong>{' '}
+            <Link href="/sorting/SelectionSort">
+              <strong>Selection Sort</strong>
+            </Link>{' '}
             – Selects the minimum element and swaps it into place.
           </li>
           <li>
@@ -64,9 +71,9 @@ export default function InplaceSorting() {
       <Section title="When Sorting Is Not In-Place">
         <Typography paragraph>
           Not all sorting algorithms follow this principle. For example,{' '}
-          <Link href="/sorting/Merge">Merge Sort</Link> traditionally uses an
-          additional array to merge sorted halves. That extra storage makes it
-          not strictly in-place in its common implementation.
+          <Link href="/sorting/MergeSort">Merge Sort</Link> traditionally uses
+          an additional array to merge sorted halves. That extra storage makes
+          it not strictly in-place in its common implementation.
         </Typography>
 
         <Typography paragraph>

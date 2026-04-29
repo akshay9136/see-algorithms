@@ -1,4 +1,5 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
+import Link from 'next/link';
 import DSInput from '@/components/common/ds-input';
 import useSearchTree from '@/hooks/data-structures/useSearchTree';
 
@@ -30,7 +31,9 @@ export default function BST(props) {
           carefully reconnects its children so the BST rule still holds. If the
           node has no children, it is simply removed. If it has one child, that
           child takes its place. If the node has two children, the tree replaces
-          it with a nearby node that preserves ordering.
+          it with a nearby node that preserves ordering. Learn the full strategy
+          in our <Link href="/articles/deleting-bst-node">BST deletion</Link>{' '}
+          guide.
         </li>
       </Typography>
       <Box display="flex" flexWrap="wrap" gap={3}>

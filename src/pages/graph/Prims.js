@@ -4,6 +4,7 @@ import { useAlgorithm, useGraphScope, useSummary } from '@/hooks';
 import { hasValue, sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
+import Link from 'next/link';
 
 export default function Prims(props) {
   const [summary, explain, abortSummary] = useSummary();
@@ -29,7 +30,10 @@ while MST does not span all vertices:
         to a node outside of it. This greedy approach continues until
         all nodes are part of the tree, ensuring the total weight of all
         edges is as low as possible. It is perfect for problems like
-        designing cost-effective road or utility networks.
+        designing cost-effective road or utility networks. An alternative
+        approach is{' '}
+        <Link href="/graph/Kruskals">Kruskal’s Algorithm</Link>, which
+        builds the MST by sorting edges globally.
       </Typography>
       <Box display="flex" flexWrap="wrap" gap={4}>
         <Stack spacing={2}>

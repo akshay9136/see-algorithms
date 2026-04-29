@@ -57,7 +57,7 @@ export default function QuickSortIllusion() {
         </Typography>
 
         <Typography paragraph>
-        Ironically, data that looks {'"sorted"'} becomes the worst-case input.
+          Ironically, data that looks {'"sorted"'} becomes the worst-case input.
         </Typography>
       </Section>
 
@@ -87,29 +87,34 @@ export default function QuickSortIllusion() {
       <Divider sx={{ my: 4 }} />
 
       <Section title="Warning Signs">
-        <Typography component="ul" sx={{ '& li': { mb: 1 }, my: 2, pl: 2 }}>
+        <Typography paragraph>
+          These are structural signals telling you that the strategy must adapt.
+        </Typography>
+
+        <Typography component="ul" sx={{ '& li': { mb: 1 }, pl: 2 }}>
           <li>Consistently uneven partition sizes</li>
           <li>Recursion depth approaching input size</li>
           <li>Performance degradation on sorted inputs</li>
           <li>High number of repeated values in data</li>
-        </Typography>
-
-        <Typography paragraph>
-          These are structural signals telling you that the strategy must adapt.
         </Typography>
       </Section>
 
       <Section title="The Deeper Lesson">
         <Typography paragraph>
           Quicksort does not lose its speed randomly. It loses it when balance
-          is lost. Randomized pivot selection, median-of-three strategies, and
-          hybrid approaches like introspective sorting exist for one reason: to
-          protect balance.
+          is lost. Modern versions of the algorithm use special techniques like
+          — randomized pivot selection, median-of-three strategies, and hybrid
+          approaches like introspective sorting exist for one reason: to protect
+          balance.
         </Typography>
 
         <Typography paragraph>
           Speed is a consequence of structure. And structure comes from
-          thoughtful decisions.
+          thoughtful decisions. Use our{' '}
+          <Link href="/articles/compare-sorting">comparison tool</Link> to watch
+          how Quicksort performs against{' '}
+          <Link href="/sorting/MergeSort">Merge Sort</Link> and other sorting
+          algorithms on the same dataset.
         </Typography>
       </Section>
     </Article>

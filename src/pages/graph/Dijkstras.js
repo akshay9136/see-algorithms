@@ -34,15 +34,16 @@ function relax(u, d):
   return (
     <Stack spacing={2}>
       <Typography variant="body1">
-        <strong>Dijkstra&apos;s Algorithm</strong> finds the shortest
-        path from a source node to all other nodes in a graph with
-        non-negative weights. It uses a{' '}
-        <Link href="/data-structures/BinaryHeap">priority queue</Link>{' '}
-        to explore nodes in order of increasing distance. This algorithm
-        works by maintaining a set of visited nodes and, at each step,
-        selecting the unvisited node with the smallest known distance to
-        visit next. This process continues until all nodes have been
-        visited, making it essential for network routing problems.
+        <strong>Dijkstra&apos;s Algorithm</strong> finds the shortest path from
+        a source node to all other nodes in a graph with non-negative weights.
+        It uses a <Link href="/data-structures/BinaryHeap">priority queue</Link>{' '}
+        to explore nodes in order of increasing distance. This algorithm works
+        by maintaining a set of visited nodes and, at each step, selecting the
+        unvisited node with the smallest known distance to visit next. This
+        process continues until all nodes have been visited, making it essential
+        for network routing problems. Unlike{' '}
+        <Link href="/articles/shortest-path-vs-mst">MST algorithms</Link>,
+        Dijkstra’s focuses on optimal paths from a single source.
       </Typography>
       <Typography variant="h6" component="h2">
         Pseudocode
@@ -104,8 +105,7 @@ export function Visualizer(scope) {
       const label = svgLabel(i, charAt(65 + i));
       scope.find('.vgrp').eq(i).append(label);
       if (i !== src) {
-        const symbol =
-          '<tspan font-family="Georgia, serif">&infin;</tspan>';
+        const symbol = '<tspan font-family="Georgia, serif">&infin;</tspan>';
         scope.find('.vlbl').eq(i).html(symbol);
         d[i] = Infinity;
       } else {

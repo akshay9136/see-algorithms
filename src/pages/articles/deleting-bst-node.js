@@ -40,7 +40,12 @@ export default function DeletingBstNode() {
           are exactly three structural possibilities.
         </Typography>
 
-        <Typography variant="h6" color="success.main" gutterBottom>
+        <Typography
+          variant="h6"
+          fontWeight="bold"
+          color="success.main"
+          gutterBottom
+        >
           1. Leaf Node (No Children)
         </Typography>
 
@@ -50,7 +55,12 @@ export default function DeletingBstNode() {
           tree remains valid.
         </Typography>
 
-        <Typography variant="h6" color="success.main" gutterBottom>
+        <Typography
+          variant="h6"
+          fontWeight="bold"
+          color="success.main"
+          gutterBottom
+        >
           2. Node with One Child
         </Typography>
 
@@ -60,7 +70,12 @@ export default function DeletingBstNode() {
           takes its place. The global structure remains correct.
         </Typography>
 
-        <Typography variant="h6" color="success.main" gutterBottom>
+        <Typography
+          variant="h6"
+          fontWeight="bold"
+          color="success.main"
+          gutterBottom
+        >
           3. Node with Two Children
         </Typography>
 
@@ -72,9 +87,13 @@ export default function DeletingBstNode() {
 
         <Typography component="ul" sx={{ pl: 4, mb: 2 }}>
           <li>
-            The maximum value from its left subtree (inorder predecessor), or
+            <strong>Inorder Predecessor:</strong> The maximum value from its
+            left subtree, or
           </li>
-          <li>The minimum value from its right subtree (inorder successor).</li>
+          <li>
+            <strong>Inorder Successor:</strong> The minimum value from its right
+            subtree.
+          </li>
         </Typography>
 
         <Typography paragraph>

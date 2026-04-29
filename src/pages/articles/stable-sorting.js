@@ -9,8 +9,8 @@ export default function StableSorting() {
     >
       <Section title='What Does "Stable" Mean?'>
         <Typography variant="body1" paragraph>
-          A sorting algorithm is <strong>stable</strong> if it preserves the
-          relative order of elements that compare equal.
+          A sorting algorithm is stable if it preserves the relative order of
+          elements that compare equal.
         </Typography>
 
         <Typography paragraph>
@@ -36,7 +36,7 @@ export default function StableSorting() {
       </Section>
 
       <Section title="A Small Illustration">
-        <Paper className='algorithm' sx={{ mt: 2 }}>
+        <Paper className="algorithm" sx={{ mt: 2 }}>
           <pre>
             {`Input Array:
 [ (A, 2), (B, 1), (C, 2) ]
