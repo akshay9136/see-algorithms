@@ -19,6 +19,7 @@ export default function useAnimator() {
     };
 
     const animator = {
+        scope,
         bgcolor(id, color) {
             return animate(id, { backgroundColor: color });
         },

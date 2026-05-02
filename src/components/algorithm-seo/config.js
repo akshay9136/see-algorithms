@@ -198,7 +198,7 @@ export const metaConfigs = {
     description:
       'Learn how already sorted data can slow down Quicksort. Understand the importance of pivot selection and how it affects the performance.',
   },
-  'avl-tree-vs-rb-tree': {
+  'avl-tree-vs-red-black': {
     title: 'AVL Tree vs Red-Black Tree | Self-Balancing Trees',
     description:
       'Learn the difference between AVL Trees and Red-Black Trees. Understand the self-balancing mechanisms and how they differ in practice.',
@@ -208,7 +208,7 @@ export const metaConfigs = {
     description:
       'Learn how a Binary Search Tree removes nodes while maintaining its ordering. Explore the three situations that arise and how each case works.',
   },
-  'sorting-comparison': {
+  'compare-sorting': {
     title: 'Compare Sorting Algorithms | Real-Time Visualization',
     description:
       'Compare multiple sorting algorithms in real-time. Watch how different approaches sort the same list of numbers simultaneously.',
@@ -233,10 +233,10 @@ export const metaConfigs = {
     description:
       'Visualize Depth-First Search and Breadth-First Search side-by-side. Explore their diverging patterns and search strategies with an interactive tool.',
   },
-  'compare-mst': {
-    title: 'Compare MST Algorithms | Real-Time Visualization',
+  'avl-tree-vs-rbt': {
+    title: 'AVL Tree vs Red-Black Tree | Self-Balancing Trees',
     description:
-      'Visualize and compare Prim\'s, Kruskal\'s, and Borůvka\'s algorithms side-by-side. Explore how different greedy strategies build MST.',
+      'Compare the trade-offs between AVL Tree and Red-Black Tree. Watch how each structure rebalances itself during insertions in real-time.',
   },
 };
 

@@ -28,7 +28,7 @@ export default function useMaxHeap() {
         sound('pop');
         if (!numbers.length) {
             const node = Tree.insert(num);
-            txy(`#key0`, node.x + 20, node.y - 24);
+            txy(`.numkey0`, node.x + 20, node.y - 24);
         } else {
             const size = Tree.size();
             const parent = Tree.node(Math.floor((size - 1) / 2));
@@ -36,7 +36,7 @@ export default function useMaxHeap() {
             const node = Tree.insert(num, parent, isLeft);
             for (let i = 0; i <= size; i++) {
                 const node = Tree.node(i);
-                txy(`#key${i}`, node.x + 20, node.y - 24);
+                txy(`.numkey${i}`, node.x + 20, node.y - 24);
             }
             yield delay;
             yield* Tree.heapifyUp(node);
@@ -105,7 +105,7 @@ export default function useMaxHeap() {
     ];
 
     const animation = (
-        <Paper ref={scope} className="resizable" id="binaryTree">
+        <Paper ref={scope} className="resizable">
             {numbers.slice(1).map((_, i) => (
                 <Edge key={i} index={i} />
             ))}

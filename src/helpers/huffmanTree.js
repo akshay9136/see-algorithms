@@ -1,15 +1,14 @@
 import binaryTree from '@/common/binaryTree';
 import { sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
-import $ from 'jquery';
 
 const delay = 1000;
 
 function huffmanTree(animator) {
     const Tree = binaryTree(animator);
-    const { animate, ty, bgcolor } = animator;
+    const { animate, ty, bgcolor, scope } = animator;
     const steps = [], coding = {};
-    let maxLevel = 0;
+    var maxLevel = 0;
 
     const renderTree = (_node, parent, isLeft) => {
         if (_node) {
@@ -17,7 +16,7 @@ function huffmanTree(animator) {
             const node = Tree.insert(value, parent, isLeft);
             animate(node.id, { opacity: 0 });
             if (parent) {
-                $(node.eid).css('opacity', 0);
+                document.querySelector(node.eid).style.opacity = 0;
                 const data = (parent.data || '') + (isLeft ? '0' : '1');
                 node.update({ data, level: parent.level + 1 });
                 if (node.level > maxLevel) maxLevel++;
@@ -27,7 +26,8 @@ function huffmanTree(animator) {
             if (!left && !right) {
                 bgcolor(node.id, Colors.enqueue);
                 coding[char] = node.data;
-                $(`#nodeTag${node.key}`).text(char);
+                const el = scope.current.querySelector(`.tag${node.key}`);
+                el.innerText = char;
             } else {
                 steps[_node.step] = node;
             }

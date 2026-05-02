@@ -1,12 +1,11 @@
 import binarySearchTree from './searchTree';
 import { Colors } from '../common/constants';
-import $ from 'jquery';
 
 const delay = 500;
 
 function redBlackTree(animator) {
     const Tree = binarySearchTree(animator);
-    const { bgcolor } = animator;
+    const { bgcolor, scope } = animator;
 
     function* rotateRight(node) {
         const left = node.left;
@@ -67,11 +66,10 @@ function redBlackTree(animator) {
     }
 
     const updateColor = (node, color) => {
-        $(`#nodeTag${node.key}`).text(color);
-        $(`#nodeTag${node.key}`).css({
-            backgroundColor: color === 'R' ? '#ff0000' : '#000',
-            color: '#fff',
-        });
+        const el = scope.current.querySelector(`.tag${node.key}`);
+        el.textContent = color;
+        el.style.color = '#fff';
+        el.style.backgroundColor = color === 'R' ? '#ff0000' : '#000';
         node.update({ color });
     };
 

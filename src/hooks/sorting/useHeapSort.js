@@ -30,7 +30,7 @@ for i = n - 1 down to 1:
         }
         for (let i = 0; i < n; i++) {
             const node = Tree.node(i);
-            txy(`#key${i}`, node.x + 20, node.y - 24);
+            txy(`.numkey${i}`, node.x + 20, node.y - 24);
         }
         yield 1500;
         setCurrentStep('0,1');
@@ -71,9 +71,9 @@ for i = n - 1 down to 1:
         yield delay;
         for (let i = 0; i < n; i++) {
             txy(Tree.node(i).id, i * 56, 0);
-            txy(`#key${i}`, i * 56 + 20, -22);
+            txy(`.numkey${i}`, i * 56 + 20, -22);
             if (i < n - 1) {
-                animate(`#edge${i}`, { opacity: 0 });
+                animate(`.edge${i}`, { opacity: 0 });
             }
         }
     }
@@ -87,7 +87,6 @@ for i = n - 1 down to 1:
     const animation = (
         <Box
             className="heapSort"
-            id="binaryTree"
             sx={{ minWidth: numbers.length * 60, pt: 3 }}
             ref={scope}
         >

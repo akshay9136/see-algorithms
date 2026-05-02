@@ -134,7 +134,6 @@ export default function HuffmanCoding() {
                     <br />
                     <Box
                         className="huffmanTree"
-                        id="binaryTree"
                         sx={{ width: 700, pt: 1 }}
                         ref={scope}
                     >

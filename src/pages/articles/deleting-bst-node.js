@@ -43,7 +43,7 @@ export default function DeletingBstNode() {
         <Typography
           variant="h6"
           fontWeight="bold"
-          color="success.main"
+          color="warning.main"
           gutterBottom
         >
           1. Leaf Node (No Children)
@@ -58,7 +58,7 @@ export default function DeletingBstNode() {
         <Typography
           variant="h6"
           fontWeight="bold"
-          color="success.main"
+          color="warning.main"
           gutterBottom
         >
           2. Node with One Child
@@ -73,7 +73,7 @@ export default function DeletingBstNode() {
         <Typography
           variant="h6"
           fontWeight="bold"
-          color="success.main"
+          color="warning.main"
           gutterBottom
         >
           3. Node with Two Children

@@ -10,7 +10,7 @@ const nodeAngle = ({ x, parent, isLeft }) => {
     return [Math.hypot(dy, dx), isLeft ? -a : -(180 - a)];
 };
 
-function binaryTree({ tx, txy, bgcolor, animate, cleanup }) {
+function binaryTree({ tx, txy, bgcolor, animate, scope, cleanup }) {
     var root, onLeft;
     var arr = [];
 
@@ -159,10 +159,9 @@ function binaryTree({ tx, txy, bgcolor, animate, cleanup }) {
         },
         insert(value, parent, isLeft) {
             if (!parent) {
-                const plane = document.getElementById('binaryTree');
-                const rect = plane.getBoundingClientRect();
+                const rect = scope.current.getBoundingClientRect();
                 const x1 = rect.width / 2.5;
-                const id = `#node${0}`;
+                const id = `.node${0}`;
                 const node = { value, id, key: 0, x: x1, y: 50 };
                 txy(id, x1, 50);
                 animate(id, { opacity: 1 });
@@ -173,8 +172,8 @@ function binaryTree({ tx, txy, bgcolor, animate, cleanup }) {
             const p = parent.refresh();
             const key = arr.length;
             arr.push({
-                id: `#node${key}`,
-                eid: `#edge${key - 1}`,
+                id: `.node${key}`,
+                eid: `.edge${key - 1}`,
                 key,
                 value,
                 isLeft,

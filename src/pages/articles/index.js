@@ -31,10 +31,7 @@ const ArticleList = () => {
       <Grid container spacing={3}>
         {filtered.map((article) => (
           <Grid item xs={12} sm={6} md={4} key={article.id}>
-            <ActionCard
-              href={`/articles/${article.id}?category=${article.category}`}
-              {...article}
-            >
+            <ActionCard href={`/articles/${article.id}`} {...article}>
               <Typography
                 variant="h6"
                 component="h3"
@@ -92,7 +89,11 @@ const ActionCard = ({ children, href, category, date }) => {
 
   return (
     <Card elevation={2} sx={styles.card}>
-      <CardActionArea component={Link} href={href} sx={{ height: '100%' }}>
+      <CardActionArea
+        component={Link}
+        href={href + `?category=${category}`}
+        sx={{ height: '100%' }}
+      >
         <CardContent sx={{ p: 3 }}>
           <Box display="flex" alignItems="center" gap={1}>
             <Chip

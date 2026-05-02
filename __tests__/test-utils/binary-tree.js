@@ -5,7 +5,7 @@ export async function renderTree(Component) {
   const { container } = render(<App Component={Component} />);
   await waitFor(() => {
     // wait till the tree is rendered
-    const node = container.querySelector('#node0');
+    const node = container.querySelector('.node0');
     expect(node?.dataset).toBeDefined();
   });
   return container;

@@ -25,10 +25,8 @@ function quickSort(start, end):
                 It is perfect blend of strategy and speed, making it one of the
                 most popular sorting techniques. However, its performance can
                 degrade in{' '}
-                <Link href="/articles/quick-sort-illusion">
-                    certain cases
-                </Link>
-                , unlike the guaranteed O(n log n) of{' '}
+                <Link href="/articles/quick-sort-illusion">certain cases</Link>,
+                unlike the guaranteed O(n log n) of{' '}
                 <Link href="/sorting/MergeSort">Merge Sort</Link>.
             </Typography>
             <Typography variant="h6" component="h2">
@@ -40,17 +38,16 @@ function quickSort(start, end):
                 sx={{ '& li': { mb: 1 } }}
             >
                 <li>
-                    <strong>Pivot and Partition:</strong> In each step,
-                    notice how a {'"pivot"'} element is chosen (in this
-                    visualization, it&apos;s the last element of the
-                    segment) and the other elements are partitioned into two
-                    groups: those smaller and those larger than the pivot.
+                    <strong>Pivot and Partition:</strong> In each step, notice
+                    how a {'"pivot"'} element is chosen (in this visualization,
+                    it&apos;s the last element of the segment) and the other
+                    elements are partitioned into two groups: those smaller and
+                    those larger than the pivot.
                 </li>
                 <li>
-                    <strong>Divide and Conquer:</strong> Watch how the
-                    algorithm recursively breaks the array down into smaller
-                    sub-arrays around the pivots, sorting each one
-                    independently.
+                    <strong>Divide and Conquer:</strong> Watch how the algorithm
+                    recursively breaks the array down into smaller sub-arrays
+                    around the pivots, sorting each one independently.
                 </li>
             </Typography>
             <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
@@ -68,6 +65,7 @@ function quickSort(start, end):
                     {algorithm}
                     <br />
                     <InputNumbers onStart={handleSort} onReset={handleStop} />
+                    <br />
                     {animation}
                 </Stack>
             </Box>

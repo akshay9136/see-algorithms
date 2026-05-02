@@ -5,11 +5,12 @@ import { newIterator } from '@/common/iterator';
 import { randomInt, showError } from '@/common/utils';
 import styles from '@/styles/numbers.module.css';
 
-var it;
+var iterators = [];
 
 const DSInput = forwardRef((props, ref) => {
   const [number, setNumber] = useState(props.keepEmpty ? '' : randomInt());
   const [status, setStatus] = useState(0);
+  const allButtons = props.allButtons || props.buttons;
 
   const handleInput = (e) => {
     const value = e.target.value.trim().slice(0, 3);
@@ -30,21 +31,21 @@ const DSInput = forwardRef((props, ref) => {
 
   const resume = async () => {
     setStatus(1);
-    await it.start();
+    await Promise.all(iterators.map((it) => it.start()));
     if (!props.keepEmpty) setNumber(randomInt());
     setStatus(0);
   };
 
-  const handlePlay = (btn) => {
+  const handlePlay = (buttons) => {
     switch (status) {
       case 0:
-        if (btn.animate || validate()) {
-          it = newIterator(btn.onClick, number);
+        if (buttons[0].animate || validate()) {
+          iterators = buttons.map((a) => newIterator(a.onClick, number));
           resume();
         }
         break;
       case 1:
-        it.stop();
+        iterators.forEach((it) => it.stop());
         setStatus(-1);
         break;
       default:
@@ -91,7 +92,12 @@ const DSInput = forwardRef((props, ref) => {
             size="small"
             variant="outlined"
             onClick={() => {
-              (btn.validate || btn.animate) ? handlePlay(btn) : btn.onClick();
+              const buttons = allButtons.filter((a) =>
+                a.title ? a.title === btn.title : a.text === btn.text,
+              );
+              btn.validate || btn.animate
+                ? handlePlay(buttons)
+                : buttons.forEach((a) => a.onClick());
             }}
             disabled={status === 0 ? btn.disabled : true}
             aria-label={btn.text}

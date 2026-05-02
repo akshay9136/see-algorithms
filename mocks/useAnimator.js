@@ -34,5 +34,14 @@ module.exports = () => {
     }
   };
 
-  return [null, { txy, tx, ty, bgcolor, animate, cleanup }];
+  const scope = {
+    current: {
+      querySelector: (query) => {
+        return document.querySelector(query);
+      },
+      getBoundingClientRect: () => ({ width: 700, height: 500 }),
+    },
+  };
+
+  return [null, { scope, txy, tx, ty, bgcolor, animate, cleanup }];
 };

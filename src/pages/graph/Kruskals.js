@@ -29,7 +29,7 @@ for each edge (u, v):
 
     useEffect(() => {
         for (let i = 0; i < size; i++) {
-            scope.find(`#nodeTag${i}`).text(charAt(65 + i));
+            scope.find(`.tag${i}`).text(charAt(65 + i));
         }
     }, [size]);
 
@@ -71,8 +71,8 @@ for each edge (u, v):
         scope.node(u).attr('fill', Colors.visited);
         scope.node(v).attr('fill', Colors.visited);
         await Promise.all([
-            bgcolor(`#node${u}`, Colors.visited),
-            bgcolor(`#node${v}`, Colors.visited),
+            bgcolor(`.node${u}`, Colors.visited),
+            bgcolor(`.node${v}`, Colors.visited),
         ]);
         yield delay / 2;
         const x1 = findRoot(v);
@@ -87,8 +87,8 @@ for each edge (u, v):
         scope.node(u).attr('fill', Colors.vertex);
         scope.node(v).attr('fill', Colors.vertex);
         await Promise.all([
-            bgcolor(`#node${u}`, Colors.white),
-            bgcolor(`#node${v}`, Colors.white),
+            bgcolor(`.node${u}`, Colors.white),
+            bgcolor(`.node${v}`, Colors.white),
         ]);
         const rest = union.filter((set) => set.size > 0);
         if (rest.length > 1) {
@@ -101,13 +101,13 @@ for each edge (u, v):
         const y = union[x1].size * 50;
         const promises = [];
         [...union[x2]].forEach((v, i) => {
-            promises.push(txy(`#node${v}`, x1 * 60, y + i * 50));
+            promises.push(txy(`.node${v}`, x1 * 60, y + i * 50));
         });
         await Promise.all(promises);
         union[x1] = new Set([...union[x1], ...union[x2]]);
         union[x2] = new Set();
         parent[x2] = x1;
-        scope.find(`#nodeTag${x2}`).text(charAt(65 + x1));
+        scope.find(`.tag${x2}`).text(charAt(65 + x1));
         sound('pop');
     }
 

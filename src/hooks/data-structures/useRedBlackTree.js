@@ -96,7 +96,7 @@ export default function useRedBlackTree() {
     ];
 
     const animation = (
-        <Paper ref={scope} className="resizable" id="binaryTree">
+        <Paper ref={scope} className="resizable">
             {numbers.slice(1).map((_, i) => (
                 <Edge key={i} index={i} />
             ))}

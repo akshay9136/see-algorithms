@@ -28,7 +28,7 @@ export const Numkey = memo(
   function ({ index, value, ...rest }) {
     return (
       <motion.span
-        id={`key${index}`}
+        className={`numkey${index}`}
         style={{
           color: '#606060',
           position: 'absolute',
@@ -47,12 +47,11 @@ export const Node = memo(
   function ({ index, value, showBf, ...rest }) {
     return (
       <motion.div
-        className={`${styles.numbox} ${styles.node} treeNode`}
-        id={`node${index}`}
+        className={`${styles.numbox} ${styles.node} node${index}`}
         {...rest}
       >
         {value}
-        {showBf && <span id={'nodeTag' + index} />}
+        {showBf && <span className={`tag${index}`} />}
       </motion.div>
     );
   }
@@ -62,12 +61,11 @@ export const Edge = memo(
   function ({ index, value, ...rest }) {
     return (
       <motion.div
-        className={styles.edge + ' nodeEdge'}
-        id={`edge${index}`}
+        className={`${styles.edge} edge${index}`}
         {...rest}
       >
         {value}
-        <div className={styles.arrow} id={`arrow${index}`} />
+        <div className={`${styles.arrow} arrow${index}`} />
       </motion.div>
     );
   }

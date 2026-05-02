@@ -1,12 +1,11 @@
 import binarySearchTree from './searchTree';
 import { Colors } from '../common/constants';
-import $ from 'jquery';
 
 const delay = 500;
 
 function avlTree(animator, setCurrentStep) {
     const Tree = binarySearchTree(animator);
-    const { bgcolor } = animator;
+    const { bgcolor, scope } = animator;
 
     const height = (node) => (node ? node.height : -1);
 
@@ -17,7 +16,8 @@ function avlTree(animator, setCurrentStep) {
     const updateHeight = (node) => {
         const h = 1 + Math.max(height(node.left), height(node.right));
         node.update({ height: h });
-        $(`#nodeTag${node.key}`).text(balanceFactor(node));
+        const el = scope.current.querySelector(`.tag${node.key}`);
+        el.textContent = balanceFactor(node);
     };
 
     function* rotateRight(node) {
@@ -91,7 +91,8 @@ function avlTree(animator, setCurrentStep) {
         async *insert(num) {
             const node = yield* Tree.insert(num);
             node.update({ height: 0 });
-            $(`#nodeTag${node.key}`).text(0);
+            const el = scope.current.querySelector(`.tag${node.key}`);
+            el.innerText = 0;
             yield delay * 2;
             yield* rebalance(node.parent);
         },

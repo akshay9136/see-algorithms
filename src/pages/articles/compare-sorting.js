@@ -27,7 +27,7 @@ const ALGORITHMS = [
   { id: 'MergeSort', name: 'Merge Sort' },
 ];
 
-export default function SortingComparison() {
+export default function CompareSorting() {
   const [selected, setSelected] = useState(['BubbleSort', 'InsertionSort']);
 
   const hooks = {
