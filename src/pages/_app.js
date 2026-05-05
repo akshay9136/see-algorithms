@@ -11,6 +11,7 @@ import Toast from '@/components/toast';
 import { Analytics } from '@vercel/analytics/next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
+import { SessionProvider } from 'next-auth/react';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -20,7 +21,10 @@ const theme = createTheme({
   },
 });
 
-export default function App({ Component, pageProps }) {
+export default function App({ Component, pageProps: { session, ...pageProps } }) {
+  // Support per-page layout overrides (e.g. auth pages skip the sidebar/header)
+  const getLayout = Component.getLayout || ((page) => <Layout>{page}</Layout>);
+  const useDefaultLayout = !Component.getLayout;
   const [state, setState] = useState(initialState);
   const { pathname } = useRouter();
   const hasContent = pathname !== '/404';
@@ -64,7 +68,7 @@ export default function App({ Component, pageProps }) {
   }, [pathname]);
 
   return (
-    <>
+    <SessionProvider session={session}>
       <DefaultSeo {...defaultSeoConfig} />
       <Analytics />
       {isProd && hasContent && (
@@ -78,13 +82,17 @@ export default function App({ Component, pageProps }) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <AppContext.Provider value={{ ...state, setContext }}>
-          <Layout>
+          {useDefaultLayout ? (
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          ) : (
             <Component {...pageProps} />
-          </Layout>
+          )}
           <Toast />
         </AppContext.Provider>
       </ThemeProvider>
-    </>
+    </SessionProvider>
   );
 }
 

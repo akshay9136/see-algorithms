@@ -20,6 +20,7 @@ import styles from '@/styles/header.module.css';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import UserAuth from './user-auth';
 
 const SPONSOR_URL = 'https://github.com/sponsors/akshay9136';
 
@@ -80,6 +81,7 @@ function Header(props) {
           SEE ALGORITHMS
         </Typography>
       </Box>
+
       {/* Desktop Navigation */}
       <Box sx={{ display: mdFlex, alignItems: 'center' }}>
         <Button
@@ -124,13 +126,15 @@ function Header(props) {
         >
           Sponsor
         </Button>
+        <UserAuth />
       </Box>
-      {/* Mobile Navigation - Dropdown Menu */}
+
+      {/* Mobile Navigation */}
       <Box sx={{ display: { md: 'none' } }}>
         <IconButton
+          id="info-button"
           onClick={openMenu}
           size="small"
-          sx={{ ml: 1 }}
           aria-controls={open ? 'info-menu' : undefined}
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
