@@ -31,14 +31,14 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
   const insertAtTail = async (value) => {
     const node = await findNode((a) => !a.next);
     const key = arr.length;
-    const eid = `#edge${key - 1}`;
+    const eid = `.edge${key - 1}`;
     node.next = { value, key, eid, prev: node };
     arr.push(node.next);
     sound('pop');
     const nodeX = length(head) * STEP_SIZE;
     txy(`#box${key}`, nodeX, NODE_TOP);
     await txy(eid, nodeX - EDGE_WIDTH, EDGE_TOP);
-    $(`#arrow${key - 1}`).css(arrowStyle);
+    $(`.arrow${key - 1}`).css(arrowStyle);
     bgcolor(eid, Colors.stroke);
   };
 
@@ -66,12 +66,12 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
     const prev = await findNode((_, i) => i === k);
     if (k > 0) sound('swap');
     const key = arr.length;
-    const eid = `#edge${key - 1}`;
+    const eid = `.edge${key - 1}`;
     await tx(`#box${key}`, k * STEP_SIZE);
     await txy(eid, k * STEP_SIZE + 30, 80);
     animate(eid, { rotate: -90 }, dur);
     bgcolor(eid, Colors.stroke);
-    $(`#arrow${key - 1}`).css(arrowStyle);
+    $(`.arrow${key - 1}`).css(arrowStyle);
     const next = prev.next;
     animate(next.eid, { rotate: 45, width: 55 }, dur);
     ty(next.eid, 40);
