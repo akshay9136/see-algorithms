@@ -1,8 +1,9 @@
-import { useState, useContext, useRef, memo } from 'react';
+import { useState, useContext, memo } from 'react';
 import {
   Box,
   Button,
   Checkbox,
+  Drawer,
   FormControlLabel,
   IconButton,
   Paper,
@@ -16,21 +17,25 @@ import {
   Share,
   Undo,
   Redo,
+  Save,
 } from '@mui/icons-material';
 import { useRouter } from 'next/router';
+import useGraphControls from '@/hooks/useGraphControls';
+import useSavedData from '@/hooks/useSavedData';
+import styles from '@/styles/draw-graph.module.css';
 import Graph from '@/common/graph';
 import AppContext from '@/common/context';
-import useGraphControls from '@/hooks/useGraphControls';
-import styles from '@/styles/draw-graph.module.css';
+import SavedItems from '@/components/saved-items';
 import { showToast } from '../toast';
 
 function DrawGraph(props) {
   const { isDirGraph, playStatus } = useContext(AppContext);
+  const { saveData, ...rest } = useSavedData();
+  const { pathname } = useRouter();
   const [source, setSource] = useState('A');
-  const containerRef = useRef(null);
-  const router = useRouter();
-  const algoId = router.pathname.split('/')[2];
-  const graphRef = useRef(null);
+
+  const algoId = pathname.split('/')[2];
+
   const config = {
     source,
     weighted: props.weighted || false,
@@ -48,6 +53,7 @@ function DrawGraph(props) {
     canUndo,
     canRedo,
     refresh,
+    loadSavedGraph,
     setDirected,
   } = useGraphControls(config, props);
 
@@ -55,7 +61,7 @@ function DrawGraph(props) {
     const weights = config.scope.costMatrix();
     const json = JSON.stringify(Graph.skeleton(weights));
     const origin = window.location.origin;
-    const url = `${origin}${router.pathname}?skeleton=${btoa(json)}`;
+    const url = `${origin}${pathname}?skeleton=${btoa(json)}`;
     navigator.clipboard.writeText(url);
     showToast({
       message: 'Graph url is copied to clipboard.',
@@ -63,14 +69,19 @@ function DrawGraph(props) {
     });
   };
 
+  const handleSave = () => {
+    if (Graph.totalPoints() <= 1) {
+      showToast({ message: 'Nothing to save.', variant: 'warning' });
+      return;
+    }
+    const weights = config.scope.costMatrix();
+    saveData(Graph.skeleton(weights));
+  };
+
   return (
-    <Box
-      className="drawGraph"
-      ref={containerRef}
-      aria-label="Graph controls and visualization"
-    >
-      <Box mb={1} className={styles.toolbar}>
-        <Typography variant="h6" ml={0.5} mr="auto">
+    <Box className="drawGraph" aria-label="Graph controls and visualization">
+      <Box mb={1} px={0.5} className={styles.toolbar}>
+        <Typography variant="h6" mr="auto">
           Draw Graph
         </Typography>
 
@@ -108,29 +119,30 @@ function DrawGraph(props) {
                 setSource(value.charAt(0).toUpperCase());
               }}
               className={styles.source}
-              label="Source"
+              label="Src"
               variant="outlined"
               size="small"
-              InputProps={{ sx: { fontSize: '0.9rem' } }}
-              sx={{ maxWidth: '75px', mr: 0.5 }}
+              InputProps={{ sx: { height: 35 } }}
+              sx={{ maxWidth: '60px', mr: 0.5 }}
             />
           )}
 
           <Button
+            size="small"
             variant="contained"
-            startIcon={playStatus === 1 ? <Pause /> : <PlayArrow />}
             onClick={handlePlay}
             disabled={Boolean(props.isDAG && playStatus)}
+            title={playStatus === 1 ? 'Pause' : 'Play'}
             aria-live="polite"
-            sx={{ minWidth: '80px', padding: '4px 12px' }}
+            sx={{ minWidth: '40px', px: 1 }}
           >
-            PLAY
+            {playStatus === 1 ? <Pause /> : <PlayArrow />}
           </Button>
 
           <Button
             variant="outlined"
             onClick={handleClear}
-            sx={{ minWidth: '70px', padding: '4px 12px' }}
+            sx={{ minWidth: '70px', py: 0.5 }}
           >
             CLEAR
           </Button>
@@ -158,19 +170,32 @@ function DrawGraph(props) {
           </Button>
 
           <IconButton
+            onClick={handleSave}
+            color="primary"
+            title="Save Graph"
+            aria-label="Save Graph"
+            sx={{ p: 0 }}
+          >
+            <Save sx={{ fontSize: 30 }} />
+          </IconButton>
+
+          <IconButton
             onClick={handleCopy}
             color="primary"
             title="Share Graph"
             aria-label="Share Graph"
-            sx={{ p: 0.5 }}
+            sx={{ p: 0 }}
           >
             <Share />
           </IconButton>
         </Box>
       </Box>
+
       <Paper className="resizable" sx={{ mb: 1 }}>
-        <Plane graphRef={graphRef} />
+        <Plane />
       </Paper>
+
+      <SavedItems onSelect={loadSavedGraph} {...rest} />
     </Box>
   );
 }

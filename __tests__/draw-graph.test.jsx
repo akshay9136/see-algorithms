@@ -33,7 +33,7 @@ describe('Graph visualization editor', () => {
   });
 
   test('shows alert if source is missing', async () => {
-    const input = screen.queryByLabelText('Source');
+    const input = screen.queryByLabelText('Src');
     fireEvent.change(input, { target: { value: '' } });
     const button = screen.getByRole('button', { name: /play/i });
     fireEvent.click(button);

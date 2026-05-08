@@ -1,10 +1,13 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import Link from 'next/link';
 import DSInput from '@/components/common/ds-input';
+import SavedItems from '@/components/saved-items';
+import useSavedData from '@/hooks/useSavedData';
 import useBTree from '@/hooks/data-structures/useBTree';
+import Link from 'next/link';
 
 export default function BTree(props) {
-  const { animation, buttons, summary } = useBTree();
+  const { saveData, ...rest } = useSavedData();
+  const { animation, buttons, summary, refresh } = useBTree({ saveData });
 
   return (
     <Stack spacing={2}>
@@ -33,6 +36,7 @@ export default function BTree(props) {
           — all leaves always remain at the same depth.
         </li>
       </Typography>
+
       <Box display="flex" flexWrap="wrap" gap={3}>
         <Stack spacing={2}>
           <Typography variant="h6" component="h2">
@@ -47,6 +51,8 @@ export default function BTree(props) {
         <Divider orientation="vertical" flexItem />
         {summary}
       </Box>
+
+      <SavedItems onSelect={refresh} {...rest} />
     </Stack>
   );
 }

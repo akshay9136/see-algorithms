@@ -1,14 +1,15 @@
-import { useContext, useRef, useState } from 'react';
 import { Box, Stack, Switch, Tooltip, Typography } from '@mui/material';
 import { InfoOutlined } from '@mui/icons-material';
+import { useRef, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { logError } from '@/common/utils';
 import { marked } from 'marked';
-import AppContext from '@/common/context';
 
 export default function useSummary() {
   const [content, setContent] = useState('');
-  const { summaryOn, setContext } = useContext(AppContext);
+  const [summaryOn, setSummaryOn] = useState(false);
+  const { data: session } = useSession();
   const { pathname } = useRouter();
   const controlRef = useRef(null);
 
@@ -37,7 +38,7 @@ export default function useSummary() {
       }
     } catch (err) {
       if (err.name !== 'AbortError') {
-        setContent('<p>Something went wrong. Please try again.</p>')
+        setContent('<p>Something went wrong. Please try again.</p>');
       }
       logError({
         title: 'AI request cancelled',
@@ -49,7 +50,7 @@ export default function useSummary() {
 
   const toggle = (e) => {
     const { checked } = e.target;
-    setContext({ summaryOn: checked });
+    setSummaryOn(checked);
     if (!checked) abort();
   };
 
@@ -58,7 +59,7 @@ export default function useSummary() {
     setContent('');
   };
 
-  const summary = (
+  const summary = !session ? null : (
     <Stack minHeight={200}>
       <Box display="flex" alignItems="center" gap={1}>
         <Typography variant="h6" component="h2">

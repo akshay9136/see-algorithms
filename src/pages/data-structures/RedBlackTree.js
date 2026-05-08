@@ -1,10 +1,13 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import Link from 'next/link';
 import DSInput from '@/components/common/ds-input';
+import SavedItems from '@/components/saved-items';
+import useSavedData from '@/hooks/useSavedData';
 import useRedBlackTree from '@/hooks/data-structures/useRedBlackTree';
+import Link from 'next/link';
 
 export default function RedBlackTree(props) {
-    const { animation, buttons, summary } = useRedBlackTree();
+    const { saveData, ...rest } = useSavedData();
+    const { animation, buttons, summary, refresh } = useRedBlackTree({ saveData });
 
     return (
         <Stack spacing={3}>
@@ -69,6 +72,7 @@ export default function RedBlackTree(props) {
                 </Stack>
                 {summary}
             </Box>
+            <SavedItems onSelect={refresh} {...rest} />
         </Stack>
     );
 }

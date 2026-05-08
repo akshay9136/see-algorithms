@@ -1,18 +1,19 @@
 import { Edge, Node, Numkey } from '@/components/common';
-import { Redo, Undo } from '@mui/icons-material';
-import { useState } from 'react';
-import { useAnimator, useSummary, useUndoRedo } from '@/hooks';
-import { sleep, sound } from '@/common/utils';
+import { Redo, Save, Share, Undo } from '@mui/icons-material';
+import { useEffect, useState } from 'react';
+import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
+import { copyBinaryTree, sleep, sound } from '@/common/utils';
 import maxHeap from '@/helpers/maxHeap';
 import Paper from '@mui/material/Paper';
 
 var Tree;
 var delay = 500;
 
-export default function useMaxHeap() {
+export default function useMaxHeap({ saveData }) {
     const [numbers, setNumbers] = useState([]);
     const [summary, explain, abort] = useSummary();
     const [scope, animator] = useAnimator();
+    const [nodes, isReady] = useTreeUrl();
     const { txy } = animator;
     const history = useUndoRedo();
 
@@ -75,6 +76,12 @@ export default function useMaxHeap() {
         }
     };
 
+    const refresh = async (data) => {
+        reset();
+        await sleep(100);
+        newTree(data);
+    };
+
     const reset = () => {
         setNumbers([]);
         history.clear();
@@ -102,7 +109,23 @@ export default function useMaxHeap() {
             title: 'Redo',
             disabled: !history.canRedo,
         },
+        {
+            text: <Save fontSize="small" />,
+            onClick: () => saveData(Tree.collect()),
+            disabled: !numbers.length,
+            title: 'Save this tree',
+        },
+        {
+            text: <Share fontSize="small" />,
+            onClick: () => copyBinaryTree(Tree.collect()),
+            disabled: !numbers.length,
+            title: 'Share this tree',
+        },
     ];
+
+    useEffect(() => {
+        if (nodes) newTree(nodes);
+    }, [nodes]);
 
     const animation = (
         <Paper ref={scope} className="resizable">
@@ -124,5 +147,5 @@ export default function useMaxHeap() {
         </Paper>
     );
 
-    return { animation, buttons, summary };
+    return { animation, buttons, summary, refresh };
 }

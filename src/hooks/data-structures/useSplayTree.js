@@ -1,5 +1,5 @@
 import { Edge, Node } from '@/components/common';
-import { Redo, Refresh, Share, Undo } from '@mui/icons-material';
+import { Redo, Refresh, Save, Share, Undo } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
 import { copyBinaryTree, randomNodes, showError, sleep } from '@/common/utils';
@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 var Tree;
 var deleted = {};
 
-export default function useSplayTree() {
+export default function useSplayTree({ saveData }) {
     const [numbers, setNumbers] = useState([]);
     const [summary, explain, abort] = useSummary();
     const [scope, animator] = useAnimator();
@@ -66,10 +66,10 @@ export default function useSplayTree() {
         }
     };
 
-    const refresh = async () => {
+    const refresh = async (data) => {
         reset();
         await sleep(100);
-        newTree(randomNodes());
+        newTree(data || randomNodes());
     };
 
     const reset = () => {
@@ -99,7 +99,13 @@ export default function useSplayTree() {
             title: 'Redo',
             disabled: !history.canRedo,
         },
-        { text: <Refresh />, onClick: refresh, title: 'New tree' },
+        { text: <Refresh />, onClick: () => refresh(), title: 'New tree' },
+        {
+            text: <Save fontSize="small" />,
+            onClick: () => saveData(Tree.collect()),
+            disabled: !numbers.length,
+            title: 'Save this tree',
+        },
         {
             text: <Share fontSize="small" />,
             onClick: () => copyBinaryTree(Tree.root()),
@@ -108,20 +114,25 @@ export default function useSplayTree() {
         },
     ];
 
+    useEffect(() => {
+        if (isReady) newTree(nodes || randomNodes());
+    }, [nodes, isReady]);
+
     const animation = (
         <Paper ref={scope} className="resizable">
             {numbers.slice(1).map((_, i) => (
                 <Edge key={i} index={i} />
             ))}
             {numbers.map((num, i) => (
-                <Node key={i} index={i} value={num} style={{ opacity: 0 }} />
+                <Node
+                    key={i}
+                    index={i}
+                    value={num}
+                    style={{ opacity: 0 }}
+                />
             ))}
         </Paper>
     );
 
-    useEffect(() => {
-        if (isReady) newTree(nodes || randomNodes());
-    }, [nodes, isReady]);
-
-    return { animation, buttons, summary };
+    return { animation, buttons, summary, refresh };
 }

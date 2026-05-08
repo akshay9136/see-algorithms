@@ -1,5 +1,5 @@
 import { Edge, Node } from '@/components/common';
-import { Redo, Share, Undo } from '@mui/icons-material';
+import { Redo, Save, Share, Undo } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
 import { copyBinaryTree, showError, sleep } from '@/common/utils';
@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 var Tree;
 var deleted = {};
 
-export default function useRedBlackTree() {
+export default function useRedBlackTree({ saveData }) {
     const [numbers, setNumbers] = useState([]);
     const [summary, explain, abort] = useSummary();
     const [scope, animator] = useAnimator();
@@ -65,6 +65,12 @@ export default function useRedBlackTree() {
         copyBinaryTree(nodes);
     };
 
+    const refresh = async (data) => {
+        reset();
+        await sleep(100);
+        newTree(data);
+    };
+
     const reset = () => {
         setNumbers([]);
         history.clear();
@@ -86,7 +92,15 @@ export default function useRedBlackTree() {
             title: 'Redo',
             disabled: !history.canRedo,
         },
-        // { text: <Refresh />, onClick: refresh, title: 'New tree' },
+        {
+            text: <Save fontSize="small" />,
+            onClick: () => {
+                const nodes = Tree.collect((a) => [a.value, a.color]);
+                saveData(nodes);
+            },
+            disabled: !numbers.length,
+            title: 'Save this tree',
+        },
         {
             text: <Share fontSize="small" />,
             onClick: handleCopy,
@@ -94,6 +108,10 @@ export default function useRedBlackTree() {
             title: 'Share this tree',
         },
     ];
+
+    useEffect(() => {
+        if (nodes) newTree(nodes);
+    }, [nodes]);
 
     const animation = (
         <Paper ref={scope} className="resizable">
@@ -112,9 +130,5 @@ export default function useRedBlackTree() {
         </Paper>
     );
 
-    useEffect(() => {
-        if (nodes) newTree(nodes);
-    }, [nodes]);
-
-    return { animation, buttons, summary };
+    return { animation, buttons, summary, refresh };
 }

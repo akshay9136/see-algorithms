@@ -4,6 +4,7 @@ import useSummary from '@/hooks/useSummary';
 import useTreeUrl from '@/hooks/useTreeUrl';
 import useUndoRedo from '@/hooks/useUndoRedo';
 import useGraphScope from '@/hooks/useGraphScope';
+import useSavedData from '@/hooks/useSavedData';
 
 export {
     useAlgorithm,
@@ -12,4 +13,5 @@ export {
     useTreeUrl,
     useUndoRedo,
     useGraphScope,
+    useSavedData,
 }

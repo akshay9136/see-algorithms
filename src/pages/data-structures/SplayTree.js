@@ -1,10 +1,13 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import Link from 'next/link';
 import DSInput from '@/components/common/ds-input';
+import SavedItems from '@/components/saved-items';
+import useSavedData from '@/hooks/useSavedData';
 import useSplayTree from '@/hooks/data-structures/useSplayTree';
+import Link from 'next/link';
 
 export default function SplayTree(props) {
-    const { animation, buttons, summary } = useSplayTree();
+    const { saveData, ...rest } = useSavedData();
+    const { animation, buttons, summary, refresh } = useSplayTree({ saveData });
 
     return (
         <Stack spacing={2}>
@@ -44,6 +47,7 @@ export default function SplayTree(props) {
                     root, making repeated operations faster.
                 </li>
             </Typography>
+
             <Box display="flex" flexWrap="wrap" gap={3}>
                 <Stack spacing={2}>
                     <Typography variant="h6" component="h2">
@@ -55,6 +59,8 @@ export default function SplayTree(props) {
                 <Divider orientation="vertical" flexItem />
                 {summary}
             </Box>
+
+            <SavedItems onSelect={refresh} {...rest} />
         </Stack>
     );
 }

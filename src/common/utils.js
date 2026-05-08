@@ -103,7 +103,7 @@ function traverse(node, fn) {
 function copyBinaryTree(nodes) {
     const json = JSON.stringify(nodes);
     const origin = window.location.origin;
-    const url = `${origin}${location.pathname}?nodes=${btoa(json)}`;
+    const url = `${origin}${location.pathname}?skeleton=${btoa(json)}`;
     navigator.clipboard.writeText(url);
     showToast({
         message: 'Tree url is copied to clipboard.',

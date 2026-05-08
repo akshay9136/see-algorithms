@@ -9,10 +9,10 @@ export default function useTreeUrl() {
 
     useEffect(() => {
         if (router.isReady && !nodes) {
-            const { nodes } = router.query;
+            const { skeleton } = router.query;
             try {
-                if (nodes) {
-                    const arr = JSON.parse(atob(nodes));
+                if (skeleton) {
+                    const arr = JSON.parse(atob(skeleton));
                     setNodes(arr);
                 }
                 setReady(true);

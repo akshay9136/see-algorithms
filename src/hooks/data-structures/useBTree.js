@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { Redo, Refresh, Share, Undo } from '@mui/icons-material';
+import { Redo, Refresh, Save, Share, Undo } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
 import { copyBinaryTree, randomNodes, showError, sleep } from '@/common/utils';
@@ -8,7 +8,7 @@ import Paper from '@mui/material/Paper';
 
 var Tree;
 
-export default function useBTree() {
+export default function useBTree({ saveData }) {
   const [treeData, setTreeData] = useState(null);
   const [numbers, setNumbers] = useState([]);
   const [scope, animator] = useAnimator();
@@ -71,10 +71,10 @@ export default function useBTree() {
     abort();
   };
 
-  const refresh = async () => {
+  const refresh = async (data) => {
     reset();
     await sleep(100);
-    newTree(randomNodes());
+    newTree(data || randomNodes());
   };
 
   const buttons = [
@@ -98,7 +98,13 @@ export default function useBTree() {
       title: 'Redo',
       disabled: !history.canRedo,
     },
-    { text: <Refresh />, onClick: refresh, title: 'New tree' },
+    { text: <Refresh />, onClick: () => refresh(), title: 'New tree' },
+    {
+      text: <Save fontSize="small" />,
+      onClick: () => saveData(numbers),
+      disabled: !numbers.length,
+      title: 'Save this tree',
+    },
     {
       text: <Share fontSize="small" />,
       onClick: () => copyBinaryTree(numbers),
@@ -106,6 +112,10 @@ export default function useBTree() {
       title: 'Share this tree',
     },
   ];
+
+  useEffect(() => {
+    if (isReady) newTree(nodes || randomNodes());
+  }, [nodes, isReady]);
 
   const transition = { duration: 0.5, ease: 'easeInOut' };
 
@@ -158,11 +168,7 @@ export default function useBTree() {
     </Paper>
   );
 
-  useEffect(() => {
-    if (isReady) newTree(nodes || randomNodes());
-  }, [nodes, isReady]);
-
-  return { animation, buttons, summary };
+  return { animation, buttons, summary, refresh };
 }
 
 const styles = {

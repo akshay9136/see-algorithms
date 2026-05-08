@@ -1,6 +1,10 @@
 // Register jest-dom matchers
 require('@testing-library/jest-dom');
 
+jest.mock('next-auth/react', () => ({
+  useSession: jest.fn(() => ({ data: null })),
+}));
+
 // useSummary → /api/summary; jsdom has no fetch
 global.fetch = jest.fn(() =>
   Promise.resolve({

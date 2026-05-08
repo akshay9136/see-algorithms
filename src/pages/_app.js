@@ -3,6 +3,7 @@ import '@/styles/app.css';
 import { useEffect, useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { defaultSeoConfig } from '../components/algorithm-seo/config';
+import { SessionProvider } from 'next-auth/react';
 import { DefaultSeo } from 'next-seo';
 import AppContext, { initialState } from '../common/context';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,7 +12,6 @@ import Toast from '@/components/toast';
 import { Analytics } from '@vercel/analytics/next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { SessionProvider } from 'next-auth/react';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -22,8 +22,6 @@ const theme = createTheme({
 });
 
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
-  // Support per-page layout overrides (e.g. auth pages skip the sidebar/header)
-  const getLayout = Component.getLayout || ((page) => <Layout>{page}</Layout>);
   const useDefaultLayout = !Component.getLayout;
   const [state, setState] = useState(initialState);
   const { pathname } = useRouter();
@@ -32,14 +30,6 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
   const setContext = (slice) => {
     setState((state) => ({ ...state, ...slice }));
   };
-
-  useEffect(() => {
-    let userAuth = localStorage.getItem('userAuth');
-    if (userAuth) {
-      userAuth = JSON.parse(userAuth);
-      setContext({ userAuth });
-    }
-  }, []);
 
   useEffect(() => {
     const handleClick = (event) => {

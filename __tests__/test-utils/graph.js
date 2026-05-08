@@ -3,7 +3,7 @@ import { Colors } from '@/common/constants';
 import App from '../../mocks/context';
 
 export async function runAnimation(source) {
-  const input = screen.queryByLabelText('Source');
+  const input = screen.queryByLabelText('Src');
   if (input) {
     const event = { target: { value: source } };
     fireEvent.change(input, event);

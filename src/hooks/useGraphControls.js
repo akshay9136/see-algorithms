@@ -144,6 +144,16 @@ function useGraphControls(config, props) {
     setContext({ playStatus: 0 });
   };
 
+  const loadSavedGraph = (data) => {
+    cleanup();
+    Graph.initialize(data);
+    scope.createGraph(data, weighted);
+    setContext({
+      isDirGraph: data.directed,
+      playStatus: 0,
+    });
+  };
+
   const setDirected = () => {
     refresh();
     Graph.switchType();
@@ -178,6 +188,7 @@ function useGraphControls(config, props) {
     canUndo: history.canUndo && playStatus === 0,
     canRedo: history.canRedo && playStatus === 0,
     refresh,
+    loadSavedGraph,
     setDirected,
   };
 }

@@ -2,29 +2,23 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSession, signOut } from 'next-auth/react';
 import { Typography, Menu, MenuItem, Avatar, Button } from '@mui/material';
-import { Bolt, Login, Logout } from '@mui/icons-material';
+import { Login, Logout } from '@mui/icons-material';
 
 export default function UserAuth() {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [userAnchorEl, setUserAnchorEl] = useState(null);
-  const userMenuOpen = Boolean(userAnchorEl);
-  console.log(session);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const userMenuOpen = Boolean(anchorEl);
 
-  const openUserMenu = (event) => {
-    setUserAnchorEl(event.currentTarget);
-  };
-
-  const closeUserMenu = () => {
-    setUserAnchorEl(null);
-  };
-
-  if (status === 'authenticated' && session?.user) {
+  if (session?.user) {
     return (
       <>
         <Button
+          sx={{ minWidth: 50 }}
           id="user-button"
-          onClick={openUserMenu}
+          onClick={(e) => {
+            setAnchorEl(e.currentTarget);
+          }}
           color="warning"
           aria-controls={userMenuOpen ? 'user-menu' : undefined}
           aria-haspopup="true"
@@ -33,28 +27,25 @@ export default function UserAuth() {
           <Avatar
             src={session.user.image}
             alt={session.user.name || 'User'}
-            sx={{ width: 32, height: 32, mr: 0.5 }}
+            sx={{ width: 32, height: 32 }}
           />
-          <Bolt /> <Typography fontWeight="bold">1000</Typography>
         </Button>
         <Menu
           id="user-menu"
-          anchorEl={userAnchorEl}
+          anchorEl={anchorEl}
           open={userMenuOpen}
-          onClose={closeUserMenu}
+          onClose={() => setAnchorEl(null)}
           MenuListProps={{ 'aria-labelledby': 'user-button' }}
           transformOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
           <MenuItem sx={{ pointerEvents: 'none', opacity: 0.7 }}>
-            <Typography fontWeight="bold">
-              {session.user.name}
-            </Typography>
+            <Typography fontWeight="bold">{session.user.name}</Typography>
           </MenuItem>
           <MenuItem
             onClick={() => {
               signOut({ callbackUrl: '/' });
-              closeUserMenu();
+              setAnchorEl(null);
             }}
           >
             <Logout sx={{ mr: 1 }} fontSize="small" />
@@ -68,11 +59,11 @@ export default function UserAuth() {
   if (status !== 'loading') {
     return (
       <Button
+        sx={{ textTransform: 'none', px: 1 }}
         id="signin-button"
         onClick={() => router.push('/auth/signin')}
         variant="outlined"
         color="warning"
-        sx={{ textTransform: 'none', px: 1 }}
       >
         <Login fontSize="small" sx={{ mr: 1 }} />
         <Typography fontWeight="bold">Sign in</Typography>

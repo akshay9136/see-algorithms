@@ -1,10 +1,15 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import Link from 'next/link';
 import DSInput from '@/components/common/ds-input';
+import SavedItems from '@/components/saved-items';
+import useSavedData from '@/hooks/useSavedData';
 import useAvlTree from '@/hooks/data-structures/useAvlTree';
+import Link from 'next/link';
 
 export default function AVL(props) {
-    const { algorithm, animation, buttons, summary } = useAvlTree();
+    const { saveData, ...rest } = useSavedData();
+    const { algorithm, animation, buttons, summary, refresh } = useAvlTree({
+        saveData,
+    });
 
     return (
         <Stack spacing={3}>
@@ -96,6 +101,7 @@ export default function AVL(props) {
                     {summary}
                 </Stack>
             </Box>
+            <SavedItems onSelect={refresh} {...rest} />
         </Stack>
     );
 }

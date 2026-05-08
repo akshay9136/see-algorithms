@@ -17,8 +17,9 @@ describe('Binary search tree visualization', () => {
 
   beforeEach(async () => {
     useRouter.mockReturnValue({
-      query: { nodes: 'WzUwLDI4LDQxLDMzLDc4LDU3XQ==' }, // 6 nodes,
+      query: { skeleton: 'WzUwLDI4LDQxLDMzLDc4LDU3XQ==' }, // 6 nodes,
       isReady: true,
+      pathname: '/tree/BST',
     });
     container = await renderTree(BST);
   });
@@ -65,8 +66,8 @@ describe('AVL tree visualization', () => {
   var container;
 
   beforeEach(async () => {
-    const query = { nodes: 'WzMyLDIyLDc1LDY1XQ==' }; // 4 nodes
-    useRouter.mockReturnValue({ query, isReady: true });
+    const query = { skeleton: 'WzMyLDIyLDc1LDY1XQ==' }; // 4 nodes
+    useRouter.mockReturnValue({ query, isReady: true, pathname: '/tree/AVL' });
     container = await renderTree(AVL);
   });
 
@@ -100,10 +101,10 @@ describe('Red-Black tree visualization', () => {
   var container;
 
   beforeEach(async () => {
-    const nodes =
+    const skeleton =
       'W1s2NSwiQiJdLFszMCwiUiJdLFsxNCwiQiJdLFs1MywiQiJdLFs0MiwiUiJdLFs2MCwiUiJdLFs4NCwiQiJdXQ==';
 
-    useRouter.mockReturnValue({ query: { nodes }, isReady: true });
+    useRouter.mockReturnValue({ query: { skeleton }, isReady: true, pathname: '/tree/RedBlackTree' });
     container = await renderTree(RBT);
   });
 

@@ -1,10 +1,13 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import Link from 'next/link';
 import DSInput from '@/components/common/ds-input';
+import SavedItems from '@/components/saved-items';
+import useSavedData from '@/hooks/useSavedData';
 import useSearchTree from '@/hooks/data-structures/useSearchTree';
+import Link from 'next/link';
 
 export default function BST(props) {
-  const { animation, buttons, summary } = useSearchTree();
+  const { saveData, ...rest } = useSavedData();
+  const { animation, buttons, summary, refresh } = useSearchTree({ saveData });
 
   return (
     <Stack spacing={2}>
@@ -36,6 +39,7 @@ export default function BST(props) {
           guide.
         </li>
       </Typography>
+
       <Box display="flex" flexWrap="wrap" gap={3}>
         <Stack spacing={2}>
           <Typography variant="h6" component="h2">
@@ -47,6 +51,8 @@ export default function BST(props) {
         <Divider orientation="vertical" flexItem />
         {summary}
       </Box>
+
+      <SavedItems onSelect={refresh} {...rest} />
     </Stack>
   );
 }

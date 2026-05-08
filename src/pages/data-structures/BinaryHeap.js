@@ -1,11 +1,13 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import DSInput from '@/components/common/ds-input';
-import Link from 'next/link';
-import useAlgorithm from '@/hooks/useAlgorithm';
+import { useAlgorithm, useSavedData } from '@/hooks';
 import useMaxHeap from '@/hooks/data-structures/useMaxHeap';
+import DSInput from '@/components/common/ds-input';
+import SavedItems from '@/components/saved-items';
+import Link from 'next/link';
 
 export default function BinaryHeap(props) {
-    const { animation, buttons, summary } = useMaxHeap();
+    const { saveData, ...rest } = useSavedData();
+    const { animation, buttons, summary, refresh } = useMaxHeap({ saveData });
 
     const [insertAlgo] = useAlgorithm(`
 function insert(value):
@@ -78,6 +80,7 @@ function extract():
                 <Divider orientation="vertical" flexItem />
                 {summary}
             </Box>
+            <SavedItems onSelect={refresh} {...rest} />
         </Stack>
     );
 }

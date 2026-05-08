@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import GitHubProvider from 'next-auth/providers/github';
+import db from '@/lib/firebase-admin';
 
 export const authOptions = {
   providers: [
@@ -27,6 +28,30 @@ export const authOptions = {
         token.provider = account.provider;
       }
       return token;
+    },
+  },
+  events: {
+    async signIn({ user, account }) {
+      try {
+        const userId = `${account.provider}_${user.id}`;
+        const userRef = db.collection('users').doc(userId);
+        const doc = await userRef.get();
+        if (!doc.exists) {
+          await userRef.set({
+            name: user.name || '',
+            email: user.email || '',
+            createdAt: new Date().toISOString(),
+          });
+        } else {
+          await userRef.update({
+            name: user.name || '',
+            image: user.image || '',
+            lastSignIn: new Date().toISOString(),
+          });
+        }
+      } catch (err) {
+        console.error('Failed to save user info:', err.message);
+      }
     },
   },
   secret: process.env.NEXTAUTH_SECRET,

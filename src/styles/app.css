@@ -14,6 +14,7 @@
     width: fit-content;
     padding: 2rem;
     background-color: #f8fbff;
+    position: relative;
 }
 
 .content > div > p,
@@ -167,4 +168,13 @@
     color: #1976d2;
     border-color: #1976d2;
     background: white;
+}
+
+.savedDataBtn {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  gap: 8px;
+  text-transform: none;
+  font-size: 1rem;
 }
