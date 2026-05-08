@@ -1,13 +1,14 @@
 import { GoogleGenAI } from '@google/genai';
-import prompts from '@/common/prompts';
+import { withAuth } from '@/lib/middlewares';
+import prompts from '@/lib/prompts';
 
 const ai = new GoogleGenAI({});
 
 const promptBuilders = {
-  BST: prompts.binarySearchTree('Binary Search Tree'),
-  AVL: prompts.binarySearchTree('AVL Tree'),
-  RedBlackTree: prompts.binarySearchTree('Red-Black Tree'),
-  SplayTree: prompts.binarySearchTree('Splay Tree'),
+  BST: prompts.searchTree('Binary Search Tree'),
+  AVL: prompts.searchTree('AVL Tree'),
+  RedBlackTree: prompts.searchTree('Red-Black Tree'),
+  SplayTree: prompts.searchTree('Splay Tree'),
   BTree: prompts.bTree,
   BinaryHeap: prompts.binaryHeap,
   HuffmanCoding: prompts.huffmanCoding,
@@ -18,7 +19,7 @@ const promptBuilders = {
   Prims: prompts.graphAlgorithm('Prims Minimum Spanning Tree'),
 };
 
-export default async function (req, res) {
+export default withAuth(async function (req, res) {
   try {
     const { data, pathname } = req.body;
     const algorithm = pathname.split('/')[2];
@@ -33,11 +34,7 @@ export default async function (req, res) {
     });
     res.status(200).send(response.text);
   } catch (err) {
-    console.error({
-      title: 'AI request failed',
-      message: err.message,
-      page: pathname,
-    });
+    console.error(err.message, pathname);
     res.status(500).send('AI request failed');
   }
-}
+});

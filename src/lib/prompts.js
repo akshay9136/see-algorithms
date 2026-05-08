@@ -1,4 +1,4 @@
-const binarySearchTree = (name) => ({ keys, operation, input }) => {
+const searchTree = (name) => ({ keys, operation, input }) => {
     const json = JSON.stringify(keys);
     return `
 You are explaining the steps to someone observing a visualization of ${name}.
@@ -60,7 +60,7 @@ Instructions:
 - Highlight important actions.`;
 
 export default {
-    binarySearchTree,
+    searchTree,
     binaryHeap,
     bTree,
     graphAlgorithm,

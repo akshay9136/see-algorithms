@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { getProviders, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { signIn } from 'next-auth/react';
 import {
   Card,
   CardContent,
@@ -10,7 +10,6 @@ import {
   Chip,
   Stack,
   Divider,
-  CircularProgress,
 } from '@mui/material';
 import {
   GitHub,
@@ -20,8 +19,9 @@ import {
   SaveOutlined,
 } from '@mui/icons-material';
 import { NextSeo } from 'next-seo';
-import Image from 'next/image';
 import Link from 'next/link';
+import Image from 'next/image';
+import Spinner from '@/components/spinner';
 
 const benefits = [
   {
@@ -34,10 +34,10 @@ const benefits = [
   },
 ];
 
-export default function SignIn({ providers }) {
+export default function SignIn() {
   const router = useRouter();
   const [loading, setLoading] = useState(null);
-  const callbackUrl = router.query.callbackUrl || '/';
+  const { callbackUrl = '/' } = router.query;
 
   const handleSignIn = (providerId) => {
     setLoading(providerId);
@@ -51,6 +51,7 @@ export default function SignIn({ providers }) {
         description="Sign in to See Algorithms to save your progress and track your learning."
         noindex
       />
+      <Spinner spinning={!!loading} />
 
       <Box
         sx={{
@@ -97,20 +98,14 @@ export default function SignIn({ providers }) {
               </Box>
 
               <Stack spacing={1.5}>
-                {providers?.google && (
-                  <Button
-                    variant="outlined"
-                    onClick={() => handleSignIn('google')}
-                    disabled={!!loading}
-                    sx={{ textTransform: 'none', gap: 1 }}
-                  >
-                    <Google sx={{ fontSize: 20 }} />
-                    Continue with Google
-                    {loading === 'google' && (
-                      <CircularProgress size={16} />
-                    )}
-                  </Button>
-                )}
+                <Button
+                  size="large"
+                  sx={{ textTransform: 'none', gap: 1 }}
+                  variant="outlined"
+                  onClick={() => handleSignIn('google')}
+                >
+                  <Google /> Continue with Google
+                </Button>
 
                 <Divider>
                   <Typography
@@ -121,21 +116,15 @@ export default function SignIn({ providers }) {
                   </Typography>
                 </Divider>
 
-                {providers?.github && (
-                  <Button
-                    variant="outlined"
-                    color="inherit"
-                    onClick={() => handleSignIn('github')}
-                    disabled={!!loading}
-                    sx={{ textTransform: 'none', gap: 1 }}
-                  >
-                    <GitHub sx={{ fontSize: 20 }} />
-                    Continue with GitHub
-                    {loading === 'github' && (
-                      <CircularProgress size={16} />
-                    )}
-                  </Button>
-                )}
+                <Button
+                  size="large"
+                  sx={{ textTransform: 'none', gap: 1 }}
+                  variant="outlined"
+                  color="inherit"
+                  onClick={() => handleSignIn('github')}
+                >
+                  <GitHub /> Continue with GitHub
+                </Button>
               </Stack>
 
               <Box
@@ -171,11 +160,4 @@ export default function SignIn({ providers }) {
   );
 }
 
-SignIn.getLayout = (page) => page;
-
-export async function getServerSideProps() {
-  const providers = await getProviders();
-  return {
-    props: { providers },
-  };
-}
+SignIn.noLayout = true;

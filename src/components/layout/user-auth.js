@@ -1,14 +1,14 @@
+import { useSession, signOut } from 'next-auth/react';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useSession, signOut } from 'next-auth/react';
 import { Typography, Menu, MenuItem, Avatar, Button } from '@mui/material';
 import { Login, Logout } from '@mui/icons-material';
 
 export default function UserAuth() {
-  const router = useRouter();
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [anchorEl, setAnchorEl] = useState(null);
   const userMenuOpen = Boolean(anchorEl);
+  const router = useRouter();
 
   if (session?.user) {
     return (
@@ -16,13 +16,11 @@ export default function UserAuth() {
         <Button
           sx={{ minWidth: 50 }}
           id="user-button"
-          onClick={(e) => {
-            setAnchorEl(e.currentTarget);
-          }}
+          onClick={(e) => setAnchorEl(e.currentTarget)}
           color="warning"
           aria-controls={userMenuOpen ? 'user-menu' : undefined}
-          aria-haspopup="true"
           aria-expanded={userMenuOpen ? 'true' : undefined}
+          aria-haspopup="true"
         >
           <Avatar
             src={session.user.image}
@@ -56,20 +54,16 @@ export default function UserAuth() {
     );
   }
 
-  if (status !== 'loading') {
-    return (
-      <Button
-        sx={{ textTransform: 'none', px: 1 }}
-        id="signin-button"
-        onClick={() => router.push('/auth/signin')}
-        variant="outlined"
-        color="warning"
-      >
-        <Login fontSize="small" sx={{ mr: 1 }} />
-        <Typography fontWeight="bold">Sign in</Typography>
-      </Button>
-    );
-  }
-
-  return null;
+  return (
+    <Button
+      sx={{ textTransform: 'none', px: 1 }}
+      id="signin-button"
+      onClick={() => router.push('/auth/signin')}
+      variant="outlined"
+      color="warning"
+    >
+      <Login fontSize="small" sx={{ mr: 1 }} />
+      <Typography fontWeight="bold">Sign in</Typography>
+    </Button>
+  );
 }

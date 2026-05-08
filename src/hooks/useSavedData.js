@@ -36,9 +36,8 @@ export default function useSavedData() {
 
   const redirectToLogin = (data) => {
     const json = JSON.stringify(data);
-    const origin = window.location.origin;
-    const url = encodeURIComponent(`${origin}${pathname}?skeleton=${btoa(json)}`);
-    push(`/auth/signin?callbackUrl=${url}`);
+    const url = `${window.location.origin}${pathname}?skeleton=${btoa(json)}`;
+    push(`/auth/signin?callbackUrl=${encodeURIComponent(url)}`);
   }
 
   const saveData = async (data) => {
@@ -53,7 +52,6 @@ export default function useSavedData() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ algoId, type, data }),
       });
-      const result = await res.json();
       if (res.ok) {
         showToast({
           message: 'Data saved successfully!',
@@ -61,8 +59,9 @@ export default function useSavedData() {
         });
         fetchItems();
       } else {
+        const msg = await res.text();
         showToast({
-          message: result.error || 'Failed to save data.',
+          message: msg || 'Failed to save data.',
           variant: 'error',
         });
       }

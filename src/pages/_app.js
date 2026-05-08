@@ -22,7 +22,6 @@ const theme = createTheme({
 });
 
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
-  const useDefaultLayout = !Component.getLayout;
   const [state, setState] = useState(initialState);
   const { pathname } = useRouter();
   const hasContent = pathname !== '/404';
@@ -72,12 +71,12 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <AppContext.Provider value={{ ...state, setContext }}>
-          {useDefaultLayout ? (
+          {Component.noLayout ? (
+            <Component {...pageProps} />
+          ) : (
             <Layout>
               <Component {...pageProps} />
             </Layout>
-          ) : (
-            <Component {...pageProps} />
           )}
           <Toast />
         </AppContext.Provider>
