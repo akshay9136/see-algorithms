@@ -5,9 +5,21 @@ import InputNumbers from './input-numbers';
 import DrawGraph, { Plane } from './draw-graph';
 import CustomSeo from './custom-seo';
 import Article, { Section } from './article';
+import ComplexityTable from './complexity-table';
 import DSInput from './ds-input';
+import SavedItems from './saved-items';
 
-export { InputNumbers, DrawGraph, Plane, CustomSeo, DSInput, Article, Section };
+export {
+  InputNumbers,
+  DrawGraph,
+  Plane,
+  CustomSeo,
+  Article,
+  Section,
+  ComplexityTable,
+  DSInput,
+  SavedItems,
+};
 
 export const Numbox = memo(
   function ({ index, value, ...rest }) {

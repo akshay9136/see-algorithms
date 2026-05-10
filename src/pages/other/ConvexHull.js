@@ -1,17 +1,17 @@
-import { Stack, Typography } from '@mui/material';
+import { Divider, Typography } from '@mui/material';
+import Graph, { Points } from '@/common/graph';
+import AddPoints from '@/components/convex-hull/add-points';
 import { useGraphScope } from '@/hooks';
 import { svgElement } from '@/common/utils';
 import { addPoints } from '@/helpers/convexHull';
-import Graph, { Points } from '@/common/graph';
-import AddPoints from '@/components/convex-hull/add-points';
 import { Colors } from '@/common/constants';
 
 export default function ConvexHull(props) {
   const [scope, graphRef] = useGraphScope();
 
   return (
-    <Stack spacing={2}>
-      <Typography variant="body1">
+    <>
+      <Typography paragraph>
         A <strong>Convex Hull</strong> is the smallest convex polygon that
         encloses a given set of points. It is a fundamental concept in
         computational geometry with applications in collision detection, image
@@ -20,10 +20,8 @@ export default function ConvexHull(props) {
         algorithm, which finds the convex hull by iteratively wrapping a
         {"'gift'"} around the set of points.
       </Typography>
-      <Typography variant="h6" component="h2">
-        How it Works
-      </Typography>
-      <Typography variant="body1">
+
+      <Typography paragraph>
         The Jarvis March algorithm starts by finding the leftmost point and then
         iteratively wrapping a {"'gift'"} around the set of points. It uses the
         orientation of three points to determine if a point is inside or outside
@@ -31,14 +29,15 @@ export default function ConvexHull(props) {
         the next point is selected. This process continues until the hull is
         complete.
       </Typography>
-      <br />
+      <Divider sx={{ my: 3 }} />
+
       <AddPoints
         {...props}
         scope={scope}
         graphRef={graphRef}
         onStart={Visualizer(scope)}
       />
-    </Stack>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import { Stack, Box, Typography } from '@mui/material';
+import { Stack, Box, Typography, Divider } from '@mui/material';
 import DSInput from '@/components/common/ds-input';
 import useLinkedList from '@/hooks/data-structures/useLinkedList';
 import useAlgorithm from '@/hooks/useAlgorithm';
@@ -55,18 +55,8 @@ function deleteAt(index):
         grow or shrink dynamically. This makes them efficient for insertions and
         deletions, but slower for direct access to an element.
       </Typography>
+
       <Typography variant="h6" component="h2">
-        Pseudocode
-      </Typography>
-      <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
-        <Stack spacing={2.5}>
-          {insertAlgo1}
-          {insertAlgo2}
-        </Stack>
-        {insertAlgo3}
-        {deleteAlgo}
-      </Box>
-      <Typography variant="h6" component="h2" py={1}>
         Visualizer
       </Typography>
       <DSInput
@@ -85,6 +75,19 @@ function deleteAt(index):
       />
       <br />
       {animation}
+      <Divider />
+
+      <Typography variant="h6" component="h2">
+        Pseudocode
+      </Typography>
+      <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
+        <Stack spacing={2.5}>
+          {insertAlgo1}
+          {insertAlgo2}
+        </Stack>
+        {insertAlgo3}
+        {deleteAlgo}
+      </Box>
     </Stack>
   );
 }

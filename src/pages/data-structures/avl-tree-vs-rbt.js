@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Divider, Stack, Typography } from '@mui/material';
 import { useAvlTree, useRedBlackTree } from '@/hooks/data-structures';
 import { useEffect } from 'react';
 import { muteSounds } from '@/common/utils';
@@ -27,8 +27,9 @@ export default function AVLvsRedBlack(props) {
         deeper look at how and why they differ, check out{' '}
         <Link href="/articles/avl-tree-vs-red-black">this article</Link>.
       </Typography>
+      <Divider sx={{ my: 3 }} />
 
-      <Box display="flex" gap={4} flexWrap="wrap" alignItems="end">
+      <Box display="flex" flexWrap="wrap" gap={4} alignItems="end">
         <Stack spacing={2}>
           <DSInput
             {...props}

@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Checkbox,
-  Drawer,
   FormControlLabel,
   IconButton,
   Paper,
@@ -25,7 +24,7 @@ import useSavedData from '@/hooks/useSavedData';
 import styles from '@/styles/draw-graph.module.css';
 import Graph from '@/common/graph';
 import AppContext from '@/common/context';
-import SavedItems from '@/components/saved-items';
+import SavedItems from '@/components/common/saved-items';
 import { showToast } from '../toast';
 
 function DrawGraph(props) {

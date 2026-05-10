@@ -10,179 +10,166 @@ import { Colors } from '@/common/constants';
 var queue, prompt;
 
 export default function HuffmanCoding() {
-    const [numbers, setNumbers] = useState([]);
-    const [alphabets, setAlphabets] = useState([]);
-    const [coding, setCoding] = useState({});
-    const [scope, animator] = useAnimator();
-    const [summary, explain, abort] = useSummary();
+  const [numbers, setNumbers] = useState([]);
+  const [alphabets, setAlphabets] = useState([]);
+  const [coding, setCoding] = useState({});
+  const [scope, animator] = useAnimator();
+  const [summary, explain, abort] = useSummary();
 
-    const toChar = (i) => charAt(65 + i);
+  const toChar = (i) => charAt(65 + i);
 
-    const dequeue = () => {
-        queue.sort((a, b) => a.value - b.value);
-        const min = queue[0];
-        queue = queue.slice(1);
-        return min;
-    };
+  const dequeue = () => {
+    queue.sort((a, b) => a.value - b.value);
+    const min = queue[0];
+    queue = queue.slice(1);
+    return min;
+  };
 
-    const _huffmanTree = () => {
-        const left = dequeue();
-        const right = dequeue();
-        const sum = left.value + right.value;
-        const step = queue.length;
-        const node = { value: sum, left, right, step };
-        if (queue.length) {
-            queue.push(node);
-            return _huffmanTree();
-        }
-        return node;
-    };
-
-    async function* handleStart(values) {
-        queue = values.map((value, i) => ({ value, char: alphabets[i] }));
-        const newPrompt = JSON.stringify(queue);
-        if (prompt !== newPrompt) {
-            explain(queue);
-            prompt = newPrompt;
-        }
-        const root = _huffmanTree();
-        const arr = [];
-        traverse(root, (node) => arr.push(node));
-        setNumbers(arr);
-        yield 1000;
-        const Tree = huffmanTree(animator);
-        yield* Tree.renderSteps(root);
-        setCoding(Tree.coding);
+  const _huffmanTree = () => {
+    const left = dequeue();
+    const right = dequeue();
+    const sum = left.value + right.value;
+    const step = queue.length;
+    const node = { value: sum, left, right, step };
+    if (queue.length) {
+      queue.push(node);
+      return _huffmanTree();
     }
+    return node;
+  };
 
-    const handleStop = (reset) => {
-        if (reset) {
-            setAlphabets([]);
-            abort();
-        }
-        setNumbers([]);
-        setCoding({});
-        queue = undefined;
-    };
+  async function* handleStart(values) {
+    queue = values.map((value, i) => ({ value, char: alphabets[i] }));
+    const newPrompt = JSON.stringify(queue);
+    if (prompt !== newPrompt) {
+      explain(queue);
+      prompt = newPrompt;
+    }
+    const root = _huffmanTree();
+    const arr = [];
+    traverse(root, (node) => arr.push(node));
+    setNumbers(arr);
+    yield 1000;
+    const Tree = huffmanTree(animator);
+    yield* Tree.renderSteps(root);
+    setCoding(Tree.coding);
+  }
 
-    const renderInputs = () => (
-        <Stack spacing={1}>
-            {alphabets.length > 0 && (
-                <Box className={styles.inputNumbers}>
-                    <Typography
-                        variant="subtitle1"
-                        fontWeight="bold"
-                        mr={2}
-                    >
-                        Character:
-                    </Typography>
-                    {alphabets.map((char) => (
-                        <Typography
-                            key={char}
-                            variant="subtitle2"
-                            fontWeight="bold"
-                            mr="2.4rem"
-                        >
-                            {char}
-                        </Typography>
-                    ))}
-                </Box>
-            )}
-            <InputNumbers
-                min={5}
-                max={8}
-                label="Frequency: "
-                onSelect={(n) => {
-                    const arr = Array(n).fill(null);
-                    setAlphabets(arr.map((_, i) => toChar(i)));
-                    sound('pop');
-                }}
-                onStart={handleStart}
-                onReset={handleStop}
-            />
-        </Stack>
-    );
+  const handleStop = (reset) => {
+    if (reset) {
+      setAlphabets([]);
+      abort();
+    }
+    setNumbers([]);
+    setCoding({});
+    queue = undefined;
+  };
 
-    return (
+  const renderInputs = () => (
+    <Stack spacing={1}>
+      {alphabets.length > 0 && (
+        <Box className={styles.inputNumbers}>
+          <Typography variant="subtitle1" fontWeight="bold" mr={2}>
+            Character:
+          </Typography>
+          {alphabets.map((char) => (
+            <Typography
+              key={char}
+              variant="subtitle2"
+              fontWeight="bold"
+              mr="2.4rem"
+            >
+              {char}
+            </Typography>
+          ))}
+        </Box>
+      )}
+      <InputNumbers
+        min={5}
+        max={8}
+        label="Frequency: "
+        onSelect={(n) => {
+          const arr = Array(n).fill(null);
+          setAlphabets(arr.map((_, i) => toChar(i)));
+          sound('pop');
+        }}
+        onStart={handleStart}
+        onReset={handleStop}
+      />
+    </Stack>
+  );
+
+  return (
+    <>
+      <Typography paragraph>
+        <strong>Huffman Coding</strong> is a lossless data compression algorithm
+        that reduces the size of data by assigning shorter binary codes to more
+        frequent symbols. It builds an optimal prefix tree, ensuring efficient
+        encoding and decoding. Commonly used in file compression formats like
+        ZIP and JPEG, Huffman Coding minimizes storage space without losing
+        information.
+      </Typography>
+
+      <Typography paragraph>
+        The algorithm starts by treating every symbol as an independent node,
+        each weighted by its frequency. It repeatedly merges the{' '}
+        <strong>two minimum nodes</strong> into a new parent node whose weight
+        is their sum. This merging continues until there is only a single tree.
+        Traversing from the root to a leaf produces a binary code, where each
+        left or right move adds a bit.
+      </Typography>
+      <Divider sx={{ my: 3 }} />
+
+      <Box display="flex" flexWrap="wrap" gap={3}>
         <Stack spacing={2}>
-            <Typography variant="body1">
-                <strong>Huffman Coding</strong> is a lossless data compression
-                algorithm that reduces the size of data by assigning shorter
-                binary codes to more frequent symbols. It builds an optimal
-                prefix tree, ensuring efficient encoding and decoding. Commonly
-                used in file compression formats like ZIP and JPEG, Huffman
-                Coding minimizes storage space without losing information.
-            </Typography>
-            <Typography variant="h6" component="h2">
-                How it Works
-            </Typography>
-            <Typography variant="body1">
-                The algorithm starts by treating every symbol as an independent
-                node, each weighted by its frequency. It repeatedly merges the{' '}
-                <strong>two minimum nodes</strong> into a new parent node whose
-                weight is their sum. This merging continues until there is only
-                a single tree. Traversing from the root to a leaf produces a
-                binary code, where each left or right move adds a bit.
-            </Typography>
-            <br />
-            <Box display="flex" flexWrap="wrap" gap={3}>
-                <Stack spacing={2}>
-                    <Typography variant="h6" component="h2">
-                        Visualizer
-                    </Typography>
-                    {renderInputs()}
-                    <br />
-                    <Box
-                        className="huffmanTree"
-                        sx={{ width: 700, pt: 1 }}
-                        ref={scope}
-                    >
-                        {numbers.slice(1).map((_, i) => (
-                            <Edge key={i} index={i} />
-                        ))}
-                        {numbers.map((node, i) => (
-                            <Node
-                                key={i}
-                                index={i}
-                                value={node.value}
-                                showBf={!!node.char}
-                                animate={{ x: i * 50 }}
-                                style={{ opacity: 0 }}
-                            />
-                        ))}
-                        {alphabets.map((char, i) => (
-                            <Node
-                                key={i}
-                                index={i + 100}
-                                value={char}
-                                animate={{ y: i * 50 }}
-                                style={{
-                                    borderRadius: 8,
-                                    backgroundColor: Colors.vertex,
-                                    fontWeight: 'bold',
-                                    color: '#404040',
-                                }}
-                            />
-                        ))}
-                        {alphabets.map((char, i) => (
-                            <Node
-                                key={i}
-                                index={i + 200}
-                                value={coding[char]}
-                                animate={{ x: 56, y: i * 50 }}
-                                style={{
-                                    border: 0,
-                                    boxShadow: 'none',
-                                    justifyContent: 'flex-start',
-                                    background: 'transparent',
-                                }}
-                            />
-                        ))}
-                    </Box>
-                </Stack>
-                <Divider orientation="vertical" flexItem />
-                {summary}
-            </Box>
+          {renderInputs()}
+          <br />
+          <Box className="huffmanTree" sx={{ width: 700, pt: 1 }} ref={scope}>
+            {numbers.slice(1).map((_, i) => (
+              <Edge key={i} index={i} />
+            ))}
+            {numbers.map((node, i) => (
+              <Node
+                key={i}
+                index={i}
+                value={node.value}
+                showBf={!!node.char}
+                animate={{ x: i * 50 }}
+                style={{ opacity: 0 }}
+              />
+            ))}
+            {alphabets.map((char, i) => (
+              <Node
+                key={i}
+                index={i + 100}
+                value={char}
+                animate={{ y: i * 50 }}
+                style={{
+                  borderRadius: 8,
+                  backgroundColor: Colors.vertex,
+                  fontWeight: 'bold',
+                  color: '#404040',
+                }}
+              />
+            ))}
+            {alphabets.map((char, i) => (
+              <Node
+                key={i}
+                index={i + 200}
+                value={coding[char]}
+                animate={{ x: 56, y: i * 50 }}
+                style={{
+                  border: 0,
+                  boxShadow: 'none',
+                  justifyContent: 'flex-start',
+                  background: 'transparent',
+                }}
+              />
+            ))}
+          </Box>
         </Stack>
-    );
+        {summary}
+      </Box>
+    </>
+  );
 }

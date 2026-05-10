@@ -17,15 +17,12 @@
     position: relative;
 }
 
-.content > div > p,
-.content ul,
-.content ol,
-.content > section {
+.content > p,
+.content section {
     width: calc(100vw - 4rem);
 }
 
-.content > div > p,
-.article > div > p {
+.content > p {
     text-align: justify;
 }
 
@@ -34,10 +31,8 @@
         padding: 2.5rem;
     }
 
-    .content > div > p,
-    .content ul,
-    .content ol,
-    .content > section {
+    .content > p,
+    .content section {
         width: auto;
     }
 }

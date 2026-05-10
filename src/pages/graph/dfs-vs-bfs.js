@@ -25,7 +25,7 @@ export default function DfsVsBfs(props) {
         same structure.
       </Typography>
 
-      <Box display="flex" gap={4} flexWrap="wrap">
+      <Box display="flex" flexWrap="wrap" gap={4}>
         <Stack spacing={2} ref={dfsRef}>
           <DrawGraph
             {...props}
