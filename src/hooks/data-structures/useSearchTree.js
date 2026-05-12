@@ -82,6 +82,13 @@ export default function useSearchTree({ saveData }) {
         abort();
     };
 
+    const saveButton = {
+        text: <Save fontSize="small" />,
+        onClick: () => saveData(Tree.collect()),
+        disabled: !numbers.length,
+        title: 'Save this tree',
+    };
+
     const buttons = [
         { text: 'Insert', onClick: insert, validate: true },
         {
@@ -104,12 +111,7 @@ export default function useSearchTree({ saveData }) {
             disabled: !history.canRedo,
         },
         { text: <Refresh />, onClick: () => refresh(), title: 'New tree' },
-        {
-            text: <Save fontSize="small" />,
-            onClick: () => saveData(Tree.collect()),
-            disabled: !numbers.length,
-            title: 'Save this tree',
-        },
+        ...(saveData ? [saveButton] : []),
         {
             text: <Share fontSize="small" />,
             onClick: () => copyBinaryTree(Tree.collect()),
@@ -128,12 +130,7 @@ export default function useSearchTree({ saveData }) {
                 <Edge key={i} index={i} />
             ))}
             {numbers.map((num, i) => (
-                <Node
-                    key={i}
-                    index={i}
-                    value={num}
-                    style={{ opacity: 0 }}
-                />
+                <Node key={i} index={i} value={num} style={{ opacity: 0 }} />
             ))}
         </Paper>
     );

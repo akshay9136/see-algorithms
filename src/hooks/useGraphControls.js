@@ -66,11 +66,9 @@ function useGraphControls(config, props) {
       prevSrc = src;
     }
     $('.plane').off();
-    iterators = startHandlers.map((fn) =>
-      newIterator(fn, src),
-    );
+    iterators = startHandlers.map((fn) => newIterator(fn, src));
     resume();
-  }
+  };
 
   const handlePlay = () => {
     switch (playStatus) {
@@ -147,6 +145,7 @@ function useGraphControls(config, props) {
   const loadSavedGraph = (data) => {
     cleanup();
     Graph.initialize(data);
+    drawGraph(config);
     scope.createGraph(data, weighted);
     setContext({
       isDirGraph: data.directed,

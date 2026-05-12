@@ -168,15 +168,17 @@ function DrawGraph(props) {
             <Redo />
           </Button>
 
-          <IconButton
-            onClick={handleSave}
-            color="primary"
-            title="Save Graph"
-            aria-label="Save Graph"
-            sx={{ p: 0 }}
-          >
-            <Save sx={{ fontSize: 30 }} />
-          </IconButton>
+          {!pathname.includes('/embed/') && (
+            <IconButton
+              onClick={handleSave}
+              color="primary"
+              title="Save Graph"
+              aria-label="Save Graph"
+              sx={{ p: 0 }}
+            >
+              <Save sx={{ fontSize: 30 }} />
+            </IconButton>
+          )}
 
           <IconButton
             onClick={handleCopy}

@@ -77,6 +77,13 @@ export default function useBTree({ saveData }) {
     newTree(data || randomNodes());
   };
 
+  const saveButton = {
+    text: <Save fontSize="small" />,
+    onClick: () => saveData(numbers),
+    disabled: !numbers.length,
+    title: 'Save this tree',
+  };
+
   const buttons = [
     { text: 'Insert', onClick: insert, validate: true },
     {
@@ -99,12 +106,7 @@ export default function useBTree({ saveData }) {
       disabled: !history.canRedo,
     },
     { text: <Refresh />, onClick: () => refresh(), title: 'New tree' },
-    {
-      text: <Save fontSize="small" />,
-      onClick: () => saveData(numbers),
-      disabled: !numbers.length,
-      title: 'Save this tree',
-    },
+    ...(saveData ? [saveButton] : []),
     {
       text: <Share fontSize="small" />,
       onClick: () => copyBinaryTree(numbers),

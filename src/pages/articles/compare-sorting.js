@@ -6,6 +6,7 @@ import {
   FormControlLabel,
   Checkbox,
   FormGroup,
+  Divider,
 } from '@mui/material';
 import { InputNumbers } from '@/components/common';
 import { muteSounds } from '@/common/utils';
@@ -51,18 +52,24 @@ export default function CompareSorting() {
   useEffect(muteSounds, []);
 
   return (
-    <Stack spacing={2}>
+    <>
       <Typography variant="h4" component="h1" color="warning.main">
         Compare Sorting Algorithms
       </Typography>
 
-      <Typography variant="body1">
+      <Typography paragraph sx={{ mt: 2 }}>
         Select multiple algorithms below to compare their execution in
         real-time. Watch how different approaches sort the exact same list of
-        numbers simultaneously. Please note that the animation speed is adjusted
-        for visual clarity and does not represent the actual performance or
-        efficiency of the algorithms.
+        numbers simultaneously — observe the difference in swap patterns,
+        comparison counts, and overall strategy.
       </Typography>
+
+      <Typography paragraph>
+        Please note that the animation speed is adjusted for visual clarity and
+        does not represent actual computational performance.
+      </Typography>
+
+      <Divider sx={{ my: 3 }} />
 
       <Stack spacing={3}>
         <FormGroup row>
@@ -104,6 +111,6 @@ export default function CompareSorting() {
           </Box>
         ))}
       </Box>
-    </Stack>
+    </>
   );
 }

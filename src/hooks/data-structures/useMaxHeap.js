@@ -88,6 +88,13 @@ export default function useMaxHeap({ saveData }) {
         abort();
     };
 
+    const saveButton = {
+        text: <Save fontSize="small" />,
+        onClick: () => saveData(Tree.collect()),
+        disabled: !numbers.length,
+        title: 'Save this tree',
+    };
+
     const buttons = [
         { text: 'Insert', onClick: insert, validate: true },
         {
@@ -109,12 +116,7 @@ export default function useMaxHeap({ saveData }) {
             title: 'Redo',
             disabled: !history.canRedo,
         },
-        {
-            text: <Save fontSize="small" />,
-            onClick: () => saveData(Tree.collect()),
-            disabled: !numbers.length,
-            title: 'Save this tree',
-        },
+        ...(saveData ? [saveButton] : []),
         {
             text: <Share fontSize="small" />,
             onClick: () => copyBinaryTree(Tree.collect()),

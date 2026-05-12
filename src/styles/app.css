@@ -15,6 +15,7 @@
     padding: 2rem;
     background-color: #f8fbff;
     position: relative;
+    overflow: auto;
 }
 
 .content > p,

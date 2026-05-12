@@ -108,6 +108,13 @@ function rebalance(node):
         abort();
     };
 
+    const saveButton = {
+        text: <Save fontSize="small" />,
+        onClick: () => saveData(Tree.collect()),
+        disabled: !numbers.length,
+        title: 'Save this tree',
+    };
+
     const buttons = [
         { text: 'Insert', onClick: insert, validate: true },
         {
@@ -134,12 +141,7 @@ function rebalance(node):
             disabled: !history.canRedo,
         },
         // { text: <Refresh />, onClick: refresh, title: 'New tree' },
-        {
-            text: <Save fontSize="small" />,
-            onClick: () => saveData(Tree.collect()),
-            disabled: !numbers.length,
-            title: 'Save this tree',
-        },
+        ...(saveData ? [saveButton] : []),
         {
             text: <Share fontSize="small" />,
             onClick: () => copyBinaryTree(Tree.collect()),

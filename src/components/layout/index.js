@@ -25,7 +25,7 @@ function Layout({ children }) {
 
   if (isEmbed) {
     return (
-      <Box overflow="auto" border="1px solid #e0e0e0">
+      <Box height="100%" overflow="auto" border="1px solid #e0e0e0">
         {pageId && <AlgorithmSEO />}
         <Box className="content" minWidth="100%">
           {title && (

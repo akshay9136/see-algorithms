@@ -41,7 +41,7 @@ export default function EmbedDataStructure() {
 }
 
 function Visualizer({ useHook }) {
-  const { animation, buttons } = useHook();
+  const { animation, buttons } = useHook({});
 
   return (
     <Stack spacing={3} position="relative">

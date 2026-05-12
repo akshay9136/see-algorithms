@@ -77,6 +77,16 @@ export default function useRedBlackTree({ saveData }) {
         abort();
     };
 
+    const saveButton = {
+        text: <Save fontSize="small" />,
+        onClick: () => {
+            const nodes = Tree.collect((a) => [a.value, a.color]);
+            saveData(nodes);
+        },
+        disabled: !numbers.length,
+        title: 'Save this tree',
+    };
+
     const buttons = [
         { text: 'Insert', onClick: insert, validate: true },
         { text: 'Clear', onClick: reset, disabled: !numbers.length },
@@ -92,15 +102,7 @@ export default function useRedBlackTree({ saveData }) {
             title: 'Redo',
             disabled: !history.canRedo,
         },
-        {
-            text: <Save fontSize="small" />,
-            onClick: () => {
-                const nodes = Tree.collect((a) => [a.value, a.color]);
-                saveData(nodes);
-            },
-            disabled: !numbers.length,
-            title: 'Save this tree',
-        },
+        ...(saveData ? [saveButton] : []),
         {
             text: <Share fontSize="small" />,
             onClick: handleCopy,
