@@ -76,7 +76,7 @@ export default function EmbedSorting() {
         <Typography color="text.secondary" paragraph>
           This is exactly how the embedded visualizer appears on your page:
         </Typography>
-        <Paper variant="outlined" sx={{ borderRadius: 2 }}>
+        <Paper variant="outlined" sx={{ borderRadius: 2, overflow: 'hidden' }}>
           <iframe
             src="/sorting/embed/MergeSort"
             width="100%"

@@ -11,7 +11,7 @@ var arr, union, parent;
 var delay = 800;
 
 export default function Kruskals(props) {
-    const [animScope, { txy, bgcolor }] = useAnimator();
+    const [scope1, { txy, bgcolor }] = useAnimator();
     const [scope, graphRef] = useGraphScope();
     const [size, setSize] = useState(0);
     if (size === 0) arr = [];
@@ -183,13 +183,17 @@ for each edge (u, v):
                     customSource={false}
                 />
                 <Box
-                    pt={3}
                     width={size * 60}
                     height={size * 60}
                     minHeight={300}
-                    ref={animScope}
+                    ref={scope1}
                     position="relative"
                 >
+                    {size > 0 && (
+                        <Typography variant="h6" textAlign="center" mb={3}>
+                            Union-Find
+                        </Typography>
+                    )}
                     {Array(size).fill(null).map((_, i) => (
                         <Node
                             key={i}

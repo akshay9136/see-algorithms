@@ -34,6 +34,7 @@ function DrawGraph(props) {
   const [source, setSource] = useState('A');
 
   const algoId = pathname.split('/')[2];
+  const isEmbed = pathname.includes('/embed/');
 
   const config = {
     source,
@@ -168,7 +169,7 @@ function DrawGraph(props) {
             <Redo />
           </Button>
 
-          {!pathname.includes('/embed/') && (
+          {!isEmbed && (
             <IconButton
               onClick={handleSave}
               color="primary"
@@ -196,7 +197,7 @@ function DrawGraph(props) {
         <Plane />
       </Paper>
 
-      <SavedItems onSelect={loadSavedGraph} {...rest} />
+      {!isEmbed && <SavedItems onSelect={loadSavedGraph} {...rest} />}
     </Box>
   );
 }
