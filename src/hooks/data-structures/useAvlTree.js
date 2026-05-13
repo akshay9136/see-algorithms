@@ -27,13 +27,13 @@ function rebalance(node):
     updateHeight(node)
     nodeBf = balanceFactor(node)
     if nodeBf > 1:
-        if balanceFactor(node.left) > 0:
+        if balanceFactor(node.left) >= 0:
             rotateRight(node)
         else:
             rotateLeft(node.left)
             rotateRight(node)
     if nodeBf < -1:
-        if balanceFactor(node.right) < 0:
+        if balanceFactor(node.right) <= 0:
             rotateLeft(node)
         else:
             rotateRight(node.right)

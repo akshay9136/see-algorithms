@@ -30,9 +30,11 @@ export default function useSavedData() {
     setLoading(false);
   };
 
+  const { email } = session?.user || {};
+
   useEffect(() => {
-    if (session) fetchItems();
-  }, [algoId]);
+    if (algoId && email) fetchItems();
+  }, [algoId, email]);
 
   const redirectToLogin = (data) => {
     const json = JSON.stringify(data);

@@ -48,7 +48,7 @@ function avlTree(animator, setCurrentStep) {
         const nodeBf = balanceFactor(node);
         if (nodeBf > 1) {
             const childBf = balanceFactor(node.left);
-            if (childBf > 0) {
+            if (childBf >= 0) {
                 setCurrentStep('5');
                 yield* rotateRight(node);
             } else {
@@ -59,7 +59,7 @@ function avlTree(animator, setCurrentStep) {
             }
         } else if (nodeBf < -1) {
             const childBf = balanceFactor(node.right);
-            if (childBf < 0) {
+            if (childBf <= 0) {
                 setCurrentStep('11');
                 yield* rotateLeft(node);
             } else {
