@@ -44,6 +44,7 @@ function indegree():
         removing nodes with no incoming edges (zero in-degree) and
         adding them to the order.
       </Typography>
+
       <Typography variant="h6" component="h2">
         Pseudocode
       </Typography>

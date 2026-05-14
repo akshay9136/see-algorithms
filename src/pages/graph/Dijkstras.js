@@ -45,6 +45,7 @@ function relax(u, d):
         <Link href="/articles/shortest-path-vs-mst">MST algorithms</Link>,
         Dijkstra’s focuses on optimal paths from a single source.
       </Typography>
+
       <Typography variant="h6" component="h2">
         Pseudocode
       </Typography>

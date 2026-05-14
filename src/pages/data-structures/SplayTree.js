@@ -1,5 +1,5 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { DSInput, SavedItems } from '@/components/common';
+import { DSInput, SavedDataList } from '@/components/common';
 import useSavedData from '@/hooks/useSavedData';
 import useSplayTree from '@/hooks/data-structures/useSplayTree';
 import Link from 'next/link';
@@ -40,7 +40,7 @@ export default function SplayTree(props) {
         </Stack>
         {summary}
       </Box>
-      <SavedItems onSelect={refresh} {...rest} />
+      <SavedDataList onSelect={refresh} {...rest} />
     </>
   );
 }

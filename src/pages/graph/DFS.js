@@ -1,5 +1,5 @@
 import { DrawGraph } from '@/components/common';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Divider, Stack, Typography } from '@mui/material';
 import { charAt, createCell, hasValue, sound } from '@/common/utils';
 import { useAlgorithm, useGraphScope, useSummary } from '@/hooks';
 import { Colors } from '@/common/constants';
@@ -32,6 +32,7 @@ while stack is not empty:
         its path, making it highly effective for cycle detection,
         pathfinding, and solving puzzles.
       </Typography>
+
       <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
         <Stack spacing={2} pt={0.5}>
           <Typography variant="h6" component="h2">
@@ -54,7 +55,7 @@ while stack is not empty:
             }}
           />
           <Box className="alphaGrid dfs-path" />
-          <br />
+          <Divider />
           {summary}
         </Stack>
       </Box>

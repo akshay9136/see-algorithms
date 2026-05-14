@@ -1,5 +1,5 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { DSInput, SavedItems } from '@/components/common';
+import { DSInput, SavedDataList } from '@/components/common';
 import { useAlgorithm, useSavedData } from '@/hooks';
 import useMaxHeap from '@/hooks/data-structures/useMaxHeap';
 import Link from 'next/link';
@@ -49,7 +49,7 @@ function insert(value):
           {summary}
         </Stack>
       </Box>
-      <SavedItems onSelect={refresh} {...rest} />
+      <SavedDataList onSelect={refresh} {...rest} />
     </>
   );
 }

@@ -1,5 +1,5 @@
 import { DrawGraph } from '@/components/common';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Divider, Stack, Typography } from '@mui/material';
 import { charAt, createCell, hasValue, sound } from '@/common/utils';
 import { useAlgorithm, useGraphScope, useSummary } from '@/hooks';
 import { Colors } from '@/common/constants';
@@ -34,6 +34,7 @@ while queue is not empty:
         <Link href="/graph/Dijkstras">shortest path</Link> in an unweighted
         graph.
       </Typography>
+
       <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
         <Stack spacing={2} pt={0.5}>
           <Typography variant="h6" component="h2">
@@ -56,7 +57,7 @@ while queue is not empty:
             }}
           />
           <Box className="alphaGrid bfs-path" />
-          <br />
+          <Divider />
           {summary}
         </Stack>
       </Box>

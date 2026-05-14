@@ -20,9 +20,9 @@ const promptBuilders = {
 };
 
 export default withAuth(async function (req, res) {
+  const { data, pathname } = req.body;
+  const algorithm = pathname.split('/')[2];
   try {
-    const { data, pathname } = req.body;
-    const algorithm = pathname.split('/')[2];
     const buildPrompt = promptBuilders[algorithm];
     if (!buildPrompt) {
       return res.status(400).send('Invalid request');

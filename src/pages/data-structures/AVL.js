@@ -1,5 +1,5 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { DSInput, SavedItems, Section } from '@/components/common';
+import { DSInput, SavedDataList, Section } from '@/components/common';
 import useSavedData from '@/hooks/useSavedData';
 import useAvlTree from '@/hooks/data-structures/useAvlTree';
 import Link from 'next/link';
@@ -86,7 +86,7 @@ export default function AVL(props) {
           {summary}
         </Stack>
       </Box>
-      <SavedItems onSelect={refresh} {...rest} />
+      <SavedDataList onSelect={refresh} {...rest} />
     </>
   );
 }

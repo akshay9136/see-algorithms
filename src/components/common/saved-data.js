@@ -12,15 +12,15 @@ import { DeleteOutline, ListAlt } from '@mui/icons-material';
 import { useSession } from 'next-auth/react';
 import Spinner from '@/components/spinner';
 
-function SavedDataList(props) {
+function ListItems(props) {
   const { savedItems, onSelect, onDelete } = props;
 
   return (
     <List
+      sx={{ minWidth: 300 }}
       subheader={
         <ListSubheader sx={{ fontSize: 16 }}>Saved Data Items</ListSubheader>
       }
-      sx={{ minWidth: 300 }}
     >
       {savedItems?.map((item) => (
         <ListItemButton key={item.id} onClick={() => onSelect(item)}>
@@ -34,7 +34,7 @@ function SavedDataList(props) {
   );
 }
 
-export default function SavedItems({
+export default function SavedDataList({
   fetchItems,
   loading,
   onSelect,
@@ -72,7 +72,7 @@ export default function SavedItems({
         onClose={() => setDrawerOpen(false)}
         ModalProps={{ keepMounted: true }}
       >
-        <SavedDataList
+        <ListItems
           {...rest}
           onSelect={handleSelect}
           onDelete={handleDelete}

@@ -61,7 +61,7 @@ function useGraphControls(config, props) {
 
   const restart = () => {
     const src = source.charCodeAt(0) - 65;
-    if (src !== prevSrc) {
+    if (playStatus === 0 || src !== prevSrc) {
       props.explain?.(src);
       prevSrc = src;
     }

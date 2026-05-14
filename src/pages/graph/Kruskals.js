@@ -1,5 +1,5 @@
 import { DrawGraph, Node } from '@/components/common';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Divider, Stack, Typography } from '@mui/material';
 import { useAlgorithm, useAnimator, useGraphScope } from '@/hooks';
 import { useEffect, useState } from 'react';
 import { charAt, sound } from '@/common/utils';
@@ -171,8 +171,8 @@ for each edge (u, v):
                     </Typography>
                 </Stack>
             </Box>
-            <br />
-            <Box display="flex" flexWrap="wrap" gap={4} ref={graphRef}>
+            <Divider />
+            <Box display="flex" flexWrap="wrap" gap={3} ref={graphRef}>
                 <DrawGraph
                     {...props}
                     scope={scope}

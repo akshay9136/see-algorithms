@@ -1,16 +1,18 @@
 import { Box, Stack, Switch, Tooltip, Typography } from '@mui/material';
-import { InfoOutlined } from '@mui/icons-material';
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { logError } from '@/common/utils';
+import { InfoOutlined } from '@mui/icons-material';
 import { marked } from 'marked';
+import { logError } from '@/common/utils';
+import AppContext from '@/common/context';
 
 export default function useSummary() {
   const [content, setContent] = useState('');
   const [summaryOn, setSummaryOn] = useState(false);
   const { data: session } = useSession();
-  const { pathname } = useRouter();
+  const { pathname, push } = useRouter();
+  const { playStatus } = useContext(AppContext);
   const controlRef = useRef(null);
 
   const explain = async (data) => {
@@ -19,6 +21,7 @@ export default function useSummary() {
     const controller = new AbortController();
     controlRef.current = controller;
     setContent('<p>Thinking...</p>');
+
     try {
       const res = await fetch('/api/summary', {
         method: 'POST',
@@ -26,6 +29,7 @@ export default function useSummary() {
         body: JSON.stringify({ data, pathname }),
         signal: controller.signal,
       });
+
       if (res.ok) {
         const html = marked(await res.text());
         setContent(html);
@@ -49,17 +53,23 @@ export default function useSummary() {
   };
 
   const toggle = (e) => {
-    const { checked } = e.target;
-    setSummaryOn(checked);
-    if (!checked) abort();
+    if (!session) {
+      const url = `${window.location.origin}${pathname}`;
+      push(`/auth/signin?callbackUrl=${encodeURIComponent(url)}`);
+    } else {
+      const { checked } = e.target;
+      setSummaryOn(checked);
+      if (!checked) abort();
+    }
   };
 
   const abort = () => {
     controlRef.current?.abort();
-    setContent('');
+    console.log('playStatus', playStatus)
+    if (playStatus < 2) setContent('');
   };
 
-  const summary = !session ? null : (
+  const summary = (
     <Stack minHeight={200}>
       <Box display="flex" alignItems="center" gap={1}>
         <Typography variant="h6" component="h2">

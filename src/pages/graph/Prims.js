@@ -35,6 +35,7 @@ while MST does not span all vertices:
         <Link href="/graph/Kruskals">Kruskal’s Algorithm</Link>, which
         builds the MST by sorting edges globally.
       </Typography>
+
       <Box display="flex" flexWrap="wrap" gap={4}>
         <Stack spacing={2}>
           <Typography variant="h6" component="h2">
@@ -68,8 +69,8 @@ while MST does not span all vertices:
           </Typography>
         </Stack>
       </Box>
-      <br />
-      <Box display="flex" flexWrap="wrap" gap={3} ref={graphRef}>
+      <Divider />
+      <Box display="flex" flexWrap="wrap" gap={4} ref={graphRef}>
         <DrawGraph
           {...props}
           scope={scope}
@@ -82,7 +83,6 @@ while MST does not span all vertices:
             explain({ matrix, source });
           }}
         />
-        <Divider orientation="vertical" flexItem />
         {summary}
       </Box>
     </Stack>

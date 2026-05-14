@@ -1,5 +1,5 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { DSInput, SavedItems, Section } from '@/components/common';
+import { DSInput, SavedDataList, Section } from '@/components/common';
 import useSavedData from '@/hooks/useSavedData';
 import useBTree from '@/hooks/data-structures/useBTree';
 import Link from 'next/link';
@@ -40,7 +40,7 @@ export default function BTree(props) {
         </Stack>
         {summary}
       </Box>
-      <SavedItems onSelect={refresh} {...rest} />
+      <SavedDataList onSelect={refresh} {...rest} />
     </>
   );
 }

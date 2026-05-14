@@ -18,13 +18,12 @@ import {
   Redo,
   Save,
 } from '@mui/icons-material';
+import { useGraphControls, useSavedData } from '@/hooks';
 import { useRouter } from 'next/router';
-import useGraphControls from '@/hooks/useGraphControls';
-import useSavedData from '@/hooks/useSavedData';
-import styles from '@/styles/draw-graph.module.css';
-import Graph from '@/common/graph';
+import SavedDataList from '@/components/common/saved-data';
 import AppContext from '@/common/context';
-import SavedItems from '@/components/common/saved-items';
+import Graph from '@/common/graph';
+import styles from '@/styles/draw-graph.module.css';
 import { showToast } from '../toast';
 
 function DrawGraph(props) {
@@ -92,7 +91,7 @@ function DrawGraph(props) {
             title="New Graph"
             aria-label="New Graph"
           >
-            <Refresh />
+            <Refresh sx={{ fontSize: 28 }} />
           </IconButton>
 
           {props.allowDirected !== false && (
@@ -177,7 +176,7 @@ function DrawGraph(props) {
               aria-label="Save Graph"
               sx={{ p: 0 }}
             >
-              <Save sx={{ fontSize: 30 }} />
+              <Save sx={{ fontSize: 32 }} />
             </IconButton>
           )}
 
@@ -188,7 +187,7 @@ function DrawGraph(props) {
             aria-label="Share Graph"
             sx={{ p: 0 }}
           >
-            <Share />
+            <Share sx={{ fontSize: 28 }} />
           </IconButton>
         </Box>
       </Box>
@@ -197,7 +196,7 @@ function DrawGraph(props) {
         <Plane />
       </Paper>
 
-      {!isEmbed && <SavedItems onSelect={loadSavedGraph} {...rest} />}
+      {!isEmbed && <SavedDataList onSelect={loadSavedGraph} {...rest} />}
     </Box>
   );
 }

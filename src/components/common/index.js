@@ -7,7 +7,7 @@ import CustomSeo from './custom-seo';
 import Article, { Section } from './article';
 import ComplexityTable from './complexity-table';
 import DSInput from './ds-input';
-import SavedItems from './saved-items';
+import SavedDataList from './saved-data';
 
 export {
   InputNumbers,
@@ -18,7 +18,7 @@ export {
   Section,
   ComplexityTable,
   DSInput,
-  SavedItems,
+  SavedDataList,
 };
 
 export const Numbox = memo(
