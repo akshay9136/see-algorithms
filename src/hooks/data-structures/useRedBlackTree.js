@@ -6,8 +6,7 @@ import { copyBinaryTree, showError, sleep } from '@/common/utils';
 import redBlackTree from '@/helpers/redBlackTree';
 import Paper from '@mui/material/Paper';
 
-var Tree;
-var deleted = {};
+var Tree, deleted = {};
 
 export default function useRedBlackTree({ saveData }) {
     const [numbers, setNumbers] = useState([]);
@@ -78,7 +77,7 @@ export default function useRedBlackTree({ saveData }) {
     };
 
     const saveButton = {
-        text: <Save fontSize="small" />,
+        text: <Save />,
         onClick: () => {
             const nodes = Tree.collect((a) => [a.value, a.color]);
             saveData(nodes);

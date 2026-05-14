@@ -12,8 +12,7 @@ import { copyBinaryTree, showError, sleep } from '@/common/utils';
 import avlTree from '@/helpers/avlTree';
 import Paper from '@mui/material/Paper';
 
-var Tree;
-var deleted = {};
+var Tree, deleted = {};
 
 export default function useAvlTree({ saveData }) {
     const [numbers, setNumbers] = useState([]);
@@ -109,7 +108,7 @@ function rebalance(node):
     };
 
     const saveButton = {
-        text: <Save fontSize="small" />,
+        text: <Save />,
         onClick: () => saveData(Tree.collect()),
         disabled: !numbers.length,
         title: 'Save this tree',

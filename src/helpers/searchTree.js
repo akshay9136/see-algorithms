@@ -79,7 +79,7 @@ function searchTree(animator) {
         ...Tree,
         _insert(num, node = Tree.root()) {
             if (!node) {
-                sound('swap');
+                sound('pop');
                 return Tree.insert(num);
             }
             const isLeft = num <= node.value;

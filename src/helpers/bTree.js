@@ -227,6 +227,7 @@ function bTree({ bgcolor }) {
         // Instant insert (no animation)
         _insert(value) {
             if (!root) {
+                sound('pop');
                 root = createNode([value]);
                 return;
             }

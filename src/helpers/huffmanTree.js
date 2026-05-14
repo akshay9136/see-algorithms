@@ -16,7 +16,7 @@ function huffmanTree(animator) {
             const node = Tree.insert(value, parent, isLeft);
             animate(node.id, { opacity: 0 });
             if (parent) {
-                document.querySelector(node.eid).style.opacity = 0;
+                animate(node.eid, { opacity: 0 });
                 const data = (parent.data || '') + (isLeft ? '0' : '1');
                 node.update({ data, level: parent.level + 1 });
                 if (node.level > maxLevel) maxLevel++;

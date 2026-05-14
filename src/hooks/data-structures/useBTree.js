@@ -78,7 +78,7 @@ export default function useBTree({ saveData }) {
   };
 
   const saveButton = {
-    text: <Save fontSize="small" />,
+    text: <Save />,
     onClick: () => saveData(numbers),
     disabled: !numbers.length,
     title: 'Save this tree',

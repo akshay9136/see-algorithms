@@ -6,8 +6,7 @@ import { copyBinaryTree, randomNodes, showError, sleep } from '@/common/utils';
 import splayTree from '@/helpers/splayTree';
 import Paper from '@mui/material/Paper';
 
-var Tree;
-var deleted = {};
+var Tree, deleted = {};
 
 export default function useSplayTree({ saveData }) {
     const [numbers, setNumbers] = useState([]);
@@ -79,7 +78,7 @@ export default function useSplayTree({ saveData }) {
     };
 
     const saveButton = {
-        text: <Save fontSize="small" />,
+        text: <Save />,
         onClick: () => saveData(Tree.collect()),
         disabled: !numbers.length,
         title: 'Save this tree',

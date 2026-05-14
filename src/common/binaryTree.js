@@ -1,4 +1,3 @@
-import { Colors } from './constants';
 import { Points } from './graph';
 import { sound, traverse } from './utils';
 
@@ -10,7 +9,7 @@ const nodeAngle = ({ x, parent, isLeft }) => {
     return [Math.hypot(dy, dx), isLeft ? -a : -(180 - a)];
 };
 
-function binaryTree({ tx, txy, bgcolor, animate, scope, cleanup }) {
+function binaryTree({ tx, txy, animate, scope, cleanup }) {
     var root, onLeft;
     var arr = [];
 
@@ -51,8 +50,7 @@ function binaryTree({ tx, txy, bgcolor, animate, scope, cleanup }) {
         if (node) {
             node = node.refresh();
             const [width, rotate] = nodeAngle(node);
-            animate(node.eid, { width }, { duration: t });
-            animate(node.eid, { rotate }, { duration: t });
+            animate(node.eid, { width, rotate }, { duration: t });
         }
     };
 
@@ -190,7 +188,7 @@ function binaryTree({ tx, txy, bgcolor, animate, scope, cleanup }) {
             setNodePath(node);
             _cleanup(node);
             animate(node.id, { opacity: 1 });
-            bgcolor(node.eid, Colors.stroke);
+            animate(node.eid, { opacity: 1 });
             return node.refresh();
         },
         swapNodes(a, b) {

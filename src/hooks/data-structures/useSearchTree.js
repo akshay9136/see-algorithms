@@ -6,8 +6,7 @@ import { copyBinaryTree, randomNodes, showError, sleep } from '@/common/utils';
 import searchTree from '@/helpers/searchTree';
 import Paper from '@mui/material/Paper';
 
-var Tree;
-var deleted = {};
+var Tree, deleted = {};
 
 export default function useSearchTree({ saveData }) {
     const [numbers, setNumbers] = useState([]);
@@ -83,7 +82,7 @@ export default function useSearchTree({ saveData }) {
     };
 
     const saveButton = {
-        text: <Save fontSize="small" />,
+        text: <Save />,
         onClick: () => saveData(Tree.collect()),
         disabled: !numbers.length,
         title: 'Save this tree',

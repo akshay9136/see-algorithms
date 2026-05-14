@@ -6,8 +6,7 @@ import { copyBinaryTree, sleep, sound } from '@/common/utils';
 import maxHeap from '@/helpers/maxHeap';
 import Paper from '@mui/material/Paper';
 
-var Tree;
-var delay = 500;
+var Tree, delay = 500;
 
 export default function useMaxHeap({ saveData }) {
     const [numbers, setNumbers] = useState([]);
@@ -89,7 +88,7 @@ export default function useMaxHeap({ saveData }) {
     };
 
     const saveButton = {
-        text: <Save fontSize="small" />,
+        text: <Save />,
         onClick: () => saveData(Tree.collect()),
         disabled: !numbers.length,
         title: 'Save this tree',

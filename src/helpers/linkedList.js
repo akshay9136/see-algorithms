@@ -39,7 +39,7 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
     txy(`#box${key}`, nodeX, NODE_TOP);
     await txy(eid, nodeX - EDGE_WIDTH, EDGE_TOP);
     $(`.arrow${key - 1}`).css(arrowStyle);
-    bgcolor(eid, Colors.stroke);
+    animate(eid, { opacity: 1 });
   };
 
   const findNode = async (predicate) => {
@@ -70,7 +70,7 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
     await tx(`#box${key}`, k * STEP_SIZE);
     await txy(eid, k * STEP_SIZE + 30, 80);
     animate(eid, { rotate: -90 }, dur);
-    bgcolor(eid, Colors.stroke);
+    animate(eid, { opacity: 1 });
     $(`.arrow${key - 1}`).css(arrowStyle);
     const next = prev.next;
     animate(next.eid, { rotate: 45, width: 55 }, dur);
