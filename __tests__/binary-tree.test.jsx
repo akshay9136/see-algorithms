@@ -1,5 +1,6 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 import {
   deleteNode,
   insertNode,
@@ -60,6 +61,45 @@ describe('Binary search tree visualization', () => {
     expect(Object.values(nodes[3].dataset)).toEqual(['240', '110']);
     expect(mapDataset(nodes)).toMatchSnapshot();
   });
+
+  test('undo and redo operations', async () => {
+    await insertNode(47);
+    expect(container.querySelectorAll('.node')).toHaveLength(7);
+
+    fireEvent.click(screen.getByTitle('Undo'));
+    await waitFor(() => {
+      expect(container.querySelectorAll('.node')).toHaveLength(6);
+    });
+
+    fireEvent.click(screen.getByTitle('Redo'));
+    await waitFor(() => {
+      expect(container.querySelectorAll('.node')).toHaveLength(7);
+    });
+  });
+
+  test('renders saved data', async () => {
+    useSession.mockReturnValue({
+      data: { user: { email: 'test@example.com' } },
+    });
+    const savedData = {
+      id: '123',
+      createdAt: new Date().toISOString(),
+      data: JSON.stringify([50, 28, 41, 62, 75]),
+    };
+    global.fetch.mockImplementationOnce(() =>
+      Promise.resolve({ ok: true, json: () => Promise.resolve([savedData]) }),
+    );
+    container = await renderTree(BST);
+    const openBtn = await screen.findByText('Saved Data');
+    fireEvent.click(openBtn);
+    const items = await screen.findAllByRole('button');
+    const savedItem = items.find((btn) => btn.textContent.includes('202'));
+    fireEvent.click(savedItem);
+
+    await waitFor(() => {
+      expect(container.querySelectorAll('.node')).toHaveLength(5);
+    });
+  });
 });
 
 describe('AVL tree visualization', () => {
@@ -104,7 +144,11 @@ describe('Red-Black tree visualization', () => {
     const skeleton =
       'W1s2NSwiQiJdLFszMCwiUiJdLFsxNCwiQiJdLFs1MywiQiJdLFs0MiwiUiJdLFs2MCwiUiJdLFs4NCwiQiJdXQ==';
 
-    useRouter.mockReturnValue({ query: { skeleton }, isReady: true, pathname: '/tree/RedBlackTree' });
+    useRouter.mockReturnValue({
+      query: { skeleton },
+      isReady: true,
+      pathname: '/tree/RedBlackTree',
+    });
     container = await renderTree(RBT);
   });
 
