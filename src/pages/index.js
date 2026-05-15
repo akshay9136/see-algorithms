@@ -1,12 +1,9 @@
 import { Box, Card, Container, Grid, Typography } from '@mui/material';
 import Features from '@/components/features';
-import Carousel from '@/components/carousel';
 import Head from 'next/head';
 import Link from 'next/link';
 
-const PREVIEW_GIFS = [
-  { src: '/avl-tree.gif', alt: 'AVL Tree visualization' },
-];
+const PREVIEW_GIFS = [{ src: '/avl-tree.gif', alt: 'AVL Tree visualization' }];
 
 export default function HomePage() {
   return (
@@ -45,8 +42,24 @@ export default function HomePage() {
             educator looking for dynamic teaching tools, or simply someone with
             a passion for computer science, you&apos;ll find value in our
             extensive library of visual resources. Explore our{' '}
-            <Link href="/articles">articles</Link> to deepen your
-            understanding.
+            <Link href="/articles">articles</Link> to deepen your understanding.
+          </Typography>
+
+          <Typography
+            variant="body1"
+            mt={2}
+            sx={{
+              p: 2,
+              bgcolor: 'primary.50',
+              borderLeft: 4,
+              borderColor: 'primary.main',
+              borderRadius: 1,
+            }}
+          >
+            <strong>New Features:</strong> Elevate your learning with AI-powered
+            insights, explore fearlessly with Undo / Redo, save custom setups to
+            resume instantly, and embed interactive visualizers directly into
+            your own website.
           </Typography>
         </Grid>
 

@@ -35,13 +35,13 @@ export default function Privacy() {
             information we may collect on the Site includes:
           </Typography>
 
-          <Typography variant="body1" component="div" sx={{ pl: 2 }}>
-            <Typography variant="body1" paragraph>
+          <Typography variant="body1" paragraph sx={{ pl: 2 }}>
+            <Typography variant="body1" mb={1}>
               <strong>Personal Data:</strong> We do not collect personal
               information such as names, email addresses, or phone numbers
               unless you voluntarily provide them.
             </Typography>
-            <Typography variant="body1" paragraph>
+            <Typography variant="body1">
               <strong>Usage Data:</strong> We may collect information about how
               you access and use the Site, including your IP address, browser
               type, operating system, and pages visited.
@@ -52,28 +52,38 @@ export default function Privacy() {
             3. How We Use Your Information
           </Typography>
           <Typography variant="body1" paragraph>
-            We do not actively collect or store personal information. However,
-            Google AdSense may collect data through cookies for advertising
-            purposes. We use the information we collect to:
+            We use the information we collect to improve, personalize, and
+            expand our Site. Additionally, third-party services such as Google
+            AdSense may collect data through cookies for the purpose of
+            displaying relevant advertisements. For more information, visit{' '}
+            <a
+              href="https://www.google.com/policies/privacy/partners/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              How Google uses data from sites that use their services
+            </a>
+            . We use the information we collect to:
           </Typography>
 
-          <Typography variant="body1" component="div" sx={{ pl: 2 }}>
-            <Typography variant="body1" paragraph>
+          <Typography variant="body1" paragraph sx={{ pl: 2 }}>
+            <Typography variant="body1" mb={1}>
               • Improve, personalize, and expand our Site
             </Typography>
-            <Typography variant="body1" paragraph>
+            <Typography variant="body1">
               • Display relevant ads through Google AdSense
             </Typography>
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
-            4. Cookies and Local Storage
+            4. Tracking Technologies
           </Typography>
           <Typography variant="body1" paragraph>
-            We do not use cookies, local storage, or similar tracking
-            technologies to collect or store information on your device. We do
-            not track your browsing history or store preferences between
-            sessions.
+            We do not directly set cookies or use local storage for tracking
+            purposes. However, third-party services integrated into our Site —
+            including Google AdSense and Vercel Analytics — may use cookies, web
+            beacons, or similar technologies to collect information for
+            advertising and analytics purposes.
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
