@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { Email, GitHub } from '@mui/icons-material';
 import { CustomSeo } from '@/components/common';
+import { logError } from '@/common/utils';
 import emailjs from '@emailjs/browser';
 
 export default function ContactUs() {
@@ -57,7 +58,7 @@ export default function ContactUs() {
       setSubmitted(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (err) {
-      console.error('Email Error:', err);
+      logError({ title: 'Failed to send email', message: err.message });
       setError(
         'Failed to send email. Please try again or contact us directly.',
       );
