@@ -54,7 +54,7 @@ export default function useSummary() {
 
   const toggle = (e) => {
     if (!session) {
-      const url = `${window.location.origin}${pathname}`;
+      const url = window.location.origin + pathname;
       push(`/auth/signin?callbackUrl=${encodeURIComponent(url)}`);
     } else {
       const { checked } = e.target;
@@ -65,7 +65,6 @@ export default function useSummary() {
 
   const abort = () => {
     controlRef.current?.abort();
-    console.log('playStatus', playStatus)
     if (playStatus < 2) setContent('');
   };
 

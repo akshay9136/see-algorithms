@@ -36,15 +36,15 @@ export default function useSavedData() {
     if (algoId && email) fetchItems();
   }, [algoId, email]);
 
-  const redirectToLogin = (data) => {
+  const callbackUrl = (data) => {
     const json = JSON.stringify(data);
     const url = `${window.location.origin}${pathname}?skeleton=${btoa(json)}`;
-    push(`/auth/signin?callbackUrl=${encodeURIComponent(url)}`);
+    return encodeURIComponent(url);
   }
 
   const saveData = async (data) => {
     if (!session) {
-      redirectToLogin(data);
+      push(`/auth/signin?callbackUrl=${callbackUrl(data)}`);
       return;
     }
     setLoading(true);

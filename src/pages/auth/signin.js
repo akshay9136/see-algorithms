@@ -67,10 +67,10 @@ export default function SignIn() {
           <Button
             color="inherit"
             sx={{ textTransform: 'none', mb: 1 }}
-            onClick={() => router.push('/')}
+            onClick={() => router.push(callbackUrl)}
           >
             <ArrowBack fontSize="small" sx={{ mr: 1 }} />
-            Back to home
+            Back
           </Button>
 
           <Card elevation={3} sx={{ borderRadius: 2 }}>
