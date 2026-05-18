@@ -10,14 +10,29 @@ export function withAuth(handler) {
   return async (req, res) => {
     const session = await getServerSession(req, res, authOptions);
 
-    if (!session?.user?.id) {
-      return res.status(401).json({ error: 'Unauthorized' });
+    if (!session?.user) {
+      return res.status(401).send('Unauthorized');
     }
+    const user = {
+      ...session.user,
+      userId: `${session.user.provider}_${session.user.id}`,
+    };
+    // Call the original handler with user object
+    return handler(req, res, user);
+  };
+}
 
-    // Normalize userId as used in other parts of the app
-    const userId = `${session.user.provider}_${session.user.id}`;
+export function withOptionalAuth(handler) {
+  return async (req, res) => {
+    const session = await getServerSession(req, res, authOptions);
 
-    // Call the original handler with userId
-    return handler(req, res, { userId });
+    if (!session?.user) {
+      return handler(req, res, null);
+    }
+    const user = {
+      ...session.user,
+      userId: `${session.user.provider}_${session.user.id}`,
+    };
+    return handler(req, res, user);
   };
 }

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Box, Container, Divider, Drawer, Typography } from '@mui/material';
 import AlgorithmSEO from '../algorithm-seo';
 import Affiliates from '../affiliates';
+import Discussion from '../discussion';
 import Sider from './sider';
 import Header from './header';
 import Footer from './footer';
@@ -82,6 +83,8 @@ function Layout({ children }) {
             {children}
             {pageId && (
               <>
+                <Divider sx={{ my: 4 }} />
+                <Discussion algoId={pageId} />
                 <Divider sx={{ my: 4 }} />
                 <Affiliates />
               </>

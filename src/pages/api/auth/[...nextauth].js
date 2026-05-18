@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import GitHubProvider from 'next-auth/providers/github';
-import db from '@/lib/firebase-admin';
+import db from '@/lib/firebase-utils';
 
 export const authOptions = {
   providers: [
@@ -21,6 +21,9 @@ export const authOptions = {
     async session({ session, token }) {
       session.user.id = token.sub;
       session.user.provider = token.provider;
+      session.user.isAdmin = process.env.ADMIN_EMAILS?.split(',').includes(
+        session.user.email,
+      );
       return session;
     },
     async jwt({ token, account }) {

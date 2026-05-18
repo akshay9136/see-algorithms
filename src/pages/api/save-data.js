@@ -1,4 +1,4 @@
-import db from '@/lib/firebase-admin';
+import db from '@/lib/firebase-utils';
 import { withAuth } from '@/lib/middlewares';
 
 export default withAuth(async (req, res, { userId }) => {
@@ -60,10 +60,9 @@ async function handleFetch(req, res, userId) {
       .orderBy('createdAt', 'desc')
       .get();
 
-    const items = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    const items = snapshot.docs.map((doc) => {
+      return { id: doc.id, ...doc.data() };
+    });
     res.status(200).json(items);
   } catch (err) {
     console.error(err.message);

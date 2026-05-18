@@ -27,7 +27,7 @@
 
 .accordion {
   margin-bottom: 0.75rem;
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   background: white;
@@ -66,7 +66,7 @@
 
 .listItem {
   margin: 4px 12px !important;
-  border-radius: 8px !important;
+  border-radius: 6px !important;
   transition: all 0.2s ease !important;
   border: 1px solid transparent !important;
   position: relative;

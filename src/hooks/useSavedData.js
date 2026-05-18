@@ -20,12 +20,14 @@ export default function useSavedData() {
       if (res.ok) {
         const items = await res.json();
         setSavedItems(items);
+      } else {
+        showToast({
+          message: (await res.text()) || 'Failed to fetch saved data.',
+          variant: 'error',
+        });
       }
     } catch (err) {
-      showToast({
-        message: 'Failed to fetch saved data.',
-        variant: 'error',
-      });
+      showToast({ message: 'Network error', variant: 'error' });
     }
     setLoading(false);
   };
@@ -38,9 +40,9 @@ export default function useSavedData() {
 
   const callbackUrl = (data) => {
     const json = JSON.stringify(data);
-    const url = `${window.location.origin}${pathname}?skeleton=${btoa(json)}`;
+    const url = `${pathname}?skeleton=${btoa(json)}`;
     return encodeURIComponent(url);
-  }
+  };
 
   const saveData = async (data) => {
     if (!session) {
@@ -54,6 +56,7 @@ export default function useSavedData() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ algoId, type, data }),
       });
+
       if (res.ok) {
         showToast({
           message: 'Data saved successfully!',
@@ -61,14 +64,13 @@ export default function useSavedData() {
         });
         fetchItems();
       } else {
-        const msg = await res.text();
         showToast({
-          message: msg || 'Failed to save data.',
+          message: (await res.text()) || 'Failed to save data.',
           variant: 'error',
         });
       }
     } catch (err) {
-      showToast({ message: 'Failed to save data.', variant: 'error' });
+      showToast({ message: 'Network error', variant: 'error' });
     }
     setLoading(false);
   };
@@ -79,11 +81,17 @@ export default function useSavedData() {
       const res = await fetch(`/api/save-data?id=${id}`, {
         method: 'DELETE',
       });
+
       if (res.ok) {
         setSavedItems((prev) => prev.filter((item) => item.id !== id));
+      } else {
+        showToast({
+          message: (await res.text()) || 'Failed to delete item.',
+          variant: 'error',
+        });
       }
     } catch (err) {
-      showToast({ message: 'Failed to delete item.', variant: 'error' });
+      showToast({ message: 'Network error', variant: 'error' });
     }
     setLoading(false);
   };

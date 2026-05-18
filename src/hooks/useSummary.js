@@ -10,8 +10,8 @@ import AppContext from '@/common/context';
 export default function useSummary() {
   const [content, setContent] = useState('');
   const [summaryOn, setSummaryOn] = useState(false);
+  const { asPath, pathname, push } = useRouter();
   const { data: session } = useSession();
-  const { pathname, push } = useRouter();
   const { playStatus } = useContext(AppContext);
   const controlRef = useRef(null);
 
@@ -54,8 +54,7 @@ export default function useSummary() {
 
   const toggle = (e) => {
     if (!session) {
-      const url = window.location.origin + pathname;
-      push(`/auth/signin?callbackUrl=${encodeURIComponent(url)}`);
+      push(`/auth/signin?callbackUrl=${encodeURIComponent(asPath)}`);
     } else {
       const { checked } = e.target;
       setSummaryOn(checked);

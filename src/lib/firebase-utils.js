@@ -19,3 +19,21 @@ function getFirebaseAdmin() {
 const db = getFirebaseAdmin();
 
 export default db;
+
+/**
+ * Check comment rate by querying the user's recent comments.
+ * Returns true if within limits, false otherwise.
+ */
+async function checkLastComments(userId) {
+  const oneMinuteAgo = new Date(Date.now() - 60000).toISOString();
+  const snapshot = await db
+    .collection('comments')
+    .where('authorId', '==', userId)
+    .where('createdAt', '>', oneMinuteAgo)
+    .limit(3)
+    .get();
+
+  return snapshot.size < 3;
+}
+
+export { checkLastComments };

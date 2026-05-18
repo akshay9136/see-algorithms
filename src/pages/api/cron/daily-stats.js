@@ -1,11 +1,10 @@
-import db from '@/lib/firebase-admin';
+import db from '@/lib/firebase-utils';
 
 export default async function handler(req, res) {
   const { authorization } = req.headers;
   if (authorization !== `Bearer ${process.env.CRON_SECRET}`) {
-    return res.status(401).json({ error: 'Unauthorized' });
+    return res.status(401).send('Unauthorized');
   }
-
   try {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
@@ -37,9 +36,9 @@ export default async function handler(req, res) {
     const date = startIso.split('T')[0];
     await db.collection('dailyStats').doc(date).set(stats);
 
-    res.status(200).json({ status: 'ok', stats });
+    res.status(200).json(stats);
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ error: 'Failed to generate stats' });
+    res.status(500).send('Failed to generate stats');
   }
 }
