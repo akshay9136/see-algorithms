@@ -1,5 +1,5 @@
 import { DrawGraph } from '@/components/common';
-import { Box, Divider, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import { charAt, createCell, hasValue, sound } from '@/common/utils';
 import { useAlgorithm, useGraphScope, useSummary } from '@/hooks';
 import { Colors } from '@/common/constants';
@@ -55,7 +55,7 @@ while stack is not empty:
             }}
           />
           <Box className="alphaGrid dfs-path" />
-          <Divider />
+          <br />
           {summary}
         </Stack>
       </Box>

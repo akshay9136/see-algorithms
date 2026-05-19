@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { showToast } from '@/components/toast';
+import { showError } from '@/common/utils';
 
 export default function useSavedData() {
   const [savedItems, setSavedItems] = useState([]);
@@ -21,13 +22,10 @@ export default function useSavedData() {
         const items = await res.json();
         setSavedItems(items);
       } else {
-        showToast({
-          message: (await res.text()) || 'Failed to fetch saved data.',
-          variant: 'error',
-        });
+        showError((await res.text()) || 'Failed to fetch saved data.');
       }
     } catch (err) {
-      showToast({ message: 'Network error', variant: 'error' });
+      showError('Network error');
     }
     setLoading(false);
   };
@@ -64,13 +62,10 @@ export default function useSavedData() {
         });
         fetchItems();
       } else {
-        showToast({
-          message: (await res.text()) || 'Failed to save data.',
-          variant: 'error',
-        });
+        showError((await res.text()) || 'Failed to save data.');
       }
     } catch (err) {
-      showToast({ message: 'Network error', variant: 'error' });
+      showError('Network error');
     }
     setLoading(false);
   };
@@ -85,13 +80,10 @@ export default function useSavedData() {
       if (res.ok) {
         setSavedItems((prev) => prev.filter((item) => item.id !== id));
       } else {
-        showToast({
-          message: (await res.text()) || 'Failed to delete item.',
-          variant: 'error',
-        });
+        showError((await res.text()) || 'Failed to delete item.');
       }
     } catch (err) {
-      showToast({ message: 'Network error', variant: 'error' });
+      showError('Network error');
     }
     setLoading(false);
   };

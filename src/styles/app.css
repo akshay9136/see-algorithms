@@ -168,8 +168,8 @@
 
 .savedDataBtn {
   position: absolute;
-  top: 8px;
-  right: 12px;
+  top: 12px;
+  right: 16px;
   gap: 8px;
   text-transform: none;
   font-size: 1rem;

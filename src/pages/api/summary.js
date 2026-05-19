@@ -13,7 +13,7 @@ const promptBuilders = {
   BinaryHeap: prompts.binaryHeap,
   HuffmanCoding: prompts.huffmanCoding,
   BFS: prompts.graphAlgorithm('Breadth-First Search'),
-  DFS: prompts.graphAlgorithm('Depth-First Search'),
+  DFS: prompts.graphAlgorithm('Depth-First Search (using stack)'),
   TopSort: prompts.graphAlgorithm('Topological Sorting (using stack)'),
   Dijkstras: prompts.graphAlgorithm('Dijkstras Shortest Path'),
   Prims: prompts.graphAlgorithm('Prims Minimum Spanning Tree'),
@@ -27,10 +27,9 @@ export default withAuth(async function (req, res) {
     if (!buildPrompt) {
       return res.status(400).send('Invalid request');
     }
-    const prompt = buildPrompt(data);
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
-      contents: prompt,
+      contents: buildPrompt(data),
     });
     res.status(200).send(response.text);
   } catch (err) {

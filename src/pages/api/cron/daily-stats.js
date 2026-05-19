@@ -27,9 +27,25 @@ export default async function handler(req, res) {
       .where('createdAt', '<', todayIso)
       .get();
 
+    // 3. Saved data yesterday
+    const savedDataQuery = await db
+      .collection('saved')
+      .where('createdAt', '>=', startIso)
+      .where('createdAt', '<', todayIso)
+      .get();
+
+    // 4. New comments yesterday
+    const commentsQuery = await db
+      .collection('comments')
+      .where('createdAt', '>=', startIso)
+      .where('createdAt', '<', todayIso)
+      .get();
+
     const stats = {
       signInCount: signedInQuery.size,
       signUpCount: signedUpQuery.size,
+      savedDataCount: savedDataQuery.size,
+      commentsCount: commentsQuery.size,
       createdAt: new Date().toISOString(),
     };
 

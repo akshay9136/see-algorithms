@@ -17,12 +17,7 @@ export default function HomePage() {
 
       <Grid container spacing={4} alignItems="center">
         <Grid item xs={12} lg={6}>
-          <Typography
-            variant="h4"
-            component="h1"
-            color="text.primary"
-            gutterBottom
-          >
+          <Typography variant="h4" component="h1" gutterBottom>
             Visualize the Logic
             <Box
               component="span"

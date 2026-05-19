@@ -22,18 +22,18 @@ const styles = {
     },
   },
   submitBtn: {
+    px: 2,
+    ml: 'auto',
     textTransform: 'none',
     fontSize: '1rem',
     fontWeight: 600,
-    ml: 'auto',
-    px: 2,
   },
 };
 
 /**
- * Compose box for writing new comments.
+ * Comment box for writing new comments.
  */
-export default function CommentBox({ onSubmit }) {
+export default function CommentBox({ topic, onSubmit }) {
   const [comment, setComment] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const remaining = MAX_LENGTH - comment.length;
@@ -73,7 +73,7 @@ export default function CommentBox({ onSubmit }) {
             minRows={3}
             maxRows={6}
             fullWidth
-            placeholder="Share a question or insight about this algorithm…"
+            placeholder={`Share a question or insight about this ${topic}...`}
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             onKeyDown={handleKeyDown}

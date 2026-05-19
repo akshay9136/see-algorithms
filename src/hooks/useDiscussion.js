@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { showToast } from '@/components/toast';
+import { showError } from '@/common/utils';
 
 function useDiscussion(algoId) {
   const { data: session, status } = useSession();
@@ -18,13 +19,10 @@ function useDiscussion(algoId) {
         const data = await res.json();
         setComments(data);
       } else {
-        showToast({
-          message: (await res.text()) || 'Failed to fetch comments',
-          variant: 'error',
-        });
+        showError((await res.text()) || 'Failed to fetch comments');
       }
     } catch {
-      showToast({ message: 'Network error', variant: 'error' });
+      showError('Network error');
     }
     setLoading(false);
   };
@@ -47,13 +45,10 @@ function useDiscussion(algoId) {
         showToast({ message: 'Comment posted', variant: 'success' });
         return true;
       } else {
-        showToast({
-          message: (await res.text()) || 'Failed to post comment',
-          variant: 'error',
-        });
+        showError((await res.text()) || 'Failed to post comment');
       }
     } catch {
-      showToast({ message: 'Network error', variant: 'error' });
+      showError('Network error');
     }
     return false;
   };
@@ -67,21 +62,14 @@ function useDiscussion(algoId) {
       if (res.ok) {
         setComments((prev) => prev.filter((c) => c.id !== commentId));
       } else {
-        showToast({
-          message: (await res.text()) || 'Failed to delete',
-          variant: 'error',
-        });
+        showError((await res.text()) || 'Failed to delete');
       }
     } catch {
-      showToast({ message: 'Network error', variant: 'error' });
+      showError('Network error');
     }
   };
 
   const toggleUpvote = async (comment) => {
-    if (!signedIn) {
-      showToast({ message: 'Sign in to upvote', variant: 'info' });
-      return;
-    }
     const { upvoted } = comment;
     try {
       const res = await fetch('/api/comments', {
@@ -100,21 +88,14 @@ function useDiscussion(algoId) {
           }),
         );
       } else {
-        showToast({
-          message: (await res.text()) || 'Failed to upvote',
-          variant: 'error',
-        });
+        showError((await res.text()) || 'Failed to upvote');
       }
     } catch {
-      showToast({ message: 'Network error', variant: 'error' });
+      showError('Network error');
     }
   };
 
   const reportComment = async (commentId) => {
-    if (!signedIn) {
-      showToast({ message: 'Sign in to report', variant: 'info' });
-      return;
-    }
     try {
       const res = await fetch('/api/comments', {
         method: 'PATCH',
@@ -125,13 +106,10 @@ function useDiscussion(algoId) {
       if (res.ok) {
         showToast({ message: 'Comment reported', variant: 'success' });
       } else {
-        showToast({
-          message: (await res.text()) || 'Failed to report',
-          variant: 'error',
-        });
+        showError((await res.text()) || 'Failed to report');
       }
     } catch {
-      showToast({ message: 'Network error', variant: 'error' });
+      showError('Network error');
     }
   };
 

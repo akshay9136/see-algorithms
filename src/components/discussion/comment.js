@@ -14,34 +14,41 @@ import {
   Report,
 } from '@mui/icons-material';
 import { timeAgo } from '@/common/utils';
+import { showToast } from '../toast';
 
 const styles = {
-  root: { borderTop: '1px solid', borderColor: 'divider', py: 2 },
-  ownChip: { height: 22, fontSize: '0.75rem', fontWeight: 600 },
+  root: { borderTop: '1px solid', borderColor: 'divider', pt: 2.5, pb: 2 },
+  authorChip: { height: 22, fontWeight: 600 },
   commentText: { color: 'text.secondary', wordBreak: 'break-word', my: 1 },
-  iconSize: { fontSize: 20 },
   reportBtn: { color: 'text.disabled', '&:hover': { color: 'warning.main' } },
   deleteBtn: { color: 'text.disabled', '&:hover': { color: 'error.main' } },
-  confirmBtn: { textTransform: 'none', fontSize: '0.9rem' },
 };
 
 /**
- * Individual comment card with upvote, report, delete, and admin actions.
+ * Individual comment with upvote, report, and delete actions.
  */
-const CommentCard = memo(function CommentCard({
+const Comment = memo(function ({
   comment,
   isAdmin,
+  signedIn,
   onUpvote,
   onDelete,
   onReport,
 }) {
+  const handleReport = () => {
+    if (signedIn) {
+      if (confirm('Are you sure you want to report this comment?'))
+        onReport(comment.id);
+    } else {
+      showToast({
+        message: 'Sign in to report this comment',
+        variant: 'warning',
+      });
+    }
+  };
+
   return (
-    <Stack
-      direction="row"
-      spacing={2}
-      id={`comment-${comment.id}`}
-      sx={styles.root}
-    >
+    <Stack direction="row" spacing={2} sx={styles.root}>
       <Avatar
         src={comment.authorImage}
         alt={comment.authorName}
@@ -61,7 +68,7 @@ const CommentCard = memo(function CommentCard({
               size="small"
               color="primary"
               variant="outlined"
-              sx={styles.ownChip}
+              sx={styles.authorChip}
             />
           )}
           <Typography variant="body2" color="text.disabled">
@@ -78,12 +85,19 @@ const CommentCard = memo(function CommentCard({
             size="small"
             title={comment.upvoted ? 'Remove upvote' : 'Upvote comment'}
             color={comment.upvoted ? 'primary' : 'default'}
-            onClick={() => onUpvote(comment)}
+            onClick={() => {
+              signedIn
+                ? onUpvote(comment)
+                : showToast({
+                    message: 'Sign in to upvote this comment',
+                    variant: 'warning',
+                  });
+            }}
           >
             {comment.upvoted ? (
-              <ThumbUpAlt sx={styles.iconSize} />
+              <ThumbUpAlt fontSize="small" />
             ) : (
-              <ThumbUpAltOutlined sx={styles.iconSize} />
+              <ThumbUpAltOutlined fontSize="small" />
             )}
           </IconButton>
 
@@ -102,14 +116,10 @@ const CommentCard = memo(function CommentCard({
             <IconButton
               size="small"
               title="Report comment"
-              onClick={() => {
-                if (confirm(`Are you sure you want to report this comment?`)) {
-                  onReport(comment.id);
-                }
-              }}
+              onClick={handleReport}
               sx={styles.reportBtn}
             >
-              <Report sx={styles.iconSize} />
+              <Report fontSize="small" />
             </IconButton>
           )}
 
@@ -118,13 +128,12 @@ const CommentCard = memo(function CommentCard({
               size="small"
               title="Delete comment"
               onClick={() => {
-                if (confirm(`Are you sure you want to delete this comment?`)) {
+                if (confirm(`Are you sure you want to delete this comment?`))
                   onDelete(comment.id);
-                }
               }}
               sx={styles.deleteBtn}
             >
-              <DeleteOutline sx={styles.iconSize} />
+              <DeleteOutline fontSize="small" />
             </IconButton>
           )}
         </Stack>
@@ -133,4 +142,4 @@ const CommentCard = memo(function CommentCard({
   );
 });
 
-export default CommentCard;
+export default Comment;

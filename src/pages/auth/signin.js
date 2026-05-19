@@ -36,12 +36,14 @@ const benefits = [
 
 export default function SignIn() {
   const router = useRouter();
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState('');
   const { callbackUrl = '/' } = router.query;
 
   const handleSignIn = (providerId) => {
     setLoading(providerId);
-    signIn(providerId, { callbackUrl });
+    signIn(providerId, { callbackUrl }).catch(() => {
+      setLoading('');
+    });
   };
 
   return (

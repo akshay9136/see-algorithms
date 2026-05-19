@@ -3,17 +3,17 @@ import { Box, Chip, Stack, Typography } from '@mui/material';
 import { ChatBubbleOutline } from '@mui/icons-material';
 import useDiscussion from '@/hooks/useDiscussion';
 import CommentBox from './comment-box';
-import CommentCard from './comment-card';
-import CommentSkeleton from './comment-skeleton';
+import CommentLoading from './comment-loading';
+import Comment from './comment';
+import Guidelines from './guidelines';
 import Link from 'next/link';
 
 const styles = {
-  chip: { height: 24, fontWeight: 600 },
-  toggleBtn: { textTransform: 'none', fontSize: '0.9rem', py: 0.5, px: 2 },
-  signInPrompt: {
+  count: { height: 22, fontWeight: 600 },
+  prompt: {
     py: 2,
     px: 2.5,
-    mb: 3,
+    mb: 2,
     border: '1.5px dashed',
     borderColor: 'divider',
     borderRadius: 2,
@@ -23,7 +23,7 @@ const styles = {
 };
 
 export default function Discussion({ algoId }) {
-  const { asPath } = useRouter();
+  const { asPath, pathname } = useRouter();
   const {
     comments,
     loading,
@@ -33,8 +33,14 @@ export default function Discussion({ algoId }) {
     deleteComment,
     toggleUpvote,
     reportComment,
-    toggleHide,
   } = useDiscussion(algoId);
+
+  const getTopic = () => {
+    const category = pathname.split('/')[1];
+    if (category === 'data-structures') return 'data structure';
+    if (category === 'articles') return 'article';
+    return 'algorithm';
+  };
 
   return (
     <Box component="section" sx={{ maxWidth: 700 }}>
@@ -43,14 +49,16 @@ export default function Discussion({ algoId }) {
           💬 &nbsp;Discussion
         </Typography>
         {comments.length > 0 && (
-          <Chip label={comments.length} size="small" sx={styles.chip} />
+          <Chip label={comments.length} size="small" sx={styles.count} />
         )}
       </Stack>
-
       {signedIn ? (
-        <CommentBox onSubmit={addComment} />
+        <>
+          <Guidelines />
+          <CommentBox topic={getTopic()} onSubmit={addComment} />
+        </>
       ) : (
-        <Stack sx={styles.signInPrompt}>
+        <Stack sx={styles.prompt}>
           <Typography variant="body1" color="text.secondary">
             <Link
               href={`/auth/signin?callbackUrl=${asPath}`}
@@ -64,17 +72,17 @@ export default function Discussion({ algoId }) {
       )}
 
       {loading ? (
-        <CommentSkeleton />
+        <CommentLoading />
       ) : comments.length > 0 ? (
         comments.map((comment) => (
-          <CommentCard
+          <Comment
             key={comment.id}
             comment={comment}
             isAdmin={isAdmin}
+            signedIn={signedIn}
             onUpvote={toggleUpvote}
             onDelete={deleteComment}
             onReport={reportComment}
-            onToggleHide={toggleHide}
           />
         ))
       ) : (
@@ -84,7 +92,7 @@ export default function Discussion({ algoId }) {
             No comments yet
           </Typography>
           <Typography variant="body2" sx={{ mt: 0.5 }}>
-            Be the first to share your thoughts on this algorithm
+            Be the first to share your thoughts on this {getTopic()}.
           </Typography>
         </Box>
       )}

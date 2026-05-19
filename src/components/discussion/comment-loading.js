@@ -3,7 +3,7 @@ import { Box, Skeleton, Stack } from '@mui/material';
 /**
  * Loading skeleton placeholder for comments.
  */
-export default function CommentSkeleton() {
+export default function CommentLoading() {
   return (
     <Stack spacing={2}>
       {[1, 2, 3].map((i) => (
