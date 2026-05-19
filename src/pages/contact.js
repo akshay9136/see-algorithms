@@ -75,11 +75,7 @@ export default function ContactUs() {
           Contact Us
         </Typography>
 
-        <Typography
-          variant="body1"
-          align="center !important"
-          color="text.secondary"
-        >
+        <Typography align="center" color="text.secondary">
           We&apos;d love to hear from you! Send us a message and we&apos;ll
           respond as soon as possible.
         </Typography>

@@ -24,7 +24,7 @@ while queue is not empty:
 
   return (
     <Stack spacing={3}>
-      <Typography variant="body1">
+      <Typography>
         <strong>Breadth-First Search (BFS)</strong> explores a graph much like
         finding connections in a social network. Starting from a source node, it
         first visits all of its direct friends (neighbors), then all of their

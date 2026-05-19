@@ -8,7 +8,7 @@ export default function StableSorting() {
       summary="Understand the importance of maintaining original order when sorting data with duplicate keys."
     >
       <Section title='What Does "Stable" Mean?'>
-        <Typography variant="body1" paragraph>
+        <Typography paragraph>
           A sorting algorithm is stable if it preserves the relative order of
           elements that compare equal.
         </Typography>

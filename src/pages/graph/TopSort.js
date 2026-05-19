@@ -33,7 +33,7 @@ function indegree():
 
   return (
     <Stack spacing={2}>
-      <Typography variant="body1">
+      <Typography>
         <strong>Topological Sorting</strong> is an ordering of nodes in
         a directed acyclic graph (DAG) where each node appears before
         all the nodes it points to. It is like creating a list of tasks,

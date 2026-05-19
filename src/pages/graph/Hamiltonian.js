@@ -11,7 +11,7 @@ export default function Hamiltonian(props) {
 
   return (
     <Stack spacing={3}>
-      <Typography variant="body1">
+      <Typography>
         A <strong>Hamiltonian Cycle</strong> is a path in a graph that visits
         every node exactly once and returns to the starting node. It is closely
         related to Travelling Salesman Problem, where the goal is to find the

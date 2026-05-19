@@ -59,7 +59,7 @@ const Comment = memo(function ({
 
       <Box flex={1}>
         <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
-          <Typography variant="body1" fontWeight={600}>
+          <Typography fontWeight={600}>
             {comment.authorName}
           </Typography>
           {comment.isAuthor && (
@@ -76,7 +76,7 @@ const Comment = memo(function ({
           </Typography>
         </Stack>
 
-        <Typography variant="body1" sx={styles.commentText}>
+        <Typography sx={styles.commentText}>
           {comment.text}
         </Typography>
 

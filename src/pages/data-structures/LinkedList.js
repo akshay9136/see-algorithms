@@ -48,7 +48,7 @@ function deleteAt(index):
 
   return (
     <Stack spacing={2}>
-      <Typography variant="body1">
+      <Typography>
         A <strong>Linked List</strong> is a linear data structure where elements
         are stored in nodes, and each node points to the next node in the
         sequence. Unlike arrays, linked lists do not have a fixed size and can

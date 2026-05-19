@@ -113,7 +113,7 @@ for each edge (u, v):
 
     return (
         <Stack spacing={3} width="fit-content">
-            <Typography variant="body1">
+            <Typography>
                 <strong>Kruskal&apos;s Algorithm</strong> is another way to find
                 a Minimum Spanning Tree (MST) in a graph. It works by
                 iteratively adding the cheapest available edge that connects two
@@ -139,7 +139,6 @@ for each edge (u, v):
                     </Typography>
                     <Typography
                         component="ul"
-                        variant="body1"
                         sx={{ '& li': { mb: 1 }, pl: 2 }}
                     >
                         <li>

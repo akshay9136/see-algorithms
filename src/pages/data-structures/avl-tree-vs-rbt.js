@@ -16,7 +16,7 @@ export default function AVLvsRedBlack(props) {
 
   return (
     <Stack spacing={3}>
-      <Typography variant="body1">
+      <Typography>
         Both <strong>AVL Trees</strong> and <strong>Red-Black Trees</strong>{' '}
         keep themselves balanced so that searching stays fast. The difference is
         in how strict they are — <strong>AVL Trees</strong> stay more tightly

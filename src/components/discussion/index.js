@@ -59,7 +59,7 @@ export default function Discussion({ algoId }) {
         </>
       ) : (
         <Stack sx={styles.prompt}>
-          <Typography variant="body1" color="text.secondary">
+          <Typography color="text.secondary">
             <Link
               href={`/auth/signin?callbackUrl=${asPath}`}
               style={{ fontWeight: 600 }}
@@ -88,7 +88,7 @@ export default function Discussion({ algoId }) {
       ) : (
         <Box sx={styles.empty}>
           <ChatBubbleOutline sx={{ fontSize: 40, mb: 1, opacity: 0.4 }} />
-          <Typography variant="body1" fontWeight={500}>
+          <Typography fontWeight={500}>
             No comments yet
           </Typography>
           <Typography variant="body2" sx={{ mt: 0.5 }}>

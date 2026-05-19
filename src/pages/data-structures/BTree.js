@@ -19,7 +19,7 @@ export default function BTree(props) {
         of data must be read and written efficiently.
       </Typography>
 
-      <Typography variant="body1">
+      <Typography>
         When inserting a new key, it is placed into the appropriate leaf node.
         If the node overflows by exceeding the maximum number of keys, it{' '}
         <strong>splits</strong> — the median key is pushed up to the parent,

@@ -14,7 +14,7 @@ export default function DfsVsBfs(props) {
 
   return (
     <Stack spacing={3}>
-      <Typography variant="body1">
+      <Typography>
         Compare <strong>Depth-First Search</strong> and{' '}
         <strong>Breadth-First Search</strong> side-by-side to witness their
         distinct traversal patterns in real-time. While <strong>DFS</strong>{' '}

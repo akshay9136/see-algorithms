@@ -10,7 +10,7 @@ export default function Boruvkas(props) {
 
   return (
     <Stack spacing={3}>
-      <Typography variant="body1">
+      <Typography>
         <strong>Borůvka&apos;s Algorithm</strong> is a greedy approach
         to find a Minimum Spanning Tree (MST) in a graph. It works by
         repeatedly selecting the cheapest edge connecting two components

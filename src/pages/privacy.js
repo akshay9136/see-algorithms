@@ -18,7 +18,7 @@ export default function Privacy() {
           <Typography variant="h6" gutterBottom fontWeight={600}>
             1. Introduction
           </Typography>
-          <Typography variant="body1" paragraph>
+          <Typography paragraph>
             Welcome to See Algorithms ({'"we," "our," or "us"'}). This Privacy
             Policy explains how we collect, use, disclose, and safeguard your
             information when you visit our website see-algorithms.com (the
@@ -30,18 +30,18 @@ export default function Privacy() {
           <Typography variant="h6" gutterBottom fontWeight={600}>
             2. Information We Collect
           </Typography>
-          <Typography variant="body1" paragraph>
+          <Typography paragraph>
             We may collect information about you in a variety of ways. The
             information we may collect on the Site includes:
           </Typography>
 
-          <Typography variant="body1" paragraph sx={{ pl: 2 }}>
-            <Typography variant="body1" mb={1}>
+          <Typography paragraph sx={{ pl: 2 }}>
+            <Typography mb={1}>
               <strong>Personal Data:</strong> We do not collect personal
               information such as names, email addresses, or phone numbers
               unless you voluntarily provide them.
             </Typography>
-            <Typography variant="body1">
+            <Typography>
               <strong>Usage Data:</strong> We may collect information about how
               you access and use the Site, including your IP address, browser
               type, operating system, and pages visited.
@@ -51,7 +51,7 @@ export default function Privacy() {
           <Typography variant="h6" gutterBottom fontWeight={600}>
             3. How We Use Your Information
           </Typography>
-          <Typography variant="body1" paragraph>
+          <Typography paragraph>
             We use the information we collect to improve, personalize, and
             expand our Site. Additionally, third-party services such as Google
             AdSense may collect data through cookies for the purpose of
@@ -66,11 +66,11 @@ export default function Privacy() {
             . We use the information we collect to:
           </Typography>
 
-          <Typography variant="body1" paragraph sx={{ pl: 2 }}>
-            <Typography variant="body1" mb={1}>
+          <Typography paragraph sx={{ pl: 2 }}>
+            <Typography mb={1}>
               • Improve, personalize, and expand our Site
             </Typography>
-            <Typography variant="body1">
+            <Typography>
               • Display relevant ads through Google AdSense
             </Typography>
           </Typography>
@@ -78,7 +78,7 @@ export default function Privacy() {
           <Typography variant="h6" gutterBottom fontWeight={600}>
             4. Tracking Technologies
           </Typography>
-          <Typography variant="body1" paragraph>
+          <Typography paragraph>
             We do not directly set cookies or use local storage for tracking
             purposes. However, third-party services integrated into our Site —
             including Google AdSense and Vercel Analytics — may use cookies, web
@@ -89,7 +89,7 @@ export default function Privacy() {
           <Typography variant="h6" gutterBottom fontWeight={600}>
             5. Data Security
           </Typography>
-          <Typography variant="body1" paragraph>
+          <Typography paragraph>
             We implement appropriate security measures to protect your
             information. However, no method of transmission over the Internet or
             electronic storage is 100% secure. While we strive to protect your
@@ -99,7 +99,7 @@ export default function Privacy() {
           <Typography variant="h6" gutterBottom fontWeight={600}>
             6. Third-Party Services
           </Typography>
-          <Typography variant="body1" paragraph>
+          <Typography paragraph>
             Our Site may contain links to third-party websites. We are not
             responsible for the privacy practices of these external sites. We
             encourage you to review the privacy policies of any third-party
@@ -109,7 +109,7 @@ export default function Privacy() {
           <Typography variant="h6" gutterBottom fontWeight={600}>
             7. Children&apos;s Privacy
           </Typography>
-          <Typography variant="body1" paragraph>
+          <Typography paragraph>
             Our Site is designed for educational purposes and is suitable for
             users of all ages. We do not knowingly collect personal information
             from children under 13. If you are a parent or guardian and believe
@@ -120,7 +120,7 @@ export default function Privacy() {
           <Typography variant="h6" gutterBottom fontWeight={600}>
             8. Changes to This Privacy Policy
           </Typography>
-          <Typography variant="body1" paragraph>
+          <Typography paragraph>
             We may update this Privacy Policy from time to time. We will notify
             you of any changes by posting the new Privacy Policy on this page
             and updating the {'"Last updated"'} date. You are advised to review
@@ -130,13 +130,11 @@ export default function Privacy() {
           <Typography variant="h6" gutterBottom fontWeight={600}>
             9. Contact Us
           </Typography>
-          <Typography variant="body1" paragraph>
+          <Typography paragraph>
             If you have any questions about this Privacy Policy, please contact
             us at:
           </Typography>
-          <Typography variant="body1" paragraph>
-            Email: hello@see-algorithms.com
-          </Typography>
+          <Typography paragraph>Email: hello@see-algorithms.com</Typography>
         </Box>
       </Box>
     </>

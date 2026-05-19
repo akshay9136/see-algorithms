@@ -28,7 +28,7 @@ export default function HomePage() {
             </Box>
           </Typography>
 
-          <Typography variant="body1" mt={2}>
+          <Typography mt={2}>
             From sorting and searching to more advanced data structures and
             algorithms, <strong>See Algorithms</strong> provides a hands-on
             approach to learning. Each animation is carefully crafted to walk
@@ -41,10 +41,9 @@ export default function HomePage() {
           </Typography>
 
           <Typography
-            variant="body1"
-            mt={2}
             sx={{
               p: 2,
+              mt: 2,
               bgcolor: 'primary.50',
               borderLeft: 4,
               borderColor: 'primary.main',
@@ -99,7 +98,7 @@ export default function HomePage() {
             Bridge the Gap Between Code and Concept
           </Typography>
 
-          <Typography variant="body1" sx={{ opacity: 0.9 }}>
+          <Typography sx={{ opacity: 0.9 }}>
             Textbooks and code editors can sometimes make logic feel abstract.{' '}
             <strong>SEE ALGORITHMS</strong> transforms complex logic into clear,
             step-by-step visualizations. Whether you are analyzing a directed

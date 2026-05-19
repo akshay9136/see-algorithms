@@ -22,18 +22,16 @@ while MST does not span all vertices:
 
   return (
     <Stack spacing={3}>
-      <Typography variant="body1">
-        <strong>Prim&apos;s Algorithm</strong> builds a Minimum Spanning
-        Tree (MST) by starting with a single node and
-        &quot;growing&quot; the tree outward. At every step, it finds
-        the cheapest edge that connects a node inside the growing tree
-        to a node outside of it. This greedy approach continues until
-        all nodes are part of the tree, ensuring the total weight of all
-        edges is as low as possible. It is perfect for problems like
-        designing cost-effective road or utility networks. An alternative
-        approach is{' '}
-        <Link href="/graph/Kruskals">Kruskal’s Algorithm</Link>, which
-        builds the MST by sorting edges globally.
+      <Typography>
+        <strong>Prim&apos;s Algorithm</strong> builds a Minimum Spanning Tree
+        (MST) by starting with a single node and &quot;growing&quot; the tree
+        outward. At every step, it finds the cheapest edge that connects a node
+        inside the growing tree to a node outside of it. This greedy approach
+        continues until all nodes are part of the tree, ensuring the total
+        weight of all edges is as low as possible. It is perfect for problems
+        like designing cost-effective road or utility networks. An alternative
+        approach is <Link href="/graph/Kruskals">Kruskal’s Algorithm</Link>,
+        which builds the MST by sorting edges globally.
       </Typography>
 
       <Box display="flex" flexWrap="wrap" gap={4}>
@@ -47,23 +45,18 @@ while MST does not span all vertices:
           <Typography variant="h6" component="h2">
             Step by Step
           </Typography>
-          <Typography
-            component="ul"
-            variant="body1"
-            sx={{ '& li': { mb: 1 }, pl: 2 }}
-          >
+          <Typography component="ul" sx={{ '& li': { mb: 1 }, pl: 2 }}>
             <li>Initialize an empty set of edges for the MST.</li>
             <li>
-              Start with an arbitrary vertex and mark it as
-              visited (part of MST).
+              Start with an arbitrary vertex and mark it as visited (part of
+              MST).
             </li>
             <li>
-              Find the cheapest edge connecting a vertex in the
-              MST to a vertex outside the MST.
+              Find the cheapest edge connecting a vertex in the MST to a vertex
+              outside the MST.
             </li>
             <li>
-              Add this edge to the MST and mark the new vertex as
-              visited.
+              Add this edge to the MST and mark the new vertex as visited.
             </li>
             <li>Repeat until all vertices are part of the MST.</li>
           </Typography>

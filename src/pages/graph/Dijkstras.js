@@ -33,7 +33,7 @@ function relax(u, d):
 
   return (
     <Stack spacing={2}>
-      <Typography variant="body1">
+      <Typography>
         <strong>Dijkstra&apos;s Algorithm</strong> finds the shortest path from
         a source node to all other nodes in a graph with non-negative weights.
         It uses a <Link href="/data-structures/BinaryHeap">priority queue</Link>{' '}

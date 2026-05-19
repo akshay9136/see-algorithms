@@ -23,7 +23,7 @@ while stack is not empty:
 
   return (
     <Stack spacing={3}>
-      <Typography variant="body1">
+      <Typography>
         <strong>Depth-First Search (DFS)</strong> explores a graph by
         going as deep as possible along each branch before{' '}
         <strong>backtracking</strong>. Think of it as navigating a maze

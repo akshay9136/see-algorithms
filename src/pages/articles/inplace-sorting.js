@@ -9,7 +9,7 @@ export default function InplaceSorting() {
       summary="Understand how in-place sorting algorithms minimize extra space while reorganizing data."
     >
       <Section title='What Does "In-Place" Mean?'>
-        <Typography variant="body1" paragraph>
+        <Typography paragraph>
           An in-place sorting algorithm rearranges elements within the original
           data structure without allocating significant additional memory. It
           modifies the input directly instead of creating a separate array to

@@ -28,14 +28,14 @@ export default function AboutUs() {
               <Typography variant="h5" component="h2" gutterBottom>
                 Our Mission
               </Typography>
-              <Typography variant="body1" paragraph>
+              <Typography paragraph>
                 See Algorithms was created with a simple yet powerful mission:
                 to make algorithm learning accessible, engaging, and effective
                 for everyone. We believe that understanding algorithms
                 shouldn&apos;t be limited to those with extensive programming
                 experience or mathematical backgrounds.
               </Typography>
-              <Typography variant="body1" paragraph>
+              <Typography paragraph>
                 Through interactive visualizations and step-by-step animations,
                 we transform complex algorithmic concepts into intuitive, visual
                 experiences that anyone can understand and appreciate.
@@ -49,14 +49,14 @@ export default function AboutUs() {
               >
                 Why We Built This
               </Typography>
-              <Typography variant="body1" paragraph>
+              <Typography paragraph>
                 Traditional algorithm learning often relies on static diagrams,
                 complex mathematical notation, or dry textual explanations. We
                 recognized that many learners struggle with these approaches,
                 especially when trying to understand how algorithms work in
                 practice.
               </Typography>
-              <Typography variant="body1" paragraph>
+              <Typography paragraph>
                 Our solution combines the power of modern web technologies with
                 educational best practices to create an immersive learning
                 experience that makes algorithms come alive through interactive
@@ -71,21 +71,21 @@ export default function AboutUs() {
               >
                 What We Offer
               </Typography>
-              <Typography variant="body1" paragraph>
+              <Typography paragraph>
                 • <strong>Interactive Learning:</strong> Every algorithm comes
                 with hands-on visualizations that you can control and experiment
                 with
               </Typography>
-              <Typography variant="body1" paragraph>
+              <Typography paragraph>
                 • <strong>Step-by-Step Breakdown:</strong> Complex algorithms
                 are broken down into digestible steps with clear explanations
               </Typography>
-              <Typography variant="body1" paragraph>
+              <Typography paragraph>
                 • <strong>Multiple Learning Styles:</strong> Visual,
                 interactive, and textual content to accommodate different
                 learning preferences
               </Typography>
-              <Typography variant="body1" paragraph>
+              <Typography paragraph>
                 • <strong>Real-World Applications:</strong> Understanding not
                 just how algorithms work, but why they matter in practical
                 scenarios
@@ -98,19 +98,19 @@ export default function AboutUs() {
                   <Typography variant="h6" gutterBottom>
                     Our Values
                   </Typography>
-                  <Typography variant="body1" paragraph>
+                  <Typography paragraph>
                     <strong>Accessibility:</strong> Making complex concepts
                     understandable for all skill levels
                   </Typography>
-                  <Typography variant="body1" paragraph>
+                  <Typography paragraph>
                     <strong>Quality:</strong> Providing accurate,
                     well-researched educational content
                   </Typography>
-                  <Typography variant="body1" paragraph>
+                  <Typography paragraph>
                     <strong>Innovation:</strong> Using cutting-edge technology
                     to enhance learning
                   </Typography>
-                  <Typography variant="body1">
+                  <Typography>
                     <strong>Community:</strong> Building a supportive learning
                     environment for all users
                   </Typography>
@@ -122,18 +122,10 @@ export default function AboutUs() {
                   <Typography variant="h6" sx={{ mb: 1.5 }}>
                     Algorithm Categories
                   </Typography>
-                  <Typography variant="body1" paragraph>
-                    • Sorting Algorithms
-                  </Typography>
-                  <Typography variant="body1" paragraph>
-                    • Graph Algorithms
-                  </Typography>
-                  <Typography variant="body1" paragraph>
-                    • Data Structures
-                  </Typography>
-                  <Typography variant="body1">
-                    • Computational Geometry
-                  </Typography>
+                  <Typography paragraph>• Sorting Algorithms</Typography>
+                  <Typography paragraph>• Graph Algorithms</Typography>
+                  <Typography paragraph>• Data Structures</Typography>
+                  <Typography>• Computational Geometry</Typography>
                 </CardContent>
               </Card>
             </Grid>
@@ -148,7 +140,7 @@ export default function AboutUs() {
             >
               Our Technology
             </Typography>
-            <Typography variant="body1" paragraph align="center">
+            <Typography paragraph align="center">
               Built with modern web technologies to ensure fast, responsive, and
               accessible learning experiences across all devices.
             </Typography>
@@ -201,12 +193,12 @@ export default function AboutUs() {
             <Typography variant="h6" gutterBottom fontWeight={600}>
               Join Our Learning Community
             </Typography>
-            <Typography variant="body1" paragraph>
+            <Typography paragraph>
               Whether you&apos;re a student, educator, or professional
               developer, See Algorithms provides the tools and resources you
               need to master algorithmic thinking.
             </Typography>
-            <Typography variant="body1" paragraph>
+            <Typography paragraph>
               Start exploring algorithms today and discover the beauty of
               computational thinking!
             </Typography>
@@ -216,12 +208,12 @@ export default function AboutUs() {
             <Typography variant="h6" gutterBottom fontWeight={600}>
               Affiliate Disclosure
             </Typography>
-            <Typography variant="body1" paragraph>
+            <Typography paragraph>
               This site may contain affiliate links. I may earn a commission if
               you purchase through them. This helps support the site at no extra
               cost to you.
             </Typography>
-            <Typography variant="body1" paragraph>
+            <Typography paragraph>
               I only recommend products and services that I believe will add
               value to my users. Thank you for your support!
             </Typography>
@@ -231,17 +223,17 @@ export default function AboutUs() {
             <Typography variant="h6" gutterBottom fontWeight={600}>
               Contact & Support
             </Typography>
-            <Typography variant="body1" paragraph>
+            <Typography paragraph>
               Questions, feedback, or suggestions? We&apos;d love to hear from
               you!
             </Typography>
-            <Typography variant="body1">
+            <Typography>
               Email:{' '}
               <Link href="mailto:hello@see-algorithms.com">
                 hello@see-algorithms.com
               </Link>
             </Typography>
-            <Typography variant="body1">
+            <Typography>
               GitHub:{' '}
               <Link
                 href="https://github.com/akshay9136/see-algorithms"
