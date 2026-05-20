@@ -4,23 +4,23 @@ export default function useUndoRedo() {
   const [undoStack, setUndoStack] = useState([]);
   const [redoStack, setRedoStack] = useState([]);
 
-  const push = (nodes) => {
-    setUndoStack((prev) => [...prev, nodes]);
+  const push = (current) => {
+    setUndoStack((prev) => [...prev, current]);
     setRedoStack([]);
   };
 
-  const undo = (currentState) => {
+  const undo = (current) => {
     if (undoStack.length) {
-      setRedoStack([...redoStack, currentState]);
+      setRedoStack((prev) => [...prev, current]);
       const prevState = undoStack.pop();
       setUndoStack(undoStack.slice());
       return prevState;
     }
   };
 
-  const redo = (currentState) => {
+  const redo = (current) => {
     if (redoStack.length) {
-      setUndoStack([...undoStack, currentState]);
+      setUndoStack((prev) => [...prev, current]);
       const nextState = redoStack.pop();
       setRedoStack(redoStack.slice());
       return nextState;

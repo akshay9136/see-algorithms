@@ -6,8 +6,7 @@ function useGraphScope() {
   const graphRef = useRef(null);
 
   useEffect(() => {
-    const _scope = createGraphScope(graphRef.current);
-    setScope(_scope);
+    setScope(createGraphScope(graphRef.current));
   }, []);
 
   return [scope, graphRef]

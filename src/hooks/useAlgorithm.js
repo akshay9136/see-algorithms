@@ -1,21 +1,22 @@
-import { Paper } from '@mui/material';
 import { useState } from 'react';
+import { Paper } from '@mui/material';
 
 function useAlgorithm(algorithm) {
   const [currentStep, setCurrentStep] = useState('');
-  const _currentStep = currentStep.length
+
+  const stepsToColor = currentStep.length
     ? currentStep.split(',').map(Number)
     : [];
 
   const steps = (
-    <Paper className="algorithm">
+    <Paper className="pseudoCode">
       {algorithm
         .split('\n')
         .slice(1, -1)
-        .map((step, i) => (
+        .map((step, index) => (
           <pre
-            key={i}
-            className={_currentStep.includes(i) ? 'currentStep' : ''}
+            key={index}
+            className={stepsToColor.includes(index) ? 'currentStep' : ''}
           >
             {step}
           </pre>
@@ -24,6 +25,6 @@ function useAlgorithm(algorithm) {
   );
 
   return [steps, setCurrentStep];
-};
+}
 
 export default useAlgorithm;

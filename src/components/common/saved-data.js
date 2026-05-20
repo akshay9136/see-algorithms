@@ -35,7 +35,6 @@ function ListItems(props) {
 }
 
 export default function SavedDataList({
-  fetchItems,
   loading,
   onSelect,
   deleteItem,
@@ -72,11 +71,7 @@ export default function SavedDataList({
         onClose={() => setDrawerOpen(false)}
         ModalProps={{ keepMounted: true }}
       >
-        <ListItems
-          {...rest}
-          onSelect={handleSelect}
-          onDelete={handleDelete}
-        />
+        <ListItems {...rest} onSelect={handleSelect} onDelete={handleDelete} />
         <Spinner spinning={loading} />
       </Drawer>
     </div>

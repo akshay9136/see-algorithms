@@ -8,16 +8,17 @@ import {
   List,
   Typography,
 } from '@mui/material';
-import styles from '@/styles/sider.module.css';
-import { algorithms, categories } from '@/common/appData';
 import { ExpandMore } from '@mui/icons-material';
+import { algorithms, categories } from '@/common/appData';
+import styles from '@/styles/sider.module.css';
 import Link from 'next/link';
 
 function Sider({ selected }) {
-  const algo = algorithms.findObj('id', selected) || {};
   const [expanded, setExpanded] = useState('Sorting');
   const { query } = useRouter();
-  var { category = query.category || '' } = algo;
+
+  const algo = algorithms.findObj('id', selected) || {};
+  const { category = query.category || '' } = algo;
 
   const getPathname = (_cat, algoId) => {
     const catId = _cat.split(' ').join('-').toLowerCase();
@@ -66,6 +67,7 @@ function Sider({ selected }) {
                   {category.toUpperCase()}
                 </Typography>
               </AccordionSummary>
+
               <AccordionDetails className={styles.accordionDetails}>
                 <List className={styles.algorithmList}>
                   {categories[category].map(({ id, name }) => {

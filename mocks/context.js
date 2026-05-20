@@ -1,16 +1,18 @@
 import AppContext, { initialState } from '@/common/context';
 import Toast from '@/components/toast';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 export default function App({ Component }) {
   const [state, setState] = useState(initialState);
 
   const setContext = (slice) => {
-    setState((state) => ({ ...state, ...slice }));
+    setState((prev) => ({ ...prev, ...slice }));
   };
 
+  const contextValue = useMemo(() => ({ ...state, setContext }), [state]);
+
   return (
-    <AppContext.Provider value={{ ...state, setContext }}>
+    <AppContext.Provider value={contextValue}>
       <Component />
       <Toast />
     </AppContext.Provider>

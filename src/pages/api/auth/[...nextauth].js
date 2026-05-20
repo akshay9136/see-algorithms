@@ -43,12 +43,13 @@ export const authOptions = {
           await userRef.set({
             name: user.name || '',
             email: user.email || '',
+            image: user.image || null,
             createdAt: new Date().toISOString(),
           });
         } else {
           await userRef.update({
             name: user.name || '',
-            image: user.image || '',
+            image: user.image || null,
             lastSignIn: new Date().toISOString(),
           });
         }

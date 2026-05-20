@@ -1,91 +1,88 @@
 import db from '@/lib/firebase-utils';
-import { withAuth } from '@/lib/middlewares';
+import compose from 'ramda/src/compose';
+import {
+  withAuth,
+  withDocument,
+  withQueryParams,
+  withRequestBody,
+} from '@/lib/middlewares';
 
 export default withAuth(async (req, res, { userId }) => {
-  if (req.method === 'POST') {
-    return handleSave(req, res, userId);
-  }
-  if (req.method === 'GET') {
-    return handleFetch(req, res, userId);
-  }
-  if (req.method === 'DELETE') {
-    return handleDelete(req, res, userId);
-  }
-
-  res.status(405).send('Method not allowed');
-});
-
-async function handleSave(req, res, userId) {
   try {
-    const { algoId, type, data } = req.body;
+    switch (req.method) {
+      case 'GET': {
+        const handler = withQueryParams('algoId');
+        await handler(handleFetch)(req, res, userId);
+        break;
+      }
+      case 'POST': {
+        const handler = withRequestBody('algoId', 'type', 'data');
+        await handler(handleSave)(req, res, userId);
+        break;
+      }
+      case 'DELETE': {
+        const handler = compose(
+          withQueryParams('id'),
+          withDocument('savedData'),
+        )(handleDelete);
 
-    if (!algoId || !type || !data) {
-      return res.status(400).send('Missing required fields');
+        await handler(req, res, userId);
+        break;
+      }
+      default:
+        res.status(405).send('Method not allowed');
     }
-    const savedRef = db.collection('savedData');
-    const snapshot = await savedRef
-      .where('userId', '==', userId)
-      .where('algoId', '==', algoId)
-      .get();
-
-    if (snapshot.size >= 10) {
-      return res
-        .status(400)
-        .send('Maximum 10 saves per algorithm. Delete older ones to save new.');
-    }
-    await savedRef.add({
-      userId,
-      algoId,
-      type,
-      data: JSON.stringify(data),
-      createdAt: new Date().toISOString(),
-    });
-    res.status(200).send('success');
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Failed to save data');
+    res.status(500).send('Internal server error');
   }
-}
+});
 
 async function handleFetch(req, res, userId) {
   const { algoId } = req.query;
-  try {
-    if (!algoId) {
-      return res.status(400).send('algoId is required');
-    }
-    const snapshot = await db
-      .collection('savedData')
-      .where('userId', '==', userId)
-      .where('algoId', '==', algoId)
-      .orderBy('createdAt', 'desc')
-      .get();
 
-    const items = snapshot.docs.map((doc) => {
-      return { id: doc.id, ...doc.data() };
-    });
-    res.status(200).json(items);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Failed to fetch data');
-  }
+  const snapshot = await db
+    .collection('savedData')
+    .where('userId', '==', userId)
+    .where('algoId', '==', algoId)
+    .orderBy('createdAt', 'desc')
+    .get();
+
+  const items = snapshot.docs.map((doc) => {
+    return { id: doc.id, ...doc.data() };
+  });
+
+  res.status(200).json(items);
 }
 
-async function handleDelete(req, res, userId) {
-  const { id } = req.query;
-  try {
-    if (!id) {
-      return res.status(400).send('Id is required');
-    }
-    const docRef = db.collection('savedData').doc(id);
-    const doc = await docRef.get();
+async function handleSave(req, res, userId) {
+  const { algoId, type, data } = req.body;
 
-    if (!doc.exists || doc.data().userId !== userId) {
-      return res.status(404).send('Item not found');
-    }
-    await docRef.delete();
-    res.status(200).send('success');
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Failed to delete item');
+  const dataRef = db.collection('savedData');
+  const snapshot = await dataRef
+    .where('userId', '==', userId)
+    .where('algoId', '==', algoId)
+    .get();
+
+  if (snapshot.size >= 10) {
+    return res.status(400).send('Maximum 10 saves per algorithm');
   }
+
+  await dataRef.add({
+    userId,
+    algoId,
+    type,
+    data: JSON.stringify(data),
+    createdAt: new Date().toISOString(),
+  });
+
+  res.status(200).send('success');
+}
+
+async function handleDelete(req, res, userId, doc) {
+  if (doc.data().userId !== userId) {
+    return res.status(403).send('User forbidden');
+  }
+  await doc.ref.delete();
+  res.status(200).send('success');
 }

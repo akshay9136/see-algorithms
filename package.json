@@ -39,6 +39,7 @@
     "next-seo": "^6.5.0",
     "next-sitemap": "^4.2.3",
     "obscenity": "^0.4.6",
+    "ramda": "^0.32.0",
     "react": "^18",
     "react-dom": "^18"
   },

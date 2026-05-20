@@ -1,26 +1,26 @@
-import { logError } from '@/common/utils';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { logError } from '@/common/utils';
 
 export default function useTreeUrl() {
-    const router = useRouter();
-    const [nodes, setNodes] = useState(null);
-    const [isReady, setReady] = useState(false);
+  const [nodes, setNodes] = useState(null);
+  const [ready, setReady] = useState(false);
+  const { isReady, query } = useRouter();
 
-    useEffect(() => {
-        if (router.isReady && !nodes) {
-            const { skeleton } = router.query;
-            try {
-                if (skeleton) {
-                    const arr = JSON.parse(atob(skeleton));
-                    setNodes(arr);
-                }
-                setReady(true);
-            } catch {
-                logError('Error parsing nodes');
-            }
+  useEffect(() => {
+    if (isReady && !nodes) {
+      const { skeleton } = query;
+      try {
+        if (skeleton) {
+          const arr = JSON.parse(atob(skeleton));
+          setNodes(arr);
         }
-    }, [router, nodes]);
+        setReady(true);
+      } catch {
+        logError('Error parsing nodes');
+      }
+    }
+  }, [isReady, query, nodes]);
 
-    return [nodes, isReady];
+  return [nodes, ready];
 }

@@ -1,6 +1,6 @@
 import '@/styles/globals.css';
 import '@/styles/app.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { defaultSeoConfig } from '../components/algorithm-seo/config';
 import { SessionProvider } from 'next-auth/react';
@@ -21,14 +21,19 @@ const theme = createTheme({
   },
 });
 
-export default function App({ Component, pageProps: { session, ...pageProps } }) {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}) {
   const [state, setState] = useState(initialState);
   const { pathname } = useRouter();
   const hasContent = pathname !== '/404';
 
   const setContext = (slice) => {
-    setState((state) => ({ ...state, ...slice }));
+    setState((prev) => ({ ...prev, ...slice }));
   };
+
+  const contextValue = useMemo(() => ({ ...state, setContext }), [state]);
 
   useEffect(() => {
     const handleClick = (event) => {
@@ -70,7 +75,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
       )}
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <AppContext.Provider value={{ ...state, setContext }}>
+        <AppContext.Provider value={contextValue}>
           {Component.noLayout ? (
             <Component {...pageProps} />
           ) : (

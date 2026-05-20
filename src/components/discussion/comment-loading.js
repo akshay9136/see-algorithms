@@ -1,9 +1,10 @@
+import { memo } from 'react';
 import { Box, Skeleton, Stack } from '@mui/material';
 
 /**
  * Loading skeleton placeholder for comments.
  */
-export default function CommentLoading() {
+const CommentLoading = memo(function () {
   return (
     <Stack spacing={2}>
       {[1, 2, 3].map((i) => (
@@ -18,4 +19,6 @@ export default function CommentLoading() {
       ))}
     </Stack>
   );
-}
+});
+
+export default CommentLoading;

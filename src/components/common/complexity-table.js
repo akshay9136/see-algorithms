@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import {
   Table,
   TableBody,
@@ -10,9 +11,7 @@ import {
   Box,
 } from '@mui/material';
 
-export default function ComplexityTable({ data, hideTitle }) {
-  if (!data?.length) return null;
-
+function ComplexityTable({ data, hideTitle }) {
   return (
     <Box sx={{ mb: 3, flex: 1 }}>
       {!hideTitle && (
@@ -20,7 +19,11 @@ export default function ComplexityTable({ data, hideTitle }) {
           Time & Space Complexity
         </Typography>
       )}
-      <TableContainer component={Paper} variant="outlined">
+      <TableContainer
+        component={Paper}
+        variant="outlined"
+        sx={{ borderRadius: 2 }}
+      >
         <Table sx={{ width: 'fit-content' }}>
           <TableHead sx={{ backgroundColor: 'action.hover' }}>
             <TableRow>
@@ -57,3 +60,5 @@ export default function ComplexityTable({ data, hideTitle }) {
     </Box>
   );
 }
+
+export default memo(ComplexityTable);

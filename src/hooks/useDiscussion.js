@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import { showToast } from '@/components/toast';
 import { showError } from '@/common/utils';
@@ -53,14 +53,12 @@ function useDiscussion(algoId) {
     return false;
   };
 
-  const deleteComment = async (commentId) => {
+  const deleteComment = async (id) => {
+    const url = `/api/comments?id=${id}`;
     try {
-      const res = await fetch(`/api/comments?id=${commentId}`, {
-        method: 'DELETE',
-      });
-
+      const res = await fetch(url, { method: 'DELETE' });
       if (res.ok) {
-        setComments((prev) => prev.filter((c) => c.id !== commentId));
+        setComments((prev) => prev.filter((c) => c.id !== id));
       } else {
         showError((await res.text()) || 'Failed to delete');
       }
@@ -69,44 +67,34 @@ function useDiscussion(algoId) {
     }
   };
 
-  const toggleUpvote = async (comment) => {
-    const { upvoted } = comment;
+  const reportComment = async (id) => {
+    const url = `/api/comments?id=${id}&action=report`;
     try {
-      const res = await fetch('/api/comments', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: comment.id, action: 'upvote' }),
-      });
-
+      const res = await fetch(url, { method: 'PATCH' });
       if (res.ok) {
-        setComments((prev) =>
-          prev.map((c) => {
-            const upvotes = c.upvotes + (upvoted ? -1 : 1);
-            return c.id === comment.id
-              ? { ...c, upvotes, upvoted: !upvoted }
-              : c;
-          }),
-        );
+        showToast({ message: 'Comment reported', variant: 'success' });
       } else {
-        showError((await res.text()) || 'Failed to upvote');
+        showError((await res.text()) || 'Failed to report');
       }
     } catch {
       showError('Network error');
     }
   };
 
-  const reportComment = async (commentId) => {
+  const toggleUpvote = async (comment) => {
+    const { id, upvoted } = comment;
+    const url = `/api/comments?id=${id}&action=upvote`;
     try {
-      const res = await fetch('/api/comments', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: commentId, action: 'report' }),
-      });
-
+      const res = await fetch(url, { method: 'PATCH' });
       if (res.ok) {
-        showToast({ message: 'Comment reported', variant: 'success' });
+        setComments((prev) =>
+          prev.map((c) => {
+            const upvotes = c.upvotes + (upvoted ? -1 : 1);
+            return c.id === id ? { ...c, upvotes, upvoted: !upvoted } : c;
+          }),
+        );
       } else {
-        showError((await res.text()) || 'Failed to report');
+        showError((await res.text()) || 'Failed to upvote');
       }
     } catch {
       showError('Network error');
@@ -118,10 +106,10 @@ function useDiscussion(algoId) {
     loading,
     signedIn,
     isAdmin,
-    addComment,
-    deleteComment,
-    toggleUpvote,
-    reportComment,
+    addComment: useCallback(addComment, [algoId]),
+    deleteComment: useCallback(deleteComment, []),
+    reportComment: useCallback(reportComment, []),
+    toggleUpvote: useCallback(toggleUpvote, []),
   };
 }
 

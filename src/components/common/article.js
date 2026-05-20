@@ -1,6 +1,7 @@
 import { Box, Container, Divider, Typography } from '@mui/material';
+import { memo } from 'react';
 
-export default function Article({ title, summary, children }) {
+function Article({ title, summary, children }) {
   return (
     <Container maxWidth="md" sx={{ p: 0 }} className="article">
       <Typography variant="h4" component="h1" gutterBottom color="warning.main">
@@ -15,7 +16,10 @@ export default function Article({ title, summary, children }) {
   );
 }
 
-export function Section({ title, children, variant = 'h5', sx }) {
+export default memo(Article);
+
+export const Section = memo(function (props) {
+  const { title, children, variant = 'h5', sx } = props;
   return (
     <Box
       component="section"
@@ -30,4 +34,4 @@ export function Section({ title, children, variant = 'h5', sx }) {
       {children}
     </Box>
   );
-}
+});

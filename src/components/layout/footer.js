@@ -1,7 +1,8 @@
+import { memo } from 'react';
 import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
 
-function Footer() {
+export default memo(function Footer() {
   return (
     <Box p={2} borderTop={1} borderColor="divider">
       <Typography variant="body2" color="text.secondary" textAlign="center">
@@ -25,6 +26,4 @@ function Footer() {
       </Typography>
     </Box>
   );
-}
-
-export default Footer;
+});

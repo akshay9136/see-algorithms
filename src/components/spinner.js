@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Backdrop, CircularProgress } from '@mui/material';
 
 function Spinner({ spinning }) {
@@ -8,4 +9,4 @@ function Spinner({ spinning }) {
   );
 }
 
-export default Spinner;
+export default memo(Spinner);

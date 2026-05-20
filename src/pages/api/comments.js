@@ -1,25 +1,58 @@
 import db, { checkLastComments } from '@/lib/firebase-utils';
-import { withAuth, withOptionalAuth } from '@/lib/middlewares';
+import {
+  withAuth,
+  withDocument,
+  withOptionalAuth,
+  withQueryParams,
+  withRequestBody,
+} from '@/lib/middlewares';
 import { hasProfanity } from '@/lib/profanity';
 import { FieldValue } from 'firebase-admin/firestore';
+import compose from 'ramda/src/compose';
 
 const COMMENTS = 'comments';
 
 export default async function (req, res) {
   try {
     switch (req.method) {
-      case 'GET':
-        await withOptionalAuth(handleGet)(req, res);
+      case 'GET': {
+        const handler = compose(
+          withOptionalAuth,
+          withQueryParams('algoId'),
+        )(handleGet);
+
+        await handler(req, res);
         break;
-      case 'POST':
-        await withAuth(handlePost)(req, res);
+      }
+      case 'POST': {
+        const handler = compose(
+          withAuth,
+          withRequestBody('algoId', 'comment'),
+        )(handlePost);
+
+        await handler(req, res);
         break;
-      case 'DELETE':
-        await withAuth(handleDelete)(req, res);
+      }
+      case 'DELETE': {
+        const handler = compose(
+          withAuth,
+          withQueryParams('id'),
+          withDocument('comments'),
+        )(handleDelete);
+
+        await handler(req, res);
         break;
-      case 'PATCH':
-        await withAuth(handlePatch)(req, res);
+      }
+      case 'PATCH': {
+        const handler = compose(
+          withAuth,
+          withQueryParams('id', 'action'),
+          withDocument('comments'),
+        )(handlePatch);
+
+        await handler(req, res);
         break;
+      }
       default:
         res.status(405).send('Method not allowed');
     }
@@ -27,7 +60,7 @@ export default async function (req, res) {
     console.error(err.message);
     res.status(500).send('Internal server error');
   }
-};
+}
 
 function buildQuery(algoId) {
   const query = db
@@ -40,9 +73,6 @@ function buildQuery(algoId) {
 
 async function handleGet(req, res, user) {
   const { algoId } = req.query;
-  if (!algoId) {
-    return res.status(400).send('algoId is required');
-  }
   const query = buildQuery(algoId).limit(50);
   const snapshot = await query.get();
   const comments = snapshot.docs.map((doc) => {
@@ -59,20 +89,19 @@ async function handleGet(req, res, user) {
 
 async function handlePost(req, res, user) {
   const { algoId, comment } = req.body;
-  if (!algoId || !comment) {
-    return res.status(400).send('Missing required fields');
-  }
   const text = comment.trim();
+
   if (text.length > 1000) {
-    return res.status(400).send('Comment must be under max length allowed.');
+    return res.status(400).send('Comment must be under 1000 characters.');
   }
   if (hasProfanity(text)) {
-    return res.status(400).send('Your comment contains inappropriate language');
+    return res.status(400).send('Your comment contains inappropriate words.');
   }
   const allowed = await checkLastComments(user.userId);
   if (!allowed) {
     return res.status(429).send('Too many comments. Please wait a minute.');
   }
+
   const comments = db.collection(COMMENTS);
   const authorInfo = {
     authorId: user.userId,
@@ -90,6 +119,7 @@ async function handlePost(req, res, user) {
     createdAt: new Date().toISOString(),
     ...authorInfo,
   });
+
   return res.status(201).json({
     id: docRef.id,
     text,
@@ -102,46 +132,31 @@ async function handlePost(req, res, user) {
   });
 }
 
-async function handleDelete(req, res, { userId, isAdmin }) {
-  const { id } = req.query;
-  if (!id) {
-    return res.status(400).send('Comment Id is required');
-  }
-  const docRef = db.collection(COMMENTS).doc(id);
-  const doc = await docRef.get();
-  if (!doc.exists) {
-    return res.status(404).send('Comment not found');
-  }
+async function handleDelete(req, res, user, doc) {
+  const { userId, isAdmin } = user;
   const { authorId } = doc.data();
+
   if (authorId !== userId && !isAdmin) {
-    return res.status(403).send('Not allowed');
+    return res.status(403).send('User forbidden');
   }
-  await docRef.update({ deleted: true });
+  await doc.ref.update({ deleted: true });
 
   return res.status(200).send('success');
 }
 
-async function handlePatch(req, res, { email }) {
-  const { id, action } = req.body;
-  if (!id || !action) {
-    return res.status(400).send('Missing required fields');
-  }
-  const docRef = db.collection(COMMENTS).doc(id);
-  const doc = await docRef.get();
-  if (!doc.exists) {
-    return res.status(404).send('Comment not found');
-  }
+async function handlePatch(req, res, { email }, doc) {
+  const { action } = req.query;
   const { upvotedBy, reportedBy } = doc.data();
 
   switch (action) {
     case 'upvote': {
       if (upvotedBy.includes(email)) {
-        await docRef.update({
+        await doc.ref.update({
           upvotes: FieldValue.increment(-1),
           upvotedBy: FieldValue.arrayRemove(email),
         });
       } else {
-        await docRef.update({
+        await doc.ref.update({
           upvotes: FieldValue.increment(1),
           upvotedBy: FieldValue.arrayUnion(email),
         });
@@ -153,7 +168,7 @@ async function handlePatch(req, res, { email }) {
       if (reportedBy.includes(email)) {
         return res.status(400).send('Already reported');
       }
-      await docRef.update({
+      await doc.ref.update({
         reportedBy: FieldValue.arrayUnion(email),
         deleted: reportedBy.length >= 3,
       });

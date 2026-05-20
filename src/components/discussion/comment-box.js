@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 import {
   Avatar,
   Box,
@@ -8,7 +9,6 @@ import {
   Typography,
 } from '@mui/material';
 import { Send } from '@mui/icons-material';
-import { useSession } from 'next-auth/react';
 
 const MAX_LENGTH = 1000;
 
