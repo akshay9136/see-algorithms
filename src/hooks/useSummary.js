@@ -17,16 +17,17 @@ export default function useSummary() {
 
   const explain = async (data) => {
     if (!summaryOn) return;
-    controlRef.current?.abort();
     const controller = new AbortController();
+    controlRef.current?.abort();
     controlRef.current = controller;
+    const algoId = pathname.split('/')[2];
     setContent('<p>Thinking...</p>');
 
     try {
       const res = await fetch('/api/summary', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ data, pathname }),
+        body: JSON.stringify({ data, algoId }),
         signal: controller.signal,
       });
 
@@ -85,8 +86,7 @@ export default function useSummary() {
       </Box>
       <Typography
         variant="body2"
-        maxWidth="sm"
-        minWidth={500}
+        width={500}
         lineHeight={1.6}
         dangerouslySetInnerHTML={{ __html: content }}
       />

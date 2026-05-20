@@ -19,9 +19,9 @@ import { showToast } from '../toast';
 const styles = {
   root: { borderTop: '1px solid', borderColor: 'divider', pt: 2.5, pb: 2 },
   authorChip: { height: 22, fontWeight: 600 },
-  commentText: { color: 'text.secondary', wordBreak: 'break-word', my: 1 },
+  commentText: { whiteSpace: 'pre-wrap', overflowWrap: 'break-word', my: 1 },
+  deleteBtn: { '&:hover': { color: 'error.main' } },
   reportBtn: { color: 'text.disabled', '&:hover': { color: 'warning.main' } },
-  deleteBtn: { color: 'text.disabled', '&:hover': { color: 'error.main' } },
 };
 
 /**
@@ -89,9 +89,9 @@ const Comment = memo(function ({
               signedIn
                 ? onUpvote(comment)
                 : showToast({
-                    message: 'Sign in to upvote this comment',
-                    variant: 'warning',
-                  });
+                  message: 'Sign in to upvote this comment',
+                  variant: 'warning',
+                });
             }}
           >
             {comment.upvoted ? (
@@ -104,7 +104,7 @@ const Comment = memo(function ({
           {comment.upvotes > 0 && (
             <Typography
               variant="body2"
-              color={comment.upvoted ? 'primary' : 'text.disabled'}
+              color={comment.upvoted ? 'primary' : 'text.secondary'}
               fontWeight={600}
               sx={{ mr: 0.5 }}
             >

@@ -8,29 +8,20 @@ import {
 } from '@/lib/middlewares';
 
 export default withAuth(async (req, res, { userId }) => {
-  try {
-    switch (req.method) {
-      case 'GET': {
-        const handler = withQueryParams('algoId');
-        await handler(handleFetch)(req, res, userId);
-        break;
-      }
-      case 'POST': {
-        const handler = withRequestBody('algoId', 'type', 'data');
-        await handler(handleSave)(req, res, userId);
-        break;
-      }
-      case 'DELETE': {
-        const handler = compose(
-          withQueryParams('id'),
-          withDocument('savedData'),
-        )(handleDelete);
+  const handlers = {
+    GET: withQueryParams('algoId')(handleFetch),
+    POST: withRequestBody('algoId', 'type', 'data')(handleSave),
+    DELETE: compose(
+      withQueryParams('id'),
+      withDocument('savedData'),
+    )(handleDelete),
+  };
 
-        await handler(req, res, userId);
-        break;
-      }
-      default:
-        res.status(405).send('Method not allowed');
+  try {
+    if (handlers[req.method]) {
+      await handlers[req.method](req, res, userId);
+    } else {
+      res.status(405).send('Method not allowed');
     }
   } catch (err) {
     console.error(err.message);
@@ -65,7 +56,9 @@ async function handleSave(req, res, userId) {
     .get();
 
   if (snapshot.size >= 10) {
-    return res.status(400).send('Maximum 10 saves per algorithm');
+    return res
+      .status(400)
+      .send('Maximum 10 saves per algorithm. Delete older ones to save new.');
   }
 
   await dataRef.add({

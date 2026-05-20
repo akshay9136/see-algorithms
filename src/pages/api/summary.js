@@ -1,6 +1,7 @@
 import { GoogleGenAI } from '@google/genai';
-import { withAuth } from '@/lib/middlewares';
+import { withAuth, withRequestBody } from '@/lib/middlewares';
 import prompts from '@/lib/prompts';
+import compose from 'ramda/src/compose';
 
 const ai = new GoogleGenAI({});
 
@@ -19,11 +20,10 @@ const promptBuilders = {
   Prims: prompts.graphAlgorithm('Prims Minimum Spanning Tree'),
 };
 
-export default withAuth(async function (req, res) {
-  const { data, pathname } = req.body;
-  const algorithm = pathname.split('/')[2];
+async function handler(req, res) {
+  const { data, algoId } = req.body;
   try {
-    const buildPrompt = promptBuilders[algorithm];
+    const buildPrompt = promptBuilders[algoId];
     if (!buildPrompt) {
       return res.status(400).send('Invalid request');
     }
@@ -33,7 +33,12 @@ export default withAuth(async function (req, res) {
     });
     res.status(200).send(response.text);
   } catch (err) {
-    console.error(err.message, pathname);
+    console.error(err.message);
     res.status(500).send('AI request failed');
   }
-});
+}
+
+export default compose(
+  withAuth,
+  withRequestBody('data', 'algoId'),
+)(handler);

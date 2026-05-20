@@ -13,48 +13,26 @@ import compose from 'ramda/src/compose';
 const COMMENTS = 'comments';
 
 export default async function (req, res) {
+  const handlers = {
+    GET: compose(withOptionalAuth, withQueryParams('algoId'))(handleGet),
+    POST: compose(withAuth, withRequestBody('algoId', 'comment'))(handlePost),
+    DELETE: compose(
+      withAuth,
+      withQueryParams('id'),
+      withDocument('comments'),
+    )(handleDelete),
+    PATCH: compose(
+      withAuth,
+      withQueryParams('id', 'action'),
+      withDocument('comments'),
+    )(handlePatch),
+  };
+
   try {
-    switch (req.method) {
-      case 'GET': {
-        const handler = compose(
-          withOptionalAuth,
-          withQueryParams('algoId'),
-        )(handleGet);
-
-        await handler(req, res);
-        break;
-      }
-      case 'POST': {
-        const handler = compose(
-          withAuth,
-          withRequestBody('algoId', 'comment'),
-        )(handlePost);
-
-        await handler(req, res);
-        break;
-      }
-      case 'DELETE': {
-        const handler = compose(
-          withAuth,
-          withQueryParams('id'),
-          withDocument('comments'),
-        )(handleDelete);
-
-        await handler(req, res);
-        break;
-      }
-      case 'PATCH': {
-        const handler = compose(
-          withAuth,
-          withQueryParams('id', 'action'),
-          withDocument('comments'),
-        )(handlePatch);
-
-        await handler(req, res);
-        break;
-      }
-      default:
-        res.status(405).send('Method not allowed');
+    if (handlers[req.method]) {
+      await handlers[req.method](req, res);
+    } else {
+      res.status(405).send('Method not allowed');
     }
   } catch (err) {
     console.error(err.message);
@@ -84,7 +62,7 @@ async function handleGet(req, res, user) {
       ...data,
     };
   });
-  return res.status(200).json(comments);
+  res.status(200).json(comments);
 }
 
 async function handlePost(req, res, user) {
@@ -102,13 +80,13 @@ async function handlePost(req, res, user) {
     return res.status(429).send('Too many comments. Please wait a minute.');
   }
 
-  const comments = db.collection(COMMENTS);
   const authorInfo = {
     authorId: user.userId,
     authorName: user.name,
     authorEmail: user.email,
     authorImage: user.image,
   };
+  const comments = db.collection(COMMENTS);
   const docRef = await comments.add({
     text,
     algoId,
@@ -120,7 +98,7 @@ async function handlePost(req, res, user) {
     ...authorInfo,
   });
 
-  return res.status(201).json({
+  res.status(201).json({
     id: docRef.id,
     text,
     upvotes: 0,
@@ -140,8 +118,7 @@ async function handleDelete(req, res, user, doc) {
     return res.status(403).send('User forbidden');
   }
   await doc.ref.update({ deleted: true });
-
-  return res.status(200).send('success');
+  res.status(200).send('success');
 }
 
 async function handlePatch(req, res, { email }, doc) {
