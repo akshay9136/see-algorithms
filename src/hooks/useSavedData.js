@@ -1,40 +1,32 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { fetcher, showError } from '@/common/utils';
 import { showToast } from '@/components/toast';
-import { showError } from '@/common/utils';
+import * as R from 'ramda';
+import useSWR from 'swr';
 
 export default function useSavedData() {
-  const [savedItems, setSavedItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
   const { pathname, push } = useRouter();
   const [, category, algoId] = pathname.split('/');
-
-  const type = category === 'graph' ? 'graph' : 'tree';
-
-  const fetchItems = async () => {
-    if (!session) return;
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/save-data?algoId=${algoId}`);
-      if (res.ok) {
-        const items = await res.json();
-        setSavedItems(items);
-      } else {
-        showError((await res.text()) || 'Failed to fetch saved data.');
-      }
-    } catch (err) {
-      showError('Network error');
-    }
-    setLoading(false);
-  };
-
   const { email } = session?.user || {};
 
-  useEffect(() => {
-    if (algoId && email) fetchItems();
-  }, [algoId, email]);
+  const {
+    data: savedItems,
+    isLoading,
+    mutate,
+  } = useSWR(email ? `/api/save-data?algoId=${algoId}` : null, fetcher, {
+    dedupingInterval: 300000, // 5 minutes
+    revalidateOnFocus: false,
+    fallbackData: [],
+    onError: (err) => {
+      showError(`Failed to fetch saved data. ${err.message}`);
+    },
+  });
+
+  const type = category === 'graph' ? 'graph' : 'tree';
 
   const callbackUrl = (data) => {
     const json = JSON.stringify(data);
@@ -56,16 +48,17 @@ export default function useSavedData() {
       });
 
       if (res.ok) {
+        const data = await res.json();
+        mutate((prev) => [data, ...prev], false);
         showToast({
           message: 'Data saved successfully!',
           variant: 'success',
         });
-        fetchItems();
       } else {
-        showError((await res.text()) || 'Failed to save data.');
+        showError((await res.text()) || 'Failed to save data');
       }
-    } catch (err) {
-      showError('Network error');
+    } catch {
+      showError('Something went wrong');
     }
     setLoading(false);
   };
@@ -73,20 +66,20 @@ export default function useSavedData() {
   const deleteItem = async (id) => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/save-data?id=${id}`, {
-        method: 'DELETE',
-      });
-
-      if (res.ok) {
-        setSavedItems((prev) => prev.filter((item) => item.id !== id));
-      } else {
-        showError((await res.text()) || 'Failed to delete item.');
-      }
-    } catch (err) {
-      showError('Network error');
+      const res = await fetch(`/api/save-data?id=${id}`, { method: 'DELETE' });
+      res.ok
+        ? mutate(R.reject(R.propEq(id, 'id')), false)
+        : showError((await res.text()) || 'Failed to delete item');
+    } catch {
+      showError('Something went wrong');
     }
     setLoading(false);
   };
 
-  return { savedItems, loading, saveData, deleteItem, fetchItems };
+  return {
+    savedItems,
+    loading: loading || isLoading,
+    saveData,
+    deleteItem
+  };
 }

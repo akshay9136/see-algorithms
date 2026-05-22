@@ -84,7 +84,7 @@ function Layout({ children }) {
             {pageId && (
               <>
                 <Divider sx={{ my: 4 }} />
-                <Discussion algoId={pageId} />
+                <Discussion />
                 <Divider sx={{ my: 3 }} />
                 <Affiliates />
               </>

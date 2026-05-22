@@ -14,8 +14,8 @@ const COMMENTS = 'comments';
 
 export default async function (req, res) {
   const handlers = {
-    GET: compose(withOptionalAuth, withQueryParams('algoId'))(handleGet),
-    POST: compose(withAuth, withRequestBody('algoId', 'comment'))(handlePost),
+    GET: compose(withOptionalAuth, withQueryParams('pageId'))(handleGet),
+    POST: compose(withAuth, withRequestBody('pageId', 'comment'))(handlePost),
     DELETE: compose(
       withAuth,
       withQueryParams('id'),
@@ -40,18 +40,18 @@ export default async function (req, res) {
   }
 }
 
-function buildQuery(algoId) {
+function buildQuery(pageId) {
   const query = db
     .collection(COMMENTS)
-    .where('algoId', '==', algoId)
+    .where('pageId', '==', pageId)
     .where('deleted', '==', false);
 
   return query.orderBy('upvotes', 'desc').orderBy('createdAt', 'desc');
 }
 
 async function handleGet(req, res, user) {
-  const { algoId } = req.query;
-  const query = buildQuery(algoId).limit(50);
+  const { pageId } = req.query;
+  const query = buildQuery(pageId).limit(50);
   const snapshot = await query.get();
   const comments = snapshot.docs.map((doc) => {
     const data = doc.data();
@@ -66,7 +66,7 @@ async function handleGet(req, res, user) {
 }
 
 async function handlePost(req, res, user) {
-  const { algoId, comment } = req.body;
+  const { pageId, comment } = req.body;
   const text = comment.trim();
 
   if (text.length > 1000) {
@@ -89,7 +89,7 @@ async function handlePost(req, res, user) {
   const comments = db.collection(COMMENTS);
   const docRef = await comments.add({
     text,
-    algoId,
+    pageId,
     upvotes: 0,
     upvotedBy: [],
     reportedBy: [],
@@ -101,11 +101,10 @@ async function handlePost(req, res, user) {
   res.status(201).json({
     id: docRef.id,
     text,
-    upvotes: 0,
-    upvotedBy: [],
-    createdAt: new Date().toISOString(),
     isAuthor: true,
     upvoted: false,
+    upvotes: 0,
+    createdAt: new Date().toISOString(),
     ...authorInfo,
   });
 }

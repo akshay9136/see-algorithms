@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 import { Box, Chip, Stack, Typography } from '@mui/material';
 import { ChatBubbleOutline } from '@mui/icons-material';
 import useDiscussion from '@/hooks/useDiscussion';
@@ -22,18 +23,20 @@ const styles = {
   empty: { textAlign: 'center', py: 5, color: 'text.disabled' },
 };
 
-export default function Discussion({ algoId }) {
+export default function Discussion() {
   const { asPath, pathname } = useRouter();
+  const { data: session, status } = useSession();
+  const { isAdmin } = session?.user || {};
   const {
     comments,
     loading,
-    signedIn,
-    isAdmin,
     addComment,
     deleteComment,
     toggleUpvote,
     reportComment,
-  } = useDiscussion(algoId);
+  } = useDiscussion(pathname);
+
+  const signedIn = status === 'authenticated';
 
   const getTopic = () => {
     const category = pathname.split('/')[1];

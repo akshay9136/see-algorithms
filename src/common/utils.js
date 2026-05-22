@@ -166,8 +166,8 @@ export const sound = (name) => {
 
 export const groupBy = (arr, key) => {
     return arr.reduce((acc, x) => {
-      (acc[x[key]] ??= []).push(x);
-      return acc;
+        (acc[x[key]] ??= []).push(x);
+        return acc;
     }, {});
 };
 
@@ -208,4 +208,10 @@ export const logError = (error) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(error),
     });
+};
+
+export const fetcher = async (url) => {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
 };

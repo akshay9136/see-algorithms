@@ -40,7 +40,8 @@ async function handleFetch(req, res, userId) {
     .get();
 
   const items = snapshot.docs.map((doc) => {
-    return { id: doc.id, ...doc.data() };
+    const { data, createdAt } = doc.data();
+    return { id: doc.id, data, createdAt };
   });
 
   res.status(200).json(items);
@@ -61,7 +62,7 @@ async function handleSave(req, res, userId) {
       .send('Maximum 10 saves per algorithm. Delete older ones to save new.');
   }
 
-  await dataRef.add({
+  const docRef = await dataRef.add({
     userId,
     algoId,
     type,
@@ -69,7 +70,12 @@ async function handleSave(req, res, userId) {
     createdAt: new Date().toISOString(),
   });
 
-  res.status(200).send('success');
+  res.status(201).json({
+    id: docRef.id,
+    algoId,
+    data: JSON.stringify(data),
+    createdAt: new Date().toISOString(),
+  });
 }
 
 async function handleDelete(req, res, userId, doc) {

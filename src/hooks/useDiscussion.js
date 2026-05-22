@@ -1,69 +1,52 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useSession } from 'next-auth/react';
+import { useCallback } from 'react';
+import { fetcher, showError } from '@/common/utils';
 import { showToast } from '@/components/toast';
-import { showError } from '@/common/utils';
+import * as R from 'ramda';
+import useSWR from 'swr';
 
-function useDiscussion(algoId) {
-  const { data: session, status } = useSession();
-  const { isAdmin } = session?.user || {};
-  const [loading, setLoading] = useState(true);
-  const [comments, setComments] = useState([]);
-
-  const signedIn = status === 'authenticated';
-
-  const fetchComments = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/comments?algoId=${algoId}`);
-      if (res.ok) {
-        const data = await res.json();
-        setComments(data);
-      } else {
-        showError((await res.text()) || 'Failed to fetch comments');
-      }
-    } catch {
-      showError('Network error');
-    }
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    if (algoId) fetchComments();
-  }, [algoId]);
+function useDiscussion(pageId) {
+  const {
+    data: comments,
+    isLoading: loading,
+    mutate,
+  } = useSWR(`/api/comments?pageId=${pageId}`, fetcher, {
+    dedupingInterval: 300000, // 5 minutes
+    revalidateOnFocus: false,
+    fallbackData: [],
+    onError: (err) => {
+      showError(`Failed to fetch comments. ${err.message}`);
+    },
+  });
 
   const addComment = async (text) => {
     try {
       const res = await fetch('/api/comments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ algoId, comment: text.trim() }),
+        body: JSON.stringify({ pageId, comment: text.trim() }),
       });
 
       if (res.ok) {
         const data = await res.json();
-        setComments((prev) => [data, ...prev]);
-        showToast({ message: 'Comment posted', variant: 'success' });
+        mutate((prev) => [data, ...prev], false);
         return true;
       } else {
         showError((await res.text()) || 'Failed to post comment');
       }
     } catch {
-      showError('Network error');
+      showError('Something went wrong');
     }
     return false;
   };
 
   const deleteComment = async (id) => {
-    const url = `/api/comments?id=${id}`;
     try {
-      const res = await fetch(url, { method: 'DELETE' });
-      if (res.ok) {
-        setComments((prev) => prev.filter((c) => c.id !== id));
-      } else {
-        showError((await res.text()) || 'Failed to delete');
-      }
+      const res = await fetch(`/api/comments?id=${id}`, { method: 'DELETE' });
+      res.ok
+        ? mutate(R.reject(R.propEq(id, 'id')), false)
+        : showError((await res.text()) || 'Failed to delete');
     } catch {
-      showError('Network error');
+      showError('Something went wrong');
     }
   };
 
@@ -71,13 +54,11 @@ function useDiscussion(algoId) {
     const url = `/api/comments?id=${id}&action=report`;
     try {
       const res = await fetch(url, { method: 'PATCH' });
-      if (res.ok) {
-        showToast({ message: 'Comment reported', variant: 'success' });
-      } else {
-        showError((await res.text()) || 'Failed to report');
-      }
+      res.ok
+        ? showToast({ message: 'Comment reported', variant: 'success' })
+        : showError((await res.text()) || 'Failed to report');
     } catch {
-      showError('Network error');
+      showError('Something went wrong');
     }
   };
 
@@ -87,29 +68,28 @@ function useDiscussion(algoId) {
     try {
       const res = await fetch(url, { method: 'PATCH' });
       if (res.ok) {
-        setComments((prev) =>
-          prev.map((c) => {
+        mutate(
+          R.map((c) => {
             const upvotes = c.upvotes + (upvoted ? -1 : 1);
             return c.id === id ? { ...c, upvotes, upvoted: !upvoted } : c;
           }),
+          false,
         );
       } else {
         showError((await res.text()) || 'Failed to upvote');
       }
     } catch {
-      showError('Network error');
+      showError('Something went wrong');
     }
   };
 
   return {
     comments,
     loading,
-    signedIn,
-    isAdmin,
-    addComment: useCallback(addComment, [algoId]),
-    deleteComment: useCallback(deleteComment, []),
+    addComment: useCallback(addComment, [pageId, mutate]),
+    deleteComment: useCallback(deleteComment, [mutate]),
     reportComment: useCallback(reportComment, []),
-    toggleUpvote: useCallback(toggleUpvote, []),
+    toggleUpvote: useCallback(toggleUpvote, [mutate]),
   };
 }
 
