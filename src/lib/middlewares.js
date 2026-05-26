@@ -25,6 +25,7 @@ export function withAuth(handler) {
 
 export function withOptionalAuth(handler) {
   return async (req, res) => {
+    if (!db) return res.status(200).json([]);
     const session = await getServerSession(req, res, authOptions);
 
     if (!session?.user) {

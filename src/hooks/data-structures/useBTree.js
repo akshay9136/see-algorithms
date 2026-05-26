@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { Redo, Refresh, Save, Share, Undo } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
-import { copyBinaryTree, randomNodes, showError, sleep } from '@/common/utils';
+import { copyTreeUrl, randomNodes, showError, sleep } from '@/common/utils';
 import bTree from '@/helpers/bTree';
 import Paper from '@mui/material/Paper';
 
@@ -109,7 +109,7 @@ export default function useBTree({ saveData }) {
     ...(saveData ? [saveButton] : []),
     {
       text: <Share fontSize="small" />,
-      onClick: () => copyBinaryTree(numbers),
+      onClick: () => copyTreeUrl(numbers),
       disabled: !numbers.length,
       title: 'Share this tree',
     },

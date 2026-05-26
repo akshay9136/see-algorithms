@@ -44,7 +44,7 @@ export default function EmbedSorting() {
           The structure of the URL follows a simple pattern:
         </Typography>
 
-        <Paper className="algorithm" sx={{ mb: 3 }}>
+        <Paper className="pseudoCode" sx={{ mb: 3 }}>
           <pre style={{ margin: 0 }}>
             {`https://see-algorithms.com/sorting/embed/{Algorithm}`}
           </pre>
@@ -54,7 +54,7 @@ export default function EmbedSorting() {
           Basic Example
         </Typography>
 
-        <Paper className="algorithm" sx={{ mb: 3 }}>
+        <Paper className="pseudoCode" sx={{ mb: 3 }}>
           <pre style={{ margin: '4px 0' }}>
             {`<iframe
     src="https://see-algorithms.com/sorting/embed/MergeSort"
@@ -99,7 +99,7 @@ export default function EmbedSorting() {
           algorithms. This provides enough room for the algorithm controls and
           the animated elements without making the page feel cramped.
         </Typography>
-        <Paper className="algorithm" sx={{ my: 3 }}>
+        <Paper className="pseudoCode" sx={{ my: 3 }}>
           <pre style={{ margin: 0 }}>
             {`Recommended Heights:
 

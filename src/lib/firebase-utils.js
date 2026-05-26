@@ -4,7 +4,10 @@ import { getFirestore } from 'firebase-admin/firestore';
 function getFirebaseAdmin() {
   if (getApps().length === 0) {
     const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
-
+    if (!privateKey) {
+      console.warn('⚠️  Firebase credentials missing. Database features are disabled.');
+      return null;
+    }
     initializeApp({
       credential: cert({
         projectId: process.env.FIREBASE_PROJECT_ID,

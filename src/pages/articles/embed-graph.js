@@ -34,7 +34,7 @@ export default function EmbedGraph() {
 
         <Typography paragraph>The URL follows this pattern:</Typography>
 
-        <Paper className="algorithm" sx={{ mb: 3 }}>
+        <Paper className="pseudoCode" sx={{ mb: 3 }}>
           <pre style={{ margin: 0 }}>
             {`https://see-algorithms.com/graph/embed/{Algorithm}`}
           </pre>
@@ -44,7 +44,7 @@ export default function EmbedGraph() {
           Available Algorithms
         </Typography>
 
-        <Paper className="algorithm" sx={{ mb: 3 }}>
+        <Paper className="pseudoCode" sx={{ mb: 3 }}>
           <pre style={{ margin: '4px 0' }}>
             {`BFS          - Breadth-First Search
 DFS          - Depth-First Search
@@ -61,7 +61,7 @@ Hamiltonian  - Hamiltonian Cycle`}
           Basic Example
         </Typography>
 
-        <Paper className="algorithm" sx={{ mb: 3 }}>
+        <Paper className="pseudoCode" sx={{ mb: 3 }}>
           <pre style={{ margin: '4px 0' }}>
             {`<iframe
     src="https://see-algorithms.com/graph/embed/BFS"
@@ -76,6 +76,18 @@ Hamiltonian  - Hamiltonian Cycle`}
           If you&apos;re using a platform like Notion or Medium, pasting the
           embed URL directly will often auto-convert it into an inline embed
           without needing to write any HTML.
+        </Typography>
+      </Section>
+
+      <Section title="Embed Custom Graphs">
+        <Typography paragraph>
+          Instead of embedding a random graph, you can design a custom graph
+          topology. Go to the main algorithm page, draw your custom nodes and
+          edges, configure any weights, and click the{' '}
+          <strong>Share Graph</strong> icon in the toolbar. This copies a unique
+          URL to your clipboard, representing your custom graph structure. Use
+          this copied URL as the <code>src</code> attribute in your iframe, and
+          your readers will see your custom graph pre-loaded.
         </Typography>
       </Section>
 

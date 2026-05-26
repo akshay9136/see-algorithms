@@ -13,9 +13,7 @@ function useDiscussion(pageId) {
     dedupingInterval: 300000, // 5 minutes
     revalidateOnFocus: false,
     fallbackData: [],
-    onError: (err) => {
-      showError(`Failed to fetch comments. ${err.message}`);
-    },
+    onError: () => showError('Failed to fetch comments'),
   });
 
   const addComment = async (text) => {

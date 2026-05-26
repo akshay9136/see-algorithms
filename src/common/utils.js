@@ -100,10 +100,10 @@ function traverse(node, fn) {
     }
 }
 
-function copyBinaryTree(nodes) {
+function copyTreeUrl(nodes) {
     const json = JSON.stringify(nodes);
-    const origin = window.location.origin;
-    const url = `${origin}${location.pathname}?skeleton=${btoa(json)}`;
+    const pageId = location.pathname.split('/').pop();
+    const url = `${location.origin}/data-structures/embed/${pageId}?skeleton=${btoa(json)}`;
     navigator.clipboard.writeText(url);
     showToast({
         message: 'Tree url is copied to clipboard.',
@@ -138,7 +138,7 @@ export {
     fromDistance,
     createCell,
     traverse,
-    copyBinaryTree,
+    copyTreeUrl,
     randomNodes,
     muteSounds,
 };

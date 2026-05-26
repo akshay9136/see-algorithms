@@ -2,7 +2,7 @@ import { Edge, Node } from '@/components/common';
 import { Redo, Save, Share, Undo } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
-import { copyBinaryTree, showError, sleep } from '@/common/utils';
+import { copyTreeUrl, showError, sleep } from '@/common/utils';
 import redBlackTree from '@/helpers/redBlackTree';
 import Paper from '@mui/material/Paper';
 
@@ -61,7 +61,7 @@ export default function useRedBlackTree({ saveData }) {
 
     const handleCopy = () => {
         const nodes = Tree.collect((a) => [a.value, a.color]);
-        copyBinaryTree(nodes);
+        copyTreeUrl(nodes);
     };
 
     const refresh = async (data) => {

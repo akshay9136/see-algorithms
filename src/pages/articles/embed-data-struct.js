@@ -20,12 +20,8 @@ export default function EmbedDataStruct() {
           embeddable. Whether you&apos;re writing a computer science course on
           Notion, publishing a tutorial on Medium, or building a personal study
           guide, you can instantly add high-quality, interactive animations
-          directly to your content.
-        </Typography>
-
-        <Typography paragraph>
-          This turns a passive reading experience into active, hands-on
-          exploration without ever leaving your website.
+          directly to your content. This turns a passive reading experience into
+          active, hands-on exploration without ever leaving your website.
         </Typography>
       </Section>
 
@@ -41,7 +37,7 @@ export default function EmbedDataStruct() {
           The structure of the URL follows a simple pattern:
         </Typography>
 
-        <Paper className="algorithm" sx={{ mb: 3 }}>
+        <Paper className="pseudoCode" sx={{ mb: 3 }}>
           <pre style={{ margin: 0 }}>
             {`https://see-algorithms.com/data-structures/embed/{DataStructure}`}
           </pre>
@@ -51,7 +47,7 @@ export default function EmbedDataStruct() {
           Available Data Structures
         </Typography>
 
-        <Paper className="algorithm" sx={{ mb: 3 }}>
+        <Paper className="pseudoCode" sx={{ mb: 3 }}>
           <pre style={{ margin: 0 }}>
             {`CircularQueue    - Circular Queue
 LinkedList       - Linked List
@@ -68,7 +64,7 @@ BTree            - B-Tree`}
           Basic Example
         </Typography>
 
-        <Paper className="algorithm" sx={{ mb: 3 }}>
+        <Paper className="pseudoCode" sx={{ mb: 3 }}>
           <pre style={{ margin: '4px 0' }}>
             {`<iframe
     src="https://see-algorithms.com/data-structures/embed/BST"
@@ -83,6 +79,18 @@ BTree            - B-Tree`}
           The iframe loads the external visualizer in a contained window.
           Platforms like Notion or Medium allow you to paste the URL directly
           and they will automatically convert it into an interactive embed.
+        </Typography>
+      </Section>
+
+      <Section title="Embed Custom Trees">
+        <Typography paragraph>
+          If you want to display a specific, custom tree structure rather than
+          starting with an empty state, head to the main data structure page,
+          build your desired tree (by inserting nodes), and click the{' '}
+          <strong>share icon</strong> on the control panel. This will copy a
+          unique URL to your clipboard containing a query parameter (which
+          represents your custom tree structure). Simply use this copied URL as
+          the <code>src</code> attribute in your iframe.
         </Typography>
       </Section>
 

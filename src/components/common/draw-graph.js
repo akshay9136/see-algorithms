@@ -59,8 +59,8 @@ function DrawGraph(props) {
   const handleCopy = () => {
     const weights = config.scope.costMatrix();
     const json = JSON.stringify(Graph.skeleton(weights));
-    const origin = window.location.origin;
-    const url = `${origin}${pathname}?skeleton=${btoa(json)}`;
+    const pageId = location.pathname.split('/').pop();
+    const url = `${location.origin}/graph/embed/${pageId}?skeleton=${btoa(json)}`;
     navigator.clipboard.writeText(url);
     showToast({
       message: 'Graph url is copied to clipboard.',

@@ -29,7 +29,7 @@ export default async function handler(req, res) {
 
     // 3. Saved data yesterday
     const savedDataQuery = await db
-      .collection('saved')
+      .collection('savedData')
       .where('createdAt', '>=', startIso)
       .where('createdAt', '<', todayIso)
       .get();

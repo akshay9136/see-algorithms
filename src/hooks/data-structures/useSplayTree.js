@@ -1,8 +1,8 @@
 import { Edge, Node } from '@/components/common';
 import { Redo, Refresh, Save, Share, Undo } from '@mui/icons-material';
+import { copyTreeUrl, randomNodes, showError, sleep } from '@/common/utils';
 import { useEffect, useState } from 'react';
 import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
-import { copyBinaryTree, randomNodes, showError, sleep } from '@/common/utils';
 import splayTree from '@/helpers/splayTree';
 import Paper from '@mui/material/Paper';
 
@@ -109,7 +109,7 @@ export default function useSplayTree({ saveData }) {
         ...(saveData ? [saveButton] : []),
         {
             text: <Share fontSize="small" />,
-            onClick: () => copyBinaryTree(Tree.root()),
+            onClick: () => copyTreeUrl(Tree.root()),
             disabled: !numbers.length,
             title: 'Share this tree',
         },

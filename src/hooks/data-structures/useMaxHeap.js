@@ -2,7 +2,7 @@ import { Edge, Node, Numkey } from '@/components/common';
 import { Redo, Save, Share, Undo } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
-import { copyBinaryTree, sleep, sound } from '@/common/utils';
+import { copyTreeUrl, sleep, sound } from '@/common/utils';
 import maxHeap from '@/helpers/maxHeap';
 import Paper from '@mui/material/Paper';
 
@@ -118,7 +118,7 @@ export default function useMaxHeap({ saveData }) {
         ...(saveData ? [saveButton] : []),
         {
             text: <Share fontSize="small" />,
-            onClick: () => copyBinaryTree(Tree.collect()),
+            onClick: () => copyTreeUrl(Tree.collect()),
             disabled: !numbers.length,
             title: 'Share this tree',
         },

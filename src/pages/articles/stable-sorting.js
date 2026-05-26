@@ -36,7 +36,7 @@ export default function StableSorting() {
       </Section>
 
       <Section title="A Small Illustration">
-        <Paper className="algorithm" sx={{ mt: 2 }}>
+        <Paper className="pseudoCode" sx={{ mt: 2 }}>
           <pre>
             {`Input Array:
 [ (A, 2), (B, 1), (C, 2) ]

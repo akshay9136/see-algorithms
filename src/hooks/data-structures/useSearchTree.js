@@ -1,8 +1,8 @@
 import { Edge, Node } from '@/components/common';
 import { Redo, Refresh, Save, Share, Undo } from '@mui/icons-material';
+import { copyTreeUrl, randomNodes, showError, sleep } from '@/common/utils';
 import { useEffect, useState } from 'react';
 import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
-import { copyBinaryTree, randomNodes, showError, sleep } from '@/common/utils';
 import searchTree from '@/helpers/searchTree';
 import Paper from '@mui/material/Paper';
 
@@ -113,7 +113,7 @@ export default function useSearchTree({ saveData }) {
         ...(saveData ? [saveButton] : []),
         {
             text: <Share fontSize="small" />,
-            onClick: () => copyBinaryTree(Tree.collect()),
+            onClick: () => copyTreeUrl(Tree.collect()),
             disabled: !numbers.length,
             title: 'Share this tree',
         },

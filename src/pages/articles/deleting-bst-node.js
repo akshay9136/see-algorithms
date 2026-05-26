@@ -58,7 +58,7 @@ export default function DeletingBstNode() {
           tree remains valid.
         </Typography>
 
-        <Paper className="algorithm" sx={{ my: 3 }}>
+        <Paper className="pseudoCode" sx={{ my: 3 }}>
           <pre style={{ margin: 0 }}>
             {`Before:          After deleting 3:
       5                5
@@ -87,7 +87,7 @@ Node 3 is a leaf → simply remove it`}
           constraint.
         </Typography>
 
-        <Paper className="algorithm" sx={{ my: 3 }}>
+        <Paper className="pseudoCode" sx={{ my: 3 }}>
           <pre style={{ margin: 0 }}>
             {`Before:          After deleting 3:
       5                5
@@ -147,7 +147,7 @@ Node 3 has one child (2) → replace 3 with 2`}
           The time complexity of deletion depends on the height of the tree:
         </Typography>
 
-        <Paper className="algorithm" sx={{ my: 3 }}>
+        <Paper className="pseudoCode" sx={{ my: 3 }}>
           <pre style={{ margin: 0 }}>
             {`Operation               Balanced BST    Skewed BST
 ────────────────────    ────────────    ──────────

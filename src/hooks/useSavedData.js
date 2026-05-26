@@ -21,9 +21,7 @@ export default function useSavedData() {
     dedupingInterval: 300000, // 5 minutes
     revalidateOnFocus: false,
     fallbackData: [],
-    onError: (err) => {
-      showError(`Failed to fetch saved data. ${err.message}`);
-    },
+    onError: () => showError('Failed to fetch saved data'),
   });
 
   const type = category === 'graph' ? 'graph' : 'tree';

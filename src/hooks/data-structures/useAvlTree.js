@@ -8,7 +8,7 @@ import {
     useTreeUrl,
     useUndoRedo,
 } from '@/hooks';
-import { copyBinaryTree, showError, sleep } from '@/common/utils';
+import { copyTreeUrl, showError, sleep } from '@/common/utils';
 import avlTree from '@/helpers/avlTree';
 import Paper from '@mui/material/Paper';
 
@@ -143,7 +143,7 @@ function rebalance(node):
         ...(saveData ? [saveButton] : []),
         {
             text: <Share fontSize="small" />,
-            onClick: () => copyBinaryTree(Tree.collect()),
+            onClick: () => copyTreeUrl(Tree.collect()),
             disabled: !numbers.length,
             title: 'Share this tree',
         },
