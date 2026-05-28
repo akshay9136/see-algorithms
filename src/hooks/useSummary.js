@@ -2,10 +2,11 @@ import { Box, Stack, Switch, Tooltip, Typography } from '@mui/material';
 import { useContext, useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { InfoOutlined } from '@mui/icons-material';
-import { marked } from 'marked';
 import { logError } from '@/common/utils';
+import { marked } from 'marked';
+import { InfoOutlined } from '@mui/icons-material';
 import AppContext from '@/common/context';
+import useFeedback from './useFeedback';
 
 export default function useSummary() {
   const [content, setContent] = useState('');
@@ -14,15 +15,20 @@ export default function useSummary() {
   const { data: session } = useSession();
   const { playStatus } = useContext(AppContext);
   const controlRef = useRef(null);
+  const algoId = pathname.split('/')[2];
+
+  const [feedback, setFeedback] = useFeedback({
+    api: '/api/summary-feedback',
+    pageId: algoId,
+  });
 
   const explain = async (data) => {
     if (!summaryOn) return;
     const controller = new AbortController();
     controlRef.current?.abort();
     controlRef.current = controller;
-    const algoId = pathname.split('/')[2];
     setContent('<p>Thinking...</p>');
-
+    setFeedback(null);
     try {
       const res = await fetch('/api/summary', {
         method: 'POST',
@@ -66,6 +72,7 @@ export default function useSummary() {
   const abort = () => {
     controlRef.current?.abort();
     if (playStatus < 2) setContent('');
+    setFeedback(null);
   };
 
   const summary = (
@@ -90,6 +97,7 @@ export default function useSummary() {
         lineHeight={1.6}
         dangerouslySetInnerHTML={{ __html: content }}
       />
+      {content.length > 100 && feedback}
     </Stack>
   );
 

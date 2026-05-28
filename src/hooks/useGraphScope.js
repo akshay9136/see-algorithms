@@ -1,7 +1,7 @@
 import { createGraphScope } from '@/common/graphScope';
 import { useEffect, useRef, useState } from 'react';
 
-function useGraphScope() {
+export default function useGraphScope() {
   const [scope, setScope] = useState(null);
   const graphRef = useRef(null);
 
@@ -9,7 +9,5 @@ function useGraphScope() {
     setScope(createGraphScope(graphRef.current));
   }, []);
 
-  return [scope, graphRef]
-};
-
-export default useGraphScope;
+  return [scope, graphRef];
+}
