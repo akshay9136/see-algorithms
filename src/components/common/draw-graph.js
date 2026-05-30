@@ -26,7 +26,15 @@ import SavedDataList from '@/components/common/saved-data';
 import AppContext from '@/common/context';
 import Graph from '@/common/graph';
 
-function DrawGraph(props) {
+function DrawGraph({
+  weighted = false,
+  allowDirected = true,
+  customSource = true,
+  isDAG = false,
+  scope,
+  scopes = [scope],
+  ...props
+}) {
   const { isDirGraph, playStatus } = useContext(AppContext);
   const { saveData, ...rest } = useSavedData();
   const { pathname } = useRouter();
@@ -37,11 +45,10 @@ function DrawGraph(props) {
 
   const config = {
     source,
-    weighted: props.weighted || false,
+    weighted,
     acyclic: algoId === 'TopSort',
-    directed:
-      algoId === 'TopSort' || (isDirGraph && props.allowDirected !== false),
-    scope: props.scopes ? props.scopes[0] : props.scope,
+    directed: algoId === 'TopSort' || (isDirGraph && allowDirected),
+    scope: scopes[0],
   };
 
   const {
@@ -54,10 +61,10 @@ function DrawGraph(props) {
     refresh,
     loadSavedGraph,
     setDirected,
-  } = useGraphControls(config, props);
+  } = useGraphControls(config, { scopes, ...props });
 
   const handleCopy = () => {
-    const weights = config.scope.costMatrix();
+    const weights = weighted ? scopes[0].costMatrix() : undefined;
     const json = JSON.stringify(Graph.skeleton(weights));
     const pageId = location.pathname.split('/').pop();
     const url = `${location.origin}/graph/embed/${pageId}?skeleton=${btoa(json)}`;
@@ -73,7 +80,7 @@ function DrawGraph(props) {
       showToast({ message: 'Nothing to save.', variant: 'warning' });
       return;
     }
-    const weights = config.scope.costMatrix();
+    const weights = weighted ? scopes[0].costMatrix() : undefined;
     saveData(Graph.skeleton(weights));
   };
 
@@ -94,7 +101,7 @@ function DrawGraph(props) {
             <Refresh sx={{ fontSize: 28 }} />
           </IconButton>
 
-          {props.allowDirected !== false && (
+          {allowDirected && (
             <FormControlLabel
               control={
                 <Checkbox
@@ -110,7 +117,7 @@ function DrawGraph(props) {
             />
           )}
 
-          {props.customSource !== false && (
+          {customSource && (
             <TextField
               value={source}
               onChange={(e) => {
@@ -130,7 +137,7 @@ function DrawGraph(props) {
             size="small"
             variant="contained"
             onClick={handlePlay}
-            disabled={Boolean(props.isDAG && playStatus)}
+            disabled={Boolean(isDAG && playStatus)}
             title={playStatus === 1 ? 'Pause' : 'Play'}
             aria-live="polite"
             sx={{ minWidth: '40px', px: 1 }}

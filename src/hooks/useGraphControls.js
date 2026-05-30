@@ -18,7 +18,7 @@ function useGraphControls(config, props) {
   const history = useUndoRedo();
   const router = useRouter();
   const {
-    scopes = [scope],
+    scopes,
     startHandlers = [props.onStart],
     resetHandlers = props.onClear ? [props.onClear] : [],
   } = props;

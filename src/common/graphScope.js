@@ -201,19 +201,19 @@ export function createGraphScope(container) {
     costMatrix() {
       const mat = [];
       Graph.segments().forEach(([i, j], k) => {
-        mat[i] = mat[i] || [];
+        mat[i] = mat[i] || {};
         const value = scope.find('.cost').eq(k).val();
         mat[i][j] = Number(value) || 1;
         if (!Graph.isDirected()) {
-          mat[j] = mat[j] || [];
+          mat[j] = mat[j] || {};
           mat[j][i] = mat[i][j];
         }
       });
       return mat;
     },
-    
+
     collect() {
-      return Graph.skeleton(this.costMatrix())
+      return Graph.skeleton(this.costMatrix());
     },
   };
 }

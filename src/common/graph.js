@@ -6,7 +6,7 @@ var directed = false;
 const Graph = {
     addPoint(p) {
         points.push(p);
-        matrix.push([]);
+        matrix.push({});
     },
 
     setPoint: (i, p) => void (points[i] = p),
@@ -37,7 +37,7 @@ const Graph = {
         return {
             points: points.slice(),
             segments: segments.slice(),
-            matrix: matrix.map((row) => [...row]),
+            matrix: matrix.map((row) => ({ ...row })),
             directed,
             weights,
         };
