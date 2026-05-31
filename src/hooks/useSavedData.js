@@ -13,16 +13,16 @@ export default function useSavedData() {
   const [, category, algoId] = pathname.split('/');
   const { email } = session?.user || {};
 
-  const {
-    data: savedItems,
-    isLoading,
-    mutate,
-  } = useSWR(email ? `/api/save-data?algoId=${algoId}` : null, fetcher, {
-    dedupingInterval: 300000, // 5 minutes
-    revalidateOnFocus: false,
-    fallbackData: [],
-    onError: () => showError('Failed to fetch saved data'),
-  });
+  const { data: savedItems, mutate } = useSWR(
+    email ? `/api/save-data?algoId=${algoId}` : null,
+    fetcher,
+    {
+      dedupingInterval: 300000, // 5 minutes
+      revalidateOnFocus: false,
+      fallbackData: [],
+      onError: () => showError('Failed to fetch saved data'),
+    },
+  );
 
   const type = category === 'graph' ? 'graph' : 'tree';
 
@@ -74,10 +74,5 @@ export default function useSavedData() {
     setLoading(false);
   };
 
-  return {
-    savedItems,
-    loading: loading || isLoading,
-    saveData,
-    deleteItem
-  };
+  return { savedItems, loading, saveData, deleteItem };
 }
