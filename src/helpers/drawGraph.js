@@ -11,9 +11,9 @@ import Graph, { Points } from '../common/graph';
 import { Colors } from '../common/constants';
 
 export function drawGraph({ weighted, acyclic, history, scope }) {
+    var plane = scope.find('.plane');
     var px, ipx, flag;
     var hold, drag;
-    var plane = scope.find('.plane');
 
     function isInputActive() {
         const active = document.activeElement;

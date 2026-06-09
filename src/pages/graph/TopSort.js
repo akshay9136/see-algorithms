@@ -66,7 +66,7 @@ function indegree():
             allowDirected={false}
             customSource={false}
             explain={() => {
-              const { matrix } = Graph.skeleton();
+              const matrix = scope.costMatrix();
               explain({ matrix });
             }}
           />

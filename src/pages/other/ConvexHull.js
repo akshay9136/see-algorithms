@@ -50,8 +50,8 @@ function Visualizer(scope) {
     cvx = [];
     left = 0;
     for (let i = 1; i < Graph.totalPoints(); i++) {
-      let x1 = Graph.point(i).x;
-      let x2 = Graph.point(left).x;
+      const x1 = Graph.point(i).x;
+      const x2 = Graph.point(left).x;
       if (x1 < x2) left = i;
     }
     p = left;
@@ -87,15 +87,15 @@ function Visualizer(scope) {
   }
 
   function connect(color) {
-    let u = Graph.point(p);
-    let v = Graph.point(q);
-    let props = {
+    const u = Graph.point(p);
+    const v = Graph.point(q);
+    const props = {
       class: 'edge',
       d: `M${u.x} ${u.y} L${v.x} ${v.y}`,
       stroke: color,
       'stroke-width': 2,
     };
-    let edge = svgElement('path', props);
+    const edge = svgElement('path', props);
     scope.node(':first').before(edge);
   }
 

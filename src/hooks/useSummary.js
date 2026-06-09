@@ -44,7 +44,7 @@ export default function useSummary() {
         setContent(
           res.status === 504
             ? '<p>AI request timed out.</p>'
-            : '<p>AI request failed. Please try again later.</p>',
+            : '<p>Something went wrong. Please try again.</p>',
         );
       }
     } catch (err) {

@@ -55,7 +55,7 @@ export function createGraphScope(container) {
 
     path(query) {
       return typeof query === 'number'
-        ? Path(scope.find('.edge')).eq(query)
+        ? Path(scope.find('.edge').eq(query))
         : Path(scope.find('.edge' + query));
     },
 
@@ -86,7 +86,7 @@ export function createGraphScope(container) {
 
       Graph.segments().forEach((seg, ei) => {
         if (seg.includes(i)) {
-          let [u, v] = seg.map(Graph.point);
+          const [u, v] = seg.map(Graph.point);
           let cx = (u.x + v.x) / 2;
           let cy = (u.y + v.y) / 2;
           let d = `M ${u.x} ${u.y} Q ${cx} ${cy} ${v.x} ${v.y}`;
@@ -111,10 +111,10 @@ export function createGraphScope(container) {
     },
 
     addEdge(p, q) {
-      let cx = (p.x + q.x) / 2;
-      let cy = (p.y + q.y) / 2;
-      let d = `M ${p.x} ${p.y} Q ${cx} ${cy} ${q.x} ${q.y}`;
-      let next = scope.find('.vgrp:first');
+      const cx = (p.x + q.x) / 2;
+      const cy = (p.y + q.y) / 2;
+      const d = `M ${p.x} ${p.y} Q ${cx} ${cy} ${q.x} ${q.y}`;
+      const next = scope.find('.vgrp:first');
       next.before(svgElement('path', { d, ...props.edge }));
     },
 

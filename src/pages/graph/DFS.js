@@ -50,7 +50,7 @@ while stack is not empty:
               abortSummary();
             }}
             explain={(source) => {
-              const { matrix } = Graph.skeleton();
+              const matrix = scope.costMatrix();
               explain({ matrix, source });
             }}
           />
