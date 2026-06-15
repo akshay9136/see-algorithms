@@ -1,5 +1,5 @@
 import { initializeApp, getApps, cert } from 'firebase-admin/app';
-import { getFirestore } from 'firebase-admin/firestore';
+import { FieldValue, getFirestore } from 'firebase-admin/firestore';
 
 function getFirebaseAdmin() {
   if (getApps().length === 0) {
@@ -39,4 +39,12 @@ async function checkLastComments(userId) {
   return snapshot.size < 3;
 }
 
-export { checkLastComments };
+async function summaryCount(algoId) {
+  const countRef = db.collection('summary').doc('count');
+  await countRef.set(
+    { [algoId]: FieldValue.increment(1) },
+    { merge: true },
+  );
+}
+
+export { checkLastComments, summaryCount };

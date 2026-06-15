@@ -77,7 +77,7 @@ function Layout({ children }) {
                 color="warning.main"
                 mb={2}
               >
-                {title}
+                {title} Visualization
               </Typography>
             )}
             {children}

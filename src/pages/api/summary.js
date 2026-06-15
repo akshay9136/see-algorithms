@@ -1,5 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
 import { withAuth, withRequestBody } from '@/lib/middlewares';
+import { summaryCount } from '@/lib/firebase-utils';
 import prompts from '@/lib/prompts';
 import compose from 'ramda/src/compose';
 
@@ -31,6 +32,7 @@ async function handler(req, res) {
       model: 'gemini-2.5-flash',
       contents: buildPrompt(data),
     });
+    res.on('finish', () => summaryCount(algoId));
     res.status(200).send(response.text);
   } catch (err) {
     console.error(err.message);
