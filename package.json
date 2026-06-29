@@ -27,6 +27,7 @@
     "@mui/material": "^7.3.11",
     "@next/third-parties": "^16.4.2",
     "@vercel/analytics": "^2.0.1",
+    "dotenv": "^17.4.2",
     "firebase-admin": "^14.5.0",
     "jquery": "^3.7.1",
     "marked": "^17.0.6",
