@@ -1,6 +1,6 @@
 import db from '@/lib/firebase-utils';
-import { FieldValue } from 'firebase-admin/firestore';
 import { withAuth, withRequestBody } from '@/lib/middlewares';
+import { FieldValue } from 'firebase-admin/firestore';
 import compose from 'ramda/src/compose';
 
 async function handler(req, res) {

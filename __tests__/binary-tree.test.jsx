@@ -86,14 +86,17 @@ describe('Binary search tree visualization', () => {
       createdAt: new Date().toISOString(),
       data: JSON.stringify([50, 28, 41, 62, 75]),
     };
-    global.fetch.mockImplementationOnce(() =>
-      Promise.resolve({ ok: true, json: () => Promise.resolve([savedData]) }),
+    global.fetch.mockImplementation(() =>
+      Promise.resolve({
+        ok: true,
+        text: () => Promise.resolve(''),
+        json: () => Promise.resolve([savedData]),
+      }),
     );
     container = await renderTree(BST);
     const openBtn = await screen.findByText('Saved Data');
     fireEvent.click(openBtn);
-    const items = await screen.findAllByRole('button');
-    const savedItem = items.find((btn) => btn.textContent.includes('202'));
+    const savedItem = await screen.findByText(/202/);
     fireEvent.click(savedItem);
 
     await waitFor(() => {

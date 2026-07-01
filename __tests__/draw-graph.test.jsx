@@ -123,14 +123,17 @@ describe('Graph visualization editor', () => {
       createdAt: new Date().toISOString(),
       data: '{"points":[{"x":100,"y":100},{"x":200,"y":100},{"x":150,"y":200}],"segments":[[0,1],[1,2]],"matrix":[[null,0,null],[0,null,1],[null,1,null]],"weights":[[null,5,null],[5,null,10],[null,10,null]],"directed":false}',
     };
-    global.fetch.mockImplementationOnce(() =>
-      Promise.resolve({ ok: true, json: () => Promise.resolve([savedData]) }),
+    global.fetch.mockImplementation(() =>
+      Promise.resolve({
+        ok: true,
+        text: () => Promise.resolve(''),
+        json: () => Promise.resolve([savedData]),
+      }),
     );
     container = await renderGraph(Dijkstras);
     const openBtn = await screen.findByText('Saved Data');
     fireEvent.click(openBtn);
-    const items = await screen.findAllByRole('button');
-    const savedItem = items.find((btn) => btn.textContent.includes('202'));
+    const savedItem = await screen.findByText(/202/);
     fireEvent.click(savedItem);
 
     await waitFor(() => {

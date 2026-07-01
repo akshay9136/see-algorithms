@@ -7,12 +7,15 @@ import { marked } from 'marked';
 import { InfoOutlined } from '@mui/icons-material';
 import AppContext from '@/common/context';
 import useFeedback from './useFeedback';
+import useCredits from './useCredits';
+import { SUMMARY_COST } from '@/lib/constants';
 
 export default function useSummary() {
   const [content, setContent] = useState('');
   const [summaryOn, setSummaryOn] = useState(false);
   const { asPath, pathname, push } = useRouter();
   const { data: session } = useSession();
+  const { fetchCredits } = useCredits();
   const { playStatus } = useContext(AppContext);
   const controlRef = useRef(null);
   const algoId = pathname.split('/')[2];
@@ -40,12 +43,15 @@ export default function useSummary() {
       if (res.ok) {
         const html = marked(await res.text());
         setContent(html);
-      } else {
+        fetchCredits();
+      } else if (res.status === 403) {
         setContent(
-          res.status === 504
-            ? '<p>AI request timed out.</p>'
-            : '<p>Something went wrong. Please try again.</p>',
+          '<p>Insufficient credits. Please <a href="/buy-credits">buy more credits</a> to continue using AI.</p>'
         );
+      } else if (res.status === 504) {
+        setContent('<p>AI request timed out.</p>');
+      } else {
+        setContent('<p>AI service is busy. Please try again.</p>');
       }
     } catch (err) {
       if (err.name !== 'AbortError') {
@@ -90,6 +96,9 @@ export default function useSummary() {
           onChange={toggle}
           inputProps={{ 'aria-label': 'AI Summary Toggle' }}
         />
+        <Typography variant="body2">
+          ({SUMMARY_COST[algoId] || 3} credits)
+        </Typography>
       </Box>
       <Typography
         variant="body2"
@@ -97,7 +106,7 @@ export default function useSummary() {
         lineHeight={1.6}
         dangerouslySetInnerHTML={{ __html: content }}
       />
-      {content.length > 100 && feedback}
+      {content.length > 200 && feedback}
     </Stack>
   );
 

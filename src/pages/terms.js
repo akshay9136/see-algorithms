@@ -1,4 +1,4 @@
-import { CustomSeo } from '@/components/common';
+import { CustomSeo, ListItems } from '@/components/common';
 import { Typography, Box, Link } from '@mui/material';
 
 export default function TermsOfService() {
@@ -11,7 +11,7 @@ export default function TermsOfService() {
         </Typography>
 
         <Typography variant="body2" color="text.secondary" gutterBottom>
-          Last updated: 2 Oct 2025
+          Last updated: 1 July 2026
         </Typography>
 
         <Box sx={{ mt: 4 }}>
@@ -26,7 +26,23 @@ export default function TermsOfService() {
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
-            2. Use License
+            2. User Accounts
+          </Typography>
+          <Typography paragraph>
+            To access certain features of the Site, including purchasing and
+            using AI Credits, you must register for an account. We offer user
+            registration and login services via secure third-party OAuth
+            providers, specifically Google and GitHub. You agree to provide and
+            maintain accurate, current, and complete profile information. You
+            are solely responsible for maintaining the confidentiality of your
+            account authentication session and credentials, and for all
+            activities that occur under your account. You must notify us
+            immediately of any unauthorized use of your account or security
+            breach.
+          </Typography>
+
+          <Typography variant="h6" gutterBottom fontWeight={600}>
+            3. Use License
           </Typography>
           <Typography paragraph>
             Permission is granted to temporarily access and use the Site for
@@ -35,23 +51,39 @@ export default function TermsOfService() {
             may not:
           </Typography>
 
-          <Typography component="div" sx={{ pl: 2 }}>
-            <Typography paragraph>• Modify or copy the materials</Typography>
-            <Typography paragraph>
-              • Use the materials for any commercial purpose or for any public
+          <ListItems>
+            <Typography component="li">Modify or copy the materials</Typography>
+            <Typography component="li">
+              Use the materials for any commercial purpose or for any public
               display
             </Typography>
-            <Typography paragraph>
-              • Attempt to reverse engineer any software contained on the Site
+            <Typography component="li">
+              Attempt to reverse engineer any software contained on the Site
             </Typography>
-            <Typography paragraph>
-              • Remove any copyright or other proprietary notations from the
+            <Typography component="li">
+              Remove any copyright or other proprietary notations from the
               materials
             </Typography>
+          </ListItems>
+
+          <Typography variant="h6" gutterBottom fontWeight={600}>
+            4. Payments and Credits
+          </Typography>
+          <Typography paragraph>
+            We offer various pricing plans for purchasing AI Credits, which are
+            detailed on our pricing page. All payments are processed securely
+            through our third-party payment gateway. By initiating a purchase,
+            you agree to pay all charges incurred under your account at the
+            prices in effect at the time of purchase. AI Credits purchased on
+            the Site are one-time payments and do not expire. Credits are
+            non-transferable and have no cash value. All fees are exclusive of
+            applicable taxes. Except as explicitly stated in our{' '}
+            <Link href="/refund-policy">Refund Policy</Link>, all purchases are
+            final and non-refundable.
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
-            3. Educational Purpose
+            5. Educational Purpose
           </Typography>
           <Typography paragraph>
             The Site is designed for educational purposes to help users
@@ -62,30 +94,39 @@ export default function TermsOfService() {
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
-            4. User Responsibilities
+            6. User Responsibilities & Acceptable Use
           </Typography>
           <Typography paragraph>When using our Site, you agree to:</Typography>
 
-          <Typography component="div" sx={{ pl: 2 }}>
-            <Typography paragraph>
-              • Use the Site only for lawful purposes and in accordance with
+          <ListItems>
+            <Typography component="li">
+              Use the Site only for lawful purposes and in accordance with
               these Terms
             </Typography>
-            <Typography paragraph>
-              • Not use the Site in any way that could damage, disable, or
-              impair the Site
+            <Typography component="li">
+              Not use the Site in any way that could damage, disable,
+              overburden, or impair the Site&apos;s servers or networks
             </Typography>
-            <Typography paragraph>
-              • Not attempt to gain unauthorized access to any part of the Site
+            <Typography component="li">
+              Not attempt to gain unauthorized access to any user accounts,
+              computer systems, or networks
             </Typography>
-            <Typography paragraph>
+            <Typography component="li">
+              Not reverse engineer, decompile, or disassemble any software,
+              algorithms, or visualizer code contained on the Site
+            </Typography>
+            <Typography component="li">
+              Not use automated scrapers, bots, or script tools to extract
+              data, content, or abuse the AI Credits system
+            </Typography>
+            <Typography component="li">
               • Respect the educational nature of the content and use it
               appropriately
             </Typography>
-          </Typography>
+          </ListItems>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
-            5. Intellectual Property Rights
+            7. Intellectual Property Rights
           </Typography>
           <Typography paragraph>
             The Site and its original content, features, and functionality are
@@ -96,7 +137,7 @@ export default function TermsOfService() {
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
-            6. Disclaimer
+            8. Disclaimer
           </Typography>
           <Typography paragraph>
             The information on this Site is provided on an {'"as is"'} basis. To
@@ -105,27 +146,27 @@ export default function TermsOfService() {
             Site and the use of this Site. Nothing in this disclaimer will:
           </Typography>
 
-          <Typography component="div" sx={{ pl: 2 }}>
-            <Typography paragraph>
-              • Limit or exclude our or your liability for death or personal
+          <ListItems>
+            <Typography component="li">
+              Limit or exclude our or your liability for death or personal
               injury
             </Typography>
-            <Typography paragraph>
-              • Limit or exclude our or your liability for fraud or fraudulent
+            <Typography component="li">
+              Limit or exclude our or your liability for fraud or fraudulent
               misrepresentation
             </Typography>
-            <Typography paragraph>
-              • Limit any of our or your liabilities in any way that is not
+            <Typography component="li">
+              Limit any of our or your liabilities in any way that is not
               permitted under applicable law
             </Typography>
-            <Typography paragraph>
-              • Exclude any of our or your liabilities that may not be excluded
+            <Typography component="li">
+              Exclude any of our or your liabilities that may not be excluded
               under applicable law
             </Typography>
-          </Typography>
+          </ListItems>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
-            7. Limitations
+            9. Limitation of Liability
           </Typography>
           <Typography paragraph>
             In no event shall See Algorithms or its suppliers be liable for any
@@ -140,7 +181,7 @@ export default function TermsOfService() {
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
-            8. Accuracy of Materials
+            10. Accuracy of Materials
           </Typography>
           <Typography paragraph>
             The materials appearing on the Site could include technical,
@@ -153,7 +194,7 @@ export default function TermsOfService() {
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
-            9. Links to Other Websites
+            11. Links to Other Websites
           </Typography>
           <Typography paragraph>
             Our Site may contain links to third-party websites or services that
@@ -167,7 +208,7 @@ export default function TermsOfService() {
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
-            10. Termination
+            12. Termination
           </Typography>
           <Typography paragraph>
             We may terminate or suspend your access immediately, without prior
@@ -177,7 +218,7 @@ export default function TermsOfService() {
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
-            11. Governing Law
+            13. Governing Law
           </Typography>
           <Typography paragraph>
             These Terms shall be interpreted and governed by the laws of the
@@ -188,7 +229,7 @@ export default function TermsOfService() {
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
-            12. Changes to Terms
+            14. Changes to Terms
           </Typography>
           <Typography paragraph>
             We reserve the right, at our sole discretion, to modify or replace
@@ -199,7 +240,7 @@ export default function TermsOfService() {
           </Typography>
 
           <Typography variant="h6" gutterBottom fontWeight={600}>
-            13. Contact Information
+            15. Contact Information
           </Typography>
           <Typography paragraph>
             If you have any questions about these Terms of Service, please
