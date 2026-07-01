@@ -35,3 +35,11 @@ export const Section = memo(function (props) {
     </Box>
   );
 });
+
+export const ListItems = memo(function (props) {
+  return (
+    <Typography paragraph component="ul" sx={{ '& li': { mb: 1 } }}>
+      {props.children}
+    </Typography>
+  )
+});

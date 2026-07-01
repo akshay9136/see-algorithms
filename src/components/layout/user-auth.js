@@ -1,11 +1,20 @@
 import { useSession, signOut } from 'next-auth/react';
-import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Typography, Menu, MenuItem, Avatar, Button } from '@mui/material';
-import { Login, Logout } from '@mui/icons-material';
+import { useState } from 'react';
+import {
+  Typography,
+  Menu,
+  MenuItem,
+  Avatar,
+  Button,
+  Divider,
+} from '@mui/material';
+import { Login, Logout, AccountBalanceWallet } from '@mui/icons-material';
+import useCredits from '@/hooks/useCredits';
 
 export default function UserAuth() {
   const { data: session } = useSession();
+  const { credits } = useCredits();
   const [anchorEl, setAnchorEl] = useState(null);
   const userMenuOpen = Boolean(anchorEl);
   const router = useRouter();
@@ -37,15 +46,35 @@ export default function UserAuth() {
           transformOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
-          <MenuItem sx={{ pointerEvents: 'none', opacity: 0.7 }}>
-            <Typography fontWeight="bold">{session.user.name}</Typography>
+          <MenuItem sx={{ pointerEvents: 'none' }}>
+            <Typography fontWeight="bold" color="text.secondary">
+              {session.user.name}
+            </Typography>
           </MenuItem>
+
+          <Divider />
+
+          <MenuItem
+            onClick={() => {
+              router.push('/buy-credits');
+              setAnchorEl(null);
+            }}
+          >
+            <AccountBalanceWallet sx={{ mr: 1 }} color="primary" />
+            <Typography>
+              AI Credits: <b>{credits !== null ? credits : '...'}</b>
+            </Typography>
+          </MenuItem>
+
+          <Divider />
+
           <MenuItem
             onClick={() => {
               signOut({ callbackUrl: '/' });
               setAnchorEl(null);
             }}
           >
+            &nbsp;
             <Logout sx={{ mr: 1 }} fontSize="small" />
             Sign out
           </MenuItem>

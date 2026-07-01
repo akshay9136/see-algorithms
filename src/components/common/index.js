@@ -4,7 +4,7 @@ import { memo } from 'react';
 import InputNumbers from './input-numbers';
 import DrawGraph, { Plane } from './draw-graph';
 import CustomSeo from './custom-seo';
-import Article, { Section } from './article';
+import Article, { Section, ListItems } from './article';
 import ComplexityTable from './complexity-table';
 import DSInput from './ds-input';
 import SavedDataList from './saved-data';
@@ -19,6 +19,7 @@ export {
   ComplexityTable,
   DSInput,
   SavedDataList,
+  ListItems,
 };
 
 export const Numbox = memo(

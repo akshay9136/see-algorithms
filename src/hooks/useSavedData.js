@@ -11,7 +11,7 @@ export default function useSavedData() {
   const { data: session } = useSession();
   const { pathname, push } = useRouter();
   const [, category, algoId] = pathname.split('/');
-  const { email } = session?.user || {};
+  const email = session?.user?.email;
 
   const { data: savedItems, mutate } = useSWR(
     email ? `/api/save-data?algoId=${algoId}` : null,

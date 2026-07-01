@@ -6,23 +6,12 @@ import {
   Button,
   Box,
 } from '@mui/material';
-import {
-  MenuOpen,
-  Info,
-  Policy,
-  Description,
-  MoreVert,
-  Email,
-  Favorite,
-  Article,
-} from '@mui/icons-material';
-import styles from '@/styles/header.module.css';
+import { MenuOpen, Info, MoreVert, Article } from '@mui/icons-material';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import UserAuth from './user-auth';
-
-const SPONSOR_URL = 'https://github.com/sponsors/akshay9136';
+import styles from '@/styles/header.module.css';
 
 function Header(props) {
   const router = useRouter();
@@ -39,11 +28,6 @@ function Header(props) {
 
   const navigate = (path) => {
     router.push(path);
-    closeMenu();
-  };
-
-  const openLink = (url) => {
-    window.open(url, '_blank', 'noopener,noreferrer');
     closeMenu();
   };
 
@@ -98,34 +82,6 @@ function Header(props) {
         >
           About
         </Button>
-        <Button
-          onClick={() => navigate('/contact')}
-          startIcon={<Email />}
-          className={styles.navButton}
-        >
-          Contact
-        </Button>
-        <Button
-          onClick={() => navigate('/privacy')}
-          startIcon={<Policy />}
-          className={styles.navButton}
-        >
-          Privacy
-        </Button>
-        <Button
-          onClick={() => navigate('/terms')}
-          startIcon={<Description />}
-          className={styles.navButton}
-        >
-          Terms
-        </Button>
-        <Button
-          onClick={() => openLink(SPONSOR_URL)}
-          startIcon={<Favorite fontSize="small" />}
-          className={styles.navButton}
-        >
-          Sponsor
-        </Button>
         <UserAuth />
       </Box>
 
@@ -157,22 +113,6 @@ function Header(props) {
           <MenuItem onClick={() => navigate('/about')}>
             <Info sx={{ mr: 1 }} fontSize="small" />
             About Us
-          </MenuItem>
-          <MenuItem onClick={() => navigate('/contact')}>
-            <Email sx={{ mr: 1 }} fontSize="small" />
-            Contact Us
-          </MenuItem>
-          <MenuItem onClick={() => navigate('/privacy')}>
-            <Policy sx={{ mr: 1 }} fontSize="small" />
-            Privacy Policy
-          </MenuItem>
-          <MenuItem onClick={() => navigate('/terms')}>
-            <Description sx={{ mr: 1 }} fontSize="small" />
-            Terms of Service
-          </MenuItem>
-          <MenuItem onClick={() => openLink(SPONSOR_URL)}>
-            <Favorite sx={{ mr: 1 }} fontSize="small" />
-            Sponsor Us
           </MenuItem>
         </Menu>
       </Box>

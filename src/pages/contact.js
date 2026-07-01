@@ -190,6 +190,13 @@ export default function ContactUs() {
                     >
                       hello@see-algorithms.com
                     </Link>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ mt: 2 }}
+                    >
+                      <strong>Legal Entity:</strong> Akshay Karande
+                    </Typography>
                   </CardContent>
                 </Card>
 
@@ -235,7 +242,7 @@ export default function ContactUs() {
             <Grid container spacing={3} sx={{ mt: 2 }}>
               <Grid item xs={12} md={6}>
                 <Card elevation={1}>
-                  <CardContent>
+                  <CardContent sx={{ p: 3 }}>
                     <Typography variant="h6" gutterBottom fontWeight={600}>
                       How do I use the algorithm visualizations?
                     </Typography>
@@ -250,7 +257,7 @@ export default function ContactUs() {
 
               <Grid item xs={12} md={6}>
                 <Card elevation={1}>
-                  <CardContent>
+                  <CardContent sx={{ p: 3 }}>
                     <Typography variant="h6" gutterBottom fontWeight={600}>
                       Can I share my algorithm visualizations?
                     </Typography>
@@ -265,13 +272,14 @@ export default function ContactUs() {
 
               <Grid item xs={12} md={6}>
                 <Card elevation={1}>
-                  <CardContent>
+                  <CardContent sx={{ p: 3 }}>
                     <Typography variant="h6" gutterBottom fontWeight={600}>
                       Is this website free to use?
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Yes, See Algorithms is completely free to use. We believe
-                      in making algorithm learning accessible to everyone.
+                      Core visualizations are free to use. However, generating
+                      custom AI explanations and summaries requires AI Credits,
+                      which can be purchased on the platform.
                     </Typography>
                   </CardContent>
                 </Card>
@@ -279,7 +287,7 @@ export default function ContactUs() {
 
               <Grid item xs={12} md={6}>
                 <Card elevation={1}>
-                  <CardContent>
+                  <CardContent sx={{ p: 3 }}>
                     <Typography variant="h6" gutterBottom fontWeight={600}>
                       How can I contribute to the project?
                     </Typography>

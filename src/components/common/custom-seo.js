@@ -22,6 +22,11 @@ const pages = {
     description:
       'Terms of Service for See Algorithms - Learn about the terms and conditions for using our educational platform.',
   },
+  'refund-policy': {
+    title: 'Refund Policy',
+    description:
+      'Refund Policy for See Algorithms - Learn about our refund eligibility, process, and timeline.',
+  },
 };
 
 function CustomSeo(props) {

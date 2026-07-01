@@ -2,6 +2,7 @@ import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import GitHubProvider from 'next-auth/providers/github';
 import db from '@/lib/firebase-utils';
+import { INITIAL_CREDITS } from '@/lib/constants';
 
 export const authOptions = {
   providers: [
@@ -45,6 +46,7 @@ export const authOptions = {
             email: user.email || '',
             image: user.image || null,
             createdAt: new Date().toISOString(),
+            credits: INITIAL_CREDITS,
           });
         } else {
           await userRef.update({

@@ -227,7 +227,7 @@ export default function AboutUs() {
               Questions, feedback, or suggestions? We&apos;d love to hear from
               you!
             </Typography>
-            <Typography>
+            <Typography gutterBottom>
               Email:{' '}
               <Link href="mailto:hello@see-algorithms.com">
                 hello@see-algorithms.com
