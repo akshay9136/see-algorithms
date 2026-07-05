@@ -9,14 +9,16 @@ import {
   CardActions,
   Box,
   Chip,
+  ToggleButtonGroup,
+  ToggleButton,
 } from '@mui/material';
 import { AutoAwesomeOutlined } from '@mui/icons-material';
 import { PRICING_PLANS } from '@/lib/constants';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { showError } from '@/common/utils';
-import { showToast } from '@/components/toast';
 import useCredits from '@/hooks/useCredits';
+import useDialog from '@/hooks/useDialog';
+import Script from 'next/script';
 
 const styles = {
   introBox: {
@@ -26,7 +28,7 @@ const styles = {
     borderColor: 'primary.light',
     borderRadius: 3,
     padding: { xs: 3, md: 4 },
-    mb: 6,
+    mb: 5,
   },
   pricingCard: (recommended) => ({
     p: 2,
@@ -43,21 +45,75 @@ const styles = {
 
 export default function BuyCredits() {
   const { data: session } = useSession();
+  const { showDialog, Dialog } = useDialog();
   const { fetchCredits } = useCredits();
-  const [loadingId, setLoadingId] = useState(null);
   const router = useRouter();
+  const [loadingId, setLoadingId] = useState(null);
+  const [currency, setCurrency] = useState('INR');
 
   const handlePurchase = async (plan) => {
     if (!session) {
-      router.push(`/auth/signin?callbackUrl=${encodeURIComponent('/buy-credits')}`);
+      router.push('/auth/signin?callbackUrl=/buy-credits');
       return;
     }
     setLoadingId(plan.id);
+
     try {
-      // To do: implement payment gateway
+      const orderRes = await fetch(
+        `/api/payments/create-order?planId=${plan.id}`,
+        { method: 'POST', headers: { 'Content-Type': 'application/json' } },
+      );
+
+      if (!orderRes.ok) {
+        const error = await orderRes.text();
+        throw new Error(error || 'Failed to create order');
+      }
+
+      const { orderId, paymentSessionId } = await orderRes.json();
+
+      const cashfree = await window.Cashfree({
+        mode: process.env.NODE_ENV === 'production' ? 'production' : 'sandbox',
+      });
+      // Open checkout UI
+      await cashfree.checkout({ paymentSessionId, redirectTarget: '_modal' });
+
+      // Verify payment status
+      const verifyRes = await fetch('/api/payments/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId }),
+      });
+
+      const status = await verifyRes.text();
+
+      if (status === 'SUCCESS') {
+        showDialog({
+          title: 'Payment Successful',
+          message: 'Credits have been added to your account.',
+          variant: 'success',
+        });
+        fetchCredits();
+      } else if (status === 'FAILED') {
+        showDialog({
+          title: 'Payment Failed',
+          message: 'Failed to process payment. Please try again.',
+          variant: 'error',
+        });
+      } else {
+        showDialog({
+          title: 'Payment Pending',
+          message: 'We will update your credits shortly.',
+          variant: 'warning',
+        });
+      }
     } catch (err) {
-      showError('Failed to process payment. Please try again.');
+      showDialog({
+        title: 'Payment Error',
+        message: err.message || 'Something went wrong. Please try again.',
+        variant: 'error',
+      });
     }
+
     setLoadingId(null);
   };
 
@@ -90,13 +146,31 @@ export default function BuyCredits() {
           visualizing.
         </Typography>
         <Typography lineHeight={1.6} color="text.secondary">
-          Each time you request a summary, few credits are consumed to query our
-          AI. It reads your exact custom graph topology, tree structure, or
+          Each time you request a summary, a few credits are consumed to query
+          our AI. It reads your exact custom graph topology, tree structure, or
           input array and produces a clear, step-by-step narrative — covering
           time complexity, edge cases, and the reasoning behind every pivotal
           step. Credits never expire, so you can learn at your own pace without
           feeling pressured by a ticking clock or a monthly billing cycle.
         </Typography>
+      </Box>
+
+      <Box display="flex" justifyContent="center" mb={4}>
+        <ToggleButtonGroup
+          color="primary"
+          value={currency}
+          exclusive
+          onChange={(e, value) => setCurrency(value)}
+          aria-label="Currency"
+          disabled
+        >
+          <ToggleButton value="INR" sx={{ px: 2 }}>
+            <b>INR</b>
+          </ToggleButton>
+          <ToggleButton value="USD" sx={{ px: 2 }}>
+            <b>USD</b>
+          </ToggleButton>
+        </ToggleButtonGroup>
       </Box>
 
       <Grid container spacing={4}>
@@ -117,8 +191,12 @@ export default function BuyCredits() {
                   )}
                 </Box>
                 <Box display="flex" justifyContent="center" mb={2}>
-                  <Typography component="h2" variant="h4" color="text.primary">
-                    ${plan.price}
+                  <Typography
+                    component="h2"
+                    variant="h4"
+                    fontFamily="Inter, system-ui, sans-serif"
+                  >
+                    {currency === 'INR' ? `₹${plan.inr}` : `$${plan.usd}`}
                   </Typography>
                 </Box>
                 <Typography
@@ -132,18 +210,27 @@ export default function BuyCredits() {
               <CardActions>
                 <Button
                   fullWidth
-                  variant={plan.recommended ? 'contained' : 'outlined'}
+                  variant="contained"
                   color="primary"
                   onClick={() => handlePurchase(plan)}
-                  disabled={true}
+                  disabled={loadingId === plan.id}
                 >
-                  {loadingId === plan.id ? 'Processing...' : 'Buy Now'}
+                  <strong>
+                    {loadingId === plan.id ? 'Processing...' : 'Buy Now'}
+                  </strong>
                 </Button>
               </CardActions>
             </Card>
           </Grid>
         ))}
       </Grid>
+
+      <Dialog />
+
+      <Script
+        src="https://sdk.cashfree.com/js/v3/cashfree.js"
+        strategy="afterInteractive"
+      />
     </Container>
   );
 }

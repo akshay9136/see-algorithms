@@ -39,6 +39,15 @@ export function withOptionalAuth(handler) {
   };
 }
 
+export function withMethod(method) {
+  return (handler) => (req, res, user) => {
+    if (req.method !== method) {
+      return res.status(405).send('Method Not Allowed');
+    }
+    return handler(req, res, user);
+  };
+}
+
 export function withQueryParams(...fields) {
   return (handler) => (req, res, user) => {
     for (const field of fields) {

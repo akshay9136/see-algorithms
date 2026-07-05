@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 import {
   Button,
   Drawer,
@@ -9,8 +10,7 @@ import {
   ListSubheader,
 } from '@mui/material';
 import { DeleteOutline, ListAlt } from '@mui/icons-material';
-import { useSession } from 'next-auth/react';
-import Spinner from '@/components/spinner';
+import { Spinner } from '@/components/common';
 
 function ListItems(props) {
   const { savedItems, onSelect, onDelete } = props;

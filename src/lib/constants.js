@@ -19,9 +19,9 @@ export const SUMMARY_COST = {
 };
 
 export const PRICING_PLANS = [
-  { id: 'basic', price: 4.99, credits: 100, name: 'Basic' },
-  { id: 'pro', price: 7.99, credits: 200, name: 'Pro', recommended: true },
-  { id: 'premium', price: 14.99, credits: 600, name: 'Premium' },
+  { id: 'basic', usd: 4.99, inr: 199, credits: 100, name: 'Basic' },
+  { id: 'pro', usd: 7.99, inr: 299, credits: 200, name: 'Pro', recommended: true },
+  { id: 'premium', usd: 14.99, inr: 499, credits: 400, name: 'Premium' },
 ];
 
 export const INITIAL_CREDITS = 50;

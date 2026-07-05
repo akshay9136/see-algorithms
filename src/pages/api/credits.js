@@ -1,12 +1,9 @@
 import db from '@/lib/firebase-utils';
-import { withAuth } from '@/lib/middlewares';
 import { INITIAL_CREDITS } from '@/lib/constants';
+import { withAuth, withMethod } from '@/lib/middlewares';
 import compose from 'ramda/src/compose';
 
 async function handler(req, res, user) {
-  if (req.method !== 'GET') {
-    return res.status(405).send('Method Not Allowed');
-  }
   try {
     const userRef = db.collection('users').doc(user.userId);
     const userDoc = await userRef.get();
@@ -22,4 +19,4 @@ async function handler(req, res, user) {
   }
 }
 
-export default compose(withAuth)(handler);
+export default compose(withMethod('GET'), withAuth)(handler);
