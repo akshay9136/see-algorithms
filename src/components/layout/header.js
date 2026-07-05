@@ -6,11 +6,17 @@ import {
   Button,
   Box,
 } from '@mui/material';
-import { MenuOpen, Info, MoreVert, Article } from '@mui/icons-material';
+import {
+  MenuOpen,
+  Info,
+  MoreVert,
+  AccountBalanceWallet,
+  Article,
+} from '@mui/icons-material';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 import UserAuth from './user-auth';
+import Image from 'next/image';
 import styles from '@/styles/header.module.css';
 
 function Header(props) {
@@ -106,6 +112,12 @@ function Header(props) {
             'aria-labelledby': 'info-button',
           }}
         >
+          <MenuItem onClick={() => navigate('/buy-credits')}>
+            <AccountBalanceWallet sx={{ mr: 1 }} fontSize="small" />
+            <Typography>
+              AI Credits
+            </Typography>
+          </MenuItem>
           <MenuItem onClick={() => navigate('/articles')}>
             <Article sx={{ mr: 1 }} fontSize="small" />
             Articles

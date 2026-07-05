@@ -215,3 +215,9 @@ export const fetcher = async (url) => {
     if (!res.ok) throw new Error(await res.text());
     return res.json();
 };
+
+export const baseUrlPg = () => {
+    return process.env.NODE_ENV === 'production'
+        ? 'https://api.cashfree.com/pg'
+        : 'https://sandbox.cashfree.com/pg';
+}

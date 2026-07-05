@@ -18,10 +18,10 @@ import {
   AutoAwesomeOutlined,
   SaveOutlined,
 } from '@mui/icons-material';
+import { Spinner } from '@/components/common';
 import { NextSeo } from 'next-seo';
-import Link from 'next/link';
 import Image from 'next/image';
-import Spinner from '@/components/spinner';
+import Link from 'next/link';
 
 const benefits = [
   {

@@ -6,8 +6,9 @@ import DrawGraph, { Plane } from './draw-graph';
 import CustomSeo from './custom-seo';
 import Article, { Section, ListItems } from './article';
 import ComplexityTable from './complexity-table';
-import DSInput from './ds-input';
 import SavedDataList from './saved-data';
+import DSInput from './ds-input';
+import Spinner from './spinner';
 
 export {
   InputNumbers,
@@ -16,10 +17,11 @@ export {
   CustomSeo,
   Article,
   Section,
-  ComplexityTable,
-  DSInput,
-  SavedDataList,
   ListItems,
+  ComplexityTable,
+  SavedDataList,
+  DSInput,
+  Spinner,
 };
 
 export const Numbox = memo(

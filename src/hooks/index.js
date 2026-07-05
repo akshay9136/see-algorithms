@@ -1,19 +1,23 @@
-import useAlgorithm from '@/hooks/useAlgorithm';
-import useAnimator from '@/hooks/useAnimator';
-import useSummary from '@/hooks/useSummary';
-import useTreeUrl from '@/hooks/useTreeUrl';
-import useUndoRedo from '@/hooks/useUndoRedo';
-import useGraphControls from '@/hooks/useGraphControls';
-import useGraphScope from '@/hooks/useGraphScope';
-import useSavedData from '@/hooks/useSavedData';
+import useAlgorithm from './useAlgorithm';
+import useAnimator from './useAnimator';
+import useGraphControls from './useGraphControls';
+import useGraphScope from './useGraphScope';
+import useSummary from './useSummary';
+import useTreeUrl from './useTreeUrl';
+import useUndoRedo from './useUndoRedo';
+import useSavedData from './useSavedData';
+import useCredits from './useCredits';
+import useDialog from './useDialog';
 
 export {
     useAlgorithm,
     useAnimator,
+    useGraphControls,
+    useGraphScope,
     useSummary,
     useTreeUrl,
     useUndoRedo,
-    useGraphControls,
-    useGraphScope,
     useSavedData,
+    useCredits,
+    useDialog,
 }
