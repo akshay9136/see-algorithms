@@ -114,7 +114,12 @@ export default function BuyCredits() {
   return (
     <Container sx={{ minWidth: { md: 900 }, p: 0 }}>
       <Box textAlign="center" mb={4}>
-        <Typography variant="h4" component="h1" gutterBottom>
+        <Typography
+          variant="h4"
+          component="h1"
+          gutterBottom
+          color="warning.main"
+        >
           Get AI Credits
         </Typography>
         <Typography variant="h6" color="text.secondary">

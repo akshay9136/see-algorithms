@@ -33,7 +33,7 @@ async function handler(req, res, user) {
   }
 
   const userRef = db.collection('users').doc(user.userId);
-  const transRef = db.collection('transactions').doc();
+  const usageRef = db.collection('creditsUsed').doc();
 
   try {
     const userDoc = await userRef.get();
@@ -76,9 +76,9 @@ async function handler(req, res, user) {
       const remaining = credits - summaryCost;
       transaction.update(userRef, { credits: remaining });
 
-      transaction.set(transRef, {
-        type: 'usage',
-        credits: -summaryCost,
+      transaction.set(usageRef, {
+        summaryCost,
+        remaining,
         algoId,
         userId: user.userId,
         userEmail: user.email,

@@ -85,7 +85,7 @@ export default function UserAuth() {
 
   return (
     <Button
-      sx={{ textTransform: 'none', px: 1 }}
+      sx={{ textTransform: 'none', px: 1, mx: 1 }}
       id="signin-button"
       onClick={() => router.push('/auth/signin')}
       variant="outlined"
