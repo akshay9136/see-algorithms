@@ -23,6 +23,7 @@ export const algorithms = [
     category: 'Data Structures',
   },
   { id: 'LinkedList', name: 'Linked List', category: 'Data Structures' },
+  { id: 'DoublyLinkedList', name: 'Doubly Linked List', category: 'Data Structures' },
   { id: 'BinaryHeap', name: 'Binary Heap', category: 'Data Structures' },
   { id: 'BST', name: 'Binary Search Tree', category: 'Data Structures' },
   { id: 'AVL', name: 'AVL Tree', category: 'Data Structures' },

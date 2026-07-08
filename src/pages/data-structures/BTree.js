@@ -1,5 +1,5 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { DSInput, SavedDataList, Section } from '@/components/common';
+import { DSInput, SavedDataList } from '@/components/common';
 import useSavedData from '@/hooks/useSavedData';
 import useBTree from '@/hooks/data-structures/useBTree';
 import Link from 'next/link';

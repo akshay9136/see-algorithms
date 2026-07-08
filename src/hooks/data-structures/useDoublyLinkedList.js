@@ -3,12 +3,12 @@ import { Box, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { Edge } from '@/components/common';
 import { showError, sleep } from '@/common/utils';
 import { motion } from 'motion/react';
-import linkedList from '@/helpers/linkedList';
+import doublyLinkedList from '@/helpers/doublyLinkedList';
 import useAnimator from '@/hooks/useAnimator';
 
 var list, delay = 500;
 
-export default function useLinkedList() {
+export default function useDoublyLinkedList() {
   const [nodes, setNodes] = useState(['H']);
   const [scope, animator] = useAnimator();
   const inputRef1 = useRef(null);
@@ -56,7 +56,7 @@ export default function useLinkedList() {
 
   const reset = () => {
     setNodes(['H']);
-    list = linkedList(animator);
+    list = doublyLinkedList(animator);
   };
 
   const buttons = [
@@ -79,10 +79,15 @@ export default function useLinkedList() {
         <motion.div key={i} id={`box${i}`} style={{ position: 'absolute' }}>
           <ToggleButtonGroup
             size="small"
-            sx={{ width: 60, gap: '1px', pointerEvents: 'none' }}
+            sx={{ width: 75, gap: '1px', pointerEvents: 'none' }}
             value="data"
             color={i > 0 ? 'info' : 'warning'}
           >
+            <ToggleButton
+              value="prev"
+              sx={{ flex: 1, border: '1px solid' }}
+              id={`prev${i}`}
+            />
             <ToggleButton
               value="data"
               sx={{
@@ -103,7 +108,10 @@ export default function useLinkedList() {
         </motion.div>
       ))}
       {nodes.slice(1).map((_, i) => (
-        <Edge key={i} index={i} style={{ width: 40 }} />
+        <div key={i}>
+          <Edge index={`${i}Next`} style={{ width: 30 }} />
+          <Edge index={`${i}Prev`} style={{ width: 30 }} />
+        </div>
       ))}
     </Box>
   );

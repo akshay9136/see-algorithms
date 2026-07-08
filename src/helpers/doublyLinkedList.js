@@ -2,9 +2,10 @@ import { showError, sleep, sound } from '../common/utils';
 import { Colors } from '../common/constants';
 import $ from 'jquery';
 
-const STEP_SIZE = 60 + 30;
+const STEP_SIZE = 75 + 30;
 const NODE_TOP = 80;
-const EDGE_TOP = 98;
+const NEXT_EDGE_TOP = 92;
+const PREV_EDGE_TOP = 106;
 const EDGE_WIDTH = 40;
 
 const delay = 500;
@@ -14,10 +15,10 @@ const arrowStyle = {
   borderTopColor: '#555',
   transform: 'rotate(-90deg)',
   left: 'unset',
-  right: -2, // arrow offset
+  right: -2,
 };
 
-function linkedList({ tx, ty, txy, bgcolor, animate }) {
+function doublyLinkedList({ tx, txy, bgcolor, animate }) {
   const head = { key: 0 };
   const arr = [head];
 
@@ -31,15 +32,23 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
   const insertAtTail = async (value) => {
     const node = await findNode((a) => !a.next);
     const key = arr.length;
-    const eid = `.edge${key - 1}`;
-    node.next = { value, key, eid, prev: node };
+    const nextEid = `.edge${key - 1}Next`;
+    const prevEid = `.edge${key - 1}Prev`;
+    node.next = { value, key, nextEid, prevEid, prev: node };
     arr.push(node.next);
     sound('pop');
     const nodeX = length(head) * STEP_SIZE;
     txy(`#box${key}`, nodeX, NODE_TOP);
-    await txy(eid, nodeX - EDGE_WIDTH, EDGE_TOP);
-    $(`.arrow${key - 1}`).css(arrowStyle);
-    animate(eid, { opacity: 1 });
+
+    // arrow points right
+    await txy(nextEid, nodeX - EDGE_WIDTH, NEXT_EDGE_TOP);
+    $(`.arrow${key - 1}Next`).css(arrowStyle);
+    animate(nextEid, { opacity: 1, width: EDGE_WIDTH });
+
+    // arrow points left
+    await txy(prevEid, nodeX + 10, PREV_EDGE_TOP);
+    $(`.arrow${key - 1}Prev`).css(arrowStyle);
+    animate(prevEid, { opacity: 1, width: EDGE_WIDTH, rotate: 180 });
   };
 
   const findNode = async (predicate) => {
@@ -63,29 +72,33 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
       return true;
     }
     const prev = await findNode((_, i) => i === k);
-    if (k > 0) sound('swap');
     const key = arr.length;
-    const eid = `.edge${key - 1}`;
-    await tx(`#box${key}`, k * STEP_SIZE);
-    await txy(eid, k * STEP_SIZE + 30, 80);
-    animate(eid, { rotate: -90 }, dur);
-    animate(eid, { opacity: 1 });
-    $(`.arrow${key - 1}`).css(arrowStyle);
-    const next = prev.next;
-    animate(next.eid, { rotate: 45, width: 55 }, dur);
-    ty(next.eid, 40);
-    await sleep(delay * 2);
-    sound('swap');
-    shiftNodes(prev, k + 2);
+    const nextEid = `.edge${key - 1}Next`;
+    const prevEid = `.edge${key - 1}Prev`;
     const nodeX = (k + 1) * STEP_SIZE;
+    const centerX = k * STEP_SIZE + STEP_SIZE / 2;
+
+    await tx(`#box${key}`, centerX);
+    await sleep(delay);
+    shiftNodes(prev, k + 2);
     txy(`#box${key}`, nodeX, NODE_TOP);
-    txy(eid, nodeX - EDGE_WIDTH, EDGE_TOP);
-    animate(eid, { rotate: 0 }, dur);
-    animate(next.eid, { rotate: 0, width: EDGE_WIDTH }, dur);
-    ty(next.eid, EDGE_TOP);
-    const newNode = { value, key, eid, prev };
+    sound('pop');
+
+    txy(nextEid, nodeX - EDGE_WIDTH, NEXT_EDGE_TOP);
+    $(`.arrow${key - 1}Next`).css(arrowStyle);
+    animate(nextEid, { rotate: 0, width: EDGE_WIDTH, opacity: 1 }, dur);
+
+    txy(prevEid, nodeX + 10, PREV_EDGE_TOP);
+    $(`.arrow${key - 1}Prev`).css(arrowStyle);
+    animate(prevEid, { rotate: 180, width: EDGE_WIDTH, opacity: 1 }, dur);
+
+    await sleep(delay);
+    const newNode = { value, key, nextEid, prevEid, prev };
     newNode.next = prev.next;
     prev.next = newNode;
+    if (newNode.next) {
+      newNode.next.prev = newNode;
+    }
     arr.push(newNode);
   };
 
@@ -94,7 +107,8 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
     while (cur) {
       const shiftX = vi * STEP_SIZE;
       tx(`#box${cur.key}`, shiftX);
-      tx(cur.eid, shiftX - EDGE_WIDTH);
+      tx(cur.nextEid, shiftX - EDGE_WIDTH);
+      tx(cur.prevEid, shiftX + 10);
       cur = cur.next;
       vi++;
     }
@@ -107,7 +121,8 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
     }
     const node = await findNode((_, i) => i - 1 === k);
     animate(`#box${node.key}`, { opacity: 0 });
-    animate(node.eid, { opacity: 0 });
+    animate(node.nextEid, { opacity: 0 });
+    animate(node.prevEid, { opacity: 0 });
     await sleep(delay);
     if (node.next) sound('swap');
     shiftNodes(node, k + 1);
@@ -118,4 +133,4 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
   return { insertAtHead, insertAtTail, insertAt, deleteAt };
 }
 
-export default linkedList;
+export default doublyLinkedList;

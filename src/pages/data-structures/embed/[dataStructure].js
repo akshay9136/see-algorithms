@@ -36,7 +36,6 @@ export default function EmbedDataStructure() {
     return <div>Algorithm not found</div>;
   }
 
-
   return <Visualizer useHook={useHook} />;
 }
 

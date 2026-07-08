@@ -128,6 +128,11 @@ export const metaConfigs = {
     description:
       'Interactive Linked List guide. Insert, delete, and traverse nodes in real-time. Understand pointers and memory allocation visually.',
   },
+  DoublyLinkedList: {
+    title: 'Doubly Linked List Visualizer | Forward and Backward Traversal',
+    description:
+      'Visualize Doubly Linked List in real-time. Learn bidirectional traversal, node insertion, and deletion with interactive pointer animations.',
+  },
   CircularQueue: {
     title: 'Circular Queue Visualizer | Ring Buffer FIFO Operations',
     description:
