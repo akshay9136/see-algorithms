@@ -233,10 +233,10 @@ export const metaConfigs = {
     description:
       'Learn how to embed interactive data structure animations into your blog, Notion, or website. Perfect for technical articles and tutorials.',
   },
-  'dfs-vs-bfs': {
-    title: 'Compare DFS and BFS | Graph Traversal Algorithms',
+  'bfs-vs-dfs': {
+    title: 'Compare BFS and DFS | Graph Traversal Algorithms',
     description:
-      'Visualize Depth-First Search and Breadth-First Search side-by-side. Explore their diverging patterns and search strategies with an interactive tool.',
+      'Visualize Breadth-First Search and Depth-First Search side-by-side. Explore their diverging patterns and search strategies with an interactive tool.',
   },
   'avl-tree-vs-rbt': {
     title: 'AVL Tree vs Red-Black Tree | Self-Balancing Trees',

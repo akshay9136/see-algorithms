@@ -26,6 +26,15 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: '/graph/dfs-vs-bfs',
+        destination: '/graph/bfs-vs-dfs',
+        permanent: true, // 308 Permanent Redirect
+      },
+    ];
+  },
 };
 
 export default nextConfig;
