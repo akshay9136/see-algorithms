@@ -203,11 +203,7 @@ export const showError = (msg) => {
 };
 
 export const logError = (error) => {
-    fetch('/api/log-error', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(error),
-    });
+    window.gtag?.('event', 'error', error);
 };
 
 export const fetcher = async (url) => {

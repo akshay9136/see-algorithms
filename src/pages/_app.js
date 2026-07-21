@@ -10,6 +10,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Layout from '@/components/layout';
 import Toast from '@/components/toast';
 import { Analytics } from '@vercel/analytics/next';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
 
@@ -38,20 +39,12 @@ export default function App({
   useEffect(() => {
     const handleClick = (event) => {
       const button = event.target.closest('button');
-      if (button) {
-        const buttonInfo = {
+
+      if (button && window.gtag) {
+        window.gtag('event', 'button_clicked', {
           text: button.textContent.trim(),
           title: button.title,
           page: pathname,
-        };
-
-        fetch('/api/log-event', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            message: 'Button clicked',
-            data: buttonInfo,
-          }),
         });
       }
     };
@@ -64,6 +57,7 @@ export default function App({
   return (
     <SessionProvider session={session}>
       <DefaultSeo {...defaultSeoConfig} />
+      <GoogleAnalytics gaId="G-CG2WRZ9YET" />
       <Analytics />
       {isProd && hasContent && (
         <Script
