@@ -60,7 +60,6 @@ export default function RedBlackTree(props) {
         </Stack>
         {summary}
       </Box>
-
       <SavedDataList onSelect={refresh} {...rest} />
     </>
   );
