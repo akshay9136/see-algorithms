@@ -23,7 +23,7 @@ export default function AVL(props) {
       </Typography>
 
       <Box display="flex" gap={4}>
-        <Section variant="h6" title="How It Works">
+        <Section variant="h6">
           <Typography paragraph>
             Every time a node is inserted or deleted, the AVL tree checks the{' '}
             <strong>balance factor</strong> of each affected node. If a node
@@ -77,9 +77,6 @@ export default function AVL(props) {
           {algorithm}
         </Stack>
         <Stack spacing={2}>
-          <Typography variant="h6" component="h2">
-            Visualizer
-          </Typography>
           <DSInput {...props} buttons={buttons} />
           {animation}
           <br />

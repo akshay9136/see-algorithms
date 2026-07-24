@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { showError, sound } from '@/common/utils';
 import Box from '@mui/material/Box';
 
-var front, rear, size;
-var n = 10;
-
-front = rear = size = 0;
+const n = 12;
 
 export default function useCircularQueue() {
   const [numbers, setNumbers] = useState(Array(n).fill(null));
+  const [front, setFront] = useState(0);
+  const [rear, setRear] = useState(0);
+  const [size, setSize] = useState(0);
 
   // eslint-disable-next-line require-yield
   async function* enqueue(num) {
@@ -18,8 +18,8 @@ export default function useCircularQueue() {
       sound('pop');
       numbers[rear] = num;
       setNumbers(numbers.slice());
-      rear = ++rear % n;
-      size++;
+      setRear((rear + 1) % n);
+      setSize(size + 1);
     }
   }
 
@@ -30,8 +30,8 @@ export default function useCircularQueue() {
       sound('pop');
       numbers[front] = null;
       setNumbers(numbers.slice());
-      front = ++front % n;
-      size--;
+      setFront((front + 1) % n);
+      setSize(size - 1);
     }
   }
 
@@ -51,7 +51,9 @@ export default function useCircularQueue() {
       </Box>
       <Box display="flex">
         {numbers.map((num, i) => (
-          <Box key={i} className="cell">{num}</Box>
+          <Box key={i} className="cell">
+            {num}
+          </Box>
         ))}
       </Box>
       <Box display="flex">

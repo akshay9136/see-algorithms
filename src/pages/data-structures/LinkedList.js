@@ -59,20 +59,22 @@ function deleteAt(index):
       <Typography variant="h6" component="h2">
         Visualizer
       </Typography>
-      <DSInput
-        {...props}
-        buttons={buttons.slice(0, 2)}
-        hidePlayIcon
-        ref={inputRefs[0]}
-      />
-      <DSInput
-        {...props}
-        buttons={buttons.slice(2)}
-        label="Enter an index: "
-        hidePlayIcon
-        keepEmpty
-        ref={inputRefs[1]}
-      />
+      <Box display='flex' flexWrap='wrap' gap={2}>
+        <DSInput
+          {...props}
+          buttons={buttons.slice(0, 2)}
+          hidePlayIcon
+          ref={inputRefs[0]}
+        />
+        <DSInput
+          {...props}
+          label="Enter an index: "
+          buttons={buttons.slice(2)}
+          hidePlayIcon
+          keepEmpty
+          ref={inputRefs[1]}
+        />
+      </Box>
       <br />
       {animation}
       <Divider />

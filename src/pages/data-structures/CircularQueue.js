@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Divider, Stack, Typography } from '@mui/material';
 import DSInput from '@/components/common/ds-input';
 import useCircularQueue from '@/hooks/data-structures/useCircularQueue';
 import useAlgorithm from '@/hooks/useAlgorithm';
@@ -37,17 +37,19 @@ function dequeue():
         handle a continuous flow of data.
       </Typography>
       <Typography variant="h6" component="h2">
+        Visualizer
+      </Typography>
+      <DSInput {...props} buttons={buttons} hidePlayIcon />
+      <Box py={3}>{animation}</Box>
+      <Divider />
+
+      <Typography variant="h6" component="h2">
         Pseudocode
       </Typography>
       <Box display="flex" gap={3} flexWrap="wrap">
         {enqueueAlgo}
         {dequeueAlgo}
       </Box>
-      <Typography variant="h6" component="h2" py={1}>
-        Visualizer
-      </Typography>
-      <DSInput {...props} buttons={buttons} hidePlayIcon />
-      {animation}
     </Stack>
   );
 }
