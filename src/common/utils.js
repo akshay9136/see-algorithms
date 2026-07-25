@@ -52,6 +52,7 @@ function costInput(p, q, cost) {
     const handler = (e) => {
         e.stopPropagation();
         input.focus();
+        window.gtag?.('event', 'edit_cost');
     };
     input.addEventListener('click', handler);
     input.addEventListener('touchend', handler);
@@ -202,8 +203,11 @@ export const showError = (msg) => {
     showToast({ message: msg, variant: 'error' });
 };
 
-export const logError = (error) => {
-    window.gtag?.('event', 'error', error);
+export const logError = (err, name) => {
+    window.gtag?.('event', 'error', {
+        error_name: name,
+        error_message: err?.message || 'Something went wrong',
+    });
 };
 
 export const fetcher = async (url) => {

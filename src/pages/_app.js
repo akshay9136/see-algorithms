@@ -42,9 +42,8 @@ export default function App({
 
       if (button && window.gtag) {
         window.gtag('event', 'button_clicked', {
-          text: button.textContent.trim(),
-          title: button.title,
-          page: pathname,
+          button_text: button.textContent.trim(),
+          button_name: button.title,
         });
       }
     };

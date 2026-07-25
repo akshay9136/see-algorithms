@@ -65,11 +65,7 @@ export default function useSummary() {
       if (err.name !== 'AbortError') {
         setContent('<p>Something went wrong. Please try again.</p>');
       }
-      logError({
-        title: 'AI request cancelled',
-        message: err.message,
-        page: pathname,
-      });
+      logError(err, 'AI request cancelled');
     }
   };
 
@@ -79,6 +75,7 @@ export default function useSummary() {
     } else {
       const { checked } = e.target;
       setSummaryOn(checked);
+      window.gtag?.('event', 'ai_summary', { checked });
       if (!checked) abort();
     }
   };

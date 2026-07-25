@@ -19,11 +19,7 @@ export function newIterator(generator, ...args) {
       })
       .catch((err) => {
         running = false;
-        logError({
-          title: 'Iterator error',
-          message: err.message,
-          page: window.location.pathname,
-        });
+        logError(err, 'Iterator error');
       });
   }
 

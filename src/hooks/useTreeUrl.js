@@ -17,7 +17,7 @@ export default function useTreeUrl() {
         }
         setReady(true);
       } catch {
-        logError('Error parsing nodes');
+        logError(null, 'Error parsing tree url');
       }
     }
   }, [isReady, query, nodes]);

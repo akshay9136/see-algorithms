@@ -58,7 +58,7 @@ export default function ContactUs() {
       setSubmitted(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (err) {
-      logError({ title: 'Failed to send email', message: err.message });
+      logError(err, 'Failed to send email');
       setError(
         'Failed to send email. Please try again or contact us directly.',
       );

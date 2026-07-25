@@ -42,6 +42,10 @@ export function drawGraph({ weighted, acyclic, history, scope }) {
         }
         ipx = k;
         px = p;
+
+        window.gtag?.('event', 'draw_graph', {
+            directed: Graph.isDirected(),
+        });
     });
 
     function isValidEdge(ip) {
