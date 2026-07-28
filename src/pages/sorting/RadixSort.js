@@ -6,13 +6,13 @@ import Link from 'next/link';
 const complexityData = [
   {
     type: 'Time Complexity',
-    complexity: 'O(n × k)',
+    complexity: 'O(n × d)',
     description:
-      'Where n is the number of elements and k is the number of digits in the largest number. This makes Radix Sort linear when k is a constant.',
+      'Where n is the number of elements and d is the number of digits in the largest number. This makes Radix Sort linear when d is a constant.',
   },
   {
     type: 'Space Complexity',
-    complexity: 'O(n + k)',
+    complexity: 'O(n + d)',
     description: (
       <>
         Radix Sort requires additional memory for the buckets. It is not an{' '}
@@ -73,13 +73,12 @@ export default function RadixSort() {
           <Section variant="h6" title="When to Use" sx={{ mb: 0 }}>
             <Typography>
               Radix Sort excels when sorting large collections of integers or
-              fixed-length strings where the number of digits (k) is small
+              fixed-length strings where the number of digits (d) is small
               relative to the number of elements (n). It outperforms
               comparison-based sorts in these scenarios because it avoids the
               O(n log n) lower bound that applies to comparison sorts. However,
               it is less versatile — it requires elements that can be decomposed
-              into digits or characters. For floating-point numbers or complex
-              objects, comparison-based algorithms are more appropriate.
+              into digits or characters.
             </Typography>
           </Section>
         </Box>

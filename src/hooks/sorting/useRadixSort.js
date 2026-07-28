@@ -21,12 +21,12 @@ while (max / exp) > 0:
     for i = 0 to (n - 1):
         d = (arr[i] / exp) % 10
         push arr[i] to buckets[d]
-    k = n - 1
-    for j = 9 to 0:
-        b = buckets[j]
+    j = n - 1
+    for k = 9 to 0:
+        b = buckets[k]
         while b is not empty:
-            arr[k] = b.pop()
-            k = k - 1
+            arr[j] = b.pop()
+            j = j - 1
     exp = exp * 10
 `);
 

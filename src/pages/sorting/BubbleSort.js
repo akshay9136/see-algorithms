@@ -38,7 +38,7 @@ export default function BubbleSort() {
 
       <Box display="flex" flexWrap="wrap" gap={4}>
         <Box flex={1}>
-          <Section variant="h6" title="How It Works">
+          <Section title="How It Works">
             <Typography paragraph>
               Bubble Sort begins at the start of the array and compares the
               first two elements. If the first element is greater than the
@@ -51,7 +51,7 @@ export default function BubbleSort() {
               pass, indicating the array is sorted.
             </Typography>
           </Section>
-          <Section variant="h6" title="When To Use" sx={{ mb: 0 }}>
+          <Section title="When To Use" sx={{ mb: 0 }}>
             <Typography>
               Bubble Sort is primarily used as a teaching tool to introduce
               sorting concepts because of its simplicity. In practice, more

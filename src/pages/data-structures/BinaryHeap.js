@@ -28,7 +28,7 @@ function insert(value):
         max-heap, parents are greater than or equal to their children, while in
         a min-heap, they are less than or equal.{' '}
         <Link href="/sorting/HeapSort">Heap Sort</Link> utilizes this structure
-        by building a <strong>max-heap</strong> and repeatedly extracting the
+        by building a <strong>Max-Heap</strong> and repeatedly extracting the
         root element to the end of the array, resulting in an efficient O(n log
         n) sorting algorithm. Beyond sorting, heaps are widely used to implement
         priority queues.

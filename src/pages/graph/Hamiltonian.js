@@ -16,8 +16,7 @@ export default function Hamiltonian(props) {
         every node exactly once and returns to the starting node. It is closely
         related to Travelling Salesman Problem, where the goal is to find the
         shortest possible Hamiltonian cycle. Hamiltonian cycles are useful in
-        routing, scheduling, and circuit design. The backtracking approach used
-        here is related to <Link href="/graph/DFS">Depth-First Search</Link>.
+        routing, scheduling, and circuit design.
       </Typography>
       <Stack spacing={2} ref={graphRef}>
         <DrawGraph

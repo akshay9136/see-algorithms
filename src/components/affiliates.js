@@ -62,7 +62,7 @@ function Affiliates() {
       <Box display="flex" alignItems="center" gap={2} mb={3}>
         <AutoStoriesIcon color="primary" fontSize="large" />
         <Box>
-          <Typography variant="h6" fontSize="1.2rem">
+          <Typography variant="h6">
             Curious to Learn More?
           </Typography>
           <Typography variant="body2" color="text.secondary">
@@ -100,6 +100,7 @@ function Affiliates() {
           </Grid>
         ))}
       </Grid>
+      <br />
 
       <Box
         display="flex"
@@ -168,7 +169,7 @@ const styles = {
   banner: {
     width: '100%',
     height: 'auto',
-    borderRadius: 8,
+    borderRadius: '8px',
   },
 };
 

@@ -1,5 +1,5 @@
 import { DrawGraph } from '@/components/common';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Divider, Stack, Typography } from '@mui/material';
 import { charAt, createCell, hasValue, sound } from '@/common/utils';
 import { useAlgorithm, useGraphScope, useSummary } from '@/hooks';
 import { Colors } from '@/common/constants';
@@ -9,7 +9,7 @@ export default function DFS(props) {
   const [summary, explain, abortSummary] = useSummary();
   const [scope, graphRef] = useGraphScope();
 
-  const [algorithm] = useAlgorithm(`
+  const [algorithm1] = useAlgorithm(`
 stack = new Stack()
 stack.push(src)
 mark src as visited
@@ -21,25 +21,39 @@ while stack is not empty:
             mark v as visited
 `);
 
+  const [algorithm2] = useAlgorithm(`
+DFS(u):
+  mark u as visited
+  for each neighbor v of u:
+      if v is not visited:
+          DFS(v)
+`);
+
   return (
     <Stack spacing={3}>
       <Typography>
-        <strong>Depth-First Search (DFS)</strong> explores a graph by
-        going as deep as possible along each branch before{' '}
-        <strong>backtracking</strong>. Think of it as navigating a maze
-        by following one path to its end before trying another. It uses
-        a <strong>stack</strong> (often via recursion) to keep track of
-        its path, making it highly effective for cycle detection,
-        pathfinding, and solving puzzles.
+        <strong>Depth-First Search (DFS)</strong> explores a graph by going as
+        deep as possible along each branch before <strong>backtracking</strong>.
+        Think of it as navigating a maze by following one path to its end before
+        trying another. It uses a <strong>stack</strong> (often via recursion)
+        to keep track of its path, making it highly effective for cycle
+        detection, pathfinding, and solving puzzles.
       </Typography>
 
       <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
-        <Stack spacing={2} pt={0.5}>
+        <Stack spacing={1.5} pt={1}>
           <Typography variant="h6" component="h2">
             Pseudocode
           </Typography>
-          {algorithm}
+          {algorithm2}
+          <Divider sx={{ width: 0 }} />
+          <Typography variant="h6" component="h2">
+            DFS using stack
+          </Typography>
+          {algorithm1}
         </Stack>
+        <Divider orientation="vertical" flexItem />
+
         <Stack spacing={2} ref={graphRef}>
           <DrawGraph
             {...props}

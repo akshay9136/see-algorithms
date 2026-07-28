@@ -33,6 +33,7 @@ export default function RedBlackTree(props) {
             number of black nodes.
           </Typography>
         </Section>
+
         <Section variant="h6" title="Step by Step">
           <Typography component="ol" sx={{ '& li': { mb: 1 }, pl: 2 }}>
             <li>

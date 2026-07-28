@@ -59,31 +59,30 @@ function heapify(i):
 
       <Box display="flex" flexWrap="wrap" gap={4}>
         <Box flex={1}>
-          <Section title="How It Works" variant="h6">
+          <Section title="How It Works">
             <Typography paragraph>
               Heap Sort operates in two main phases. First, it transforms the
               input array into a Max Heap — a complete binary tree where every
               parent node is greater than or equal to its children. This is done
-              by calling a &quot;heapify&quot; procedure on each non-leaf node,
-              starting from the bottom of the tree and moving upward. Once the
-              Max Heap is built, the largest element is guaranteed to be at the
-              root. The algorithm then swaps the root with the last element of
-              the heap, reduces the heap size by one, and calls heapify on the
-              new root to restore the heap property. This process repeats until
-              only one element remains, producing a fully sorted array.
+              by calling a <strong>heapify</strong> procedure on each non-leaf
+              node, starting from the bottom of the tree and moving upward. Once
+              the Max Heap is built, the largest element is guaranteed to be at
+              the root. The algorithm then swaps the root with the last element
+              of the heap, reduces the heap size by one, and calls heapify on
+              the new root to restore the heap property. This process repeats
+              until only one element remains, producing a fully sorted array.
             </Typography>
           </Section>
-          <Section title="When to Use" variant="h6" sx={{ mb: 0 }}>
+          <Section title="When to Use" sx={{ mb: 0 }}>
             <Typography>
               Heap Sort is ideal when you need guaranteed O(n log n) worst-case
               performance with O(1) extra space — a combination that neither{' '}
               <strong>Quick Sort</strong> (O(n²) worst case) nor{' '}
               <strong>Merge Sort</strong> (O(n) extra space) can offer. It is
               commonly used in systems with strict memory constraints. However,
-              Heap Sort is not{' '}
-              <Link href="/articles/stable-sorting">stable</Link> and tends to
-              have worse cache performance than Quick Sort due to its
-              non-sequential memory access patterns.
+              Heap Sort is <Link href="/articles/stable-sorting">unstable</Link>{' '}
+              and tends to have worse cache performance than Quick Sort due to
+              its non-sequential memory access patterns.
             </Typography>
           </Section>
         </Box>

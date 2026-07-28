@@ -39,7 +39,7 @@ export default function SelectionSort() {
 
       <Box display="flex" flexWrap="wrap" gap={4}>
         <Box flex={1}>
-          <Section title="How It Works" variant="h6">
+          <Section title="How It Works">
             <Typography paragraph>
               Selection Sort divides the array into two logical parts: a sorted
               region at the beginning and an unsorted region at the end. In each
@@ -52,14 +52,16 @@ export default function SelectionSort() {
               the final minimum for that pass.
             </Typography>
           </Section>
-          <Section title="When to Use" variant="h6" sx={{ mb: 0 }}>
+          <Section title="When to Use">
             <Typography>
               Selection Sort is best suited for small arrays or situations where
               memory writes are significantly more expensive than reads (such as
               writing to flash memory). Due to its quadratic time complexity,
-              Selection Sort is impractical for large datasets. More advanced
-              divide-and-conquer algorithms are generally the industry standard
-              for efficiency.
+              Selection Sort is impractical for large datasets. It is also{' '}
+              <Link href="/articles/stable-sorting">unstable</Link>, meaning the
+              relative order of equal elements may not be preserved. More
+              advanced divide-and-conquer algorithms are generally the industry
+              standard for efficiency.
             </Typography>
           </Section>
         </Box>

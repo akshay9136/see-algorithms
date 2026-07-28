@@ -69,14 +69,14 @@ export default function HuffmanCoding() {
     <Stack spacing={1}>
       {alphabets.length > 0 && (
         <Box className={styles.inputNumbers}>
-          <Typography variant="subtitle1" fontWeight="bold" mr={2}>
+          <Typography variant="subtitle1" fontSize="1.1rem" mr={2}>
             Character:
           </Typography>
           {alphabets.map((char) => (
             <Typography
               key={char}
               variant="subtitle2"
-              fontWeight="bold"
+              fontWeight={600}
               mr="2.4rem"
             >
               {char}

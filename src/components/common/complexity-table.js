@@ -13,9 +13,9 @@ import {
 
 function ComplexityTable({ data, hideTitle }) {
   return (
-    <Box sx={{ mb: 3, flex: 1 }}>
+    <Box sx={{ flex: 1 }}>
       {!hideTitle && (
-        <Typography variant="h6" component="h2" sx={{ mb: 1.5 }}>
+        <Typography variant="h5" component="h2" sx={{ mb: 2 }}>
           Time & Space Complexity
         </Typography>
       )}

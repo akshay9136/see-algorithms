@@ -69,7 +69,7 @@ function deleteAt(index):
       <Typography variant="h6" component="h2">
         Visualizer
       </Typography>
-      <Box display='flex' flexWrap='wrap' gap={2}>
+      <Box display="flex" flexWrap="wrap" gap={2}>
         <DSInput
           {...props}
           buttons={buttons.slice(0, 2)}
@@ -87,8 +87,8 @@ function deleteAt(index):
       </Box>
       <br />
       {animation}
-      <Divider />
 
+      <Divider />
       <Typography variant="h6" component="h2">
         Pseudocode
       </Typography>
@@ -100,6 +100,8 @@ function deleteAt(index):
         {insertAlgo3}
         {deleteAlgo}
       </Box>
+      <br />
+      <Divider />
     </Stack>
   );
 }

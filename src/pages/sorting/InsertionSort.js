@@ -40,11 +40,11 @@ export default function InsertionSort() {
 
       <Box display="flex" flexWrap="wrap" gap={4}>
         <Box flex={1}>
-          <Section title="How It Works" variant="h6">
+          <Section title="How It Works">
             <Typography paragraph>
               Insertion Sort starts with the second element in the array
-              (considering the first element as already sorted). It picks this
-              &quot;key&quot; element and compares it with the elements to its
+              (considering the first element as already sorted). It picks this{' '}
+              <code>key</code> element and compares it with the elements to its
               left. If any of those elements are larger than the key, they are
               shifted one position to the right. The key is then inserted into
               the gap created by the shifting. This process repeats for each
@@ -53,7 +53,7 @@ export default function InsertionSort() {
               efficient when the input data is already mostly sorted.
             </Typography>
           </Section>
-          <Section title="When to Use" variant="h6" sx={{ mb: 0 }}>
+          <Section title="When to Use" sx={{ mb: 0 }}>
             <Typography>
               Insertion Sort is ideal for small datasets, nearly sorted arrays,
               or as a finishing step inside more complex algorithms like Timsort

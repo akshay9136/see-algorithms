@@ -14,7 +14,7 @@ const styles = {
   prompt: {
     py: 2,
     px: 2.5,
-    mb: 2,
+    mb: 3,
     border: '1.5px dashed',
     borderColor: 'divider',
     borderRadius: 2,
@@ -48,7 +48,7 @@ export default function Discussion() {
   return (
     <Box component="section" sx={{ maxWidth: 700 }}>
       <Stack direction="row" alignItems="center" gap={1} sx={{ mb: 2.5 }}>
-        <Typography variant="h6" fontWeight={700}>
+        <Typography variant="h5">
           💬 &nbsp;Discussion
         </Typography>
         {comments.length > 0 && (
@@ -63,13 +63,8 @@ export default function Discussion() {
       ) : (
         <Stack sx={styles.prompt}>
           <Typography color="text.secondary">
-            <Link
-              href={`/auth/signin?callbackUrl=${asPath}`}
-              style={{ fontWeight: 600 }}
-            >
-              Sign in
-            </Link>{' '}
-            to join the discussion
+            <Link href={`/auth/signin?callbackUrl=${asPath}`}>Sign in</Link> to
+            join the discussion
           </Typography>
         </Stack>
       )}
@@ -91,9 +86,7 @@ export default function Discussion() {
       ) : (
         <Box sx={styles.empty}>
           <ChatBubbleOutline sx={{ fontSize: 40, mb: 1, opacity: 0.4 }} />
-          <Typography fontWeight={500}>
-            No comments yet
-          </Typography>
+          <Typography fontWeight={500}>No comments yet</Typography>
           <Typography variant="body2" sx={{ mt: 0.5 }}>
             Be the first to share your thoughts on this {getTopic()}.
           </Typography>

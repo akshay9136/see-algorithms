@@ -37,7 +37,7 @@ export default function MergeSort() {
 
       <Box display="flex" flexWrap="wrap" gap={4}>
         <Box flex={1}>
-          <Section title="How It Works" variant="h6">
+          <Section title="How It Works">
             <Typography paragraph>
               Merge Sort follows the divide-and-conquer paradigm. It begins by
               dividing the input array in half, then recursively divides each
@@ -51,17 +51,15 @@ export default function MergeSort() {
               until the entire array is reconstructed in sorted order.
             </Typography>
           </Section>
-          <Section title="When to Use" variant="h6" sx={{ mb: 0 }}>
+          <Section title="When to Use" sx={{ mb: 0 }}>
             <Typography>
               Merge Sort is the preferred choice when a guaranteed O(n log n)
-              worst-case performance is required, or when{' '}
-              <Link href="/articles/stable-sorting">stability</Link> is
+              worst-case performance is required, or when stability is
               important. It is commonly used for sorting linked lists (where its
               O(n) space overhead does not apply) and for external sorting when
               data is too large to fit in memory. Python&apos;s built-in Timsort
-              algorithm is a hybrid of Merge Sort and{' '}
-              <Link href="/sorting/InsertionSort">Insertion Sort</Link>,
-              combining the best properties of both approaches.
+              algorithm is a hybrid of Merge Sort and Insertion Sort, combining
+              the best properties of both approaches.
             </Typography>
           </Section>
         </Box>

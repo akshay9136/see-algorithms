@@ -103,7 +103,7 @@ function InputNumbers(props) {
 
   return (
     <Box className={styles.inputNumbers}>
-      <Typography variant="subtitle1" fontWeight={600}>
+      <Typography variant="subtitle1" fontSize="1.1rem">
         {!numbers.length
           ? 'Select number of elements: '
           : props.label || 'Enter numbers: '}

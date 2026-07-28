@@ -6,6 +6,7 @@ import DrawGraph, { Plane } from './draw-graph';
 import CustomSeo from './custom-seo';
 import Article, { Section, ListItems } from './article';
 import ComplexityTable from './complexity-table';
+import CodeSnippet from './code-snippet';
 import SavedDataList from './saved-data';
 import DSInput from './ds-input';
 import Spinner from './spinner';
@@ -19,6 +20,7 @@ export {
   Section,
   ListItems,
   ComplexityTable,
+  CodeSnippet,
   SavedDataList,
   DSInput,
   Spinner,

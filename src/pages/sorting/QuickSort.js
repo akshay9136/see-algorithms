@@ -17,10 +17,10 @@ function quickSort(start, end):
   return (
     <>
       <Typography paragraph>
-        <strong>Quick sort</strong> is the speedster of sorting algorithms. It
+        <strong>Quick Sort</strong> is the speedster of sorting algorithms. It
         picks a <strong>pivot</strong> element and then arranges the rest of the
         elements into two groups: those less than the pivot and those greater.
-        By recursively sorting these groups, Quick sort efficiently sorts even
+        By recursively sorting these groups, Quick Sort efficiently sorts even
         the largest datasets. It is perfect blend of strategy and speed, making
         it one of the most popular sorting techniques. However, its performance
         can degrade in{' '}
@@ -52,7 +52,7 @@ function quickSort(start, end):
 
       <Box display="flex" flexWrap="wrap" gap={4}>
         <Box flex={1}>
-          <Section title="How It Works" variant="h6">
+          <Section title="How It Works">
             <Typography paragraph>
               Quick sort selects a pivot element from the array (commonly the
               last element). It then partitions the remaining elements into two
@@ -72,10 +72,7 @@ function quickSort(start, end):
               excellent average-case performance and cache efficiency. It is
               preferred when average-case speed matters more than worst-case
               guarantees. However, randomized pivot selection or median-of-three
-              strategies can mitigate the worst-case scenario. Quick sort lacks{' '}
-              <Link href="/articles/stable-sorting">stability</Link>, making it
-              less ideal for multi-level sorting or cases where the original
-              sequence of duplicate keys must be maintained.
+              strategies can mitigate the worst-case scenario.
             </Typography>
           </Section>
         </Box>

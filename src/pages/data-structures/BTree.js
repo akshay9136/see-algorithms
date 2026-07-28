@@ -34,7 +34,7 @@ export default function BTree(props) {
         <Stack spacing={2}>
           <DSInput {...props} buttons={buttons} />
           {animation}
-          <Typography variant="body2" sx={{ mt: 1 }}>
+          <Typography variant="body2" color="text.secondary" mt={1}>
             For simplicity, the order of this B-Tree visualizer is fixed to 3.
           </Typography>
         </Stack>

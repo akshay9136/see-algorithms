@@ -3,6 +3,7 @@ import { Box, Container, Divider, Drawer, Typography } from '@mui/material';
 import AlgorithmSEO from '../algorithm-seo';
 import Affiliates from '../affiliates';
 import Discussion from '../discussion';
+import InterviewQuestions from '../interview-qtns';
 import Sider from './sider';
 import Header from './header';
 import Footer from './footer';
@@ -81,9 +82,15 @@ function Layout({ children }) {
               </Typography>
             )}
             {children}
+            {title && (
+              <>
+                <Divider sx={{ mt: 4 }} />
+                <InterviewQuestions algorithmId={pageId} />
+              </>
+            )}
             {pageId && (
               <>
-                <Divider sx={{ my: 4 }} />
+                <Divider sx={{ my: 3 }} />
                 <Discussion />
                 <Divider sx={{ my: 3 }} />
                 <Affiliates />
