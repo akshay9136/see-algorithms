@@ -1,5 +1,5 @@
 import { DrawGraph } from '@/components/common';
-import { Box, Divider, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import { charAt, createCell, hasValue, sound } from '@/common/utils';
 import { useAlgorithm, useGraphScope, useSummary } from '@/hooks';
 import { Colors } from '@/common/constants';
@@ -40,19 +40,27 @@ DFS(u):
         detection, pathfinding, and solving puzzles.
       </Typography>
 
-      <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
-        <Stack spacing={1.5} pt={1}>
-          <Typography variant="h6" component="h2">
-            Pseudocode
-          </Typography>
-          {algorithm2}
-          <Divider sx={{ width: 0 }} />
-          <Typography variant="h6" component="h2">
-            DFS using stack
-          </Typography>
-          {algorithm1}
-        </Stack>
-        <Divider orientation="vertical" flexItem />
+      <Box display="flex" gap={3} flexWrap="wrap">
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'row', lg: 'column' },
+            gap: 3,
+          }}
+        >
+          <Stack spacing={2}>
+            <Typography variant="h6" component="h2">
+              DFS (using stack)
+            </Typography>
+            {algorithm1}
+          </Stack>
+          <Stack spacing={2}>
+            <Typography variant="h6" component="h2">
+              DFS (recursive)
+            </Typography>
+            {algorithm2}
+          </Stack>
+        </Box>
 
         <Stack spacing={2} ref={graphRef}>
           <DrawGraph
