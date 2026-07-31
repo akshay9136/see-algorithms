@@ -21,12 +21,20 @@ function quickSort(start, end):
         picks a <strong>pivot</strong> element and then arranges the rest of the
         elements into two groups: those less than the pivot and those greater.
         By recursively sorting these groups, Quick Sort efficiently sorts even
-        the largest datasets. It is perfect blend of strategy and speed, making
-        it one of the most popular sorting techniques. However, its performance
-        can degrade in{' '}
+        the largest datasets. It is a perfect blend of strategy and speed,
+        making it one of the most popular sorting techniques. However, its
+        performance can degrade in{' '}
         <Link href="/articles/quick-sort-illusion">certain cases</Link>, unlike
         the guaranteed O(n log n) of{' '}
         <Link href="/sorting/MergeSort">Merge Sort</Link>.
+      </Typography>
+      <Typography paragraph>
+        This visualization uses the <strong>Hoare partition</strong> scheme with
+        two converging pointers starting from opposite ends. The left pointer
+        moves right until it finds an element larger than the pivot, while the
+        right pointer moves left until it finds a smaller element. When both
+        find misplaced elements, they swap them and continue until the pointers
+        cross.
       </Typography>
       <Divider sx={{ my: 3 }} />
 
@@ -57,12 +65,12 @@ function quickSort(start, end):
               Quick sort selects a pivot element from the array (commonly the
               last element). It then partitions the remaining elements into two
               sub-arrays — elements less than the pivot go to the left, and
-              elements greater go to the right. The algorithm then recursively
-              applies the same process to both sub-arrays. The{' '}
-              <strong>partition</strong> step is the heart of Quick sort: a
-              pointer scans from left to right, swapping elements smaller than
-              the pivot to the front. When the scan completes, the pivot is
-              swapped into its correct position.
+              elements greater go to the right. Once partitioning is complete,
+              the array is divided into two distinct sub-arrays. Quick Sort then
+              recursively calls itself on both sub-arrays, repeating the pivot
+              selection and pointer partitioning steps until each sub-array
+              shrinks to a single element or becomes empty, resulting in a fully
+              sorted array.
             </Typography>
           </Section>
           <Section variant="h6" title="When to Use" sx={{ mb: 0 }}>

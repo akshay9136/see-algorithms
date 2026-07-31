@@ -717,6 +717,25 @@ export const interviewQuestionsMap = {
     },
     {
       question:
+        "How do you detect a cycle in a Linked List using Floyd's Cycle-Finding algorithm (Tortoise and Hare)?",
+      answer: (
+        <>
+          Use two pointers: <code>slow</code> moving 1 step at a time, and{' '}
+          <code>fast</code> moving 2 steps at a time. If the list has a cycle,{' '}
+          <code>fast</code> will eventually catch up and meet <code>slow</code>{' '}
+          inside the loop.
+        </>
+      ),
+      codeSnippet: `let slow = head, fast = head;
+while (fast && fast.next) {
+  slow = slow.next;
+  fast = fast.next.next;
+  if (slow == fast) return true; // Cycle detected
+}
+return false;`,
+    },
+    {
+      question:
         'How do you reverse a Linked List in-place in O(n) time and O(1) space?',
       answer: (
         <>
@@ -729,30 +748,9 @@ export const interviewQuestionsMap = {
 while (cur) {
   let next = cur.next;
   cur.next = prev;
-  prev = cur;
-  cur = next;
+  prev = cur, cur = next;
 }
 head = prev;`,
-    },
-    {
-      question:
-        "How do you detect a cycle in a Linked List using Floyd's Cycle-Finding algorithm (Tortoise and Hare)?",
-      answer: (
-        <>
-          Use two pointers: <code>slow</code> moving 1 step at a time, and{' '}
-          <code>fast</code> moving 2 steps at a time. If the list has a cycle,{' '}
-          <code>fast</code> will eventually catch up and meet <code>slow</code>{' '}
-          inside the loop. If <code>fast</code> reaches <code>null</code>, no
-          cycle exists.
-        </>
-      ),
-      codeSnippet: `let slow = head, fast = head;
-while (fast && fast.next) {
-  slow = slow.next;
-  fast = fast.next.next;
-  if (slow == fast) return true; // Cycle detected
-}
-return false;`,
     },
   ],
 

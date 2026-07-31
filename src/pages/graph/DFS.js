@@ -35,9 +35,9 @@ DFS(u):
         <strong>Depth-First Search (DFS)</strong> explores a graph by going as
         deep as possible along each branch before <strong>backtracking</strong>.
         Think of it as navigating a maze by following one path to its end before
-        trying another. It uses a <strong>stack</strong> (often via recursion)
-        to keep track of its path, making it highly effective for cycle
-        detection, pathfinding, and solving puzzles.
+        trying another. It uses a <code>stack</code> (often via recursion) to
+        keep track of its path, making it highly effective for cycle detection,
+        pathfinding, and solving puzzles.
       </Typography>
 
       <Box display="flex" gap={3} flexWrap="wrap">

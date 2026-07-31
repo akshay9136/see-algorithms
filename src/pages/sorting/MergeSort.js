@@ -9,12 +9,12 @@ export default function MergeSort() {
   return (
     <>
       <Typography paragraph>
-        <strong>Merge Sort</strong> is more advanced, divide-and-conquer
-        algorithm that recursively splits an unsorted list into smaller sublists
-        until each contains a single element. These sublists are then merged
-        back together in a sorted manner. With a time complexity of O(n log n),
-        Merge Sort is efficient and stable, making it suitable for handling
-        large datasets.
+        <strong>Merge Sort</strong> is a classic divide-and-conquer algorithm
+        that recursively splits an unsorted list into smaller sublists until
+        each contains a single element. These sublists are then merged back
+        together in sorted order. With a guaranteed time complexity of O(n log
+        n), Merge Sort provides predictable performance and{' '}
+        <Link href="/articles/stable-sorting">stability</Link>.
       </Typography>
       <Divider sx={{ my: 3 }} />
 
@@ -39,16 +39,16 @@ export default function MergeSort() {
         <Box flex={1}>
           <Section title="How It Works">
             <Typography paragraph>
-              Merge Sort follows the divide-and-conquer paradigm. It begins by
-              dividing the input array in half, then recursively divides each
-              half until every sub-array contains just one element (which is
-              trivially sorted). The &quot;conquer&quot; phase then merges pairs
-              of sorted sub-arrays back together. During each merge operation,
-              two sorted sub-arrays are combined by comparing their elements one
-              at a time: the smaller element is placed first into a temporary
-              array. The temporary array then overwrites the corresponding
-              section of the original array. This bottom-up merging continues
-              until the entire array is reconstructed in sorted order.
+              Merge Sort begins by dividing the input array in half, then
+              recursively divides each half until every sub-array contains just
+              one element (which is trivially sorted). The &quot;conquer&quot;
+              phase then merges pairs of sorted sub-arrays back together. During
+              each merge operation, two sorted sub-arrays are{' '}
+              <strong>combined</strong> by comparing their elements one at a
+              time: the smaller element is placed first into a temporary array.
+              The temporary array then overwrites the corresponding section of
+              the original array. This bottom-up merging continues until the
+              entire array is reconstructed in sorted order.
             </Typography>
           </Section>
           <Section title="When to Use" sx={{ mb: 0 }}>

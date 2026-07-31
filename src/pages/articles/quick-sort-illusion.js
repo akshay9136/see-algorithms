@@ -1,5 +1,5 @@
 import { Article, Section } from '@/components/common';
-import { Divider, Typography } from '@mui/material';
+import { Divider, Typography, Paper, Box } from '@mui/material';
 import Link from 'next/link';
 
 export default function QuickSortIllusion() {
@@ -60,6 +60,52 @@ export default function QuickSortIllusion() {
           Ironically, data that looks {'"sorted"'} becomes the worst-case input.
         </Typography>
       </Section>
+
+      <Box sx={{ borderLeft: 3, borderColor: 'success.main', pl: 2 }}>
+        <Typography variant="subtitle1" color="success.main" fontWeight="bold">
+          Balanced Partitioning (Best Case)
+        </Typography>
+        <Typography variant="subtitle2" color="text.secondary" mb={1.5}>
+          Pivot splits array in half. Tree depth stays low.
+        </Typography>
+        <Paper className="pseudoCode">
+          <pre>
+            {`Depth 0:       [1, 2, 3, 4, 5, 6, 7]  (Pivot: 4)
+                    /          \\
+Depth 1:      [1, 2, 3]      [5, 6, 7]  (Pivots: 2, 6)
+               /    \\         /    \\
+Depth 2:     [1]    [3]     [5]    [7]
+
+• Height = log N = 3 levels
+• Total comparisons ≈ N log N`}
+          </pre>
+        </Paper>
+      </Box>
+
+      <Divider sx={{ my: 2, width: 0 }} />
+
+      <Box sx={{ borderLeft: 3, borderColor: 'error.main', pl: 2 }}>
+        <Typography variant="subtitle1" color="error.main" fontWeight="bold">
+          Degraded Partitioning (Worst Case)
+        </Typography>
+        <Typography variant="subtitle2" color="text.secondary" mb={1.5}>
+          Pivot is minimum element. Tree collapses into a line.
+        </Typography>
+        <Paper className="pseudoCode">
+          <pre>
+            {`Depth 0:  [1, 2, 3, 4, 5, 6, 7]  (Pivot: 1)
+           /       \\
+Depth 1: []       [2, 3, 4, 5, 6, 7]  (Pivot: 2)
+                   /       \\
+Depth 2:         []       [3, 4, 5, 6, 7]  ...
+
+• Height = N = 7 levels
+• Total comparisons = 6 + 5 + 4 + ... + 1 ≈ N²/2`}
+          </pre>
+        </Paper>
+      </Box>
+
+      <Divider sx={{ my: 3, width: 0 }} />
 
       <Section title="3. Many Duplicates">
         <Typography paragraph>
