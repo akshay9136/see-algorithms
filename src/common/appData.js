@@ -52,7 +52,7 @@ export const articles = [
   },
   {
     id: 'inplace-sorting',
-    title: 'In-place Sorting Algorithms',
+    title: 'In-Place Sorting Algorithms',
     summary:
       'Understand how in-place sorting algorithms minimize extra space while reorganizing data.',
     category: 'Sorting',

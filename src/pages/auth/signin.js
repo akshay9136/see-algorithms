@@ -52,6 +52,7 @@ export default function SignIn() {
         title="Sign In — See Algorithms"
         description="Sign in to See Algorithms to save your progress and track your learning."
         noindex
+        nofollow
       />
       <Spinner spinning={!!loading} />
 

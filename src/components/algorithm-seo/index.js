@@ -7,7 +7,9 @@ import Head from 'next/head';
 const AlgorithmSEO = () => {
   const { pathname, query } = useRouter();
   const isEmbed = pathname.includes('/embed/');
-  const pageId = isEmbed ? query.algorithm : pathname.split('/')[2];
+  const pageId = isEmbed
+    ? query.algorithm || query.dataStructure
+    : pathname.split('/')[2];
   const { title, description } = getSeoConfig(pageId, pathname);
   const { name, category } = algorithms.findObj('id', pageId) || {};
   const url = 'https://see-algorithms.com' + pathname;
@@ -16,21 +18,10 @@ const AlgorithmSEO = () => {
     title,
     description,
     canonical: url,
-    openGraph: {
-      title,
-      description,
-      url,
-      type: 'article',
-    },
+    openGraph: { title, description, url, type: 'article' },
     additionalMetaTags: [
-      {
-        name: 'article:section',
-        content: category,
-      },
-      {
-        name: 'article:tag',
-        content: name,
-      },
+      { name: 'article:section', content: category },
+      { name: 'article:tag', content: name },
     ],
   };
 
@@ -45,6 +36,27 @@ const AlgorithmSEO = () => {
     educationalUse: ['learning', 'demonstration'],
     teaches: name,
     url,
+    inLanguage: 'en',
+    isAccessibleForFree: true,
+    author: {
+      '@type': 'Person',
+      name: 'Akshay Karande',
+      url: 'https://see-algorithms.com/about',
+      sameAs: [
+        'https://github.com/akshay9136',
+        'https://www.linkedin.com/in/akshay-karande-365604130/',
+      ],
+    },
+    creator: {
+      '@type': 'Person',
+      name: 'Akshay Karande',
+      url: 'https://github.com/akshay9136',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'See Algorithms',
+      url: 'https://see-algorithms.com',
+    },
     provider: {
       '@type': 'Organization',
       name: 'See Algorithms',

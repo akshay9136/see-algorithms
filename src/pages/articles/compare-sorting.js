@@ -93,7 +93,9 @@ export default function CompareSorting() {
           resetHandlers={resetHandlers}
         />
       </Stack>
-      <br />
+
+      <Divider sx={{ my: 3, border: 0 }} />
+
       <Box display="flex" flexWrap="wrap" gap={3}>
         {selected.map((id) => (
           <Box

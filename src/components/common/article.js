@@ -28,7 +28,7 @@ export const Section = memo(function (props) {
       mb={variant === 'h5' ? 4 : 3}
       sx={{ flex: 1, ...sx }}
     >
-      <Typography variant={variant} component="h2" gutterBottom>
+      <Typography variant={variant} component="h2" mb={1.5}>
         {title}
       </Typography>
       {children}

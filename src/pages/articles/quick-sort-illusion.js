@@ -82,7 +82,7 @@ Depth 2:     [1]    [3]     [5]    [7]
         </Paper>
       </Box>
 
-      <Divider sx={{ my: 2, width: 0 }} />
+      <Divider sx={{ my: 2, border: 0 }} />
 
       <Box sx={{ borderLeft: 3, borderColor: 'error.main', pl: 2 }}>
         <Typography variant="subtitle1" color="error.main" fontWeight="bold">
@@ -105,7 +105,7 @@ Depth 2:         []       [3, 4, 5, 6, 7]  ...
         </Paper>
       </Box>
 
-      <Divider sx={{ my: 3, width: 0 }} />
+      <Divider sx={{ my: 3, border: 0 }} />
 
       <Section title="3. Many Duplicates">
         <Typography paragraph>

@@ -9,6 +9,7 @@ import Header from './header';
 import Footer from './footer';
 import { algorithms } from '@/common/appData';
 import { useRouter } from 'next/router';
+import { NextSeo } from 'next-seo';
 
 function Layout({ children }) {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -28,7 +29,11 @@ function Layout({ children }) {
   if (isEmbed) {
     return (
       <Box height="100%" overflow="auto">
-        {pageId && <AlgorithmSEO />}
+        <NextSeo
+          title={`${title} Visualizer | See Algorithms`}
+          noindex
+          nofollow
+        />
         <Box className="content" minWidth="100%">
           {title && (
             <Typography

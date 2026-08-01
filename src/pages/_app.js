@@ -56,8 +56,8 @@ export default function App({
   return (
     <SessionProvider session={session}>
       <DefaultSeo {...defaultSeoConfig} />
-      <GoogleAnalytics gaId="G-CG2WRZ9YET" />
       <Analytics />
+      {isProd && <GoogleAnalytics gaId="G-CG2WRZ9YET" />}
       {isProd && hasContent && (
         <Script
           async
