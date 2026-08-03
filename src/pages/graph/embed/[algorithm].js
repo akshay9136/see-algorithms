@@ -10,6 +10,7 @@ import { Visualizer as Boruvkas } from '@/pages/graph/Boruvkas';
 import { Visualizer as Dijkstras } from '@/pages/graph/Dijkstras';
 import { Visualizer as TopSort } from '@/pages/graph/TopSort';
 import { Visualizer as Hamiltonian } from '@/pages/graph/Hamiltonian';
+import { Visualizer as Eulerian } from '@/pages/graph/Eulerian';
 
 const algorithms = {
   BFS: {
@@ -44,6 +45,11 @@ const algorithms = {
   Hamiltonian: {
     Visualizer: Hamiltonian,
     helper: <Box className="alphaGrid ham-path" />,
+    props: { allowDirected: false },
+  },
+  Eulerian: {
+    Visualizer: Eulerian,
+    helper: <Box className="alphaGrid euler-path" />,
     props: { allowDirected: false },
   },
 };

@@ -1,16 +1,15 @@
 export const SUMMARY_COST = {
-  // Simple trees (2 credits)
-  BST: 2,
-  BinaryHeap: 2,
+  // Simple trees/graphs (3 credits)
+  BST: 3,
+  BinaryHeap: 3,
 
-  // Graph algorithms (3 credits)
-  DFS: 3,
-  BFS: 3,
-  TopSort: 3,
-  Dijkstras: 3,
-  Prims: 3,
-
-  // Complex trees (5 credits)
+  // Complex trees/graphs (5 credits)
+  DFS: 5,
+  BFS: 5,
+  Dijkstras: 5,
+  Prims: 5,
+  TopSort: 5,
+  Eulerian: 5,
   AVL: 5,
   RedBlackTree: 5,
   SplayTree: 5,

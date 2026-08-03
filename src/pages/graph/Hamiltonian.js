@@ -4,7 +4,6 @@ import { charAt, createCell, hasValue, showError, sound } from '@/common/utils';
 import { useGraphScope } from '@/hooks';
 import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
-import Link from 'next/link';
 
 export default function Hamiltonian(props) {
   const [scope, graphRef] = useGraphScope();
@@ -27,6 +26,7 @@ export default function Hamiltonian(props) {
             scope?.find('.ham-path').html('');
           }}
           allowDirected={false}
+          allowRefresh={false}
         />
         <Box className="alphaGrid ham-path" />
       </Stack>
@@ -37,12 +37,12 @@ export default function Hamiltonian(props) {
 const delay = 1000;
 
 export function Visualizer(scope) {
-  var src, v;
+  var src, visited;
 
   async function* start(source) {
-    v = Array(Graph.totalPoints()).fill(0);
+    visited = Array(Graph.totalPoints()).fill(false);
     src = source;
-    v[src] = 1;
+    visited[src] = true;
     scope.find('.vrtx').attr('stroke', Colors.rejected);
     scope.find('.edge').attr('stroke', Colors.rejected);
     yield delay;
@@ -51,36 +51,37 @@ export function Visualizer(scope) {
     const row = scope.find('.ham-path');
     row.append(createCell(charAt(65 + src)));
     sound('pop');
-    yield* findCycle(src);
-
-    if (v.indexOf(0) > -1) showError('Cycle not found.');
+    const found = yield* findCycle(src);
+    if (!found) showError('Cycle not found.');
   }
 
   async function* findCycle(i) {
-    if (v.indexOf(0) === -1) {
-      const ei = Graph.edgeIndex(i, src);
-      if (hasValue(ei)) {
+    yield delay;
+    if (!visited.includes(false)) {
+      if (hasValue(Graph.edgeIndex(i, src))) {
+        sound('pop');
         yield* scope.spanEdge(i, src);
         return true;
       }
+      return false;
     }
-    yield delay;
     for (let j = 0; j < Graph.totalPoints(); j++) {
       if (hasValue(Graph.edgeIndex(i, j))) {
-        if (v[j] > 0) continue;
+        if (visited[j]) continue;
         const row = scope.find('.ham-path');
         row.append(createCell(charAt(65 + j)));
         sound('pop');
         yield* scope.spanEdge(i, j);
-        v[j] = 1;
+        visited[j] = true;
         if (yield* findCycle(j)) return true;
-        v[j] = 0;
+        visited[j] = false;
         sound('pop');
         row.children().last().remove();
         yield* backtrack(i, j);
         yield delay;
       }
     }
+    return false;
   }
 
   function* backtrack(i, j) {

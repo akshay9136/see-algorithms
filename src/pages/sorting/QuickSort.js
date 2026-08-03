@@ -18,12 +18,12 @@ function quickSort(start, end):
     <>
       <Typography paragraph>
         <strong>Quick Sort</strong> is the speedster of sorting algorithms. It
-        picks a <strong>pivot</strong> element and then arranges the rest of the
-        elements into two groups: those less than the pivot and those greater.
-        By recursively sorting these groups, Quick Sort efficiently sorts even
-        the largest datasets. It is a perfect blend of strategy and speed,
-        making it one of the most popular sorting techniques. However, its
-        performance can degrade in{' '}
+        picks a {'"pivot"'} element and then arranges the rest of the elements
+        into two groups: those less than the pivot and those greater. By
+        recursively sorting these groups, Quick Sort efficiently sorts even the
+        largest datasets. It is a perfect blend of strategy and speed, making it
+        one of the most popular sorting techniques. However, its performance can
+        degrade in{' '}
         <Link href="/articles/quick-sort-illusion">certain cases</Link>, unlike
         the guaranteed O(n log n) of{' '}
         <Link href="/sorting/MergeSort">Merge Sort</Link>.

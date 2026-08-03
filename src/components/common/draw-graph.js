@@ -29,6 +29,7 @@ import Graph from '@/common/graph';
 function DrawGraph({
   weighted = false,
   allowDirected = true,
+  allowRefresh = true,
   customSource = true,
   isDAG = false,
   scope,
@@ -61,7 +62,7 @@ function DrawGraph({
     refresh,
     loadSavedGraph,
     setDirected,
-  } = useGraphControls(config, { scopes, ...props });
+  } = useGraphControls(config, { scopes, allowRefresh, ...props });
 
   const handleCopy = () => {
     const weights = weighted ? scopes[0].costMatrix() : undefined;
@@ -86,20 +87,23 @@ function DrawGraph({
 
   return (
     <Box className="drawGraph" aria-label="Graph controls and visualization">
-      <Box mb={1} px={0.5} className={styles.toolbar}>
+      <Box mb={1.5} px={0.5} className={styles.toolbar}>
         <Typography variant="h6" mr="auto">
           Draw Graph
         </Typography>
 
         <Box className={styles.buttonGroup}>
-          <IconButton
-            onClick={refresh}
-            color="primary"
-            title="New Graph"
-            aria-label="New Graph"
-          >
-            <Refresh sx={{ fontSize: 28 }} />
-          </IconButton>
+          {allowRefresh && (
+            <IconButton
+              onClick={refresh}
+              color="primary"
+              title="New Graph"
+              aria-label="New Graph"
+              sx={{ p: 0.5 }}
+            >
+              <Refresh sx={{ fontSize: 28 }} />
+            </IconButton>
+          )}
 
           {allowDirected && (
             <FormControlLabel

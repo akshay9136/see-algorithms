@@ -25,7 +25,7 @@ const ArticleList = () => {
   return (
     <Container maxWidth="lg" sx={{ p: 0 }}>
       <Typography variant="h4" component="h1" textAlign="center">
-        Articles
+        Articles on DSA
       </Typography>
       <br />
       <Grid container spacing={3}>

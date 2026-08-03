@@ -53,7 +53,8 @@ Prims        - Prim's Minimum Spanning Tree
 Kruskals     - Kruskal's Minimum Spanning Tree
 Boruvkas     - Borůvka's Minimum Spanning Tree
 TopSort      - Topological Sorting
-Hamiltonian  - Hamiltonian Cycle`}
+Hamiltonian  - Hamiltonian Cycle
+Eulerian     - Eulerian Cycle`}
           </pre>
         </Paper>
 

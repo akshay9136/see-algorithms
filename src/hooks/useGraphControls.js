@@ -21,6 +21,7 @@ function useGraphControls(config, props) {
     scopes,
     startHandlers = [props.onStart],
     resetHandlers = props.onClear ? [props.onClear] : [],
+    allowRefresh = true,
   } = props;
 
   config.history = {
@@ -39,6 +40,8 @@ function useGraphControls(config, props) {
       message = 'Please enter a valid source.';
     } else if (!Graph.isConnected()) {
       message = 'Please draw connected Graph.';
+    } else if (props.validate) {
+      message = props.validate();
     }
     if (message) {
       showError(message);
@@ -124,12 +127,20 @@ function useGraphControls(config, props) {
     }
   };
 
+  const initGraph = () => {
+    if (allowRefresh) {
+      Graph.initialize(randomGraph(8));
+      while (Graph.hasCycle()) {
+        Graph.initialize(randomGraph(8));
+      }
+    } else {
+      Graph.initialize({});
+    }
+  }
+
   const refresh = () => {
     cleanup();
-    Graph.initialize(randomGraph(8));
-    while (Graph.hasCycle()) {
-      Graph.initialize(randomGraph(8));
-    }
+    initGraph();
     drawGraph(config);
     scope.createGraph(Graph.skeleton(), weighted);
     scopes.slice(1).forEach((sc) => {

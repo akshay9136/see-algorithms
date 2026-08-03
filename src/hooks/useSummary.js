@@ -106,7 +106,7 @@ export default function useSummary() {
           onClose={() => setAnchorEl(null)}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
           slotProps={{
-            paper: { sx: { mt: 1, borderRadius: 2 } },
+            paper: { sx: { mt: 1, borderRadius: 2, bgcolor: '#fff9c4' } },
           }}
         >
           <Typography sx={{ px: 1.5, py: 1 }} variant="body2">

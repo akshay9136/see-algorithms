@@ -58,9 +58,9 @@ const Graph = {
   },
 
   initialize(data) {
-    points = data.points;
-    segments = data.segments;
-    matrix = data.matrix;
+    points = data.points || [];
+    segments = data.segments || [];
+    matrix = data.matrix || [];
     directed = data.directed || false;
   },
 

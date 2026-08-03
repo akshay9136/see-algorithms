@@ -142,6 +142,7 @@
     background-color: #ffd580;
 }
 
+.euler-path .cell,
 .ham-path .cell,
 .top-sort .cell {
     background-color: orange;

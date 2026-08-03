@@ -30,6 +30,18 @@ function svgElement(tag, attrs, text) {
     return el;
 }
 
+function vertexLabel(p, text) {
+  const props = {
+    class: 'vtag',
+    x: p.x + 20,
+    y: p.y - 12,
+    fill: '#404040',
+    'font-size': 14,
+    'font-weight': 'bold',
+  };
+  return svgElement('text', props, text);
+};
+
 function costInput(p, q, cost) {
     if (!cost) {
         const distance = Points.distance(p, q);
@@ -134,6 +146,7 @@ function muteSounds() {
 export {
     cursorOffset,
     svgElement,
+    vertexLabel,
     costInput,
     findCurve,
     fromDistance,

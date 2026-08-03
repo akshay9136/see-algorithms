@@ -17,6 +17,7 @@ export const algorithms = [
   { id: 'Dijkstras', name: "Dijkstra's Algorithm", category: 'Graph' },
   { id: 'TopSort', name: 'Topological Sorting', category: 'Graph' },
   { id: 'Hamiltonian', name: 'Hamiltonian Cycle', category: 'Graph' },
+  { id: 'Eulerian', name: 'Eulerian Cycle', category: 'Graph' },
   {
     id: 'CircularQueue',
     name: 'Circular Queue',

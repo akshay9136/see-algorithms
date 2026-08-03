@@ -328,7 +328,8 @@ export const interviewQuestionsMap = {
         <>
           Deep linear graph traversals using recursion cause Stack Overflow
           errors due to call stack limit bounds. Mitigation: Convert recursive
-          DFS to Iterative DFS using an explicit Stack data structure.
+          DFS to Iterative DFS using an explicit <code>stack</code> data
+          structure.
         </>
       ),
     },
@@ -657,6 +658,22 @@ export const interviewQuestionsMap = {
           once exists in an unweighted graph. TSP is the weighted optimization
           version: finding the Hamiltonian Cycle with the minimum total edge
           cost weight.
+        </>
+      ),
+    },
+  ],
+
+  Eulerian: [
+    {
+      question:
+        'What is the difference between an Eulerian Path and an Eulerian Cycle?',
+      answer: (
+        <>
+          An <strong>Eulerian Path</strong> visits every <em>edge</em> in a
+          graph exactly once and exists if exactly <strong>0 or 2</strong>{' '}
+          vertices have an odd degree. An <strong>Eulerian Cycle</strong> is an
+          Eulerian Path that starts and ends at the same vertex, which requires
+          every vertex to have an even degree (0 odd degree vertices).
         </>
       ),
     },

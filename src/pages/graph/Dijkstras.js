@@ -1,6 +1,6 @@
 import { DrawGraph } from '@/components/common';
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { charAt, hasValue, sound, svgElement } from '@/common/utils';
+import { charAt, hasValue, sound, vertexLabel } from '@/common/utils';
 import { useAlgorithm, useGraphScope, useSummary } from '@/hooks';
 import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
@@ -73,19 +73,6 @@ function relax(u, d):
   );
 }
 
-const svgLabel = (index, text) => {
-  const p = Graph.point(index);
-  const props = {
-    class: 'vtag',
-    x: p.x + 20,
-    y: p.y - 12,
-    fill: '#404040',
-    'font-size': 14,
-    'font-weight': 'bold',
-  };
-  return svgElement('text', props, text);
-};
-
 const delay = 1000;
 
 export function Visualizer(scope) {
@@ -103,7 +90,8 @@ export function Visualizer(scope) {
     d[src] = 0;
     prev = [];
     for (let i = 0; i < n; i++) {
-      const label = svgLabel(i, charAt(65 + i));
+      const p = Graph.point(i);
+      const label = vertexLabel(p, charAt(65 + i));
       scope.find('.vgrp').eq(i).append(label);
       if (i !== src) {
         const symbol = '<tspan font-family="Georgia, serif">&infin;</tspan>';

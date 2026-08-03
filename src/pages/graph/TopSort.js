@@ -112,7 +112,7 @@ export function Visualizer(scope) {
         if (hasValue(ei) && indeg[j] > 0) {
           --indeg[j];
           scope.path(ei).attr('stroke', Colors.visited);
-          yield delay / 2;
+          yield delay;
           if (indeg[j] === 0) {
             scope.node(j).attr('stroke', Colors.visited);
             stack.push(j);
@@ -129,7 +129,7 @@ export function Visualizer(scope) {
       yield* topsort();
     } else {
       const graph = Graph.skeleton();
-      scope.find('.plane').children().not(':first').remove();
+      scope.clearGraph();
       scope.createGraph(graph);
     }
   }

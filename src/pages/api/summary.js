@@ -20,6 +20,7 @@ const promptBuilders = {
   TopSort: prompts.graphAlgorithm('Topological Sorting (using stack)'),
   Dijkstras: prompts.graphAlgorithm('Dijkstras Shortest Path'),
   Prims: prompts.graphAlgorithm('Prims Minimum Spanning Tree'),
+  Eulerian: prompts.graphAlgorithm('Eulerian Cycle'),
 };
 
 async function handler(req, res, user) {

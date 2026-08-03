@@ -62,15 +62,16 @@ function heapify(i):
           <Section title="How It Works">
             <Typography paragraph>
               Heap Sort operates in two main phases. First, it transforms the
-              input array into a Max Heap — a complete binary tree where every
-              parent node is greater than or equal to its children. This is done
-              by calling a <strong>heapify</strong> procedure on each non-leaf
-              node, starting from the bottom of the tree and moving upward. Once
-              the Max Heap is built, the largest element is guaranteed to be at
-              the root. The algorithm then swaps the root with the last element
-              of the heap, reduces the heap size by one, and calls heapify on
-              the new root to restore the heap property. This process repeats
-              until only one element remains, producing a fully sorted array.
+              input array into a <strong>Max Heap</strong> — a complete binary
+              tree where every parent node is greater than or equal to its
+              children. This is done by calling a {'"heapify"'} procedure on
+              each non-leaf node, starting from the bottom of the tree and
+              moving upward. Once the Max Heap is built, the largest element is
+              guaranteed to be at the root. The algorithm then swaps the root
+              with the last element of the heap, reduces the heap size by one,
+              and calls heapify on the new root to restore the heap property.
+              This process repeats until only one element remains, producing a
+              fully sorted array.
             </Typography>
           </Section>
           <Section title="When to Use" sx={{ mb: 0 }}>

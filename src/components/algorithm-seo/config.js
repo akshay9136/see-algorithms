@@ -123,6 +123,11 @@ export const metaConfigs = {
     description:
       'Visualize the Hamiltonian Path. Draw graphs and watch backtracking algorithms attempt to visit every node exactly once. Interactive graph tool.',
   },
+  Eulerian: {
+    title: 'Eulerian Cycle Visualizer | Graph Theory Algorithm',
+    description:
+      'Visualize the Eulerian Cycle algorithm. Draw graphs and watch backtracking algorithms find a path visiting every edge exactly once.',
+  },
   LinkedList: {
     title: 'Linked List Visualizer | Insert, Delete, Traverse',
     description:
