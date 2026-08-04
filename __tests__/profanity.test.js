@@ -1,4 +1,4 @@
-import { hasProfanity } from '@/lib/profanity';
+import { hasProfanity } from '@/utils/profanity';
 
 describe('Profanity Filter (hasProfanity)', () => {
   describe('Clean/valid Inputs', () => {

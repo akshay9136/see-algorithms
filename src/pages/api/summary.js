@@ -1,9 +1,9 @@
-import db, { summaryCount } from '@/lib/firebase-utils';
-import { withAuth, withRequestBody } from '@/lib/middlewares';
+import db, { summaryCount } from '@/utils/firebase-utils';
+import { withAuth, withRequestBody } from '@/utils/middlewares';
+import { INITIAL_CREDITS, SUMMARY_COST } from '@/utils/constants';
 import { GoogleGenAI } from '@google/genai';
+import prompts from '@/utils/prompts';
 import compose from 'ramda/src/compose';
-import prompts from '@/lib/prompts';
-import { INITIAL_CREDITS, SUMMARY_COST } from '@/lib/constants';
 
 const ai = new GoogleGenAI({});
 
@@ -63,8 +63,8 @@ async function handler(req, res, user) {
   }
 
   try {
-    await db.runTransaction(async (transaction) => {
-      const userDoc = await transaction.get(userRef);
+    await db.runTransaction(async (txn) => {
+      const userDoc = await txn.get(userRef);
       if (!userDoc.exists) {
         throw new Error('User not found');
       }
@@ -75,9 +75,9 @@ async function handler(req, res, user) {
       }
 
       const remaining = credits - summaryCost;
-      transaction.update(userRef, { credits: remaining });
+      txn.update(userRef, { credits: remaining });
 
-      transaction.set(usageRef, {
+      txn.set(usageRef, {
         summaryCost,
         remaining,
         algoId,

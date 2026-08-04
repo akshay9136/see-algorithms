@@ -121,8 +121,7 @@ export default function Privacy() {
             </Typography>
             <Typography component="li">
               <strong>Analytics:</strong> Third-party tools such as Google
-              Analytics may collect anonymous metrics about traffic patterns and
-              page loading speeds.
+              Analytics may collect anonymous metrics about traffic patterns.
             </Typography>
           </ListItems>
 

@@ -1,6 +1,6 @@
-import db from '@/lib/firebase-utils';
-import { INITIAL_CREDITS } from '@/lib/constants';
-import { withAuth, withMethod } from '@/lib/middlewares';
+import db from '@/utils/firebase-utils';
+import { INITIAL_CREDITS } from '@/utils/constants';
+import { withAuth, withMethod } from '@/utils/middlewares';
 import compose from 'ramda/src/compose';
 
 async function handler(req, res, user) {

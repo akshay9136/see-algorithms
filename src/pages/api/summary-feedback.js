@@ -1,5 +1,5 @@
-import db from '@/lib/firebase-utils';
-import { withAuth, withRequestBody } from '@/lib/middlewares';
+import db from '@/utils/firebase-utils';
+import { withAuth, withRequestBody } from '@/utils/middlewares';
 import { FieldValue } from 'firebase-admin/firestore';
 import compose from 'ramda/src/compose';
 

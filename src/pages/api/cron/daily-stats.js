@@ -1,4 +1,4 @@
-import db from '@/lib/firebase-utils';
+import db from '@/utils/firebase-utils';
 
 export default async function handler(req, res) {
   const { authorization } = req.headers;

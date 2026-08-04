@@ -1,11 +1,11 @@
-import db from '@/lib/firebase-utils';
+import db from '@/utils/firebase-utils';
 import compose from 'ramda/src/compose';
 import {
   withAuth,
   withDocument,
   withQueryParams,
   withRequestBody,
-} from '@/lib/middlewares';
+} from '@/utils/middlewares';
 
 export default withAuth(async (req, res, { userId }) => {
   const handlers = {

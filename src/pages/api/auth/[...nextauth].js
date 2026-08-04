@@ -1,8 +1,8 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import GitHubProvider from 'next-auth/providers/github';
-import db from '@/lib/firebase-utils';
-import { INITIAL_CREDITS } from '@/lib/constants';
+import db from '@/utils/firebase-utils';
+import { INITIAL_CREDITS } from '@/utils/constants';
 
 export const authOptions = {
   providers: [

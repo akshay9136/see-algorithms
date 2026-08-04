@@ -13,7 +13,7 @@ import {
   ToggleButton,
 } from '@mui/material';
 import { AutoAwesomeOutlined } from '@mui/icons-material';
-import { PRICING_PLANS } from '@/lib/constants';
+import { PRICING_PLANS } from '@/utils/constants';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useCredits, useDialog } from '@/hooks';

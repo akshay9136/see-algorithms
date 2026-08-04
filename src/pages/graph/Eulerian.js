@@ -37,7 +37,7 @@ export default function Eulerian(props) {
       const label = vertexLabel(Graph.point(u), udeg);
       scope.find('.vgrp').eq(u).append(label);
       if (udeg % 2 !== 0) {
-        scope.node(u).attr('fill', '#ed6c02');
+        scope.node(u).attr('stroke', '#ed6c02');
       }
     }
   }
@@ -47,7 +47,7 @@ export default function Eulerian(props) {
     if (hasOddDegree()) {
       sleep(2000).then(() => {
         scope.find('.vtag').remove();
-        scope.find('.vrtx').attr('fill', Colors.vertex);
+        scope.find('.vrtx').attr('stroke', Colors.stroke);
       });
       return 'Graph has vertices with odd degree. Eulerian cycle does not exist.';
     }

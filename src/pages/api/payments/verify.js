@@ -1,7 +1,7 @@
-import db from '@/lib/firebase-utils';
-import { withMethod, withAuth, withRequestBody } from '@/lib/middlewares';
+import db from '@/utils/firebase-utils';
+import { withMethod, withAuth, withRequestBody } from '@/utils/middlewares';
 import { FieldValue } from 'firebase-admin/firestore';
-import { PRICING_PLANS } from '@/lib/constants';
+import { PRICING_PLANS } from '@/utils/constants';
 import { baseUrlPg } from '@/common/utils';
 import compose from 'ramda/src/compose';
 

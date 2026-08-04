@@ -87,7 +87,7 @@ function DrawGraph({
 
   return (
     <Box className="drawGraph" aria-label="Graph controls and visualization">
-      <Box mb={1.5} px={0.5} className={styles.toolbar}>
+      <Box mb={1} px={0.5} className={styles.toolbar}>
         <Typography variant="h6" mr="auto">
           Draw Graph
         </Typography>

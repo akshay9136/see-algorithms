@@ -15,7 +15,7 @@ import { InfoOutlined } from '@mui/icons-material';
 import AppContext from '@/common/context';
 import useFeedback from './useFeedback';
 import useCredits from './useCredits';
-import { SUMMARY_COST } from '@/lib/constants';
+import { SUMMARY_COST } from '@/utils/constants';
 
 export default function useSummary() {
   const [anchorEl, setAnchorEl] = useState(null);

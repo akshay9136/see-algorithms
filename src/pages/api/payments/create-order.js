@@ -1,6 +1,6 @@
-import db from '@/lib/firebase-utils';
-import { withMethod, withAuth, withQueryParams } from '@/lib/middlewares';
-import { PRICING_PLANS } from '@/lib/constants';
+import db from '@/utils/firebase-utils';
+import { withMethod, withAuth, withQueryParams } from '@/utils/middlewares';
+import { PRICING_PLANS } from '@/utils/constants';
 import { baseUrlPg } from '@/common/utils';
 import compose from 'ramda/src/compose';
 

@@ -1,12 +1,12 @@
-import db, { checkLastComments } from '@/lib/firebase-utils';
+import db, { checkLastComments } from '@/utils/firebase-utils';
 import {
   withAuth,
   withDocument,
   withOptionalAuth,
   withQueryParams,
   withRequestBody,
-} from '@/lib/middlewares';
-import { hasProfanity } from '@/lib/profanity';
+} from '@/utils/middlewares';
+import { hasProfanity } from '@/utils/profanity';
 import { FieldValue } from 'firebase-admin/firestore';
 import compose from 'ramda/src/compose';
 
