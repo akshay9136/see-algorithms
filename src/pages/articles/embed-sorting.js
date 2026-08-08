@@ -1,5 +1,6 @@
 import { Article, Section } from '@/components/common';
 import { Paper, Typography } from '@mui/material';
+import { SITE_URL } from '@/utils/constants';
 
 export default function EmbedSorting() {
   return (
@@ -46,7 +47,7 @@ export default function EmbedSorting() {
 
         <Paper className="pseudoCode" sx={{ mb: 3 }}>
           <pre style={{ margin: 0 }}>
-            {`https://see-algorithms.com/sorting/embed/{Algorithm}`}
+            {`${SITE_URL}/sorting/embed/{Algorithm}`}
           </pre>
         </Paper>
 
@@ -57,9 +58,9 @@ export default function EmbedSorting() {
         <Paper className="pseudoCode" sx={{ mb: 3 }}>
           <pre style={{ margin: '4px 0' }}>
             {`<iframe
-    src="https://see-algorithms.com/sorting/embed/MergeSort"
+    src="${SITE_URL}/sorting/embed/MergeSort"
     width="100%"
-    height="400px"
+    height="450px"
     frameborder="0">
 </iframe>`}
           </pre>

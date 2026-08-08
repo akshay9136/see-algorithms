@@ -1,5 +1,6 @@
 import { Article, Section } from '@/components/common';
 import { Paper, Typography } from '@mui/material';
+import { SITE_URL } from '@/utils/constants';
 
 export default function EmbedDataStruct() {
   return (
@@ -39,7 +40,7 @@ export default function EmbedDataStruct() {
 
         <Paper className="pseudoCode" sx={{ mb: 3 }}>
           <pre style={{ margin: 0 }}>
-            {`https://see-algorithms.com/data-structures/embed/{DataStructure}`}
+            {`${SITE_URL}/data-structures/embed/{DataStructure}`}
           </pre>
         </Paper>
 
@@ -67,7 +68,7 @@ BTree            - B-Tree`}
         <Paper className="pseudoCode" sx={{ mb: 3 }}>
           <pre style={{ margin: '4px 0' }}>
             {`<iframe
-    src="https://see-algorithms.com/data-structures/embed/BST"
+    src="${SITE_URL}/data-structures/embed/BST"
     width="100%"
     height="600px"
     frameborder="0">

@@ -30,7 +30,7 @@ function Layout({ children }) {
     return (
       <Box height="100%" overflow="auto">
         <NextSeo
-          title={`${title} Visualizer | See Algorithms`}
+          title={`${title || 'Interactive'} Visualizer | See Algorithms`}
           noindex
           nofollow
         />

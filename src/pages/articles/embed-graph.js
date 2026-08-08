@@ -1,5 +1,6 @@
 import { Article, Section } from '@/components/common';
 import { Paper, Typography } from '@mui/material';
+import { SITE_URL } from '@/utils/constants';
 
 export default function EmbedGraph() {
   return (
@@ -36,7 +37,7 @@ export default function EmbedGraph() {
 
         <Paper className="pseudoCode" sx={{ mb: 3 }}>
           <pre style={{ margin: 0 }}>
-            {`https://see-algorithms.com/graph/embed/{Algorithm}`}
+            {`${SITE_URL}/graph/embed/{Algorithm}`}
           </pre>
         </Paper>
 
@@ -65,7 +66,7 @@ Eulerian     - Eulerian Cycle`}
         <Paper className="pseudoCode" sx={{ mb: 3 }}>
           <pre style={{ margin: '4px 0' }}>
             {`<iframe
-    src="https://see-algorithms.com/graph/embed/BFS"
+    src="${SITE_URL}/graph/embed/BFS"
     width="100%"
     height="600px"
     frameborder="0">

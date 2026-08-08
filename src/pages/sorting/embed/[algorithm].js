@@ -1,5 +1,6 @@
 import InputNumbers from '@/components/common/input-numbers';
 import Stack from '@mui/material/Stack';
+import { SITE_URL } from '@/utils/constants';
 import { useRouter } from 'next/router';
 import {
   useBubbleSort,
@@ -42,7 +43,7 @@ function Visualizer({ useHook }) {
       <InputNumbers onStart={handleSort} onReset={handleStop} />
       {animation}
       <a
-        href="https://see-algorithms.com"
+        href={SITE_URL}
         target="_blank"
         rel="noopener noreferrer"
         className="watermark"

@@ -2,6 +2,7 @@ import { Box, Stack } from '@mui/material';
 import { DrawGraph } from '@/components/common';
 import { useRouter } from 'next/router';
 import { useGraphScope } from '@/hooks';
+import { SITE_URL } from '@/utils/constants';
 import { Visualizer as BFS } from '@/pages/graph/BFS';
 import { Visualizer as DFS } from '@/pages/graph/DFS';
 import { Visualizer as Prims } from '@/pages/graph/Prims';
@@ -83,7 +84,7 @@ function GraphVisualizer({ Visualizer, helper, props }) {
       />
       {helper}
       <a
-        href="https://see-algorithms.com"
+        href={SITE_URL}
         target="_blank"
         rel="noopener noreferrer"
         className="watermark"

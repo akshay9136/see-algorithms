@@ -2,17 +2,21 @@ import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { getSeoConfig } from './config';
 import { algorithms } from '@/common/appData';
+import { SITE_URL } from '@/utils/constants';
 import Head from 'next/head';
 
 const AlgorithmSEO = () => {
-  const { pathname, query } = useRouter();
+  const router = useRouter();
+  const { pathname, query, asPath } = router;
+  const cleanPath = asPath.split('?')[0].split('#')[0];
+  const url = SITE_URL + (cleanPath === '/' ? '' : cleanPath);
+
   const isEmbed = pathname.includes('/embed/');
   const pageId = isEmbed
     ? query.algorithm || query.dataStructure
     : pathname.split('/')[2];
   const { title, description } = getSeoConfig(pageId, pathname);
   const { name, category } = algorithms.findObj('id', pageId) || {};
-  const url = 'https://see-algorithms.com' + pathname;
 
   const seoConfig = {
     title,
@@ -28,20 +32,23 @@ const AlgorithmSEO = () => {
   // Structured Data for Algorithm
   const structuredData = {
     '@context': 'https://schema.org',
-    '@type': 'LearningResource',
+    '@type': ['WebApplication', 'LearningResource'],
     name: title,
     description,
+    applicationCategory: 'EducationalApplication',
+    operatingSystem: 'Any',
     educationalLevel: 'Beginner to Advanced',
     learningResourceType: 'Interactive Visualization',
     educationalUse: ['learning', 'demonstration'],
-    teaches: name,
+    teaches: name || title,
+    featureList: 'Interactive algorithm visualization, step-by-step execution, customizable input data',
     url,
     inLanguage: 'en',
     isAccessibleForFree: true,
     author: {
       '@type': 'Person',
       name: 'Akshay Karande',
-      url: 'https://see-algorithms.com/about',
+      url: `${SITE_URL}/about`,
       sameAs: [
         'https://github.com/akshay9136',
         'https://www.linkedin.com/in/akshay-karande-365604130/',
@@ -55,12 +62,16 @@ const AlgorithmSEO = () => {
     publisher: {
       '@type': 'Organization',
       name: 'See Algorithms',
-      url: 'https://see-algorithms.com',
+      url: SITE_URL,
+      logo: `${SITE_URL}/logo.png`,
     },
     provider: {
       '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
       name: 'See Algorithms',
-      sameAs: 'https://see-algorithms.com',
+      url: SITE_URL,
+      logo: `${SITE_URL}/logo.png`,
+      sameAs: ['https://github.com/akshay9136/see-algorithms'],
     },
     audience: {
       '@type': 'EducationalAudience',
@@ -69,8 +80,9 @@ const AlgorithmSEO = () => {
     interactivityType: 'active',
     isPartOf: {
       '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
       name: 'See Algorithms',
-      url: 'https://see-algorithms.com',
+      url: SITE_URL,
     },
   };
 

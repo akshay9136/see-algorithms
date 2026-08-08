@@ -1,6 +1,7 @@
 import DSInput from '@/components/common/ds-input';
 import Stack from '@mui/material/Stack';
 import { useRouter } from 'next/router';
+import { SITE_URL } from '@/utils/constants';
 import {
   useAvlTree,
   useBTree,
@@ -47,7 +48,7 @@ function Visualizer({ useHook }) {
       <DSInput buttons={buttons} />
       {animation}
       <a
-        href="https://see-algorithms.com"
+        href={SITE_URL}
         target="_blank"
         rel="noopener noreferrer"
         className="watermark"
@@ -77,7 +78,7 @@ function LinkedList() {
       />
       {animation}
       <a
-        href="https://see-algorithms.com"
+        href={SITE_URL}
         target="_blank"
         rel="noopener noreferrer"
         className="watermark"

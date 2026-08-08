@@ -1,3 +1,5 @@
+export const SITE_URL = 'https://see-algorithms.com';
+
 export const SUMMARY_COST = {
   // Simple trees/graphs (3 credits)
   BST: 3,

@@ -1,5 +1,6 @@
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
+import { SITE_URL } from '@/utils/constants';
 
 const pages = {
   about: {
@@ -30,10 +31,12 @@ const pages = {
 };
 
 function CustomSeo(props) {
-  const { pathname } = useRouter();
+  const router = useRouter();
+  const { pathname, asPath } = router;
   const { title, description } = pages[pathname.slice(1)] || props;
 
-  const url = `https://see-algorithms.com${pathname || ''}`;
+  const cleanPath = asPath.split('?')[0].split('#')[0];
+  const url = SITE_URL + (cleanPath === '/' ? '' : cleanPath);
   const config = {
     title: title + ' - See Algorithms',
     description,

@@ -1,19 +1,21 @@
+import { SITE_URL } from '@/utils/constants';
+
 export const defaultSeoConfig = {
   title: 'See Algorithms - Interactive Algorithm Visualizations',
   description:
     'Learn algorithms through interactive visualizations. Step-by-step animations for sorting, searching, graph algorithms, and data structures. Perfect for students and educators.',
-  canonical: 'https://see-algorithms.com',
+  canonical: SITE_URL,
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://see-algorithms.com',
+    url: SITE_URL,
     siteName: 'See Algorithms',
     title: 'See Algorithms - Interactive Algorithm Visualizations',
     description:
       'Learn algorithms through interactive visualizations. Step-by-step animations for sorting, searching, graph algorithms, and data structures.',
     images: [
       {
-        url: 'https://see-algorithms.com/og-image.png',
+        url: `${SITE_URL}/og-image.png`,
         width: 1400,
         height: 720,
         alt: 'See Algorithms Visualization',
@@ -32,7 +34,7 @@ export const defaultSeoConfig = {
     },
     {
       property: 'article:author',
-      content: 'https://see-algorithms.com/about',
+      content: `${SITE_URL}/about`,
     },
   ],
   additionalLinkTags: [
