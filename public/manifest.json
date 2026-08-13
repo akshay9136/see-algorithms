@@ -18,7 +18,7 @@
       "purpose": "any maskable"
     },
     {
-      "src": "/logo.png",
+      "src": "/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
@@ -27,7 +27,7 @@
   "screenshots": [
     {
       "src": "/logo.png",
-      "sizes": "512x512",
+      "sizes": "1800x376",
       "type": "image/png",
       "form_factor": "wide",
       "label": "See Algorithms - Algorithm Visualization Platform"

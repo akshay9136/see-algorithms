@@ -14,38 +14,38 @@ export default async function handler(req, res) {
     const startIso = yesterday.toISOString();
     const todayIso = today.toISOString();
 
-    // 1. Signed-in users yesterday
     const usersRef = db.collection('users');
-    const signedInQuery = await usersRef
-      .where('lastSignIn', '>=', startIso)
-      .where('lastSignIn', '<', todayIso)
-      .get();
-
-    // 2. Signed-up users yesterday
-    const signedUpQuery = await usersRef
-      .where('createdAt', '>=', startIso)
-      .where('createdAt', '<', todayIso)
-      .get();
-
-    // 3. Saved data yesterday
-    const savedDataQuery = await db
-      .collection('savedData')
-      .where('createdAt', '>=', startIso)
-      .where('createdAt', '<', todayIso)
-      .get();
-
-    // 4. New comments yesterday
-    const commentsQuery = await db
-      .collection('comments')
-      .where('createdAt', '>=', startIso)
-      .where('createdAt', '<', todayIso)
-      .get();
+    const [signedInQuery, signedUpQuery, savedDataQuery, commentsQuery] =
+      await Promise.all([
+        // 1. Signed-in users yesterday
+        usersRef
+          .where('lastSignIn', '>=', startIso)
+          .where('lastSignIn', '<', todayIso)
+          .get(),
+        // 2. Signed-up users yesterday
+        usersRef
+          .where('createdAt', '>=', startIso)
+          .where('createdAt', '<', todayIso)
+          .get(),
+        // 3. Saved data yesterday
+        db
+          .collection('savedData')
+          .where('createdAt', '>=', startIso)
+          .where('createdAt', '<', todayIso)
+          .get(),
+        // 4. New comments yesterday
+        db
+          .collection('comments')
+          .where('createdAt', '>=', startIso)
+          .where('createdAt', '<', todayIso)
+          .get(),
+      ]);
 
     const stats = {
       signInCount: signedInQuery.size,
       signUpCount: signedUpQuery.size,
       savedDataCount: savedDataQuery.size,
-      commentsCount: commentsQuery.size,
+      newComments: commentsQuery.size,
       createdAt: new Date().toISOString(),
     };
 

@@ -13,14 +13,21 @@ import { Analytics } from '@vercel/analytics/next';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import Script from 'next/script';
 import Head from 'next/head';
+import { Nunito } from 'next/font/google';
 import { useRouter } from 'next/router';
 import { SITE_URL } from '@/utils/constants';
 
-const isProd = process.env.NODE_ENV === 'production';
+const nunito = Nunito({
+  subsets: ['latin'],
+  weight: ['500', '600', '700'],
+  display: 'swap',
+});
 
 const theme = createTheme({
-  typography: { fontFamily: 'Nunito, sans-serif' },
+  typography: { fontFamily: nunito.style.fontFamily },
 });
+
+const isProd = process.env.NODE_ENV === 'production';
 
 export default function App({
   Component,
@@ -81,6 +88,7 @@ export default function App({
   return (
     <SessionProvider session={session}>
       <Head>
+        <style>{`body{ font-family: ${nunito.style.fontFamily}; }`}</style>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}

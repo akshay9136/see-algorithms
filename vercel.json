@@ -4,5 +4,16 @@
       "path": "/api/cron/daily-stats",
       "schedule": "0 0 * * *"
     }
-  ]
+  ],
+  "functions": {
+    "src/pages/api/summary.js": {
+      "maxDuration": 60
+    },
+    "src/pages/api/payments/create-order.js": {
+      "maxDuration": 30
+    },
+    "src/pages/api/payments/verify.js": {
+      "maxDuration": 30
+    }
+  }
 }

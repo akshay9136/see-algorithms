@@ -5,6 +5,8 @@ import { GoogleGenAI } from '@google/genai';
 import prompts from '@/utils/prompts';
 import compose from 'ramda/src/compose';
 
+export const maxDuration = 60;
+
 const ai = new GoogleGenAI({});
 
 const promptBuilders = {
