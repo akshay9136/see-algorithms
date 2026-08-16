@@ -56,12 +56,12 @@ async function handler(req, res, user) {
   let response;
   try {
     response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3.7-flash',
       contents: buildPrompt(data),
     });
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send('AI request failed');
+    return res.status(err.status).send('AI request failed');
   }
 
   try {

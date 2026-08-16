@@ -15,36 +15,48 @@ export default async function handler(req, res) {
     const todayIso = today.toISOString();
 
     const usersRef = db.collection('users');
-    const [signedInQuery, signedUpQuery, savedDataQuery, commentsQuery] =
-      await Promise.all([
-        // 1. Signed-in users yesterday
-        usersRef
-          .where('lastSignIn', '>=', startIso)
-          .where('lastSignIn', '<', todayIso)
-          .get(),
-        // 2. Signed-up users yesterday
-        usersRef
-          .where('createdAt', '>=', startIso)
-          .where('createdAt', '<', todayIso)
-          .get(),
-        // 3. Saved data yesterday
-        db
-          .collection('savedData')
-          .where('createdAt', '>=', startIso)
-          .where('createdAt', '<', todayIso)
-          .get(),
-        // 4. New comments yesterday
-        db
-          .collection('comments')
-          .where('createdAt', '>=', startIso)
-          .where('createdAt', '<', todayIso)
-          .get(),
-      ]);
+    const [
+      signedInQuery,
+      signedUpQuery,
+      savedDataQuery,
+      commentsQuery,
+      summaryCount,
+    ] = await Promise.all([
+      // 1. Signed-in users yesterday
+      usersRef
+        .where('lastSignIn', '>=', startIso)
+        .where('lastSignIn', '<', todayIso)
+        .get(),
+      // 2. Signed-up users yesterday
+      usersRef
+        .where('createdAt', '>=', startIso)
+        .where('createdAt', '<', todayIso)
+        .get(),
+      // 3. Saved data yesterday
+      db
+        .collection('savedData')
+        .where('createdAt', '>=', startIso)
+        .where('createdAt', '<', todayIso)
+        .get(),
+      // 4. New comments yesterday
+      db
+        .collection('comments')
+        .where('createdAt', '>=', startIso)
+        .where('createdAt', '<', todayIso)
+        .get(),
+      // 5. Credits used yesterday (AI summaries)
+      db
+        .collection('creditsUsed')
+        .where('createdAt', '>=', startIso)
+        .where('createdAt', '<', todayIso)
+        .get(),
+    ]);
 
     const stats = {
       signInCount: signedInQuery.size,
       signUpCount: signedUpQuery.size,
       savedDataCount: savedDataQuery.size,
+      summaryCount: summaryCount.size,
       newComments: commentsQuery.size,
       createdAt: new Date().toISOString(),
     };

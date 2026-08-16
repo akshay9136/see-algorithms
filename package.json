@@ -24,7 +24,7 @@
     "@emailjs/browser": "^4.4.1",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.4",
-    "@google/genai": "^1.46.0",
+    "@google/genai": "^2.7.0",
     "@mui/icons-material": "^5.18.0",
     "@mui/material": "^5.18.0",
     "@next/third-parties": "^16.2.11",

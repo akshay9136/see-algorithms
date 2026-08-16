@@ -1,6 +1,7 @@
 import {
   Box,
   IconButton,
+  Link,
   Popover,
   Stack,
   Switch,
@@ -21,6 +22,7 @@ export default function useSummary() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [content, setContent] = useState('');
   const [summaryOn, setSummaryOn] = useState(false);
+  const [error, setError] = useState(null);
   const { asPath, pathname, push } = useRouter();
   const { data: session } = useSession();
   const { fetchCredits } = useCredits();
@@ -38,6 +40,7 @@ export default function useSummary() {
     const controller = new AbortController();
     controlRef.current?.abort();
     controlRef.current = controller;
+    setError('');
     setContent('<p>Thinking...</p>');
     setFeedback(null);
     try {
@@ -53,21 +56,31 @@ export default function useSummary() {
         setContent(html);
         fetchCredits();
       } else if (res.status === 403) {
-        setContent(
-          '<p>Insufficient credits. Please <a href="/buy-credits">buy more credits</a> to continue using AI.</p>'
+        setError(
+          <p>
+            Insufficient credits. Please{' '}
+            <Link href="/buy-credits">buy more credits</Link> to continue using
+            AI.
+          </p>,
         );
-      } else if (res.status === 504) {
-        setContent('<p>AI request timed out.</p>');
+      } else if (res.status === 503) {
+        setError(<p>AI service is busy. Please {tryAgain(data)}.</p>);
       } else {
-        setContent('<p>AI service is busy. Please try again.</p>');
+        setError(<p>AI request timed out. Please {tryAgain(data)}.</p>);
       }
     } catch (err) {
       if (err.name !== 'AbortError') {
-        setContent('<p>Something went wrong. Please try again.</p>');
+        setError(<p>Connection timed out. Please {tryAgain(data)}.</p>);
       }
       logError(err, 'AI request cancelled');
     }
   };
+
+  const tryAgain = (data) => (
+    <Link component="button" onClick={() => explain(data)}>
+      try again
+    </Link>
+  );
 
   const toggle = (e) => {
     if (!session) {
@@ -87,7 +100,7 @@ export default function useSummary() {
   };
 
   const summary = (
-    <Stack minHeight={200}>
+    <Stack width={500} minHeight={200}>
       <Box display="flex" alignItems="center" gap={1}>
         <Typography variant="h6" component="h2">
           AI Summary
@@ -124,13 +137,21 @@ export default function useSummary() {
           ({SUMMARY_COST[algoId] || 3} credits)
         </Typography>
       </Box>
-      <Typography
-        variant="body2"
-        width={500}
-        lineHeight={1.6}
-        dangerouslySetInnerHTML={{ __html: content }}
-      />
-      {content.length > 200 && feedback}
+      {error ? (
+        <Typography variant="body2" component={Box}>
+          {error}
+        </Typography>
+      ) : (
+        <>
+          <Typography
+            variant="body2"
+            component={Box}
+            lineHeight={1.6}
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
+          {content.length > 100 && feedback}
+        </>
+      )}
     </Stack>
   );
 
