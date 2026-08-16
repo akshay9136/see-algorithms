@@ -177,7 +177,7 @@ export default function BuyCredits() {
         </ToggleButtonGroup>
       </Box>
 
-      <Grid container spacing={4}>
+      <Grid container spacing={4} mb={5}>
         {PRICING_PLANS.map((plan) => (
           <Grid item key={plan.id} xs={12} sm={4}>
             <Card sx={styles.pricingCard}>

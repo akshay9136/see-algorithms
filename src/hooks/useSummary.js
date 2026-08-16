@@ -29,6 +29,7 @@ export default function useSummary() {
   const { fetchCredits } = useCredits();
   const { playStatus } = useContext(AppContext);
   const controlRef = useRef(null);
+  const payloadRef = useRef(null);
   const algoId = pathname.split('/')[2];
   const loading = useLoadingSteps();
 
@@ -40,6 +41,9 @@ export default function useSummary() {
   const explain = async (data) => {
     if (!summaryOn) return;
     const controller = new AbortController();
+    const payload = JSON.stringify({ algoId, data });
+    if (payloadRef.current === payload) return;
+
     controlRef.current?.abort();
     controlRef.current = controller;
     setError(null);
@@ -49,11 +53,12 @@ export default function useSummary() {
       const res = await fetch('/api/summary', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ data, algoId }),
+        body: payload,
         signal: controller.signal,
       });
 
       if (res.ok) {
+        payloadRef.current = payload;
         const html = marked(await res.text());
         setContent(html);
         fetchCredits();
