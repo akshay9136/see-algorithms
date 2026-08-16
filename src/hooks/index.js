@@ -1,7 +1,8 @@
 import useAlgorithm from './useAlgorithm';
 import useAnimator from './useAnimator';
-import useGraphControls from './useGraphControls';
 import useGraphScope from './useGraphScope';
+import useGraphControls from './useGraphControls';
+import useLoadingSteps from './useLoadingSteps';
 import useSummary from './useSummary';
 import useTreeUrl from './useTreeUrl';
 import useUndoRedo from './useUndoRedo';
@@ -12,8 +13,9 @@ import useDialog from './useDialog';
 export {
     useAlgorithm,
     useAnimator,
-    useGraphControls,
     useGraphScope,
+    useGraphControls,
+    useLoadingSteps,
     useSummary,
     useTreeUrl,
     useUndoRedo,

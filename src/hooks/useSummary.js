@@ -10,18 +10,19 @@ import {
 import { useContext, useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { logError } from '@/common/utils';
-import { marked } from 'marked';
 import { InfoOutlined } from '@mui/icons-material';
+import { marked } from 'marked';
+import { logError } from '@/common/utils';
 import AppContext from '@/common/context';
-import useFeedback from './useFeedback';
+import useLoadingSteps from './useLoadingSteps';
 import useCredits from './useCredits';
+import useFeedback from './useFeedback';
 import { SUMMARY_COST } from '@/utils/constants';
 
 export default function useSummary() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [content, setContent] = useState('');
   const [summaryOn, setSummaryOn] = useState(false);
+  const [content, setContent] = useState('');
   const [error, setError] = useState(null);
   const { asPath, pathname, push } = useRouter();
   const { data: session } = useSession();
@@ -29,6 +30,7 @@ export default function useSummary() {
   const { playStatus } = useContext(AppContext);
   const controlRef = useRef(null);
   const algoId = pathname.split('/')[2];
+  const loading = useLoadingSteps();
 
   const [feedback, setFeedback] = useFeedback({
     api: '/api/summary-feedback',
@@ -40,9 +42,9 @@ export default function useSummary() {
     const controller = new AbortController();
     controlRef.current?.abort();
     controlRef.current = controller;
-    setError('');
-    setContent('<p>Thinking...</p>');
+    setError(null);
     setFeedback(null);
+    loading.start();
     try {
       const res = await fetch('/api/summary', {
         method: 'POST',
@@ -74,6 +76,7 @@ export default function useSummary() {
       }
       logError(err, 'AI request cancelled');
     }
+    loading.stop();
   };
 
   const tryAgain = (data) => (
@@ -95,6 +98,7 @@ export default function useSummary() {
 
   const abort = () => {
     controlRef.current?.abort();
+    loading.stop();
     if (playStatus < 2) setContent('');
     setFeedback(null);
   };
@@ -105,6 +109,7 @@ export default function useSummary() {
         <Typography variant="h6" component="h2">
           AI Summary
         </Typography>
+
         <IconButton
           size="small"
           onClick={(e) => setAnchorEl(e.currentTarget)}
@@ -113,6 +118,7 @@ export default function useSummary() {
         >
           <InfoOutlined fontSize="small" color="warning" />
         </IconButton>
+
         <Popover
           open={Boolean(anchorEl)}
           anchorEl={anchorEl}
@@ -127,18 +133,25 @@ export default function useSummary() {
             Accuracy may vary.
           </Typography>
         </Popover>
+
         <Switch
           size="small"
           checked={summaryOn}
           onChange={toggle}
           inputProps={{ 'aria-label': 'AI Summary Toggle' }}
         />
-        <Typography variant="body2">
+
+        <Typography variant="body2" color="text.secondary">
           ({SUMMARY_COST[algoId] || 3} credits)
         </Typography>
       </Box>
-      {error ? (
-        <Typography variant="body2" component={Box}>
+
+      {loading.isLoading ? (
+        <Typography variant="body2" component={Box} color="text.secondary">
+          <p>{loading.message}</p>
+        </Typography>
+      ) : error ? (
+        <Typography variant="body2" component={Box} color="text.secondary">
           {error}
         </Typography>
       ) : (
