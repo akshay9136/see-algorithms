@@ -40,7 +40,7 @@ export default function BfsVsDfs(props) {
         </Stack>
 
         <Stack spacing={2} ref={dfsRef}>
-          <Typography>DFS Visualizer</Typography>
+          <Typography variant="h6">DFS Visualizer</Typography>
           <Box>
             <Paper className="resizable" sx={{ mb: 1 }}>
               <Plane />

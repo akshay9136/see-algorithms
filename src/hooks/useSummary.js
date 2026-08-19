@@ -24,10 +24,10 @@ export default function useSummary() {
   const [summaryOn, setSummaryOn] = useState(false);
   const [content, setContent] = useState('');
   const [error, setError] = useState(null);
-  const { asPath, pathname, push } = useRouter();
+  const { playStatus, setContext } = useContext(AppContext);
+  const { pathname } = useRouter();
   const { data: session } = useSession();
   const { fetchCredits } = useCredits();
-  const { playStatus } = useContext(AppContext);
   const controlRef = useRef(null);
   const payloadRef = useRef(null);
   const algoId = pathname.split('/')[2];
@@ -92,7 +92,7 @@ export default function useSummary() {
 
   const toggle = (e) => {
     if (!session) {
-      push(`/auth/signin?callbackUrl=${encodeURIComponent(asPath)}`);
+      setContext({ signInOpen: true });
     } else {
       const { checked } = e.target;
       setSummaryOn(checked);

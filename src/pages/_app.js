@@ -9,6 +9,7 @@ import AppContext, { initialState } from '../common/context';
 import CssBaseline from '@mui/material/CssBaseline';
 import Layout from '@/components/layout';
 import Toast from '@/components/toast';
+import SignInDialog from '@/components/sign-in-dialog';
 import { Analytics } from '@vercel/analytics/next';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import Script from 'next/script';
@@ -123,6 +124,7 @@ export default function App({
             </Layout>
           )}
           <Toast />
+          <SignInDialog />
         </AppContext.Provider>
       </ThemeProvider>
     </SessionProvider>

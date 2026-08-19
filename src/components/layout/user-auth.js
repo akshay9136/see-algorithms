@@ -1,6 +1,6 @@
+import { useContext, useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import {
   Typography,
   Menu,
@@ -10,10 +10,12 @@ import {
   Divider,
 } from '@mui/material';
 import { Login, Logout, AccountBalanceWallet } from '@mui/icons-material';
+import AppContext from '@/common/context';
 import useCredits from '@/hooks/useCredits';
 
 export default function UserAuth() {
   const { data: session } = useSession();
+  const { setContext } = useContext(AppContext);
   const { credits } = useCredits();
   const [anchorEl, setAnchorEl] = useState(null);
   const userMenuOpen = Boolean(anchorEl);
@@ -87,7 +89,7 @@ export default function UserAuth() {
     <Button
       sx={{ textTransform: 'none', px: 1, mx: 1 }}
       id="signin-button"
-      onClick={() => router.push('/auth/signin')}
+      onClick={() => setContext({ signInOpen: true })}
       variant="outlined"
       color="warning"
     >

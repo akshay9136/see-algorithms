@@ -1,15 +1,17 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { fetcher, showError } from '@/common/utils';
 import { showToast } from '@/components/toast';
+import AppContext from '@/common/context';
 import * as R from 'ramda';
 import useSWR from 'swr';
 
 export default function useSavedData() {
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
-  const { pathname, push } = useRouter();
+  const { setContext } = useContext(AppContext);
+  const { pathname } = useRouter();
   const [, category, algoId] = pathname.split('/');
   const email = session?.user?.email;
 
@@ -26,15 +28,15 @@ export default function useSavedData() {
 
   const type = category === 'graph' ? 'graph' : 'tree';
 
-  const callbackUrl = (data) => {
+  const getDataUrl = (data) => {
     const json = JSON.stringify(data);
-    const url = `${pathname}?skeleton=${btoa(json)}`;
-    return encodeURIComponent(url);
+    return `${pathname}?skeleton=${btoa(json)}`;
   };
 
   const saveData = async (data) => {
     if (!session) {
-      push(`/auth/signin?callbackUrl=${callbackUrl(data)}`);
+      const callbackUrl = getDataUrl(data);
+      setContext({ signInOpen: true, callbackUrl });
       return;
     }
     setLoading(true);

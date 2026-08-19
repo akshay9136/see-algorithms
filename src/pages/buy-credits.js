@@ -1,22 +1,22 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import {
   Typography,
   Button,
+  Box,
+  Chip,
   Container,
   Grid,
   Card,
   CardContent,
   CardActions,
-  Box,
-  Chip,
   ToggleButtonGroup,
   ToggleButton,
 } from '@mui/material';
 import { AutoAwesomeOutlined } from '@mui/icons-material';
-import { PRICING_PLANS } from '@/utils/constants';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
 import { useCredits, useDialog } from '@/hooks';
+import { PRICING_PLANS } from '@/utils/constants';
+import AppContext from '@/common/context';
 import Script from 'next/script';
 
 const styles = {
@@ -41,13 +41,13 @@ export default function BuyCredits() {
   const [loadingId, setLoadingId] = useState(null);
   const [currency, setCurrency] = useState('INR');
   const { data: session } = useSession();
-  const { credits, fetchCredits } = useCredits();
   const { dialog, showDialog } = useDialog();
-  const router = useRouter();
+  const { credits, fetchCredits } = useCredits();
+  const { setContext } = useContext(AppContext);
 
   const handlePurchase = async (plan) => {
     if (!session) {
-      router.push('/auth/signin?callbackUrl=/buy-credits');
+      setContext({ signInOpen: true, callbackUrl: '/buy-credits' });
       return;
     }
     setLoadingId(plan.id);
