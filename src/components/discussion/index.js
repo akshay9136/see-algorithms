@@ -48,7 +48,7 @@ export default function Discussion() {
   return (
     <Box component="section" sx={{ maxWidth: 700 }}>
       <Stack direction="row" alignItems="center" gap={1} sx={{ mb: 2.5 }}>
-        <Typography variant="h5">
+        <Typography variant="h6">
           💬 &nbsp;Discussion
         </Typography>
         {comments.length > 0 && (

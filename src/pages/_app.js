@@ -16,7 +16,7 @@ import Script from 'next/script';
 import Head from 'next/head';
 import { Nunito } from 'next/font/google';
 import { useRouter } from 'next/router';
-import { SITE_URL } from '@/utils/constants';
+import { PERSON_SCHEMA, SITE_URL } from '@/utils/constants';
 
 const nunito = Nunito({
   subsets: ['latin'],
@@ -72,7 +72,8 @@ export default function App({
         '@id': `${SITE_URL}/#website`,
         url: SITE_URL,
         name: 'See Algorithms',
-        description: 'Interactive Algorithm Visualizations for Data Structures, Graph Algorithms, and Sorting.',
+        description:
+          'Interactive Algorithm Visualizations for Data Structures, Graph Algorithms, and Sorting.',
         publisher: { '@id': `${SITE_URL}/#organization` },
       },
       {
@@ -81,8 +82,16 @@ export default function App({
         name: 'See Algorithms',
         url: SITE_URL,
         logo: `${SITE_URL}/logo.png`,
-        sameAs: ['https://github.com/akshay9136/see-algorithms'],
+        foundingDate: '2024',
+        description:
+          'See Algorithms provides interactive, step-by-step visualizations for sorting, graph, and data structure algorithms to help students and educators learn computer science concepts.',
+        email: 'hello@see-algorithms.com',
+        sameAs: [
+          'https://github.com/akshay9136/see-algorithms',
+        ],
+        founder: { '@id': `${SITE_URL}/#person-akshay` },
       },
+      PERSON_SCHEMA,
     ],
   };
 

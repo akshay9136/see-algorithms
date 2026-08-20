@@ -26,3 +26,36 @@ export const PRICING_PLANS = [
 ];
 
 export const INITIAL_CREDITS = 50;
+
+export const SITE_AUTHOR = {
+  name: 'Akshay Karande',
+  url: 'https://see-algorithms.com/author',
+  github: 'https://github.com/akshay9136',
+};
+
+export const PERSON_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${SITE_URL}/#person-akshay`,
+  name: SITE_AUTHOR.name,
+  url: SITE_AUTHOR.url,
+  sameAs: [SITE_AUTHOR.github],
+  jobTitle: 'Software Engineer & Educator',
+  worksFor: {
+    '@type': 'Organization',
+    '@id': `${SITE_URL}/#organization`,
+    name: 'See Algorithms',
+    url: SITE_URL,
+  },
+  knowsAbout: [
+    'Algorithms',
+    'Data Structures',
+    'Computer Science Education',
+    'Interactive Visualizations',
+    'Sorting Algorithms',
+    'Graph Algorithms',
+    'Self-Balancing Trees',
+  ],
+  description:
+    'Software Engineer and Educator who built See Algorithms to make algorithm learning accessible through interactive visualizations.',
+};

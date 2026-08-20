@@ -112,19 +112,19 @@ function Header(props) {
             'aria-labelledby': 'info-button',
           }}
         >
-          <MenuItem onClick={() => navigate('/buy-credits')}>
-            <AccountBalanceWallet sx={{ mr: 1 }} fontSize="small" />
-            <Typography>
-              AI Credits
-            </Typography>
-          </MenuItem>
           <MenuItem onClick={() => navigate('/articles')}>
             <Article sx={{ mr: 1 }} fontSize="small" />
             Articles
           </MenuItem>
           <MenuItem onClick={() => navigate('/about')}>
             <Info sx={{ mr: 1 }} fontSize="small" />
-            About Us
+            About
+          </MenuItem>
+          <MenuItem onClick={() => navigate('/buy-credits')}>
+            <AccountBalanceWallet sx={{ mr: 1 }} fontSize="small" />
+            <Typography>
+              AI Credits
+            </Typography>
           </MenuItem>
         </Menu>
       </Box>

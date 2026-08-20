@@ -30,22 +30,16 @@ export const defaultSeoConfig = {
     },
     {
       name: 'author',
-      content: 'See Algorithms',
+      content: 'Akshay Karande',
     },
     {
       property: 'article:author',
-      content: `${SITE_URL}/about`,
+      content: `${SITE_URL}/author`,
     },
   ],
   additionalLinkTags: [
-    {
-      rel: 'icon',
-      href: '/favicon.png',
-    },
-    {
-      rel: 'manifest',
-      href: '/manifest.json',
-    },
+    { rel: 'icon', href: '/favicon.png' },
+    { rel: 'manifest', href: '/manifest.json' },
   ],
 };
 
