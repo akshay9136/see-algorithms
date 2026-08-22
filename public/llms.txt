@@ -1,0 +1,60 @@
+# See Algorithms
+
+> See Algorithms provides interactive, step-by-step visualizations for sorting algorithms, graph algorithms, and data structures to help students and educators learn computer science concepts.
+
+- Creator: Akshay Karande <hello@see-algorithms.com>
+- License: Content under CC BY-NC 4.0; Code under MIT
+- Source: https://github.com/akshay9136/see-algorithms
+
+## Articles (Deep-dive educational content)
+
+- [Why Sorting is Important](https://see-algorithms.com/articles/why-sorting-matters): Why sorting transforms unstructured data and enables efficient algorithms like binary search.
+- [In-Place Sorting Algorithms](https://see-algorithms.com/articles/inplace-sorting): How in-place sorting algorithms minimize extra memory while rearranging data.
+- [Stable Sorting Algorithms](https://see-algorithms.com/articles/stable-sorting): Why stable sorting preserves the relative order of equal elements.
+- [Shortest Path vs MST](https://see-algorithms.com/articles/shortest-path-vs-mst): The fundamental difference between Shortest Path and Minimum Spanning Tree algorithms.
+- [When Quicksort Slows Down](https://see-algorithms.com/articles/quick-sort-illusion): How pivot selection affects Quicksort performance and causes O(n²) worst cases.
+- [AVL Tree vs Red-Black Tree](https://see-algorithms.com/articles/avl-tree-vs-red-black): Comparing strict vs relaxed self-balancing Binary Search Tree strategies.
+- [Deleting a Node in BST](https://see-algorithms.com/articles/deleting-bst-node): The three cases of BST node deletion and how ordering is preserved.
+- [Compare Sorting Algorithms](https://see-algorithms.com/articles/compare-sorting): Side-by-side real-time comparison of multiple sorting algorithms.
+- [Embed Sorting Visualizers](https://see-algorithms.com/articles/embed-sorting): How to embed interactive sorting animations into websites and blogs via iframe.
+- [Embed Graph Visualizers](https://see-algorithms.com/articles/embed-graph): How to embed interactive graph algorithm visualizers into content.
+- [Embed DS Visualizers](https://see-algorithms.com/articles/embed-data-struct): How to embed interactive data structure visualizers into content.
+
+## Sorting Algorithm Visualizers
+
+- [Bubble Sort](https://see-algorithms.com/sorting/BubbleSort): Interactive O(n²) comparison sort with step-by-step swap visualization.
+- [Quick Sort](https://see-algorithms.com/sorting/QuickSort): Divide-and-conquer O(n log n) sort with pivot partition visualization.
+- [Merge Sort](https://see-algorithms.com/sorting/MergeSort): Stable O(n log n) recursive sort with split and merge visualization.
+- [Insertion Sort](https://see-algorithms.com/sorting/InsertionSort): Adaptive O(n²) sort that builds sorted array incrementally.
+- [Selection Sort](https://see-algorithms.com/sorting/SelectionSort): In-place O(n²) sort that repeatedly selects the minimum element.
+- [Heap Sort](https://see-algorithms.com/sorting/HeapSort): O(n log n) sort using max-heap with heapify visualization.
+- [Radix Sort](https://see-algorithms.com/sorting/RadixSort): Linear O(nk) digit-by-digit non-comparison sort.
+
+## Graph Algorithm Visualizers
+
+- [BFS (Breadth-First Search)](https://see-algorithms.com/graph/BFS): Level-by-level graph traversal with custom graph drawing.
+- [DFS (Depth-First Search)](https://see-algorithms.com/graph/DFS): Recursive depth-first traversal with backtracking visualization.
+- [Dijkstra's Algorithm](https://see-algorithms.com/graph/Dijkstras): Shortest path from source in weighted graphs.
+- [Prim's Algorithm](https://see-algorithms.com/graph/Prims): Greedy Minimum Spanning Tree construction.
+- [Kruskal's Algorithm](https://see-algorithms.com/graph/Kruskals): MST using edge sorting and Union-Find cycle detection.
+- [Borůvka's Algorithm](https://see-algorithms.com/graph/Boruvkas): Parallel MST construction with component merging.
+- [Topological Sort](https://see-algorithms.com/graph/TopSort): Linear ordering of Directed Acyclic Graph vertices.
+- [Hamiltonian Path](https://see-algorithms.com/graph/Hamiltonian): NP-complete path visiting every vertex exactly once.
+- [Eulerian Cycle](https://see-algorithms.com/graph/Eulerian): Path traversing every edge exactly once.
+
+## Data Structure Visualizers
+
+- [Binary Search Tree (BST)](https://see-algorithms.com/data-structures/BST): Insert, search, delete with BST ordering visualization.
+- [AVL Tree](https://see-algorithms.com/data-structures/AVL): Self-balancing BST with LL/RR/LR/RL rotation visualization.
+- [Red-Black Tree](https://see-algorithms.com/data-structures/RedBlackTree): Self-balancing BST with coloring and rotation rules.
+- [Splay Tree](https://see-algorithms.com/data-structures/SplayTree): Self-adjusting BST that splays accessed nodes to root.
+- [B-Tree](https://see-algorithms.com/data-structures/BTree): Multi-way search tree with node split visualization.
+- [Binary Heap](https://see-algorithms.com/data-structures/BinaryHeap): Min/Max heap with heapify-up and heapify-down.
+- [Linked List](https://see-algorithms.com/data-structures/LinkedList): Singly linked list with pointer visualization.
+- [Doubly Linked List](https://see-algorithms.com/data-structures/DoublyLinkedList): Bidirectional linked list with prev/next pointers.
+- [Circular Queue](https://see-algorithms.com/data-structures/CircularQueue): Ring buffer FIFO operations with pointer wrapping.
+
+## Other Visualizers
+
+- [Convex Hull (Jarvis March)](https://see-algorithms.com/other/ConvexHull): Computational geometry — smallest convex polygon enclosing a point set.
+- [Huffman Coding](https://see-algorithms.com/other/HuffmanCoding): Optimal prefix-free lossless data compression tree builder.

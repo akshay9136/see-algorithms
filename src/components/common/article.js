@@ -32,7 +32,7 @@ function formatDate(iso) {
 function Article({ title, summary, children }) {
   const router = useRouter();
   const articleId = router.pathname.split('/').pop();
-  const { date } = articles.find((a) => a.id === articleId) || {};
+  const { date, faqs } = articles.find((a) => a.id === articleId) || {};
   const pageUrl = `${SITE_URL}/articles/${articleId}`;
 
   const articleSchema = {
@@ -42,7 +42,8 @@ function Article({ title, summary, children }) {
     description: summary,
     url: pageUrl,
     datePublished: date,
-    SITE_AUTHOR: {
+    dateModified: date,
+    author: {
       '@type': 'Person',
       name: SITE_AUTHOR.name,
       url: SITE_AUTHOR.url,
@@ -54,7 +55,26 @@ function Article({ title, summary, children }) {
       '@type': 'WebPage',
       '@id': pageUrl,
     },
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['.article-title', '.article-summary'],
+    },
   };
+
+  const faqSchema = faqs
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqs.map(({ q, a }) => ({
+          '@type': 'Question',
+          name: q,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: a,
+          },
+        })),
+      }
+    : null;
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -82,6 +102,12 @@ function Article({ title, summary, children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
         />
+        {faqSchema && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+          />
+        )}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
@@ -113,38 +139,47 @@ function Article({ title, summary, children }) {
         </MuiLink>
       </Breadcrumbs>
 
-      <Typography variant="h4" component="h1" gutterBottom color="warning.main">
+      <Typography
+        variant="h4"
+        component="h1"
+        gutterBottom
+        color="warning.main"
+        className="article-title"
+      >
         {title}
       </Typography>
-      <Typography variant="subtitle1" color="text.secondary" paragraph>
+      <Typography
+        variant="subtitle1"
+        color="text.secondary"
+        paragraph
+        className="article-summary"
+      >
         {summary}
       </Typography>
 
-      {(SITE_AUTHOR || date) && (
-        <Box
-          display="flex"
-          alignItems="center"
-          gap={2}
-          sx={{
-            py: 1,
-            px: 1.5,
-            borderRadius: 1,
-            bgcolor: 'action.hover',
-            color: 'text.secondary',
-          }}
-        >
-          <Box display="flex" gap={1}>
-            <Person sx={{ fontSize: 18 }} />
-            <Typography variant="body2" fontWeight={600}>
-              {SITE_AUTHOR.name}
-            </Typography>
-          </Box>
-          <Box display="flex" gap={1}>
-            <CalendarToday sx={{ fontSize: 16, mt: 0.15 }} />
-            <Typography variant="body2">{formatDate(date)}</Typography>
-          </Box>
+      <Box
+        display="flex"
+        alignItems="center"
+        gap={2}
+        sx={{
+          py: 1,
+          px: 1.5,
+          borderRadius: 1,
+          bgcolor: 'action.hover',
+          color: 'text.secondary',
+        }}
+      >
+        <Box display="flex" gap={1}>
+          <Person sx={{ fontSize: 18 }} />
+          <Typography variant="body2" fontWeight={600}>
+            {SITE_AUTHOR.name}
+          </Typography>
         </Box>
-      )}
+        <Box display="flex" gap={1}>
+          <CalendarToday sx={{ fontSize: 16, mt: 0.15 }} />
+          <Typography variant="body2">{formatDate(date)}</Typography>
+        </Box>
+      </Box>
 
       <Divider sx={{ my: 3 }} />
       {children}

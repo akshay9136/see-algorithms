@@ -116,10 +116,6 @@ function Header(props) {
             <Article sx={{ mr: 1 }} fontSize="small" />
             Articles
           </MenuItem>
-          <MenuItem onClick={() => navigate('/about')}>
-            <Info sx={{ mr: 1 }} fontSize="small" />
-            About
-          </MenuItem>
           <MenuItem onClick={() => navigate('/buy-credits')}>
             <AccountBalanceWallet sx={{ mr: 1 }} fontSize="small" />
             <Typography>

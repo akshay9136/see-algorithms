@@ -41,6 +41,15 @@ export default memo(function Footer() {
           variant="body2"
           color="text.primary"
           component={Link}
+          href="/about"
+        >
+          About
+        </Typography>
+
+        <Typography
+          variant="body2"
+          color="text.primary"
+          component={Link}
           href="/contact"
         >
           Contact Us

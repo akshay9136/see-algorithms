@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://see-algorithms.com
+
+# Sitemaps
+Sitemap: https://see-algorithms.com/sitemap.xml

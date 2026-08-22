@@ -96,7 +96,7 @@ export default function CompareSorting() {
 
       <Divider sx={{ my: 3, border: 0 }} />
 
-      <Box display="flex" flexWrap="wrap" gap={3}>
+      <Box display="flex" flexWrap="wrap" gap={3} pb={2}>
         {selected.map((id) => (
           <Box
             key={id}

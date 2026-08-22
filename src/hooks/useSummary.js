@@ -62,7 +62,7 @@ export default function useSummary() {
         const html = marked(await res.text());
         setContent(html);
         fetchCredits();
-      } else if (res.status === 403) {
+      } else if (res.status === 402) {
         setError(
           <p>
             Insufficient credits. Please{' '}

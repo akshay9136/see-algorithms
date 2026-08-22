@@ -15,7 +15,7 @@ const AlgorithmSEO = () => {
   const pageId = isEmbed
     ? query.algorithm || query.dataStructure
     : pathname.split('/')[2];
-  const { title, description } = getSeoConfig(pageId, pathname);
+  const { title, description, howToSteps } = getSeoConfig(pageId, pathname);
   const { name, category } = algorithms.findObj('id', pageId) || {};
 
   const seoConfig = {
@@ -86,6 +86,20 @@ const AlgorithmSEO = () => {
     },
   };
 
+  // Only for visualizer pages that have steps configured
+  const howToSchema = howToSteps
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'HowTo',
+        name: `How to use the ${name || title} visualizer`,
+        description: `Step-by-step guide to understanding ${name || title} using the See Algorithms interactive visualizer.`,
+        url,
+        step: howToSteps.map((step, i) => {
+          return { '@type': 'HowToStep', position: i + 1, ...step };
+        }),
+      }
+    : null;
+
   return (
     <>
       <NextSeo {...seoConfig} />
@@ -94,6 +108,12 @@ const AlgorithmSEO = () => {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
+        {howToSchema && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+          />
+        )}
       </Head>
     </>
   );

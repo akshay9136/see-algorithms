@@ -46,7 +46,7 @@ async function handler(req, res, user) {
 
     const credits = userDoc.data().credits ?? INITIAL_CREDITS;
     if (credits < summaryCost) {
-      return res.status(403).send('Insufficient credits');
+      return res.status(402).send('Insufficient credits');
     }
   } catch (err) {
     console.error(err.message);
