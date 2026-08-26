@@ -1,13 +1,13 @@
-import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
-import { Box, Chip, Stack, Typography } from '@mui/material';
+import { useContext } from 'react';
+import { Box, Chip, Link, Skeleton, Stack, Typography } from '@mui/material';
 import { ChatBubbleOutline } from '@mui/icons-material';
-import useDiscussion from '@/hooks/useDiscussion';
-import CommentBox from './comment-box';
-import CommentLoading from './comment-loading';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import useComments from '@/hooks/useComments';
+import AppContext from '@/common/context';
 import Comment from './comment';
+import CommentBox from './comment-box';
 import Guidelines from './guidelines';
-import Link from 'next/link';
 
 const styles = {
   count: { height: 22, fontWeight: 600 },
@@ -24,9 +24,10 @@ const styles = {
 };
 
 export default function Discussion() {
-  const { asPath, pathname } = useRouter();
+  const { pathname } = useRouter();
   const { data: session, status } = useSession();
   const { isAdmin } = session?.user || {};
+  const { setContext } = useContext(AppContext);
   const {
     comments,
     loading,
@@ -34,7 +35,7 @@ export default function Discussion() {
     deleteComment,
     toggleUpvote,
     reportComment,
-  } = useDiscussion(pathname);
+  } = useComments(pathname);
 
   const signedIn = status === 'authenticated';
 
@@ -46,15 +47,14 @@ export default function Discussion() {
   };
 
   return (
-    <Box component="section" sx={{ maxWidth: 700 }}>
+    <Box component="section" maxWidth={700}>
       <Stack direction="row" alignItems="center" gap={1} sx={{ mb: 2.5 }}>
-        <Typography variant="h6">
-          💬 &nbsp;Discussion
-        </Typography>
+        <Typography variant="h6">💬 &nbsp;Discussion</Typography>
         {comments.length > 0 && (
           <Chip label={comments.length} size="small" sx={styles.count} />
         )}
       </Stack>
+
       {signedIn ? (
         <>
           <Guidelines />
@@ -63,8 +63,16 @@ export default function Discussion() {
       ) : (
         <Stack sx={styles.prompt}>
           <Typography color="text.secondary">
-            <Link href={`/auth/signin?callbackUrl=${asPath}`}>Sign in</Link> to
-            join the discussion
+            <Link
+              component="button"
+              onClick={() =>
+                setContext({ signInOpen: true, callbackUrl: pathname })
+              }
+              sx={{ verticalAlign: 'baseline' }}
+            >
+              Sign in
+            </Link>{' '}
+            to join the discussion
           </Typography>
         </Stack>
       )}
@@ -93,5 +101,25 @@ export default function Discussion() {
         </Box>
       )}
     </Box>
+  );
+}
+
+/**
+ * Loading skeleton placeholder for comments.
+ */
+function CommentLoading() {
+  return (
+    <Stack spacing={2}>
+      {[1, 2, 3].map((i) => (
+        <Box key={i} display="flex" gap={2} py={2}>
+          <Skeleton variant="circular" width={40} height={40} />
+          <Box flex={1}>
+            <Skeleton width="30%" height={20} sx={{ mb: 1 }} />
+            <Skeleton width="90%" height={20} sx={{ mb: 0.5 }} />
+            <Skeleton width="60%" height={20} />
+          </Box>
+        </Box>
+      ))}
+    </Stack>
   );
 }

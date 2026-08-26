@@ -123,7 +123,7 @@ function Article({ title, summary, children }) {
           component={NextLink}
           href="/"
           underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
+          sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
         >
           <Home sx={{ fontSize: 18 }} />
           Home
@@ -132,7 +132,7 @@ function Article({ title, summary, children }) {
           component={NextLink}
           href="/articles"
           underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
+          sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
         >
           <ArticleIcon sx={{ fontSize: 16 }} />
           Articles

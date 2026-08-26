@@ -223,7 +223,7 @@ export default function AboutPage() {
                     </Box>
                   </Box>
                   <Typography paragraph sx={{ mb: 1.5 }}>
-                    Built See Algorithms to make complex algorithms intuitive
+                    I built See Algorithms to make complex algorithms intuitive
                     and accessible through step-by-step interactive
                     visualizations.
                   </Typography>

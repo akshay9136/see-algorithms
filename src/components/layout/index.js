@@ -18,7 +18,7 @@ function Layout({ children }) {
   const pageId = isEmbed
     ? query.algorithm || query.dataStructure
     : pathname.split('/')[2];
-  const { name: title } = algorithms.findObj('id', pageId) || {};
+  const { name, title = name } = algorithms.findObj('id', pageId) || {};
   const scrollRef = useRef(null);
 
   useEffect(() => {

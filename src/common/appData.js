@@ -60,7 +60,8 @@ export const algorithms = [
   },
   {
     id: 'avl-tree-vs-rbt',
-    name: 'AVL Tree vs Red-Black Tree',
+    name: 'AVL vs Red-Black',
+    title: 'AVL Tree vs Red-Black Tree',
     category: 'Advanced Trees',
     path: '/data-structures/avl-tree-vs-rbt',
   },
