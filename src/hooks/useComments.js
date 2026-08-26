@@ -4,7 +4,7 @@ import { showToast } from '@/components/toast';
 import * as R from 'ramda';
 import useSWR from 'swr';
 
-function useDiscussion(pageId) {
+function useComments(pageId) {
   const {
     data: comments,
     isLoading: loading,
@@ -66,13 +66,11 @@ function useDiscussion(pageId) {
     try {
       const res = await fetch(url, { method: 'PATCH' });
       if (res.ok) {
-        mutate(
-          R.map((c) => {
-            const upvotes = c.upvotes + (upvoted ? -1 : 1);
-            return c.id === id ? { ...c, upvotes, upvoted: !upvoted } : c;
-          }),
-          false,
-        );
+        const resolver = R.map((c) => {
+          const upvotes = c.upvotes + (upvoted ? -1 : 1);
+          return c.id === id ? { ...c, upvotes, upvoted: !upvoted } : c;
+        });
+        mutate(resolver, false);
       } else {
         showError((await res.text()) || 'Failed to upvote');
       }
@@ -91,4 +89,4 @@ function useDiscussion(pageId) {
   };
 }
 
-export default useDiscussion;
+export default useComments;

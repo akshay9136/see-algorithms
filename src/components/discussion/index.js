@@ -1,11 +1,10 @@
-import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
-import { Box, Chip, Stack, Typography } from '@mui/material';
+import { Box, Chip, Skeleton, Stack, Typography } from '@mui/material';
 import { ChatBubbleOutline } from '@mui/icons-material';
-import useDiscussion from '@/hooks/useDiscussion';
-import CommentBox from './comment-box';
-import CommentLoading from './comment-loading';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import useComments from '@/hooks/useComments';
 import Comment from './comment';
+import CommentBox from './comment-box';
 import Guidelines from './guidelines';
 import Link from 'next/link';
 
@@ -34,7 +33,7 @@ export default function Discussion() {
     deleteComment,
     toggleUpvote,
     reportComment,
-  } = useDiscussion(pathname);
+  } = useComments(pathname);
 
   const signedIn = status === 'authenticated';
 
@@ -55,6 +54,7 @@ export default function Discussion() {
           <Chip label={comments.length} size="small" sx={styles.count} />
         )}
       </Stack>
+      
       {signedIn ? (
         <>
           <Guidelines />
@@ -95,3 +95,23 @@ export default function Discussion() {
     </Box>
   );
 }
+
+/**
+ * Loading skeleton placeholder for comments.
+ */
+function CommentLoading() {
+  return (
+    <Stack spacing={2}>
+      {[1, 2, 3].map((i) => (
+        <Box key={i} display="flex" gap={2} py={2}>
+          <Skeleton variant="circular" width={40} height={40} />
+          <Box flex={1}>
+            <Skeleton width="30%" height={20} sx={{ mb: 1 }} />
+            <Skeleton width="90%" height={20} sx={{ mb: 0.5 }} />
+            <Skeleton width="60%" height={20} />
+          </Box>
+        </Box>
+      ))}
+    </Stack>
+  );
+};

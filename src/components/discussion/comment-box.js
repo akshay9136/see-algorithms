@@ -1,16 +1,9 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
-import {
-  Avatar,
-  Box,
-  Button,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { Send } from '@mui/icons-material';
 
-const MAX_LENGTH = 1000;
+const MAX_LENGTH = 500;
 
 const styles = {
   textField: {
@@ -25,7 +18,6 @@ const styles = {
     px: 2,
     ml: 'auto',
     textTransform: 'none',
-    fontSize: '1rem',
     fontWeight: 600,
   },
 };
@@ -36,9 +28,10 @@ const styles = {
 export default function CommentBox({ topic, onSubmit }) {
   const [comment, setComment] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const remaining = MAX_LENGTH - comment.length;
+  const [anchorEl, setAnchorEl] = useState(null);
   const { data: session } = useSession();
   const user = session?.user || {};
+  const remaining = MAX_LENGTH - comment.length;
 
   const handleSubmit = async () => {
     if (comment?.trim()) {
@@ -59,48 +52,45 @@ export default function CommentBox({ topic, onSubmit }) {
 
   return (
     <Box sx={{ mb: 3 }}>
-      <Stack direction="row" spacing={2} alignItems="flex-start">
-        <Avatar
-          src={user?.image}
-          alt={user?.name}
-          sx={{ width: 40, height: 40 }}
-        >
-          {(user?.name || '?').charAt(0).toUpperCase()}
-        </Avatar>
-        <Box flex={1}>
-          <TextField
-            multiline
-            minRows={3}
-            maxRows={6}
-            fullWidth
-            placeholder={`Share a question or insight about this ${topic}...`}
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            onKeyDown={handleKeyDown}
-            inputProps={{ maxLength: MAX_LENGTH, id: 'compose-box' }}
-            sx={styles.textField}
-          />
-          <Stack direction="row" sx={{ mt: 2 }}>
-            <Typography
-              variant="body2"
-              color={remaining < 100 ? 'error' : 'text.disabled'}
-            >
-              {remaining < 200 ? `${remaining} characters left` : ''}
-            </Typography>
-            <Button
-              variant="contained"
-              disableElevation
-              disabled={!comment.trim() || submitting}
-              onClick={handleSubmit}
-              endIcon={<Send fontSize="small" />}
-              sx={styles.submitBtn}
-              size="small"
-            >
-              {submitting ? 'Posting…' : 'Post'}
-            </Button>
-          </Stack>
+      <TextField
+        multiline
+        minRows={3}
+        maxRows={6}
+        fullWidth
+        placeholder={`Share a question or insight about this ${topic}...`}
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+        onKeyDown={handleKeyDown}
+        inputProps={{ maxLength: MAX_LENGTH, id: 'compose-box' }}
+        sx={styles.textField}
+      />
+
+      <Box display="flex" alignItems="center" sx={{ mt: 1.5 }}>
+        <Box display="flex" alignItems="center" gap={1}>
+          <Typography variant="body2" color="text.secondary">
+            Tip: use `code` for inline code.
+          </Typography>
+
+          <Typography
+            variant="body2"
+            color={remaining < 100 ? 'error' : 'text.disabled'}
+          >
+            {remaining < 200 ? `${remaining} characters left` : ''}
+          </Typography>
         </Box>
-      </Stack>
+
+        <Button
+          variant="contained"
+          disableElevation
+          disabled={!comment.trim() || submitting}
+          onClick={handleSubmit}
+          endIcon={<Send fontSize="small" />}
+          sx={styles.submitBtn}
+          size="small"
+        >
+          {submitting ? 'Posting...' : 'Post'}
+        </Button>
+      </Box>
     </Box>
   );
 }

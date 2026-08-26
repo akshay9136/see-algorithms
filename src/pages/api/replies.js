@@ -1,7 +1,6 @@
 import db, { checkLastComments } from '@/utils/firebase-utils';
 import {
   withAuth,
-  withDocument,
   withOptionalAuth,
   withQueryParams,
   withRequestBody,
@@ -10,22 +9,16 @@ import { hasProfanity } from '@/utils/profanity';
 import { FieldValue } from 'firebase-admin/firestore';
 import compose from 'ramda/src/compose';
 
-const COMMENTS = 'comments';
 const MAX_LENGTH = 500;
 
 export default async function (req, res) {
   const handlers = {
-    GET: compose(withOptionalAuth, withQueryParams('pageId'))(handleGet),
-    POST: compose(withAuth, withRequestBody('pageId', 'comment'))(handlePost),
-    DELETE: compose(
-      withAuth,
-      withQueryParams('id'),
-      withDocument('comments'),
-    )(handleDelete),
+    GET: compose(withOptionalAuth, withQueryParams('parentId'))(handleGet),
+    POST: compose(withAuth, withRequestBody('parentId', 'comment'))(handlePost),
+    DELETE: compose(withAuth, withQueryParams('id', 'parentId'))(handleDelete),
     PATCH: compose(
       withAuth,
-      withQueryParams('id', 'action'),
-      withDocument('comments'),
+      withQueryParams('id', 'parentId', 'action'),
     )(handlePatch),
   };
 
@@ -41,52 +34,49 @@ export default async function (req, res) {
   }
 }
 
-function buildQuery(pageId) {
-  const query = db
-    .collection(COMMENTS)
-    .where('pageId', '==', pageId)
-    .where('deleted', '==', false);
-
-  return query.orderBy('upvotes', 'desc').orderBy('createdAt', 'desc');
+function repliesRef(parentId) {
+  return db.collection('comments').doc(parentId).collection('replies');
 }
 
 async function handleGet(req, res, user) {
-  const { pageId } = req.query;
-  const query = buildQuery(pageId).limit(50);
-  const snapshot = await query.get();
+  const { parentId } = req.query;
+  const snapshot = await repliesRef(parentId)
+    .where('deleted', '==', false)
+    .orderBy('createdAt', 'asc')
+    .get();
 
-  const comments = await Promise.all(
-    snapshot.docs.map(async (doc) => {
-      const data = doc.data();
-      const replySnapshot = await doc.ref
-        .collection('replies')
-        .where('deleted', '==', false)
-        .count()
-        .get();
+  const replies = snapshot.docs.map((doc) => {
+    const data = doc.data();
+    return {
+      id: doc.id,
+      parentId,
+      isAuthor: user && data.authorId === user.userId,
+      upvoted: user && (data.upvotedBy || []).includes(user.email),
+      upvotes: data.upvotes || 0,
+      ...data,
+    };
+  });
 
-      return {
-        id: doc.id,
-        isAuthor: user && data.authorId === user.userId,
-        upvoted: user && (data.upvotedBy || []).includes(user.email),
-        replyCount: replySnapshot.data().count,
-        ...data,
-      };
-    })
-  );
-
-  res.status(200).json(comments);
+  res.status(200).json(replies);
 }
 
 async function handlePost(req, res, user) {
-  const { pageId, comment } = req.body;
+  const { parentId, comment } = req.body;
   const text = comment.trim();
 
   if (text.length > MAX_LENGTH) {
-    return res.status(400).send(`Comment must be under ${MAX_LENGTH} characters.`);
+    return res.status(400).send(`Reply must be under ${MAX_LENGTH} characters.`);
   }
   if (hasProfanity(text)) {
-    return res.status(400).send('Your comment contains inappropriate words.');
+    return res.status(400).send('Your reply contains inappropriate words.');
   }
+
+  // Verify parent comment exists
+  const parentDoc = await db.collection('comments').doc(parentId).get();
+  if (!parentDoc.exists) {
+    return res.status(404).send('Parent comment not found.');
+  }
+
   const allowed = await checkLastComments(user.userId);
   if (!allowed) {
     return res.status(429).send('Too many comments. Please wait a minute.');
@@ -98,10 +88,10 @@ async function handlePost(req, res, user) {
     authorEmail: user.email,
     authorImage: user.image,
   };
-  const comments = db.collection(COMMENTS);
-  const docRef = await comments.add({
+
+  const docRef = await repliesRef(parentId).add({
     text,
-    pageId,
+    parentId,
     upvotes: 0,
     upvotedBy: [],
     reportedBy: [],
@@ -112,6 +102,7 @@ async function handlePost(req, res, user) {
 
   res.status(201).json({
     id: docRef.id,
+    parentId,
     text,
     isAuthor: true,
     upvoted: false,
@@ -121,30 +112,46 @@ async function handlePost(req, res, user) {
   });
 }
 
-async function handleDelete(req, res, user, doc) {
+async function handleDelete(req, res, user) {
+  const { id, parentId } = req.query;
   const { userId, isAdmin } = user;
-  const { authorId } = doc.data();
 
-  if (authorId !== userId && !isAdmin) {
+  const docRef = repliesRef(parentId).doc(id);
+  const doc = await docRef.get();
+
+  if (!doc.exists) {
+    return res.status(404).send('Reply not found');
+  }
+  if (doc.data().authorId !== userId && !isAdmin) {
     return res.status(403).send('User forbidden');
   }
-  await doc.ref.update({ deleted: true });
+
+  await docRef.update({ deleted: true });
   res.status(200).send('success');
 }
 
-async function handlePatch(req, res, { email }, doc) {
-  const { action } = req.query;
-  const { upvotedBy, reportedBy } = doc.data();
+async function handlePatch(req, res, user) {
+  const { id, parentId, action } = req.query;
+  const { email } = user;
+
+  const docRef = repliesRef(parentId).doc(id);
+  const doc = await docRef.get();
+
+  if (!doc.exists) {
+    return res.status(404).send('Reply not found');
+  }
+
+  const { upvotedBy = [], reportedBy = [] } = doc.data();
 
   switch (action) {
     case 'upvote': {
       if (upvotedBy.includes(email)) {
-        await doc.ref.update({
+        await docRef.update({
           upvotes: FieldValue.increment(-1),
           upvotedBy: FieldValue.arrayRemove(email),
         });
       } else {
-        await doc.ref.update({
+        await docRef.update({
           upvotes: FieldValue.increment(1),
           upvotedBy: FieldValue.arrayUnion(email),
         });
@@ -156,7 +163,7 @@ async function handlePatch(req, res, { email }, doc) {
       if (reportedBy.includes(email)) {
         return res.status(400).send('Already reported');
       }
-      await doc.ref.update({
+      await docRef.update({
         reportedBy: FieldValue.arrayUnion(email),
         deleted: reportedBy.length >= 3,
       });
