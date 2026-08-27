@@ -26,7 +26,7 @@ Element.prototype.getBoundingClientRect = jest.fn(() => {
 SVGElement.prototype.getTotalLength = jest.fn(() => 100);
 
 jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
+  useRouter: jest.fn(() => ({ isReady: true, query: {} })),
 }));
 
 jest.mock('@/common/utils', () => ({

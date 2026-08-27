@@ -8,6 +8,7 @@ import {
   Box,
 } from '@mui/material';
 import styles from '@/styles/numbers.module.css';
+import useSortingUrl from '@/hooks/useSortingUrl';
 import { randomInt, showError, sleep } from '@/common/utils';
 import { NavigateNext, Pause, PlayArrow } from '@mui/icons-material';
 import { newIterator } from '@/common/iterator';
@@ -15,6 +16,7 @@ import { newIterator } from '@/common/iterator';
 var iterators = [];
 
 function InputNumbers(props) {
+  const [urlNumbers] = useSortingUrl();
   const [numbers, setNumbers] = useState([]);
   const [status, setStatus] = useState(0);
   const { min = 7, max = 12 } = props;
@@ -22,6 +24,10 @@ function InputNumbers(props) {
     startHandlers = [props.onStart],
     resetHandlers = [props.onReset],
   } = props;
+
+  useEffect(() => {
+    if (urlNumbers) setNumbers(urlNumbers);
+  }, [urlNumbers]);
 
   const handleSelect = (e) => {
     const size = parseInt(e.target.value);
