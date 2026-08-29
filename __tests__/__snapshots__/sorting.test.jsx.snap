@@ -70,6 +70,18 @@ exports[`Quick sort visualization renders in correct order after animation 1`] =
 ]
 `;
 
+exports[`Quick sort visualization renders in correct order after animation 2`] = `
+[
+  "{"ty":"0","tx":"360"}",
+  "{"ty":"0","tx":"300"}",
+  "{"ty":"0","tx":"240"}",
+  "{}",
+  "{"ty":"0","tx":"120"}",
+  "{"ty":"0","tx":"60"}",
+  "{"ty":"0","tx":"0"}",
+]
+`;
+
 exports[`Radix sort visualization renders in correct order after animation 1`] = `
 [
   "{"tx":"180","ty":"0"}",

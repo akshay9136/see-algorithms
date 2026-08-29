@@ -14,7 +14,7 @@ export default function useQuickSort() {
 function partition(start, end):
     pivot = arr[end]
     i = start, j = end - 1
-    while i < j:
+    while i <= j:
         if arr[i] <= pivot:
             i = i + 1
         else if arr[j] > pivot:
@@ -33,17 +33,21 @@ function partition(start, end):
         bgcolor(arr[j].id, Colors.compare);
         yield delay;
         const pivot = arr[end].val;
-        while (i < j) {
+        while (i <= j) {
             setCurrentStep('3');
             yield delay;
             if (arr[i].val <= pivot) {
                 bgcolor(arr[i++].id, Colors.white);
-                bgcolor(arr[i].id, Colors.compare);
-                setCurrentStep('4,5');
+                if (i <= j) {
+                    bgcolor(arr[i].id, Colors.compare);
+                    setCurrentStep('4,5');
+                }
             } else if (arr[j].val > pivot) {
                 bgcolor(arr[j--].id, Colors.white);
-                bgcolor(arr[j].id, Colors.compare);
-                setCurrentStep('6,7');
+                if (j >= i) {
+                    bgcolor(arr[j].id, Colors.compare);
+                    setCurrentStep('6,7');
+                }
             } else {
                 setCurrentStep('8');
                 await swapNumbers(i, j);
@@ -77,7 +81,9 @@ function partition(start, end):
     async function* quickSort(start, end) {
         yield delay;
         if (start >= end) {
-            bgcolor(arr[start].id, Colors.sorted);
+            if (start < arr.length) {
+                bgcolor(arr[start].id, Colors.sorted);
+            }
             return;
         }
         const pivot = yield* divide(start, end);

@@ -32,6 +32,7 @@ describe('Merge sort visualization', () => {
 
 describe('Quick sort visualization', () => {
   testAnimation(QuickSort);
+  testAnimation(QuickSort, [9, 8, 7, 6, 5, 4, 3]);
 });
 
 describe('Radix sort visualization', () => {

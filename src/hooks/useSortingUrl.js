@@ -20,7 +20,7 @@ export default function useSortingUrl() {
       const { skeleton } = query;
       try {
         if (skeleton) {
-          const arr = JSON.parse(atob(skeleton));
+          const arr = JSON.parse(skeleton);
           if (
             Array.isArray(arr) &&
             arr.length >= MIN_COUNT &&

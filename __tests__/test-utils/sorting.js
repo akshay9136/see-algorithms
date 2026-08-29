@@ -1,9 +1,9 @@
 import { screen, fireEvent, render } from '@testing-library/react';
 import App from '../../mocks/context';
 
-const numbers = [4, 1, 7, 3, 9, 2, 6, 8, 5];
+const _numbers = [4, 1, 7, 3, 9, 2, 6, 8, 5];
 
-export async function runAnimation(container) {
+export async function runAnimation(container, numbers) {
   fireEvent.mouseDown(screen.getByRole('combobox'));
   const option = await screen.findByText(String(numbers.length));
   fireEvent.click(option);
@@ -23,10 +23,10 @@ export async function runAnimation(container) {
   // animation ended
 }
 
-export function testAnimation(Component) {
+export function testAnimation(Component, numbers = _numbers) {
   test('renders in correct order after animation', async () => {
     const { container } = render(<Component />);
-    await runAnimation(container);
+    await runAnimation(container, numbers);
     const nodes = container.querySelectorAll('.numbox');
     expect(
       Array.from(nodes)
@@ -39,7 +39,7 @@ export function testAnimation(Component) {
 export async function validateInput(Component) {
   const { container } = render(<App Component={Component} />);
   fireEvent.mouseDown(screen.getByRole('combobox'));
-  const option = await screen.findByText(String(numbers.length));
+  const option = await screen.findByText(String(_numbers.length));
   fireEvent.click(option);
   const input = container.querySelector('input[type="text"]');
   fireEvent.change(input, { target: { value: '' } });

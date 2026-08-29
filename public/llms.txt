@@ -64,9 +64,10 @@
 Every visualizer on see-algorithms.com supports a `?skeleton=` query parameter
 that pre-loads a specific dataset so the animation starts immediately.
 
-Construct the URL as: https://see-algorithms.com/<path>?skeleton=<btoa(JSON.stringify(data))>
+Construct the URL as: https://see-algorithms.com/<path>?skeleton=<payload>
 
-where `btoa` is standard base64 encoding (browser built-in; in Node.js use `Buffer.from(JSON.stringify(data)).toString('base64')`).
+For sorting algorithms, the payload is the raw JSON string: array of numbers.
+For all other visualizers, base64 encode the JSON string: `btoa(JSON.stringify(data))`.
 
 ---
 
@@ -80,8 +81,8 @@ Constraints: length 5–12; each value in the range [-99, 999].
 Example — visualize Bubble Sort on [38, 27, 43, 3, 9, 82, 10]:
 ```
 data     = [38, 27, 43, 3, 9, 82, 10]
-skeleton = btoa(JSON.stringify(data)) → "WzM4LDI3LDQzLDMsOSw4MiwxMF0="
-URL      = https://see-algorithms.com/sorting/BubbleSort?skeleton=WzM4LDI3LDQzLDMsOSw4MiwxMF0=
+skeleton = JSON.stringify(data) → "[38,27,43,3,9,82,10]"
+URL      = https://see-algorithms.com/sorting/BubbleSort?skeleton=[38,27,43,3,9,82,10]
 ```
 
 ---
@@ -170,6 +171,6 @@ Steps:
 1. Identify the correct path from the lists above.
 2. Choose a small, illustrative input (6–10 nodes for trees; 4–6 nodes for graphs; 6–10 numbers for sorting).
 3. Construct the JSON payload following the exact schema for that visualizer type.
-4. Base64-encode it: `btoa(JSON.stringify(data))` in a browser, or `Buffer.from(JSON.stringify(data)).toString('base64')` in Node.js.
+4. For sorting algorithms, use `JSON.stringify(data)`. For trees and graphs, base64-encode it: `btoa(JSON.stringify(data))`.
 5. Append as `?skeleton=<result>` to the canonical visualizer URL.
 6. Present the clickable URL to the user alongside your textual explanation.
