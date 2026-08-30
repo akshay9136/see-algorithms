@@ -20,6 +20,7 @@ export default async function handler(req, res) {
       signedUpQuery,
       savedDataQuery,
       commentsQuery,
+      repliesQuery,
       summaryCount,
     ] = await Promise.all([
       // 1. Signed-in users yesterday
@@ -44,7 +45,13 @@ export default async function handler(req, res) {
         .where('createdAt', '>=', startIso)
         .where('createdAt', '<', todayIso)
         .get(),
-      // 5. Credits used yesterday (AI summaries)
+      // 5. Comment replies yesterday
+      db
+        .collectionGroup('replies')
+        .where('createdAt', '>=', startIso)
+        .where('createdAt', '<', todayIso)
+        .get(),
+      // 6. Credits used yesterday (AI summaries)
       db
         .collection('creditsUsed')
         .where('createdAt', '>=', startIso)
@@ -57,7 +64,7 @@ export default async function handler(req, res) {
       signUpCount: signedUpQuery.size,
       savedDataCount: savedDataQuery.size,
       summaryCount: summaryCount.size,
-      newComments: commentsQuery.size,
+      newComments: commentsQuery.size + repliesQuery.size,
       createdAt: new Date().toISOString(),
     };
 

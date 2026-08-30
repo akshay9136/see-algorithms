@@ -1,4 +1,4 @@
-import db, { checkLastComments } from '@/utils/firebase-utils';
+import db from '@/utils/firebase-utils';
 import {
   withAuth,
   withDocument,
@@ -6,12 +6,16 @@ import {
   withQueryParams,
   withRequestBody,
 } from '@/utils/middlewares';
-import { hasProfanity } from '@/utils/profanity';
-import { FieldValue } from 'firebase-admin/firestore';
+import {
+  buildComment,
+  deleteComment,
+  getComment,
+  updateComment,
+  validateComment,
+} from '@/utils/comment-utils';
 import compose from 'ramda/src/compose';
 
 const COMMENTS = 'comments';
-const MAX_LENGTH = 500;
 
 export default async function (req, res) {
   const handlers = {
@@ -57,113 +61,43 @@ async function handleGet(req, res, user) {
 
   const comments = await Promise.all(
     snapshot.docs.map(async (doc) => {
-      const data = doc.data();
-      const replySnapshot = await doc.ref
+      const replies = await doc.ref
         .collection('replies')
         .where('deleted', '==', false)
-        .count()
         .get();
 
-      return {
-        id: doc.id,
-        isAuthor: user && data.authorId === user.userId,
-        upvoted: user && (data.upvotedBy || []).includes(user.email),
-        replyCount: replySnapshot.data().count,
-        ...data,
-      };
-    })
+      const replyCount = replies.size;
+      return getComment(doc, user, { replyCount });
+    }),
   );
 
   res.status(200).json(comments);
 }
 
 async function handlePost(req, res, user) {
-  const { pageId, comment } = req.body;
+  const { pageId, comment = '' } = req.body;
   const text = comment.trim();
-
-  if (text.length > MAX_LENGTH) {
-    return res.status(400).send(`Comment must be under ${MAX_LENGTH} characters.`);
-  }
-  if (hasProfanity(text)) {
-    return res.status(400).send('Your comment contains inappropriate words.');
-  }
-  const allowed = await checkLastComments(user.userId);
-  if (!allowed) {
-    return res.status(429).send('Too many comments. Please wait a minute.');
+  const error = await validateComment(text, user.userId);
+  if (error) {
+    return res.status(error.status).send(error.message);
   }
 
-  const authorInfo = {
-    authorId: user.userId,
-    authorName: user.name,
-    authorEmail: user.email,
-    authorImage: user.image,
-  };
-  const comments = db.collection(COMMENTS);
-  const docRef = await comments.add({
-    text,
-    pageId,
-    upvotes: 0,
-    upvotedBy: [],
-    reportedBy: [],
-    deleted: false,
-    createdAt: new Date().toISOString(),
-    ...authorInfo,
-  });
+  const data = buildComment(text, user, { pageId });
+  const docRef = await db.collection(COMMENTS).add(data);
 
   res.status(201).json({
     id: docRef.id,
-    text,
     isAuthor: true,
     upvoted: false,
-    upvotes: 0,
-    createdAt: new Date().toISOString(),
-    ...authorInfo,
+    ...data,
   });
 }
 
 async function handleDelete(req, res, user, doc) {
-  const { userId, isAdmin } = user;
-  const { authorId } = doc.data();
-
-  if (authorId !== userId && !isAdmin) {
-    return res.status(403).send('User forbidden');
-  }
-  await doc.ref.update({ deleted: true });
-  res.status(200).send('success');
+  await deleteComment(doc, user, res);
 }
 
-async function handlePatch(req, res, { email }, doc) {
+async function handlePatch(req, res, user, doc) {
   const { action } = req.query;
-  const { upvotedBy, reportedBy } = doc.data();
-
-  switch (action) {
-    case 'upvote': {
-      if (upvotedBy.includes(email)) {
-        await doc.ref.update({
-          upvotes: FieldValue.increment(-1),
-          upvotedBy: FieldValue.arrayRemove(email),
-        });
-      } else {
-        await doc.ref.update({
-          upvotes: FieldValue.increment(1),
-          upvotedBy: FieldValue.arrayUnion(email),
-        });
-      }
-      res.status(200).send('success');
-      break;
-    }
-    case 'report': {
-      if (reportedBy.includes(email)) {
-        return res.status(400).send('Already reported');
-      }
-      await doc.ref.update({
-        reportedBy: FieldValue.arrayUnion(email),
-        deleted: reportedBy.length >= 3,
-      });
-      res.status(200).send('success');
-      break;
-    }
-    default:
-      res.status(400).send('Invalid action');
-  }
+  await updateComment(doc, action, user.email, res);
 }
