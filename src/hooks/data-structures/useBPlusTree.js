@@ -3,12 +3,12 @@ import { Redo, Refresh, Save, Share, Undo } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
 import { copyTreeUrl, randomNodes, showError, sleep } from '@/common/utils';
-import bTree from '@/helpers/bTree';
+import bPlusTree from '@/helpers/bPlusTree';
 import Paper from '@mui/material/Paper';
 
 var Tree;
 
-export default function useBTree({ saveData, allowRefresh = true }) {
+export default function useBPlusTree({ saveData, allowRefresh = true }) {
   const [treeData, setTreeData] = useState(null);
   const [numbers, setNumbers] = useState([]);
   const [scope, animator] = useAnimator();
@@ -21,7 +21,7 @@ export default function useBTree({ saveData, allowRefresh = true }) {
       showError(`Key (${num}) already exists.`);
       return;
     }
-    if (!numbers.length) Tree = bTree(animator);
+    if (!numbers.length) Tree = bPlusTree(animator);
     const keys = Tree.collect();
     explain({ keys, operation: 'Insert', input: num });
     history.push(numbers.slice());
@@ -42,7 +42,7 @@ export default function useBTree({ saveData, allowRefresh = true }) {
 
   const newTree = async (nums) => {
     setNumbers(nums.slice());
-    Tree = bTree(animator);
+    Tree = bPlusTree(animator);
     await sleep(100);
     nums.forEach((num) => Tree._insert(num));
     setTreeData(Tree.getSnapshot());
@@ -122,9 +122,10 @@ export default function useBTree({ saveData, allowRefresh = true }) {
   const transition = { duration: 0.5, ease: 'easeInOut' };
 
   const animation = (
-    <Paper ref={scope} className="resizable" id="bTree">
+    <Paper ref={scope} className="resizable" id="bPlusTree">
       <svg style={styles.svg}>
         <AnimatePresence>
+          {/* Tree edges (parent → child) */}
           {treeData?.edges.map((edge) => (
             <motion.line
               key={edge.id}
@@ -136,6 +137,33 @@ export default function useBTree({ saveData, allowRefresh = true }) {
               strokeWidth={2}
             />
           ))}
+          {/* Leaf-chain horizontal */}
+          {treeData?.leafLinks.map((link) => (
+            <motion.line
+              key={link.id}
+              initial={{ ...link, opacity: 0 }}
+              animate={{ ...link, opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={transition}
+              stroke="#66bb6a"
+              strokeWidth={1.5}
+              strokeDasharray="4 3"
+              markerEnd="url(#arrowHead)"
+            />
+          ))}
+          {/* Arrow marker */}
+          <defs>
+            <marker
+              id="arrowHead"
+              markerWidth="8"
+              markerHeight="6"
+              refX="8"
+              refY="3"
+              orient="auto"
+            >
+              <polygon points="0 0, 8 3, 0 6" fill="#66bb6a" />
+            </marker>
+          </defs>
         </AnimatePresence>
       </svg>
 
@@ -148,7 +176,7 @@ export default function useBTree({ saveData, allowRefresh = true }) {
             animate={{ opacity: 1, ...node }}
             exit={{ opacity: 0 }}
             transition={transition}
-            style={styles.node}
+            style={node.isLeaf ? styles.leafNode : styles.internalNode}
           />
         ))}
       </AnimatePresence>
@@ -156,12 +184,12 @@ export default function useBTree({ saveData, allowRefresh = true }) {
       <AnimatePresence>
         {treeData?.keys.map((key) => (
           <motion.div
-            key={key.value}
+            key={`${key.nodeId}-${key.value}`}
             initial={{ opacity: 0, x: key.x, y: key.y }}
             animate={{ opacity: 1, x: key.x, y: key.y }}
             exit={{ opacity: 0, scale: 0.5 }}
             transition={transition}
-            style={styles.key}
+            style={key.isLeaf ? styles.leafKey : styles.internalKey}
           >
             {key.value}
           </motion.div>
@@ -173,32 +201,43 @@ export default function useBTree({ saveData, allowRefresh = true }) {
   return { animation, buttons, summary, refresh };
 }
 
+const baseNode = {
+  position: 'absolute',
+  height: 40,
+  borderRadius: 8,
+  zIndex: 1,
+};
+
+const baseKey = {
+  position: 'absolute',
+  width: 50,
+  height: 40,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontWeight: 700,
+  fontSize: 16,
+  zIndex: 2,
+  pointerEvents: 'none',
+  userSelect: 'none',
+};
+
 const styles = {
   svg: {
     position: 'absolute',
     width: '100%',
     height: '100%',
   },
-  node: {
-    position: 'absolute',
-    height: 40,
-    borderRadius: 8,
+  internalNode: {
+    ...baseNode,
     backgroundColor: '#e3f1fc',
     border: '1px solid #90c4f0',
-    zIndex: 1,
   },
-  key: {
-    position: 'absolute',
-    width: 50,
-    height: 40,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontWeight: 700,
-    fontSize: 16,
-    color: '#2c6faa',
-    zIndex: 2,
-    pointerEvents: 'none',
-    userSelect: 'none',
+  leafNode: {
+    ...baseNode,
+    backgroundColor: '#e8f5e9',
+    border: '1px solid #66bb6a',
   },
+  internalKey: { ...baseKey, color: '#2c6faa' },
+  leafKey: { ...baseKey, color: '#2e7d32' },
 };

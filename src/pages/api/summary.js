@@ -15,6 +15,7 @@ const promptBuilders = {
   RedBlackTree: prompts.searchTree('Red-Black Tree'),
   SplayTree: prompts.searchTree('Splay Tree'),
   BTree: prompts.bTree,
+  'B+Tree': prompts.bPlusTree,
   BinaryHeap: prompts.binaryHeap,
   HuffmanCoding: prompts.huffmanCoding,
   BFS: prompts.graphAlgorithm('Breadth-First Search'),

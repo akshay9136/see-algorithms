@@ -38,6 +38,20 @@ Instructions:
 - Keep the explaination concise (within 200 words). Use past tense.
 - Highlight important actions.`;
 
+const bPlusTree = ({ keys, operation, input }) => `
+You are explaining the steps to someone observing a visualization of B+ Tree (order 3).
+
+Context:
+- The current B+ Tree's leaf keys in order are: ${JSON.stringify(keys)}.
+- Operation being performed: ${operation}, with value: ${input}
+- On a leaf split, the smallest key of the right leaf is COPIED up to the parent.
+
+Instructions:
+- Explain how the ${operation} is performed step by step.
+- If a leaf splits, describe the copy-up promotion and leaf chain re-linking.
+- Keep the explanation concise (within 200 words). Use past tense.
+- Highlight important actions.`;
+
 const graphAlgorithm = (name) => (data) => `
 You are explaining a graph algorithm to someone observing a visualization of ${name}.
 
@@ -63,6 +77,7 @@ export default {
     searchTree,
     binaryHeap,
     bTree,
+    bPlusTree,
     graphAlgorithm,
     huffmanCoding,
 }

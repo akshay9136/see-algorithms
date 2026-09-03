@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { SITE_URL } from '@/utils/constants';
 import {
   useAvlTree,
+  useBPlusTree,
   useBTree,
   useCircularQueue,
   useLinkedList,
@@ -26,6 +27,7 @@ export default function EmbedDataStructure() {
     BinaryHeap: useMaxHeap,
     BST: useSearchTree,
     BTree: useBTree,
+    'B+Tree': useBPlusTree,
     CircularQueue: useCircularQueue,
     RedBlackTree: useRedBlackTree,
     SplayTree: useSplayTree,

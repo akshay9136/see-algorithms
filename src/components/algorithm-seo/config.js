@@ -313,6 +313,17 @@ export const metaConfigs = {
       { name: 'Observe balance', text: 'B-Trees always remain perfectly balanced — all leaf nodes are at the same depth after every operation.' },
     ],
   },
+  'B+Tree': {
+    title: 'B+ Tree Visualizer | Linked-Leaf Multi-Way Search Tree',
+    description:
+      'Visualize B+ Trees (order 3). Insert keys and watch leaf nodes split with copy-up promotions. See the leaf linked list that enables efficient range queries.',
+    howToSteps: [
+      { name: 'Insert keys', text: 'Enter integer values and click Insert. Keys are routed through internal nodes and always land in a leaf node.' },
+      { name: 'Watch leaf splits', text: 'When a leaf overflows, it splits: the smallest key of the right half is copied (not moved) up to the parent, so the key stays in the leaf.' },
+      { name: 'Observe the leaf chain', text: 'All leaf nodes are linked left-to-right (shown by dashed green arrows), enabling fast range scans without re-traversing the tree.' },
+      { name: 'Observe balance', text: 'B+ Trees always remain perfectly balanced — all leaf nodes are at the same depth after every operation.' },
+    ],
+  },
   ConvexHull: {
     title: 'Convex Hull Visualizer | Jarvis March Wrapping',
     description:
@@ -399,6 +410,11 @@ export const metaConfigs = {
     title: 'AVL Tree vs Red-Black Tree | Self-Balancing Trees',
     description:
       'Compare the trade-offs between AVL Tree and Red-Black Tree. Watch how each structure rebalances itself during insertions in real-time.',
+  },
+  'b-tree-vs-bplus': {
+    title: 'B-Tree vs B+ Tree | Side-by-Side Comparison',
+    description:
+      'Compare B-Tree and B+ Tree side-by-side. See how the copy-up vs move-up split difference shapes the two structures, and observe the B+ Tree leaf linked list in action.',
   },
 };
 

@@ -965,8 +965,73 @@ head = prev;`,
         <>
           In a B-Tree, keys and data pointers are stored in both internal nodes
           and leaf nodes. In a B+ Tree, internal nodes store only routing search
-          keys, while all actual data records are stored in leaf nodes. B+ Tree
+          keys, while all actual data records are stored in leaf nodes.{' '}
+          <Link href="/data-structures/B+Tree">B+ Tree</Link>{' '}
           leaf nodes are linked sequentially for fast range queries.
+        </>
+      ),
+    },
+  ],
+
+  'B+Tree': [
+    {
+      question:
+        'Why does a B+ Tree support range queries more efficiently than a B-Tree?',
+      answer: (
+        <>
+          B+ Tree leaf nodes are linked in a sorted linked list. A range query
+          only needs one <var>O(log n)</var> traversal to find the start key,
+          then a linear scan along the leaf chain to collect all records in
+          range — no backtracking up the tree. In a B-Tree, data scattered
+          across internal nodes forces repeated upward/downward traversals.
+        </>
+      ),
+    },
+    {
+      question:
+        'What are the time complexities for search, insert, and range queries in a B+ Tree of order m with n keys?',
+      answer: (
+        <>
+          All three basic operations — <strong>search</strong>,{' '}
+          <strong>insert</strong>, and <strong>delete</strong> — run in{' '}
+          <var>O(log n)</var> with a base of <var>m</var> (tree height ~{' '}
+          <var>
+            log<sub>m</sub> n
+          </var>
+          ). A <strong>range query</strong> retrieving <var>k</var> records
+          costs <var>O(log n + k)</var>: one top-down traversal to the first
+          leaf plus a linear scan of <var>k</var> leaf entries.
+        </>
+      ),
+    },
+    {
+      question:
+        'Why do relational databases use B+ Trees rather than B-Trees for table indexes?',
+      answer: (
+        <>
+          B+ Trees give databases two key advantages: 1){' '}
+          <strong>Higher fanout</strong> — internal nodes hold only keys (no
+          data records), fitting more separators per disk page and reducing tree
+          height. 2) <strong>Efficient range scans</strong> — the leaf linked
+          list enables <code>BETWEEN</code>, <code>ORDER BY</code>, and full
+          table scans without revisiting internal nodes, which is critical for
+          OLAP and query optimizers.
+        </>
+      ),
+    },
+  ],
+
+  'b-tree-vs-bplus': [
+    {
+      question: 'In what scenario would you prefer a B-Tree over a B+ Tree?',
+      answer: (
+        <>
+          When <strong>individual record lookups dominate</strong> and range
+          queries are rare. A B-Tree can satisfy a point query by returning data
+          directly from an internal node without reaching a leaf — potentially
+          saving one I/O level. A B+ Tree always traverses to a leaf. In
+          practice, the B+ Tree&apos;s superior range performance and cache
+          friendliness make it the default choice in most database systems.
         </>
       ),
     },

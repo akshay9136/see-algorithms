@@ -77,6 +77,18 @@ export const algorithms = [
     category: 'Advanced Trees',
     path: '/data-structures/BTree',
   },
+  {
+    id: 'B+Tree',
+    name: 'B+ Tree',
+    category: 'Advanced Trees',
+    path: '/data-structures/B+Tree',
+  },
+  {
+    id: 'b-tree-vs-bplus',
+    name: 'B-Tree vs B+ Tree',
+    category: 'Advanced Trees',
+    path: '/data-structures/b-tree-vs-bplus',
+  },
   { id: 'ConvexHull', name: 'Convex Hull', category: 'Other' },
   { id: 'HuffmanCoding', name: 'Huffman Coding', category: 'Other' },
 ];

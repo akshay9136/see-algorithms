@@ -1,4 +1,5 @@
 import useAvlTree from './useAvlTree';
+import useBPlusTree from './useBPlusTree';
 import useBTree from './useBTree';
 import useCircularQueue from './useCircularQueue';
 import useDoublyLinkedList from './useDoublyLinkedList';
@@ -10,6 +11,7 @@ import useSplayTree from './useSplayTree';
 
 export {
   useAvlTree,
+  useBPlusTree,
   useBTree,
   useCircularQueue,
   useDoublyLinkedList,
