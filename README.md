@@ -9,7 +9,7 @@
 ![Deploy](https://vercelbadge.vercel.app/api/akshay9136/see-algorithms?style=flat)
 ![Coverage](https://codecov.io/gh/akshay9136/see-algorithms/branch/main/graph/badge.svg)
 
-<img src="https://raw.githubusercontent.com/akshay9136/see-algorithms/main/public/preview.gif" width="70%" />
+<img src="https://see-algorithms.com/gifs/preview.gif" width="70%" />
 
 ### 🚀 Features
 

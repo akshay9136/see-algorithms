@@ -136,7 +136,7 @@ Node 3 has one child (2) → replace 3 with 2`}
         </Typography>
 
         <Paper sx={styles.card}>
-          <img src="/delete-bst-node.gif" alt="Delete Node" width="100%" />
+          <img src="/gifs/delete-bst-node.gif" alt="Delete Node" width="100%" />
         </Paper>
       </Section>
 

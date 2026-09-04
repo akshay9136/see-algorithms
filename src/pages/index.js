@@ -3,7 +3,7 @@ import Features from '@/components/features';
 import Head from 'next/head';
 import Link from 'next/link';
 
-const PREVIEW_GIFS = [{ src: '/avl-tree.gif', alt: 'AVL Tree visualization' }];
+const PREVIEW_GIFS = [{ src: '/gifs/avl-tree.gif', alt: 'AVL Tree visualization' }];
 
 export default function HomePage() {
   return (

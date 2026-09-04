@@ -88,8 +88,7 @@ export default function Privacy() {
               visualizer tool functionality.
             </Typography>
             <Typography component="li">
-              To serve relevant advertisements through third-party services like
-              Google AdSense.
+              To serve relevant advertisements through third-party services.
             </Typography>
           </ListItems>
 
@@ -104,20 +103,6 @@ export default function Privacy() {
             <Typography component="li">
               <strong>Authentication:</strong> NextAuth sets session cookies to
               keep you signed in and secure your account session.
-            </Typography>
-            <Typography component="li">
-              <strong>Advertising:</strong> Google AdSense uses cookies to serve
-              personalized ads based on your visits to our Site and other
-              websites. For more details on how Google manages advertising data,
-              visit{' '}
-              <Link
-                href="https://www.google.com/policies/privacy/partners/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                How Google uses data from sites that use their services
-              </Link>
-              .
             </Typography>
             <Typography component="li">
               <strong>Analytics:</strong> Third-party tools such as Google

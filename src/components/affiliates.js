@@ -111,8 +111,8 @@ function Affiliates() {
           <Image
             src="/udemy-banner.png"
             alt="Learn DSA on Udemy"
-            width={800}
-            height={200}
+            width={600}
+            height={150}
             style={styles.banner}
           />
         </a>

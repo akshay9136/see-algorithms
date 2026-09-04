@@ -4,11 +4,11 @@ import Link from 'next/link';
 
 const styles = {
   card: {
-    maxWidth: 600,
-    maxHeight: { xs: 200, sm: 400 },
+    display: 'flex',
     overflow: 'hidden',
     border: 1,
     borderColor: 'divider',
+    borderRadius: 2,
     my: 3,
   },
 };
@@ -56,7 +56,7 @@ export default function ShortestPathVsMST() {
 
         <Paper sx={styles.card}>
           <img
-            src="/dijkstras-algo.gif"
+            src="/gifs/dijkstras-algo.gif"
             alt="Dijkstra's Algorithm"
             width="100%"
           />
@@ -84,7 +84,7 @@ export default function ShortestPathVsMST() {
         </Typography>
 
         <Paper sx={styles.card}>
-          <img src="/prims-algo.gif" alt="Prim's Algorithm" width="100%" />
+          <img src="/gifs/prims-algo.gif" alt="Prim's Algorithm" width="100%" />
         </Paper>
 
         <Typography paragraph>

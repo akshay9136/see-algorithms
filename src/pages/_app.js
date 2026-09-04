@@ -114,14 +114,6 @@ export default function App({
       />
       <Analytics />
       {isProd && <GoogleAnalytics gaId="G-CG2WRZ9YET" />}
-      {isProd && hasContent && (
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7905328601622622"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
-      )}
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <AppContext.Provider value={contextValue}>

@@ -67,7 +67,7 @@ export default function AVLTreeVsRedBlack() {
         </Typography>
 
         <Paper sx={styles.card}>
-          <img src="/avl-tree.gif" alt="AVL Tree" width="100%" />
+          <img src="/gifs/avl-tree.gif" alt="AVL Tree" width="100%" />
         </Paper>
       </Section>
 
@@ -90,7 +90,7 @@ export default function AVLTreeVsRedBlack() {
         </Typography>
 
         <Paper sx={styles.card}>
-          <img src="/red-black-tree.gif" alt="Red-Black Tree" width="100%" />
+          <img src="/gifs/red-black-tree.gif" alt="Red-Black Tree" width="100%" />
         </Paper>
       </Section>
 

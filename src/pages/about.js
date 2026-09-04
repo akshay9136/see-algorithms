@@ -239,12 +239,12 @@ export default function AboutPage() {
             <Typography variant="h6" gutterBottom fontWeight={600}>
               Join Our Learning Community
             </Typography>
-            <Typography paragraph>
+            <Typography sx={{ mb: 1 }}>
               Whether you&apos;re a student, educator, or professional
               developer, See Algorithms provides the tools and resources you
               need to master algorithmic thinking.
             </Typography>
-            <Typography paragraph>
+            <Typography>
               Start exploring algorithms today and discover the beauty of
               computational thinking!
             </Typography>
@@ -256,12 +256,12 @@ export default function AboutPage() {
             <Typography variant="h6" gutterBottom fontWeight={600}>
               Affiliate Disclosure
             </Typography>
-            <Typography paragraph>
+            <Typography sx={{ mb: 1 }}>
               This site may contain affiliate links. I may earn a commission if
               you purchase through them. This helps support the site at no extra
               cost to you.
             </Typography>
-            <Typography paragraph>
+            <Typography>
               I only recommend products and services that I believe will add
               value to my users. Thank you for your support!
             </Typography>
