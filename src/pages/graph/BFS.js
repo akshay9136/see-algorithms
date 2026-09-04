@@ -24,16 +24,31 @@ while queue is not empty:
 
   return (
     <Stack spacing={3}>
-      <Typography>
-        <strong>Breadth-First Search (BFS)</strong> explores a graph much like
-        finding connections in a social network. Starting from a source node, it
-        first visits all of its direct friends (neighbors), then all of their
-        friends, and so on, level by level. It uses a <strong>queue</strong> to
-        keep track of who to visit next, ensuring it doesn&apos;t go too deep
-        down one path. This makes it perfect for finding the{' '}
-        <Link href="/graph/Dijkstras">shortest path</Link> in an unweighted
-        graph.
-      </Typography>
+      <Box>
+        <Typography paragraph>
+          <strong>Breadth-First Search (BFS)</strong> explores a graph much like
+          finding connections in a social network. Starting from a source node,
+          it first visits all of its direct friends (neighbors), then all of
+          their friends, and so on, level by level. It uses a{' '}
+          <strong>queue</strong> to keep track of who to visit next, ensuring it
+          doesn&apos;t go too deep down one path. This makes it perfect for
+          finding the <Link href="/graph/Dijkstras">shortest path</Link> in an
+          unweighted graph.
+        </Typography>
+
+        <Typography variant="body2" color="text.secondary">
+          Want to see BFS applied to grid pathfinding, or explore adversarial
+          game-tree search?{' '}
+          <Link
+            href="https://lkforge.com/tools/game-ai-visualizer/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Game AI Visualizer
+          </Link>{' '}
+          is a great companion tool.
+        </Typography>
+      </Box>
 
       <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
         <Stack spacing={2} pt={0.5}>
