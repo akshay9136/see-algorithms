@@ -59,7 +59,7 @@ export function getComment(doc, user, extraFields = {}) {
   return {
     id: doc.id,
     isAuthor: user && data.authorId === user.userId,
-    upvoted: (data.upvotedBy || []).includes(user.email),
+    upvoted: user && (data.upvotedBy || []).includes(user.email),
     upvotes: data.upvotes || 0,
     ...data,
     ...extraFields,

@@ -100,6 +100,27 @@ describe('Comments API utils', () => {
         text: 'Hello',
       });
     });
+
+    test('returns comment safely when user is not authenticated (null)', () => {
+      const mockDoc = {
+        id: 'doc_1',
+        data: () => ({
+          authorId: 'github_123',
+          upvotedBy: ['user@test.com'],
+          upvotes: 1,
+          text: 'Hello',
+        }),
+      };
+      expect(getComment(mockDoc, null)).toEqual({
+        id: 'doc_1',
+        isAuthor: null,
+        upvoted: null,
+        upvotes: 1,
+        authorId: 'github_123',
+        upvotedBy: ['user@test.com'],
+        text: 'Hello',
+      });
+    });
   });
 
   describe('deleteComment', () => {

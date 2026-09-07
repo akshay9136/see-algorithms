@@ -216,7 +216,7 @@ export const Plane = memo(function () {
   return (
     <svg
       className="plane"
-      style={{ width: '100%', height: '100%' }}
+      style={{ width: '100%', height: '100%', touchAction: 'none' }}
       role="graphics-document"
     >
       <defs>

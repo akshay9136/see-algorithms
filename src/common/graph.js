@@ -84,38 +84,47 @@ const Graph = {
     }
   },
 
-  removeEdge(i, j) {
-    segments.splice(matrix[i][j], 1);
-    matrix[i][j] = undefined;
-    if (!directed) {
-      matrix[j][i] = undefined;
-    }
-  },
-
   indegree() {
     const indeg = new Array(points.length).fill(0);
     segments.forEach(([, j]) => indeg[j]++);
     return indeg;
   },
 
-  hasCycle() {
-    const np = points.length;
-    const ind = this.indegree();
+  /**
+   * Detects cycles using Kahn's algorithm (topological sort).
+   * @param {Array<number>} [newEdge] - Optional [u, v] candidate edge to simulate before adding.
+   * @returns {boolean} True if a cycle exists (or would exist with newEdge).
+   */
+  hasCycle(newEdge) {
+    const allSeg = newEdge ? [...segments, newEdge] : segments;
+    // Account for potential new vertex
+    const np = newEdge?.includes(points.length)
+      ? points.length + 1
+      : points.length;
+
+    // 1. Calculate in-degrees for all vertices
+    const indeg = new Array(np).fill(0);
+    allSeg.forEach(([, j]) => indeg[j]++);
+
+    // 2. Collect all vertices with in-degree 0
     const stack = [];
     for (let i = 0; i < np; i++) {
-      if (ind[i] === 0) stack.push(i);
+      if (indeg[i] === 0) stack.push(i);
     }
-    let k = 0;
-    for (; stack.length > 0; k++) {
+
+    // 3. Process zero in-degree vertices and reduce neighbor in-degrees
+    let count = 0;
+    for (; stack.length > 0; count++) {
       const u = stack.pop();
-      segments.forEach(([i, j]) => {
-        if (u === i && ind[j] > 0) {
-          ind[j]--;
-          if (ind[j] === 0) stack.push(j);
+      allSeg.forEach(([i, j]) => {
+        if (u === i && indeg[j] > 0) {
+          indeg[j]--;
+          if (indeg[j] === 0) stack.push(j);
         }
       });
     }
-    return k < np;
+    // If count is less than total vertices, a cycle exists
+    return count < np;
   },
 };
 
