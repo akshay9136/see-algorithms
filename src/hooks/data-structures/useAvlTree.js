@@ -1,4 +1,4 @@
-import { Edge, Node } from '@/components/common';
+import { Draggable, Edge, Node } from '@/components/common';
 import { Redo, Save, Share, Undo } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import {
@@ -154,20 +154,22 @@ function rebalance(node):
     }, [nodes]);
 
     const animation = (
-        <Paper ref={scope} className="resizable">
-            {numbers.slice(1).map((_, i) => (
-                <Edge key={i} index={i} />
-            ))}
-            {numbers.map((num, i) => (
-                <Node
-                    key={i}
-                    index={i}
-                    value={num}
-                    style={{ opacity: 0 }}
-                    showBf
-                />
-            ))}
-        </Paper>
+      <Paper ref={scope} className="resizable">
+        <Draggable>
+          {numbers.slice(1).map((_, i) => (
+            <Edge key={i} index={i} />
+          ))}
+          {numbers.map((num, i) => (
+            <Node
+              key={i}
+              index={i}
+              value={num}
+              style={{ opacity: 0 }}
+              showBf
+            />
+          ))}
+        </Draggable>
+      </Paper>
     );
 
     return { algorithm, animation, buttons, summary, refresh };

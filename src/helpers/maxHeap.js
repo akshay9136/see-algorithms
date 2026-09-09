@@ -70,7 +70,7 @@ function maxHeap(animator) {
         if (root.key !== last.key) {
             sound('swap');
             await txy(id, root.x, root.y);
-            await txy(`.numkey${Tree.size() - 1}`, -20, 0, 0);
+            animate(`.numkey${Tree.size() - 1}`, { opacity: 0 });
             animate(last.eid, { opacity: 0 });
             root.update({ id, value });
             last.update({ deleted: true });
@@ -92,6 +92,7 @@ function maxHeap(animator) {
             for (let i = 0; i <= size; i++) {
                 const node = Tree.node(i);
                 txy(`.numkey${i}`, node.x + 20, node.y - 24);
+                animate(`.numkey${i}`, { opacity: 1 });
             }
         },
         collect() {

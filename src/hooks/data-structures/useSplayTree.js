@@ -1,4 +1,4 @@
-import { Edge, Node } from '@/components/common';
+import { Draggable, Edge, Node } from '@/components/common';
 import { Redo, Refresh, Save, Share, Undo } from '@mui/icons-material';
 import { copyTreeUrl, randomNodes, showError, sleep } from '@/common/utils';
 import { useEffect, useState } from 'react';
@@ -120,14 +120,16 @@ export default function useSplayTree({ saveData }) {
     }, [nodes, isReady]);
 
     const animation = (
-        <Paper ref={scope} className="resizable">
-            {numbers.slice(1).map((_, i) => (
-                <Edge key={i} index={i} />
-            ))}
-            {numbers.map((num, i) => (
-                <Node key={i} index={i} value={num} style={{ opacity: 0 }} />
-            ))}
-        </Paper>
+      <Paper ref={scope} className="resizable">
+        <Draggable>
+          {numbers.slice(1).map((_, i) => (
+            <Edge key={i} index={i} />
+          ))}
+          {numbers.map((num, i) => (
+            <Node key={i} index={i} value={num} style={{ opacity: 0 }} />
+          ))}
+        </Draggable>
+      </Paper>
     );
 
     return { animation, buttons, summary, refresh };

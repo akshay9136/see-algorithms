@@ -3,6 +3,7 @@ import { Redo, Refresh, Save, Share, Undo } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
 import { copyTreeUrl, randomNodes, showError, sleep } from '@/common/utils';
+import { Draggable } from '@/components/common';
 import bPlusTree from '@/helpers/bPlusTree';
 import Paper from '@mui/material/Paper';
 
@@ -123,78 +124,80 @@ export default function useBPlusTree({ saveData, allowRefresh = true }) {
 
   const animation = (
     <Paper ref={scope} className="resizable" id="bPlusTree">
-      <svg style={styles.svg}>
+      <Draggable>
+        <svg style={styles.svg}>
+          <AnimatePresence>
+            {/* Tree edges (parent → child) */}
+            {treeData?.edges.map((edge) => (
+              <motion.line
+                key={edge.id}
+                initial={{ ...edge, opacity: 0 }}
+                animate={{ ...edge, opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={transition}
+                stroke="#b0b0b0"
+                strokeWidth={2}
+              />
+            ))}
+            {/* Leaf-chain horizontal */}
+            {treeData?.leafLinks.map((link) => (
+              <motion.line
+                key={link.id}
+                initial={{ ...link, opacity: 0 }}
+                animate={{ ...link, opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={transition}
+                stroke="#66bb6a"
+                strokeWidth={1.5}
+                strokeDasharray="4 3"
+                markerEnd="url(#arrowHead)"
+              />
+            ))}
+            {/* Arrow marker */}
+            <defs>
+              <marker
+                id="arrowHead"
+                markerWidth="8"
+                markerHeight="6"
+                refX="8"
+                refY="3"
+                orient="auto"
+              >
+                <polygon points="0 0, 8 3, 0 6" fill="#66bb6a" />
+              </marker>
+            </defs>
+          </AnimatePresence>
+        </svg>
+
         <AnimatePresence>
-          {/* Tree edges (parent → child) */}
-          {treeData?.edges.map((edge) => (
-            <motion.line
-              key={edge.id}
-              initial={{ ...edge, opacity: 0 }}
-              animate={{ ...edge, opacity: 1 }}
+          {treeData?.nodes.map((node) => (
+            <motion.div
+              key={node.id}
+              id={node.id.slice(1)}
+              initial={{ opacity: 0, x: node.x, y: node.y }}
+              animate={{ opacity: 1, ...node }}
               exit={{ opacity: 0 }}
               transition={transition}
-              stroke="#b0b0b0"
-              strokeWidth={2}
+              style={node.isLeaf ? styles.leafNode : styles.internalNode}
             />
           ))}
-          {/* Leaf-chain horizontal */}
-          {treeData?.leafLinks.map((link) => (
-            <motion.line
-              key={link.id}
-              initial={{ ...link, opacity: 0 }}
-              animate={{ ...link, opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={transition}
-              stroke="#66bb6a"
-              strokeWidth={1.5}
-              strokeDasharray="4 3"
-              markerEnd="url(#arrowHead)"
-            />
-          ))}
-          {/* Arrow marker */}
-          <defs>
-            <marker
-              id="arrowHead"
-              markerWidth="8"
-              markerHeight="6"
-              refX="8"
-              refY="3"
-              orient="auto"
-            >
-              <polygon points="0 0, 8 3, 0 6" fill="#66bb6a" />
-            </marker>
-          </defs>
         </AnimatePresence>
-      </svg>
 
-      <AnimatePresence>
-        {treeData?.nodes.map((node) => (
-          <motion.div
-            key={node.id}
-            id={node.id.slice(1)}
-            initial={{ opacity: 0, x: node.x, y: node.y }}
-            animate={{ opacity: 1, ...node }}
-            exit={{ opacity: 0 }}
-            transition={transition}
-            style={node.isLeaf ? styles.leafNode : styles.internalNode}
-          />
-        ))}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {treeData?.keys.map((key) => (
-          <motion.div
-            key={`${key.nodeId}-${key.value}`}
-            initial={{ opacity: 0, x: key.x, y: key.y }}
-            animate={{ opacity: 1, x: key.x, y: key.y }}
-            exit={{ opacity: 0, scale: 0.5 }}
-            transition={transition}
-            style={key.isLeaf ? styles.leafKey : styles.internalKey}
-          >
-            {key.value}
-          </motion.div>
-        ))}
-      </AnimatePresence>
+        <AnimatePresence>
+          {treeData?.keys.map((key) => (
+            <motion.div
+              key={`${key.nodeId}-${key.value}`}
+              initial={{ opacity: 0, x: key.x, y: key.y }}
+              animate={{ opacity: 1, x: key.x, y: key.y }}
+              exit={{ opacity: 0, scale: 0.5 }}
+              transition={transition}
+              style={key.isLeaf ? styles.leafKey : styles.internalKey}
+            >
+              {key.value}
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </Draggable>
     </Paper>
   );
 

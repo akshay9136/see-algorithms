@@ -3,8 +3,9 @@ import { Redo, Refresh, Save, Share, Undo } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
 import { copyTreeUrl, randomNodes, showError, sleep } from '@/common/utils';
-import bTree from '@/helpers/bTree';
+import { Draggable } from '@/components/common';
 import Paper from '@mui/material/Paper';
+import bTree from '@/helpers/bTree';
 
 var Tree;
 
@@ -123,50 +124,52 @@ export default function useBTree({ saveData, allowRefresh = true }) {
 
   const animation = (
     <Paper ref={scope} className="resizable" id="bTree">
-      <svg style={styles.svg}>
+      <Draggable>
+        <svg style={styles.svg}>
+          <AnimatePresence>
+            {treeData?.edges.map((edge) => (
+              <motion.line
+                key={edge.id}
+                initial={{ ...edge, opacity: 0 }}
+                animate={{ ...edge, opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={transition}
+                stroke="#b0b0b0"
+                strokeWidth={2}
+              />
+            ))}
+          </AnimatePresence>
+        </svg>
+
         <AnimatePresence>
-          {treeData?.edges.map((edge) => (
-            <motion.line
-              key={edge.id}
-              initial={{ ...edge, opacity: 0 }}
-              animate={{ ...edge, opacity: 1 }}
+          {treeData?.nodes.map((node) => (
+            <motion.div
+              key={node.id}
+              id={node.id.slice(1)}
+              initial={{ opacity: 0, x: node.x, y: node.y }}
+              animate={{ opacity: 1, ...node }}
               exit={{ opacity: 0 }}
               transition={transition}
-              stroke="#b0b0b0"
-              strokeWidth={2}
+              style={styles.node}
             />
           ))}
         </AnimatePresence>
-      </svg>
 
-      <AnimatePresence>
-        {treeData?.nodes.map((node) => (
-          <motion.div
-            key={node.id}
-            id={node.id.slice(1)}
-            initial={{ opacity: 0, x: node.x, y: node.y }}
-            animate={{ opacity: 1, ...node }}
-            exit={{ opacity: 0 }}
-            transition={transition}
-            style={styles.node}
-          />
-        ))}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {treeData?.keys.map((key) => (
-          <motion.div
-            key={key.value}
-            initial={{ opacity: 0, x: key.x, y: key.y }}
-            animate={{ opacity: 1, x: key.x, y: key.y }}
-            exit={{ opacity: 0, scale: 0.5 }}
-            transition={transition}
-            style={styles.key}
-          >
-            {key.value}
-          </motion.div>
-        ))}
-      </AnimatePresence>
+        <AnimatePresence>
+          {treeData?.keys.map((key) => (
+            <motion.div
+              key={key.value}
+              initial={{ opacity: 0, x: key.x, y: key.y }}
+              animate={{ opacity: 1, x: key.x, y: key.y }}
+              exit={{ opacity: 0, scale: 0.5 }}
+              transition={transition}
+              style={styles.key}
+            >
+              {key.value}
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </Draggable>
     </Paper>
   );
 

@@ -68,7 +68,7 @@ function redBlackTree(animator) {
     const updateColor = (node, color) => {
         const el = scope.current.querySelector(`.tag${node.key}`);
         el.textContent = color;
-        el.style.color = '#fff';
+        el.style.color = Colors.white;
         el.style.backgroundColor =
           color === 'R' ? 'rgb(255, 0, 0, 0.9)' : 'rgba(0, 0, 0, 0.8)';
         node.update({ color });

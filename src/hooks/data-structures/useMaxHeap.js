@@ -1,4 +1,4 @@
-import { Edge, Node, Numkey } from '@/components/common';
+import { Draggable, Edge, Node, Numkey } from '@/components/common';
 import { Redo, Save, Share, Undo } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
@@ -13,7 +13,7 @@ export default function useMaxHeap({ saveData }) {
     const [summary, explain, abort] = useSummary();
     const [scope, animator] = useAnimator();
     const [nodes, isReady] = useTreeUrl();
-    const { txy } = animator;
+    const { txy, animate } = animator;
     const history = useUndoRedo();
 
     async function* insert(num) {
@@ -29,6 +29,7 @@ export default function useMaxHeap({ saveData }) {
         if (!numbers.length) {
             const node = Tree.insert(num);
             txy(`.numkey0`, node.x + 20, node.y - 24);
+            animate(`.numkey0`, { opacity: 1 });
         } else {
             const size = Tree.size();
             const parent = Tree.node(Math.floor((size - 1) / 2));
@@ -39,6 +40,7 @@ export default function useMaxHeap({ saveData }) {
                 txy(`.numkey${i}`, node.x + 20, node.y - 24);
             }
             yield delay;
+            animate(`.numkey${size}`, { opacity: 1 });
             yield* Tree.heapifyUp(node);
         }
     }
@@ -129,23 +131,24 @@ export default function useMaxHeap({ saveData }) {
     }, [nodes]);
 
     const animation = (
-        <Paper ref={scope} className="resizable">
-            {numbers.slice(1).map((_, i) => (
-                <Edge key={i} index={i} />
-            ))}
-            {numbers.map((num, i) => (
-                <Node key={i} index={i} value={num} style={{ opacity: 0 }} />
-            ))}
-            {numbers.map((_, i) => (
-                <Numkey
-                    key={i}
-                    index={i}
-                    value={i}
-                    animate={{ x: -20 }}
-                    transition={{ duration: 0 }}
-                />
-            ))}
-        </Paper>
+      <Paper ref={scope} className="resizable">
+        <Draggable>
+          {numbers.slice(1).map((_, i) => (
+            <Edge key={i} index={i} />
+          ))}
+          {numbers.map((num, i) => (
+            <Node key={i} index={i} value={num} style={{ opacity: 0 }} />
+          ))}
+          {numbers.map((_, i) => (
+            <Numkey
+                key={i}
+                index={i}
+                value={i}
+                initial={{ opacity: 0 }}
+            />
+          ))}
+        </Draggable>
+      </Paper>
     );
 
     return { animation, buttons, summary, refresh };
