@@ -6,8 +6,10 @@ import DSInput from '@/components/common/ds-input';
 import Link from 'next/link';
 
 export default function AVLvsRedBlack(props) {
-  const { animation: avlAnimation, buttons: avlButtons } = useAvlTree({});
+  const { animation: avlAnimation, buttons: avlButtons } =
+    useAvlTree({ allowRefresh: false });
   const { animation: rbtAnimation, buttons: rbtButtons } = useRedBlackTree({});
+
   // remove last two buttons (Save and Share)
   avlButtons.splice(5, 2);
   avlButtons.splice(1, 1); // remove delete button
@@ -17,9 +19,10 @@ export default function AVLvsRedBlack(props) {
   return (
     <Stack spacing={3}>
       <Typography>
-        Both <strong>AVL Trees</strong> and <strong>Red-Black Trees</strong>{' '}
-        keep themselves balanced so that searching stays fast. The difference is
-        in how strict they are — <strong>AVL Trees</strong> stay more tightly
+        Both <Link href="/data-structures/AVL">AVL Trees</Link> and{' '}
+        <Link href="/data-structures/RedBlackTree">Red-Black Trees</Link> keep
+        themselves balanced so that searching stays fast. The difference is in
+        how strict they are — <strong>AVL Trees</strong> stay more tightly
         balanced, which makes lookups slightly faster but requires more work
         when adding or removing values. <strong>Red-Black Trees</strong> are a
         bit more relaxed, so insertions and deletions are quicker. Try inserting

@@ -1,8 +1,7 @@
 import { Draggable, Edge, Node } from '@/components/common';
-import { Redo, Save, Share, Undo } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
-import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
-import { copyTreeUrl, showError, sleep } from '@/common/utils';
+import { useAnimator, useSummary, useTreeControls, useTreeUrl } from '@/hooks';
+import { showError, sleep } from '@/common/utils';
 import redBlackTree from '@/helpers/redBlackTree';
 import Paper from '@mui/material/Paper';
 
@@ -13,7 +12,6 @@ export default function useRedBlackTree({ saveData }) {
     const [summary, explain, abort] = useSummary();
     const [scope, animator] = useAnimator();
     const [nodes, isReady] = useTreeUrl();
-    const history = useUndoRedo();
 
     async function* insert(num) {
         if (numbers.includes(num) && !deleted[num]) {
@@ -24,7 +22,7 @@ export default function useRedBlackTree({ saveData }) {
             Tree = redBlackTree(animator);
             deleted = {};
         }
-        const keys = Tree.collect((a) => [a.value, a.color]);
+        const keys = collect();
         explain({ keys, operation: 'Insert', input: num });
         history.push(keys);
         deleted[num] = false;
@@ -33,81 +31,54 @@ export default function useRedBlackTree({ saveData }) {
         yield* Tree.insert(num);
     }
 
-    const newTree = async (nodes) => {
-        setNumbers(nodes.map((x) => x[0]));
+    async function* remove(num) {
+        if (numbers.includes(num)) deleted[num] = true;
+        const keys = collect();
+        explain({ keys, operation: 'Delete', input: num });
+        yield 500;
+        const affected = yield* Tree.deleteNode(num);
+        if (affected !== undefined) {
+            history.push(keys);
+            if (!Tree.root()) setNumbers([]);
+        }
+    }
+
+    const newTree = async (keys) => {
+        setNumbers(keys.map((a) => a[0]));
         Tree = redBlackTree(animator);
         deleted = {};
         await sleep(100);
-        nodes.forEach((x) => Tree._insert(...x));
+        keys.forEach((a) => Tree._insert(...a));
     };
 
-    const handleUndo = async () => {
-        if (history.canUndo) {
-            setNumbers([]);
-            await sleep(100);
-            const nodes = Tree.collect((a) => [a.value, a.color]);
-            newTree(history.undo(nodes));
-        }
-    };
+    const collect = () => Tree.collect((a) => [a.value, a.color]);
 
-    const handleRedo = async () => {
-        if (history.canRedo) {
-            setNumbers([]);
-            await sleep(100);
-            const nodes = Tree.collect((a) => [a.value, a.color]);
-            newTree(history.redo(nodes));
-        }
-    };
-
-    const handleCopy = () => {
-        const nodes = Tree.collect((a) => [a.value, a.color]);
-        copyTreeUrl(nodes);
-    };
-
-    const refresh = async (data) => {
-        reset();
-        await sleep(100);
-        newTree(data);
-    };
-
-    const reset = () => {
-        setNumbers([]);
-        history.clear();
-        abort();
-    };
+    const { history, controls } = useTreeControls({
+        numbers,
+        setNumbers,
+        newTree,
+        collect,
+        onClear: abort,
+    });
 
     const saveButton = {
-        text: <Save />,
-        onClick: () => {
-            const nodes = Tree.collect((a) => [a.value, a.color]);
-            saveData(nodes);
-        },
-        disabled: !numbers.length,
-        title: 'Save this tree',
+        ...controls.SAVE,
+        onClick: () => saveData(collect()),
     };
 
     const buttons = [
         { text: 'Insert', onClick: insert, validate: true },
-        { text: 'Clear', onClick: reset, disabled: !numbers.length },
-        {
-            text: <Undo />,
-            onClick: handleUndo,
-            title: 'Undo',
-            disabled: !history.canUndo,
-        },
-        {
-            text: <Redo />,
-            onClick: handleRedo,
-            title: 'Redo',
-            disabled: !history.canRedo,
-        },
+        // {
+        //     text: 'Delete',
+        //     onClick: remove,
+        //     validate: true,
+        //     disabled: !numbers.length,
+        // },
+        controls.CLEAR,
+        controls.UNDO,
+        controls.REDO,
         ...(saveData ? [saveButton] : []),
-        {
-            text: <Share fontSize="small" />,
-            onClick: handleCopy,
-            disabled: !numbers.length,
-            title: 'Share this tree',
-        },
+        controls.SHARE,
     ];
 
     useEffect(() => {
@@ -132,6 +103,8 @@ export default function useRedBlackTree({ saveData }) {
         </Draggable>
       </Paper>
     );
+
+    const refresh = controls.REFRESH.onClick;
 
     return { animation, buttons, summary, refresh };
 }

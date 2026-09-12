@@ -1021,7 +1021,7 @@ head = prev;`,
     },
   ],
 
-  'b-tree-vs-bplus': [
+  'b-tree-vs-b+tree': [
     {
       question: 'In what scenario would you prefer a B-Tree over a B+ Tree?',
       answer: (

@@ -18,6 +18,7 @@ body,
 
 a {
   color: #1565c0;
+  text-underline-offset: 2px;
 }
 
 code {

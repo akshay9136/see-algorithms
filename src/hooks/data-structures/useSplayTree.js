@@ -1,8 +1,7 @@
 import { Draggable, Edge, Node } from '@/components/common';
-import { Redo, Refresh, Save, Share, Undo } from '@mui/icons-material';
-import { copyTreeUrl, randomNodes, showError, sleep } from '@/common/utils';
 import { useEffect, useState } from 'react';
-import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
+import { useAnimator, useSummary, useTreeControls, useTreeUrl } from '@/hooks';
+import { randomKeys, showError, sleep } from '@/common/utils';
 import splayTree from '@/helpers/splayTree';
 import Paper from '@mui/material/Paper';
 
@@ -13,7 +12,6 @@ export default function useSplayTree({ saveData }) {
     const [summary, explain, abort] = useSummary();
     const [scope, animator] = useAnimator();
     const [nodes, isReady] = useTreeUrl();
-    const history = useUndoRedo();
 
     async function* insert(num) {
         if (numbers.includes(num) && !deleted[num]) {
@@ -41,47 +39,26 @@ export default function useSplayTree({ saveData }) {
         yield* Tree.search(num);
     }
 
-    const newTree = async (nodes) => {
-        setNumbers(nodes.slice());
+    const newTree = async (keys) => {
+        keys = keys || randomKeys();
+        setNumbers(keys.slice());
         Tree = splayTree(animator);
         deleted = {};
         await sleep(100);
-        nodes.forEach((num) => Tree._insert(num));
+        keys.forEach((num) => Tree._insert(num));
     };
 
-    const handleUndo = async () => {
-        if (history.canUndo) {
-            setNumbers([]);
-            await sleep(100);
-            newTree(history.undo(Tree.collect()));
-        }
-    };
-
-    const handleRedo = async () => {
-        if (history.canRedo) {
-            setNumbers([]);
-            await sleep(100);
-            newTree(history.redo(Tree.collect()));
-        }
-    };
-
-    const refresh = async (data) => {
-        reset();
-        await sleep(100);
-        newTree(data || randomNodes());
-    };
-
-    const reset = () => {
-        setNumbers([]);
-        history.clear();
-        abort();
-    };
+    const { history, controls } = useTreeControls({
+        numbers,
+        setNumbers,
+        newTree,
+        collect: () => Tree.collect(),
+        onClear: abort,
+    });
 
     const saveButton = {
-        text: <Save />,
+        ...controls.SAVE,
         onClick: () => saveData(Tree.collect()),
-        disabled: !numbers.length,
-        title: 'Save this tree',
     };
 
     const buttons = [
@@ -92,31 +69,16 @@ export default function useSplayTree({ saveData }) {
             validate: true,
             disabled: !numbers.length,
         },
-        { text: 'Clear', onClick: reset, disabled: !numbers.length },
-        {
-            text: <Undo />,
-            onClick: handleUndo,
-            title: 'Undo',
-            disabled: !history.canUndo,
-        },
-        {
-            text: <Redo />,
-            onClick: handleRedo,
-            title: 'Redo',
-            disabled: !history.canRedo,
-        },
-        { text: <Refresh />, onClick: () => refresh(), title: 'New tree' },
+        controls.CLEAR,
+        controls.UNDO,
+        controls.REDO,
+        controls.REFRESH,
         ...(saveData ? [saveButton] : []),
-        {
-            text: <Share fontSize="small" />,
-            onClick: () => copyTreeUrl(Tree.root()),
-            disabled: !numbers.length,
-            title: 'Share this tree',
-        },
+        controls.SHARE,
     ];
 
     useEffect(() => {
-        if (isReady) newTree(nodes || randomNodes());
+        if (isReady) newTree(nodes);
     }, [nodes, isReady]);
 
     const animation = (
@@ -131,6 +93,8 @@ export default function useSplayTree({ saveData }) {
         </Draggable>
       </Paper>
     );
+
+    const refresh = controls.REFRESH.onClick;
 
     return { animation, buttons, summary, refresh };
 }

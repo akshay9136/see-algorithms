@@ -320,11 +320,11 @@ function bPlusTree({ bgcolor }) {
         search,
         collect() {
             if (!root) return [];
-            // collect from leaf chain
+            // collect from leaf chain, grouped by node
             let result = [];
             let leaf = firstLeaf;
             while (leaf) {
-                result.push(...leaf.keys);
+                result.push(leaf.keys.slice());
                 leaf = leaf.next;
             }
             return result;

@@ -124,12 +124,40 @@ function copyTreeUrl(nodes) {
     });
 };
 
-function randomNodes(size = 6) {
+function sortedRandomKeys(size = 6) {
     const result = new Set();
-    while (result.size < size) {
-        result.add(randomInt());
-    }
+    while (result.size < size) result.add(randomInt());
     return Array.from(result);
+}
+
+/**
+ * Given a sorted array, returns elements reordered so that inserting them
+ * sequentially into a BST always produces a balanced tree (|bf| <= 1 at
+ * every node), satisfying the AVL property without requiring rotations.
+ */
+function balancedInsertOrder(sorted) {
+    if (!sorted.length) return [];
+    // For even-length arrays, bias randomly left or right to vary tree shape.
+    const halfFloor = Math.floor(sorted.length / 2);
+    const mid = sorted.length % 2 === 0
+        ? halfFloor - (Math.random() < 0.5 ? 1 : 0)
+        : halfFloor;
+    return [
+        sorted[mid],
+        ...balancedInsertOrder(sorted.slice(0, mid)),
+        ...balancedInsertOrder(sorted.slice(mid + 1)),
+    ];
+}
+
+/**
+ * Generates a random sequence of unique keys whose insertion order into a BST
+ * always produces a valid AVL tree (|bf| <= 1 everywhere), with structural
+ * variety across calls via random size (5–9) and random median bias.
+ */
+function randomKeys() {
+    const size = Math.floor(Math.random() * 5) + 5;
+    const sorted = sortedRandomKeys(size).sort((a, b) => a - b);
+    return balancedInsertOrder(sorted);
 }
 
 function muteSounds() {
@@ -153,7 +181,7 @@ export {
     createCell,
     traverse,
     copyTreeUrl,
-    randomNodes,
+    randomKeys,
     muteSounds,
 };
 

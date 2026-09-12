@@ -1,25 +1,23 @@
 import { Draggable, Edge, Node } from '@/components/common';
-import { Redo, Save, Share, Undo } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import {
     useAlgorithm,
     useAnimator,
     useSummary,
+    useTreeControls,
     useTreeUrl,
-    useUndoRedo,
 } from '@/hooks';
-import { copyTreeUrl, showError, sleep } from '@/common/utils';
+import { randomKeys, showError, sleep } from '@/common/utils';
 import avlTree from '@/helpers/avlTree';
 import Paper from '@mui/material/Paper';
 
 var Tree, deleted = {};
 
-export default function useAvlTree({ saveData }) {
+export default function useAvlTree({ saveData, allowRefresh = true }) {
     const [numbers, setNumbers] = useState([]);
     const [summary, explain, abort] = useSummary();
     const [scope, animator] = useAnimator();
     const [nodes, isReady] = useTreeUrl();
-    const history = useUndoRedo();
 
     const [algorithm, setCurrentStep] = useAlgorithm(`
 function rebalance(node):
@@ -71,47 +69,26 @@ function rebalance(node):
         }
     }
 
-    const newTree = async (nodes) => {
-        setNumbers(nodes.slice());
+    const newTree = async (keys) => {
+        keys = keys || randomKeys();
+        setNumbers(keys.slice());
         Tree = avlTree(animator, setCurrentStep);
         deleted = {};
         await sleep(100);
-        nodes.forEach((num) => Tree._insert(num));
+        keys.forEach((num) => Tree._insert(num));
     };
 
-    const handleUndo = async () => {
-        if (history.canUndo) {
-            setNumbers([]);
-            await sleep(100);
-            newTree(history.undo(Tree.collect()));
-        }
-    };
-
-    const handleRedo = async () => {
-        if (history.canRedo) {
-            setNumbers([]);
-            await sleep(100);
-            newTree(history.redo(Tree.collect()));
-        }
-    };
-
-    const refresh = async (data) => {
-        reset();
-        await sleep(100);
-        newTree(data);
-    };
-
-    const reset = () => {
-        setNumbers([]);
-        history.clear();
-        abort();
-    };
+    const { history, controls } = useTreeControls({
+        numbers,
+        setNumbers,
+        newTree,
+        collect: () => Tree.collect(),
+        onClear: abort,
+    });
 
     const saveButton = {
-        text: <Save />,
-        onClick: () => saveData(Tree.collect()),
-        disabled: !numbers.length,
-        title: 'Save this tree',
+        ...controls.SAVE,
+        onClick: () => saveData(Tree.collect())
     };
 
     const buttons = [
@@ -122,36 +99,17 @@ function rebalance(node):
             validate: true,
             disabled: !numbers.length,
         },
-        {
-            text: 'Clear',
-            onClick: reset,
-            disabled: !numbers.length,
-        },
-        {
-            text: <Undo />,
-            onClick: handleUndo,
-            title: 'Undo',
-            disabled: !history.canUndo,
-        },
-        {
-            text: <Redo />,
-            onClick: handleRedo,
-            title: 'Redo',
-            disabled: !history.canRedo,
-        },
-        // { text: <Refresh />, onClick: refresh, title: 'New tree' },
+        controls.CLEAR,
+        controls.UNDO,
+        controls.REDO,
+        controls.REFRESH,
         ...(saveData ? [saveButton] : []),
-        {
-            text: <Share fontSize="small" />,
-            onClick: () => copyTreeUrl(Tree.collect()),
-            disabled: !numbers.length,
-            title: 'Share this tree',
-        },
+        controls.SHARE,
     ];
 
     useEffect(() => {
-        if (nodes) newTree(nodes);
-    }, [nodes]);
+        if (isReady && allowRefresh) newTree(nodes);
+    }, [nodes, isReady]);
 
     const animation = (
       <Paper ref={scope} className="resizable">
@@ -171,6 +129,8 @@ function rebalance(node):
         </Draggable>
       </Paper>
     );
+
+    const refresh = controls.REFRESH.onClick;
 
     return { algorithm, animation, buttons, summary, refresh };
 }

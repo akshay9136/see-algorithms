@@ -42,9 +42,10 @@ const bPlusTree = ({ keys, operation, input }) => `
 You are explaining the steps to someone observing a visualization of B+ Tree (order 3).
 
 Context:
-- The current B+ Tree's leaf keys in order are: ${JSON.stringify(keys)}.
+- The current B+ Tree leaf nodes (left to right) are: ${JSON.stringify(keys)}.
+- Each sub-array represents one leaf node, e.g. [[1,3],[5,7],[9]].
 - Operation being performed: ${operation}, with value: ${input}
-- On a leaf split, the smallest key of the right leaf is COPIED up to the parent.
+- On a leaf split 2:1, the right leaf's smallest key is COPIED up to the parent.
 
 Instructions:
 - Explain how the ${operation} is performed step by step.

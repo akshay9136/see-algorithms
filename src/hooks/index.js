@@ -2,9 +2,10 @@ import useAlgorithm from './useAlgorithm';
 import useAnimator from './useAnimator';
 import useGraphScope from './useGraphScope';
 import useGraphControls from './useGraphControls';
-import useLoadingSteps from './useLoadingSteps';
-import useSummary from './useSummary';
+import useTreeControls from './useTreeControls';
 import useTreeUrl from './useTreeUrl';
+import useSummary from './useSummary';
+import useLoadingSteps from './useLoadingSteps';
 import useUndoRedo from './useUndoRedo';
 import useSavedData from './useSavedData';
 import useCredits from './useCredits';
@@ -15,9 +16,10 @@ export {
     useAnimator,
     useGraphScope,
     useGraphControls,
-    useLoadingSteps,
-    useSummary,
+    useTreeControls,
     useTreeUrl,
+    useSummary,
+    useLoadingSteps,
     useUndoRedo,
     useSavedData,
     useCredits,

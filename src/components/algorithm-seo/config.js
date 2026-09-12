@@ -411,7 +411,7 @@ export const metaConfigs = {
     description:
       'Compare the trade-offs between AVL Tree and Red-Black Tree. Watch how each structure rebalances itself during insertions in real-time.',
   },
-  'b-tree-vs-bplus': {
+  'b-tree-vs-b+tree': {
     title: 'B-Tree vs B+ Tree | Side-by-Side Comparison',
     description:
       'Compare B-Tree and B+ Tree side-by-side. See how the copy-up vs move-up split difference shapes the two structures, and observe the B+ Tree leaf linked list in action.',

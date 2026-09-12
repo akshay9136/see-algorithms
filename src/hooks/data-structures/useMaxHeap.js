@@ -1,8 +1,7 @@
 import { Draggable, Edge, Node, Numkey } from '@/components/common';
-import { Redo, Save, Share, Undo } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
-import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
-import { copyTreeUrl, sleep, sound } from '@/common/utils';
+import { useAnimator, useSummary, useTreeControls, useTreeUrl } from '@/hooks';
+import { sleep, sound } from '@/common/utils';
 import maxHeap from '@/helpers/maxHeap';
 import Paper from '@mui/material/Paper';
 
@@ -14,7 +13,6 @@ export default function useMaxHeap({ saveData }) {
     const [scope, animator] = useAnimator();
     const [nodes, isReady] = useTreeUrl();
     const { txy, animate } = animator;
-    const history = useUndoRedo();
 
     async function* insert(num) {
         if (!numbers.length) {
@@ -61,39 +59,17 @@ export default function useMaxHeap({ saveData }) {
         nodes.forEach((num) => Tree._insert(num));
     };
 
-    const handleUndo = async () => {
-        if (history.canUndo) {
-            setNumbers([]);
-            await sleep(100);
-            newTree(history.undo(Tree.collect()));
-        }
-    };
-
-    const handleRedo = async () => {
-        if (history.canRedo) {
-            setNumbers([]);
-            await sleep(100);
-            newTree(history.redo(Tree.collect()));
-        }
-    };
-
-    const refresh = async (data) => {
-        reset();
-        await sleep(100);
-        newTree(data);
-    };
-
-    const reset = () => {
-        setNumbers([]);
-        history.clear();
-        abort();
-    };
+    const { history, controls } = useTreeControls({
+        numbers,
+        setNumbers,
+        newTree,
+        collect: () => Tree.collect(),
+        onClear: abort,
+    });
 
     const saveButton = {
-        text: <Save />,
+        ...controls.SAVE,
         onClick: () => saveData(Tree.collect()),
-        disabled: !numbers.length,
-        title: 'Save this tree',
     };
 
     const buttons = [
@@ -104,26 +80,11 @@ export default function useMaxHeap({ saveData }) {
             animate: true,
             disabled: !numbers.length,
         },
-        { text: 'Clear', onClick: reset, disabled: !numbers.length },
-        {
-            text: <Undo />,
-            onClick: handleUndo,
-            title: 'Undo',
-            disabled: !history.canUndo,
-        },
-        {
-            text: <Redo />,
-            onClick: handleRedo,
-            title: 'Redo',
-            disabled: !history.canRedo,
-        },
+        controls.CLEAR,
+        controls.UNDO,
+        controls.REDO,
         ...(saveData ? [saveButton] : []),
-        {
-            text: <Share fontSize="small" />,
-            onClick: () => copyTreeUrl(Tree.collect()),
-            disabled: !numbers.length,
-            title: 'Share this tree',
-        },
+        controls.SHARE,
     ];
 
     useEffect(() => {
@@ -150,6 +111,8 @@ export default function useMaxHeap({ saveData }) {
         </Draggable>
       </Paper>
     );
+
+    const refresh = controls.REFRESH.onClick;
 
     return { animation, buttons, summary, refresh };
 }

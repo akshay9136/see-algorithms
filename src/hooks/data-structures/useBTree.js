@@ -1,11 +1,10 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { Redo, Refresh, Save, Share, Undo } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
-import { useAnimator, useSummary, useTreeUrl, useUndoRedo } from '@/hooks';
-import { copyTreeUrl, randomNodes, showError, sleep } from '@/common/utils';
+import { useAnimator, useSummary, useTreeControls, useTreeUrl } from '@/hooks';
+import { randomKeys, showError, sleep } from '@/common/utils';
 import { Draggable } from '@/components/common';
-import Paper from '@mui/material/Paper';
 import bTree from '@/helpers/bTree';
+import Paper from '@mui/material/Paper';
 
 var Tree;
 
@@ -15,7 +14,6 @@ export default function useBTree({ saveData, allowRefresh = true }) {
   const [scope, animator] = useAnimator();
   const [summary, explain, abort] = useSummary();
   const [nodes, isReady] = useTreeUrl();
-  const history = useUndoRedo();
 
   async function* insert(num) {
     if (numbers.includes(num)) {
@@ -36,53 +34,32 @@ export default function useBTree({ saveData, allowRefresh = true }) {
     explain({ keys, operation: 'Search', input: num });
     yield 500;
     const found = yield* Tree.search(num);
-    if (!found) {
-      showError(`Key (${num}) not found.`);
-    }
+    if (!found) showError(`Key (${num}) not found.`);
   }
 
-  const newTree = async (nums) => {
-    setNumbers(nums.slice());
+  const newTree = async (keys) => {
+    keys = keys || randomKeys();
+    setNumbers(keys.slice());
     Tree = bTree(animator);
     await sleep(100);
-    nums.forEach((num) => Tree._insert(num));
+    keys.forEach((num) => Tree._insert(num));
     setTreeData(Tree.getSnapshot());
   };
 
-  const handleUndo = async () => {
-    if (history.canUndo) {
-      setNumbers([]);
-      await sleep(100);
-      newTree(history.undo(Tree.collect()));
-    }
-  };
-
-  const handleRedo = async () => {
-    if (history.canRedo) {
-      setNumbers([]);
-      await sleep(100);
-      newTree(history.redo(Tree.collect()));
-    }
-  };
-
-  const reset = () => {
-    setTreeData(null);
-    setNumbers([]);
-    history.clear();
-    abort();
-  };
-
-  const refresh = async (data) => {
-    reset();
-    await sleep(100);
-    newTree(data || randomNodes());
-  };
+  const { history, controls } = useTreeControls({
+    numbers,
+    setNumbers,
+    newTree,
+    collect: () => numbers.slice(),
+    onClear: () => {
+      setTreeData(null);
+      abort();
+    },
+  });
 
   const saveButton = {
-    text: <Save />,
+    ...controls.SAVE,
     onClick: () => saveData(numbers),
-    disabled: !numbers.length,
-    title: 'Save this tree',
   };
 
   const buttons = [
@@ -93,31 +70,16 @@ export default function useBTree({ saveData, allowRefresh = true }) {
       validate: true,
       disabled: !numbers.length,
     },
-    { text: 'Clear', onClick: reset, disabled: !numbers.length },
-    {
-      text: <Undo />,
-      onClick: handleUndo,
-      title: 'Undo',
-      disabled: !history.canUndo,
-    },
-    {
-      text: <Redo />,
-      onClick: handleRedo,
-      title: 'Redo',
-      disabled: !history.canRedo,
-    },
-    { text: <Refresh />, onClick: () => refresh(), title: 'New tree' },
+    controls.CLEAR,
+    controls.UNDO,
+    controls.REDO,
+    controls.REFRESH,
     ...(saveData ? [saveButton] : []),
-    {
-      text: <Share fontSize="small" />,
-      onClick: () => copyTreeUrl(numbers),
-      disabled: !numbers.length,
-      title: 'Share this tree',
-    },
+    controls.SHARE,
   ];
 
   useEffect(() => {
-    if (isReady && allowRefresh) newTree(nodes || randomNodes());
+    if (isReady && allowRefresh) newTree(nodes);
   }, [nodes, isReady]);
 
   const transition = { duration: 0.5, ease: 'easeInOut' };
@@ -172,6 +134,8 @@ export default function useBTree({ saveData, allowRefresh = true }) {
       </Draggable>
     </Paper>
   );
+
+  const refresh = controls.REFRESH.onClick;
 
   return { animation, buttons, summary, refresh };
 }

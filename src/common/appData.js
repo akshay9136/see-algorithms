@@ -60,8 +60,7 @@ export const algorithms = [
   },
   {
     id: 'avl-tree-vs-rbt',
-    name: 'AVL vs Red-Black',
-    title: 'AVL Tree vs Red-Black Tree',
+    name: 'AVL Tree vs Red-Black Tree',
     category: 'Advanced Trees',
     path: '/data-structures/avl-tree-vs-rbt',
   },
@@ -84,10 +83,10 @@ export const algorithms = [
     path: '/data-structures/B+Tree',
   },
   {
-    id: 'b-tree-vs-bplus',
+    id: 'b-tree-vs-b+tree',
     name: 'B-Tree vs B+ Tree',
     category: 'Advanced Trees',
-    path: '/data-structures/b-tree-vs-bplus',
+    path: '/data-structures/b-tree-vs-b+tree',
   },
   { id: 'ConvexHull', name: 'Convex Hull', category: 'Other' },
   { id: 'HuffmanCoding', name: 'Huffman Coding', category: 'Other' },

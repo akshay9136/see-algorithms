@@ -6,12 +6,10 @@ import DSInput from '@/components/common/ds-input';
 import Link from 'next/link';
 
 export default function BTreeVsBPlusTree(props) {
-  const { animation: bTreeAnimation, buttons: bTreeButtons } = useBTree({
-    allowRefresh: false,
-  });
-  const { animation: bPlusAnimation, buttons: bPlusButtons } = useBPlusTree({
-    allowRefresh: false,
-  });
+  const { animation: bTreeAnimation, buttons: bTreeButtons } =
+    useBTree({ allowRefresh: false });
+  const { animation: bPlusAnimation, buttons: bPlusButtons } =
+    useBPlusTree({ allowRefresh: false });
 
   // Remove Save and Share buttons (last 2) for both trees
   bTreeButtons.splice(5, 2);
