@@ -68,12 +68,12 @@ export default function useRedBlackTree({ saveData }) {
 
     const buttons = [
         { text: 'Insert', onClick: insert, validate: true },
-        // {
-        //     text: 'Delete',
-        //     onClick: remove,
-        //     validate: true,
-        //     disabled: !numbers.length,
-        // },
+        {
+            text: 'Delete',
+            onClick: remove,
+            validate: true,
+            disabled: !numbers.length,
+        },
         controls.CLEAR,
         controls.UNDO,
         controls.REDO,

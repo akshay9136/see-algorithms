@@ -163,7 +163,7 @@ function binaryTree({ tx, txy, animate, scope, cleanup }) {
                 const node = { value, id, key: 0, x: x1, y: 50 };
                 txy(id, x1, 50);
                 animate(id, { opacity: 1 });
-                arr.push(node);
+                arr = [node];
                 root = 0;
                 return this.root();
             }

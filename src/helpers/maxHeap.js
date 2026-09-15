@@ -1,4 +1,4 @@
-import binaryTree from '@/common/binaryTree';
+import binaryTree from '../common/binaryTree';
 import { sound } from '../common/utils';
 import { Colors } from '../common/constants';
 

@@ -1,10 +1,10 @@
-import binarySearchTree from './searchTree';
+import searchTree from '../common/searchTree';
 import { Colors } from '../common/constants';
 
 const delay = 500;
 
 function redBlackTree(animator) {
-    const Tree = binarySearchTree(animator);
+    const Tree = searchTree(animator);
     const { bgcolor, scope } = animator;
 
     function* rotateRight(node) {
@@ -92,9 +92,16 @@ function redBlackTree(animator) {
         return curr;
     };
 
+    const rotateFixup = (node, toLeft) => {
+        toLeft ? Tree.rotateLeft(node) : Tree.rotateRight(node);
+    };
+
     async function* deleteFixup(node, dbIsLeft) {
-        while (node) {
-            let sibling = node[dbIsLeft ? 'right' : 'left'];
+        let isResolved = false;
+
+        while (node && !isResolved) {
+            let sibDir = dbIsLeft ? 'right' : 'left';
+            let sibling = node[sibDir];
             if (!sibling) break;
 
             // Case 1: Sibling is red
@@ -104,11 +111,10 @@ function redBlackTree(animator) {
                 updateColor(node, 'R');
                 updateColor(sibling, 'B');
                 yield delay;
-                if (dbIsLeft) Tree.rotateLeft(node);
-                else Tree.rotateRight(node);
+                rotateFixup(node, dbIsLeft);
                 yield delay * 2;
                 await bgcolor(sibling.id, Colors.white);
-                sibling = node[dbIsLeft ? 'right' : 'left'];
+                sibling = node[sibDir];
                 if (!sibling) break;
             }
 
@@ -117,7 +123,7 @@ function redBlackTree(animator) {
             yield delay;
 
             const nearChild = sibling[dbIsLeft ? 'left' : 'right'];
-            const farChild = sibling[dbIsLeft ? 'right' : 'left'];
+            const farChild = sibling[sibDir];
             const nearIsBlack = !nearChild || nearChild.color === 'B';
             const farIsBlack = !farChild || farChild.color === 'B';
 
@@ -128,40 +134,38 @@ function redBlackTree(animator) {
                 yield delay;
                 if (node.color === 'R') {
                     updateColor(node, 'B');
+                    isResolved = true;
                     yield delay;
-                    break;
+                } else {
+                    dbIsLeft = node.isLeft;
+                    node = node.parent;
                 }
-                if (!node.parent) break;
-                dbIsLeft = node.isLeft;
-                node = node.parent;
-                continue;
-            }
+            } else {
+                if (farIsBlack) {
+                    // Case 3: Near child is red, far child is black
+                    updateColor(nearChild, 'B');
+                    updateColor(sibling, 'R');
+                    yield delay;
+                    rotateFixup(sibling, !dbIsLeft);
+                    yield delay * 2;
+                    await bgcolor(sibling.id, Colors.white);
+                    sibling = node[sibDir];
+                    await bgcolor(sibling.id, Colors.compare);
+                    yield delay;
+                }
 
-            if (farIsBlack) {
-                // Case 3: Near child is red, far child is black
-                updateColor(nearChild, 'B');
-                updateColor(sibling, 'R');
+                // Case 4: Far child is red
+                const newFarChild = sibling[sibDir];
+                updateColor(sibling, node.color);
+                updateColor(node, 'B');
+                if (newFarChild) updateColor(newFarChild, 'B');
                 yield delay;
-                if (dbIsLeft) Tree.rotateRight(sibling);
-                else Tree.rotateLeft(sibling);
+                rotateFixup(node, dbIsLeft);
                 yield delay * 2;
                 await bgcolor(sibling.id, Colors.white);
-                sibling = node[dbIsLeft ? 'right' : 'left'];
-                await bgcolor(sibling.id, Colors.compare);
+                isResolved = true;
                 yield delay;
             }
-
-            // Case 4: Far child is red
-            const newFarChild = sibling[dbIsLeft ? 'right' : 'left'];
-            updateColor(sibling, node.color);
-            updateColor(node, 'B');
-            if (newFarChild) updateColor(newFarChild, 'B');
-            yield delay;
-            await bgcolor(sibling.id, Colors.white);
-            if (dbIsLeft) Tree.rotateLeft(node);
-            else Tree.rotateRight(node);
-            yield delay * 2;
-            break;
         }
 
         // Ensure root is always black
@@ -203,9 +207,9 @@ function redBlackTree(animator) {
             const wasLeft = physicalNode.isLeft;
 
             const affected = yield* Tree.deleteNode(num);
-            if (!affected) return;
+            if (!affected) return affected;
 
-            yield delay;
+            yield delay * 2;
 
             // After two-children deletion, the successor's DOM element
             // at the target position still shows its old color tag.

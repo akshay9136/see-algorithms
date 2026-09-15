@@ -1,10 +1,10 @@
-import binarySearchTree from './searchTree';
+import searchTree from '../common/searchTree';
 import { Colors } from '../common/constants';
 
 const delay = 500;
 
 function avlTree(animator, setCurrentStep) {
-    const Tree = binarySearchTree(animator);
+    const Tree = searchTree(animator);
     const { bgcolor, scope } = animator;
 
     const height = (node) => (node ? node.height : -1);

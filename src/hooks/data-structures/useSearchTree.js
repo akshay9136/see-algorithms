@@ -2,7 +2,7 @@ import { Draggable, Edge, Node } from '@/components/common';
 import { useEffect, useState } from 'react';
 import { useAnimator, useSummary, useTreeControls, useTreeUrl } from '@/hooks';
 import { randomKeys, showError, sleep } from '@/common/utils';
-import searchTree from '@/helpers/searchTree';
+import searchTree from '@/common/searchTree';
 import Paper from '@mui/material/Paper';
 
 var Tree, deleted = {};

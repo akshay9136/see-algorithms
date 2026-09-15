@@ -1,11 +1,11 @@
-import binarySearchTree from './searchTree';
-import { showError } from '@/common/utils';
+import searchTree from '../common/searchTree';
+import { showError } from '../common/utils';
 import { Colors } from '../common/constants';
 
 const delay = 500;
 
 function splayTree(animator) {
-    const Tree = binarySearchTree(animator);
+    const Tree = searchTree(animator);
     const { bgcolor } = animator;
 
     function* rotateRight(node) {

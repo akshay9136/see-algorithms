@@ -1,6 +1,6 @@
-import binaryTree from '@/common/binaryTree';
-import { showError, sound } from '../common/utils';
-import { Colors } from '../common/constants';
+import binaryTree from './binaryTree';
+import { showError, sound } from './utils';
+import { Colors } from './constants';
 
 const delay = 500;
 
