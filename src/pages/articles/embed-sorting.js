@@ -1,5 +1,5 @@
 import { Article, Section } from '@/components/common';
-import { Paper, Typography } from '@mui/material';
+import { Divider, Paper, Typography } from '@mui/material';
 import { SITE_URL } from '@/utils/constants';
 
 export default function EmbedSorting() {
@@ -58,7 +58,7 @@ export default function EmbedSorting() {
         <Paper className="pseudoCode" sx={{ mb: 3 }}>
           <pre style={{ margin: '4px 0' }}>
             {`<iframe
-    src="${SITE_URL}/sorting/embed/MergeSort"
+    src="${SITE_URL}/sorting/embed/BubbleSort"
     width="100%"
     height="450px"
     frameborder="0">
@@ -71,7 +71,34 @@ export default function EmbedSorting() {
           editors like Notion or Medium allow you to simply paste the URL and it
           will automatically convert it into an interactive embed.
         </Typography>
+
+        <Typography paragraph>
+          Every sorting page accepts an optional <code>skeleton</code> query
+          parameter that lets you pre-populate the visualizer with a specific
+          array. This is ideal for linking readers directly to an algorithm
+          running on a dataset that is relevant to your explanation.
+        </Typography>
+
+        <Paper className="pseudoCode" sx={{ mb: 3 }}>
+          <pre style={{ margin: 0 }}>
+            {`${SITE_URL}/sorting/MergeSort?skeleton=[36,27,43,5,9,82,10]`}
+          </pre>
+        </Paper>
+
+        <Typography variant="h6" sx={{ mb: 2 }}>
+          Payload Constraints
+        </Typography>
+
+        <Paper className="pseudoCode" sx={{ mb: 3 }}>
+          <pre>
+            {`skeleton = a flat JSON array of integers
+length   = 5 to 12 elements
+values   = each integer in the range [-99, 999]`}
+          </pre>
+        </Paper>
       </Section>
+
+      <Divider sx={{ mb: 4 }} />
 
       <Section title="Live Preview" sx={{ minWidth: 600 }}>
         <Typography color="text.secondary" paragraph>
@@ -79,7 +106,7 @@ export default function EmbedSorting() {
         </Typography>
         <Paper variant="outlined" sx={{ borderRadius: 2, overflow: 'hidden' }}>
           <iframe
-            src="/sorting/embed/MergeSort"
+            src="/sorting/embed/MergeSort?skeleton=[36,27,43,5,9,82,10]"
             width="100%"
             height="500px"
             style={{ border: 'none', display: 'block' }}

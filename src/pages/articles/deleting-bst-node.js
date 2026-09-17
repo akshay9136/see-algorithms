@@ -59,8 +59,9 @@ export default function DeletingBstNode() {
         </Typography>
 
         <Paper className="pseudoCode" sx={{ my: 3 }}>
-          <pre style={{ margin: 0 }}>
+          <pre>
             {`Before:          After deleting 3:
+
       5                5
      / \\              / \\
     3   7            ·   7
@@ -88,8 +89,9 @@ Node 3 is a leaf → simply remove it`}
         </Typography>
 
         <Paper className="pseudoCode" sx={{ my: 3 }}>
-          <pre style={{ margin: 0 }}>
+          <pre>
             {`Before:          After deleting 3:
+
       5                5
      / \\              / \\
     3   7            2   7
@@ -135,6 +137,22 @@ Node 3 has one child (2) → replace 3 with 2`}
           Case 2.
         </Typography>
 
+        <Paper className="pseudoCode" sx={{ my: 3 }}>
+          <pre>
+            {`Before:          After deleting 5 (inorder successor = 6):
+
+      5                6
+     / \\              / \\
+    3   8            3   8
+       / \\              /
+      6   9            7
+       \\
+        7
+
+Node 5 has two children → replace with 6, then delete 6`}
+          </pre>
+        </Paper>
+
         <Paper sx={styles.card}>
           <img src="/gifs/delete-bst-node.gif" alt="Delete Node" width="100%" />
         </Paper>
@@ -148,7 +166,7 @@ Node 3 has one child (2) → replace 3 with 2`}
         </Typography>
 
         <Paper className="pseudoCode" sx={{ my: 3 }}>
-          <pre style={{ margin: 0 }}>
+          <pre>
             {`Operation               Balanced BST    Skewed BST
 ────────────────────    ────────────    ──────────
 Find the node           O(log n)        O(n)

@@ -416,6 +416,11 @@ export const metaConfigs = {
     description:
       'Compare B-Tree and B+ Tree side-by-side. See how the copy-up vs move-up split difference shapes the two structures, and observe the B+ Tree leaf linked list in action.',
   },
+  'deleting-rbt-node': {
+    title: 'Deletion in a Red-Black Tree',
+    description:
+      'Learn how Red-Black Trees delete nodes and fix violations using the double-black concept and four fixup cases — resolved through rotations and recoloring.',
+  },
 };
 
 export const getSeoConfig = (pageId, pathname) => {

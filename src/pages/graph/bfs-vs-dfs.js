@@ -5,6 +5,7 @@ import { Visualizer as dfsVisualizer } from './DFS';
 import { useGraphScope } from '@/hooks';
 import { useEffect } from 'react';
 import { muteSounds } from '@/common/utils';
+import Link from 'next/link';
 
 export default function BfsVsDfs(props) {
   const [bfsScope, bfsRef] = useGraphScope();
@@ -17,12 +18,13 @@ export default function BfsVsDfs(props) {
       <Typography>
         Compare <strong>Breadth-First Search</strong> and{' '}
         <strong>Depth-First Search</strong> side-by-side to witness their
-        distinct traversal patterns in real-time. While <strong>BFS</strong>{' '}
-        plunges deep into the graph&apos;s branches before backtracking,{' '}
-        <strong>DFS</strong> radiates discovery level-by-level to find the
-        shortest path. Sketch your custom graph, choose a starting node, and hit
-        the play button to watch these two fundamental algorithms compete on the
-        same structure.
+        distinct traversal patterns in real-time. While{' '}
+        <Link href="/graph/BFS">BFS</Link> plunges deep into the graph&apos;s
+        branches before backtracking,{' '}
+        <Link href="/graph/DFS">DFS</Link> radiates discovery level-by-level to
+        find the shortest path. Sketch your custom graph, choose a starting node,
+        and hit the play button to watch these two fundamental algorithms
+        compete on the same structure.
       </Typography>
 
       <Box display="flex" flexWrap="wrap" gap={4}>

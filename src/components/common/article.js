@@ -24,7 +24,7 @@ function formatDate(iso) {
   if (!iso) return null;
   return new Date(iso).toLocaleDateString('en-US', {
     year: 'numeric',
-    month: 'long',
+    month: 'short',
     day: 'numeric',
   });
 }

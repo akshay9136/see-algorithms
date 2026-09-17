@@ -5,7 +5,7 @@ const delay = 500;
 
 function redBlackTree(animator) {
     const Tree = searchTree(animator);
-    const { bgcolor, scope } = animator;
+    const { bgcolor, scope, txy, animate } = animator;
 
     function* rotateRight(node) {
         const left = node.left;
@@ -92,6 +92,14 @@ function redBlackTree(animator) {
         return curr;
     };
 
+    const showDbGhost = (nodeId) => {
+        animate(nodeId, { opacity: 0.3 });
+        const el = scope.current.querySelector(nodeId);
+        el.textContent = '';
+        el.style.outline = '2px dashed';
+        el.style.outlineOffset = '2px'
+    };
+
     const rotateFixup = (node, toLeft) => {
         toLeft ? Tree.rotateLeft(node) : Tree.rotateRight(node);
     };
@@ -123,9 +131,9 @@ function redBlackTree(animator) {
             yield delay;
 
             const nearChild = sibling[dbIsLeft ? 'left' : 'right'];
-            const farChild = sibling[sibDir];
+            const farChild  = sibling[sibDir];
             const nearIsBlack = !nearChild || nearChild.color === 'B';
-            const farIsBlack = !farChild || farChild.color === 'B';
+            const farIsBlack  = !farChild  || farChild.color  === 'B';
 
             if (nearIsBlack && farIsBlack) {
                 // Case 2: Both children of sibling are black
@@ -154,7 +162,7 @@ function redBlackTree(animator) {
                     yield delay;
                 }
 
-                // Case 4: Far child is red
+                // Case 4: Far child is red — terminal rotation
                 const newFarChild = sibling[sibDir];
                 updateColor(sibling, node.color);
                 updateColor(node, 'B');
@@ -198,18 +206,27 @@ function redBlackTree(animator) {
                 return;
             }
 
-            const hasTwoChild = Boolean(target.left && target.right);
+            const hasTwoChild  = Boolean(target.left && target.right);
             const physicalNode = hasTwoChild ? findSuccessor(target) : target;
 
-            // Save state of the physically removed node before BST deletion mutates the tree
+            // Capture state before BST deletion mutates the tree
             const deletedColor = physicalNode.color;
             const hasChild = Boolean(physicalNode.left || physicalNode.right);
             const wasLeft = physicalNode.isLeft;
+            const px = physicalNode.x;
+            const py = physicalNode.y;
 
+            // Remember the id of the node about to be physically removed so
+            // we can show it as double black (black-leaf case only).
+            const ghostId = deletedColor === 'B' && !hasChild
+                ? target.id
+                : null;
+
+            // BST deletion
             const affected = yield* Tree.deleteNode(num);
             if (!affected) return affected;
 
-            yield delay * 2;
+            yield delay;
 
             // After two-children deletion, the successor's DOM element
             // at the target position still shows its old color tag.
@@ -220,20 +237,23 @@ function redBlackTree(animator) {
                 yield delay;
             }
 
-            // Deleting a red node preserves all Red-Black properties
+            // Deleting a red node preserves all red-black properties
             if (deletedColor === 'R') return affected;
 
             // Black node deletion requires rebalancing / recoloring
             if (hasChild) {
-                // Affected child must be red — recolor to black
                 await bgcolor(affected.id, Colors.compare);
                 yield delay;
                 updateColor(affected, 'B');
                 await bgcolor(affected.id, Colors.white);
-            } else {
-                // Black leaf removed — double-black fixup needed
-                yield* deleteFixup(affected, wasLeft);
+                return affected;
             }
+
+            if (hasTwoChild) txy(ghostId, px, py, 0);
+            showDbGhost(ghostId);
+            yield delay * 2;
+            yield* deleteFixup(affected, wasLeft);
+            animate(ghostId, { opacity: 0 });
 
             return affected;
         },

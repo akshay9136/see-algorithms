@@ -16,6 +16,7 @@ export const SUMMARY_COST = {
   RedBlackTree: 5,
   SplayTree: 5,
   BTree: 5,
+  'B+Tree': 5,
   HuffmanCoding: 5,
 };
 

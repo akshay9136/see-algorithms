@@ -96,6 +96,34 @@ export const categories = groupBy(algorithms, 'category');
 
 export const articles = [
   {
+    id: 'deleting-rbt-node',
+    title: 'Deletion in a Red-Black Tree',
+    summary:
+      'A step-by-step breakdown of how Red-Black Trees remove nodes and restore balance through four fixup cases.',
+    category: 'Advanced Trees',
+    date: '2026-09-16',
+    quickAnswer:
+      'Red-Black Tree deletion first performs a BST splice-out. If the removed node was red, no fixup is needed. If it was black, the surviving child may become double-black, triggering a fixup loop with four cases: (1) red sibling — rotate and recolor; (2) black sibling with two black children — recolor sibling red, push extra black up; (3) black sibling with near-red child — rotate sibling; (4) black sibling with far-red child — rotate parent, recolor. Case 4 always terminates the loop.',
+    faqs: [
+      {
+        q: 'How does deletion work in a Red-Black Tree?',
+        a: 'Red-Black Tree deletion starts with a standard BST deletion. The physically removed node (the splice-out node) is always one with at most one child. If that node is red, no fixup is needed. If it is black, the tree enters a fixup loop that uses recoloring and rotations across four cases to restore the black-height balance.',
+      },
+      {
+        q: 'What is a double-black node in a Red-Black Tree?',
+        a: 'A double-black node is a conceptual placeholder that represents an extra unit of blackness at a position where a black node was removed. It violates the Red-Black Tree property that all paths to null leaves must have the same number of black nodes. The fixup loop eliminates this extra blackness through rotations and recolorings.',
+      },
+      {
+        q: 'How many rotations does Red-Black Tree deletion require?',
+        a: 'Red-Black Tree deletion requires at most three rotations in total. Case 4 of the fixup always terminates the loop with a single rotation, and Cases 1 and 3 each contribute at most one rotation before converting to another case. This is fewer than AVL Tree deletion, which may rotate all the way up to the root.',
+      },
+      {
+        q: 'What is the time complexity of Red-Black Tree deletion?',
+        a: 'Red-Black Tree deletion is O(log n) in both time and the number of fixup iterations. The tree height is bounded by 2·log₂(n+1), ensuring the fixup loop propagates at most O(log n) levels upward. Rotations are O(1) and happen at most 3 times per deletion.',
+      },
+    ],
+  },
+  {
     id: 'why-sorting-matters',
     title: 'Why Sorting is Important',
     summary:
