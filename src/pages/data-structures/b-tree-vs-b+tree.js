@@ -1,21 +1,36 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { useBPlusTree, useBTree } from '@/hooks/data-structures';
+import { muteSounds, randomKeys } from '@/common/utils';
 import { useEffect } from 'react';
-import { muteSounds } from '@/common/utils';
+import { useBPlusTree, useBTree } from '@/hooks/data-structures';
+import useTreeUrl from '@/hooks/useTreeUrl';
 import DSInput from '@/components/common/ds-input';
 import Link from 'next/link';
 
 export default function BTreeVsBPlusTree(props) {
-  const { animation: bTreeAnimation, buttons: bTreeButtons } =
-    useBTree({ allowRefresh: false });
-  const { animation: bPlusAnimation, buttons: bPlusButtons } =
-    useBPlusTree({ allowRefresh: false });
+  const [nodes, isReady] = useTreeUrl();
+  const {
+    animation: bTreeAnimation,
+    buttons: bTreeButtons,
+    newTree: bTree,
+  } = useBTree({ allowRefresh: false });
+  const {
+    animation: bPlusAnimation,
+    buttons: bPlusButtons,
+    newTree: bPlusTree,
+  } = useBPlusTree({ allowRefresh: false });
 
-  // Remove Save and Share buttons (last 2) for both trees
+  // Remove Save and Share buttons (last 2)
   bTreeButtons.splice(5, 2);
-  bPlusButtons.splice(5, 2);
 
   useEffect(muteSounds, []);
+
+  useEffect(() => {
+    if (isReady) {
+      const keys = nodes || randomKeys();
+      bTree(keys);
+      bPlusTree(keys);
+    }
+  }, [isReady, nodes]);
 
   return (
     <Stack spacing={3}>

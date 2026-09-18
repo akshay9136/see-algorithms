@@ -6,9 +6,8 @@ import Link from 'next/link';
 
 export default function AVL(props) {
   const { saveData, ...rest } = useSavedData();
-  const { algorithm, animation, buttons, summary, refresh } = useAvlTree({
-    saveData,
-  });
+  const { algorithm, animation, buttons, summary, refresh } =
+    useAvlTree({ saveData });
 
   return (
     <>
@@ -23,7 +22,7 @@ export default function AVL(props) {
       </Typography>
 
       <Box display="flex" gap={4}>
-        <Section>
+        <Section variant="h6" title="How It Works">
           <Typography paragraph>
             Every time a node is inserted or deleted, the AVL tree checks the{' '}
             <strong>balance factor</strong> of each affected node. If a node
@@ -49,6 +48,7 @@ export default function AVL(props) {
             </li>
           </Typography>
         </Section>
+
         <Section variant="h6" title="Step by Step">
           <Typography component="ol" sx={{ '& li': { mb: 1 }, pl: 2 }}>
             <li>

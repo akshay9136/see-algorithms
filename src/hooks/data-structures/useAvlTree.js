@@ -132,5 +132,5 @@ function rebalance(node):
 
     const refresh = controls.REFRESH.onClick;
 
-    return { algorithm, animation, buttons, summary, refresh };
+    return { algorithm, animation, buttons, summary, refresh, newTree };
 }

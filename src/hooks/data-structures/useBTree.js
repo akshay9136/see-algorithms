@@ -137,7 +137,7 @@ export default function useBTree({ saveData, allowRefresh = true }) {
 
   const refresh = controls.REFRESH.onClick;
 
-  return { animation, buttons, summary, refresh };
+  return { animation, buttons, summary, refresh, newTree };
 }
 
 const styles = {

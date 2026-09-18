@@ -1,20 +1,37 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { useAvlTree, useRedBlackTree } from '@/hooks/data-structures';
+import { muteSounds, randomKeys } from '@/common/utils';
 import { useEffect } from 'react';
-import { muteSounds } from '@/common/utils';
+import { useAvlTree, useRedBlackTree } from '@/hooks/data-structures';
+import { assignColors } from '@/helpers/redBlackTree';
+import useTreeUrl from '@/hooks/useTreeUrl';
 import DSInput from '@/components/common/ds-input';
 import Link from 'next/link';
 
 export default function AVLvsRedBlack(props) {
-  const { animation: avlAnimation, buttons: avlButtons } =
-    useAvlTree({ allowRefresh: false });
-  const { animation: rbtAnimation, buttons: rbtButtons } = useRedBlackTree({});
+  const [nodes, isReady] = useTreeUrl();
+  const {
+    animation: avlAnimation,
+    buttons: avlButtons,
+    newTree: avlTree,
+  } = useAvlTree({ allowRefresh: false });
+  const {
+    animation: rbtAnimation,
+    buttons: rbtButtons,
+    newTree: redBlackTree,
+  } = useRedBlackTree({ allowRefresh: false });
 
   // remove last two buttons (Save and Share)
   avlButtons.splice(5, 2);
-  avlButtons.splice(1, 1); // remove delete button
 
   useEffect(muteSounds, []);
+
+  useEffect(() => {
+    if (isReady) {
+      const keys = nodes || randomKeys();
+      avlTree(keys);
+      redBlackTree(assignColors(keys));
+    }
+  }, [isReady, nodes]);
 
   return (
     <Stack spacing={3}>

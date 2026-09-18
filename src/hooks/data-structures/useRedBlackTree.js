@@ -1,13 +1,13 @@
 import { Draggable, Edge, Node } from '@/components/common';
 import { useEffect, useState } from 'react';
 import { useAnimator, useSummary, useTreeControls, useTreeUrl } from '@/hooks';
-import { showError, sleep } from '@/common/utils';
-import redBlackTree from '@/helpers/redBlackTree';
+import { randomKeys, showError, sleep } from '@/common/utils';
+import redBlackTree, { assignColors } from '@/helpers/redBlackTree';
 import Paper from '@mui/material/Paper';
 
 var Tree, deleted = {};
 
-export default function useRedBlackTree({ saveData }) {
+export default function useRedBlackTree({ saveData, allowRefresh = true }) {
     const [numbers, setNumbers] = useState([]);
     const [summary, explain, abort] = useSummary();
     const [scope, animator] = useAnimator();
@@ -44,6 +44,7 @@ export default function useRedBlackTree({ saveData }) {
     }
 
     const newTree = async (keys) => {
+        keys = keys || assignColors(randomKeys());
         setNumbers(keys.map((a) => a[0]));
         Tree = redBlackTree(animator);
         deleted = {};
@@ -77,13 +78,14 @@ export default function useRedBlackTree({ saveData }) {
         controls.CLEAR,
         controls.UNDO,
         controls.REDO,
+        controls.REFRESH,
         ...(saveData ? [saveButton] : []),
         controls.SHARE,
     ];
 
     useEffect(() => {
-        if (nodes) newTree(nodes);
-    }, [nodes]);
+        if (isReady && allowRefresh) newTree(nodes);
+    }, [isReady]);
 
     const animation = (
       <Paper ref={scope} className="resizable">
@@ -106,5 +108,5 @@ export default function useRedBlackTree({ saveData }) {
 
     const refresh = controls.REFRESH.onClick;
 
-    return { animation, buttons, summary, refresh };
+    return { animation, buttons, summary, refresh, newTree };
 }

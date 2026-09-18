@@ -261,3 +261,77 @@ function redBlackTree(animator) {
 }
 
 export default redBlackTree;
+
+export function assignColors(array) {
+  if (!array) return [];
+
+  class Node {
+    constructor(value) {
+      this.value = value;
+      this.left = null;
+      this.right = null;
+    }
+  }
+
+  // Build BST using the given insertion order
+  function insert(root, value) {
+    if (!root) return new Node(value);
+
+    if (value < root.value) {
+      root.left = insert(root.left, value);
+    } else {
+      root.right = insert(root.right, value);
+    }
+
+    return root;
+  }
+
+  let root = null;
+
+  for (const value of array) root = insert(root, value);
+
+  function height(node) {
+    if (!node) return 0;
+    return 1 + Math.max(height(node.left), height(node.right));
+  }
+
+  function validate(node, bh, color) {
+    return canColor(node.left, bh, color) && canColor(node.right, bh, color);
+  }
+
+  function canColor(node, bh, parentColor) {
+    if (!node) return bh === 0;
+
+    node.color = 'B'; // Try Black first
+    if (validate(node, bh - 1, 'B')) return true;
+
+    // Try Red (only valid if parent is Black)
+    if (parentColor === 'B') {
+      node.color = 'R';
+      if (validate(node, bh, 'R')) return true;
+    }
+
+    return false;
+  }
+
+  // Find the valid black-height for the tree (root is always Black)
+  const h = height(root);
+
+  for (let bh = 1; bh <= h; bh++) {
+    root.color = 'B';
+    if (validate(root, bh - 1, 'B')) break;
+  }
+
+  const nodes = [];
+
+  function collect(node) {
+    if (!node) return;
+    nodes.push(node);
+    collect(node.left);
+    collect(node.right);
+  }
+
+  collect(root);
+
+  return nodes.map(node => [node.value, node.color]);
+}
