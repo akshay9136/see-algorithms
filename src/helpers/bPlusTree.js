@@ -132,8 +132,8 @@ function bPlusTree({ bgcolor }) {
 
         collect(root);
 
-        // Horizontal leaf-chain links
         let leaf = firstLeaf;
+        // Horizontal leaf-chain links
         while (leaf && leaf.next) {
             const b = leaf.next;
             leafLinks.push({
