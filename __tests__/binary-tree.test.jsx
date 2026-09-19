@@ -14,7 +14,7 @@ import AVL from '@/pages/data-structures/AVL';
 import RBT from '@/pages/data-structures/RedBlackTree';
 
 describe('Binary search tree visualization', () => {
-  var container;
+  let container;
 
   beforeEach(async () => {
     useRouter.mockReturnValue({
@@ -22,6 +22,7 @@ describe('Binary search tree visualization', () => {
       isReady: true,
       pathname: '/tree/BST',
     });
+
     container = await renderTree(BST);
   });
 
@@ -77,15 +78,17 @@ describe('Binary search tree visualization', () => {
     });
   });
 
-  test('renders saved data', async () => {
+  test('renders saved data correctly', async () => {
     useSession.mockReturnValue({
       data: { user: { email: 'test@example.com' } },
     });
+
     const savedData = {
       id: '123',
       createdAt: new Date().toISOString(),
       data: JSON.stringify([50, 28, 41, 62, 75]),
     };
+
     global.fetch.mockImplementation(() =>
       Promise.resolve({
         ok: true,
@@ -93,6 +96,7 @@ describe('Binary search tree visualization', () => {
         json: () => Promise.resolve([savedData]),
       }),
     );
+
     container = await renderTree(BST);
     const openBtn = await screen.findByText('Saved Data');
     fireEvent.click(openBtn);
@@ -103,10 +107,25 @@ describe('Binary search tree visualization', () => {
       expect(container.querySelectorAll('.node')).toHaveLength(5);
     });
   });
+
+  test('shows error when inserting duplicate node', async () => {
+    await insertNode(50);
+    // error toast should appear (no extra node added)
+    const nodes = container.querySelectorAll('.node');
+    expect(nodes).toHaveLength(6);
+    await screen.findByRole('presentation');
+  });
+
+  test('shows no change when deleting non-existent node', async () => {
+    await deleteNode(99);
+    // Tree unchanged — still 6 nodes
+    const nodes = container.querySelectorAll('.node');
+    expect(nodes).toHaveLength(6);
+  });
 });
 
 describe('AVL tree visualization', () => {
-  var container;
+  let container;
 
   beforeEach(async () => {
     const query = { skeleton: 'WzMyLDIyLDc1LDY1XQ==' }; // 4 nodes
@@ -141,7 +160,7 @@ describe('AVL tree visualization', () => {
 });
 
 describe('Red-Black tree visualization', () => {
-  var container;
+  let container;
 
   beforeEach(async () => {
     const skeleton =
@@ -152,6 +171,7 @@ describe('Red-Black tree visualization', () => {
       isReady: true,
       pathname: '/tree/RedBlackTree',
     });
+
     container = await renderTree(RBT);
   });
 

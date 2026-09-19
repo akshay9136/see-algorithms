@@ -75,19 +75,20 @@ function searchTree(animator) {
         return node;
     };
 
+    const _insert = (num, node = Tree.root()) => {
+        if (!node) {
+            sound('pop');
+            return Tree.insert(num);
+        }
+        const isLeft = num <= node.value;
+        const next = isLeft ? 'left' : 'right';
+        return node[next]
+            ? _insert(num, node[next])
+            : Tree.insert(num, node, isLeft);
+    }
+
     return Object.freeze({
         ...Tree,
-        _insert(num, node = Tree.root()) {
-            if (!node) {
-                sound('pop');
-                return Tree.insert(num);
-            }
-            const isLeft = num <= node.value;
-            const next = isLeft ? 'left' : 'right';
-            return node[next]
-                ? this._insert(num, node[next])
-                : Tree.insert(num, node, isLeft);
-        },
         async *insert(num) {
             if (!Tree.root()) {
                 sound('pop');
@@ -101,6 +102,7 @@ function searchTree(animator) {
             await bgcolor(parent.id, Colors.white);
             return node;
         },
+        _insert,
         findNode,
         async *deleteNode(num) {
             const node = yield* findNode(num, Tree.root());

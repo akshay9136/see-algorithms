@@ -78,6 +78,7 @@ function maxHeap(animator) {
             yield delay * 2;
             yield* heapify(root, Tree.size());
         } else {
+            root.update({ deleted: true });
             Tree.root(null);
         }
     }
