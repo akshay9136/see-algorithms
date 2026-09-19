@@ -1,37 +1,33 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import { muteSounds, randomKeys } from '@/common/utils';
+import { useBinaryTree } from '@/hooks/data-structures';
 import { useEffect } from 'react';
-import { useAvlTree, useRedBlackTree } from '@/hooks/data-structures';
-import { assignColors } from '@/helpers/redBlackTree';
-import useTreeUrl from '@/hooks/useTreeUrl';
+import redBlackTree from '@/helpers/redBlackTree';
+import avlTree from '@/helpers/avlTree';
 import DSInput from '@/components/common/ds-input';
 import Link from 'next/link';
 
 export default function AVLvsRedBlack(props) {
-  const [nodes, isReady] = useTreeUrl();
-  const {
-    animation: avlAnimation,
-    buttons: avlButtons,
-    newTree: avlTree,
-  } = useAvlTree({ allowRefresh: false });
-  const {
-    animation: rbtAnimation,
-    buttons: rbtButtons,
-    newTree: redBlackTree,
-  } = useRedBlackTree({ allowRefresh: false });
+  const randomNodes = randomKeys();
 
-  // remove last two buttons (Save and Share)
-  avlButtons.splice(5, 2);
+  const { animation: avlAnimation, buttons: avlButtons } = useBinaryTree({
+    createTree: (animator) => avlTree(animator, () => {}),
+    hideButtons: ['Search'],
+    treeType: 'avl',
+    randomNodes,
+  });
+
+  const { animation: rbtAnimation, buttons: rbtButtons } = useBinaryTree({
+    createTree: (animator) => redBlackTree(animator),
+    hideButtons: ['Search'],
+    treeType: 'red-black',
+    randomNodes,
+  });
+
+  // remove last 2 buttons (Save and Share)
+  avlButtons.splice(6, 2);
 
   useEffect(muteSounds, []);
-
-  useEffect(() => {
-    if (isReady) {
-      const keys = nodes || randomKeys();
-      avlTree(keys);
-      redBlackTree(assignColors(keys));
-    }
-  }, [isReady, nodes]);
 
   return (
     <Stack spacing={3}>
@@ -47,6 +43,7 @@ export default function AVLvsRedBlack(props) {
         deeper look at how and why they differ, check out{' '}
         <Link href="/articles/avl-tree-vs-red-black">this article</Link>.
       </Typography>
+
       <Divider sx={{ my: 3 }} />
 
       <Box display="flex" flexWrap="wrap" gap={4} alignItems="end">

@@ -1,12 +1,16 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { DSInput, SavedDataList } from '@/components/common';
-import { useAlgorithm, useSavedData } from '@/hooks';
-import useSearchTree from '@/hooks/data-structures/useSearchTree';
+import { DSInput } from '@/components/common';
+import { useAlgorithm } from '@/hooks';
+import { useBinaryTree } from '@/hooks/data-structures';
+import searchTree from '@/common/searchTree';
 import Link from 'next/link';
 
 export default function BST(props) {
-  const { saveData, ...rest } = useSavedData();
-  const { animation, buttons, summary, refresh } = useSearchTree({ saveData });
+  const { animation, buttons, summary, savedData } = useBinaryTree({
+    createTree: searchTree,
+    hideButtons: ['Search'],
+    treeType: 'search',
+  });
 
   const [insertAlgo] = useAlgorithm(`
 function insert(node, key):
@@ -63,7 +67,8 @@ function insert(node, key):
           {summary}
         </Stack>
       </Box>
-      <SavedDataList onSelect={refresh} {...rest} />
+
+      {savedData}
     </>
   );
 }

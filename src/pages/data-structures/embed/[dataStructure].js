@@ -1,26 +1,49 @@
 import DSInput from '@/components/common/ds-input';
 import Stack from '@mui/material/Stack';
-import { useRouter } from 'next/router';
 import { SITE_URL } from '@/utils/constants';
+import { useRouter } from 'next/router';
 import {
-  useAvlTree,
   useBPlusTree,
   useBTree,
   useCircularQueue,
   useLinkedList,
   useMaxHeap,
-  useRedBlackTree,
-  useSearchTree,
-  useSplayTree,
+  useBinaryTree,
 } from '@/hooks/data-structures';
+import searchTree from '@/common/searchTree';
+import avlTree from '@/helpers/avlTree';
+import redBlackTree from '@/helpers/redBlackTree';
+import splayTree from '@/helpers/splayTree';
+
+const useSearchTree = () => useBinaryTree({
+  createTree: searchTree,
+  hideButtons: ['Search'],
+  treeType: 'search',
+});
+
+const useAvlTree = () => useBinaryTree({
+  createTree: (animator) => avlTree(animator, () => {}),
+  hideButtons: ['Search'],
+  treeType: 'avl',
+});
+
+const useRedBlackTree = () => useBinaryTree({
+  createTree: redBlackTree,
+  hideButtons: ['Search'],
+  treeType: 'red-black',
+});
+
+const useSplayTree = () => useBinaryTree({
+  createTree: splayTree,
+  hideButtons: ['Delete'],
+  treeType: 'splay',
+});
 
 export default function EmbedDataStructure() {
   const router = useRouter();
   const { dataStructure } = router.query;
 
-  if (dataStructure === 'LinkedList') {
-    return <LinkedList />
-  }
+  if (dataStructure === 'LinkedList') return <LinkedList />
 
   const hooks = {
     AVL: useAvlTree,

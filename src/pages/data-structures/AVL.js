@@ -1,13 +1,36 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { DSInput, SavedDataList, Section } from '@/components/common';
-import useSavedData from '@/hooks/useSavedData';
-import useAvlTree from '@/hooks/data-structures/useAvlTree';
+import { DSInput, Section } from '@/components/common';
+import { useBinaryTree } from '@/hooks/data-structures';
+import { useAlgorithm } from '@/hooks';
+import avlTree from '@/helpers/avlTree';
 import Link from 'next/link';
 
 export default function AVL(props) {
-  const { saveData, ...rest } = useSavedData();
-  const { algorithm, animation, buttons, summary, refresh } =
-    useAvlTree({ saveData });
+  const [algorithm, setCurrentStep] = useAlgorithm(`
+function rebalance(node):
+    updateHeight(node)
+    nodeBf = balanceFactor(node)
+    if nodeBf > 1:
+        if balanceFactor(node.left) >= 0:
+            rotateRight(node)
+        else:
+            rotateLeft(node.left)
+            rotateRight(node)
+    if nodeBf < -1:
+        if balanceFactor(node.right) <= 0:
+            rotateLeft(node)
+        else:
+            rotateRight(node.right)
+            rotateLeft(node)
+    if node.parent:
+        rebalance(node.parent)
+`);
+
+  const { animation, buttons, summary, savedData } = useBinaryTree({
+    createTree: (animator) => avlTree(animator, setCurrentStep),
+    hideButtons: ['Search'],
+    treeType: 'avl',
+  });
 
   return (
     <>
@@ -83,7 +106,8 @@ export default function AVL(props) {
           {summary}
         </Stack>
       </Box>
-      <SavedDataList onSelect={refresh} {...rest} />
+
+      {savedData}
     </>
   );
 }

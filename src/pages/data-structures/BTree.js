@@ -1,12 +1,10 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { DSInput, SavedDataList } from '@/components/common';
-import useSavedData from '@/hooks/useSavedData';
-import useBTree from '@/hooks/data-structures/useBTree';
+import { DSInput } from '@/components/common';
+import { useBTree } from '@/hooks/data-structures';
 import Link from 'next/link';
 
 export default function BTree(props) {
-  const { saveData, ...rest } = useSavedData();
-  const { animation, buttons, summary, refresh } = useBTree({ saveData });
+  const { animation, buttons, summary, savedData } = useBTree({});
 
   return (
     <>
@@ -40,7 +38,8 @@ export default function BTree(props) {
         </Stack>
         {summary}
       </Box>
-      <SavedDataList onSelect={refresh} {...rest} />
+
+      {savedData}
     </>
   );
 }

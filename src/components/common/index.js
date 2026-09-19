@@ -116,6 +116,7 @@ export const Edge = memo(
     return (
       <motion.div
         className={`${styles.edge} edge${index}`}
+        initial={{ opacity: 0 }}
         {...rest}
       >
         {value}

@@ -1,12 +1,15 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { DSInput, SavedDataList } from '@/components/common';
-import useSavedData from '@/hooks/useSavedData';
-import useSplayTree from '@/hooks/data-structures/useSplayTree';
+import { DSInput } from '@/components/common';
+import { useBinaryTree } from '@/hooks/data-structures';
+import splayTree from '@/helpers/splayTree';
 import Link from 'next/link';
 
 export default function SplayTree(props) {
-  const { saveData, ...rest } = useSavedData();
-  const { animation, buttons, summary, refresh } = useSplayTree({ saveData });
+  const { animation, buttons, summary, savedData } = useBinaryTree({
+    createTree: splayTree,
+    hideButtons: ['Delete'],
+    treeType: 'splay',
+  });
 
   return (
     <>
@@ -39,7 +42,8 @@ export default function SplayTree(props) {
         </Stack>
         {summary}
       </Box>
-      <SavedDataList onSelect={refresh} {...rest} />
+
+      {savedData}
     </>
   );
 }

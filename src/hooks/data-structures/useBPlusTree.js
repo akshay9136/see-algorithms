@@ -1,86 +1,14 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { useEffect, useState } from 'react';
-import { useAnimator, useSummary, useTreeControls, useTreeUrl } from '@/hooks';
-import { randomKeys, showError, sleep } from '@/common/utils';
 import { Draggable } from '@/components/common';
+import useBTreeBase from './useBTreeBase';
 import bPlusTree from '@/helpers/bPlusTree';
 import Paper from '@mui/material/Paper';
 
-var Tree;
-
-export default function useBPlusTree({ saveData, allowRefresh = true }) {
-  const [treeData, setTreeData] = useState(null);
-  const [numbers, setNumbers] = useState([]);
-  const [scope, animator] = useAnimator();
-  const [summary, explain, abort] = useSummary();
-  const [nodes, isReady] = useTreeUrl();
-
-  async function* insert(num) {
-    if (numbers.includes(num)) {
-      showError(`Key (${num}) already exists.`);
-      return;
-    }
-    if (!numbers.length) Tree = bPlusTree(animator);
-    const keys = Tree.collect();
-    explain({ keys, operation: 'Insert', input: num });
-    history.push(numbers.slice());
-    yield 500;
-    setNumbers([...numbers, num]);
-    yield* Tree.insert(num, setTreeData);
-  }
-
-  async function* search(num) {
-    const keys = Tree.collect();
-    explain({ keys, operation: 'Search', input: num });
-    yield 500;
-    const found = yield* Tree.search(num);
-    if (!found) showError(`Key (${num}) not found.`);
-  }
-
-  const newTree = async (keys) => {
-    keys = keys || randomKeys();
-    setNumbers(keys.slice());
-    Tree = bPlusTree(animator);
-    await sleep(100);
-    keys.forEach((num) => Tree._insert(num));
-    setTreeData(Tree.getSnapshot());
-  };
-
-  const { history, controls } = useTreeControls({
-    numbers,
-    setNumbers,
-    newTree,
-    collect: () => numbers.slice(),
-    onClear: () => {
-      setTreeData(null);
-      abort();
-    },
+export default function useBPlusTree({ randomNodes }) {
+  const { scope, treeData, ...rest } = useBTreeBase({
+    createTree: bPlusTree,
+    randomNodes,
   });
-
-  const saveButton = {
-    ...controls.SAVE,
-    onClick: () => saveData(numbers),
-  };
-
-  const buttons = [
-    { text: 'Insert', onClick: insert, validate: true },
-    {
-      text: 'Search',
-      onClick: search,
-      validate: true,
-      disabled: !numbers.length,
-    },
-    controls.CLEAR,
-    controls.UNDO,
-    controls.REDO,
-    controls.REFRESH,
-    ...(saveData ? [saveButton] : []),
-    controls.SHARE,
-  ];
-
-  useEffect(() => {
-    if (isReady && allowRefresh) newTree(nodes);
-  }, [nodes, isReady]);
 
   const transition = { duration: 0.5, ease: 'easeInOut' };
 
@@ -163,9 +91,7 @@ export default function useBPlusTree({ saveData, allowRefresh = true }) {
     </Paper>
   );
 
-  const refresh = controls.REFRESH.onClick;
-
-  return { animation, buttons, summary, refresh, newTree };
+  return { animation, ...rest };
 }
 
 const baseNode = {

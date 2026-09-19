@@ -187,7 +187,7 @@ function redBlackTree(animator) {
     return Object.freeze({
         ...Tree,
 
-        _insert(num, color) {
+        _insert([num, color]) {
             const node = Tree._insert(num);
             updateColor(node, color);
         },

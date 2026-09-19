@@ -1,36 +1,23 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import { muteSounds, randomKeys } from '@/common/utils';
-import { useEffect } from 'react';
 import { useBPlusTree, useBTree } from '@/hooks/data-structures';
-import useTreeUrl from '@/hooks/useTreeUrl';
+import { useEffect } from 'react';
 import DSInput from '@/components/common/ds-input';
 import Link from 'next/link';
 
 export default function BTreeVsBPlusTree(props) {
-  const [nodes, isReady] = useTreeUrl();
-  const {
-    animation: bTreeAnimation,
-    buttons: bTreeButtons,
-    newTree: bTree,
-  } = useBTree({ allowRefresh: false });
-  const {
-    animation: bPlusAnimation,
-    buttons: bPlusButtons,
-    newTree: bPlusTree,
-  } = useBPlusTree({ allowRefresh: false });
+  const randomNodes = randomKeys();
 
-  // Remove Save and Share buttons (last 2)
-  bTreeButtons.splice(5, 2);
+  const { animation: bTreeAnimation, buttons: bTreeButtons } =
+    useBTree({ randomNodes });
+
+  const { animation: bPlusAnimation, buttons: bPlusButtons } =
+    useBPlusTree({ randomNodes });
+
+  // Remove last 2 buttons (Save and Share)
+  bTreeButtons.splice(6, 2);
 
   useEffect(muteSounds, []);
-
-  useEffect(() => {
-    if (isReady) {
-      const keys = nodes || randomKeys();
-      bTree(keys);
-      bPlusTree(keys);
-    }
-  }, [isReady, nodes]);
 
   return (
     <Stack spacing={3}>
@@ -49,6 +36,7 @@ export default function BTreeVsBPlusTree(props) {
         queries much more efficient. Try inserting the same values into both to
         see how the structures diverge.
       </Typography>
+
       <Divider sx={{ my: 3 }} />
 
       <Box display="flex" flexWrap="wrap" gap={4} alignItems="end">

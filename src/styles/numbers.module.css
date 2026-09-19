@@ -42,7 +42,6 @@
     position: absolute;
     transform-origin: 0 0;
     background-color: rgba(0, 0, 0, 0.5);
-    opacity: 0;
 }
 
 .node span {
