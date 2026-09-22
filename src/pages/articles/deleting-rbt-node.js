@@ -83,8 +83,6 @@ Step 3: Physically delete the old node 25 (it's a red leaf)
         </Typography>
       </Section>
 
-      <Divider sx={{ mb: 3 }} />
-
       <Section title="Step 2 — The Child Takes Over">
         <Typography paragraph>
           If the spliced-out node is <strong>black</strong>, its only child (or

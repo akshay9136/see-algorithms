@@ -53,22 +53,10 @@ function rebalance(node):
             There are four types of rotations:
           </Typography>
           <Typography component="ul" sx={{ '& li': { mb: 1 } }}>
-            <li>
-              <strong>Right Rotation (LL)</strong> – Applied when a left child’s
-              left subtree causes imbalance.
-            </li>
-            <li>
-              <strong>Left Rotation (RR)</strong> – Applied when a right child’s
-              right subtree causes imbalance.
-            </li>
-            <li>
-              <strong>Left-Right Rotation (LR)</strong> – Applied when a left
-              child’s right subtree causes imbalance.
-            </li>
-            <li>
-              <strong>Right-Left Rotation (RL)</strong> – Applied when a right
-              child’s left subtree causes imbalance.
-            </li>
+            <li><strong>Right Rotation (LL)</strong> – Left-Left Imbalance</li>
+            <li><strong>Left Rotation (RR)</strong> – Right-Right Imbalance</li>
+            <li><strong>Left-Right Rotation (LR)</strong> – Left-Right Imbalance</li>
+            <li><strong>Right-Left Rotation (RL)</strong> – Right-Left Imbalance</li>
           </Typography>
         </Section>
 

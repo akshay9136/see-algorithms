@@ -12,7 +12,7 @@ const DSInput = forwardRef((props, ref) => {
   const [status, setStatus] = useState(0);
   const allButtons = props.allButtons || props.buttons;
 
-  const handleInput = (e) => {
+  const handleChange = (e) => {
     const value = e.target.value.trim().slice(0, 3);
     if (value.length) {
       if (!isNaN(value)) {
@@ -70,7 +70,7 @@ const DSInput = forwardRef((props, ref) => {
         className={styles.number}
         size="small"
         value={number}
-        onChange={handleInput}
+        onChange={handleChange}
       />
       <Box display="flex">
         {!props.hidePlayIcon && (

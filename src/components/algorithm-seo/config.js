@@ -314,7 +314,7 @@ export const metaConfigs = {
     ],
   },
   'B+Tree': {
-    title: 'B+ Tree Visualizer | Linked-Leaf Multi-Way Search Tree',
+    title: 'B+ Tree Visualizer | Multi-Way Search Tree',
     description:
       'Visualize B+ Trees (order 3). Insert keys and watch leaf nodes split with copy-up promotions. See the leaf linked list that enables efficient range queries.',
     howToSteps: [
@@ -386,17 +386,17 @@ export const metaConfigs = {
     description:
       'Compare multiple sorting algorithms in real-time. Watch how different approaches sort the same list of numbers simultaneously.',
   },
-  'embed-sorting': {
+  'embed-sorting-vis': {
     title: 'Embed Sorting Visualizers | Educational Tool',
     description:
       'Learn how to embed interactive sorting animations into your blog, Notion, or website. Perfect for technical articles and tutorials.',
   },
-  'embed-graph': {
+  'embed-graph-vis': {
     title: 'Embed Graph Visualizers | Interactive Pathfinding',
     description:
       'Transform your graph theory articles with interactive visualizers. Learn how to embed dynamic animations into your blog, Notion, or website.',
   },
-  'embed-data-struct': {
+  'embed-ds-vis': {
     title: 'Embed DS Visualizers | Interactive Tree Visuals',
     description:
       'Learn how to embed interactive data structure animations into your blog, Notion, or website. Perfect for technical articles and tutorials.',
@@ -412,7 +412,7 @@ export const metaConfigs = {
       'Compare the trade-offs between AVL Tree and Red-Black Tree. Watch how each structure rebalances itself during insertions in real-time.',
   },
   'b-tree-vs-b+tree': {
-    title: 'B-Tree vs B+ Tree | Side-by-Side Comparison',
+    title: 'B-Tree vs B+ Tree | Multi-Way Search Trees',
     description:
       'Compare B-Tree and B+ Tree side-by-side. See how the copy-up vs move-up split difference shapes the two structures, and observe the B+ Tree leaf linked list in action.',
   },
@@ -420,6 +420,11 @@ export const metaConfigs = {
     title: 'Deletion in a Red-Black Tree',
     description:
       'Learn how Red-Black Trees delete nodes and fix violations using the double-black concept and four fixup cases — resolved through rotations and recoloring.',
+  },
+  'avl-tree-rotations': {
+    title: 'AVL Tree Rotations | LL, RR, LR, RL',
+    description:
+      'Understand AVL tree rotations with step-by-step diagrams. Learn how Left, Right, Left-Right, and Right-Left rotations restore balance in O(1) time.',
   },
 };
 

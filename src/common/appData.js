@@ -96,6 +96,34 @@ export const categories = groupBy(algorithms, 'category');
 
 export const articles = [
   {
+    id: 'avl-tree-rotations',
+    title: 'AVL Tree Rotations Explained',
+    summary:
+      'Master the four AVL tree rotations with visual diagrams, balance factor mechanics, and clear code implementations.',
+    category: 'Advanced Trees',
+    date: '2026-09-20',
+    quickAnswer:
+      'AVL tree rotations restore balance when a node’s balance factor becomes +2 or -2. The four cases are: (1) LL Imbalance: resolved with a single Right Rotation; (2) RR Imbalance: resolved with a single Left Rotation; (3) LR Imbalance: resolved with a Left Rotation on the child followed by a Right Rotation on the node; (4) RL Imbalance: resolved with a Right Rotation on the child followed by a Left Rotation on the node.',
+    faqs: [
+      {
+        q: 'What are the four types of AVL tree rotations?',
+        a: 'The four rotations are Left-Left (LL, resolved by a single right rotation), Right-Right (RR, resolved by a single left rotation), Left-Right (LR, resolved by a left rotation on the child followed by a right rotation on the parent), and Right-Left (RL, resolved by a right rotation on the child followed by a left rotation on the parent).',
+      },
+      {
+        q: 'What is a balance factor in an AVL tree?',
+        a: 'The balance factor of a node is the difference between the height of its left subtree and the height of its right subtree (BF = height(left) - height(right)). In a valid AVL tree, the balance factor of every node must be -1, 0, or +1. If BF becomes +2 or -2, a rotation is required.',
+      },
+      {
+        q: 'Why are double rotations (LR and RL) needed in AVL trees?',
+        a: 'Double rotations are needed when an imbalance occurs on an inner branch (a zigzag shape, such as a right child of a left child). A naive single rotation would simply swing the excess weight to the opposite side without reducing the height. The first rotation straightens the zigzag into a line, and the second rotation restores balanced height.',
+      },
+      {
+        q: 'How many rotations are needed after an insertion vs deletion in an AVL tree?',
+        a: 'An insertion in an AVL tree requires at most one rotation operation (either a single or double rotation) because rebalancing the lowest unbalanced node restores that subtree to its pre-insertion height. A deletion, however, may reduce subtree height and cause an imbalance at higher ancestors, potentially requiring up to O(log n) cascading rotations up to the root.',
+      },
+    ],
+  },
+  {
     id: 'deleting-rbt-node',
     title: 'Deletion in a Red-Black Tree',
     summary:
@@ -324,7 +352,7 @@ export const articles = [
     ],
   },
   {
-    id: 'embed-sorting',
+    id: 'embed-sorting-vis',
     title: 'Embed Sorting Visualizers',
     summary:
       'Transform your sorting algorithm articles with live, interactive animations that visualize every comparison and swap.',
@@ -348,7 +376,7 @@ export const articles = [
     ],
   },
   {
-    id: 'embed-graph',
+    id: 'embed-graph-vis',
     title: 'Embed Graph Visualizers',
     summary:
       'Integrate dynamic graph visualizations into your content, letting readers explore traversals and shortest paths interactively.',
@@ -368,7 +396,7 @@ export const articles = [
     ],
   },
   {
-    id: 'embed-data-struct',
+    id: 'embed-ds-vis',
     title: 'Embed DS Visualizers',
     summary:
       'Enhance your lessons on complex data structures by integrating our interactive visualizers.',

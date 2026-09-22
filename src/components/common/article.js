@@ -209,7 +209,11 @@ export const Section = memo(function (props) {
 
 export const ListItems = memo(function (props) {
   return (
-    <Typography paragraph component="ul" sx={{ '& li': { mb: 1 } }}>
+    <Typography
+      paragraph
+      component={props.component || 'ul'}
+      sx={{ '& li': { mb: 1 } }}
+    >
       {props.children}
     </Typography>
   );
