@@ -1,4 +1,4 @@
-import { DrawGraph } from '@/components/common';
+import { DrawGraph, ListItems } from '@/components/common';
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import { useAlgorithm, useGraphScope, useSummary } from '@/hooks';
 import { hasValue, sound } from '@/common/utils';
@@ -45,7 +45,7 @@ while MST does not span all vertices:
           <Typography variant="h6" component="h2">
             Step by Step
           </Typography>
-          <Typography component="ul" sx={{ '& li': { mb: 1 }, pl: 2 }}>
+          <ListItems component="ol" sx={{ pl: 2 }}>
             <li>Initialize an empty set of edges for the MST.</li>
             <li>
               Start with an arbitrary vertex and mark it as visited (part of
@@ -59,7 +59,7 @@ while MST does not span all vertices:
               Add this edge to the MST and mark the new vertex as visited.
             </li>
             <li>Repeat until all vertices are part of the MST.</li>
-          </Typography>
+          </ListItems>
         </Stack>
       </Box>
       <Divider />

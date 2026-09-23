@@ -386,17 +386,17 @@ export const metaConfigs = {
     description:
       'Compare multiple sorting algorithms in real-time. Watch how different approaches sort the same list of numbers simultaneously.',
   },
-  'embed-sorting-vis': {
+  'embed-sorting-algo': {
     title: 'Embed Sorting Visualizers | Educational Tool',
     description:
       'Learn how to embed interactive sorting animations into your blog, Notion, or website. Perfect for technical articles and tutorials.',
   },
-  'embed-graph-vis': {
+  'embed-graph-algo': {
     title: 'Embed Graph Visualizers | Interactive Pathfinding',
     description:
       'Transform your graph theory articles with interactive visualizers. Learn how to embed dynamic animations into your blog, Notion, or website.',
   },
-  'embed-ds-vis': {
+  'embed-data-struct': {
     title: 'Embed DS Visualizers | Interactive Tree Visuals',
     description:
       'Learn how to embed interactive data structure animations into your blog, Notion, or website. Perfect for technical articles and tutorials.',

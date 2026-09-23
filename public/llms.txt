@@ -16,8 +16,8 @@
 - [AVL Tree vs Red-Black Tree](https://see-algorithms.com/articles/avl-tree-vs-red-black): Comparing strict vs relaxed self-balancing Binary Search Tree strategies.
 - [Deleting a Node in BST](https://see-algorithms.com/articles/deleting-bst-node): The three cases of BST node deletion and how ordering is preserved.
 - [Compare Sorting Algorithms](https://see-algorithms.com/articles/compare-sorting): Side-by-side real-time comparison of multiple sorting algorithms.
-- [Embed Sorting Visualizers](https://see-algorithms.com/articles/embed-sorting): How to embed interactive sorting animations into websites and blogs via iframe.
-- [Embed Graph Visualizers](https://see-algorithms.com/articles/embed-graph): How to embed interactive graph algorithm visualizers into content.
+- [Embed Sorting Visualizers](https://see-algorithms.com/articles/embed-sorting-algo): How to embed interactive sorting animations into websites and blogs via iframe.
+- [Embed Graph Visualizers](https://see-algorithms.com/articles/embed-graph-algo): How to embed interactive graph algorithm visualizers into content.
 - [Embed DS Visualizers](https://see-algorithms.com/articles/embed-data-struct): How to embed interactive data structure visualizers into content.
 - [Deletion in a Red-Black Tree](https://see-algorithms.com/articles/deleting-rbt-node): Step-by-step breakdown of how Red-Black Trees remove nodes and restore balance through four fixup cases.
 - [AVL Tree Rotations Explained](https://see-algorithms.com/articles/avl-tree-rotations): Step-by-step visual guide to LL, RR, LR, and RL rotations restoring logarithmic balance in O(1) time.

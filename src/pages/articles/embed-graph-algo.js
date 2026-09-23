@@ -2,7 +2,7 @@ import { Article, Section } from '@/components/common';
 import { Paper, Typography } from '@mui/material';
 import { SITE_URL } from '@/utils/constants';
 
-export default function EmbedGraph() {
+export default function EmbedGraphAlgo() {
   return (
     <Article
       title="Embed Graph Visualizers"

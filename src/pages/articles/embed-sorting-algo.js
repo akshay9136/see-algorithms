@@ -2,7 +2,7 @@ import { Article, Section } from '@/components/common';
 import { Divider, Paper, Typography } from '@mui/material';
 import { SITE_URL } from '@/utils/constants';
 
-export default function EmbedSorting() {
+export default function EmbedSortingAlgo() {
   return (
     <Article
       title="Embed Sorting Visualizers"

@@ -352,7 +352,7 @@ export const articles = [
     ],
   },
   {
-    id: 'embed-sorting-vis',
+    id: 'embed-sorting-algo',
     title: 'Embed Sorting Visualizers',
     summary:
       'Transform your sorting algorithm articles with live, interactive animations that visualize every comparison and swap.',
@@ -376,7 +376,7 @@ export const articles = [
     ],
   },
   {
-    id: 'embed-graph-vis',
+    id: 'embed-graph-algo',
     title: 'Embed Graph Visualizers',
     summary:
       'Integrate dynamic graph visualizations into your content, letting readers explore traversals and shortest paths interactively.',
@@ -396,7 +396,7 @@ export const articles = [
     ],
   },
   {
-    id: 'embed-ds-vis',
+    id: 'embed-data-struct',
     title: 'Embed DS Visualizers',
     summary:
       'Enhance your lessons on complex data structures by integrating our interactive visualizers.',
