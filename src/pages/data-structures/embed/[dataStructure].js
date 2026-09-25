@@ -1,4 +1,4 @@
-import DSInput from '@/components/common/ds-input';
+import { DSInput } from '@/components/common';
 import { Box, Stack } from '@mui/material';
 import { useRouter } from 'next/router';
 import {
