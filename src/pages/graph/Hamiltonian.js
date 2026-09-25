@@ -5,9 +5,7 @@ import { useGraphScope } from '@/hooks';
 import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
 
-export default function Hamiltonian(props) {
-  const [scope, graphRef] = useGraphScope();
-
+export default function Hamiltonian() {
   return (
     <Stack spacing={3}>
       <Typography>
@@ -17,27 +15,17 @@ export default function Hamiltonian(props) {
         shortest possible Hamiltonian cycle. Hamiltonian cycles are useful in
         routing, scheduling, and circuit design.
       </Typography>
-      <Stack spacing={2} ref={graphRef}>
-        <DrawGraph
-          {...props}
-          scope={scope}
-          onStart={Visualizer(scope)}
-          onClear={() => {
-            scope?.find('.ham-path').html('');
-          }}
-          allowDirected={false}
-          allowRefresh={false}
-        />
-        <Box className="alphaGrid ham-path" />
-      </Stack>
+
+      <Visualizer />
     </Stack>
   );
 }
 
-const delay = 1000;
+var src, visited;
 
-export function Visualizer(scope) {
-  var src, visited;
+export function Visualizer() {
+  const [scope, graphRef] = useGraphScope();
+  const delay = 1000;
 
   async function* start(source) {
     visited = Array(Graph.totalPoints()).fill(false);
@@ -106,5 +94,18 @@ export function Visualizer(scope) {
     yield* span(2);
   }
 
-  return start;
+  return (
+    <Stack spacing={2} ref={graphRef}>
+      <DrawGraph
+        scope={scope}
+        onStart={start}
+        onClear={() => {
+          scope?.find('.ham-path').html('');
+        }}
+        allowDirected={false}
+        allowRefresh={false}
+      />
+      <Box className="alphaGrid ham-path" />
+    </Stack>
+  );
 }

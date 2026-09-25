@@ -6,10 +6,7 @@ import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
 import Link from 'next/link';
 
-export default function Prims(props) {
-  const [summary, explain, abortSummary] = useSummary();
-  const [scope, graphRef] = useGraphScope();
-
+export default function Prims() {
   const [algorithm] = useAlgorithm(`
 MST = empty set
 mark src as visited
@@ -63,29 +60,17 @@ while MST does not span all vertices:
         </Stack>
       </Box>
       <Divider />
-      <Box display="flex" flexWrap="wrap" gap={4} ref={graphRef}>
-        <DrawGraph
-          {...props}
-          scope={scope}
-          onStart={Visualizer(scope)}
-          onClear={abortSummary}
-          weighted={true}
-          allowDirected={false}
-          explain={(source) => {
-            const matrix = scope.costMatrix();
-            explain({ matrix, source });
-          }}
-        />
-        {summary}
-      </Box>
+      <Visualizer />
     </Stack>
   );
 }
 
-const delay = 1000;
+var n, w, queue, mst;
 
-export function Visualizer(scope) {
-  var n, w, queue, mst;
+export function Visualizer() {
+  const [summary, explain, abortSummary] = useSummary();
+  const [scope, graphRef] = useGraphScope();
+  const delay = 1000;
 
   async function* start(src) {
     scope.find('.cost').each(function () {
@@ -145,5 +130,20 @@ export function Visualizer(scope) {
     }
   }
 
-  return start;
+  return (
+    <Box display="flex" flexWrap="wrap" gap={4} ref={graphRef}>
+      <DrawGraph
+        scope={scope}
+        onStart={start}
+        onClear={abortSummary}
+        weighted={true}
+        allowDirected={false}
+        explain={(source) => {
+          const matrix = scope.costMatrix();
+          explain({ matrix, source });
+        }}
+      />
+      {summary}
+    </Box>
+  );
 }

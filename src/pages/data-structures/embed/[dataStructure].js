@@ -1,6 +1,5 @@
 import DSInput from '@/components/common/ds-input';
-import Stack from '@mui/material/Stack';
-import { SITE_URL } from '@/utils/constants';
+import { Box, Stack } from '@mui/material';
 import { useRouter } from 'next/router';
 import {
   useBPlusTree,
@@ -10,40 +9,46 @@ import {
   useMaxHeap,
   useBinaryTree,
 } from '@/hooks/data-structures';
+import { SITE_URL } from '@/utils/constants';
 import searchTree from '@/common/searchTree';
 import avlTree from '@/helpers/avlTree';
 import redBlackTree from '@/helpers/redBlackTree';
 import splayTree from '@/helpers/splayTree';
 
-const useSearchTree = () => useBinaryTree({
-  createTree: searchTree,
-  hideButtons: ['Search'],
-  treeType: 'search',
-});
+const useSearchTree = () =>
+  useBinaryTree({
+    createTree: searchTree,
+    hideButtons: ['Search'],
+    treeType: 'search',
+  });
 
-const useAvlTree = () => useBinaryTree({
-  createTree: (animator) => avlTree(animator, () => {}),
-  hideButtons: ['Search'],
-  treeType: 'avl',
-});
+const useAvlTree = () =>
+  useBinaryTree({
+    createTree: (animator) => avlTree(animator, () => {}),
+    hideButtons: ['Search'],
+    treeType: 'avl',
+  });
 
-const useRedBlackTree = () => useBinaryTree({
-  createTree: redBlackTree,
-  hideButtons: ['Search'],
-  treeType: 'red-black',
-});
+const useRedBlackTree = () =>
+  useBinaryTree({
+    createTree: redBlackTree,
+    hideButtons: ['Search'],
+    treeType: 'red-black',
+  });
 
-const useSplayTree = () => useBinaryTree({
-  createTree: splayTree,
-  hideButtons: ['Delete'],
-  treeType: 'splay',
-});
+const useSplayTree = () =>
+  useBinaryTree({
+    createTree: splayTree,
+    hideButtons: ['Delete'],
+    treeType: 'splay',
+  });
 
 export default function EmbedDataStructure() {
   const router = useRouter();
-  const { dataStructure } = router.query;
+  if (!router.isReady) return <div>Loading...</div>;
 
-  if (dataStructure === 'LinkedList') return <LinkedList />
+  const { dataStructure } = router.query;
+  if (dataStructure === 'LinkedList') return <LinkedList />;
 
   const hooks = {
     AVL: useAvlTree,
@@ -69,7 +74,10 @@ function Visualizer({ useHook }) {
   const { animation, buttons } = useHook({});
 
   return (
-    <Stack spacing={3} position="relative">
+    <Box
+      sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}
+      position="relative"
+    >
       <DSInput buttons={buttons} />
       {animation}
       <a
@@ -80,7 +88,7 @@ function Visualizer({ useHook }) {
       >
         See Algorithms
       </a>
-    </Stack>
+    </Box>
   );
 }
 
@@ -89,11 +97,7 @@ function LinkedList() {
 
   return (
     <Stack spacing={3} position="relative">
-      <DSInput
-        buttons={buttons.slice(0, 2)}
-        hidePlayIcon
-        ref={inputRefs[0]}
-      />
+      <DSInput buttons={buttons.slice(0, 2)} hidePlayIcon ref={inputRefs[0]} />
       <DSInput
         buttons={buttons.slice(2)}
         label="Enter an index: "

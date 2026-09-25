@@ -6,10 +6,7 @@ import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
 import Link from 'next/link';
 
-export default function Dijkstras(props) {
-  const [summary, explain, abortSummary] = useSummary();
-  const [scope, graphRef] = useGraphScope();
-
+export default function Dijkstras() {
   const [algorithm] = useAlgorithm(`
 dist = map vertex -> Infinity
 dist[src] = 0
@@ -54,29 +51,17 @@ function relax(u, d):
         {relaxAlgo}
       </Box>
       <br />
-      <Box display="flex" gap={3} flexWrap="wrap" ref={graphRef}>
-        <DrawGraph
-          {...props}
-          scope={scope}
-          onStart={Visualizer(scope)}
-          onClear={abortSummary}
-          weighted={true}
-          explain={(source) => {
-            const matrix = scope.costMatrix();
-            explain({ matrix, source });
-          }}
-        />
-        <Divider orientation="vertical" flexItem />
-        {summary}
-      </Box>
+      <Visualizer />
     </Stack>
   );
 }
 
-const delay = 1000;
+var n, v, w, d, prev;
 
-export function Visualizer(scope) {
-  var n, v, w, d, prev;
+export function Visualizer() {
+  const [summary, explain, abortSummary] = useSummary();
+  const [scope, graphRef] = useGraphScope();
+  const delay = 1000;
 
   async function* start(src) {
     scope.find('.cost').each(function () {
@@ -151,5 +136,20 @@ export function Visualizer(scope) {
     }
   }
 
-  return start;
+  return (
+    <Box display="flex" gap={3} flexWrap="wrap" ref={graphRef}>
+      <DrawGraph
+        scope={scope}
+        onStart={start}
+        onClear={abortSummary}
+        weighted={true}
+        explain={(source) => {
+          const matrix = scope.costMatrix();
+          explain({ matrix, source });
+        }}
+      />
+      {summary && <Divider orientation="vertical" flexItem />}
+      {summary}
+    </Box>
+  );
 }

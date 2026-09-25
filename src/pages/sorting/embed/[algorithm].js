@@ -1,5 +1,5 @@
 import InputNumbers from '@/components/common/input-numbers';
-import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 import { SITE_URL } from '@/utils/constants';
 import { useRouter } from 'next/router';
 import {
@@ -39,7 +39,10 @@ function Visualizer({ useHook }) {
   const { animation, handleSort, handleStop } = useHook();
 
   return (
-    <Stack spacing={3} position="relative">
+    <Box
+      sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}
+      position="relative"
+    >
       <InputNumbers onStart={handleSort} onReset={handleStop} />
       {animation}
       <a
@@ -50,6 +53,6 @@ function Visualizer({ useHook }) {
       >
         See Algorithms
       </a>
-    </Stack>
+    </Box>
   );
 }

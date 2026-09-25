@@ -10,7 +10,6 @@ const AlgorithmSEO = () => {
   const { pathname, query, asPath } = router;
   const cleanPath = asPath.split('?')[0].split('#')[0];
   const url = SITE_URL + (cleanPath === '/' ? '' : cleanPath);
-
   const isEmbed = pathname.includes('/embed/');
   const pageId = isEmbed
     ? query.algorithm || query.dataStructure

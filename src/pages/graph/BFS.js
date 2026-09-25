@@ -6,10 +6,7 @@ import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
 import Link from 'next/link';
 
-export default function BFS(props) {
-  const [summary, explain, abortSummary] = useSummary();
-  const [scope, graphRef] = useGraphScope();
-
+export default function BFS() {
   const [algorithm] = useAlgorithm(`
 queue = new Queue()
 queue.enq(src)
@@ -57,39 +54,24 @@ while queue is not empty:
           </Typography>
           {algorithm}
         </Stack>
-        <Stack spacing={2} ref={graphRef}>
-          <DrawGraph
-            {...props}
-            scope={scope}
-            onStart={Visualizer(scope)}
-            onClear={() => {
-              scope?.find('.bfs-path').html('');
-              abortSummary();
-            }}
-            explain={(source) => {
-              const matrix = scope.costMatrix();
-              explain({ matrix, source });
-            }}
-          />
-          <Box className="alphaGrid bfs-path" />
-          <br />
-          {summary}
-        </Stack>
+        <Visualizer />
       </Box>
     </Stack>
   );
 }
 
-const delay = 800;
+var v, i, prev, queue;
 
-export function Visualizer(scope) {
-  var v, i, prev, queue;
+export function Visualizer() {
+  const [summary, explain, abortSummary] = useSummary();
+  const [scope, graphRef] = useGraphScope();
+  const delay = 800;
 
   async function* start(source) {
-    v = [source];
+    i = source;
+    v = [i];
     queue = [];
     prev = [];
-    i = source;
     scope.find('.vrtx').attr('stroke', Colors.rejected);
     scope.find('.edge').attr('stroke', Colors.rejected);
     yield delay;
@@ -141,5 +123,23 @@ export function Visualizer(scope) {
     }
   }
 
-  return start;
+  return (
+    <Stack spacing={2} ref={graphRef}>
+      <DrawGraph
+        scope={scope}
+        onStart={start}
+        onClear={() => {
+          scope?.find('.bfs-path').html('');
+          abortSummary();
+        }}
+        explain={(source) => {
+          const matrix = scope.costMatrix();
+          explain({ matrix, source });
+        }}
+      />
+      <Box className="alphaGrid bfs-path" />
+      <br />
+      {summary}
+    </Stack>
+  );
 }

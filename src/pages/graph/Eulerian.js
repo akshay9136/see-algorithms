@@ -12,6 +12,23 @@ import { useGraphScope, useSummary } from '@/hooks';
 import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
 
+export default function Eulerian() {
+  return (
+    <Stack spacing={3}>
+      <Typography>
+        An <strong>Eulerian Cycle</strong> (or Eulerian Circuit) is a path in a
+        graph that visits every <strong>edge</strong> exactly once and returns
+        to the starting node. In an undirected graph, an Eulerian cycle exists
+        if and only if every vertex has an even degree and all vertices with
+        non-zero degree belong to a single connected component. It is closely
+        related to the famous Seven Bridges of Königsberg problem.
+      </Typography>
+
+      <Visualizer />
+    </Stack>
+  );
+}
+
 function getDegree(u) {
   let deg = 0;
   Graph.segments().forEach((edge) => {
@@ -27,9 +44,12 @@ function hasOddDegree() {
   return false;
 }
 
-export default function Eulerian(props) {
+var src, visited, eulerPath, totalEdges;
+
+export function Visualizer() {
   const [summary, explain, abortSummary] = useSummary();
   const [scope, graphRef] = useGraphScope();
+  const delay = 1000;
 
   const showDegree = () => {
     for (let u = 0; u < Graph.totalPoints(); u++) {
@@ -40,7 +60,7 @@ export default function Eulerian(props) {
         scope.node(u).attr('stroke', '#ed6c02');
       }
     }
-  }
+  };
 
   const validateGraph = () => {
     showDegree();
@@ -52,52 +72,7 @@ export default function Eulerian(props) {
       return 'Graph has vertices with odd degree. Eulerian cycle does not exist.';
     }
     return '';
-  }
-
-  return (
-    <Stack spacing={3}>
-      <Typography>
-        An <strong>Eulerian Cycle</strong> (or Eulerian Circuit) is a path in a
-        graph that visits every <strong>edge</strong> exactly once and returns
-        to the starting node. In an undirected graph, an Eulerian cycle exists
-        if and only if every vertex has an even degree and all vertices with
-        non-zero degree belong to a single connected component. It is closely
-        related to the famous Seven Bridges of Königsberg problem.
-      </Typography>
-      <Box display="flex" gap={3} flexWrap="wrap">
-        <Stack spacing={2} ref={graphRef}>
-          <DrawGraph
-            {...props}
-            scope={scope}
-            onStart={Visualizer(scope, explain)}
-            onClear={() => {
-              scope?.find('.vtag').remove();
-              scope?.find('.euler-path').html('');
-              abortSummary();
-            }}
-            validate={validateGraph}
-            explain={(source) => {
-              if (!hasOddDegree()) {
-                const matrix = scope.costMatrix();
-                explain({ matrix, source });
-              }
-            }}
-            allowDirected={false}
-            allowRefresh={false}
-          />
-          <Box className="alphaGrid euler-path" />
-        </Stack>
-        <Divider orientation="vertical" flexItem />
-        {summary}
-      </Box>
-    </Stack>
-  );
-}
-
-const delay = 1000;
-
-export function Visualizer(scope) {
-  var src, visited, eulerPath, totalEdges;
+  };
 
   async function* start(source) {
     totalEdges = Graph.segments().length;
@@ -163,5 +138,31 @@ export function Visualizer(scope) {
     yield* span(2);
   }
 
-  return start;
+  return (
+    <Box display="flex" gap={3} flexWrap="wrap">
+      <Stack spacing={2} ref={graphRef}>
+        <DrawGraph
+          scope={scope}
+          onStart={start}
+          onClear={() => {
+            scope?.find('.vtag').remove();
+            scope?.find('.euler-path').html('');
+            abortSummary();
+          }}
+          validate={validateGraph}
+          explain={(source) => {
+            if (!hasOddDegree()) {
+              const matrix = scope.costMatrix();
+              explain({ matrix, source });
+            }
+          }}
+          allowDirected={false}
+          allowRefresh={false}
+        />
+        <Box className="alphaGrid euler-path" />
+      </Stack>
+      {summary && <Divider orientation="vertical" flexItem />}
+      {summary}
+    </Box>
+  );
 }

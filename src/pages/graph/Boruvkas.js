@@ -6,11 +6,7 @@ import { Colors } from '@/common/constants';
 import { sound } from '@/common/utils';
 import Graph from '@/common/graph';
 
-export default function Boruvkas(props) {
-  const [scope, graphRef] = useGraphScope();
-  const [iteration, setIteration] = useState(0);
-  const [remaining, setRemaining] = useState(0);
-
+export default function Boruvkas() {
   const [algorithm] = useAlgorithm(`
 for each vertex v:
     create a component {v}
@@ -62,46 +58,19 @@ while components > 1:
         </Stack>
       </Box>
       <Divider />
-      <Stack ref={graphRef}>
-        <DrawGraph
-          {...props}
-          scope={scope}
-          onStart={Visualizer(scope, setIteration, setRemaining)}
-          onClear={() => {
-            setIteration(0);
-            setRemaining(0);
-          }}
-          weighted={true}
-          allowDirected={false}
-          customSource={false}
-        />
-        <Box display="flex" gap={1} mt={2}>
-          <Alert
-            severity="info"
-            variant="outlined"
-            icon={false}
-            sx={{ fontSize: '1rem', py: 0 }}
-          >
-            <strong>Iteration: {iteration}</strong>
-          </Alert>
-          <Alert
-            severity="warning"
-            variant="outlined"
-            icon={false}
-            sx={{ fontSize: '1rem', py: 0 }}
-          >
-            <strong>Components: {remaining}</strong>
-          </Alert>
-        </Box>
-      </Stack>
+      <Visualizer />
     </Stack>
   );
 }
 
-const delay = 1000;
+var union, parent, w;
 
-export function Visualizer(scope, setIteration, setRemaining) {
-  var union, parent, w;
+export function Visualizer() {
+  // const [summary, explain, abortSummary] = useSummary();
+  const [scope, graphRef] = useGraphScope();
+  const [iteration, setIteration] = useState(0);
+  const [remaining, setRemaining] = useState(0);
+  const delay = 1000;
 
   async function* start() {
     scope.find('.vrtx').attr('stroke', Colors.visited);
@@ -176,5 +145,37 @@ export function Visualizer(scope, setIteration, setRemaining) {
     yield delay;
   }
 
-  return start;
+  return (
+    <Stack ref={graphRef}>
+      <DrawGraph
+        scope={scope}
+        onStart={start}
+        onClear={() => {
+          setIteration(0);
+          setRemaining(0);
+        }}
+        weighted={true}
+        allowDirected={false}
+        customSource={false}
+      />
+      <Box display="flex" gap={1} mt={2}>
+        <Alert
+          severity="info"
+          variant="outlined"
+          icon={false}
+          sx={{ fontSize: '1rem', py: 0 }}
+        >
+          <strong>Iteration: {iteration}</strong>
+        </Alert>
+        <Alert
+          severity="warning"
+          variant="outlined"
+          icon={false}
+          sx={{ fontSize: '1rem', py: 0 }}
+        >
+          <strong>Components: {remaining}</strong>
+        </Alert>
+      </Box>
+    </Stack>
+  );
 }

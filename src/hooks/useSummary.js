@@ -25,13 +25,17 @@ export default function useSummary() {
   const [content, setContent] = useState('');
   const [error, setError] = useState(null);
   const { playStatus, setContext } = useContext(AppContext);
-  const { pathname } = useRouter();
+  const { pathname, query } = useRouter();
   const { data: session } = useSession();
   const { fetchCredits } = useCredits();
   const controlRef = useRef(null);
   const payloadRef = useRef(null);
-  const algoId = pathname.split('/')[2];
   const loading = useLoadingSteps();
+
+  const isEmbed = pathname.includes('/embed/');
+  const algoId = isEmbed
+    ? query.algorithm || query.dataStructure
+    : pathname.split('/')[2];
 
   const [feedback, setFeedback] = useFeedback({
     api: '/api/summary-feedback',
@@ -46,9 +50,10 @@ export default function useSummary() {
 
     controlRef.current?.abort();
     controlRef.current = controller;
+    loading.start();
     setError(null);
     setFeedback(null);
-    loading.start();
+
     try {
       const res = await fetch('/api/summary', {
         method: 'POST',
@@ -81,6 +86,7 @@ export default function useSummary() {
       }
       logError(err, 'AI request cancelled');
     }
+
     loading.stop();
   };
 
@@ -108,7 +114,7 @@ export default function useSummary() {
     setFeedback(null);
   };
 
-  const summary = (
+  const summary = isEmbed ? null : (
     <Stack width={500} minHeight={200}>
       <Box display="flex" alignItems="center" gap={1}>
         <Typography variant="h6" component="h2">

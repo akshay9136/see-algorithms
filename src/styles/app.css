@@ -150,21 +150,21 @@
 
 .watermark {
     position: absolute;
-    margin-top: -50px !important;
+    top: 0;
     right: 0;
+    margin-top: -50px;
     font-size: 12px;
     font-weight: 600;
-    color: #94a3b8;
+    color: #949494;
     text-decoration: none;
     padding: 2px 8px;
     border-radius: 4px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #949494;
 }
 
 .watermark:hover {
     color: #1976d2;
     border-color: #1976d2;
-    background: white;
 }
 
 .savedDataBtn {

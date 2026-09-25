@@ -101,7 +101,7 @@ Eulerian     - Eulerian Cycle`}
           <iframe
             src="/graph/embed/BFS"
             width="100%"
-            height="600px"
+            height="720px"
             style={{ border: 'none', display: 'block' }}
             title="Embedded BFS Visualizer"
           />

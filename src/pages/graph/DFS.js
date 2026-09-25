@@ -5,10 +5,7 @@ import { useAlgorithm, useGraphScope, useSummary } from '@/hooks';
 import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
 
-export default function DFS(props) {
-  const [summary, explain, abortSummary] = useSummary();
-  const [scope, graphRef] = useGraphScope();
-
+export default function DFS() {
   const [algorithm1] = useAlgorithm(`
 stack = new Stack()
 stack.push(src)
@@ -61,40 +58,24 @@ DFS(u):
             {algorithm2}
           </Stack>
         </Box>
-
-        <Stack spacing={2} ref={graphRef}>
-          <DrawGraph
-            {...props}
-            scope={scope}
-            onStart={Visualizer(scope)}
-            onClear={() => {
-              scope?.find('.dfs-path').html('');
-              abortSummary();
-            }}
-            explain={(source) => {
-              const matrix = scope.costMatrix();
-              explain({ matrix, source });
-            }}
-          />
-          <Box className="alphaGrid dfs-path" />
-          <br />
-          {summary}
-        </Stack>
+        <Visualizer />
       </Box>
     </Stack>
   );
 }
 
-const delay = 800;
+var v, i, stack, prev;
 
-export function Visualizer(scope) {
-  var v, stack, prev, i;
+export function Visualizer() {
+  const [summary, explain, abortSummary] = useSummary();
+  const [scope, graphRef] = useGraphScope();
+  const delay = 800;
 
-  async function* start(src) {
-    v = [src];
+  async function* start(source) {
+    i = source;
+    v = [i];
     stack = [];
     prev = [];
-    i = src;
     scope.find('.vrtx').attr('stroke', Colors.rejected);
     scope.find('.edge').attr('stroke', Colors.rejected);
     yield delay;
@@ -146,5 +127,23 @@ export function Visualizer(scope) {
     }
   }
 
-  return start;
+  return (
+    <Stack spacing={2} ref={graphRef}>
+      <DrawGraph
+        scope={scope}
+        onStart={start}
+        onClear={() => {
+          scope?.find('.dfs-path').html('');
+          abortSummary();
+        }}
+        explain={(source) => {
+          const matrix = scope.costMatrix();
+          explain({ matrix, source });
+        }}
+      />
+      <Box className="alphaGrid dfs-path" />
+      <br />
+      {summary}
+    </Stack>
+  );
 }

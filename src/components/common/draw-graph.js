@@ -31,18 +31,19 @@ function DrawGraph({
   allowDirected = true,
   allowRefresh = true,
   customSource = true,
-  isDAG = false,
   scope,
   scopes = [scope],
   ...props
 }) {
   const { isDirGraph, playStatus } = useContext(AppContext);
   const { saveData, ...rest } = useSavedData();
-  const { pathname } = useRouter();
+  const { pathname, query } = useRouter();
   const [source, setSource] = useState('A');
 
-  const algoId = pathname.split('/')[2];
   const isEmbed = pathname.includes('/embed/');
+  const algoId = isEmbed
+    ? query.algorithm || query.dataStructure
+    : pathname.split('/')[2];
 
   const config = {
     source,
@@ -141,7 +142,6 @@ function DrawGraph({
             size="small"
             variant="contained"
             onClick={handlePlay}
-            disabled={Boolean(isDAG && playStatus)}
             title={playStatus === 1 ? 'Pause' : 'Play'}
             aria-live="polite"
             sx={{ minWidth: '40px', px: 1 }}

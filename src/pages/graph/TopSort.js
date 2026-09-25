@@ -1,15 +1,18 @@
 import { DrawGraph } from '@/components/common';
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { charAt, createCell, fromDistance, hasValue, sound } from '@/common/utils';
+import {
+  charAt,
+  createCell,
+  fromDistance,
+  hasValue,
+  sound,
+} from '@/common/utils';
 import { useAlgorithm, useGraphScope, useSummary } from '@/hooks';
 import { Colors } from '@/common/constants';
 import Graph, { Points } from '@/common/graph';
 import Link from 'next/link';
 
-export default function TopSort(props) {
-  const [summary, explain, abortSummary] = useSummary();
-  const [scope, graphRef] = useGraphScope();
-
+export default function TopSort() {
   const [algorithm] = useAlgorithm(`
 indeg = indegree()
 stack = new Stack()
@@ -22,6 +25,7 @@ while stack is not empty:
         indeg[v] = indeg[v] - 1
         if indeg[v] == 0: stack.push(v)
 `);
+
   const [indegreeAlgo] = useAlgorithm(`
 function indegree():
     indeg = map vertex -> 0
@@ -34,15 +38,15 @@ function indegree():
   return (
     <Stack spacing={2}>
       <Typography>
-        <strong>Topological Sorting</strong> is an ordering of nodes in
-        a directed acyclic graph (DAG) where each node appears before
-        all the nodes it points to. It is like creating a list of tasks,
-        ensuring that each task comes after any tasks it depends on. The
-        sorting can be achieved using Kahn&apos;s algorithm or{' '}
+        <strong>Topological Sorting</strong> is an ordering of nodes in a
+        directed acyclic graph (DAG) where each node appears before all the
+        nodes it points to. It is like creating a list of tasks, ensuring that
+        each task comes after any tasks it depends on. The sorting can be
+        achieved using Kahn&apos;s algorithm or{' '}
         <Link href="/graph/DFS">DFS</Link> with a stack.{' '}
-        <strong>Kahn&apos;s algorithm</strong> works by repeatedly
-        removing nodes with no incoming edges (zero in-degree) and
-        adding them to the order.
+        <strong>Kahn&apos;s algorithm</strong> works by repeatedly removing
+        nodes with no incoming edges (zero in-degree) and adding them to the
+        order.
       </Typography>
 
       <Typography variant="h6" component="h2">
@@ -53,36 +57,17 @@ function indegree():
         {indegreeAlgo}
       </Box>
       <br />
-      <Box display="flex" flexWrap="wrap" gap={3}>
-        <Stack spacing={2} ref={graphRef}>
-          <DrawGraph
-            {...props}
-            scope={scope}
-            onStart={Visualizer(scope)}
-            onClear={() => {
-              scope?.find('.top-sort').html('');
-              abortSummary();
-            }}
-            allowDirected={false}
-            customSource={false}
-            explain={() => {
-              const matrix = scope.costMatrix();
-              explain({ matrix });
-            }}
-          />
-          <Box className="alphaGrid top-sort" />
-        </Stack>
-        <Divider orientation="vertical" flexItem />
-        {summary}
-      </Box>
+      <Visualizer />
     </Stack>
   );
 }
 
-const delay = 800;
+var indeg, stack;
 
-export function Visualizer(scope) {
-  var indeg, stack;
+export function Visualizer() {
+  const [summary, explain, abortSummary] = useSummary();
+  const [scope, graphRef] = useGraphScope();
+  const delay = 800;
 
   async function* start() {
     indeg = Graph.indegree();
@@ -150,5 +135,27 @@ export function Visualizer(scope) {
     edge.removeAttr('marker-end');
   }
 
-  return start;
+  return (
+    <Box display="flex" flexWrap="wrap" gap={3}>
+      <Stack spacing={2} ref={graphRef}>
+        <DrawGraph
+          scope={scope}
+          onStart={start}
+          onClear={() => {
+            scope?.find('.top-sort').html('');
+            abortSummary();
+          }}
+          allowDirected={false}
+          customSource={false}
+          explain={() => {
+            const matrix = scope.costMatrix();
+            explain({ matrix });
+          }}
+        />
+        <Box className="alphaGrid top-sort" />
+      </Stack>
+      {summary && <Divider orientation="vertical" flexItem />}
+      {summary}
+    </Box>
+  );
 }
