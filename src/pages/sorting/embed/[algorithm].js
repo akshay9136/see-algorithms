@@ -1,6 +1,5 @@
-import InputNumbers from '@/components/common/input-numbers';
-import Box from '@mui/material/Box';
-import { SITE_URL } from '@/utils/constants';
+import { Box } from '@mui/material';
+import { InputNumbers } from '@/components/common';
 import { useRouter } from 'next/router';
 import {
   useBubbleSort,

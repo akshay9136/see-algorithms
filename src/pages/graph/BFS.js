@@ -60,12 +60,35 @@ while queue is not empty:
   );
 }
 
-var v, i, prev, queue;
-
 export function Visualizer() {
   const [summary, explain, abortSummary] = useSummary();
   const [scope, graphRef] = useGraphScope();
-  const delay = 800;
+
+  return (
+    <Stack spacing={2} ref={graphRef}>
+      <DrawGraph
+        scope={scope}
+        onStart={algoAnimation(scope)}
+        onClear={() => {
+          scope?.find('.bfs-path').html('');
+          abortSummary();
+        }}
+        explain={(source) => {
+          const matrix = scope.costMatrix();
+          explain({ matrix, source });
+        }}
+      />
+      <Box className="alphaGrid bfs-path" />
+      <br />
+      {summary}
+    </Stack>
+  );
+}
+
+const delay = 800;
+
+export function algoAnimation(scope) {
+  var v, i, prev, queue;
 
   async function* start(source) {
     i = source;
@@ -123,23 +146,5 @@ export function Visualizer() {
     }
   }
 
-  return (
-    <Stack spacing={2} ref={graphRef}>
-      <DrawGraph
-        scope={scope}
-        onStart={start}
-        onClear={() => {
-          scope?.find('.bfs-path').html('');
-          abortSummary();
-        }}
-        explain={(source) => {
-          const matrix = scope.costMatrix();
-          explain({ matrix, source });
-        }}
-      />
-      <Box className="alphaGrid bfs-path" />
-      <br />
-      {summary}
-    </Stack>
-  );
+  return start;
 }

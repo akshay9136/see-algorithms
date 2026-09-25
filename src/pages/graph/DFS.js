@@ -64,12 +64,35 @@ DFS(u):
   );
 }
 
-var v, i, stack, prev;
-
 export function Visualizer() {
   const [summary, explain, abortSummary] = useSummary();
   const [scope, graphRef] = useGraphScope();
-  const delay = 800;
+
+  return (
+    <Stack spacing={2} ref={graphRef}>
+      <DrawGraph
+        scope={scope}
+        onStart={algoAnimation(scope)}
+        onClear={() => {
+          scope?.find('.dfs-path').html('');
+          abortSummary();
+        }}
+        explain={(source) => {
+          const matrix = scope.costMatrix();
+          explain({ matrix, source });
+        }}
+      />
+      <Box className="alphaGrid dfs-path" />
+      <br />
+      {summary}
+    </Stack>
+  );
+}
+
+const delay = 800;
+
+export function algoAnimation(scope) {
+  var v, i, stack, prev;
 
   async function* start(source) {
     i = source;
@@ -127,23 +150,5 @@ export function Visualizer() {
     }
   }
 
-  return (
-    <Stack spacing={2} ref={graphRef}>
-      <DrawGraph
-        scope={scope}
-        onStart={start}
-        onClear={() => {
-          scope?.find('.dfs-path').html('');
-          abortSummary();
-        }}
-        explain={(source) => {
-          const matrix = scope.costMatrix();
-          explain({ matrix, source });
-        }}
-      />
-      <Box className="alphaGrid dfs-path" />
-      <br />
-      {summary}
-    </Stack>
-  );
+  return start;
 }

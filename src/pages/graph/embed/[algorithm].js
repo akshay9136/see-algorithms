@@ -1,18 +1,20 @@
 import { Box } from '@mui/material';
 import { useRouter } from 'next/router';
-import { Visualizer as BFS } from '@/pages/graph/BFS';
-import { Visualizer as DFS } from '@/pages/graph/DFS';
-import { Visualizer as Prims } from '@/pages/graph/Prims';
-import { Visualizer as Kruskals } from '@/pages/graph/Kruskals';
-import { Visualizer as Boruvkas } from '@/pages/graph/Boruvkas';
-import { Visualizer as Dijkstras } from '@/pages/graph/Dijkstras';
-import { Visualizer as TopSort } from '@/pages/graph/TopSort';
-import { Visualizer as Hamiltonian } from '@/pages/graph/Hamiltonian';
-import { Visualizer as Eulerian } from '@/pages/graph/Eulerian';
+import { Visualizer as BFS } from '../BFS';
+import { Visualizer as DFS } from '../DFS';
+import { Visualizer as BFSvsDFS } from '../bfs-vs-dfs';
+import { Visualizer as Prims } from '../Prims';
+import { Visualizer as Kruskals } from '../Kruskals';
+import { Visualizer as Boruvkas } from '../Boruvkas';
+import { Visualizer as Dijkstras } from '../Dijkstras';
+import { Visualizer as TopSort } from '../TopSort';
+import { Visualizer as Hamiltonian } from '../Hamiltonian';
+import { Visualizer as Eulerian } from '../Eulerian';
 
 const algorithms = {
   BFS,
   DFS,
+  'bfs-vs-dfs': BFSvsDFS,
   Prims,
   Kruskals,
   Boruvkas,
