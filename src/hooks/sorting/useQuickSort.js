@@ -105,11 +105,7 @@ function partition(start, end):
     };
 
     const animation = (
-        <Box
-            className="sorting"
-            sx={{ minWidth: numbers.length * 60, pt: 8 }}
-            ref={scope}
-        >
+        <Box className="sorting" ref={scope} pt={8}>
             {numbers.map((num, i) => (
                 <Numbox key={i} index={i} value={num} />
             ))}

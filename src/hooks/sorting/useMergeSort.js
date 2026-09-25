@@ -79,11 +79,7 @@ function mergeSort(start, end):
     };
 
     const animation = (
-        <Box
-            className="mergeSort"
-            sx={{ minWidth: numbers.length * 60, pt: 3 }}
-            ref={scope}
-        >
+        <Box className="mergeSort" ref={scope} pt={4}>
             {numbers.map((num, i) => (
                 <Numbox key={i} index={i} value={num} />
             ))}

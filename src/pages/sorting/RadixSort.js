@@ -45,7 +45,7 @@ export default function RadixSort() {
           </Typography>
           {pseudocode}
         </Stack>
-        <Stack spacing={2}>
+        <Stack spacing={2} sx={{ mb: 3 }}>
           <Typography variant="h6" component="h2">
             Visualizer
           </Typography>

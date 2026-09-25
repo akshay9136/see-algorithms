@@ -85,11 +85,7 @@ for i = n - 1 down to 1:
     };
 
     const animation = (
-        <Box
-            className="heapSort"
-            sx={{ minWidth: numbers.length * 60, pt: 3 }}
-            ref={scope}
-        >
+        <Box className="heapSort" ref={scope} pt={3}>
             {numbers.slice(1).map((_, i) => (
                 <Edge key={i} index={i} />
             ))}

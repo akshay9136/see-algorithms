@@ -108,11 +108,7 @@ while (max / exp) > 0:
   };
 
   const animation = (
-    <Box
-      className="radixSort"
-      sx={{ minWidth: numbers.length * 60, pt: 3 }}
-      ref={scope}
-    >
+    <Box className="radixSort" ref={scope} pt={4}>
       <Box display="flex">
         {numbers.map((num, i) => (
           <Numbox key={i} index={i} value={renderDigits(num)} />
