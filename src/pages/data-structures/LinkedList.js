@@ -1,7 +1,7 @@
 import { Stack, Box, Typography, Divider } from '@mui/material';
-import DSInput from '@/components/common/ds-input';
-import useLinkedList from '@/hooks/data-structures/useLinkedList';
-import useAlgorithm from '@/hooks/useAlgorithm';
+import { DSInput } from '@/components/common';
+import { useLinkedList } from '@/hooks/data-structures';
+import { useAlgorithm } from '@/hooks';
 
 export default function LinkedList(props) {
   const { animation, buttons, inputRefs } = useLinkedList();

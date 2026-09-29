@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { showError, sound } from '@/common/utils';
 import Box from '@mui/material/Box';
 
-const n = 12;
+const n = 10;
 
 export default function useCircularQueue() {
   const [numbers, setNumbers] = useState(Array(n).fill(null));

@@ -46,6 +46,7 @@ export const algorithms = [
   },
   { id: 'BinaryHeap', name: 'Binary Heap', category: 'Data Structures' },
   { id: 'BST', name: 'Binary Search Tree', category: 'Data Structures' },
+  { id: 'PrefixTree', name: 'Trie (Prefix Tree)', category: 'Data Structures' },
   {
     id: 'AVL',
     name: 'AVL Tree',

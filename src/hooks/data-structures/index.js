@@ -5,6 +5,7 @@ import useCircularQueue from './useCircularQueue';
 import useDoublyLinkedList from './useDoublyLinkedList';
 import useLinkedList from './useLinkedList';
 import useMaxHeap from './useMaxHeap';
+import usePrefixTree from './usePrefixTree';
 
 export {
   useBinaryTree,
@@ -14,4 +15,5 @@ export {
   useDoublyLinkedList,
   useLinkedList,
   useMaxHeap,
+  usePrefixTree,
 };

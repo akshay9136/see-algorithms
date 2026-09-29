@@ -1,7 +1,7 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import DSInput from '@/components/common/ds-input';
-import useCircularQueue from '@/hooks/data-structures/useCircularQueue';
+import { useCircularQueue } from '@/hooks/data-structures';
 import useAlgorithm from '@/hooks/useAlgorithm';
+import DSInput from '@/components/common/ds-input';
 
 export default function CircularQueue(props) {
   const { animation, buttons } = useCircularQueue();
@@ -15,6 +15,7 @@ function enqueue(value):
         rear = (rear + 1) % n
         size = size + 1
 `);
+
   const [dequeueAlgo] = useAlgorithm(`
 function dequeue():
     if front == rear and size == 0:

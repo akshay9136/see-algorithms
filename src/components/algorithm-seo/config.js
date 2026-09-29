@@ -271,6 +271,17 @@ export const metaConfigs = {
       { name: 'Observe the structure', text: 'Notice how sorted insertions can create a skewed tree (like a linked list), demonstrating the need for self-balancing trees.' },
     ],
   },
+  PrefixTree: {
+    title: 'Trie (Prefix Tree) Visualizer | Interactive Animation',
+    description:
+      'Visualize Trie (prefix tree) operations. Insert words and watch shared prefixes collapse into a single path. Search and delete words with step-by-step node traversal.',
+    howToSteps: [
+      { name: 'Insert a word', text: 'Type a word and click Insert. Each character becomes a node; characters shared with existing words reuse the same branch.' },
+      { name: 'Observe shared prefixes', text: 'Insert words with common prefixes (e.g. "car", "card", "care"). Notice how the shared prefix path is stored only once.' },
+      { name: 'Search for a word', text: 'Type a word and click Search. The visualizer highlights each traversed node — blue for found, red for not found.' },
+      { name: 'Delete a word', text: 'Delete removes the end-of-word marker and prunes any nodes that are no longer part of another word.' },
+    ],
+  },
   AVL: {
     title: 'AVL Tree Visualizer | Self-Balancing Rotations | BST',
     description:

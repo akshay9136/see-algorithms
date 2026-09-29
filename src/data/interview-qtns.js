@@ -864,6 +864,33 @@ head = prev;`,
     },
   ],
 
+  PrefixTree: [
+    {
+      question:
+        'How does Trie differ from a Hash Map for string storage?',
+      answer:
+        <>A Trie stores strings character-by-character along tree paths, enabling prefix-based queries (autocomplete, starts-with) in <var>O(L)</var> time without scanning all keys. A Hash Map gives <var>O(1)</var> exact lookups but cannot enumerate strings sharing a prefix.</>,
+    },
+    {
+      question:
+        'How does deletion in a Trie avoid corrupting shared prefixes?',
+      answer: (
+        <>
+          Use post-order recursion: unmark <code>isEnd</code> at the target
+          word, then delete each ancestor node on the way back up only if it
+          has <strong>no remaining children</strong> and is not the end of
+          another word. Naively removing entire paths breaks words that share
+          the same prefix.
+        </>
+      ),
+    },
+    {
+      question: 'What are common real-world applications of Tries?',
+      answer:
+        'Autocomplete (search engines, IDEs), IP routing via longest-prefix matching (Patricia Tries), spell checkers, and DNA/text pattern search using suffix Tries.',
+    },
+  ],
+
   AVL: [
     {
       question: 'What is the balance factor constraint in an AVL Tree?',
