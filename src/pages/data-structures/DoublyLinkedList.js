@@ -1,7 +1,7 @@
 import { Stack, Box, Typography, Divider } from '@mui/material';
-import DSInput from '@/components/common/ds-input';
-import useDoublyLinkedList from '@/hooks/data-structures/useDoublyLinkedList';
+import { useDoublyLinkedList } from '@/hooks/data-structures';
 import useAlgorithm from '@/hooks/useAlgorithm';
+import DSInput from '@/components/common/ds-input';
 import Link from 'next/link';
 
 export default function DoublyLinkedList(props) {

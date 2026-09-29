@@ -61,6 +61,7 @@ export default function useTreeControls({
       text: 'Clear',
       onClick: handleClear,
       disabled: !numbers.length,
+      color: 'error',
     },
 
     SAVE: {

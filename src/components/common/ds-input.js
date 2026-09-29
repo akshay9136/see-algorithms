@@ -99,6 +99,7 @@ const DSInput = forwardRef((props, ref) => {
                 ? handlePlay(buttons)
                 : buttons.forEach((a) => a.onClick());
             }}
+            color={btn.color || 'primary'}
             disabled={status === 0 ? btn.disabled : true}
             aria-label={btn.text}
             title={btn.title}
