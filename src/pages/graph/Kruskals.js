@@ -1,7 +1,8 @@
-import { DrawGraph, Node } from '@/components/common';
+import { DrawGraph, Node, Edge } from '@/components/common';
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import { useAlgorithm, useAnimator, useGraphScope } from '@/hooks';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { unionFindLayout } from '@/helpers/unionFind';
 import { charAt, sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
@@ -75,34 +76,22 @@ for each edge (u, v):
   );
 }
 
-var arr, union, parent;
+var arr, layout;
 
 export function Visualizer() {
-  const [scope1, { txy, bgcolor }] = useAnimator();
+  const [scope1, { txy, bgcolor, animate }] = useAnimator();
   const [scope, graphRef] = useGraphScope();
   const [size, setSize] = useState(0);
   const delay = 800;
 
   if (size === 0) arr = [];
 
-  useEffect(() => {
-    for (let i = 0; i < size; i++) {
-      scope.find(`.tag${i}`).text(charAt(65 + i));
-    }
-  }, [size]);
-
-  function findRoot(u) {
-    if (parent[u] !== u) {
-      return findRoot(parent[u]);
-    }
-    return parent[u];
-  }
-
   async function* start() {
     scope.find('.vrtx').attr('stroke', Colors.rejected);
     scope.find('.edge').attr('stroke', Colors.rejected);
     yield delay / 2;
     const np = Graph.totalPoints();
+    layout = unionFindLayout(np);
     setSize(np);
     arr = [];
     scope.find('.cost').each(function (i) {
@@ -111,13 +100,6 @@ export function Visualizer() {
       arr.push({ u, v, w, i });
     });
     arr.sort((a, b) => a.w - b.w);
-    union = [];
-    parent = [];
-    for (let i = 0; i < np; i++) {
-      union[i] = new Set();
-      union[i].add(i);
-      parent[i] = i;
-    }
     yield delay;
     yield* nextMin(0);
   }
@@ -133,8 +115,8 @@ export function Visualizer() {
       bgcolor(`.node${v}`, Colors.visited),
     ]);
     yield delay / 2;
-    const x1 = findRoot(v);
-    const x2 = findRoot(u);
+    const x1 = layout.findRoot(v);
+    const x2 = layout.findRoot(u);
     if (x1 !== x2) {
       await merge(x1, x2);
       if (!arr.length) return;
@@ -148,26 +130,38 @@ export function Visualizer() {
       bgcolor(`.node${u}`, Colors.white),
       bgcolor(`.node${v}`, Colors.white),
     ]);
-    const rest = union.filter((set) => set.size > 0);
-    if (rest.length > 1) {
+    if (layout.setsCount() > 1) {
       yield delay;
       yield* nextMin(k + 1);
     }
   }
 
+  async function animateEdge(node) {
+    const dx = node.x - node.parent.x;
+    const dy = node.y - node.parent.y;
+    const width = Math.sqrt(dx * dx + dy * dy);
+    const rotate = Math.atan2(dy, dx) * (180 / Math.PI);
+    const { x, y } = node.parent;
+    await animate(
+      `.edge${node.id}`,
+      { width, rotate, x, y, opacity: 1 },
+      { duration: 0.5 },
+    );
+  }
+
   async function merge(x1, x2) {
-    const y = union[x1].size * 50;
-    const promises = [];
-    [...union[x2]].forEach((v, i) => {
-      promises.push(txy(`.node${v}`, x1 * 60, y + i * 50));
-    });
-    await Promise.all(promises);
-    union[x1] = new Set([...union[x1], ...union[x2]]);
-    union[x2] = new Set();
-    parent[x2] = x1;
-    scope.find(`.tag${x2}`).text(charAt(65 + x1));
+    const mergedNodes = layout.merge(x1, x2);
+    await Promise.all(
+      mergedNodes.map((node) => {
+        const p = [txy(`.node${node.id}`, node.x - 20, node.y - 18)];
+        if (node.parent) p.push(animateEdge(node));
+        return Promise.all(p);
+      }),
+    );
     sound('pop');
   }
+
+  const nArray = Array(size).fill(null);
 
   return (
     <Box display="flex" flexWrap="wrap" gap={3} ref={graphRef}>
@@ -180,29 +174,30 @@ export function Visualizer() {
         customSource={false}
       />
       <Box
-        width={size * 60}
+        width={size * 70}
         height={size * 60}
+        minWidth={500}
         minHeight={300}
         ref={scope1}
         position="relative"
       >
-        {size > 0 && (
-          <Typography variant="h6" textAlign="center" mb={3}>
-            Union-Find
-          </Typography>
-        )}
-        {Array(size)
-          .fill(null)
-          .map((_, i) => (
-            <Node
-              key={i}
-              index={i}
-              value={charAt(65 + i)}
-              animate={{ x: i * 60 }}
-              showBf={true}
-              style={{ scale: 0.9 }}
-            />
-          ))}
+        <Typography variant="h6" textAlign="center">
+          Union-Find
+        </Typography>
+
+        {nArray.map((_, i) => (
+          <Edge key={i} index={i} />
+        ))}
+
+        {nArray.map((_, i) => (
+          <Node
+            key={i}
+            index={i}
+            value={charAt(65 + i)}
+            animate={{ x: i * 66 + 24, y: 32 }}
+            style={{ scale: 0.9, margin: 0 }}
+          />
+        ))}
       </Box>
     </Box>
   );

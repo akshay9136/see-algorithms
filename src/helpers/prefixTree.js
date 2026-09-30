@@ -7,7 +7,7 @@ const H_GAP = 40; // horizontal gap between siblings
 /**
  * Assign x/y positions to every node via a simple recursive layout.
  */
-function layoutTrie(node, depth, leftOffset) {
+function layoutTree(node, depth, leftOffset) {
   if (!node) return leftOffset;
   node.y = depth * V_GAP + 50;
 
@@ -15,9 +15,10 @@ function layoutTrie(node, depth, leftOffset) {
     node.x = leftOffset + NODE_W / 2;
     return leftOffset + NODE_W + H_GAP;
   }
+
   let cur = leftOffset;
   for (const child of node.children.values()) {
-    cur = layoutTrie(child, depth + 1, cur);
+    cur = layoutTree(child, depth + 1, cur);
   }
   node.x = (leftOffset + cur - H_GAP) / 2;
   return cur;
@@ -66,7 +67,7 @@ export default function prefixTree() {
 
   function snapshot() {
     version++;
-    layoutTrie(root, 0, 40);
+    layoutTree(root, 0, 40);
     return {
       nodes: collectNodes(root),
       edges: collectEdges(root),
