@@ -45,7 +45,7 @@ function Visualizer({ useHook }) {
       <InputNumbers onStart={handleSort} onReset={handleStop} />
       {animation}
       <a
-        href={SITE_URL}
+        href={window.location.href.replace('/embed', '')}
         target="_blank"
         rel="noopener noreferrer"
         className="watermark"
