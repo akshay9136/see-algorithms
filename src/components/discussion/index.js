@@ -1,6 +1,6 @@
-import { useContext } from 'react';
 import { Box, Chip, Link, Skeleton, Stack, Typography } from '@mui/material';
 import { ChatBubbleOutline } from '@mui/icons-material';
+import { useContext } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import useComments from '@/hooks/useComments';
@@ -10,7 +10,7 @@ import CommentBox from './comment-box';
 import Guidelines from './guidelines';
 
 const styles = {
-  count: { height: 22, fontWeight: 600 },
+  count: { height: 22, fontSize: '0.75rem', fontWeight: 600 },
   prompt: {
     py: 2,
     px: 2.5,

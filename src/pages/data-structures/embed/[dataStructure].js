@@ -9,7 +9,6 @@ import {
   useMaxHeap,
   useBinaryTree,
 } from '@/hooks/data-structures';
-import { SITE_URL } from '@/utils/constants';
 import searchTree from '@/common/searchTree';
 import avlTree from '@/helpers/avlTree';
 import redBlackTree from '@/helpers/redBlackTree';
@@ -81,7 +80,7 @@ function Visualizer({ useHook }) {
       <DSInput buttons={buttons} />
       {animation}
       <a
-        href={SITE_URL}
+        href={window.location.href.replace('/embed', '')}
         target="_blank"
         rel="noopener noreferrer"
         className="watermark"
@@ -107,7 +106,7 @@ function LinkedList() {
       />
       {animation}
       <a
-        href={SITE_URL}
+        href={window.location.href.replace('/embed', '')}
         target="_blank"
         rel="noopener noreferrer"
         className="watermark"
