@@ -39,7 +39,8 @@ function rebalance(node):
         <strong>AVL Tree</strong> rigorously maintains balance by ensuring that
         for every node, the difference between the heights of its left and right
         subtrees is never more than 1. If an operation violates this condition,
-        the tree automatically rebalances itself through a series of rotations.
+        the tree automatically rebalances itself through a series of{' '}
+        <Link href="/articles/avl-tree-rotations">rotations</Link>.
         This ensures that operations like search, insert, and delete have a
         worst-case time complexity of O(log n).
       </Typography>

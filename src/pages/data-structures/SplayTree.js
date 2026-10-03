@@ -19,9 +19,7 @@ export default function SplayTree(props) {
         balanced all the time, it aggressively moves recently accessed nodes
         closer to the root. The idea is simple: if you touched it, you’ll
         probably touch it again. Over time, the tree adapts to access patterns
-        rather than an abstract notion of balance. While{' '}
-        <Link href="/data-structures/AVL">AVL Trees</Link> follow strict rules
-        to stay perfectly balanced, Splay Trees focus on being fast over time.
+        rather than an abstract notion of balance.
       </Typography>
 
       <Typography paragraph>

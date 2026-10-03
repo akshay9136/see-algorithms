@@ -25,7 +25,7 @@ export default function MergeSort() {
           </Typography>
           {pseudocode}
         </Stack>
-        <Stack spacing={2}>
+        <Stack spacing={2} sx={{ mb: 2 }}>
           <Typography variant="h6" component="h2">
             Visualizer
           </Typography>
