@@ -56,7 +56,17 @@ function binaryTree({ tx, txy, animate, scope, cleanup }) {
 
     const findNode = (fn) => Node(arr.find(fn)?.key);
 
+    const setNodePath = (node) => {
+        if (!node.parent) return;
+        if (node.parent.key === root) {
+            onLeft = node.isLeft;
+            return;
+        }
+        setNodePath(node.parent);
+    };
+
     const _cleanup = (node, t = 0.3) => {
+        setNodePath(node);
         const closer = findNode((a) => {
             if (a.key !== node.key && !a.deleted) {
                 const d = Points.distance(node, a);
@@ -75,6 +85,7 @@ function binaryTree({ tx, txy, animate, scope, cleanup }) {
     };
 
     const subroot = (node) => {
+        if (!node) return;
         if (node.key !== root) {
             if (node.isLeft === onLeft) return node;
             return subroot(node.parent);
@@ -105,14 +116,6 @@ function binaryTree({ tx, txy, animate, scope, cleanup }) {
         shiftRoot(node.parent, d, node.isLeft, t);
     };
 
-    const setNodePath = (node) => {
-        if (node.parent.key === root) {
-            onLeft = node.isLeft;
-            return;
-        }
-        setNodePath(node.parent);
-    };
-
     const rotateStep1 = (node, child) => {
         const { parent, isLeft, x, y, eid } = node;
         if (parent) {
@@ -131,7 +134,7 @@ function binaryTree({ tx, txy, animate, scope, cleanup }) {
             const dx = cx - node.x;
             const dy = cy - node.y;
             txy(node.id, cx, cy, 1);
-            tx(node.eid, cx + 25, 1);
+            txy(node.eid, cx + 25, cy + 20, 1);
             node.update({ x: cx, y: cy });
             append(node, 1);
             cleanup(child, dx, -dy, 1);
@@ -139,7 +142,7 @@ function binaryTree({ tx, txy, animate, scope, cleanup }) {
             const x2 = node.x + (node.isLeft ? -dx : dx);
             const y2 = node.y + dy;
             txy(node.id, x2, y2, 1);
-            tx(node.eid, x2 + 25, 1);
+            txy(node.eid, x2 + 25, y2 + 20, 1);
             node.update({ x: x2, y: y2 });
             _cleanup(node, 1);
             append(node, 1);
@@ -211,16 +214,20 @@ function binaryTree({ tx, txy, animate, scope, cleanup }) {
             }
             sound('swap');
             rotateStep1(node, left);
-            node.left = null;
-            const lr = left.right;
+            let lr = left.right;
             left.right = node;
-            rotateStep2(node, right);
             if (lr) {
-                const rlx = node.x - dx;
                 lr.parent = node;
                 lr.update({ isLeft: true });
                 node.left = lr;
-                cleanup(lr, rlx - lr.x, 0, 1);
+            } else {
+                node.left = null;
+            }
+            rotateStep2(node, right);
+            if (lr) {
+                node = node.refresh();
+                lr = lr.refresh();
+                cleanup(lr, node.x - dx - lr.x, 0, 1);
                 append(lr, 1);
                 this.cleanup(lr);
             }
@@ -238,16 +245,20 @@ function binaryTree({ tx, txy, animate, scope, cleanup }) {
             }
             sound('swap');
             rotateStep1(node, right);
-            node.right = null;
-            const rl = right.left;
+            let rl = right.left;
             right.left = node;
-            rotateStep2(node, left);
             if (rl) {
-                const lrx = node.x + dx;
                 rl.parent = node;
                 rl.update({ isLeft: false });
                 node.right = rl;
-                cleanup(rl, lrx - rl.x, 0, 1);
+            } else {
+                node.right = null;
+            }
+            rotateStep2(node, left);
+            if (rl) {
+                node = node.refresh();
+                rl = rl.refresh();
+                cleanup(rl, node.x + dx - rl.x, 0, 1);
                 append(rl, 1);
                 this.cleanup(rl);
             }
