@@ -1,11 +1,12 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import { InputNumbers, ComplexityTable, Section } from '@/components/common';
-import { useAlgorithm } from '@/hooks';
 import { useHeapSort } from '@/hooks/sorting';
+import { useAlgorithm } from '@/hooks';
 import Link from 'next/link';
 
 export default function HeapSort() {
   const { animation, pseudocode, handleSort, handleStop } = useHeapSort();
+
   const [heapifyAlgo] = useAlgorithm(`
 function heapify(i):
     largest = i
@@ -37,7 +38,7 @@ function heapify(i):
       </Typography>
       <Divider sx={{ my: 3 }} />
 
-      <Box display="flex" flexWrap="wrap" gap={4}>
+      <Box display="flex" flexWrap="wrap-reverse" gap={4}>
         <Stack spacing={2}>
           <Typography variant="h6" component="h2">
             Pseudocode

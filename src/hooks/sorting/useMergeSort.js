@@ -11,19 +11,26 @@ export default function useMergeSort() {
     const [numbers, setNumbers] = useState([]);
     const [scope, { ty, txy, bgcolor }] = useAnimator();
     const [pseudocode] = useAlgorithm(`
-function mergeSort(start, end):
-    if start < end:
-        mid = (start + end) / 2
-        mergeSort(start, mid)
-        mergeSort(mid + 1, end)
-        merge(start, mid, end)
+function merge(start, mid, end):
+    p = start, q = mid + 1
+    temp = []
+    while p <= mid or q <= end:
+        if p > mid:
+            push arr[q] to temp
+            q = q + 1
+        else if q > end or arr[p] <= arr[q]:
+            push arr[p] to temp
+            p = p + 1
+        else:
+            push arr[q] to temp
+            q = q + 1
+    arr[start..end] = temp
 `);
 
     const getIndex = (p, q, mid, end) => {
-        if (p <= mid && q <= end) {
-            return arr[p].val <= arr[q].val ? p : q;
-        }
-        return p <= mid ? p : q;
+        if (p > mid) return q;
+        if (q > end) return p;
+        return arr[p].val <= arr[q].val ? p : q;
     };
 
     async function* merge(start, mid, end, ypos) {
@@ -34,7 +41,7 @@ function mergeSort(start, end):
             temp.push(arr[s]);
             sound('swap');
             await txy(arr[s].id, 60 * r, ypos - 60);
-            await bgcolor(arr[s].id, Colors.sorted);
+            await bgcolor(arr[s].id, Colors.compare);
             yield 100;
             s === q ? q++ : p++;
             r++;
@@ -55,21 +62,24 @@ function mergeSort(start, end):
 
     async function* mergeSort(start, end, ypos) {
         if (start === end) return;
-        if (ypos === 60) yield delay;
         yield delay;
         const mid = Math.floor((start + end) / 2);
         await split(start, mid, ypos);
         yield* mergeSort(start, mid, ypos + 60);
+        for (let i = start; i <= mid; i++) bgcolor(arr[i].id, Colors.enqueue);
         yield delay;
         await split(mid + 1, end, ypos);
         yield* mergeSort(mid + 1, end, ypos + 60);
+        for (let i = mid + 1; i <= end; i++) bgcolor(arr[i].id, Colors.compare);
         yield delay;
         yield* merge(start, mid, end, ypos);
+        yield delay;
     }
 
     async function* handleSort(values) {
         setNumbers(values);
         arr = values.map(withBoxId);
+        yield delay;
         yield* mergeSort(0, arr.length - 1, 60);
     }
 

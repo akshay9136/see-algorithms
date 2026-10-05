@@ -6,6 +6,7 @@ import Link from 'next/link';
 
 export default function QuickSort() {
   const { animation, pseudocode, handleSort, handleStop } = useQuickSort();
+
   const [algorithm] = useAlgorithm(`
 function quickSort(start, end):
     if start < end:
@@ -38,7 +39,7 @@ function quickSort(start, end):
       </Typography>
       <Divider sx={{ my: 3 }} />
 
-      <Box display="flex" flexWrap="wrap" gap={4}>
+      <Box display="flex" flexWrap="wrap-reverse" gap={4}>
         <Stack spacing={2}>
           <Typography variant="h6" component="h2">
             Pseudocode

@@ -1,10 +1,20 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import { InputNumbers, ComplexityTable, Section } from '@/components/common';
 import { useMergeSort } from '@/hooks/sorting';
+import { useAlgorithm } from '@/hooks';
 import Link from 'next/link';
 
 export default function MergeSort() {
   const { animation, pseudocode, handleSort, handleStop } = useMergeSort();
+
+  const [algorithm] = useAlgorithm(`
+function mergeSort(start, end):
+    if start < end:
+        mid = (start + end) / 2
+        mergeSort(start, mid)
+        mergeSort(mid + 1, end)
+        merge(start, mid, end)
+`);
 
   return (
     <>
@@ -18,7 +28,7 @@ export default function MergeSort() {
       </Typography>
       <Divider sx={{ my: 3 }} />
 
-      <Box display="flex" flexWrap="wrap" gap={4}>
+      <Box display="flex" flexWrap="wrap-reverse" gap={4}>
         <Stack spacing={2}>
           <Typography variant="h6" component="h2">
             Pseudocode
@@ -29,6 +39,8 @@ export default function MergeSort() {
           <Typography variant="h6" component="h2">
             Visualizer
           </Typography>
+          {algorithm}
+          <br />
           <InputNumbers onStart={handleSort} onReset={handleStop} />
           {animation}
         </Stack>

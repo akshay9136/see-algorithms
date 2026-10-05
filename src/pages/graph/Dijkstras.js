@@ -38,9 +38,7 @@ function relax(u, d):
         by maintaining a set of visited nodes and, at each step, selecting the
         unvisited node with the smallest known distance to visit next. This
         process continues until all nodes have been visited, making it essential
-        for network routing problems. Unlike{' '}
-        <Link href="/articles/shortest-path-vs-mst">MST algorithms</Link>,
-        Dijkstra’s focuses on optimal paths from a single source.
+        for network routing problems.
       </Typography>
 
       <Typography variant="h6" component="h2">
