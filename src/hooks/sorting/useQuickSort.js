@@ -21,6 +21,7 @@ function partition(start, end):
             j = j - 1
         else: swap(i, j)
     if arr[i] > pivot: swap(i, end)
+    return i
 `);
 
     async function* divide(start, end) {

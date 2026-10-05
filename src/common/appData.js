@@ -100,7 +100,7 @@ export const articles = [
     id: 'avl-tree-rotations',
     title: 'AVL Tree Rotations Explained',
     summary:
-      'Master the four AVL tree rotations with visual diagrams, balance factor mechanics, and clear code implementations.',
+      'Master the four AVL tree rotations with visual diagrams, balance factor mechanics, and rebalancing steps.',
     category: 'Advanced Trees',
     date: '2026-09-20',
     quickAnswer:
@@ -413,6 +413,26 @@ export const articles = [
       {
         q: 'Can I embed a pre-built tree structure?',
         a: 'Yes. Go to the data structure\'s main page, build your tree by inserting nodes, then click the share icon on the control panel. This copies a unique URL containing your tree state. Use that URL as the iframe src to embed your custom pre-built tree.',
+      },
+    ],
+  },
+  {
+    id: 'lomuto-vs-hoare',
+    title: 'Lomuto vs. Hoare Partitioning',
+    summary:
+      'Explore the mechanics, swap efficiency, and trade-offs between the two classic Quicksort partitioning schemes.',
+    category: 'Sorting',
+    date: '2026-10-05',
+    quickAnswer:
+      'Lomuto partitioning is simpler and uses two pointers moving in the same direction, fixing the pivot at its exact final position. Hoare partitioning uses two converging pointers from opposite ends, achieves ~3x fewer swaps on average, and handles duplicate keys much more gracefully without degrading to O(n²).',
+    faqs: [
+      {
+        q: 'Why is Hoare partition faster than Lomuto partition?',
+        a: 'Hoare partition performs roughly three times fewer swaps on average. Hoare only swaps when both pointers find misplaced elements on opposite sides, whereas Lomuto performs swaps on almost every element smaller than the pivot regardless of its current position.',
+      },
+      {
+        q: 'How do Lomuto and Hoare handle duplicate or identical elements?',
+        a: 'On arrays with all equal elements, Lomuto degrades to O(n²) worst-case time complexity because every element satisfies arr[j] <= pivot, creating an empty partition and an (n-1) partition. Hoare maintains balanced O(n log n) recursion because both pointers stop on equal elements and swap them inward.',
       },
     ],
   },

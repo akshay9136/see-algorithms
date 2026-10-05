@@ -10,14 +10,16 @@ export default function QuickSortIllusion() {
     >
       <Section title="The Illusion of Speed">
         <Typography paragraph>
-          <Link href="/sorting/QuickSort">Quicksort</Link> is often introduced
-          as one of the fastest sorting algorithms in practice.
+          <Link href="/sorting/QuickSort">Quicksort</Link> is celebrated as one
+          of the most efficient sorting algorithms in practice. Under normal
+          circumstances, its average-case time complexity of O(n log n) makes
+          sorting large datasets feel almost effortless.
         </Typography>
 
         <Typography paragraph>
-          But its speed is not guaranteed. Quicksort is fast only when its
-          partitions are balanced. When that balance disappears, the algorithm
-          quietly loses its strength.
+          But its speed is not guaranteed. Quicksort achieves its efficiency by
+          dividing the dataset into roughly equal halves at each step. When that
+          balance disappears, the algorithm quietly loses its strength.
         </Typography>
       </Section>
 
