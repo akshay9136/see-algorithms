@@ -1,10 +1,11 @@
-import { DrawGraph, Node, Edge } from '@/components/common';
+import { DrawGraph, ListItems } from '@/components/common';
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import { useAlgorithm, useAnimator, useGraphScope } from '@/hooks';
-import { useState } from 'react';
 import { unionFindLayout } from '@/helpers/unionFind';
-import { charAt, sound } from '@/common/utils';
+import { useState } from 'react';
 import { Colors } from '@/common/constants';
+import { sound } from '@/common/utils';
+import UnionFind from '@/components/union-find';
 import Graph from '@/common/graph';
 import Link from 'next/link';
 
@@ -44,7 +45,7 @@ for each edge (u, v):
           <Typography variant="h6" component="h2">
             Step by Step
           </Typography>
-          <Typography component="ul" sx={{ '& li': { mb: 1 }, pl: 2 }}>
+          <ListItems sx={{ pl: 2 }}>
             <li>Sort all edges in non-decreasing order of their weights.</li>
             <li>Initialize an empty set of edges for the MST.</li>
             <li>
@@ -67,7 +68,7 @@ for each edge (u, v):
                 </li>
               </ul>
             </li>
-          </Typography>
+          </ListItems>
         </Stack>
       </Box>
       <Divider />
@@ -89,6 +90,7 @@ export function Visualizer() {
   async function* start() {
     scope.find('.vrtx').attr('stroke', Colors.rejected);
     scope.find('.edge').attr('stroke', Colors.rejected);
+    scope.find('.edge').attr('stroke-dasharray', '8,4');
     yield delay / 2;
     const np = Graph.totalPoints();
     layout = unionFindLayout(np);
@@ -118,10 +120,11 @@ export function Visualizer() {
     const x1 = layout.findRoot(v);
     const x2 = layout.findRoot(u);
     if (x1 !== x2) {
-      await merge(x1, x2);
+      await union(x1, x2);
       if (!arr.length) return;
       scope.path(i).attr('stroke', Colors.visited);
       scope.path(i).attr('stroke-width', 3);
+      scope.path(i).removeAttr('stroke-dasharray');
     }
     yield delay;
     scope.node(u).attr('fill', Colors.vertex);
@@ -149,7 +152,7 @@ export function Visualizer() {
     );
   }
 
-  async function merge(x1, x2) {
+  async function union(x1, x2) {
     const mergedNodes = layout.merge(x1, x2);
     await Promise.all(
       mergedNodes.map((node) => {
@@ -161,8 +164,6 @@ export function Visualizer() {
     sound('pop');
   }
 
-  const nArray = Array(size).fill(null);
-
   return (
     <Box display="flex" flexWrap="wrap" gap={3} ref={graphRef}>
       <DrawGraph
@@ -173,32 +174,7 @@ export function Visualizer() {
         allowDirected={false}
         customSource={false}
       />
-      <Box
-        width={size * 70}
-        height={size * 60}
-        minWidth={500}
-        minHeight={300}
-        ref={scope1}
-        position="relative"
-      >
-        <Typography variant="h6" textAlign="center">
-          Union-Find
-        </Typography>
-
-        {nArray.map((_, i) => (
-          <Edge key={i} index={i} />
-        ))}
-
-        {nArray.map((_, i) => (
-          <Node
-            key={i}
-            index={i}
-            value={charAt(65 + i)}
-            animate={{ x: i * 66 + 24, y: 32 }}
-            style={{ scale: 0.9, margin: 0 }}
-          />
-        ))}
-      </Box>
+      <UnionFind size={size} scope={scope1} />
     </Box>
   );
 }

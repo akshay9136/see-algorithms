@@ -1,9 +1,11 @@
 import { DrawGraph, ListItems } from '@/components/common';
 import { Alert, Box, Divider, Stack, Typography } from '@mui/material';
-import { useAlgorithm, useGraphScope } from '@/hooks';
+import { useAlgorithm, useAnimator, useGraphScope } from '@/hooks';
+import { unionFindLayout } from '@/helpers/unionFind';
 import { useState } from 'react';
 import { Colors } from '@/common/constants';
 import { sound } from '@/common/utils';
+import UnionFind from '@/components/union-find';
 import Graph from '@/common/graph';
 
 export default function Boruvkas() {
@@ -63,28 +65,27 @@ while components > 1:
   );
 }
 
-var union, parent, w;
+var n, w, layout;
 
 export function Visualizer() {
-  // const [summary, explain, abortSummary] = useSummary();
+  const [scope1, { txy, bgcolor, animate }] = useAnimator();
   const [scope, graphRef] = useGraphScope();
   const [iteration, setIteration] = useState(0);
   const [remaining, setRemaining] = useState(0);
+  const [size, setSize] = useState(0);
   const delay = 1000;
 
   async function* start() {
-    scope.find('.vrtx').attr('stroke', Colors.visited);
+    scope.find('.vrtx').attr('stroke', Colors.rejected);
     scope.find('.edge').attr('stroke', Colors.rejected);
-    const n = Graph.totalPoints();
+    scope.find('.edge').attr('stroke-dasharray', '8,4');
+    yield delay / 2;
+    scope.find('.vrtx').attr('stroke', Colors.visited);
+    n = Graph.totalPoints();
     setIteration?.(0);
     setRemaining?.(n);
-    union = [];
-    parent = [];
-    for (let i = 0; i < n; i++) {
-      union[i] = new Set();
-      union[i].add(i);
-      parent[i] = i;
-    }
+    layout = unionFindLayout(n);
+    setSize(n);
     w = scope.costMatrix();
     yield delay;
     yield* connect(1);
@@ -94,8 +95,8 @@ export function Visualizer() {
     setIteration?.(i);
     const min = {};
     for (const [u, v] of Graph.segments()) {
-      const x1 = findRoot(v);
-      const x2 = findRoot(u);
+      const x1 = layout.findRoot(v);
+      const x2 = layout.findRoot(u);
       if (x1 !== x2) {
         const cost = w[u][v];
         if (!min[x1] || cost < min[x1].w) {
@@ -107,75 +108,99 @@ export function Visualizer() {
       }
     }
     yield* merge(Object.values(min));
-    const rem = union.filter((set) => set.size > 0);
-    if (rem.length > 1) yield* connect(i + 1);
+    if (layout.setsCount() > 1) yield* connect(i + 1);
   }
 
-  function findRoot(u) {
-    if (parent[u] !== u) {
-      return findRoot(parent[u]);
-    }
-    return parent[u];
+  async function animateEdge(node) {
+    const dx = node.x - node.parent.x;
+    const dy = node.y - node.parent.y;
+    const width = Math.sqrt(dx * dx + dy * dy);
+    const rotate = Math.atan2(dy, dx) * (180 / Math.PI);
+    const { x, y } = node.parent;
+    await animate(
+      `.edge${node.id}`,
+      { width, rotate, x, y, opacity: 1 },
+      { duration: 0.5 },
+    );
+  }
+
+  async function union(x1, x2) {
+    const mergedNodes = layout.merge(x1, x2);
+    await Promise.all(
+      mergedNodes.map((node) => {
+        const p = [txy(`.node${node.id}`, node.x - 20, node.y - 18)];
+        if (node.parent) p.push(animateEdge(node));
+        return Promise.all(p);
+      }),
+    );
+    sound('pop');
   }
 
   function* merge(minEdges) {
     for (const { u, v } of minEdges) {
-      const x1 = findRoot(v);
-      const x2 = findRoot(u);
+      const x1 = layout.findRoot(v);
+      const x2 = layout.findRoot(u);
       if (x1 !== x2) {
         yield* highlight(x2);
-        sound('pop');
+        union(x1, x2);
         yield* scope.spanEdge(u, v);
-        const rem = union.filter((set) => set.size > 0);
-        setRemaining?.(rem.length - 1);
+        setRemaining?.(layout.setsCount());
+
         yield* highlight(x1);
-        union[x1] = new Set([...union[x1], ...union[x2]]);
-        union[x2] = new Set();
-        parent[x2] = x1;
         scope.find('.vrtx').attr('fill', Colors.vertex);
+        for (let i = 0; i < n; i++) {
+          bgcolor(`.node${i}`, Colors.white);
+        }
         yield delay;
       }
     }
   }
 
   function* highlight(x) {
-    union[x].forEach((v) => {
-      scope.node(v).attr('fill', Colors.visited);
-    });
+    for (let i = 0; i < n; i++) {
+      if (layout.findRoot(i) === x) {
+        scope.node(i).attr('fill', Colors.visited);
+        bgcolor(`.node${i}`, Colors.visited);
+      }
+    }
     yield delay;
   }
 
   return (
-    <Stack ref={graphRef}>
-      <DrawGraph
-        scope={scope}
-        onStart={start}
-        onClear={() => {
-          setIteration(0);
-          setRemaining(0);
-        }}
-        weighted={true}
-        allowDirected={false}
-        customSource={false}
-      />
-      <Box display="flex" gap={1} mt={2}>
-        <Alert
-          severity="info"
-          variant="outlined"
-          icon={false}
-          sx={{ fontSize: '1rem', py: 0 }}
-        >
-          <strong>Iteration: {iteration}</strong>
-        </Alert>
-        <Alert
-          severity="warning"
-          variant="outlined"
-          icon={false}
-          sx={{ fontSize: '1rem', py: 0 }}
-        >
-          <strong>Components: {remaining}</strong>
-        </Alert>
-      </Box>
-    </Stack>
+    <Box display="flex" flexWrap="wrap" gap={3} ref={graphRef}>
+      <Stack>
+        <DrawGraph
+          scope={scope}
+          onStart={start}
+          onClear={() => {
+            setIteration(0);
+            setRemaining(0);
+            setSize(0);
+          }}
+          weighted={true}
+          allowDirected={false}
+          customSource={false}
+        />
+        <Box display="flex" gap={1} mt={2}>
+          <Alert
+            severity="info"
+            variant="outlined"
+            icon={false}
+            sx={{ fontSize: '1rem', py: 0 }}
+          >
+            <strong>Iteration: {iteration}</strong>
+          </Alert>
+          <Alert
+            severity="warning"
+            variant="outlined"
+            icon={false}
+            sx={{ fontSize: '1rem', py: 0 }}
+          >
+            <strong>Components: {remaining}</strong>
+          </Alert>
+        </Box>
+      </Stack>
+      <UnionFind size={size} scope={scope1} />
+    </Box>
   );
 }

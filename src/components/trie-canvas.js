@@ -1,4 +1,5 @@
 import { Paper } from '@mui/material';
+import { memo } from 'react';
 
 const NODE_R = 16; // node radius
 const EMPTY_MSG = 'Insert a word to see the Trie grow';
@@ -108,4 +109,4 @@ function TrieCanvas({ nodes, edges }) {
   );
 }
 
-export default TrieCanvas;
+export default memo(TrieCanvas);

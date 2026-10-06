@@ -84,7 +84,6 @@ export default function prefixTree() {
       cur = cur.children.get(ch);
     }
     cur.isEnd = true;
-    sound('pop');
     return snapshot();
   }
 
@@ -97,12 +96,12 @@ export default function prefixTree() {
       }
       cur = cur.children.get(ch);
       cur.highlighted = true;
+      sound('pop');
       setSnapshot(snapshot());
       await sleep(400);
       cur.highlighted = false;
     }
     cur.isEnd = true;
-    sound('pop');
     setSnapshot(snapshot());
   }
 

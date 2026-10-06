@@ -73,7 +73,6 @@ function merge(start, mid, end):
         for (let i = mid + 1; i <= end; i++) bgcolor(arr[i].id, Colors.compare);
         yield delay;
         yield* merge(start, mid, end, ypos);
-        yield delay;
     }
 
     async function* handleSort(values) {

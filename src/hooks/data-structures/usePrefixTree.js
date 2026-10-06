@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import prefixTree from '@/helpers/prefixTree';
-import TrieCanvas from '@/components/common/trie-canvas';
+import TrieCanvas from '@/components/trie-canvas';
 import { showError } from '@/common/utils';
 
 export default function usePrefixTree() {
