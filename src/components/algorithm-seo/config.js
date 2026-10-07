@@ -442,6 +442,11 @@ export const metaConfigs = {
     description:
       'Compare Lomuto and Hoare partitioning schemes in Quicksort. Learn about pointer movement, swap efficiency, and handling duplicate keys.',
   },
+  'heap-index-math': {
+    title: 'Complete Binary Trees in Flat Arrays',
+    description:
+      'Understand the index math behind binary heaps. Learn why implicit complete binary trees eliminate pointer overhead and simplify heap traversal.',
+  },
 };
 
 export const getSeoConfig = (pageId, pathname) => {

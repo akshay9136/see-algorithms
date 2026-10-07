@@ -17,8 +17,8 @@ export default function LomutoVsHoare() {
         </Typography>
 
         <Typography paragraph>
-          How we partition dictates the algorithm's efficiency. The two most
-          common strategies are <strong>Lomuto</strong> and{' '}
+          How we partition dictates the algorithm&apos;s efficiency. The two
+          most common strategies are <strong>Lomuto</strong> and{' '}
           <strong>Hoare</strong> partitioning. They achieve the same goal, but
           their paths are very different.
         </Typography>

@@ -97,6 +97,34 @@ export const categories = groupBy(algorithms, 'category');
 
 export const articles = [
   {
+    id: 'heap-index-math',
+    title: 'Complete Binary Trees in Flat Arrays',
+    summary:
+      'Understand how complete binary trees eliminate pointer overhead and simplify heap traversal.',
+    category: 'Data Structures',
+    date: '2026-10-08',
+    quickAnswer:
+      'A complete binary tree can be stored compactly in a flat array without pointers because its shape guarantees zero empty slots in level-order traversal. For any element at index i (0-based), its parent is at ⌊(i - 1) / 2⌋, its left child is at 2i + 1, and its right child is at 2i + 2. This implicit representation saves memory, eliminates pointer indirection, and leverages CPU cache locality for rapid sift-up and sift-down heap traversals.',
+    faqs: [
+      {
+        q: 'What is a complete binary tree and why can it be stored in a flat array?',
+        a: 'A complete binary tree is a binary tree where every level is completely filled except possibly the last level, which is filled from left to right without gaps. Because nodes appear continuously in level-order traversal, every node maps directly to a unique contiguous array index without any wasted empty slots.',
+      },
+      {
+        q: 'What are the index formulas for finding parents and children in a 0-based heap array?',
+        a: 'In a 0-based array: the parent of node i is ⌊(i - 1) / 2⌋, the left child is 2i + 1, and the right child is 2i + 2. In 1-based arrays: parent is ⌊i / 2⌋, left child is 2i, and right child is 2i + 1. These operations can be computed with single-cycle CPU bit-shifts.',
+      },
+      {
+        q: 'Why do binary heaps use arrays instead of explicit node pointers?',
+        a: 'Storing trees with explicit pointers incurs substantial memory overhead (16–24 bytes of pointers and object headers per node on 64-bit architectures) and causes CPU cache misses due to scattered heap memory allocations. Flat arrays eliminate all pointer overhead and maximize hardware cache line utilization and prefetching.',
+      },
+      {
+        q: 'How does the array representation simplify heap traversal during insertion and deletion?',
+        a: 'During insertion (sift-up), traversal simply moves from index i to ⌊(i - 1) / 2⌋ in a loop without pointer dereferences. During deletion (sift-down), comparing left child (2i + 1) and right child (2i + 2) is a direct array access, avoiding tree rotation mechanics or pointer rewiring.',
+      },
+    ],
+  },
+  {
     id: 'avl-tree-rotations',
     title: 'AVL Tree Rotations Explained',
     summary:
