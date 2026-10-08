@@ -446,7 +446,7 @@ export const articles = [
   },
   {
     id: 'lomuto-vs-hoare',
-    title: 'Lomuto vs. Hoare Partitioning',
+    title: 'Lomuto vs Hoare Partitioning',
     summary:
       'Explore the mechanics, swap efficiency, and trade-offs between the two classic Quicksort partitioning schemes.',
     category: 'Sorting',

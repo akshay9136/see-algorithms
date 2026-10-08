@@ -23,19 +23,16 @@ function quickSort(start, end):
         into two groups: those less than the pivot and those greater. By
         recursively sorting these groups, Quick Sort efficiently sorts even the
         largest datasets. It is a perfect blend of strategy and speed, making it
-        one of the most popular sorting techniques. However, its performance can
-        degrade in{' '}
-        <Link href="/articles/quick-sort-illusion">certain cases</Link>, unlike
-        the guaranteed O(n log n) of{' '}
-        <Link href="/sorting/MergeSort">Merge Sort</Link>.
+        one of the most popular sorting techniques.
       </Typography>
       <Typography paragraph>
-        This visualization uses the <strong>Hoare partition</strong> scheme with
-        two converging pointers starting from opposite ends. The left pointer
-        moves right until it finds an element larger than the pivot, while the
-        right pointer moves left until it finds a smaller element. When both
-        find misplaced elements, they swap them and continue until the pointers
-        cross.
+        This visualization uses the{' '}
+        <Link href="/articles/lomuto-vs-hoare">Hoare Partition</Link> scheme
+        with two converging pointers starting from opposite ends. The left
+        pointer moves right until it finds an element larger than the pivot,
+        while the right pointer moves left until it finds a smaller element.
+        When both find misplaced elements, they swap them and continue until the
+        pointers cross.
       </Typography>
       <Divider sx={{ my: 3 }} />
 

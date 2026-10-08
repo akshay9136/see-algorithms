@@ -3,7 +3,7 @@ import { Box, IconButton, Typography } from '@mui/material';
 import { ContentCopy, Check, CodeOutlined } from '@mui/icons-material';
 import { blueGrey } from '@mui/material/colors';
 
-function CodeSnippet({ codeSnippet }) {
+function CodeSnippet({ codeSnippet, sx }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopyCode = (e) => {
@@ -18,10 +18,12 @@ function CodeSnippet({ codeSnippet }) {
     <Box
       mt={2}
       sx={{
+        ...sx,
         borderRadius: 2,
         bgcolor: blueGrey[900],
         color: 'grey.100',
-        padding: 2,
+        padding: 2.5,
+        pt: 2,
       }}
     >
       <Box

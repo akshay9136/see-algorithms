@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function LomutoVsHoare() {
   return (
     <Article
-      title="Lomuto vs. Hoare Partitioning"
+      title="Lomuto vs Hoare Partitioning"
       summary="Quicksort's performance lives in its partition scheme. Lomuto offers simplicity and clarity, while Hoare provides efficiency and resilience against duplicates."
     >
       <Section title="The Heart of Quicksort">

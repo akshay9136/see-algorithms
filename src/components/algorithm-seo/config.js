@@ -438,7 +438,7 @@ export const metaConfigs = {
       'Understand AVL tree rotations with step-by-step diagrams. Learn how Left, Right, Left-Right, and Right-Left rotations restore balance in O(1) time.',
   },
   'lomuto-vs-hoare': {
-    title: 'Lomuto vs. Hoare Partitioning | Quicksort',
+    title: 'Lomuto vs Hoare Partitioning | Quicksort',
     description:
       'Compare Lomuto and Hoare partitioning schemes in Quicksort. Learn about pointer movement, swap efficiency, and handling duplicate keys.',
   },

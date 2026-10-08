@@ -51,7 +51,7 @@ Unstable Result:
       </Section>
 
       <Section title="Which Algorithms Are Stable?">
-        <Typography component="ul" sx={{ '& li': { mb: 1 }, my: 2, pl: 2 }}>
+        <Typography component="ul" sx={{ '& li': { mb: 1 }, my: 2 }}>
           <li>
             <strong>Bubble Sort</strong> – Stable
           </li>

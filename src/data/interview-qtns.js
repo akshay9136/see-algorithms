@@ -175,11 +175,12 @@ export const interviewQuestionsMap = {
         'What role does Heap Sort play in Introsort (Introspective Sort)?',
       answer: (
         <>
-          Introsort starts with Quick Sort for performance. It monitors the
-          recursion depth, and if recursion depth exceeds <var>2 * log₂ n</var>{' '}
-          — indicating bad pivot choices leading towards <var>O(n²)</var>,
-          Introsort switches dynamically to Heap Sort to guarantee{' '}
-          <var>O(n log n)</var> worst-case time.
+          Introsort starts with{' '}
+          <Link href="/sorting/QuickSort">Quick Sort</Link> for performance. It
+          monitors the recursion depth, and if recursion depth exceeds{' '}
+          <var>2 * log₂ n</var> — indicating bad pivot choices leading towards{' '}
+          <var>O(n²)</var>, Introsort switches dynamically to Heap Sort to
+          guarantee <var>O(n log n)</var> worst-case time.
         </>
       ),
     },
@@ -257,10 +258,10 @@ export const interviewQuestionsMap = {
       question: "What causes Quick Sort's O(n²) worst-case time complexity?",
       answer: (
         <>
-          The worst-case occurs when the pivot chosen is consistently the
-          smallest or largest element (e.g. picking first or last element on
-          sorted or reverse-sorted data), resulting in highly unbalanced
-          partitions.
+          The <Link href="/articles/quick-sort-illusion">worst-case</Link>{' '}
+          occurs when the pivot chosen is consistently the smallest or largest
+          element (e.g. picking first or last element on sorted or
+          reverse-sorted data), resulting in highly unbalanced partitions.
         </>
       ),
     },
@@ -290,8 +291,15 @@ export const interviewQuestionsMap = {
     },
     {
       question: 'Why is Quick Sort often faster than Merge Sort in practice?',
-      answer:
-        'Quick Sort generally performs better due to better cache locality (working in-place on contiguous memory) and smaller constant factors in its operations (fewer data movements compared to Merge Sort’s copying to temporary arrays).',
+      answer: (
+        <>
+          Quick Sort generally performs better due to better cache locality
+          (working in-place on contiguous memory) and smaller constant factors
+          in its operations (fewer data movements compared to{' '}
+          <Link href="/sorting/MergeSort">Merge Sort</Link>&apos;s copying to
+          temporary arrays).
+        </>
+      ),
     },
   ],
 
@@ -866,21 +874,26 @@ head = prev;`,
 
   PrefixTree: [
     {
-      question:
-        'How does Trie differ from a Hash Map for string storage?',
-      answer:
-        <>A Trie stores strings character-by-character along tree paths, enabling prefix-based queries (autocomplete, starts-with) in <var>O(L)</var> time without scanning all keys. A Hash Map gives <var>O(1)</var> exact lookups but cannot enumerate strings sharing a prefix.</>,
+      question: 'How does Trie differ from a Hash Map for string storage?',
+      answer: (
+        <>
+          A Trie stores strings character-by-character along tree paths,
+          enabling prefix-based queries (autocomplete, starts-with) in{' '}
+          <var>O(L)</var> time without scanning all keys. A Hash Map gives{' '}
+          <var>O(1)</var> exact lookups but cannot enumerate strings sharing a
+          prefix.
+        </>
+      ),
     },
     {
-      question:
-        'How does deletion in a Trie avoid corrupting shared prefixes?',
+      question: 'How does deletion in a Trie avoid corrupting shared prefixes?',
       answer: (
         <>
           Use post-order recursion: unmark <code>isEnd</code> at the target
-          word, then delete each ancestor node on the way back up only if it
-          has <strong>no remaining children</strong> and is not the end of
-          another word. Naively removing entire paths breaks words that share
-          the same prefix.
+          word, then delete each ancestor node on the way back up only if it has{' '}
+          <strong>no remaining children</strong> and is not the end of another
+          word. Naively removing entire paths breaks words that share the same
+          prefix.
         </>
       ),
     },
@@ -993,8 +1006,8 @@ head = prev;`,
           In a B-Tree, keys and data pointers are stored in both internal nodes
           and leaf nodes. In a B+ Tree, internal nodes store only routing search
           keys, while all actual data records are stored in leaf nodes.{' '}
-          <Link href="/data-structures/B+Tree">B+ Tree</Link>{' '}
-          leaf nodes are linked sequentially for fast range queries.
+          <Link href="/data-structures/B+Tree">B+ Tree</Link> leaf nodes are
+          linked sequentially for fast range queries.
         </>
       ),
     },

@@ -139,7 +139,10 @@ Depth 2:         []       [3, 4, 5, 6, 7]  ...
           These are structural signals telling you that the strategy must adapt.
         </Typography>
 
-        <Typography component="ul" sx={{ '& li': { mb: 1 }, pl: 2 }}>
+        <Typography
+          component="ul"
+          sx={{ '& li': { mb: 1 }, width: 'max-content' }}
+        >
           <li>Consistently uneven partition sizes</li>
           <li>Recursion depth approaching input size</li>
           <li>Performance degradation on sorted inputs</li>

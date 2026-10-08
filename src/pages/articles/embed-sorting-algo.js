@@ -1,4 +1,4 @@
-import { Article, Section } from '@/components/common';
+import { Article, CodeSnippet, Section } from '@/components/common';
 import { Divider, Paper, Typography } from '@mui/material';
 import { SITE_URL } from '@/utils/constants';
 
@@ -55,16 +55,15 @@ export default function EmbedSortingAlgo() {
           Basic Example
         </Typography>
 
-        <Paper className="pseudoCode" sx={{ mb: 3 }}>
-          <pre style={{ margin: '4px 0' }}>
-            {`<iframe
+        <CodeSnippet
+          codeSnippet={`<iframe
     src="${SITE_URL}/sorting/embed/BubbleSort"
     width="100%"
     height="450px"
     frameborder="0">
 </iframe>`}
-          </pre>
-        </Paper>
+          sx={{ width: 'fit-content', mb: 3 }}
+        />
 
         <Typography paragraph>
           The iframe acts like a window that loads the external site. Modern

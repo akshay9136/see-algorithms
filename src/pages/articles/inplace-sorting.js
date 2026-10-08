@@ -40,7 +40,7 @@ export default function InplaceSorting() {
           array is required for the final result.
         </Typography>
 
-        <Typography component="ul" sx={{ '& li': { mb: 1 }, pl: 2 }}>
+        <Typography component="ul" sx={{ '& li': { mb: 1 } }}>
           <li>
             <Link href="/sorting/BubbleSort">
               <strong>Bubble Sort</strong>

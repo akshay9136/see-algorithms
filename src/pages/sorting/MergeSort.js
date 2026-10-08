@@ -99,7 +99,7 @@ const complexityData = [
     complexity: 'O(n log n)',
     description: (
       <>
-        Unlike <Link href="/sorting/QuickSort">Quick Sort</Link>, Merge Sort
+        Unlike <Link href="/sorting/QuickSort">Quicksort</Link>, Merge Sort
         guarantees O(n log n) even in the worst case.
       </>
     ),
