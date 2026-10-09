@@ -224,8 +224,9 @@ export const metaConfigs = {
       'Interactive Linked List guide. Insert, delete, and traverse nodes in real-time. Understand pointers and memory allocation visually.',
     howToSteps: [
       { name: 'Insert a node', text: 'Type a value and click Insert to add a node to the linked list. The visualizer shows the new node connected by a pointer.' },
+      { name: 'Insert at head', text: 'Type a value and click Insert at Head to add a node to the beginning of the linked list. Watch how the head pointer is updated.' },
+      { name: 'Insert at tail', text: 'Type a value and click Insert at Tail to add a node to the end of the linked list. Watch how the tail pointer is updated.' },
       { name: 'Delete a node', text: 'Enter a value and click Delete to remove the node. Watch how the pointer is redirected to bypass the deleted node.' },
-      { name: 'Traverse the list', text: 'Click Traverse to animate movement through the linked list from head to tail.' },
     ],
   },
   DoublyLinkedList: {
@@ -234,8 +235,9 @@ export const metaConfigs = {
       'Visualize Doubly Linked List in real-time. Learn bidirectional traversal, node insertion, and deletion with interactive pointer animations.',
     howToSteps: [
       { name: 'Insert a node', text: 'Enter a value and insert a node. The visualizer shows both forward (next) and backward (prev) pointer connections.' },
+      { name: 'Insert at head', text: 'Type a value and click Insert at Head to add a node to the beginning of the doubly linked list. Watch how the head pointer is updated.' },
+      { name: 'Insert at tail', text: 'Type a value and click Insert at Tail to add a node to the end of the doubly linked list. Watch how the tail pointer is updated.' },
       { name: 'Delete a node', text: 'Delete a node and watch both the next and prev pointers update to bypass the removed node.' },
-      { name: 'Traverse forward and backward', text: 'Use traverse controls to step through the list in both directions and observe bidirectional pointer links.' },
     ],
   },
   CircularQueue: {
@@ -246,7 +248,6 @@ export const metaConfigs = {
       { name: 'Enqueue elements', text: 'Click Enqueue to add elements to the rear of the circular queue. The rear pointer advances.' },
       { name: 'Watch wrapping', text: 'When the rear reaches the end of the array, it wraps around to the front — demonstrating the circular structure.' },
       { name: 'Dequeue elements', text: 'Click Dequeue to remove elements from the front. The front pointer advances circularly.' },
-      { name: 'Observe full/empty states', text: 'The visualizer highlights when the queue is full (all slots occupied) or empty (front equals rear).' },
     ],
   },
   BinaryHeap: {
@@ -257,7 +258,6 @@ export const metaConfigs = {
       { name: 'Insert a value', text: 'Enter a number and click Insert. The value is added at the last position, then heapify-up restores the heap property.' },
       { name: 'Watch heapify-up', text: 'The inserted element bubbles up by swapping with its parent until the parent is greater (Max-Heap) or smaller (Min-Heap).' },
       { name: 'Extract the root', text: 'Click Extract to remove the root (max or min). The last element moves to root, then heapify-down restores the heap.' },
-      { name: 'Toggle heap type', text: 'Switch between Max-Heap and Min-Heap to see how the heap property differs.' },
     ],
   },
   BST: {

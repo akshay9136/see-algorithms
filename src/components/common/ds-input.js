@@ -8,7 +8,7 @@ import styles from '@/styles/numbers.module.css';
 var iterators = [];
 
 const DSInput = forwardRef((props, ref) => {
-  const [number, setNumber] = useState(props.keepEmpty ? '' : randomInt());
+  const [number, setNumber] = useState(props.value ?? randomInt());
   const [status, setStatus] = useState(0);
   const allButtons = props.allButtons || props.buttons;
 
@@ -32,7 +32,7 @@ const DSInput = forwardRef((props, ref) => {
   const resume = async () => {
     setStatus(1);
     await Promise.all(iterators.map((it) => it.start()));
-    if (!props.keepEmpty) setNumber(randomInt());
+    if (isNaN(props.value)) setNumber(randomInt());
     setStatus(0);
   };
 

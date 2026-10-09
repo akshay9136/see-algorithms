@@ -4,10 +4,10 @@ import useBTreeBase from './useBTreeBase';
 import bPlusTree from '@/helpers/bPlusTree';
 import Paper from '@mui/material/Paper';
 
-export default function useBPlusTree({ randomNodes }) {
+export default function useBPlusTree(props) {
   const { scope, treeData, ...rest } = useBTreeBase({
     createTree: bPlusTree,
-    randomNodes,
+    ...props,
   });
 
   const transition = { duration: 0.5, ease: 'easeInOut' };

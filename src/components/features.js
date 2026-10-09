@@ -9,7 +9,6 @@ import {
   SaveOutlined,
   CodeOutlined,
 } from '@mui/icons-material';
-import { useRouter } from 'next/router';
 
 const features = [
   {
@@ -19,7 +18,6 @@ const features = [
       "Stop guessing what happens inside the loop. Our visualizer isolates and highlights the algorithm's exact decisions as they occur.",
     color: '#7c3aed',
     bgGradient: 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)',
-    path: '/sorting/HeapSort',
   },
   {
     icon: <PlayCircleOutline sx={{ fontSize: 40, color: 'white' }} />,
@@ -28,7 +26,6 @@ const features = [
       "Don't just watch — control the flow. Pause, resume, and step through animations at your own pace to truly understand the algorithm's behavior.",
     color: '#2563eb',
     bgGradient: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)',
-    path: '/sorting/QuickSort',
   },
   {
     icon: <ShapeLine sx={{ fontSize: 36, color: 'white' }} />,
@@ -38,7 +35,6 @@ const features = [
       'Move beyond static examples. Draw custom directed or undirected graphs, edit weights, create binary trees, or input your own numbers to sort.',
     color: '#059669',
     bgGradient: 'linear-gradient(135deg, #34d399 0%, #059669 100%)',
-    path: '/graph/Prims',
   },
   {
     icon: <LightbulbOutlined sx={{ fontSize: 40, color: 'white' }} />,
@@ -47,7 +43,6 @@ const features = [
       'Created a tricky graph or a specific tree structure? Generate a unique URL to share your exact visualization setup with peers or students instantly.',
     color: '#d97706',
     bgGradient: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)',
-    path: '/graph/Dijkstras',
   },
   {
     icon: <AutoAwesomeOutlined sx={{ fontSize: 40, color: 'white' }} />,
@@ -56,7 +51,6 @@ const features = [
       'Get AI-powered breakdowns of your custom graph algorithms and tree operations to bridge the gap between visualization and deep understanding.',
     color: '#0284c7',
     bgGradient: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
-    path: '/data-structures/BinaryHeap',
     isNew: true,
   },
   {
@@ -66,7 +60,6 @@ const features = [
       'Made a mistake? No problem. Seamlessly step backward and forward through your graph algorithm setup and rebalanced tree structure.',
     color: '#f97316',
     bgGradient: 'linear-gradient(135deg, #fb923c 0%, #f43f5e 100%)',
-    path: '/data-structures/AVL',
     isNew: true,
   },
   {
@@ -76,7 +69,6 @@ const features = [
       "Don't start from scratch. Save your custom graph layouts and complex data structures to your library to revisit and refine your experiments anytime.",
     color: '#16a34a',
     bgGradient: 'linear-gradient(135deg, #4ade80 0%, #16a34a 100%)',
-    path: '/data-structures/SplayTree',
     isNew: true,
   },
   {
@@ -86,14 +78,11 @@ const features = [
       'Seamlessly embed any of the interactive algorithm or data structure directly into your own website, blog, or educational materials.',
     color: '#c026d3',
     bgGradient: 'linear-gradient(135deg, #f0abfc 0%, #c026d3 100%)',
-    path: '/articles',
     isNew: true,
   },
 ];
 
 export default function Features() {
-  const router = useRouter();
-
   return (
     <Grid container spacing={4} pb={4} justifyContent="center">
       {features.map((feat, index) => (
@@ -101,7 +90,6 @@ export default function Features() {
           <Card
             elevation={0}
             sx={styles.card(feat)}
-            onClick={() => router.push(feat.path)}
           >
             {feat.isNew && (
               <Chip label="NEW" size="small" sx={styles.cardBadge()} />
@@ -146,16 +134,12 @@ const styles = {
     border: '1px solid',
     borderColor: 'grey.200',
     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-    cursor: 'pointer',
 
     '&:hover': {
       transform: 'scale(1.02)',
       boxShadow: '0 8px 24px rgba(0,0,0,0.16)',
       borderColor: feat.color,
-
-      '& .feature-bg': {
-        opacity: 0.1,
-      },
+      '& .feature-bg': { opacity: 0.1 },
     },
   }),
 

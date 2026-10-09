@@ -3,9 +3,7 @@ import { DSInput } from '@/components/common';
 import { useLinkedList } from '@/hooks/data-structures';
 import { useAlgorithm } from '@/hooks';
 
-export default function LinkedList(props) {
-  const { animation, buttons, inputRefs } = useLinkedList();
-
+export default function LinkedList() {
   const [insertAlgo1] = useAlgorithm(`
 function insertAtHead(value):
     node = new Node(value)
@@ -59,26 +57,9 @@ function deleteAt(index):
       <Typography variant="h6" component="h2">
         Visualizer
       </Typography>
-      <Box display="flex" flexWrap="wrap" gap={2}>
-        <DSInput
-          {...props}
-          buttons={buttons.slice(0, 2)}
-          hidePlayIcon
-          ref={inputRefs[0]}
-        />
-        <DSInput
-          {...props}
-          label="Enter an index: "
-          buttons={buttons.slice(2)}
-          hidePlayIcon
-          keepEmpty
-          ref={inputRefs[1]}
-        />
-      </Box>
-      <br />
-      {animation}
-
+      <Visualizer />
       <Divider />
+
       <Typography variant="h6" component="h2">
         Pseudocode
       </Typography>
@@ -90,8 +71,32 @@ function deleteAt(index):
         {insertAlgo3}
         {deleteAlgo}
       </Box>
-      <br />
-      <Divider />
     </Stack>
+  );
+}
+
+export function Visualizer() {
+  const { animation, buttons, inputRefs } = useLinkedList();
+
+  return (
+    <>
+      <Box display="flex" flexWrap="wrap" gap={2}>
+        <DSInput
+          label="Insert a number:"
+          hidePlayIcon
+          buttons={buttons.slice(0, 2)}
+          ref={inputRefs[0]}
+        />
+        <DSInput
+          label="At index:"
+          value={0}
+          hidePlayIcon
+          buttons={buttons.slice(2)}
+          ref={inputRefs[1]}
+        />
+      </Box>
+      <br />
+      {animation}
+    </>
   );
 }

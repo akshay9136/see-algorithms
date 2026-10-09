@@ -1,11 +1,19 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { DSInput, Section } from '@/components/common';
+import { DSInput, SavedDataList, Section } from '@/components/common';
+import { useAlgorithm, useSavedData } from '@/hooks';
 import { useBinaryTree } from '@/hooks/data-structures';
-import { useAlgorithm } from '@/hooks';
 import avlTree from '@/helpers/avlTree';
 import Link from 'next/link';
 
 export default function AVL(props) {
+  const { saveData, ...saveDataProps } = useSavedData();
+  const { animation, summary, buttons, refresh } = useBinaryTree({
+    createTree: (animator) => avlTree(animator, setCurrentStep),
+    hideButtons: ['Search'],
+    treeType: 'avl',
+    saveData,
+  });
+
   const [algorithm, setCurrentStep] = useAlgorithm(`
 function rebalance(node):
     updateHeight(node)
@@ -25,12 +33,6 @@ function rebalance(node):
     if node.parent:
         rebalance(node.parent)
 `);
-
-  const { animation, buttons, summary, savedData } = useBinaryTree({
-    createTree: (animator) => avlTree(animator, setCurrentStep),
-    hideButtons: ['Search'],
-    treeType: 'avl',
-  });
 
   return (
     <>
@@ -96,7 +98,11 @@ function rebalance(node):
         </Stack>
       </Box>
 
-      {savedData}
+      <SavedDataList onSelect={refresh} {...saveDataProps} />
     </>
   );
+}
+
+export function Visualizer() {
+
 }

@@ -1,11 +1,11 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import { DSInput, SavedDataList } from '@/components/common';
 import { useAlgorithm, useSavedData } from '@/hooks';
-import useMaxHeap from '@/hooks/data-structures/useMaxHeap';
+import { useMaxHeap } from '@/hooks/data-structures';
 import Link from 'next/link';
 
 export default function BinaryHeap(props) {
-  const { saveData, ...rest } = useSavedData();
+  const { saveData, ...saveDataProps } = useSavedData();
   const { animation, buttons, summary, refresh } = useMaxHeap({ saveData });
 
   const [insertAlgo] = useAlgorithm(`
@@ -49,7 +49,7 @@ function insert(value):
           {summary}
         </Stack>
       </Box>
-      <SavedDataList onSelect={refresh} {...rest} />
+      <SavedDataList onSelect={refresh} {...saveDataProps} />
     </>
   );
 }

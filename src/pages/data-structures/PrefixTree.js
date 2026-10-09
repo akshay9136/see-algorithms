@@ -1,7 +1,7 @@
 import { Box, Button, Input, Stack, Typography } from '@mui/material';
-import { useState } from 'react';
 import { useAlgorithm } from '@/hooks';
 import { usePrefixTree } from '@/hooks/data-structures';
+import { useState } from 'react';
 
 export default function PrefixTree() {
   const { animation, insert, search, deleteWord, clearState, wordCount, busy } =

@@ -40,7 +40,7 @@ export default function useLinkedListBase({ createList, delay = 500 }) {
     await sleep(delay);
     const flag = await getList().insertAt(value, index);
     await sleep(delay);
-    if (flag) setNodes((prev) => [...prev]); // if index is out of bounds trigger re-render if needed, but prev is better
+    if (flag) setNodes([...nodes]);
     setStatus(0);
   }
 
@@ -57,11 +57,16 @@ export default function useLinkedListBase({ createList, delay = 500 }) {
   };
 
   const buttons = [
-    { text: 'Insert at head', onClick: insertAtHead, validate: true },
-    { text: 'Insert at tail', onClick: insertAtTail, validate: true },
+    { text: 'At head', onClick: insertAtHead, validate: true },
+    { text: 'At tail', onClick: insertAtTail, validate: true },
     { text: 'Insert', onClick: insertAt, validate: true },
-    { text: 'Delete', onClick: deleteAt, validate: true, keepEmpty: true },
-    { text: 'Clear', onClick: reset, disabled: nodes.length <= 1 },
+    { text: 'Delete', onClick: deleteAt, validate: true },
+    {
+      text: 'Clear',
+      onClick: reset,
+      disabled: nodes.length <= 1,
+      color: 'error',
+    },
   ];
 
   useEffect(() => {
@@ -70,10 +75,10 @@ export default function useLinkedListBase({ createList, delay = 500 }) {
     return reset;
   }, []);
 
-  return { 
+  return {
     buttons,
     inputRefs: [inputRef1, inputRef2],
     scope,
-    nodes
+    nodes,
   };
 }

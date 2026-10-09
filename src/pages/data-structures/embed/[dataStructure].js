@@ -1,11 +1,12 @@
+import { Box } from '@mui/material';
+import { Visualizer as LLV } from '../LinkedList';
+import { Visualizer as DLV } from '../DoublyLinkedList';
 import { DSInput } from '@/components/common';
-import { Box, Stack } from '@mui/material';
 import { useRouter } from 'next/router';
 import {
   useBPlusTree,
   useBTree,
   useCircularQueue,
-  useLinkedList,
   useMaxHeap,
   useBinaryTree,
 } from '@/hooks/data-structures';
@@ -47,7 +48,10 @@ export default function EmbedDataStructure() {
   if (!router.isReady) return <div>Loading...</div>;
 
   const { dataStructure } = router.query;
-  if (dataStructure === 'LinkedList') return <LinkedList />;
+
+  if (dataStructure.includes('LinkedList')) {
+    return <LinkedList isDoubly={dataStructure.includes('Doubly')} />;
+  }
 
   const hooks = {
     AVL: useAvlTree,
@@ -91,20 +95,13 @@ function Visualizer({ useHook }) {
   );
 }
 
-function LinkedList() {
-  const { animation, buttons, inputRefs } = useLinkedList();
-
+function LinkedList({ isDoubly }) {
   return (
-    <Stack spacing={3} position="relative">
-      <DSInput buttons={buttons.slice(0, 2)} hidePlayIcon ref={inputRefs[0]} />
-      <DSInput
-        buttons={buttons.slice(2)}
-        label="Enter an index: "
-        hidePlayIcon
-        keepEmpty
-        ref={inputRefs[1]}
-      />
-      {animation}
+    <Box
+      sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
+      position="relative"
+    >
+      {isDoubly ? <DLV /> : <LLV />}
       <a
         href={window.location.href.replace('/embed', '')}
         target="_blank"
@@ -113,6 +110,6 @@ function LinkedList() {
       >
         See Algorithms
       </a>
-    </Stack>
+    </Box>
   );
 }

@@ -1,14 +1,17 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { DSInput, Section } from '@/components/common';
+import { DSInput, SavedDataList, Section } from '@/components/common';
 import { useBinaryTree } from '@/hooks/data-structures';
+import { useSavedData } from '@/hooks';
 import redBlackTree from '@/helpers/redBlackTree';
 import Link from 'next/link';
 
 export default function RedBlackTree(props) {
-  const { animation, buttons, summary, savedData } = useBinaryTree({
+  const { saveData, ...saveDataProps } = useSavedData();
+  const { animation, summary, buttons, refresh } = useBinaryTree({
     createTree: redBlackTree,
     hideButtons: ['Search'],
     treeType: 'red-black',
+    saveData,
   });
 
   return (
@@ -63,7 +66,7 @@ export default function RedBlackTree(props) {
         {summary}
       </Box>
 
-      {savedData}
+      <SavedDataList onSelect={refresh} {...saveDataProps} />
     </>
   );
 }
