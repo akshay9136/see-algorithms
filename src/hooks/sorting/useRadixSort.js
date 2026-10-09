@@ -110,7 +110,7 @@ while (max / exp) > 0:
   const animation = (
     <Box
       className="radixSort"
-      sx={{ minWidth: numbers.length * 60, pt: 3 }}
+      sx={{ minWidth: numbers.length * 60, pt: 4 }}
       ref={scope}
     >
       <Box display="flex">

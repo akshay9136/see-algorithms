@@ -105,7 +105,12 @@ export default function CompareSorting() {
             border="1px solid #e0e0e0"
             borderRadius={2}
           >
-            <Typography variant="h6" fontWeight="bold" mb={2} color="primary">
+            <Typography
+              variant="h6"
+              fontWeight="bold"
+              color="warning.main"
+              mb={2}
+            >
               {ALGORITHMS.find((a) => a.id === id).name}
             </Typography>
 

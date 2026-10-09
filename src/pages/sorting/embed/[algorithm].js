@@ -13,6 +13,8 @@ import {
 
 export default function EmbedAlgorithm() {
   const router = useRouter();
+  if (!router.isReady) return <div>Loading...</div>;
+
   const { algorithm } = router.query;
 
   const hooks = {
@@ -25,24 +27,20 @@ export default function EmbedAlgorithm() {
     RadixSort: useRadixSort,
   };
 
-  const useHook = hooks[algorithm];
-
-  if (!useHook) {
+  if (!hooks[algorithm]) {
     return <div>Algorithm not found</div>;
   }
 
-  return <Visualizer useHook={useHook} />;
+  return <Visualizer useHook={hooks[algorithm]} />;
 }
 
 function Visualizer({ useHook }) {
   const { animation, handleSort, handleStop } = useHook();
 
   return (
-    <Box
-      sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}
-      position="relative"
-    >
+    <Box position="relative">
       <InputNumbers onStart={handleSort} onReset={handleStop} />
+      <br />
       {animation}
       <a
         href={window.location.href.replace('/embed', '')}
