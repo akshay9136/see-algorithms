@@ -84,7 +84,7 @@ const features = [
 
 export default function Features() {
   return (
-    <Grid container spacing={4} pb={4} justifyContent="center">
+    <Grid container spacing={4} pb={6} justifyContent="center">
       {features.map((feat, index) => (
         <Grid item sm={6} lg={3} key={index} mx="auto">
           <Card
@@ -144,7 +144,8 @@ const styles = {
   }),
 
   cardBadge: () => ({
-    fontWeight: 'bold',
+    fontSize: '0.75rem',
+    fontWeight: 600,
     position: 'absolute',
     top: 16,
     left: 16,

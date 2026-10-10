@@ -250,6 +250,17 @@ export const metaConfigs = {
       { name: 'Dequeue elements', text: 'Click Dequeue to remove elements from the front. The front pointer advances circularly.' },
     ],
   },
+  PrefixTree: {
+    title: 'Trie (Prefix Tree) Visualizer | Interactive Animation',
+    description:
+      'Visualize Trie (prefix tree) operations. Insert words and watch shared prefixes collapse into a single path. Search and delete words with step-by-step node traversal.',
+    howToSteps: [
+      { name: 'Insert a word', text: 'Type a word and click Insert. Each character becomes a node; characters shared with existing words reuse the same branch.' },
+      { name: 'Observe shared prefixes', text: 'Insert words with common prefixes (e.g. "car", "card", "care"). Notice how the shared prefix path is stored only once.' },
+      { name: 'Search for a word', text: 'Type a word and click Search. The visualizer highlights each traversed node — blue for found, red for not found.' },
+      { name: 'Delete a word', text: 'Delete removes the end-of-word marker and prunes any nodes that are no longer part of another word.' },
+    ],
+  },
   BinaryHeap: {
     title: 'Binary Heap Visualizer | Interactive Min/Max Heap',
     description:
@@ -269,17 +280,6 @@ export const metaConfigs = {
       { name: 'Search for a value', text: 'Enter a value and click Search. Watch the algorithm compare and traverse left or right until it finds the node.' },
       { name: 'Delete a node', text: 'Enter a value and delete it. The visualizer demonstrates the three BST deletion cases: leaf, one child, or two children.' },
       { name: 'Observe the structure', text: 'Notice how sorted insertions can create a skewed tree (like a linked list), demonstrating the need for self-balancing trees.' },
-    ],
-  },
-  PrefixTree: {
-    title: 'Trie (Prefix Tree) Visualizer | Interactive Animation',
-    description:
-      'Visualize Trie (prefix tree) operations. Insert words and watch shared prefixes collapse into a single path. Search and delete words with step-by-step node traversal.',
-    howToSteps: [
-      { name: 'Insert a word', text: 'Type a word and click Insert. Each character becomes a node; characters shared with existing words reuse the same branch.' },
-      { name: 'Observe shared prefixes', text: 'Insert words with common prefixes (e.g. "car", "card", "care"). Notice how the shared prefix path is stored only once.' },
-      { name: 'Search for a word', text: 'Type a word and click Search. The visualizer highlights each traversed node — blue for found, red for not found.' },
-      { name: 'Delete a word', text: 'Delete removes the end-of-word marker and prunes any nodes that are no longer part of another word.' },
     ],
   },
   AVL: {

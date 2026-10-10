@@ -109,11 +109,7 @@ const Articles = () => {
           {filtered.map((article) => (
             <Grid item xs={12} sm={6} md={4} key={article.id}>
               <ActionCard href={`/articles/${article.id}`} {...article}>
-                <Typography
-                  variant="h6"
-                  component="h3"
-                  sx={styles.cardTitle}
-                >
+                <Typography variant="h6" component="h3" sx={styles.cardTitle}>
                   {article.title}
                 </Typography>
                 <Typography
@@ -156,7 +152,7 @@ const ActionCard = ({ children, href, category, date }) => {
               size="small"
               color={tagColor}
               variant="outlined"
-              sx={{ fontWeight: 'bold', lineHeight: 1.4 }}
+              sx={{ fontWeight: 600, fontSize: '0.75rem' }}
             />
             <Typography variant="caption" ml="auto">
               {date}

@@ -1098,7 +1098,7 @@ head = prev;`,
       answer: (
         <>
           Graham&apos;s Scan is <var>O(n log n)</var> due to initial polar angle
-          sorting. Jarvis March runs in <var>O(n * h)</var> time, where{' '}
+          sorting. Jarvis March runs in <var>O(n · h)</var> time, where{' '}
           <var>h</var> is the number of vertices on the Convex Hull. When{' '}
           <var>h</var> is small (h &lt; log n), Jarvis March is faster, but
           degrades to <var>O(n²)</var> if all points lie on the hull.

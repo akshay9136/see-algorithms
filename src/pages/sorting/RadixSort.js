@@ -6,7 +6,7 @@ import Link from 'next/link';
 const complexityData = [
   {
     type: 'Time Complexity',
-    complexity: 'O(n × d)',
+    complexity: 'O(n · d)',
     description:
       'Where n is the number of elements and d is the number of digits in the largest number. This makes Radix Sort linear when d is a constant.',
   },

@@ -33,20 +33,20 @@ export const algorithms = [
   { id: 'TopSort', name: 'Topological Sorting', category: 'Graph' },
   { id: 'Hamiltonian', name: 'Hamiltonian Cycle', category: 'Graph' },
   { id: 'Eulerian', name: 'Eulerian Cycle', category: 'Graph' },
-  {
-    id: 'CircularQueue',
-    name: 'Circular Queue',
-    category: 'Data Structures',
-  },
   { id: 'LinkedList', name: 'Linked List', category: 'Data Structures' },
   {
     id: 'DoublyLinkedList',
     name: 'Doubly Linked List',
     category: 'Data Structures',
   },
+  {
+    id: 'CircularQueue',
+    name: 'Circular Queue',
+    category: 'Data Structures',
+  },
+  { id: 'PrefixTree', name: 'Trie (Prefix Tree)', category: 'Data Structures' },
   { id: 'BinaryHeap', name: 'Binary Heap', category: 'Data Structures' },
   { id: 'BST', name: 'Binary Search Tree', category: 'Data Structures' },
-  { id: 'PrefixTree', name: 'Trie (Prefix Tree)', category: 'Data Structures' },
   {
     id: 'AVL',
     name: 'AVL Tree',
