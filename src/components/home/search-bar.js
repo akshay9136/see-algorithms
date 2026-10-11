@@ -20,12 +20,12 @@ export default function SearchBar({
   return (
     <Box
       sx={{
+        mb: 3,
         display: 'flex',
         flexDirection: { xs: 'column', md: 'row' },
-        gap: 2,
         justifyContent: 'space-between',
         alignItems: { xs: 'stretch', md: 'center' },
-        mb: 3,
+        gap: 2,
       }}
     >
       {/* Category Pills */}

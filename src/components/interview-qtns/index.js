@@ -1,16 +1,16 @@
 import { useMemo, memo } from 'react';
-import { HelpOutline } from '@mui/icons-material';
+import { interviewQtns as questionsMap } from '@/data/interview-qtns';
 import { Box, Typography } from '@mui/material';
-import { interviewQuestionsMap } from '@/data/interview-qtns';
+import { HelpOutline } from '@mui/icons-material';
 import QuestionCard from './question-card';
 
-function InterviewQuestions({
+function InterviewQtns({
   algorithmId,
   questions: customQuestions,
   title,
 }) {
   const questionList = useMemo(
-    () => customQuestions || interviewQuestionsMap[algorithmId],
+    () => customQuestions || questionsMap[algorithmId],
     [algorithmId, customQuestions],
   );
 
@@ -39,4 +39,4 @@ function InterviewQuestions({
   );
 }
 
-export default memo(InterviewQuestions);
+export default memo(InterviewQtns);

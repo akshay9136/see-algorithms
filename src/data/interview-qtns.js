@@ -5,7 +5,7 @@
 
 import Link from 'next/link';
 
-export const interviewQuestionsMap = {
+export const interviewQtns = {
   // --- SORTING ---
   BubbleSort: [
     {

@@ -16,7 +16,7 @@ export default function HomePage() {
 
       <HeroSection />
 
-      <Divider sx={{ my: 4 }} />
+      <Divider sx={{ my: 4 }} id="algorithm-catalog" />
 
       <AlgorithmCatalog />
       <br />

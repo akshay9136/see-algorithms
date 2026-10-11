@@ -15,10 +15,10 @@ import {
 } from '@mui/icons-material';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import { memo } from 'react';
 import { useRouter } from 'next/router';
+import { memo } from 'react';
+import { articles } from '@/data/articles';
 import { SITE_AUTHOR, SITE_URL } from '@/utils/constants';
-import { articles } from '@/common/appData';
 
 function formatDate(iso) {
   if (!iso) return null;
@@ -51,10 +51,7 @@ function Article({ title, summary, children }) {
     publisher: {
       '@id': `${SITE_URL}/#organization`,
     },
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': pageUrl,
-    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
     speakable: {
       '@type': 'SpeakableSpecification',
       cssSelector: ['.article-title', '.article-summary'],
@@ -68,10 +65,7 @@ function Article({ title, summary, children }) {
         mainEntity: faqs.map(({ q, a }) => ({
           '@type': 'Question',
           name: q,
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: a,
-          },
+          acceptedAnswer: { '@type': 'Answer', text: a },
         })),
       }
     : null;
@@ -102,21 +96,21 @@ function Article({ title, summary, children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
         {faqSchema && (
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
           />
         )}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-        />
       </Head>
 
       <Breadcrumbs
         aria-label="breadcrumb"
-        sx={{ mb: 3, lineHeight: 1.3 }}
+        sx={{ mb: 2.5 }}
         separator={<NavigateNext fontSize="small" />}
       >
         <MuiLink
@@ -125,7 +119,7 @@ function Article({ title, summary, children }) {
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
         >
-          <Home sx={{ fontSize: 18 }} />
+          <Home sx={{ fontSize: 20 }} />
           Home
         </MuiLink>
         <MuiLink
@@ -134,7 +128,7 @@ function Article({ title, summary, children }) {
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
         >
-          <ArticleIcon sx={{ fontSize: 16 }} />
+          <ArticleIcon sx={{ fontSize: 18 }} />
           Articles
         </MuiLink>
       </Breadcrumbs>

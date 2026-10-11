@@ -11,7 +11,7 @@ import {
   Tabs,
   Typography,
 } from '@mui/material';
-import { articles } from '@/common/appData';
+import { articles } from '@/data/articles';
 import Link from 'next/link';
 
 const tabs = [

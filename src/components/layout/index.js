@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { Box, Container, Divider, Drawer, Typography } from '@mui/material';
-import AlgorithmSEO from '../algorithm-seo';
 import Affiliates from '../affiliates';
+import AlgorithmSEO from '../algorithm-seo';
+import Breadcrumbs from './breadcrumbs';
 import Discussion from '../discussion';
-import InterviewQuestions from '../interview-qtns';
-import Sider from './sider';
-import Header from './header';
 import Footer from './footer';
+import Header from './header';
+import InterviewQtns from '../interview-qtns';
+import Sider from './sider';
 import { algorithms } from '@/common/appData';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
@@ -18,7 +19,8 @@ function Layout({ children }) {
   const pageId = isEmbed
     ? query.algorithm || query.dataStructure
     : pathname.split('/')[2];
-  const { name, title = name } = algorithms.findObj('id', pageId) || {};
+  const { name, title = name, category } =
+    algorithms.findObj('id', pageId) || {};
   const scrollRef = useRef(null);
 
   useEffect(() => {
@@ -76,21 +78,24 @@ function Layout({ children }) {
         <Box overflow="auto" ref={scrollRef}>
           <Container maxWidth="xl" className="content">
             {title && (
-              <Typography
-                variant="h5"
-                component="h1"
-                fontSize="1.6rem !important"
-                color="warning.main"
-                mb={2}
-              >
-                {title} Visualization
-              </Typography>
+              <>
+                <Breadcrumbs category={category} />
+                <Typography
+                  variant="h5"
+                  component="h1"
+                  fontSize="1.6rem !important"
+                  color="warning.main"
+                  mb={2}
+                >
+                  {title} Visualization
+                </Typography>
+              </>
             )}
             {children}
             {title && (
               <>
                 <Divider sx={{ mt: 4 }} />
-                <InterviewQuestions algorithmId={pageId} />
+                <InterviewQtns algorithmId={pageId} />
               </>
             )}
             {pageId && (

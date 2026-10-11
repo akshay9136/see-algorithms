@@ -1,11 +1,5 @@
 import { algorithms } from '@/common/appData';
 
-export const getAlgorithmPath = (algo) => {
-  if (algo.path) return algo.path;
-  const catId = algo.category.split(' ').join('-').toLowerCase();
-  return `/${catId}/${algo.id}`;
-};
-
 const complexityMap = {
   BubbleSort: { time: 'O(n²)', difficulty: 'Beginner' },
   InsertionSort: { time: 'O(n²)', difficulty: 'Beginner' },
@@ -68,6 +62,12 @@ const descriptions = {
   'B+Tree': 'A B-tree variant with data exclusively in leaves linked in sequence, optimized for high-throughput range scans.',
   ConvexHull: 'Finds the smallest convex polygon that completely encloses a given set of two-dimensional points.',
   HuffmanCoding: 'Compresses data by assigning shorter bit sequences to frequent characters and longer codes to rarer ones.',
+};
+
+const getAlgorithmPath = (algo) => {
+  if (algo.path) return algo.path;
+  const catId = algo.category.split(' ').join('-').toLowerCase();
+  return `/${catId}/${algo.id}`;
 };
 
 const exceptions = ['avl-tree-vs-rbt', 'b-tree-vs-b+tree', 'bfs-vs-dfs'];

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Box, Button, Card, Grid, Typography } from '@mui/material';
 import {
   ArrowForward,
@@ -6,6 +6,7 @@ import {
   FilterList,
   Search,
 } from '@mui/icons-material';
+import { useRouter } from 'next/router';
 import { catalogItems } from '@/data/catalog-items';
 import AlgorithmCard from './algorithm-card';
 import SearchBar from './search-bar';
@@ -29,9 +30,24 @@ const COMPARISONS = [
   },
 ];
 
+const categoryMap = {
+  sorting: 'Sorting',
+  graph: 'Graph',
+  'data-structures': 'Data Structures',
+  'advanced-trees': 'Advanced Trees',
+  other: 'Other',
+};
+
 export default function AlgorithmCatalog() {
+  const router = useRouter();
+  const { asPath } = router;
   const [category, setCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    const _category = asPath.split('/')[1].split('#')[0];
+    if (_category) setCategory(categoryMap[_category] || 'All');
+  }, [asPath]);
 
   // Filter algorithms by category and search query
   const filtered = useMemo(() => {
@@ -48,7 +64,7 @@ export default function AlgorithmCatalog() {
   }, [searchQuery, category]);
 
   return (
-    <Box id="algorithm-catalog">
+    <>
       <Box mb={3}>
         <Box display="flex" alignItems="center" gap={1} mb={1}>
           <FilterList color="warning" sx={{ fontSize: 32 }} />
@@ -94,7 +110,7 @@ export default function AlgorithmCatalog() {
           <Button
             variant="outlined"
             onClick={() => {
-              setCategory('All');
+              handleCategoryChange('All');
               setSearchQuery('');
             }}
             sx={{ textTransform: 'none', borderRadius: 2 }}
@@ -126,7 +142,7 @@ export default function AlgorithmCatalog() {
         <Box display="flex" alignItems="center" gap={1} mb={1}>
           <CompareArrows color="primary" />
           <Typography variant="h6" color="primary.main">
-            Compare Algorithms Side-by-Side
+            Side-by-Side Comparison
           </Typography>
         </Box>
         <Typography variant="body2" color="text.secondary" mb={2}>
@@ -166,7 +182,7 @@ export default function AlgorithmCatalog() {
           ))}
         </Grid>
       </Box>
-    </Box>
+    </>
   );
 }
 

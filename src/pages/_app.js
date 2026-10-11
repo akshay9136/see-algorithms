@@ -8,12 +8,11 @@ import { DefaultSeo } from 'next-seo';
 import AppContext, { initialState } from '../common/context';
 import CssBaseline from '@mui/material/CssBaseline';
 import Layout from '@/components/layout';
-import Toast from '@/components/toast';
 import SignInDialog from '@/components/sign-in-dialog';
+import Toast from '@/components/toast';
+import Head from 'next/head';
 import { Analytics } from '@vercel/analytics/next';
 import { GoogleAnalytics } from '@next/third-parties/google';
-import Script from 'next/script';
-import Head from 'next/head';
 import { Nunito } from 'next/font/google';
 import { useRouter } from 'next/router';
 import { PERSON_SCHEMA, SITE_URL } from '@/utils/constants';
@@ -86,14 +85,14 @@ export default function App({
         description:
           'See Algorithms provides interactive, step-by-step visualizations for sorting, graph, and data structure algorithms to help students and educators learn computer science concepts.',
         email: 'hello@see-algorithms.com',
-        sameAs: [
-          'https://github.com/akshay9136/see-algorithms',
-        ],
+        sameAs: ['https://github.com/akshay9136/see-algorithms'],
         founder: { '@id': `${SITE_URL}/#person-akshay` },
       },
       PERSON_SCHEMA,
     ],
   };
+  
+  const { openGraph } = defaultSeoConfig;
 
   return (
     <SessionProvider session={session}>
@@ -104,16 +103,15 @@ export default function App({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </Head>
+
       <DefaultSeo
         {...defaultSeoConfig}
         canonical={canonicalUrl}
-        openGraph={{
-          ...defaultSeoConfig.openGraph,
-          url: canonicalUrl,
-        }}
+        openGraph={{ ...openGraph, url: canonicalUrl }}
       />
       <Analytics />
       {isProd && <GoogleAnalytics gaId="G-CG2WRZ9YET" />}
+
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <AppContext.Provider value={contextValue}>

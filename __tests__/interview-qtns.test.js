@@ -1,12 +1,12 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import { interviewQtns as questionsMap } from '../src/data/interview-qtns';
 import { algorithms } from '../src/common/appData';
-import { interviewQuestionsMap } from '../src/data/interview-qtns';
-import InterviewQuestions from '../src/components/interview-qtns';
+import InterviewQtns from '../src/components/interview-qtns';
 
 describe('Interview Questions Dataset Validation', () => {
   test('All algorithms in appData have dedicated interview question sets', () => {
     algorithms.forEach((algo) => {
-      const questionSet = interviewQuestionsMap[algo.id];
+      const questionSet = questionsMap[algo.id];
       expect(questionSet).toBeDefined();
       expect(Array.isArray(questionSet)).toBe(true);
       expect(questionSet.length).toBeGreaterThanOrEqual(1);
@@ -14,7 +14,7 @@ describe('Interview Questions Dataset Validation', () => {
   });
 
   test('Every question entry contains required fields', () => {
-    Object.entries(interviewQuestionsMap).forEach(([algoId, questions]) => {
+    Object.entries(questionsMap).forEach(([algoId, questions]) => {
       questions.forEach((q) => {
         expect(typeof q.question).toBe('string');
         expect(q.question.length).toBeGreaterThan(5);
@@ -31,9 +31,9 @@ describe('Interview Questions Dataset Validation', () => {
   });
 });
 
-describe('InterviewQuestions Component', () => {
+describe('InterviewQtns Component', () => {
   test('Renders section title and question cards for MergeSort', () => {
-    render(<InterviewQuestions algorithmId="MergeSort" />);
+    render(<InterviewQtns algorithmId="MergeSort" />);
 
     expect(screen.getByText('Common Interview Questions')).toBeInTheDocument();
     expect(
@@ -42,7 +42,7 @@ describe('InterviewQuestions Component', () => {
   });
 
   test('Answer text is present in the DOM for SEO when collapsed', () => {
-    render(<InterviewQuestions algorithmId="MergeSort" />);
+    render(<InterviewQtns algorithmId="MergeSort" />);
 
     const answerElement = screen.getByText(
       /elements can be merged in-place by updating pointer references/i,
@@ -51,7 +51,7 @@ describe('InterviewQuestions Component', () => {
   });
 
   test('Renders copy code button for answers with code snippets', () => {
-    render(<InterviewQuestions algorithmId="SelectionSort" />);
+    render(<InterviewQtns algorithmId="SelectionSort" />);
 
     const header = screen.getByText(/Why is Selection Sort unstable/i);
     fireEvent.click(header);

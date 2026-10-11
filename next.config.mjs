@@ -35,6 +35,15 @@ const nextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      { source: '/sorting', destination: '/' },
+      { source: '/graph', destination: '/' },
+      { source: '/data-structures', destination: '/' },
+      { source: '/advanced-trees', destination: '/' },
+      { source: '/other', destination: '/' },
+    ];
+  },
 };
 
 export default nextConfig;
