@@ -49,7 +49,7 @@ var src, visited, eulerPath, totalEdges;
 export function Visualizer() {
   const [summary, explain, abortSummary] = useSummary();
   const [scope, graphRef] = useGraphScope();
-  const delay = 1000;
+  const delay = 800;
 
   const showDegree = () => {
     for (let u = 0; u < Graph.totalPoints(); u++) {

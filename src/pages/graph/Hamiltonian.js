@@ -25,7 +25,7 @@ var src, visited;
 
 export function Visualizer() {
   const [scope, graphRef] = useGraphScope();
-  const delay = 1000;
+  const delay = 800;
 
   async function* start(source) {
     visited = Array(Graph.totalPoints()).fill(false);
