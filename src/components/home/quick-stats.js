@@ -5,35 +5,43 @@ import {
   AutoAwesomeOutlined,
   PolylineOutlined,
 } from '@mui/icons-material';
+import { useTheme } from '@mui/material/styles';
 
 const STATS = [
   {
     icon: <PolylineOutlined sx={{ fontSize: 36, color: '#2563eb' }} />,
     title: '30+ Visualizers',
     subtitle: 'Sorting, Graphs, Trees, Heaps & Geometry',
-    bgColor: '#eff6ff',
+    bgLight: '#eff6ff',
+    bgDark: '#1a2a4a',
   },
   {
     icon: <PlayCircleOutline sx={{ fontSize: 36, color: '#059669' }} />,
     title: 'Playback Control',
     subtitle: 'Pause, step through, or step back anytime',
-    bgColor: '#ecfdf5',
+    bgLight: '#ecfdf5',
+    bgDark: '#0d2a1e',
   },
   {
     icon: <DrawOutlined sx={{ fontSize: 36, color: '#d97706' }} />,
     title: 'Custom Inputs',
     subtitle: 'Draw interactive graphs or sort custom arrays',
-    bgColor: '#fffbeb',
+    bgLight: '#fffbeb',
+    bgDark: '#2a2010',
   },
   {
     icon: <AutoAwesomeOutlined sx={{ fontSize: 36, color: '#7c3aed' }} />,
     title: 'AI Insights',
     subtitle: 'Get AI generated step-by-step breakdowns',
-    bgColor: '#f5f3ff',
+    bgLight: '#f5f3ff',
+    bgDark: '#1e1a2e',
   },
 ];
 
 export default function QuickStats() {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
+
   return (
     <Box sx={{ my: 4 }}>
       <Grid container spacing={2}>
@@ -46,7 +54,7 @@ export default function QuickStats() {
                 padding: 2,
                 height: '100%',
                 border: '1px solid',
-                borderColor: 'grey.200',
+                borderColor: 'divider',
                 borderRadius: 2.5,
                 display: 'flex',
                 alignItems: 'center',
@@ -63,7 +71,7 @@ export default function QuickStats() {
                   width: 60,
                   height: 60,
                   borderRadius: 2,
-                  bgcolor: stat.bgColor,
+                  bgcolor: isDark ? stat.bgDark : stat.bgLight,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',

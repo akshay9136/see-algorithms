@@ -78,7 +78,7 @@ function search(root, word):
           component="label"
           htmlFor="trieWordInput"
           variant="subtitle1"
-          fontSize="1.1rem"
+          fontWeight={600}
         >
           Enter a word:&nbsp;
         </Typography>
@@ -128,7 +128,7 @@ function search(root, word):
             id="trieClearBtn"
             size="small"
             variant="outlined"
-            color="error"
+            color="secondary"
             onClick={handleClear}
             disabled={busy || wordCount === 0}
             aria-label="Clear the Trie"

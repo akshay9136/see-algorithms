@@ -55,9 +55,9 @@ export default function SearchBar({
                 fontWeight: 600,
                 fontSize: '0.875rem',
                 borderRadius: 2,
-                borderColor: isSelected ? 'primary.main' : 'grey.300',
-                bgcolor: isSelected ? 'primary.main' : 'white',
-                color: isSelected ? 'white' : 'grey.700',
+                borderColor: isSelected ? 'primary.main' : 'divider',
+                bgcolor: isSelected ? 'primary.main' : 'background.paper',
+                color: isSelected ? 'white' : 'text.secondary',
               }}
             />
           );
@@ -92,8 +92,9 @@ export default function SearchBar({
             ) : null,
             sx: {
               borderRadius: 2,
-              bgcolor: 'white',
-              '& fieldset': { borderColor: 'grey.300' },
+              // background.paper adapts to dark mode automatically
+              bgcolor: 'background.paper',
+              '& fieldset': { borderColor: 'divider' },
             },
           }}
         />

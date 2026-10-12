@@ -1,5 +1,6 @@
 import { Points } from './graph';
 import { showToast } from '../components/toast';
+import { Colors } from './constants';
 import $ from 'jquery';
 
 const mouseEvents = ['click', 'mousedown', 'mouseup', 'mousemove', 'mouseenter', 'mouseleave'];
@@ -35,7 +36,7 @@ function vertexLabel(p, text) {
     class: 'vtag',
     x: p.x + 20,
     y: p.y - 12,
-    fill: '#404040',
+    fill: Colors.vertex,
     'font-size': 14,
     'font-weight': 'bold',
   };

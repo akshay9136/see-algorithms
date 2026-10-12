@@ -8,7 +8,7 @@ export default memo(function Footer() {
 
   return (
     <Box
-      p={3}
+      p={4}
       borderTop={1}
       borderColor="divider"
       display="flex"
@@ -23,7 +23,7 @@ export default memo(function Footer() {
           href="https://opensource.org/licenses/MIT"
           target="_blank"
           rel="noopener noreferrer"
-          style={{ color: 'rgba(0, 0, 0, 0.6)' }}
+          style={{ color: 'inherit' }}
         >
           MIT
         </Link>
@@ -32,56 +32,31 @@ export default memo(function Footer() {
           href="https://creativecommons.org/licenses/by-nc/4.0/"
           target="_blank"
           rel="noopener noreferrer"
-          style={{ color: 'rgba(0, 0, 0, 0.6)' }}
+          style={{ color: 'inherit' }}
         >
           CC BY-NC 4.0
         </Link>
       </Typography>
 
       <Box display="flex" gap={2} flexWrap="wrap">
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          component={Link}
-          href="/about"
-        >
+        <Typography variant="body2" component={Link} href="/about">
           About
         </Typography>
 
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          component={Link}
-          href="/contact"
-        >
+        <Typography variant="body2" component={Link} href="/contact">
           Contact Us
         </Typography>
 
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          component={Link}
-          href="/privacy"
-        >
+        <Typography variant="body2" component={Link} href="/privacy">
           Privacy Policy
         </Typography>
 
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          component={Link}
-          href="/terms"
-        >
+        <Typography variant="body2" component={Link} href="/terms">
           Terms of Service
         </Typography>
 
         {pathname === '/buy-credits' && (
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            component={Link}
-            href="/refund-policy"
-          >
+          <Typography variant="body2" component={Link} href="/refund-policy">
             Refund Policy
           </Typography>
         )}
@@ -89,7 +64,6 @@ export default memo(function Footer() {
         <Typography
           variant="body2"
           component={Link}
-          color="text.secondary"
           href="https://github.com/sponsors/akshay9136"
           target="_blank"
           rel="noopener noreferrer"

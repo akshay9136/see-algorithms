@@ -179,8 +179,8 @@ export const interviewQtns = {
           <Link href="/sorting/QuickSort">Quick Sort</Link> for performance. It
           monitors the recursion depth, and if recursion depth exceeds{' '}
           <var>2 * log₂ n</var> — indicating bad pivot choices leading towards{' '}
-          <var>O(n²)</var>, Introsort switches dynamically to Heap Sort to
-          guarantee <var>O(n log n)</var> worst-case time.
+          O(n²), Introsort switches dynamically to Heap Sort to guarantee{' '}
+          <var>O(n log n)</var> worst-case time.
         </>
       ),
     },

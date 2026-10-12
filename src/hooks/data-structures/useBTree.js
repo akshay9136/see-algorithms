@@ -1,8 +1,9 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { Draggable } from '@/components/common';
+import { Colors } from '@/common/constants';
+import { Paper } from '@mui/material';
 import useBTreeBase from './useBTreeBase';
 import bTree from '@/helpers/bTree';
-import Paper from '@mui/material/Paper';
 
 export default function useBTree(props) {
   const { scope, treeData, ...rest } = useBTreeBase({
@@ -76,7 +77,7 @@ const styles = {
     position: 'absolute',
     height: 40,
     borderRadius: 8,
-    backgroundColor: '#e3f1fc',
+    backgroundColor: Colors.btreeNode,
     border: '1px solid #90c4f0',
     zIndex: 1,
   },
@@ -87,11 +88,11 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontWeight: 700,
     fontSize: 16,
-    color: '#2c6faa',
-    zIndex: 2,
+    fontWeight: 600,
     pointerEvents: 'none',
     userSelect: 'none',
+    zIndex: 2,
+    color: Colors.label,
   },
 };

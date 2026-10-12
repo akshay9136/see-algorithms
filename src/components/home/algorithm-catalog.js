@@ -90,18 +90,17 @@ export default function AlgorithmCatalog() {
         <Card
           elevation={0}
           sx={{
-            mb: 2,
             padding: 5,
             textAlign: 'center',
             borderRadius: 3,
             border: '2px dashed',
-            borderColor: 'grey.300',
-            bgcolor: 'grey.50',
+            borderColor: 'divider',
+            mb: 2,
           }}
         >
           <Search sx={{ fontSize: 40, color: 'text.secondary' }} />
 
-          <Typography variant="h6" color="grey.800" my={0.5}>
+          <Typography variant="h6" color="text.primary" my={0.5}>
             No algorithms match your criteria
           </Typography>
           <Typography variant="body2" color="text.secondary" mb={2.5}>
@@ -131,12 +130,11 @@ export default function AlgorithmCatalog() {
       {/* Comparisons */}
       <Box
         sx={{
-          mt: 5,
           padding: 3,
           borderRadius: 3,
-          border: '1px solid',
-          borderColor: 'grey.300',
-          bgcolor: 'grey.50',
+          border: '2px solid',
+          borderColor: 'divider',
+          mt: 5,
         }}
       >
         <Box display="flex" alignItems="center" gap={1} mb={1}>
@@ -156,7 +154,7 @@ export default function AlgorithmCatalog() {
               <Card
                 component={Link}
                 href={comp.path}
-                elevation={0}
+                elevation={1}
                 sx={styles.comparisonCard}
               >
                 <Box
@@ -167,7 +165,7 @@ export default function AlgorithmCatalog() {
                   <Typography
                     variant="subtitle1"
                     fontWeight={600}
-                    color="grey.900"
+                    color="text.primary"
                     mb={0.5}
                   >
                     {comp.name}
@@ -192,7 +190,7 @@ const styles = {
     padding: 2,
     borderRadius: 2,
     border: '1px solid',
-    borderColor: 'grey.300',
+    borderColor: 'divider',
     textDecoration: 'none',
     transition: 'all 0.2s ease',
     '&:hover': {

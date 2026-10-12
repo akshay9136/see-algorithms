@@ -81,9 +81,9 @@ function Layout({ children }) {
               <>
                 <Breadcrumbs category={category} />
                 <Typography
-                  variant="h5"
+                  variant="h4"
                   component="h1"
-                  fontSize="1.6rem !important"
+                  fontSize="1.65rem !important"
                   color="warning.main"
                   mb={2}
                 >

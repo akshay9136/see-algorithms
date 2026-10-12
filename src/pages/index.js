@@ -15,8 +15,7 @@ export default function HomePage() {
       </Head>
 
       <HeroSection />
-
-      <Divider sx={{ my: 4 }} id="algorithm-catalog" />
+      <Divider sx={{ my: 4 }} id="algo-catalog" />
 
       <AlgorithmCatalog />
       <br />
@@ -30,9 +29,10 @@ export default function HomePage() {
           mechanics.
         </Typography>
       </Box>
+
       <Features />
 
-      <Box bgcolor="success.light" color="primary.contrastText" py={5}>
+      <Box bgcolor="success.light" color="primary.contrastText" py={6}>
         <Container maxWidth="md" sx={{ textAlign: 'center' }}>
           <Typography variant="h5" component="h2" fontWeight={800} gutterBottom>
             Bridge the Gap Between Code and Concept

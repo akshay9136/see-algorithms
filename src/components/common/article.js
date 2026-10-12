@@ -13,12 +13,12 @@ import {
   NavigateNext,
   Person,
 } from '@mui/icons-material';
-import Head from 'next/head';
-import NextLink from 'next/link';
-import { useRouter } from 'next/router';
-import { memo } from 'react';
 import { articles } from '@/data/articles';
 import { SITE_AUTHOR, SITE_URL } from '@/utils/constants';
+import { memo, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import NextLink from 'next/link';
+import Head from 'next/head';
 
 function formatDate(iso) {
   if (!iso) return null;
@@ -32,7 +32,9 @@ function formatDate(iso) {
 function Article({ title, summary, children }) {
   const router = useRouter();
   const articleId = router.pathname.split('/').pop();
-  const { date, faqs } = articles.find((a) => a.id === articleId) || {};
+  const { category, date, faqs } =
+    articles.find((a) => a.id === articleId) || {};
+
   const pageUrl = `${SITE_URL}/articles/${articleId}`;
 
   const articleSchema = {
@@ -89,6 +91,13 @@ function Article({ title, summary, children }) {
     ],
   };
 
+  const { pathname } = router;
+
+  useEffect(() => {
+    const query = { category };
+    router.replace({ pathname, query }, undefined, { shallow: true });
+  }, [category, pathname]);
+
   return (
     <Container maxWidth="md" sx={{ p: 0 }} className="article">
       <Head>
@@ -139,9 +148,11 @@ function Article({ title, summary, children }) {
         gutterBottom
         color="warning.main"
         className="article-title"
+        fontSize="1.65rem !important"
       >
         {title}
       </Typography>
+
       <Typography
         variant="subtitle1"
         color="text.secondary"

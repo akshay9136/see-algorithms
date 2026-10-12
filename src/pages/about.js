@@ -33,7 +33,7 @@ export default function AboutPage() {
 
         <Typography
           variant="subtitle1"
-          textAlign="center !important"
+          textAlign="center"
           color="text.secondary"
         >
           Making Algorithm Learning Accessible Through Interactive

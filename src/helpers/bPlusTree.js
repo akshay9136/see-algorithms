@@ -10,8 +10,6 @@ const LEVEL_GAP = 80;
 const TOP_Y = 40;
 
 const delay = 500;
-const leafColor = '#e8f5e9'; // green-tinted for leaves
-const internalColor = '#e3f1fc'; // blue-tinted for internal nodes
 
 function bPlusTree({ bgcolor }) {
     var root = null;
@@ -263,7 +261,8 @@ function bPlusTree({ bgcolor }) {
             await bgcolor(node.id, Colors.compare);
             yield delay;
             if (i < path.length - 1) {
-                await bgcolor(node.id, node.isLeaf ? leafColor : internalColor);
+                const color = node.isLeaf ? Colors.btreeLeaf : Colors.btreeNode;
+                await bgcolor(node.id, color);
             }
         }
         sound('pop');
@@ -271,7 +270,7 @@ function bPlusTree({ bgcolor }) {
         insertIntoLeaf(leaf, value);
         updateView(getSnapshot());
         yield delay * 2;
-        await bgcolor(leaf.id, leafColor);
+        await bgcolor(leaf.id, Colors.btreeLeaf);
         yield delay;
 
         if (leaf.keys.length > ORDER - 1) {
@@ -300,15 +299,15 @@ function bPlusTree({ bgcolor }) {
                     sound('pop');
                     await bgcolor(node.id, Colors.sorted);
                     yield delay;
-                    await bgcolor(node.id, leafColor);
+                    await bgcolor(node.id, Colors.btreeLeaf);
                 } else {
-                    await bgcolor(node.id, leafColor);
+                    await bgcolor(node.id, Colors.btreeLeaf);
                 }
                 return found;
             }
             let i = 0, keys = node.keys;
             while (i < keys.length && value >= keys[i]) i++;
-            await bgcolor(node.id, internalColor);
+            await bgcolor(node.id, Colors.btreeNode);
             node = node.children[i];
         }
         return false;

@@ -39,55 +39,16 @@
 }
 
 .drawer {
-    top: var(--header-height) !important;
+    top: var(--header-height);
     height: var(--layout-height);
 }
 
 .drawer .paper,
 .drawer .backdrop {
-    top: var(--header-height) !important;
+    top: var(--header-height);
     height: var(--layout-height);
 }
 
-.sorting {
-    height: 200px;
-    position: relative;
-}
-
-.heapSort,
-.mergeSort,
-.radixSort {
-    position: relative;
-    min-height: 300px;
-}
-
-.huffmanTree {
-    position: relative;
-    height: 500px;
-}
-
-.alphaGrid {
-    display: flex;
-    min-height: 40px;
-}
-
-.alphaGrid .cell {
-    width: 44px;
-    height: 40px;
-    margin-right: 8px;
-    border-radius: 6px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 600;
-    color: #404040;
-}
-
-.numGrid .cell {
-    width: 52px;
-    height: 42px;
-}
 
 .drawGraph {
     width: max-content;
@@ -119,35 +80,6 @@
     padding: 4px 24px;
 }
 
-.currentStep {
-    background-color: orange;
-}
-
-.cost {
-    width: 32px;
-    height: 24px;
-    background: transparent;
-    border: 0;
-    padding: 0;
-    font-size: 0.95rem;
-}
-
-.cost:focus {
-    background: lightblue;
-    outline: none;
-}
-
-.dfs-path .cell,
-.bfs-path .cell {
-    background-color: #ffd580;
-}
-
-.euler-path .cell,
-.ham-path .cell,
-.top-sort .cell {
-    background-color: orange;
-}
-
 .watermark {
     position: absolute;
     top: 0;
@@ -174,4 +106,33 @@
   text-transform: none;
   font-size: 1rem;
   gap: 8px;
+}
+
+/* ────── Dark Mode Overrides ────── */
+
+[data-theme='dark'] .content {
+    background-color: #121212;
+}
+
+[data-theme='dark'] .pseudoCode {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+[data-theme='dark'] .resizable {
+    border-color: #333;
+}
+
+[data-theme='dark'] .watermark {
+    color: #aaa;
+    border-color: #aaa;
+}
+
+[data-theme='dark'] .watermark:hover {
+    color: #90caf9;
+    border-color: #90caf9;
+}
+
+[data-theme='dark'] .codeSnippet {
+    background-color: #20292f;
 }

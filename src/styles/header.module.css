@@ -38,8 +38,7 @@
 
 /* Desktop Navigation Styles */
 .navButton {
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
+    padding: 4px 12px;
     transition: all 0.3s ease;
     text-transform: none;
     font-size: 1rem;
@@ -60,4 +59,15 @@
         color: #1a1a1a;
         text-shadow: none;
     }
+}
+
+/* Dark mode: override desktop white header */
+[data-theme="dark"] .header {
+    background: #0a1929;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .heading {
+    color: #e0e0e0;
+    text-shadow: none;
 }

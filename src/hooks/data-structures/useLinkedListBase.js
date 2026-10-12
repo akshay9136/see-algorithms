@@ -65,7 +65,7 @@ export default function useLinkedListBase({ createList, delay = 500 }) {
       text: 'Clear',
       onClick: reset,
       disabled: nodes.length <= 1,
-      color: 'error',
+      color: 'secondary',
     },
   ];
 

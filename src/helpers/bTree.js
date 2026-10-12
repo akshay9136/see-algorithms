@@ -10,7 +10,6 @@ const LEVEL_GAP = 80;
 const TOP_Y = 40;
 
 const delay = 500;
-const nodeColor = '#e3f1fc';
 
 function bTree({ bgcolor }) {
     var root, nextId = 0;
@@ -180,7 +179,7 @@ function bTree({ bgcolor }) {
             await bgcolor(node.id, Colors.compare);
             yield delay;
             if (i < path.length - 1) {
-                await bgcolor(node.id, nodeColor);
+                await bgcolor(node.id, Colors.btreeNode);
             }
         }
         sound('pop');
@@ -189,7 +188,7 @@ function bTree({ bgcolor }) {
         insertKey(leaf, value);
         updateView(getSnapshot());
         yield delay * 2;
-        await bgcolor(leaf.id, nodeColor);
+        await bgcolor(leaf.id, Colors.btreeNode);
         yield delay;
         // Split as needed
         let node = leaf;
@@ -213,10 +212,10 @@ function bTree({ bgcolor }) {
                 sound('pop');
                 await bgcolor(node.id, Colors.sorted);
                 yield delay;
-                await bgcolor(node.id, nodeColor);
+                await bgcolor(node.id, Colors.btreeNode);
                 return true;
             }
-            await bgcolor(node.id, nodeColor);
+            await bgcolor(node.id, Colors.btreeNode);
             if (node.children.length === 0) break;
             node = node.children[i];
         }

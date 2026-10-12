@@ -16,7 +16,7 @@ function CodeSnippet({ codeSnippet, sx }) {
 
   return (
     <Box
-      mt={2}
+      className="codeSnippet"
       sx={{
         ...sx,
         borderRadius: 2,
@@ -24,6 +24,7 @@ function CodeSnippet({ codeSnippet, sx }) {
         color: 'grey.100',
         padding: 2.5,
         pt: 2,
+        mt: 2
       }}
     >
       <Box

@@ -12,6 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 import { articles } from '@/data/articles';
+import { CategoryColors } from '@/common/constants';
 import Link from 'next/link';
 
 const tabs = [
@@ -129,30 +130,16 @@ const Articles = () => {
 };
 
 const ActionCard = ({ children, href, category, date }) => {
-  const tagColor =
-    category === 'Sorting'
-      ? 'info'
-      : category === 'Graph'
-        ? 'warning'
-        : category === 'Advanced Trees'
-          ? 'secondary'
-          : 'success';
-
   return (
     <Card elevation={2} sx={styles.card}>
-      <CardActionArea
-        component={Link}
-        href={href + `?category=${category}`}
-        sx={{ height: '100%' }}
-      >
+      <CardActionArea component={Link} href={href} sx={{ height: '100%' }}>
         <CardContent sx={{ p: 3 }}>
           <Box display="flex" alignItems="center" gap={1}>
             <Chip
               label={category}
               size="small"
-              color={tagColor}
+              color={CategoryColors[category]}
               variant="outlined"
-              sx={{ fontWeight: 600, fontSize: '0.75rem' }}
             />
             <Typography variant="caption" ml="auto">
               {date}

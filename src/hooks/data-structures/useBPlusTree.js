@@ -1,8 +1,9 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { Draggable } from '@/components/common';
+import { Colors } from '@/common/constants';
+import { Paper } from '@mui/material';
 import useBTreeBase from './useBTreeBase';
 import bPlusTree from '@/helpers/bPlusTree';
-import Paper from '@mui/material/Paper';
 
 export default function useBPlusTree(props) {
   const { scope, treeData, ...rest } = useBTreeBase({
@@ -68,7 +69,7 @@ export default function useBPlusTree(props) {
               animate={{ opacity: 1, ...node }}
               exit={{ opacity: 0 }}
               transition={transition}
-              style={node.isLeaf ? styles.leafNode : styles.internalNode}
+              style={node.isLeaf ? styles.leaf : styles.node}
             />
           ))}
         </AnimatePresence>
@@ -81,7 +82,7 @@ export default function useBPlusTree(props) {
               animate={{ opacity: 1, x: key.x, y: key.y }}
               exit={{ opacity: 0, scale: 0.5 }}
               transition={transition}
-              style={key.isLeaf ? styles.leafKey : styles.internalKey}
+              style={styles.key}
             >
               {key.value}
             </motion.div>
@@ -101,36 +102,34 @@ const baseNode = {
   zIndex: 1,
 };
 
-const baseKey = {
-  position: 'absolute',
-  width: 50,
-  height: 40,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  fontWeight: 700,
-  fontSize: 16,
-  zIndex: 2,
-  pointerEvents: 'none',
-  userSelect: 'none',
-};
-
 const styles = {
   svg: {
     position: 'absolute',
     width: '100%',
     height: '100%',
   },
-  internalNode: {
+  node: {
     ...baseNode,
-    backgroundColor: '#e3f1fc',
+    backgroundColor: Colors.btreeNode,
     border: '1px solid #90c4f0',
   },
-  leafNode: {
+  leaf: {
     ...baseNode,
-    backgroundColor: '#e8f5e9',
+    backgroundColor: Colors.btreeLeaf,
     border: '1px solid #66bb6a',
   },
-  internalKey: { ...baseKey, color: '#2c6faa' },
-  leafKey: { ...baseKey, color: '#2e7d32' },
+  key: {
+    position: 'absolute',
+    width: 50,
+    height: 40,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: 16,
+    fontWeight: 600,
+    pointerEvents: 'none',
+    userSelect: 'none',
+    zIndex: 2,
+    color: Colors.label,
+  },
 };

@@ -8,7 +8,7 @@ import Link from 'next/link';
 function Breadcrumbs({ category }) {
   const { pathname } = useRouter();
   const _category = pathname.split('/')[1];
-  const catalogPath = `/${category == 'Advanced Trees' ? 'advanced-trees' : _category}#algorithm-catalog`;
+  const catalogPath = `/${category == 'Advanced Trees' ? 'advanced-trees' : _category}#algo-catalog`;
   const categoryName = category === 'Finding MST' ? 'Graph' : category;
 
   const breadcrumbSchema = {
@@ -43,7 +43,7 @@ function Breadcrumbs({ category }) {
 
       <MuiBreadcrumbs
         aria-label="breadcrumb"
-        sx={{ mb: 2 }}
+        sx={{ mb: 3 }}
         separator={<NavigateNext fontSize="small" />}
       >
         <MuiLink

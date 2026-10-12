@@ -12,6 +12,16 @@ body,
   font-size: 2rem;
 }
 
+.MuiTypography-h5 {
+  font-size: 1.4rem;
+}
+
+.MuiChip-sizeSmall {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  border-radius: 6px;
+}
+
 a {
   color: #1565c0;
   text-underline-offset: 2px;
@@ -23,4 +33,47 @@ code {
   border-radius: 4px;
   padding: 3px 6px;
   white-space: nowrap;
+}
+
+/* ────── Dark Mode Overrides ────── */
+
+[data-theme='dark'] a {
+  color: #90caf9;
+}
+
+[data-theme='dark'] code {
+  background-color: #36454f;
+  color: #e0e0e0;
+}
+
+:root {
+  --color-white: #fff;
+  --color-compare: #ffac1c;
+  --color-sorted: #9acd32;
+  --color-enqueue: #ffd580;
+  --color-visited: #ff9800;
+  --color-rejected: rgba(0, 0, 0, 0.2);
+  --color-vertex: #efefef;
+  --color-stroke: rgba(0, 0, 0, 0.5);
+  --color-label: #404040;
+  --color-btree-node: #e3f1fc;
+  --color-btree-leaf: #e8f5e9;
+  --color-red-node: #ee4b2b;
+  --color-black-node: #343434;
+}
+
+[data-theme='dark'] {
+  --color-white: #1e2a3a;
+  --color-compare: #c47a00;
+  --color-sorted: #4a8000;
+  --color-enqueue: #4682b4;
+  --color-visited: #c47a00;
+  --color-rejected: rgba(255, 255, 255, 0.1);
+  --color-vertex: #1e2a3a;
+  --color-stroke: rgba(200, 220, 255, 0.7);
+  --color-label: #e0e0e0;
+  --color-btree-node: #1a2e44;
+  --color-btree-leaf: #1a2e1e;
+  --color-red-node: #ee4b2b;
+  --color-black-node: #a9a9a9;
 }

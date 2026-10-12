@@ -49,9 +49,9 @@ function insert(node, key):
         <strong>Deletion</strong> first locates the target node, then carefully
         reconnects its children so the BST rule still holds. If the node has no
         children, it is simply removed. If it has one child, that child takes
-        its place. If the node has two children, the tree replaces it with a
-        nearby node that preserves ordering. Learn the full strategy in our{' '}
-        <Link href="/articles/deleting-bst-node">BST deletion</Link> guide.
+        its place. If the node has two children, the tree replaces it with a{' '}
+        <Link href="/articles/deleting-bst-node">nearby node</Link> that
+        preserves ordering.
       </Typography>
       <Divider sx={{ my: 3 }} />
 

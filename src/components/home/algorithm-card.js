@@ -1,18 +1,16 @@
-import { Box, Button, Card, CardContent, Chip, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  Typography,
+} from '@mui/material';
 import { ArrowForward } from '@mui/icons-material';
+import { CategoryColors } from '@/common/constants';
 import Link from 'next/link';
 
-const CATEGORY_COLORS = {
-  Sorting: { bgcolor: '#eff6ff', text: '#1d4ed8', border: '#bfdbfe' }, // Blue
-  Graph: { bgcolor: '#fffbeb', text: '#b45309', border: '#fde68a' }, // Amber
-  'Data Structures': { bgcolor: '#ecfdf5', text: '#047857', border: '#a7f3d0' }, // Emerald / Green
-  'Advanced Trees': { bgcolor: '#f5f3ff', text: '#6d28d9', border: '#ddd6fe' }, // Purple
-  Other: { bgcolor: '#fdf2f8', text: '#be185d', border: '#fbcfe8' }, // Pink / Rose
-};
-
 export default function AlgorithmCard({ algo }) {
-  const catStyle = CATEGORY_COLORS[algo.category] || {};
-
   return (
     <Card
       elevation={1}
@@ -22,7 +20,7 @@ export default function AlgorithmCard({ algo }) {
         flexDirection: 'column',
         borderRadius: 3,
         border: '1px solid',
-        borderColor: 'grey.200',
+        borderColor: 'divider',
         transition: 'all 0.25s ease',
         '&:hover': {
           transform: 'translateY(-3px)',
@@ -31,39 +29,25 @@ export default function AlgorithmCard({ algo }) {
         },
       }}
     >
-      <CardContent sx={{ padding: 2.5, flex: 1 }}>
+      <CardContent sx={{ p: 2.5, flex: 1 }}>
         <Box
           display="flex"
           justifyContent="space-between"
           alignItems="center"
           mb={1.5}
         >
-          <Box
-            component="span"
-            sx={{
-              px: 1,
-              py: 0.25,
-              fontSize: '0.75rem',
-              fontWeight: 600,
-              borderRadius: 1.5,
-              bgcolor: catStyle.bgcolor,
-              color: catStyle.text,
-              border: '1px solid',
-              borderColor: catStyle.border,
-            }}
-          >
-            {algo.category}
-          </Box>
+          <Chip
+            label={algo.category}
+            size="small"
+            color={CategoryColors[algo.category]}
+            variant="outlined"
+            sx={{ fontWeight: 600 }}
+          />
 
           <Chip
             label={algo.timeComplexity}
             size="small"
-            sx={{
-              borderRadius: 1.5,
-              fontSize: '0.75rem',
-              bgcolor: 'grey.100',
-              color: 'grey.800',
-            }}
+            sx={{ fontSize: '0.825rem !important', borderRadius: 1.5 }}
           />
         </Box>
 
@@ -72,7 +56,7 @@ export default function AlgorithmCard({ algo }) {
           variant="h6"
           component="h3"
           fontWeight={600}
-          color="grey.900"
+          color="text.primary"
           sx={{ fontSize: '1.15rem', mb: 1 }}
         >
           {algo.name}
@@ -83,12 +67,12 @@ export default function AlgorithmCard({ algo }) {
           variant="body2"
           color="text.secondary"
           sx={{
-            lineHeight: 1.5,
             display: '-webkit-box',
             WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
+            lineHeight: 1.5,
           }}
         >
           {algo.description}
@@ -101,31 +85,26 @@ export default function AlgorithmCard({ algo }) {
           px: 2.5,
           py: 1.5,
           borderTop: '1px solid',
-          borderColor: 'grey.200',
-          bgcolor: 'grey.50',
+          borderColor: 'divider',
+          bgcolor: 'action.hover',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
         }}
       >
-        <Typography
-          variant="body2"
-          fontWeight={600}
-          color="text.secondary"
-        >
+        <Typography variant="body2" fontWeight={600} color="text.secondary">
           {algo.difficulty}
         </Typography>
 
         <Button
           component={Link}
           href={algo.path}
-          size="small"
           color="primary"
           endIcon={<ArrowForward fontSize="small" />}
           sx={{
+            py: 0,
             textTransform: 'none',
             fontWeight: 600,
-            padding: 0,
             minWidth: 'auto',
             '&:hover': {
               bgcolor: 'transparent',

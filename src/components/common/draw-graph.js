@@ -229,7 +229,8 @@ export const Plane = memo(function () {
           markerHeight="4"
           orient="auto-start-reverse"
         >
-          <path d="M 0 0 L 10 5 L 0 10 z" fill="#555" />
+          {/* currentColor inherits from the parent stroke, adapting to dark mode */}
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" />
         </marker>
       </defs>
     </svg>

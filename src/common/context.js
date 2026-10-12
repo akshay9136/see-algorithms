@@ -5,11 +5,13 @@ export const initialState = {
     playStatus: 0,
     signInOpen: false,
     callbackUrl: '/',
+    darkMode: false,
 };
 
 const AppContext = createContext({
     ...initialState,
     setContext: () => {},
+    toggleDarkMode: () => {},
 });
 
 export default AppContext;

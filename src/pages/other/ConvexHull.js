@@ -20,7 +20,6 @@ export default function ConvexHull(props) {
         algorithm, which finds the convex hull by iteratively wrapping a
         {"'gift'"} around the set of points.
       </Typography>
-
       <Typography paragraph>
         The Jarvis March algorithm starts by finding the leftmost point and then
         iteratively wrapping a {"'gift'"} around the set of points. It uses the

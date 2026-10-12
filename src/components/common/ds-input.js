@@ -61,7 +61,7 @@ const DSInput = forwardRef((props, ref) => {
         component="label"
         htmlFor="dsInput"
         variant="subtitle1"
-        fontSize="1.1rem"
+        fontWeight={600}
       >
         {props.label || 'Enter a number:'} &nbsp;
       </Typography>

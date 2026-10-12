@@ -18,7 +18,7 @@ const styles = {
     border: '1.5px dashed',
     borderColor: 'divider',
     borderRadius: 2,
-    bgcolor: '#f8fafc',
+    bgcolor: 'background.default',
   },
   empty: { textAlign: 'center', py: 5, color: 'text.disabled' },
 };

@@ -72,7 +72,7 @@ function redBlackTree(animator) {
             element.textContent = color;
             element.style.color = Colors.white;
             element.style.backgroundColor =
-              color === 'R' ? 'rgba(255, 0, 0, 0.9)' : 'rgba(0, 0, 0, 0.8)';
+              color === 'R' ? 'var(--color-red-node)' : 'var(--color-black-node)';
         }
         node.update({ color });
     };

@@ -1,8 +1,9 @@
 import { Box, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { Edge } from '@/components/common';
+import { Colors } from '@/common/constants';
+import { motion } from 'motion/react';
 import linkedList from '@/helpers/linkedList';
 import useLinkedListBase from './useLinkedListBase';
-import { motion } from 'motion/react';
 
 export default function useLinkedList() {
   const { scope, nodes, ...rest } = useLinkedListBase({
@@ -24,7 +25,8 @@ export default function useLinkedList() {
               sx={{
                 fontSize: '1rem',
                 width: 45,
-                padding: '4px 8px',
+                px: 1,
+                py: 0.5,
                 border: '1px solid',
               }}
             >
@@ -33,7 +35,11 @@ export default function useLinkedList() {
 
             <ToggleButton
               value="next"
-              sx={{ flex: 1, border: '1px solid' }}
+              sx={{
+                flex: 1,
+                bgcolor: Colors.white,
+                borderColor: Colors.stroke,
+              }}
               id={`next${i}`}
             />
           </ToggleButtonGroup>

@@ -12,25 +12,27 @@ import {
   MoreVert,
   AccountBalanceWallet,
   Article,
+  DarkMode,
+  LightMode,
 } from '@mui/icons-material';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
+import AppContext from '@/common/context';
 import UserAuth from './user-auth';
-import Image from 'next/image';
 import styles from '@/styles/header.module.css';
+import Image from 'next/image';
 
 function Header(props) {
   const router = useRouter();
+  const { darkMode, toggleDarkMode } = useContext(AppContext);
   const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+  const isOpen = Boolean(anchorEl);
 
   const openMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const closeMenu = () => {
-    setAnchorEl(null);
-  };
+  const closeMenu = () => setAnchorEl(null);
 
   const navigate = (path) => {
     router.push(path);
@@ -73,7 +75,19 @@ function Header(props) {
       </Box>
 
       {/* Desktop Navigation */}
-      <Box sx={{ display: mdFlex, alignItems: 'center' }}>
+      <Box sx={{ display: mdFlex, alignItems: 'center', gap: 0.5 }}>
+        <IconButton
+          onClick={toggleDarkMode}
+          title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+          size="small"
+          sx={{ mr: 1 }}
+        >
+          {darkMode ? (
+            <LightMode fontSize="small" />
+          ) : (
+            <DarkMode fontSize="small" />
+          )}
+        </IconButton>
         <Button
           onClick={() => navigate('/articles')}
           startIcon={<Article />}
@@ -94,19 +108,32 @@ function Header(props) {
       {/* Mobile Navigation */}
       <Box sx={{ display: { md: 'none' } }}>
         <IconButton
+          id="dark-mode-button"
+          onClick={toggleDarkMode}
+          size="small"
+          title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+          sx={{ mr: 0.5 }}
+        >
+          {darkMode ? (
+            <LightMode sx={{ color: 'white' }} />
+          ) : (
+            <DarkMode sx={{ color: 'white' }} />
+          )}
+        </IconButton>
+        <IconButton
           id="info-button"
           onClick={openMenu}
           size="small"
-          aria-controls={open ? 'info-menu' : undefined}
+          aria-controls={isOpen ? 'info-menu' : undefined}
           aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
+          aria-expanded={isOpen ? 'true' : undefined}
         >
           <MoreVert sx={{ color: 'white' }} />
         </IconButton>
         <Menu
           id="info-menu"
           anchorEl={anchorEl}
-          open={open}
+          open={isOpen}
           onClose={closeMenu}
           MenuListProps={{
             'aria-labelledby': 'info-button',
@@ -118,9 +145,7 @@ function Header(props) {
           </MenuItem>
           <MenuItem onClick={() => navigate('/buy-credits')}>
             <AccountBalanceWallet sx={{ mr: 1 }} fontSize="small" />
-            <Typography>
-              AI Credits
-            </Typography>
+            <Typography>AI Credits</Typography>
           </MenuItem>
         </Menu>
       </Box>
