@@ -8,6 +8,11 @@
   padding: 1rem 0.75rem;
 }
 
+[data-theme='dark'] .sider {
+  background: linear-gradient(145deg, #0d1b2a 0%, #0a1929 100%);
+  border-right: 1px solid rgba(33, 150, 243, 0.15);
+}
+
 .sider::-webkit-scrollbar {
   width: 6px;
 }
@@ -35,15 +40,20 @@
   transition: all 0.3s ease;
 }
 
+[data-theme='dark'] .accordion {
+  background: #0d1b2a;
+  border-color: rgba(33, 150, 243, 0.15);
+}
+
 .accordion:hover {
   transform: translateY(-1px);
 }
 
 .category {
-  background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%) !important;
-  color: white !important;
-  border: none !important;
-  transition: all 0.3s ease !important;
+  background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%);
+  color: white;
+  border: none;
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
 }
@@ -52,23 +62,27 @@
   position: relative;
   z-index: 1;
   letter-spacing: 0.5px;
-  font-weight: 600 !important;
+  font-weight: 600;
 }
 
 .accordionDetails {
-  padding: 0 !important;
+  padding: 0;
   background: white;
 }
 
+[data-theme='dark'] .accordionDetails {
+  background: #0d1b2a;
+}
+
 .algorithmList {
-  padding: 0.5rem 0 !important;
+  padding: 0.5rem 0;
 }
 
 .listItem {
-  margin: 4px 12px !important;
-  border-radius: 6px !important;
-  transition: all 0.2s ease !important;
-  border: 1px solid transparent !important;
+  margin: 4px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
   position: relative;
   overflow: hidden;
 }
@@ -86,8 +100,8 @@
 }
 
 .listItem:hover {
-  background: rgba(33, 150, 243, 0.08) !important;
-  border-color: rgba(33, 150, 243, 0.3) !important;
+  background: rgba(33, 150, 243, 0.08);
+  border-color: rgba(33, 150, 243, 0.3);
   transform: translateX(4px);
 }
 
@@ -100,9 +114,9 @@
     135deg,
     rgba(33, 150, 243, 0.15) 0%,
     rgba(25, 118, 210, 0.15) 100%
-  ) !important;
-  border-color: rgba(33, 150, 243, 0.4) !important;
-  color: #1976d2 !important;
+  );
+  border-color: rgba(33, 150, 243, 0.4);
+  color: #1976d2;
 }
 
 .listItemSelected::before {
@@ -116,16 +130,20 @@
 }
 
 .listItemSelected .algorithmText {
-  color: #1976d2 !important;
-  font-weight: 600 !important;
+  color: #1976d2;
+  font-weight: 600;
+}
+
+[data-theme='dark'] .listItemSelected .algorithmText {
+  color: white;
 }
 
 .expandIcon {
-  color: rgba(255, 255, 255, 0.9) !important;
-  transition: all 0.3s ease !important;
+  color: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
 }
 
 .expandIconExpanded {
-  transform: rotate(180deg) !important;
-  color: white !important;
+  transform: rotate(0deg);
+  color: white;
 }

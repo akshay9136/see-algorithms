@@ -1,29 +1,17 @@
+import { Colors } from '@/common/constants';
 import { Paper } from '@mui/material';
 import { memo } from 'react';
 
 const NODE_R = 16; // node radius
 const EMPTY_MSG = 'Insert a word to see the Trie grow';
 
-const COLORS = {
-  node: '#fff',
-  nodeBorder: '#4a90d9',
-  root: '#f0f4ff',
-  endNode: '#ffd580',
-  highlight: '#ff9800',
-  highlightMiss: '#ef5350',
-  highlightFound: '#42a5f5',
-  edge: '#9e9e9e',
-  text: '#212121',
-  rootText: '#9e9e9e',
-};
-
 function nodeColor(node) {
-  if (node.highlighted === 'miss') return COLORS.highlightMiss;
-  if (node.highlighted === 'found') return COLORS.highlightFound;
-  if (node.highlighted) return COLORS.highlight;
-  if (node.isEnd) return COLORS.endNode;
-  if (!node.char) return COLORS.root;
-  return COLORS.node;
+  if (node.highlighted === 'miss') return '#FF6347';
+  if (node.highlighted === 'found') return Colors.sorted;
+  if (node.highlighted) return Colors.visited;
+  if (node.isEnd) return Colors.enqueue;
+  if (!node.char) return Colors.vertex;
+  return Colors.white;
 }
 
 const styles = {
@@ -52,7 +40,7 @@ function TrieCanvas({ nodes, edges }) {
               y1={from.y}
               x2={to.x}
               y2={to.y}
-              stroke={to.highlighted ? COLORS.highlight : COLORS.edge}
+              stroke={to.highlighted ? Colors.visited : Colors.stroke}
               strokeWidth={to.highlighted ? 2.5 : 2}
               style={styles.edge}
             />
@@ -70,8 +58,8 @@ function TrieCanvas({ nodes, edges }) {
                   cy={node.y}
                   r={NODE_R}
                   fill={color}
-                  stroke={node.highlighted ? color : COLORS.nodeBorder}
-                  strokeWidth={2}
+                  stroke={node.highlighted ? color : Colors.stroke}
+                  strokeWidth={1.5}
                   className={styles.circle}
                 />
                 <text
@@ -80,7 +68,7 @@ function TrieCanvas({ nodes, edges }) {
                   textAnchor="middle"
                   dominantBaseline="middle"
                   className={styles.label}
-                  fill={isRoot ? COLORS.rootText : COLORS.text}
+                  fill={Colors.label}
                   fontSize={14}
                   fontWeight={node.isEnd ? 700 : 500}
                 >

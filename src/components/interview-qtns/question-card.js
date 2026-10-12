@@ -8,22 +8,22 @@ function QuestionCard({ question, answer, codeSnippet }) {
       sx={{
         borderRadius: 3,
         border: '1px solid',
-        borderColor: 'grey.300',
+        borderColor: 'divider',
         transition: 'all 0.2s ease-in-out',
         boxShadow: '0 2px 5px 0 rgba(0, 0, 0, 0.02)',
         breakInside: 'avoid',
         display: 'inline-block',
         width: '100%',
         '&:hover': {
-          borderColor: 'grey.400',
+          borderColor: 'text.disabled',
           boxShadow: '0 4px 12px 0 rgba(0, 0, 0, 0.05)',
         },
       }}
     >
       <CardHeader
-        sx={{ px: 2.5, py: 2, bgcolor: 'grey.100' }}
+        sx={{ px: 2.5, py: 2, bgcolor: 'action.hover' }}
         title={
-          <Typography variant="subtitle1" fontSize="1.1rem" lineHeight={1.5}>
+          <Typography variant="subtitle1" fontWeight={600} lineHeight={1.5}>
             {question}
           </Typography>
         }
@@ -44,7 +44,7 @@ function QuestionCard({ question, answer, codeSnippet }) {
             fontSize: '1rem',
             lineHeight: 1.6,
             whiteSpace: 'pre-line',
-            color: 'grey.800',
+            color: 'text.primary',
 
             '& var': {
               color: 'warning.main',

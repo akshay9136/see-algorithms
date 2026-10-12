@@ -3,8 +3,8 @@ import { Edge, InputNumbers, Node } from '@/components/common';
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import { useAnimator, useSummary } from '@/hooks';
 import { charAt, sound, traverse } from '@/common/utils';
-import huffmanTree from '@/helpers/huffmanTree';
 import styles from '@/styles/numbers.module.css';
+import huffmanTree from '@/helpers/huffmanTree';
 import { Colors } from '@/common/constants';
 
 var queue, prompt;
@@ -69,7 +69,7 @@ export default function HuffmanCoding() {
     <Stack spacing={1}>
       {alphabets.length > 0 && (
         <Box className={styles.inputNumbers}>
-          <Typography variant="subtitle1" fontSize="1.1rem" mr={2}>
+          <Typography variant="subtitle1" fontWeight={600} mr={2}>
             Character:
           </Typography>
           {alphabets.map((char) => (
@@ -109,7 +109,6 @@ export default function HuffmanCoding() {
         ZIP and JPEG, Huffman Coding minimizes storage space without losing
         information.
       </Typography>
-
       <Typography paragraph>
         The algorithm starts by treating every symbol as an independent node,
         each weighted by its frequency. It repeatedly merges the{' '}
@@ -148,7 +147,7 @@ export default function HuffmanCoding() {
                   borderRadius: 8,
                   backgroundColor: Colors.vertex,
                   fontWeight: 'bold',
-                  color: '#404040',
+                  color: Colors.label,
                 }}
               />
             ))}

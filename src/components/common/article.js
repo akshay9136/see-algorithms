@@ -139,9 +139,11 @@ function Article({ title, summary, children }) {
         gutterBottom
         color="warning.main"
         className="article-title"
+        fontSize="1.65rem !important"
       >
         {title}
       </Typography>
+
       <Typography
         variant="subtitle1"
         color="text.secondary"

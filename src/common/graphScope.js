@@ -11,7 +11,10 @@ import {
 } from './utils';
 import { Colors } from './constants';
 
-const props = {
+/**
+ * Returns props with theme-aware colours applied at call time.
+ */
+const getProps = () => ({
   vertex: {
     class: 'vrtx',
     rx: 18,
@@ -25,7 +28,7 @@ const props = {
   vlabel: {
     class: 'vlbl',
     style: 'cursor:pointer',
-    fill: '#404040',
+    fill: Colors.label,
     'font-weight': 'bold',
     'text-anchor': 'middle',
   },
@@ -36,7 +39,7 @@ const props = {
     fill: 'transparent',
     'stroke-width': 2.5,
   },
-};
+});
 
 export function createGraphScope(container) {
   const scope = $(container);
@@ -68,7 +71,7 @@ export function createGraphScope(container) {
     },
 
     addVertex(p, label) {
-      const { vertex, vlabel } = props;
+      const { vertex, vlabel } = getProps();
       const labelProps = { x: p.x, y: p.y + 5, ...vlabel };
       const group = svgElement('g', { class: 'vgrp' });
       group.append(
@@ -115,7 +118,7 @@ export function createGraphScope(container) {
       const cy = (p.y + q.y) / 2;
       const d = `M ${p.x} ${p.y} Q ${cx} ${cy} ${q.x} ${q.y}`;
       const next = scope.find('.vgrp:first');
-      next.before(svgElement('path', { d, ...props.edge }));
+      next.before(svgElement('path', { d, ...getProps().edge }));
     },
 
     cloneEdge(i, j) {

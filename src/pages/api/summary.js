@@ -57,7 +57,7 @@ async function handler(req, res, user) {
   let response;
   try {
     response = await ai.models.generateContent({
-      model: 'gemini-3.7-flash',
+      model: 'gemini-3.8-flash',
       contents: buildPrompt(data),
     });
   } catch (err) {

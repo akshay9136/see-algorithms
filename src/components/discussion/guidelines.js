@@ -8,7 +8,6 @@ const styles = {
     borderRadius: 2,
     border: '1px solid',
     borderColor: 'divider',
-    bgcolor: '#f8fafc',
     overflow: 'hidden',
   },
   header: {
@@ -24,7 +23,7 @@ const styles = {
     p: 2.5,
     borderTop: '1px solid',
     borderColor: 'divider',
-    bgcolor: '#fff',
+    bgcolor: 'background.paper',
   },
 };
 

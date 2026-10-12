@@ -61,3 +61,14 @@
         text-shadow: none;
     }
 }
+
+/* Dark mode: override desktop white header */
+[data-theme="dark"] .header {
+    background: #0a1929 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .heading {
+    color: #e0e0e0;
+    text-shadow: none;
+}

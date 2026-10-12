@@ -4,7 +4,6 @@ export const SUMMARY_COST = {
   // Simple trees/graphs (3 credits)
   BST: 3,
   BinaryHeap: 3,
-
   // Complex trees/graphs (5 credits)
   DFS: 5,
   BFS: 5,

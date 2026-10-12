@@ -9,8 +9,8 @@ const styles = {
     '& .MuiOutlinedInput-root': {
       borderRadius: 2,
       fontSize: '1rem',
-      bgcolor: '#fafbfc',
-      '&.Mui-focused': { bgcolor: '#fff' },
+      bgcolor: 'background.default',
+      '&.Mui-focused': { bgcolor: 'background.paper' },
     },
   },
   submitBtn: {

@@ -45,7 +45,7 @@ function CardHeader(item) {
         label={item.tag}
         color={item.color || 'primary'}
         variant="outlined"
-        sx={{ fontWeight: 600, lineHeight: 1.4 }}
+        sx={{ fontWeight: 600 }}
       />
       <LaunchIcon
         fontSize="small"

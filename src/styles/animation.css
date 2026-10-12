@@ -1,0 +1,99 @@
+.sorting {
+    height: 200px;
+    position: relative;
+}
+
+.heapSort,
+.mergeSort,
+.radixSort {
+    position: relative;
+    min-height: 300px;
+}
+
+.huffmanTree {
+    position: relative;
+    height: 500px;
+}
+
+.alphaGrid {
+    display: flex;
+    min-height: 40px;
+}
+
+.alphaGrid .cell {
+    width: 44px;
+    height: 40px;
+    margin-right: 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    color: #404040;
+}
+
+.numGrid .cell {
+    width: 52px;
+    height: 42px;
+}
+
+.currentStep {
+    background-color: orange;
+}
+
+.cost {
+    width: 32px;
+    height: 24px;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    font-size: 0.95rem;
+}
+
+.cost:focus {
+    background: lightblue;
+    outline: none;
+}
+
+.alphaGrid .cell {
+  background-color: orange;
+}
+
+.cqueue .cell {
+  background-color: transparent;
+}
+
+.bfs-path .cell,
+.dfs-path .cell {
+    background-color: #ffd580;
+}
+
+/* ────── Dark Mode Overrides ────── */
+
+[data-theme='dark'] .currentStep {
+    background-color: #c47a00;
+}
+
+[data-theme='dark'] .alphaGrid .cell {
+    color: #e0e0e0;
+    border-color: rgba(255, 255, 255, 0.2);
+    background-color: #c47a00;
+}
+
+[data-theme='dark'] .cqueue .cell {
+    background-color: transparent;
+}
+
+[data-theme='dark'] .bfs-path .cell,
+[data-theme='dark'] .dfs-path .cell {
+    background-color: #0284c7;
+}
+
+[data-theme='dark'] .cost {
+    color: #e0e0e0;
+}
+
+[data-theme='dark'] .cost:focus {
+    background: #404040;
+}

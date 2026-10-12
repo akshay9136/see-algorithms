@@ -1,6 +1,8 @@
 import '@/styles/globals.css';
 import '@/styles/app.css';
+import '@/styles/animation.css';
 import { useEffect, useMemo, useState } from 'react';
+import { useDarkMode } from '@/hooks/useDarkMode';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { defaultSeoConfig } from '../components/algorithm-seo/config';
 import { SessionProvider } from 'next-auth/react';
@@ -23,10 +25,6 @@ const nunito = Nunito({
   display: 'swap',
 });
 
-const theme = createTheme({
-  typography: { fontFamily: nunito.style.fontFamily },
-});
-
 const isProd = process.env.NODE_ENV === 'production';
 
 export default function App({
@@ -44,7 +42,21 @@ export default function App({
     setState((prev) => ({ ...prev, ...slice }));
   };
 
-  const contextValue = useMemo(() => ({ ...state, setContext }), [state]);
+  const [darkMode, toggleDarkMode] = useDarkMode();
+
+  const context = useMemo(
+    () => ({ ...state, darkMode, toggleDarkMode, setContext }),
+    [state, darkMode, toggleDarkMode]
+  );
+
+  const theme = useMemo(
+    () =>
+      createTheme({
+        palette: { mode: darkMode ? 'dark' : 'light' },
+        typography: { fontFamily: nunito.style.fontFamily },
+      }),
+    [darkMode]
+  );
 
   useEffect(() => {
     const handleClick = (event) => {
@@ -114,7 +126,7 @@ export default function App({
 
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <AppContext.Provider value={contextValue}>
+        <AppContext.Provider value={context}>
           {Component.noLayout ? (
             <Component {...pageProps} />
           ) : (

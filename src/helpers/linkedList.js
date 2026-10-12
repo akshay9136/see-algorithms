@@ -11,7 +11,7 @@ const delay = 500;
 const dur = { duration: 0.5 };
 
 const arrowStyle = {
-  borderTopColor: '#555',
+  borderTopColor: 'currentColor',
   transform: 'rotate(-90deg)',
   left: 'unset',
   right: -2, // arrow offset
@@ -47,7 +47,7 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
     while (node) {
       await bgcolor(`#next${node.key}`, Colors.visited);
       await sleep(delay);
-      await bgcolor(`#next${node.key}`, Colors.white);
+      await bgcolor(`#next${node.key}`, '#ffffff00');
       if (predicate(node, vi)) break;
       node = node.next;
       vi++;

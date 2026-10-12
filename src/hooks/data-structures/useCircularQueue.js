@@ -41,7 +41,7 @@ export default function useCircularQueue() {
   ];
 
   const animation = (
-    <Box className="alphaGrid numGrid" display="block !important">
+    <Box className="alphaGrid numGrid cqueue" display="block !important">
       <Box display="flex">
         {numbers.map((_, i) => (
           <Box key={i} className="cell" style={{ border: 0 }}>

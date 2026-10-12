@@ -87,10 +87,7 @@ export default function Features() {
     <Grid container spacing={4} pb={6} justifyContent="center">
       {features.map((feat, index) => (
         <Grid item sm={6} lg={3} key={index} mx="auto">
-          <Card
-            elevation={0}
-            sx={styles.card(feat)}
-          >
+          <Card elevation={1} sx={styles.card(feat)}>
             {feat.isNew && (
               <Chip label="NEW" size="small" sx={styles.cardBadge()} />
             )}
@@ -105,7 +102,7 @@ export default function Features() {
                 </Box>
               </Box>
 
-              <Typography variant="h6" color="grey.900" mb={2}>
+              <Typography variant="h6" color="text.primary" mb={2}>
                 {feat.title}
               </Typography>
 
@@ -129,10 +126,9 @@ const styles = {
     position: 'relative',
     overflow: 'hidden',
     borderRadius: 3,
-    background: 'linear-gradient(145deg, #ffffff 0%, #f8fafc 100%)',
-    boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
+    boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
     border: '1px solid',
-    borderColor: 'grey.200',
+    borderColor: 'divider',
     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
 
     '&:hover': {
@@ -171,7 +167,6 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
   }),
 
   accentLine: (feat) => ({
@@ -184,6 +179,7 @@ const styles = {
     transform: 'scaleX(0)',
     transformOrigin: 'center',
     transition: 'transform 0.3s ease',
+    
     '.MuiCard-root:hover &': {
       transform: 'scaleX(1)',
     },

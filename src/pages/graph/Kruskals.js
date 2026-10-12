@@ -34,6 +34,7 @@ for each edge (u, v):
         <Link href="/graph/Boruvkas">Borůvka’s Algorithm</Link> which merges
         components in parallel.
       </Typography>
+
       <Box display="flex" flexWrap="wrap" gap={4}>
         <Stack spacing={2}>
           <Typography variant="h6" component="h2">
