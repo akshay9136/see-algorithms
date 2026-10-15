@@ -1,26 +1,27 @@
 import {
-  Typography,
-  Menu,
-  MenuItem,
-  IconButton,
-  Button,
   Box,
+  Button,
+  IconButton,
+  MenuItem,
+  Menu,
+  Typography,
 } from '@mui/material';
 import {
-  MenuOpen,
-  Info,
-  MoreVert,
   AccountBalanceWallet,
   Article,
   DarkMode,
+  Info,
   LightMode,
+  MenuOpen,
+  MoreVert,
 } from '@mui/icons-material';
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import AppContext from '@/common/context';
+import Image from 'next/image';
+import Link from 'next/link';
 import UserAuth from './user-auth';
 import styles from '@/styles/header.module.css';
-import Image from 'next/image';
 
 function Header(props) {
   const router = useRouter();
@@ -89,14 +90,16 @@ function Header(props) {
           )}
         </IconButton>
         <Button
-          onClick={() => navigate('/articles')}
+          component={Link}
+          href="/articles"
           startIcon={<Article />}
           className={styles.navButton}
         >
           Articles
         </Button>
         <Button
-          onClick={() => navigate('/about')}
+          component={Link}
+          href="/about"
           startIcon={<Info />}
           className={styles.navButton}
         >
@@ -139,11 +142,11 @@ function Header(props) {
             'aria-labelledby': 'info-button',
           }}
         >
-          <MenuItem onClick={() => navigate('/articles')}>
+          <MenuItem component={Link} href="/articles" onClick={closeMenu}>
             <Article sx={{ mr: 1 }} fontSize="small" />
             Articles
           </MenuItem>
-          <MenuItem onClick={() => navigate('/buy-credits')}>
+          <MenuItem component={Link} href="/buy-credits" onClick={closeMenu}>
             <AccountBalanceWallet sx={{ mr: 1 }} fontSize="small" />
             <Typography>AI Credits</Typography>
           </MenuItem>

@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Box, Link, Typography } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 
 // Regex patterns
 const INLINE_CODE = /`([^`]+)`/g;
@@ -49,7 +49,7 @@ function renderInline(text) {
               rel="noopener noreferrer"
               underline="hover"
             >
-              {value.length > 60 ? value.slice(0, 57) + '...' : value}
+              {value.length > 60 ? value.slice(0, 56) + '...' : value}
             </Link>,
           );
         } else {

@@ -11,6 +11,7 @@ import {
 import { CustomSeo } from '@/components/common';
 import { PERSON_SCHEMA, SITE_AUTHOR } from '@/utils/constants';
 import Head from 'next/head';
+import NextLink from 'next/link';
 
 export default function AboutPage() {
   return (
@@ -213,7 +214,12 @@ export default function AboutPage() {
                         fontWeight={700}
                         lineHeight={1.5}
                       >
-                        <Link href="/author" underline="hover" color="inherit">
+                        <Link
+                          component={NextLink}
+                          href="/author"
+                          underline="hover"
+                          color="inherit"
+                        >
                           {SITE_AUTHOR.name}
                         </Link>
                       </Typography>
@@ -227,7 +233,7 @@ export default function AboutPage() {
                     and accessible through step-by-step interactive
                     visualizations.
                   </Typography>
-                  <Link href="/author" underline="hover">
+                  <Link component={NextLink} href="/author" underline="hover">
                     Learn more about the author →
                   </Link>
                 </CardContent>

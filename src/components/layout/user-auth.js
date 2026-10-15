@@ -89,7 +89,9 @@ export default function UserAuth() {
     <Button
       sx={{ textTransform: 'none', px: 1, mx: 1 }}
       id="signin-button"
-      onClick={() => setContext({ signInOpen: true })}
+      onClick={() =>
+        setContext({ signInOpen: true, callbackUrl: router.asPath })
+      }
       variant="outlined"
       color="warning"
     >

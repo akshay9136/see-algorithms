@@ -1,7 +1,7 @@
-import { memo } from 'react';
+import { Box, Link, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import { Box, Typography } from '@mui/material';
-import Link from 'next/link';
+import { memo } from 'react';
+import NextLink from 'next/link';
 
 export default memo(function Footer() {
   const { pathname } = useRouter();
@@ -23,7 +23,8 @@ export default memo(function Footer() {
           href="https://opensource.org/licenses/MIT"
           target="_blank"
           rel="noopener noreferrer"
-          style={{ color: 'inherit' }}
+          color="inherit"
+          underline="hover"
         >
           MIT
         </Link>
@@ -32,44 +33,44 @@ export default memo(function Footer() {
           href="https://creativecommons.org/licenses/by-nc/4.0/"
           target="_blank"
           rel="noopener noreferrer"
-          style={{ color: 'inherit' }}
+          color="inherit"
+          underline="hover"
         >
           CC BY-NC 4.0
         </Link>
       </Typography>
 
       <Box display="flex" gap={2} flexWrap="wrap">
-        <Typography variant="body2" component={Link} href="/about">
+        <Link variant="body2" component={NextLink} href="/about">
           About
-        </Typography>
+        </Link>
 
-        <Typography variant="body2" component={Link} href="/contact">
+        <Link variant="body2" component={NextLink} href="/contact">
           Contact Us
-        </Typography>
+        </Link>
 
-        <Typography variant="body2" component={Link} href="/privacy">
+        <Link variant="body2" component={NextLink} href="/privacy">
           Privacy Policy
-        </Typography>
+        </Link>
 
-        <Typography variant="body2" component={Link} href="/terms">
+        <Link variant="body2" component={NextLink} href="/terms">
           Terms of Service
-        </Typography>
+        </Link>
 
         {pathname === '/buy-credits' && (
-          <Typography variant="body2" component={Link} href="/refund-policy">
+          <Link variant="body2" component={NextLink} href="/refund-policy">
             Refund Policy
-          </Typography>
+          </Link>
         )}
 
-        <Typography
+        <Link
           variant="body2"
-          component={Link}
           href="https://github.com/sponsors/akshay9136"
           target="_blank"
           rel="noopener noreferrer"
         >
           Sponsor
-        </Typography>
+        </Link>
       </Box>
     </Box>
   );
