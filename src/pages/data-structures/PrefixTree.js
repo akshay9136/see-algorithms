@@ -72,7 +72,6 @@ function search(root, word):
       <Typography variant="h6" component="h2">
         Visualizer
       </Typography>
-
       <Box display="flex" alignItems="center" flexWrap="wrap" gap={1.5}>
         <Typography
           component="label"
@@ -141,9 +140,9 @@ function search(root, word):
           {wordCount} word{wordCount > 1 ? 's' : ''}
         </Typography>
       </Box>
-
       {animation}
       <br />
+
       <Typography variant="h6" component="h2">
         Pseudocode
       </Typography>

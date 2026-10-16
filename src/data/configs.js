@@ -2,7 +2,7 @@ export const metaConfigs = {
   BubbleSort: {
     title: 'Bubble Sort Visualizer | Simple Sorting Algorithm',
     description:
-      'Visualize how Bubble Sort repeatedly compares adjacent elements and swaps them into order. Step through every comparison and swap with interactive animations.',
+      'Explore how Bubble Sort repeatedly compares adjacent elements and swaps them into order. Step through every comparison and swap with interactive animations.',
     howToSteps: [
       { name: 'Enter your input', text: 'Type custom numbers in the input field, or use the randomly generated array.' },
       { name: 'Start the animation', text: 'Click Play to start the Bubble Sort animation and watch adjacent elements being compared and swapped.' },
@@ -13,7 +13,7 @@ export const metaConfigs = {
   QuickSort: {
     title: 'Quick Sort Visualizer | Divide & Conquer Algorithm',
     description:
-      'Visualize how Quick Sort partitions elements around a pivot and recursively sorts subarrays. Step through pivot selection and swaps with interactive animations.',
+      'Explore how Quick Sort partitions elements around a pivot and recursively sorts subarrays. Step through pivot selection and swaps with interactive animations.',
     howToSteps: [
       { name: 'Enter your input', text: 'Type custom numbers or use the default random array.' },
       { name: 'Start the animation', text: 'Click Play to start Quick Sort. The visualizer highlights the pivot element and shows the partitioning process.' },
@@ -24,7 +24,7 @@ export const metaConfigs = {
   MergeSort: {
     title: 'Merge Sort Visualizer | Stable Sort with Recursion',
     description:
-      'Visualize how Merge Sort recursively divides arrays into halves and merges sorted sublists. Step through recursive splitting and merging in real time.',
+      'Explore how Merge Sort recursively divides arrays into halves and merges sorted sublists. Step through recursive splitting and merging in real time.',
     howToSteps: [
       { name: 'Enter your input', text: 'Type custom numbers or use the default random array.' },
       { name: 'Start the animation', text: 'Click Play to watch the array split recursively into halves.' },
@@ -35,7 +35,7 @@ export const metaConfigs = {
   InsertionSort: {
     title: 'Insertion Sort Visualizer | Adaptive Sorting Algorithm',
     description:
-      'Visualize how Insertion Sort builds a sorted array by inserting each element into place. Step through shifting and placement with interactive animations.',
+      'Explore how Insertion Sort builds a sorted array by inserting each element into place. Step through shifting and placement with interactive animations.',
     howToSteps: [
       { name: 'Enter your input', text: 'Type custom numbers or use the default random array.' },
       { name: 'Start the animation', text: 'Click Play to start. Watch how each element is picked and inserted into its correct position in the already-sorted portion.' },
@@ -46,7 +46,7 @@ export const metaConfigs = {
   SelectionSort: {
     title: 'Selection Sort Visualizer | In-Place Comparison Sort',
     description:
-      'Visualize how Selection Sort repeatedly scans for the minimum element and places it into position. Step through each selection pass with interactive animations.',
+      'Explore how Selection Sort repeatedly scans for the minimum element and places it into position. Step through each selection pass with interactive animations.',
     howToSteps: [
       { name: 'Enter your input', text: 'Type custom numbers or use the default random array.' },
       { name: 'Start the animation', text: 'Click Play to watch Selection Sort scan for the minimum element in the unsorted region.' },
@@ -57,7 +57,7 @@ export const metaConfigs = {
   HeapSort: {
     title: 'Heap Sort Visualizer | Sorting with Binary Heap',
     description:
-      'Visualize how Heap Sort builds a binary max-heap and systematically extracts the root. Step through heapify passes and array swaps with interactive animations.',
+      'Explore how Heap Sort builds a binary max-heap and systematically extracts the root. Step through heapify passes and array swaps with interactive animations.',
     howToSteps: [
       { name: 'Enter your input', text: 'Type custom numbers or use the default random array.' },
       { name: 'Watch heapify', text: 'Click Play to observe the array being transformed into a max-heap. The largest element moves to the root.' },
@@ -68,7 +68,7 @@ export const metaConfigs = {
   RadixSort: {
     title: 'Radix Sort Visualizer | Digit-By-Digit Integer Sort',
     description:
-      'Visualize how Radix Sort processes numbers digit by digit without direct comparisons. Step through bucketing passes and collection with interactive animations.',
+      'Explore how Radix Sort processes numbers digit by digit without direct comparisons. Step through bucketing passes and collection with interactive animations.',
     howToSteps: [
       { name: 'Enter your input', text: 'Type custom integers or use the default random array.' },
       { name: 'Watch digit passes', text: 'Click Play to see Radix Sort process numbers digit by digit, starting from the least significant digit.' },
@@ -79,7 +79,7 @@ export const metaConfigs = {
   DFS: {
     title: 'Depth-First Search Visualizer | Graph Traversal | DFS',
     description:
-      'Visualize how Depth-First Search explores graph branches deeply before backtracking. Step through stack traversal and unvisited paths with interactive animations.',
+      'Explore how Depth-First Search explores graph branches deeply before backtracking. Step through stack traversal and unvisited paths with interactive animations.',
     howToSteps: [
       { name: 'Draw your graph', text: 'Click on the canvas to add nodes. Drag between nodes to add edges.' },
       { name: 'Select a source node', text: 'Click a node to set it as the DFS starting point.' },
@@ -90,7 +90,7 @@ export const metaConfigs = {
   BFS: {
     title: 'Breadth-First Search Visualizer | Graph Traversal | BFS',
     description:
-      'Visualize how Breadth-First Search traverses graphs level by level. Watch queue operations and explore shortest paths step-by-step with interactive animations.',
+      'Explore how Breadth-First Search traverses graphs level by level. Watch queue operations and explore shortest paths step-by-step with interactive animations.',
     howToSteps: [
       { name: 'Draw your graph', text: 'Click on the canvas to add nodes. Drag between nodes to add edges. Use the toolbar to toggle directed/undirected mode.' },
       { name: 'Select a source node', text: 'Click on a node to set it as the BFS starting point.' },
@@ -101,7 +101,7 @@ export const metaConfigs = {
   Dijkstras: {
     title: "Dijkstra's Algorithm Visualizer | Shortest Path Finder",
     description:
-      "Visualize how Dijkstra's algorithm finds shortest paths in weighted graphs. Step through greedy node selection and distance relaxation in real time.",
+      "Explore how Dijkstra's algorithm finds shortest paths in weighted graphs. Step through greedy node selection and distance relaxation in real time.",
     howToSteps: [
       { name: 'Draw a weighted graph', text: 'Add nodes and edges. Click an edge to set its weight. The visualizer supports both directed and undirected graphs.' },
       { name: 'Select a source node', text: 'Click a node to set it as the source for Dijkstra\'s algorithm.' },
@@ -112,7 +112,7 @@ export const metaConfigs = {
   TopSort: {
     title: 'Topological Sort Visualizer | DAG Dependency Resolution',
     description:
-      'Visualize how Topological Sort produces a linear ordering of DAG vertices. Step through dependency resolution and vertex ordering with interactive animations.',
+      'Explore how Topological Sort produces a linear ordering of DAG vertices. Step through dependency resolution and vertex ordering with interactive animations.',
     howToSteps: [
       { name: 'Draw a DAG', text: 'Create a Directed Acyclic Graph by adding nodes and directed edges. Ensure there are no cycles.' },
       { name: 'Start Topological Sort', text: 'Click Play to run the algorithm. It uses DFS to produce a linear ordering of all vertices.' },
@@ -122,7 +122,7 @@ export const metaConfigs = {
   Hamiltonian: {
     title: 'Hamiltonian Path Visualizer | Backtracking & NP-Complete',
     description:
-      'Visualize how the Hamiltonian Path algorithm searches for a tour visiting every vertex once. Step through backtracking exploration with interactive animations.',
+      'Explore how the Hamiltonian Path algorithm searches for a tour visiting every vertex once. Step through backtracking exploration with interactive animations.',
     howToSteps: [
       { name: 'Draw your graph', text: 'Add nodes and edges. The algorithm will search for a path visiting every node exactly once.' },
       { name: 'Start the search', text: 'Click Play to begin the backtracking search for a Hamiltonian Path.' },
@@ -133,7 +133,7 @@ export const metaConfigs = {
   Eulerian: {
     title: 'Eulerian Cycle Visualizer | Graph Theory Algorithm',
     description:
-      'Visualize how Eulerian Path algorithm finds a trail traversing every edge exactly once. Step through degree checks and edge walks with interactive animations.',
+      'Explore how Eulerian Path algorithm finds a trail traversing every edge exactly once. Step through degree checks and edge walks with interactive animations.',
     howToSteps: [
       { name: 'Draw your graph', text: 'Add nodes and edges. An Eulerian Cycle exists when all vertices have even degree.' },
       { name: 'Start the search', text: 'Click Play to start finding the Eulerian Cycle.' },
@@ -143,7 +143,7 @@ export const metaConfigs = {
   Prims: {
     title: "Prim's Algorithm Visualizer | Greedy MST Construction",
     description:
-      "Visualize how Prim's algorithm builds a minimum spanning tree by adding the cheapest adjacent edge. Step through greedy MST growth with interactive animations.",
+      "Explore how Prim's algorithm builds a minimum spanning tree by adding the cheapest adjacent edge. Step through greedy MST growth with interactive animations.",
     howToSteps: [
       { name: 'Draw a weighted graph', text: 'Add nodes and undirected edges with weights.' },
       { name: 'Select a starting node', text: 'Click a node to set the MST starting vertex.' },
@@ -154,7 +154,7 @@ export const metaConfigs = {
   Kruskals: {
     title: "Kruskal's Algorithm Visualizer | MST with Union-Find",
     description:
-      "Visualize how Kruskal's algorithm builds an MST by connecting edges in increasing weight without cycles. Step through Union-Find checks in real time.",
+      "Explore how Kruskal's algorithm builds an MST by connecting edges in increasing weight without cycles. Step through Union-Find checks in real time.",
     howToSteps: [
       { name: 'Draw a weighted graph', text: 'Add nodes and edges with weights.' },
       { name: "Start Kruskal's", text: "Click Play. The algorithm sorts all edges by weight and considers them in order." },
@@ -165,7 +165,7 @@ export const metaConfigs = {
   Boruvkas: {
     title: "Borůvka's Algorithm Visualizer | Parallel MST Construction",
     description:
-      "Visualize how Borůvka's algorithm builds an MST by selecting cheapest outgoing edges in parallel. Step through component merging with interactive animations.",
+      "Explore how Borůvka's algorithm builds an MST by selecting cheapest outgoing edges in parallel. Step through component merging with interactive animations.",
     howToSteps: [
       { name: 'Draw a weighted graph', text: 'Add nodes and weighted edges.' },
       { name: "Start Borůvka's", text: 'Click Play. Each node starts as its own component.' },
@@ -176,7 +176,7 @@ export const metaConfigs = {
   LinkedList: {
     title: 'Linked List Visualizer | Insert, Delete, Traverse',
     description:
-      'Visualize how a Linked List links sequential nodes with pointer references. Step through node insertion, deletion, and traversal with interactive animations.',
+      'Explore how a Linked List links sequential nodes with pointer references. Step through node insertion, deletion, and traversal with interactive animations.',
     howToSteps: [
       { name: 'Insert a node', text: 'Type a value and click Insert to add a node to the linked list. The visualizer shows the new node connected by a pointer.' },
       { name: 'Insert at head', text: 'Type a value and click Insert at Head to add a node to the beginning of the linked list. Watch how the head pointer is updated.' },
@@ -187,7 +187,7 @@ export const metaConfigs = {
   DoublyLinkedList: {
     title: 'Doubly Linked List Visualizer | Forward and Backward Traversal',
     description:
-      'Visualize how a Doubly Linked List connects nodes with two-way pointers. Step through forward and backward traversal, insertion, and deletion in real time.',
+      'Explore how a Doubly Linked List connects nodes with two-way pointers. Step through forward and backward traversal, insertion, and deletion in real time.',
     howToSteps: [
       { name: 'Insert a node', text: 'Enter a value and insert a node. The visualizer shows both forward (next) and backward (prev) pointer connections.' },
       { name: 'Insert at head', text: 'Type a value and click Insert at Head to add a node to the beginning of the doubly linked list. Watch how the head pointer is updated.' },
@@ -198,7 +198,7 @@ export const metaConfigs = {
   CircularQueue: {
     title: 'Circular Queue Visualizer | Ring Buffer FIFO Operations',
     description:
-      'Visualize how a Circular Queue connects its tail back to head in a ring buffer. Step through enqueue, dequeue, and pointer wrap-around in real time.',
+      'Explore how a Circular Queue connects its tail back to head in a ring buffer. Step through enqueue, dequeue, and pointer wrap-around in real time.',
     howToSteps: [
       { name: 'Enqueue elements', text: 'Click Enqueue to add elements to the rear of the circular queue. The rear pointer advances.' },
       { name: 'Watch wrapping', text: 'When the rear reaches the end of the array, it wraps around to the front — demonstrating the circular structure.' },
@@ -208,7 +208,7 @@ export const metaConfigs = {
   PrefixTree: {
     title: 'Trie (Prefix Tree) Visualizer | Interactive Animation',
     description:
-      'Visualize how a Trie (Prefix Tree) stores strings by sharing common prefix paths. Step through word insertion, search, and pruning with interactive animations.',
+      'Explore how a Trie (Prefix Tree) stores strings by sharing common prefix paths. Step through word insertion, search, and pruning with interactive animations.',
     howToSteps: [
       { name: 'Insert a word', text: 'Type a word and click Insert. Each character becomes a node; characters shared with existing words reuse the same branch.' },
       { name: 'Observe shared prefixes', text: 'Insert words with common prefixes (e.g. "car", "card", "care"). Notice how the shared prefix path is stored only once.' },
@@ -219,7 +219,7 @@ export const metaConfigs = {
   BinaryHeap: {
     title: 'Binary Heap Visualizer | Interactive Min/Max Heap',
     description:
-      'Visualize how a Binary Heap maintains heap order for fast min or max access. Step through heapify-up and heapify-down operations with interactive animations.',
+      'Explore how a Binary Heap maintains heap order for fast min or max access. Step through heapify-up and heapify-down operations with interactive animations.',
     howToSteps: [
       { name: 'Insert a value', text: 'Enter a number and click Insert. The value is added at the last position, then heapify-up restores the heap property.' },
       { name: 'Watch heapify-up', text: 'The inserted element bubbles up by swapping with its parent until the parent is greater (Max-Heap) or smaller (Min-Heap).' },
@@ -229,7 +229,7 @@ export const metaConfigs = {
   BST: {
     title: 'Binary Search Tree Visualizer | Interactive BST Operations',
     description:
-      'Visualize how a Binary Search Tree arranges smaller left keys and larger right keys. Step through node insertion, search, and deletion in real time.',
+      'Explore how a Binary Search Tree arranges smaller left keys and larger right keys. Step through node insertion, search, and deletion in real time.',
     howToSteps: [
       { name: 'Insert nodes', text: 'Enter values and click Insert. The visualizer places each node according to the BST rule: smaller values go left, larger go right.' },
       { name: 'Search for a value', text: 'Enter a value and click Search. Watch the algorithm compare and traverse left or right until it finds the node.' },
@@ -240,7 +240,7 @@ export const metaConfigs = {
   AVL: {
     title: 'AVL Tree Visualizer | Self-Balancing Rotations | BST',
     description:
-      'Visualize how an AVL Tree maintains balanced height using automatic tree rotations. Step through LL, RR, LR, and RL rotations with interactive animations.',
+      'Explore how an AVL Tree maintains balanced height using automatic tree rotations. Step through LL, RR, LR, and RL rotations with interactive animations.',
     howToSteps: [
       { name: 'Insert nodes', text: 'Enter values and click Insert. The visualizer shows each node being placed in BST order.' },
       { name: 'Watch balance checks', text: 'After each insertion, the AVL Tree checks balance factors (height difference) for each ancestor node.' },
@@ -251,7 +251,7 @@ export const metaConfigs = {
   RedBlackTree: {
     title: 'Red-Black Tree Visualizer | Coloring & Rotations | BST',
     description:
-      'Visualize how a Red-Black Tree balances search depth using node colors and rotations. Step through recoloring and balancing cases with interactive animations.',
+      'Explore how a Red-Black Tree balances search depth using node colors and rotations. Step through recoloring and balancing cases with interactive animations.',
     howToSteps: [
       { name: 'Insert nodes', text: 'Enter values and click Insert. New nodes are always inserted as red initially.' },
       { name: 'Watch recoloring', text: 'If inserting a red node violates the Red-Black properties, recoloring (changing node colors) may resolve the violation.' },
@@ -260,19 +260,19 @@ export const metaConfigs = {
     ],
   },
   SplayTree: {
-    title: 'Splay Tree Visualizer | Self-Adjusting Binary Tree',
+    title: 'Splay Tree Visualization | Rotations & Time Complexity',
     description:
-      'Visualize how a Splay Tree brings accessed nodes to the root for fast repeat queries. Step through zig, zig-zig, and zig-zag rotations in real time.',
+      'Learn how a splay tree works with interactive visualization, Zig, Zig-Zig and Zig-Zag examples, amortized O(log n) complexity, and practical use cases.',
     howToSteps: [
       { name: 'Insert nodes', text: 'Enter values and insert nodes. Each inserted node is splayed to the root.' },
-      { name: 'Access a node', text: 'Enter a value and click Access. The accessed node rotates up to the root via a series of zig, zig-zig, or zig-zag operations.' },
+      { name: 'Search for a node', text: 'Enter a value and click Search. A matching node rotates to the root through Zig, Zig-Zig, or Zig-Zag steps. If no key matches, the last visited node is splayed.' },
       { name: 'Observe locality', text: 'Recently accessed nodes stay near the root, giving Splay Trees excellent performance for temporal locality of reference.' },
     ],
   },
   BTree: {
     title: 'B-Tree Visualizer | Multi-Way Search Tree',
     description:
-      'Visualize how a B-Tree organizes multi-way keys and splits overflowing nodes. Step through key insertion, node splits, and promotions in real time.',
+      'Explore how a B-Tree organizes multi-way keys and splits overflowing nodes. Step through key insertion, node splits, and promotions in real time.',
     howToSteps: [
       { name: 'Insert keys', text: 'Enter integer values and click Insert. Keys are placed in sorted order within the appropriate node.' },
       { name: 'Watch node splits', text: 'When a node exceeds maximum capacity, it splits: the median key promotes to the parent, and two new child nodes are created.' },
@@ -282,7 +282,7 @@ export const metaConfigs = {
   'B+Tree': {
     title: 'B+ Tree Visualizer | Multi-Way Search Tree',
     description:
-      'Visualize how a B+ Tree stores keys in linked leaves for high-throughput range scans. Step through copy-up splits and promotions with interactive animations.',
+      'Explore how a B+ Tree stores keys in linked leaves for high-throughput range scans. Step through copy-up splits and promotions with interactive animations.',
     howToSteps: [
       { name: 'Insert keys', text: 'Enter integer values and click Insert. Keys are routed through internal nodes and always land in a leaf node.' },
       { name: 'Watch leaf splits', text: 'When a leaf overflows, it splits: the smallest key of the right half is copied (not moved) up to the parent, so the key stays in the leaf.' },
@@ -293,7 +293,7 @@ export const metaConfigs = {
   ConvexHull: {
     title: 'Convex Hull Visualizer | Jarvis March Wrapping',
     description:
-      'Visualize how the Convex Hull algorithm wraps the smallest polygon around 2D points. Step through Jarvis March wrapping steps with interactive animations.',
+      'Explore how the Convex Hull algorithm wraps the smallest polygon around 2D points. Step through Jarvis March wrapping steps with interactive animations.',
     howToSteps: [
       { name: 'Add points', text: 'Click anywhere on the canvas to add points in a 2D plane.' },
       { name: 'Start Jarvis March', text: 'Click Play to run the Jarvis March (Gift Wrapping) algorithm.' },
@@ -304,7 +304,7 @@ export const metaConfigs = {
   HuffmanCoding: {
     title: 'Huffman Coding Visualizer | Data Compression Algorithm',
     description:
-      'Visualize how Huffman Coding compresses data by assigning shorter codes to frequent symbols. Step through optimal prefix tree construction in real time.',
+      'Explore how Huffman Coding compresses data by assigning shorter codes to frequent symbols. Step through optimal prefix tree construction in real time.',
     howToSteps: [
       { name: 'Enter character frequencies', text: 'Input characters and their frequencies (how often they appear in data).' },
       { name: 'Build the Huffman Tree', text: 'Click Build. The two nodes with lowest frequency merge into a parent node repeatedly until one tree remains.' },

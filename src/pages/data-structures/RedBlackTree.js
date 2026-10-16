@@ -1,5 +1,10 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { DSInput, SavedDataList, Section } from '@/components/common';
+import {
+  DSInput,
+  ListItems,
+  SavedDataList,
+  Section,
+} from '@/components/common';
 import { useBinaryTree } from '@/hooks/data-structures';
 import { useSavedData } from '@/hooks';
 import redBlackTree from '@/helpers/redBlackTree';
@@ -39,9 +44,9 @@ export default function RedBlackTree(props) {
         </Section>
 
         <Section variant="h6" title="Step by Step">
-          <Typography component="ol" sx={{ '& li': { mb: 1 }, pl: 2 }}>
+          <ListItems component="ol" sx={{ pl: 2 }}>
             <li>
-              Insert a node like in a normal{' '}
+              Insert or delete a node like in a normal{' '}
               <Link href="/data-structures/BST">BST</Link> and color it red.
             </li>
             <li>Check the tree for violations of Red-Black rules.</li>
@@ -53,7 +58,7 @@ export default function RedBlackTree(props) {
               Repeat until all rules are satisfied from the modified node to the
               root.
             </li>
-          </Typography>
+          </ListItems>
         </Section>
       </Box>
       <Divider sx={{ mb: 3 }} />

@@ -1,5 +1,10 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { DSInput, SavedDataList, Section } from '@/components/common';
+import {
+  DSInput,
+  ListItems,
+  SavedDataList,
+  Section,
+} from '@/components/common';
 import { useAlgorithm, useSavedData } from '@/hooks';
 import { useBinaryTree } from '@/hooks/data-structures';
 import avlTree from '@/helpers/avlTree';
@@ -42,9 +47,9 @@ function rebalance(node):
         for every node, the difference between the heights of its left and right
         subtrees is never more than 1. If an operation violates this condition,
         the tree automatically rebalances itself through a series of{' '}
-        <Link href="/articles/avl-tree-rotations">rotations</Link>.
-        This ensures that operations like search, insert, and delete have a
-        worst-case time complexity of O(log n).
+        <Link href="/articles/avl-tree-rotations">rotations</Link>. This ensures
+        that operations like search, insert, and delete have a worst-case time
+        complexity of O(log n).
       </Typography>
 
       <Box display="flex" gap={4}>
@@ -56,15 +61,23 @@ function rebalance(node):
             There are four types of rotations:
           </Typography>
           <Typography component="ul" sx={{ '& li': { mb: 1 } }}>
-            <li><strong>Right Rotation (LL)</strong> – Left-Left Imbalance</li>
-            <li><strong>Left Rotation (RR)</strong> – Right-Right Imbalance</li>
-            <li><strong>Left-Right Rotation (LR)</strong> – Left-Right Imbalance</li>
-            <li><strong>Right-Left Rotation (RL)</strong> – Right-Left Imbalance</li>
+            <li>
+              <strong>Right Rotation (LL)</strong> – Left-Left Imbalance
+            </li>
+            <li>
+              <strong>Left Rotation (RR)</strong> – Right-Right Imbalance
+            </li>
+            <li>
+              <strong>Left-Right Rotation (LR)</strong> – Left-Right Imbalance
+            </li>
+            <li>
+              <strong>Right-Left Rotation (RL)</strong> – Right-Left Imbalance
+            </li>
           </Typography>
         </Section>
 
         <Section variant="h6" title="Step by Step">
-          <Typography component="ol" sx={{ '& li': { mb: 1 }, pl: 2 }}>
+          <ListItems component="ol" sx={{ pl: 2 }}>
             <li>
               Insert or delete a node like in a normal{' '}
               <Link href="/data-structures/BST">BST</Link>.
@@ -78,7 +91,7 @@ function rebalance(node):
               RR, LR, RL).
             </li>
             <li>Perform the rotation to restore the AVL property.</li>
-          </Typography>
+          </ListItems>
         </Section>
       </Box>
       <Divider sx={{ mb: 3 }} />
@@ -101,8 +114,4 @@ function rebalance(node):
       <SavedDataList onSelect={refresh} {...saveDataProps} />
     </>
   );
-}
-
-export function Visualizer() {
-
 }
