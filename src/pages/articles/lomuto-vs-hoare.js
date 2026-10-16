@@ -1,4 +1,4 @@
-import { Article, Section } from '@/components/common';
+import { Article, ListItems, Section } from '@/components/common';
 import { Divider, Paper, Typography } from '@mui/material';
 import Link from 'next/link';
 
@@ -93,7 +93,7 @@ export default function LomutoVsHoare() {
           characteristics diverge in three major ways:
         </Typography>
 
-        <Typography component="ul" sx={{ '& li': { mb: 2 }, pl: 2 }}>
+        <ListItems>
           <li>
             <strong>Fewer Swaps in Practice:</strong> Lomuto swaps on almost
             every element smaller than the pivot, even if it is already in the
@@ -113,7 +113,7 @@ export default function LomutoVsHoare() {
             boundary conditions and requires careful handling of recursion
             limits to avoid infinite loops.
           </li>
-        </Typography>
+        </ListItems>
       </Section>
 
       <Section title="Practical Perspective">

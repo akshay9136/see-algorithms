@@ -7,15 +7,12 @@ import Head from 'next/head';
 
 const AlgorithmSEO = () => {
   const router = useRouter();
-  const { pathname, query, asPath } = router;
+  const { pathname, asPath } = router;
   const cleanPath = asPath.split('?')[0].split('#')[0];
   const url = SITE_URL + (cleanPath === '/' ? '' : cleanPath);
-  const isEmbed = pathname.includes('/embed/');
-  const pageId = isEmbed
-    ? query.algorithm || query.dataStructure
-    : pathname.split('/')[2];
-  const { title, description, howToSteps } = getSeoConfig(pageId, pathname);
+  const pageId = pathname.split('/')[2];
   const { name, category } = algorithms.findObj('id', pageId) || {};
+  const { title, description, howToSteps } = getSeoConfig(pageId);
 
   const seoConfig = {
     title,

@@ -312,61 +312,6 @@ export const metaConfigs = {
       { name: 'Verify compression', text: 'Notice how frequent characters get shorter codes — this is the core of Huffman\'s optimal prefix-free encoding.' },
     ],
   },
-  'inplace-sorting': {
-    title: 'In-place Sorting Algorithms | Minimize Extra Space',
-    description:
-      'Understand how in-place sorting algorithms minimize extra space while reorganizing data. Learn about the trade-offs and nuances.',
-  },
-  'shortest-path-vs-mst': {
-    title: 'Shortest Path vs MST Algorithms | Difference in Objectives',
-    description:
-      'Visualize the difference between Shortest Path and MST algorithms. Understand the objectives of these algorithms and how they are different.',
-  },
-  'why-sorting-matters': {
-    title: 'Why Sorting is Important | Real-World Applications',
-    description:
-      'Understand the importance of sorting algorithms and how they are used in real-world applications. Perfect for students and educators.',
-  },
-  'stable-sorting': {
-    title: 'Stable Sorting Algorithms | Maintaining Original Order',
-    description:
-      'Learn how algorithms maintain original order when sorting data with duplicate keys. Understand the importance of stability in sorting algorithms.',
-  },
-  'quick-sort-illusion': {
-    title: 'When Quicksort Slows Down | Pivot Selection | Sorting',
-    description:
-      'Learn how already sorted data can slow down Quicksort. Understand the importance of pivot selection and how it affects the performance.',
-  },
-  'avl-tree-vs-red-black': {
-    title: 'AVL Tree vs Red-Black Tree | Self-Balancing Trees',
-    description:
-      'Learn the difference between AVL Trees and Red-Black Trees. Understand the self-balancing mechanisms and how they differ in practice.',
-  },
-  'deleting-bst-node': {
-    title: 'Deleting a Node in BST | Three Possible Cases',
-    description:
-      'Learn how a Binary Search Tree removes nodes while maintaining its ordering. Explore the three situations that arise and how each case works.',
-  },
-  'compare-sorting': {
-    title: 'Compare Sorting Algorithms | Real-Time Visualization',
-    description:
-      'Compare multiple sorting algorithms in real-time. Watch how different approaches sort the same list of numbers simultaneously.',
-  },
-  'embed-sorting-algo': {
-    title: 'Embed Sorting Visualizers | Educational Tool',
-    description:
-      'Learn how to embed interactive sorting animations into your blog, Notion, or website. Perfect for technical articles and tutorials.',
-  },
-  'embed-graph-algo': {
-    title: 'Embed Graph Visualizers | Interactive Pathfinding',
-    description:
-      'Transform your graph theory articles with interactive visualizers. Learn how to embed dynamic animations into your blog, Notion, or website.',
-  },
-  'embed-data-struct': {
-    title: 'Embed DS Visualizers | Interactive Tree Visuals',
-    description:
-      'Learn how to embed interactive data structure animations into your blog, Notion, or website. Perfect for technical articles and tutorials.',
-  },
   'bfs-vs-dfs': {
     title: 'Compare BFS and DFS | Graph Traversal Algorithms',
     description:
@@ -381,25 +326,5 @@ export const metaConfigs = {
     title: 'B-Tree vs B+ Tree | Multi-Way Search Trees',
     description:
       'Compare B-Tree and B+ Tree side-by-side. See how the copy-up vs move-up split difference shapes the two structures with an interactive tool.',
-  },
-  'deleting-rbt-node': {
-    title: 'Deletion in a Red-Black Tree',
-    description:
-      'Learn how Red-Black Trees delete nodes and fix violations using the double-black concept and four fixup cases — resolved through rotations and recoloring.',
-  },
-  'avl-tree-rotations': {
-    title: 'AVL Tree Rotations | LL, RR, LR, RL',
-    description:
-      'Understand AVL tree rotations with step-by-step diagrams. Learn how Left, Right, Left-Right, and Right-Left rotations restore balance in O(1) time.',
-  },
-  'lomuto-vs-hoare': {
-    title: 'Lomuto vs Hoare Partitioning | Quicksort',
-    description:
-      'Compare Lomuto and Hoare partitioning schemes in Quicksort. Learn about pointer movement, swap efficiency, and handling duplicate keys.',
-  },
-  'heap-index-math': {
-    title: 'Complete Binary Trees in Flat Arrays',
-    description:
-      'Understand the index math behind binary heaps. Learn why implicit complete binary trees eliminate pointer overhead and simplify heap traversal.',
   },
 };

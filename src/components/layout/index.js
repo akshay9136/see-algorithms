@@ -19,8 +19,8 @@ function Layout({ children }) {
   const pageId = isEmbed
     ? query.algorithm || query.dataStructure
     : pathname.split('/')[2];
-  const { name, title = name, category } =
-    algorithms.findObj('id', pageId) || {};
+  const { name: title, category } = algorithms.findObj('id', pageId) || {};
+
   const scrollRef = useRef(null);
 
   useEffect(() => {
@@ -56,6 +56,7 @@ function Layout({ children }) {
 
   return (
     <>
+      {title && <AlgorithmSEO />}
       <Header toggleMenu={() => setMenuVisible(!menuVisible)} />
       <Drawer
         anchor="left"
@@ -69,7 +70,6 @@ function Layout({ children }) {
       >
         <Sider selected={pageId} />
       </Drawer>
-      {(pageId || pathname === '/articles') && <AlgorithmSEO />}
 
       <Box display="flex" className="contentRow">
         <Box sx={{ display: { xs: 'none', md: 'block' } }}>

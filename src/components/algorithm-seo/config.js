@@ -44,19 +44,8 @@ export const defaultSeoConfig = {
   ],
 };
 
-export const getSeoConfig = (pageId, pathname) => {
+export const getSeoConfig = (pageId) => {
   const config = metaConfigs[pageId];
-
-  if (!config) {
-    if (pathname === '/articles') {
-      return {
-        title: 'Articles (See Algorithms) | Deep-dive into DSA',
-        description:
-          'Learn about sorting efficiency, self-balancing trees, graph theory, and more through interactive articles and visual guides.',
-      };
-    }
-    return defaultSeoConfig;
-  }
-
+  if (!config) return defaultSeoConfig;
   return config;
 };

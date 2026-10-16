@@ -11,8 +11,10 @@ import {
   Tabs,
   Typography,
 } from '@mui/material';
+import { SITE_URL } from '@/utils/constants';
 import { articles } from '@/data/articles';
 import { CategoryColors } from '@/common/constants';
+import { NextSeo } from 'next-seo';
 import Link from 'next/link';
 
 const tabs = [
@@ -73,14 +75,27 @@ const styles = {
 
 const Articles = () => {
   const [activeTab, setActiveTab] = useState(0);
-
   const filtered =
     activeTab > 0
       ? articles.filter((a) => a.category === tabs[activeTab])
       : articles;
 
+  const pageUrl = `${SITE_URL}/articles`;
+  const description =
+    'Learn about sorting efficiency, self-balancing trees, graph theory, and more through interactive articles and visual guides.';
+
   return (
     <Container maxWidth="lg" sx={styles.container}>
+      <NextSeo
+        title="Articles on DSA - See Algorithms"
+        description={description}
+        canonical={pageUrl}
+        openGraph={{
+          url: pageUrl,
+          title: 'Articles on DSA - See Algorithms',
+          description,
+        }}
+      />
       <Typography variant="h4" component="h1" textAlign="center">
         Articles on DSA
       </Typography>

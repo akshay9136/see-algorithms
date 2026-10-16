@@ -7,10 +7,10 @@ import {
   Switch,
   Typography,
 } from '@mui/material';
+import { InfoOutlined } from '@mui/icons-material';
 import { useContext, useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { InfoOutlined } from '@mui/icons-material';
 import { marked } from 'marked';
 import { logError } from '@/common/utils';
 import AppContext from '@/common/context';
@@ -47,7 +47,6 @@ export default function useSummary() {
     const controller = new AbortController();
     const payload = JSON.stringify({ algoId, data });
     if (payloadRef.current === payload) return;
-
     controlRef.current?.abort();
     controlRef.current = controller;
     loading.start();

@@ -17,6 +17,7 @@ import { articles } from '@/data/articles';
 import { SITE_AUTHOR, SITE_URL } from '@/utils/constants';
 import { memo, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { NextSeo } from 'next-seo';
 import NextLink from 'next/link';
 import Head from 'next/head';
 
@@ -32,7 +33,7 @@ function formatDate(iso) {
 function Article({ title, summary, children }) {
   const router = useRouter();
   const articleId = router.pathname.split('/').pop();
-  const { category, date, faqs } =
+  const { category, date } =
     articles.find((a) => a.id === articleId) || {};
 
   const pageUrl = `${SITE_URL}/articles/${articleId}`;
@@ -59,18 +60,6 @@ function Article({ title, summary, children }) {
       cssSelector: ['.article-title', '.article-summary'],
     },
   };
-
-  const faqSchema = faqs
-    ? {
-        '@context': 'https://schema.org',
-        '@type': 'FAQPage',
-        mainEntity: faqs.map(({ q, a }) => ({
-          '@type': 'Question',
-          name: q,
-          acceptedAnswer: { '@type': 'Answer', text: a },
-        })),
-      }
-    : null;
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -100,6 +89,24 @@ function Article({ title, summary, children }) {
 
   return (
     <Container maxWidth="md" sx={{ p: 0 }} className="article">
+      <NextSeo
+        title={`${title} - See Algorithms`}
+        description={summary}
+        canonical={pageUrl}
+        openGraph={{
+          url: pageUrl,
+          title: `${title} - See Algorithms`,
+          description: summary,
+          type: 'article',
+          article: {
+            publishedTime: date,
+            modifiedTime: date,
+            section: category,
+            authors: [SITE_AUTHOR.name],
+          },
+        }}
+      />
+
       <Head>
         <script
           type="application/ld+json"
@@ -109,12 +116,6 @@ function Article({ title, summary, children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
         />
-        {faqSchema && (
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-          />
-        )}
       </Head>
 
       <Breadcrumbs
