@@ -17,7 +17,7 @@ export default function ShortestPathVsMST() {
   return (
     <Article
       title="Shortest Path vs MST"
-      summary='In graph theory, confusion often arises not from complexity, but from similarity. Shortest Path and Minimum Spanning Tree (MST) both deal with weighted graphs. Both aim to "minimize" something. Yet their intentions are fundamentally different.'
+      summary='Shortest Path and Minimum Spanning Tree (MST) both deal with weighted graphs. Both aim to "minimize" something. Yet their intentions are fundamentally different.'
     >
       <Section title="The Core Question">
         <Typography paragraph>

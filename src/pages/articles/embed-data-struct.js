@@ -57,7 +57,7 @@ BST              - Binary Search Tree
 AVL              - AVL Tree
 RedBlackTree     - Red-Black Tree
 SplayTree        - Splay Tree
-BTree            - B-Tree`}
+B+Tree           - B+ Tree`}
           </pre>
         </Paper>
 

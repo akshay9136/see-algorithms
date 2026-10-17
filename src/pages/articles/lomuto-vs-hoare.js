@@ -83,6 +83,11 @@ export default function LomutoVsHoare() {
 `}
           </pre>
         </Paper>
+
+        <Typography paragraph>
+          The returned index <code>j</code> is a partition boundary, not necessarily the
+          pivot&apos;s final position.
+        </Typography>
       </Section>
 
       <Divider sx={{ mb: 3 }} />
@@ -124,9 +129,9 @@ export default function LomutoVsHoare() {
         </Typography>
 
         <Typography paragraph>
-          Hoare is the workhorse behind production libraries. Its reduced swap
-          overhead and natural resilience to repeated values make it
-          significantly faster on real-world hardware.
+          Hoare can reduce swap overhead, but this alone does not guarantee a
+          faster implementation. Production sorting libraries use a variety of
+          algorithms and hybrids.
         </Typography>
 
         <Typography paragraph>

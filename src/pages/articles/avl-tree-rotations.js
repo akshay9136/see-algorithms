@@ -42,8 +42,12 @@ export default function AvlTreeRotations() {
       <Section title="Measuring Imbalance">
         <Typography paragraph>
           To maintain balance, every node in an AVL tree keeps track of its
-          height — the length of the longest downward path to a leaf. From this
-          height, we derive each node&apos;s{' '}
+          height — the length of the longest downward path to a leaf. Stored
+          heights let each rotation update this information in O(1) time.
+        </Typography>
+
+        <Typography paragraph>
+          From this height, we derive each node&apos;s{' '}
           <strong>Balance Factor (BF)</strong>:
         </Typography>
 
@@ -190,7 +194,7 @@ Key Pointer Shifts:
           outer-right path (Right subtree of Right child). The mirror image of
           the LL case. Perform a single <strong>Left Rotation</strong> at node
           Z. Node Y lifts up, Z drops to become Y&apos;s left child, and
-          Y&apos;s left subtree (T2) attaches as Z&apos;s right subtree.
+          Y&apos;s left subtree (T1) attaches as Z&apos;s right subtree.
         </Typography>
 
         <Paper className="pseudoCode" sx={{ my: 3 }}>
@@ -235,7 +239,7 @@ Key Pointer Shifts:
           <code>BF = -1</code>. The excess weight is bent inward (Right child of
           Left child), forming a &quot;zig-zag&quot; or &quot;elbow&quot; shape.
           If you perform a naive right rotation at Z, the inner subtree simply
-          swings over to the right branch, leaving Z with an RR imbalance. The
+          swings over to the right branch, leaving Z with an LR imbalance. The
           tree remains broken.
         </Typography>
 
@@ -394,7 +398,7 @@ BF(Z) < -1            BF(Y) > 0       RL     RotateRight(Y) + RotateLeft(Z)`}
           color="warning.main"
           gutterBottom
         >
-          Insertion: At Most One Rotation
+          Insertion: At Most Two Rotations
         </Typography>
 
         <Typography paragraph>
@@ -410,11 +414,9 @@ BF(Z) < -1            BF(Y) > 0       RL     RotateRight(Y) + RotateLeft(Z)`}
           Because the subtree height does not grow beyond its pre-insertion
           level, no higher ancestors experience an increase in height.
           Therefore,{' '}
-          <strong>
-            an insertion never requires more than one rotation operation
-          </strong>{' '}
-          (at most two pointer-level rotations for LR/RL). Total rotation cost
-          is O(1).
+          <strong>an insertion requires at most two rotations</strong> (one
+          rotation for LL/RR imbalance, two for LR/RL). Total rotation
+          cost is O(1).
         </Typography>
 
         <Typography

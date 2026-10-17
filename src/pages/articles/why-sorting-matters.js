@@ -33,12 +33,8 @@ export default function WhySortingMatters() {
           For example, binary search only works on sorted data. Instead of
           checking every element one by one, it repeatedly divides the search
           space in half. That shift from linear scanning to intelligent
-          elimination changes the scale of performance entirely.
-        </Typography>
-
-        <Typography paragraph>
-          Sorting is often a one-time cost that enables faster operations
-          forever after.
+          elimination changes the scale of performance entirely. Sorting is
+          often a one-time cost that enables faster operations forever after.
         </Typography>
       </Section>
 

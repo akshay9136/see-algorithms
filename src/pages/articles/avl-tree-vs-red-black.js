@@ -60,10 +60,11 @@ export default function AVLTreeVsRedBlack() {
         </Typography>
 
         <Typography paragraph>
-          The result is a tightly balanced tree. Search operations feel
-          predictably stable because the height is kept minimal. But discipline
-          has a cost. Insertions and deletions may trigger multiple rotations.
-          The tree is precise, but it works harder to remain so.
+          The result is a tightly balanced tree, with O(log n) worst-case
+          search, insertion, and deletion. Search operations feel predictably
+          stable because the height is kept minimal. But discipline has a cost.
+          Insertions and deletions may trigger multiple rotations. The tree is
+          precise, but it works harder to remain so.
         </Typography>
 
         <Paper sx={styles.card}>
@@ -79,7 +80,8 @@ export default function AVLTreeVsRedBlack() {
           relaxes the idea of perfect balance. Instead of tracking exact height
           differences, it colors each node red or black and enforces a set of
           coloring rules. These rules ensure that no path from root to leaf
-          becomes excessively long.
+          becomes excessively long, with O(log n) worst-case search, insertion,
+          and deletion.
         </Typography>
 
         <Typography paragraph>
@@ -90,7 +92,11 @@ export default function AVLTreeVsRedBlack() {
         </Typography>
 
         <Paper sx={styles.card}>
-          <img src="/gifs/red-black-tree.gif" alt="Red-Black Tree" width="100%" />
+          <img
+            src="/gifs/red-black-tree.gif"
+            alt="Red-Black Tree"
+            width="100%"
+          />
         </Paper>
       </Section>
 
@@ -120,11 +126,11 @@ export default function AVLTreeVsRedBlack() {
 
       <Section title="Practical Insight">
         <Typography paragraph>
-          AVL Trees represent precision. Red-Black Trees represent resilience.
-          If your application mostly reads data and rarely changes, AVL&apos;s
-          perfect balance ensures every search is as fast as possible. But if
-          you are constantly adding or removing items, Red-Black is usually the
-          better choice.
+          Both self-balancing trees guarantee logarithmic operations. If your
+          application mostly reads data and rarely changes, AVL&apos;s perfect
+          balance ensures every search is as fast as possible. But if you are
+          constantly adding or removing items, Red-Black is usually the better
+          choice.
         </Typography>
 
         <Typography paragraph>

@@ -1,4 +1,4 @@
-import { Article, Section } from '@/components/common';
+import { Article, ListItems, Section } from '@/components/common';
 import { Divider, Typography, Paper, Box } from '@mui/material';
 import Link from 'next/link';
 
@@ -113,7 +113,9 @@ Depth 2:         []       [3, 4, 5, 6, 7]  ...
         <Typography paragraph>
           Traditional two-way partitioning struggles when many elements are
           equal to the pivot. The algorithm keeps redistributing equal values
-          across recursive calls, creating unnecessary work.
+          across recursive calls, creating unnecessary work. Hoare partitioning
+          with scans that stop on equality can split the same input evenly,
+          although it still revisits equal keys in recursive calls.
         </Typography>
 
         <Typography paragraph>
@@ -132,40 +134,31 @@ Depth 2:         []       [3, 4, 5, 6, 7]  ...
         </Typography>
       </Section>
 
-      <Divider sx={{ my: 4 }} />
-
       <Section title="Warning Signs">
         <Typography paragraph>
           These are structural signals telling you that the strategy must adapt.
         </Typography>
 
-        <Typography
-          component="ul"
-          sx={{ '& li': { mb: 1 }, width: 'max-content' }}
-        >
+        <ListItems sx={{ width: 'max-content' }}>
           <li>Consistently uneven partition sizes</li>
           <li>Recursion depth approaching input size</li>
           <li>Performance degradation on sorted inputs</li>
           <li>High number of repeated values in data</li>
-        </Typography>
+        </ListItems>
       </Section>
 
       <Section title="The Deeper Lesson">
         <Typography paragraph>
           Quicksort does not lose its speed randomly. It loses it when balance
           is lost. Modern versions of the algorithm use special techniques like
-          — randomized pivot selection, median-of-three strategies, and hybrid
+          randomized pivot selection, median-of-three strategies, and hybrid
           approaches like introspective sorting exist for one reason: to protect
           balance.
         </Typography>
 
         <Typography paragraph>
           Speed is a consequence of structure. And structure comes from
-          thoughtful decisions. Use our{' '}
-          <Link href="/articles/compare-sorting">comparison tool</Link> to watch
-          how Quicksort performs against{' '}
-          <Link href="/sorting/MergeSort">Merge Sort</Link> and other sorting
-          algorithms on the same dataset.
+          thoughtful decisions.
         </Typography>
       </Section>
     </Article>

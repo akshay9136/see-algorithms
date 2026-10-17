@@ -13,13 +13,9 @@ export default function InplaceSorting() {
           An in-place sorting algorithm rearranges elements within the original
           data structure without allocating significant additional memory. It
           modifies the input directly instead of creating a separate array to
-          store the result.
-        </Typography>
-
-        <Typography paragraph>
-          In practical terms, this means the algorithm uses only a constant
-          amount of extra space — typically a few variables for indexing,
-          swapping, or temporary storage.
+          store the result. In practical terms, this means the algorithm uses
+          only a constant amount of extra space — typically a few variables for
+          indexing, swapping, or temporary storage.
         </Typography>
       </Section>
 
@@ -73,13 +69,17 @@ export default function InplaceSorting() {
           Not all sorting algorithms follow this principle. For example,{' '}
           <Link href="/sorting/MergeSort">Merge Sort</Link> traditionally uses
           an additional array to merge sorted halves. That extra storage makes
-          it not strictly in-place in its common implementation.
+          it not strictly in-place in its common implementation. Similarly,
+          functional programming approaches often create new arrays instead of
+          mutating the original. This improves clarity and immutability but
+          increases space usage.
         </Typography>
 
         <Typography paragraph>
-          Similarly, functional programming approaches often create new arrays
-          instead of mutating the original. This improves clarity and
-          immutability but increases space usage.
+          <Link href="/sorting/QuickSort">Quick Sort</Link> partitions within
+          the input array, but a straightforward recursive version uses O(log n)
+          stack space with balanced partitions and O(n) in the worst case. It
+          does not meet the strict O(1) auxiliary-space definition.
         </Typography>
       </Section>
 

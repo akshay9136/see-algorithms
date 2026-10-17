@@ -3,7 +3,7 @@ export const articles = [
     id: 'heap-index-math',
     title: 'Complete Binary Trees in Flat Arrays',
     summary:
-      'Understand how complete binary trees eliminate pointer overhead and simplify heap traversal.',
+      'Understand how complete binary trees use array indices instead of explicit node links to simplify heap traversal.',
     category: 'Data Structures',
     date: '2026-10-08',
   },

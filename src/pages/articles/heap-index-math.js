@@ -1,12 +1,12 @@
 import { Article, ListItems, Section } from '@/components/common';
-import { Box, Divider, Paper, Typography } from '@mui/material';
+import { Divider, Paper, Typography } from '@mui/material';
 import Link from 'next/link';
 
 export default function HeapIndexMath() {
   return (
     <Article
       title="Complete Binary Trees in Flat Arrays"
-      summary="Discover how complete binary trees map directly into flat arrays — eliminating pointer overhead, maximizing CPU cache locality, and simplifying heap traversal."
+      summary="Discover how complete binary trees map to arrays using parent and child index formulas, reducing link overhead and simplifying heap traversal."
     >
       <Section title="The Problem with Pointers">
         <Typography paragraph>
@@ -24,7 +24,9 @@ export default function HeapIndexMath() {
           , the answer is a resounding yes. We can map the entire structure into
           a single, flat array.
         </Typography>
+      </Section>
 
+      <Section title="What Makes a Tree Complete">
         <Typography paragraph>
           A binary tree is considered {'"complete"'} if every level, except
           possibly the last, is fully filled, and all nodes in the last level
@@ -43,7 +45,7 @@ export default function HeapIndexMath() {
           Normally, building a tree requires nodes. Each node stores a value and
           references (pointers) to its left child, right child, and sometimes
           its parent. While flexible, this approach scatters memory across the
-          heap and introduces overhead—each pointer consumes extra memory, and
+          heap and introduces overhead — each pointer consumes extra memory, and
           following those pointers disrupts cache locality.
         </Typography>
 

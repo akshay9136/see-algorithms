@@ -1,4 +1,4 @@
-import { Article, Section } from '@/components/common';
+import { Article, ListItems, Section } from '@/components/common';
 import { Paper, Typography } from '@mui/material';
 
 export default function StableSorting() {
@@ -51,7 +51,7 @@ Unstable Result:
       </Section>
 
       <Section title="Which Algorithms Are Stable?">
-        <Typography component="ul" sx={{ '& li': { mb: 1 }, my: 2 }}>
+        <ListItems sx={{ my: 2 }}>
           <li>
             <strong>Bubble Sort</strong> – Stable
           </li>
@@ -67,12 +67,14 @@ Unstable Result:
           <li>
             <strong>Heap Sort</strong> – Unstable
           </li>
-        </Typography>
+        </ListItems>
 
         <Typography paragraph>
           Notice something subtle: many simple, incremental algorithms are
           naturally stable. Algorithms built around swapping distant elements
-          often are not.
+          often are not. Stability depends on implementation. A conventional{' '}
+          <strong>Merge Sort</strong> is stable when merging takes the left
+          element first on a tie.
         </Typography>
       </Section>
 

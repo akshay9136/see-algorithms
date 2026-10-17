@@ -26,13 +26,12 @@ function quickSort(start, end):
         one of the most popular sorting techniques.
       </Typography>
       <Typography paragraph>
-        This visualization uses the{' '}
-        <Link href="/articles/lomuto-vs-hoare">Hoare Partition</Link> scheme
+        This visualization uses a <strong>two-way partitioning</strong> scheme
         with two converging pointers starting from opposite ends. The left
         pointer moves right until it finds an element larger than the pivot,
         while the right pointer moves left until it finds a smaller element.
         When both find misplaced elements, they swap them and continue until the
-        pointers cross.
+        pointers cross. Finally, the pivot is placed into its sorted position.
       </Typography>
       <Divider sx={{ my: 3 }} />
 
