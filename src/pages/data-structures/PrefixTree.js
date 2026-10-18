@@ -58,8 +58,8 @@ function search(root, word):
 `);
 
   return (
-    <Stack spacing={2}>
-      <Typography>
+    <>
+      <Typography paragraph>
         A <strong>Trie</strong> (also called a <strong>prefix tree</strong>) is
         a tree-shaped data structure used to store strings. Each node represents
         a single character, and paths from the root spell out words. It excels
@@ -69,87 +69,97 @@ function search(root, word):
         how many words are stored.
       </Typography>
 
-      <Typography variant="h6" component="h2">
-        Visualizer
-      </Typography>
-      <Box display="flex" alignItems="center" flexWrap="wrap" gap={1.5}>
-        <Typography
-          component="label"
-          htmlFor="trieWordInput"
-          variant="subtitle1"
-          fontWeight={600}
+      <Stack spacing={2} width="fit-content">
+        <Typography variant="h6" component="h2">
+          Visualizer
+        </Typography>
+        <Box
+          display="flex"
+          alignItems="center"
+          flexWrap="wrap"
+          gap={1.5}
+          width="fit-content"
         >
-          Enter a word:&nbsp;
-        </Typography>
-        <Input
-          id="trieWordInput"
-          value={word}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          placeholder="e.g. apple"
-          disabled={busy}
-          inputProps={{ maxLength: 15 }}
-          sx={{ width: 150 }}
-        />
-
-        <Box display="flex" gap={1} flexWrap="wrap">
-          <Button
-            id="trieInsertBtn"
-            size="small"
-            variant="outlined"
-            onClick={handleInsert}
+          <Typography
+            component="label"
+            htmlFor="trieWordInput"
+            variant="subtitle1"
+            fontWeight={600}
+          >
+            Enter a word:
+          </Typography>
+          <Input
+            id="trieWordInput"
+            value={word}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            placeholder="e.g. apple"
             disabled={busy}
-            aria-label="Insert word"
-          >
-            Insert
-          </Button>
-          <Button
-            id="trieSearchBtn"
-            size="small"
-            variant="outlined"
-            onClick={handleSearch}
-            disabled={busy || wordCount === 0}
-            aria-label="Search word"
-          >
-            Search
-          </Button>
-          <Button
-            id="trieDeleteBtn"
-            size="small"
-            variant="outlined"
-            onClick={handleDelete}
-            disabled={busy || wordCount === 0}
-            aria-label="Delete word"
-          >
-            Delete
-          </Button>
-          <Button
-            id="trieClearBtn"
-            size="small"
-            variant="outlined"
-            color="secondary"
-            onClick={handleClear}
-            disabled={busy || wordCount === 0}
-            aria-label="Clear the Trie"
-          >
-            Clear
-          </Button>
-        </Box>
+            inputProps={{ maxLength: 15 }}
+            sx={{ width: 150 }}
+          />
 
-        <Typography variant="body2" color="text.secondary">
-          {wordCount} word{wordCount > 1 ? 's' : ''}
-        </Typography>
-      </Box>
-      {animation}
+          <Box display="flex" gap={1} flexWrap="wrap">
+            <Button
+              id="trieInsertBtn"
+              size="small"
+              variant="outlined"
+              onClick={handleInsert}
+              disabled={busy}
+              aria-label="Insert word"
+            >
+              Insert
+            </Button>
+            <Button
+              id="trieSearchBtn"
+              size="small"
+              variant="outlined"
+              onClick={handleSearch}
+              disabled={busy || wordCount === 0}
+              aria-label="Search word"
+            >
+              Search
+            </Button>
+            <Button
+              id="trieDeleteBtn"
+              size="small"
+              variant="outlined"
+              onClick={handleDelete}
+              disabled={busy || wordCount === 0}
+              aria-label="Delete word"
+            >
+              Delete
+            </Button>
+            <Button
+              id="trieClearBtn"
+              size="small"
+              variant="outlined"
+              color="secondary"
+              onClick={handleClear}
+              disabled={busy || wordCount === 0}
+              aria-label="Clear the Trie"
+            >
+              Clear
+            </Button>
+          </Box>
+
+          <Typography variant="body2" color="text.secondary">
+            {wordCount} word{wordCount > 1 ? 's' : ''}
+          </Typography>
+        </Box>
+        {animation}
+      </Stack>
       <br />
 
-      <Typography variant="h6" component="h2">
-        Pseudocode
-      </Typography>
-      <Box display="flex" gap={3} flexWrap="wrap">
-        {insertAlgo}
-        {searchAlgo}
-      </Box>
-    </Stack>
+      <Stack spacing={2}>
+        <Typography variant="h6" component="h2">
+          Pseudocode
+        </Typography>
+        <Box display="flex" gap={3} flexWrap="wrap">
+          {insertAlgo}
+          {searchAlgo}
+        </Box>
+      </Stack>
+    </>
   );
 }

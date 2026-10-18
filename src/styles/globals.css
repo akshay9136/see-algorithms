@@ -25,6 +25,7 @@ body,
 
 a {
   color: #1565c0;
+  font-weight: 600;
   text-underline-offset: 2px;
 }
 

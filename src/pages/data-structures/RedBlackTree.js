@@ -42,7 +42,6 @@ export default function RedBlackTree(props) {
             number of black nodes.
           </Typography>
         </Section>
-
         <Section variant="h6" title="Step by Step">
           <ListItems component="ol" sx={{ pl: 2 }}>
             <li>
@@ -61,6 +60,7 @@ export default function RedBlackTree(props) {
           </ListItems>
         </Section>
       </Box>
+
       <Divider sx={{ mb: 3 }} />
 
       <Box display="flex" flexWrap="wrap" gap={4}>

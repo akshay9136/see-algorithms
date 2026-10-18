@@ -133,7 +133,7 @@ function InputNumbers(props) {
               key={i}
               value={val}
               onChange={(e) => handleInput(e, i)}
-              className={styles.number}
+              sx={{ width: '2.5rem', mr: 1.5 }}
             />
           ))}
         </Box>

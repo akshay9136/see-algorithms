@@ -82,7 +82,6 @@ export default function CommentBox({ topic, onSubmit }) {
           onClick={handleSubmit}
           endIcon={<Send fontSize="small" />}
           sx={styles.submitBtn}
-          size="small"
         >
           {submitting ? 'Posting...' : 'Post'}
         </Button>

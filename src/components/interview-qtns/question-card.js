@@ -45,7 +45,7 @@ function QuestionCard({ question, answer, codeSnippet }) {
             '& var': {
               color: 'warning.main',
               fontStyle: 'normal',
-              fontWeight: 500,
+              fontWeight: 600,
               fontFamily: 'system-ui, -apple-system, sans-serif',
               whiteSpace: 'nowrap',
             },

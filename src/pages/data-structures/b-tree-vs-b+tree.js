@@ -7,10 +7,8 @@ import Link from 'next/link';
 
 export default function BTreeVsBPlusTree(props) {
   const randomNodes = randomKeys();
-
   const { animation: bTreeAnimation, buttons: bTreeButtons } =
     useBTree({ randomNodes });
-
   const { animation: bPlusAnimation, buttons: bPlusButtons } =
     useBPlusTree({ randomNodes });
 
@@ -20,21 +18,22 @@ export default function BTreeVsBPlusTree(props) {
   useEffect(muteSounds, []);
 
   return (
-    <Stack spacing={3}>
-      <Typography>
+    <>
+      <Typography paragraph>
         Both <strong>B-Trees</strong> and <strong>B+ Trees</strong> are
         self-balancing multi-way search trees used in databases and file
-        systems, but they differ in <em>where data lives</em> and{' '}
-        <em>how splits work</em>. In a{' '}
+        systems, but they differ in where data lives and how splits work. In a{' '}
         <Link href="/data-structures/BTree">B-Tree</Link>, every node — internal
         and leaf — stores data, and when a node splits the median key is{' '}
-        <strong>moved up</strong> to the parent. In a{' '}
-        <Link href="/data-structures/B+Tree">B+ Tree</Link>, data lives only in
-        the leaf nodes; internal nodes are purely routing guides, and the median
-        key is <strong>copied up</strong> during a leaf split, so it remains in
-        the leaf. Leaf nodes in a B+ Tree are also linked together, making range
-        queries much more efficient. Try inserting the same values into both to
-        see how the structures diverge.
+        <strong>moved up</strong> to the parent.
+      </Typography>
+      <Typography paragraph>
+        In a <Link href="/data-structures/B+Tree">B+ Tree</Link>, data lives
+        only in the leaf nodes; internal nodes are purely routing guides, and
+        the median key is <strong>copied up</strong> during a leaf split, so it
+        remains in the leaf. Leaf nodes in a B+ Tree are also linked together,
+        making range queries much more efficient. Try inserting the same values
+        into both to see how the structures diverge.
       </Typography>
 
       <Divider sx={{ my: 3 }} />
@@ -50,6 +49,6 @@ export default function BTreeVsBPlusTree(props) {
         </Stack>
         {bPlusAnimation}
       </Box>
-    </Stack>
+    </>
   );
 }

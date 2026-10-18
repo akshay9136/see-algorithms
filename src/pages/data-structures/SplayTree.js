@@ -41,7 +41,7 @@ export default function SplayTree(props) {
             <strong>Zig-Zig</strong> (double rotation in same direction), and{' '}
             <strong>Zig-Zag</strong> (double rotation in opposite directions).
           </Typography>
-          <Typography paragraph>
+          <Typography>
             After splaying, frequently accessed nodes stay near the root, making
             repeated operations faster. Each operation take{' '}
             <strong>O(log n) amortized time</strong> for n stored keys, with{' '}
@@ -49,7 +49,7 @@ export default function SplayTree(props) {
           </Typography>
         </Section>
         <Section variant="h6" title="Key Operations">
-          <ListItems sx={{ pl: 2 }}>
+          <ListItems sx={{ pl: 2, mb: 0 }}>
             <li>
               <strong>Search:</strong> follow{' '}
               <Link href="/data-structures/BST">BST</Link> comparisons, then
@@ -69,6 +69,7 @@ export default function SplayTree(props) {
           </ListItems>
         </Section>
       </Box>
+
       <Divider sx={{ mb: 3 }} />
 
       <Box display="flex" flexWrap="wrap" gap={4}>

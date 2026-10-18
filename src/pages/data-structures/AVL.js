@@ -46,10 +46,10 @@ function rebalance(node):
         <strong>AVL Tree</strong> rigorously maintains balance by ensuring that
         for every node, the difference between the heights of its left and right
         subtrees is never more than 1. If an operation violates this condition,
-        the tree automatically rebalances itself through a series of{' '}
-        <Link href="/articles/avl-tree-rotations">rotations</Link>. This ensures
-        that operations like search, insert, and delete have a worst-case time
-        complexity of O(log n).
+        the tree automatically rebalances itself through a{' '}
+        <Link href="/articles/avl-tree-rotations">series of rotations</Link>.
+        This ensures that operations like search, insert, and delete have a
+        worst-case time complexity of O(log n).
       </Typography>
 
       <Box display="flex" gap={4}>
@@ -60,7 +60,7 @@ function rebalance(node):
             becomes unbalanced, rotations are performed to restore balance.
             There are four types of rotations:
           </Typography>
-          <Typography component="ul" sx={{ '& li': { mb: 1 } }}>
+          <ListItems sx={{ mb: 0 }}>
             <li>
               <strong>Right Rotation (LL)</strong> – Left-Left Imbalance
             </li>
@@ -73,9 +73,8 @@ function rebalance(node):
             <li>
               <strong>Right-Left Rotation (RL)</strong> – Right-Left Imbalance
             </li>
-          </Typography>
+          </ListItems>
         </Section>
-
         <Section variant="h6" title="Step by Step">
           <ListItems component="ol" sx={{ pl: 2 }}>
             <li>
@@ -94,6 +93,7 @@ function rebalance(node):
           </ListItems>
         </Section>
       </Box>
+
       <Divider sx={{ mb: 3 }} />
 
       <Box display="flex" flexWrap="wrap" gap={4}>

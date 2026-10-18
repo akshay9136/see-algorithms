@@ -3,7 +3,7 @@ import { PlayArrow, Pause, Refresh } from '@mui/icons-material';
 import { addPoints, randomize } from '@/helpers/convexHull';
 import { useContext, useEffect } from 'react';
 import $ from 'jquery';
-import styles from '@/styles/draw-graph.module.css';
+import styles from '@/styles/drawing.module.css';
 import Graph from '@/common/graph';
 import AppContext from '@/common/context';
 import { Colors } from '@/common/constants';
@@ -64,8 +64,8 @@ function AddPoints({ scope, graphRef, onStart }) {
 
   return (
     <Box className="drawGraph" aria-label="Convex hull visualization" ref={graphRef}>
-      <Box className={styles.toolbar} mb={1}>
-        <Typography variant="h6" ml={0.5} mr="auto">
+      <Box className={styles.toolbar} mb={1} px={0.5}>
+        <Typography variant="h6" mr="auto">
           Add Points
         </Typography>
         <IconButton

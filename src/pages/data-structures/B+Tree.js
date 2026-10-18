@@ -17,11 +17,10 @@ export default function BPlusTree(props) {
         children. The key difference is that in a B+ Tree{' '}
         <strong>all data records are stored only in the leaf nodes</strong>,
         while internal nodes act purely as routing guides. Leaf nodes are also
-        connected in a <strong>linked list</strong> (shown by the dashed green
-        arrows), enabling efficient range queries without traversing the tree.
+        connected in a <strong>linked list</strong>, enabling efficient range
+        queries without traversing the tree.
       </Typography>
-
-      <Typography>
+      <Typography paragraph>
         When inserting a new key, it is placed into the appropriate leaf node.
         If the leaf overflows, it <strong>splits</strong> — the smallest key of
         the right half is <strong>copied</strong> (not moved) up to the parent

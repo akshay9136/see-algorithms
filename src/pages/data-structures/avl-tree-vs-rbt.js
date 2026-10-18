@@ -30,8 +30,8 @@ export default function AVLvsRedBlack(props) {
   useEffect(muteSounds, []);
 
   return (
-    <Stack spacing={3}>
-      <Typography>
+    <>
+      <Typography paragraph>
         Both <Link href="/data-structures/AVL">AVL Trees</Link> and{' '}
         <Link href="/data-structures/RedBlackTree">Red-Black Trees</Link> keep
         themselves balanced so that searching stays fast. The difference is in
@@ -39,9 +39,7 @@ export default function AVLvsRedBlack(props) {
         balanced, which makes lookups slightly faster but requires more work
         when adding or removing values. <strong>Red-Black Trees</strong> are a
         bit more relaxed, so insertions and deletions are quicker. Try inserting
-        the same values into both and see how each one balances itself. For a
-        deeper look at how and why they differ, check out{' '}
-        <Link href="/articles/avl-tree-vs-red-black">this article</Link>.
+        the same values into both and see how each one balances itself.
       </Typography>
 
       <Divider sx={{ my: 3 }} />
@@ -57,6 +55,6 @@ export default function AVLvsRedBlack(props) {
         </Stack>
         {rbtAnimation}
       </Box>
-    </Stack>
+    </>
   );
 }

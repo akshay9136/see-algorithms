@@ -56,59 +56,57 @@ const DSInput = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({ value: number, setStatus }));
 
   return (
-    <Box className={styles.inputNumbers}>
+    <Box className={styles.inputNumbers} gap={1}>
       <Typography
         component="label"
         htmlFor="dsInput"
         variant="subtitle1"
         fontWeight={600}
       >
-        {props.label || 'Enter a number:'} &nbsp;
+        {props.label || 'Enter a number:'}
       </Typography>
       <Input
         id="dsInput"
-        className={styles.number}
+        sx={{ width: '2.5rem' }}
         size="small"
         value={number}
         onChange={handleChange}
       />
-      <Box display="flex">
-        {!props.hidePlayIcon && (
-          <Button
-            size="small"
-            variant="outlined"
-            onClick={handlePlay}
-            disabled={status === 0}
-            aria-live="polite"
-            title="Pause/Play"
-            sx={{ minWidth: 40, mr: 1, px: 0 }}
-          >
-            {status === 1 ? <Pause /> : <PlayArrow />}
-          </Button>
-        )}
-        {props.buttons.map((btn, i) => (
-          <Button
-            key={i}
-            size="small"
-            variant="outlined"
-            onClick={() => {
-              const buttons = allButtons.filter((a) =>
-                a.title ? a.title === btn.title : a.text === btn.text,
-              );
-              btn.validate || btn.animate
-                ? handlePlay(buttons)
-                : buttons.forEach((a) => a.onClick());
-            }}
-            color={btn.color || 'primary'}
-            disabled={status === 0 ? btn.disabled : true}
-            aria-label={btn.text}
-            title={btn.title}
-            sx={{ mr: 1, minWidth: 40 }}
-          >
-            {btn.text}
-          </Button>
-        ))}
-      </Box>
+      {!props.hidePlayIcon && (
+        <Button
+          size="small"
+          variant="outlined"
+          onClick={handlePlay}
+          disabled={status === 0}
+          aria-live="polite"
+          title="Pause/Play"
+          sx={{ minWidth: 40, px: 0 }}
+        >
+          {status === 1 ? <Pause /> : <PlayArrow />}
+        </Button>
+      )}
+      {props.buttons.map((btn, i) => (
+        <Button
+          key={i}
+          size="small"
+          variant="outlined"
+          onClick={() => {
+            const buttons = allButtons.filter((a) =>
+              a.title ? a.title === btn.title : a.text === btn.text,
+            );
+            btn.validate || btn.animate
+              ? handlePlay(buttons)
+              : buttons.forEach((a) => a.onClick());
+          }}
+          color={btn.color || 'primary'}
+          disabled={status === 0 ? btn.disabled : true}
+          aria-label={btn.text}
+          title={btn.title}
+          sx={{ minWidth: 40 }}
+        >
+          {btn.text}
+        </Button>
+      ))}
     </Box>
   );
 });

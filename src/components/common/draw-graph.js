@@ -21,7 +21,7 @@ import {
   Redo,
   Save,
 } from '@mui/icons-material';
-import styles from '@/styles/draw-graph.module.css';
+import styles from '@/styles/drawing.module.css';
 import SavedDataList from '@/components/common/saved-data';
 import AppContext from '@/common/context';
 import Graph from '@/common/graph';
@@ -88,7 +88,7 @@ function DrawGraph({
 
   return (
     <Box className="drawGraph" aria-label="Graph controls and visualization">
-      <Box mb={1} px={0.5} className={styles.toolbar}>
+      <Box className={styles.toolbar} mb={1.5} px={0.5}>
         <Typography variant="h6" mr="auto">
           Draw Graph
         </Typography>
@@ -115,6 +115,7 @@ function DrawGraph({
                   name="directed"
                   disabled={playStatus !== 0}
                   color="primary"
+                  sx={{ p: 0, mx: 1 }}
                 />
               }
               label="Directed"
@@ -134,7 +135,7 @@ function DrawGraph({
               variant="outlined"
               size="small"
               InputProps={{ sx: { height: 35 } }}
-              sx={{ maxWidth: '60px', mr: 0.5 }}
+              sx={{ maxWidth: '60px' }}
             />
           )}
 

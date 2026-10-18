@@ -18,8 +18,7 @@ export default function BTree(props) {
         B-Trees are widely used in databases and file systems where large blocks
         of data must be read and written efficiently.
       </Typography>
-
-      <Typography>
+      <Typography paragraph>
         When inserting a new key, it is placed into the appropriate leaf node.
         If the node overflows by exceeding the maximum number of keys, it{' '}
         <strong>splits</strong> — the median key is pushed up to the parent,
@@ -28,6 +27,7 @@ export default function BTree(props) {
         mechanism is essential for keeping the tree balanced, ensuring that all
         leaves always remain at the same depth as keys are redistributed.
       </Typography>
+
       <Divider sx={{ my: 3 }} />
 
       <Box display="flex" flexWrap="wrap" gap={4}>

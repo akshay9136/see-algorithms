@@ -35,17 +35,15 @@ function Header(props) {
 
   const closeMenu = () => setAnchorEl(null);
 
-  const navigate = (path) => {
-    router.push(path);
-    closeMenu();
-  };
-
   const mdBlock = { xs: 'none', md: 'block' };
   const mdFlex = { xs: 'none', md: 'flex' };
   const mdNone = { md: 'none' };
 
   return (
-    <Box display="flex" className={styles.header}>
+    <Box
+      className={styles.header}
+      sx={{ borderBottom: '1px solid', borderColor: 'divider' }}
+    >
       <Box display="flex" alignItems="center">
         <MenuOpen
           onClick={() => props.toggleMenu()}

@@ -33,6 +33,7 @@ function insert(value):
         n) sorting algorithm. Beyond sorting, heaps are widely used to implement
         priority queues.
       </Typography>
+
       <Divider sx={{ my: 3 }} />
 
       <Box display="flex" flexWrap="wrap" gap={4}>
@@ -49,6 +50,7 @@ function insert(value):
           {summary}
         </Stack>
       </Box>
+
       <SavedDataList onSelect={refresh} {...saveDataProps} />
     </>
   );

@@ -53,6 +53,7 @@ function insert(node, key):
         <Link href="/articles/deleting-bst-node">nearby node</Link> that
         preserves ordering.
       </Typography>
+
       <Divider sx={{ my: 3 }} />
 
       <Box display="flex" flexWrap="wrap" gap={4}>
