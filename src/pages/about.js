@@ -4,7 +4,7 @@ import {
   Card,
   CardContent,
   Divider,
-  Grid,
+  GridLegacy as Grid,
   Link,
   Typography,
 } from '@mui/material';

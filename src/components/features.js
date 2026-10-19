@@ -1,13 +1,20 @@
-import { Grid, Card, CardContent, Typography, Box, Chip } from '@mui/material';
 import {
+  Box,
+  Card,
+  CardContent,
+  Chip,
+  GridLegacy as Grid,
+  Typography,
+} from '@mui/material';
+import {
+  AutoAwesomeOutlined,
+  CodeOutlined,
   LightbulbOutlined,
   PlayCircleOutline,
+  SaveOutlined,
   SchoolOutlined,
   ShapeLine,
-  AutoAwesomeOutlined,
   UndoOutlined,
-  SaveOutlined,
-  CodeOutlined,
 } from '@mui/icons-material';
 
 const features = [
@@ -179,7 +186,7 @@ const styles = {
     transform: 'scaleX(0)',
     transformOrigin: 'center',
     transition: 'transform 0.3s ease',
-    
+
     '.MuiCard-root:hover &': {
       transform: 'scaleX(1)',
     },

@@ -4,7 +4,7 @@ import {
   Box,
   Card,
   CardContent,
-  Grid,
+  GridLegacy as Grid,
   TextField,
   Button,
   Alert,

@@ -7,21 +7,25 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { defaultSeoConfig } from '../components/algorithm-seo/config';
 import { SessionProvider } from 'next-auth/react';
 import { DefaultSeo } from 'next-seo';
-import AppContext, { initialState } from '../common/context';
 import CssBaseline from '@mui/material/CssBaseline';
-import Layout from '@/components/layout';
+import AppContext, { initialState } from '../common/context';
 import SignInDialog from '@/components/sign-in-dialog';
+import Layout from '@/components/layout';
 import Toast from '@/components/toast';
-import Head from 'next/head';
 import { Analytics } from '@vercel/analytics/next';
 import { GoogleAnalytics } from '@next/third-parties/google';
-import { Nunito } from 'next/font/google';
 import { useRouter } from 'next/router';
 import { PERSON_SCHEMA, SITE_URL } from '@/utils/constants';
+import localFont from 'next/font/local';
+import Head from 'next/head';
 
-const nunito = Nunito({
-  subsets: ['latin'],
-  weight: ['500', '600', '700'],
+const nunito = localFont({
+  src: [
+    { path: '../fonts/nunito-variable.woff2', weight: '500' },
+    { path: '../fonts/nunito-variable.woff2', weight: '600' },
+    { path: '../fonts/nunito-variable.woff2', weight: '700' },
+  ],
+  style: 'normal',
   display: 'swap',
 });
 

@@ -6,7 +6,7 @@ import {
   Box,
   Chip,
   Container,
-  Grid,
+  GridLegacy as Grid,
   Card,
   CardContent,
   CardActions,

@@ -6,7 +6,7 @@ import {
   CardContent,
   Chip,
   Container,
-  Grid,
+  GridLegacy as Grid,
   Tab,
   Tabs,
   Typography,

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Box, Button, Card, Grid, Typography } from '@mui/material';
+import { Box, Button, Card, GridLegacy as Grid, Typography } from '@mui/material';
 import {
   ArrowForward,
   CompareArrows,

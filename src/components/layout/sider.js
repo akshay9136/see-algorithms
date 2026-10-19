@@ -62,7 +62,11 @@ function Sider({ selected }) {
                   },
                 }}
               >
-                <Typography variant="subtitle1" className={styles.categoryText}>
+                <Typography
+                  component="span"
+                  variant="subtitle1"
+                  className={styles.categoryText}
+                >
                   {cat.toUpperCase()}
                 </Typography>
               </AccordionSummary>

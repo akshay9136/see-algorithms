@@ -30,6 +30,18 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 To run this project locally, follow these steps:
 
+Use Node.js 24 or later. CI runs on Node.js 24.
+
+Development uses Turbopack to reduce first-visit route compilation time.
+Nunito is bundled locally in `src/fonts` so font loading does not need network
+access during development or builds. `npm run dev:webpack` is available as a
+fallback; production builds continue to use Webpack.
+Run `npm run lint`, `npm test -- --runInBand`, and `npm run build` to validate changes.
+The app uses React 19. Lint uses one flat configuration in `eslint.config.mjs`;
+existing React Compiler readiness findings remain warnings. The compiler is not enabled.
+Material UI stays on the 7.x release line. Existing layouts use `GridLegacy`
+(aliased as `Grid`) to preserve their sizing and spacing during the upgrade.
+
 1. Clone the repository:
 
 ```bash
@@ -45,7 +57,7 @@ cd see-algorithms
 3. Install dependencies:
 
 ```bash
-npm install
+npm ci
 ```
 
 4. Start the development server:

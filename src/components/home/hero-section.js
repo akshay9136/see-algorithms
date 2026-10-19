@@ -1,4 +1,4 @@
-import { Box, Card, Grid, Typography } from '@mui/material';
+import { Box, Card, GridLegacy as Grid, Typography } from '@mui/material';
 import Link from 'next/link';
 
 const PREVIEW_GIFS = [
