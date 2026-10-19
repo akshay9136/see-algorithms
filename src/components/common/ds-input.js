@@ -85,14 +85,14 @@ const DSInput = forwardRef((props, ref) => {
           {status === 1 ? <Pause /> : <PlayArrow />}
         </Button>
       )}
-      {props.buttons.map((btn, i) => (
+      {props.buttons.map((btn) => (
         <Button
-          key={i}
+          key={btn.text || btn.label}
           size="small"
           variant="outlined"
           onClick={() => {
             const buttons = allButtons.filter((a) =>
-              a.title ? a.title === btn.title : a.text === btn.text,
+              a.icon ? a.label === btn.label : a.text === btn.text,
             );
             btn.validate || btn.animate
               ? handlePlay(buttons)
@@ -100,11 +100,11 @@ const DSInput = forwardRef((props, ref) => {
           }}
           color={btn.color || 'primary'}
           disabled={status === 0 ? btn.disabled : true}
-          aria-label={btn.text}
-          title={btn.title}
+          aria-label={btn.text || btn.label}
+          title={btn.label}
           sx={{ minWidth: 40 }}
         >
-          {btn.text}
+          {btn.icon || btn.text}
         </Button>
       ))}
     </Box>

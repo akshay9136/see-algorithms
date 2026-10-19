@@ -266,6 +266,7 @@ function binaryTree({ tx, txy, animate, scope, cleanup }) {
             append(rr, 1);
             this.cleanup(rr);
         },
+        append,
         cleanup(node) {
             if (node) {
                 _cleanup(node.refresh(), 1);

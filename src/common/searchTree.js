@@ -52,7 +52,7 @@ function searchTree(animator) {
         return child;
     };
 
-    async function* findNode(num, node) {
+    async function* findNode(num, node = Tree.root()) {
         await bgcolor(node.id, Colors.compare);
         yield delay;
         if (num === node.value) return node;

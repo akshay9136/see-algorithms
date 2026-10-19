@@ -15,9 +15,7 @@ export default function useMaxHeap({ saveData }) {
     const { txy, animate } = animator;
 
     async function* insert(num) {
-        if (!numbers.length) {
-            Tree = maxHeap(animator);
-        }
+        if (!numbers.length) Tree = maxHeap(animator);
         const keys = Tree.collect();
         explain({ keys, operation: 'Insert', input: num });
         history.push(keys);

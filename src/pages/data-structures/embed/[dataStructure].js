@@ -39,7 +39,6 @@ const useRedBlackTree = () =>
 const useSplayTree = () =>
   useBinaryTree({
     createTree: splayTree,
-    hideButtons: ['Delete'],
     treeType: 'splay',
   });
 
@@ -78,7 +77,12 @@ function Visualizer({ useHook }) {
 
   return (
     <Box
-      sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+        width: 'fit-content',
+      }}
       position="relative"
     >
       <DSInput buttons={buttons} />

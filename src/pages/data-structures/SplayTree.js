@@ -14,7 +14,6 @@ export default function SplayTree(props) {
   const { saveData, ...saveDataProps } = useSavedData();
   const { animation, summary, buttons, refresh } = useBinaryTree({
     createTree: splayTree,
-    hideButtons: ['Delete'],
     treeType: 'splay',
     saveData,
   });

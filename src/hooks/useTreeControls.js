@@ -44,16 +44,16 @@ export default function useTreeControls({
 
   const controls = {
     UNDO: {
-      text: <Undo />,
+      icon: <Undo />,
       onClick: handleUndo,
-      title: 'Undo',
+      label: 'Undo',
       disabled: !history.canUndo,
     },
 
     REDO: {
-      text: <Redo />,
+      icon: <Redo />,
       onClick: handleRedo,
-      title: 'Redo',
+      label: 'Redo',
       disabled: !history.canRedo,
     },
 
@@ -65,22 +65,22 @@ export default function useTreeControls({
     },
 
     SAVE: {
-      text: <Save />,
+      icon: <Save />,
       disabled: !numbers.length,
-      title: 'Save this tree',
+      label: 'Save this tree',
     },
 
     SHARE: {
-      text: <Share fontSize="small" sx={{ height: 24 }} />,
+      icon: <Share fontSize="small" sx={{ height: 24 }} />,
       onClick: () => copyTreeUrl(collect()),
       disabled: !numbers.length,
-      title: 'Share this tree',
+      label: 'Share this tree',
     },
 
     REFRESH: {
-      text: <Refresh />,
+      icon: <Refresh />,
       onClick: handleRefresh,
-      title: 'New tree',
+      label: 'New tree',
     },
   };
 

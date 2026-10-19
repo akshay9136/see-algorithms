@@ -14,11 +14,11 @@ export default function BFSvsDFS() {
         Compare <strong>Breadth-First Search</strong> and{' '}
         <strong>Depth-First Search</strong> side-by-side to witness their
         distinct traversal patterns in real-time. While{' '}
-        <Link href="/graph/BFS">BFS</Link> plunges deep into the graph&apos;s
-        branches before backtracking, <Link href="/graph/DFS">DFS</Link>{' '}
-        radiates discovery level-by-level to find the shortest path. Sketch your
-        custom graph, choose a starting node, and hit the play button to watch
-        these two fundamental algorithms compete on the same structure.
+        <Link href="/graph/BFS">BFS</Link> radiates discovery level-by-level to
+        find the shortest path, <Link href="/graph/DFS">DFS</Link> plunges deep
+        into the graph&apos;s branches before backtracking. Sketch your custom
+        graph, choose a starting node, and hit the play button to watch these
+        two fundamental algorithms compete on the same structure.
       </Typography>
 
       <Visualizer />
