@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { trackEvent } from '@/common/analytics';
 import { logError } from '@/common/utils';
 
 const MIN_COUNT = 5;
@@ -28,6 +29,7 @@ export default function useSortingUrl() {
             arr.every(isInteger)
           ) {
             setNumbers(arr);
+            trackEvent('visualization_loaded', { input_source: 'shared' });
           }
         }
         setReady(true);

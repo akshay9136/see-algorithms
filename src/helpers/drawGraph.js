@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import Graph, { Points } from '../common/graph';
 import {
   fromDistance,
   throttle,
@@ -7,7 +8,7 @@ import {
   charAt,
   showError,
 } from '../common/utils';
-import Graph, { Points } from '../common/graph';
+import { trackEvent } from '../common/analytics';
 import { Colors } from '../common/constants';
 
 const HIT_RADIUS = 20; // Hit-test / snap radius for vertices
@@ -152,6 +153,7 @@ export function drawGraph({ weighted, acyclic, history, scope }) {
       scope.appendCost(startPoint, targetPoint);
     }
 
+    trackEvent('input_modified', { action: 'add_edge' });
     return true;
   }
 
@@ -167,10 +169,6 @@ export function drawGraph({ weighted, acyclic, history, scope }) {
       startIndex: index,
       startPoint: point,
       cursorStart: p,
-    });
-
-    window.gtag?.('event', 'draw_graph', {
-      directed: Graph.isDirected(),
     });
   }
 
@@ -212,6 +210,7 @@ export function drawGraph({ weighted, acyclic, history, scope }) {
   function handleClick(e) {
     e.preventDefault();
     if (state.mode === States.DRAGGING) {
+      trackEvent('input_modified', { action: 'move_vertex' });
       reset(); // exit dragging state
       return;
     }
@@ -246,6 +245,7 @@ export function drawGraph({ weighted, acyclic, history, scope }) {
         history.commit();
         scope.addVertex(p, charAt(CHAR_CODE_A + total));
         Graph.addPoint(p);
+        trackEvent('input_modified', { action: 'add_vertex' });
         reset();
       }
     }

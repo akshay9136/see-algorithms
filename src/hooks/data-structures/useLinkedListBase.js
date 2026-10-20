@@ -18,6 +18,7 @@ export default function useLinkedListBase({ createList, delay = 500 }) {
     await sleep(delay);
     await getList().insertAtHead(value);
     setStatus(0);
+    return true;
   }
 
   async function* insertAtTail(value) {
@@ -27,28 +28,31 @@ export default function useLinkedListBase({ createList, delay = 500 }) {
     await sleep(delay);
     await getList().insertAtTail(value);
     setStatus(0);
+    return true;
   }
 
   async function* insertAt(index) {
     const { value, setStatus } = inputRef1.current;
     if (typeof value !== 'number') {
       showError('Please enter a number.');
-      return;
+      return false;
     }
     setStatus(1);
     setNodes((prev) => [...prev, value]);
     await sleep(delay);
-    const flag = await getList().insertAt(value, index);
+    const done = await getList().insertAt(value, index);
     await sleep(delay);
-    if (flag) setNodes([...nodes]);
+    if (!done) setNodes([...nodes]);
     setStatus(0);
+    return done;
   }
 
   async function* deleteAt(index) {
     const { setStatus } = inputRef1.current;
     setStatus(1);
-    await getList().deleteAt(index);
+    const done = await getList().deleteAt(index);
     setStatus(0);
+    return done;
   }
 
   const reset = () => {

@@ -40,6 +40,7 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
     await txy(eid, nodeX - EDGE_WIDTH, EDGE_TOP);
     $(`.arrow${key - 1}`).css(arrowStyle);
     animate(eid, { opacity: 1 });
+    return true;
   };
 
   const findNode = async (predicate) => {
@@ -57,10 +58,9 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
 
   const insertAt = async (value, k) => {
     if (k === length(head)) return insertAtTail(value);
-
     if (k > length(head) || k < 0) {
       showError('Index is out of bounds.');
-      return true;
+      return false;
     }
     const prev = await findNode((_, i) => i === k);
     if (k > 0) sound('swap');
@@ -87,6 +87,7 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
     newNode.next = prev.next;
     prev.next = newNode;
     arr.push(newNode);
+    return true;
   };
 
   const shiftNodes = (node, vi) => {
@@ -103,7 +104,7 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
   const deleteAt = async (k) => {
     if (k >= length(head) || k < 0) {
       showError('Index is out of bounds.');
-      return;
+      return false;
     }
     const node = await findNode((_, i) => i - 1 === k);
     animate(`#box${node.key}`, { opacity: 0 });
@@ -113,6 +114,7 @@ function linkedList({ tx, ty, txy, bgcolor, animate }) {
     shiftNodes(node, k + 1);
     node.prev.next = node.next;
     if (node.next) node.next.prev = node.prev;
+    return true;
   };
 
   return { insertAtHead, insertAtTail, insertAt, deleteAt };

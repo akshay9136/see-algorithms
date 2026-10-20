@@ -28,7 +28,7 @@ export default function useBinaryTree({
   async function* insert(num) {
     if (numbers.includes(num) && !deletedRef.current[num]) {
       showError(`Node (${num}) already exists.`);
-      return;
+      return false;
     }
     if (!numbers.length) {
       treeRef.current = createTree(animator);
@@ -41,6 +41,7 @@ export default function useBinaryTree({
     setNumbers((prev) => [...prev, num]);
     yield 500;
     yield* Tree().insert(num);
+    return true;
   }
 
   async function* remove(num) {
@@ -55,6 +56,7 @@ export default function useBinaryTree({
       history.push(keys);
       if (!Tree().root()) setNumbers([]);
     }
+    return true;
   }
 
   async function* splaySearch(num) {
@@ -63,6 +65,7 @@ export default function useBinaryTree({
     explain({ keys, operation: 'Search', input: num });
     yield 500;
     yield* Tree().search(num);
+    return true;
   }
 
   const newTree = async (keys) => {

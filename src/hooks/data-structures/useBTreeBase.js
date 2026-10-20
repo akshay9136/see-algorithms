@@ -18,7 +18,7 @@ export default function useBTreeBase({
   async function* insert(num) {
     if (numbers.includes(num)) {
       showError(`Key (${num}) already exists.`);
-      return;
+      return false;
     }
     if (!numbers.length) treeRef.current = createTree(animator);
     const keys = Tree().collect();
@@ -27,6 +27,7 @@ export default function useBTreeBase({
     yield 500;
     setNumbers((prev) => [...prev, num]);
     yield* Tree().insert(num, setTreeData);
+    return true;
   }
 
   async function* search(num) {
@@ -35,6 +36,7 @@ export default function useBTreeBase({
     yield 500;
     const found = yield* Tree().search(num);
     if (!found) showError(`Key (${num}) not found.`);
+    return true;
   }
 
   const newTree = async (keys) => {

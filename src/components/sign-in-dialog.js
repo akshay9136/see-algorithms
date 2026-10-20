@@ -1,25 +1,25 @@
 import { useState, useContext } from 'react';
 import {
-  Dialog,
-  DialogContent,
-  CardContent,
-  Typography,
   Box,
   Button,
+  CardContent,
   Chip,
-  Stack,
-  Divider,
   CircularProgress,
+  Dialog,
+  DialogContent,
+  Divider,
   IconButton,
+  Stack,
+  Typography,
 } from '@mui/material';
 import {
+  AutoAwesomeOutlined,
+  Close,
   GitHub,
   Google,
-  Close,
-  AutoAwesomeOutlined,
   SaveOutlined,
 } from '@mui/icons-material';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import AppContext from '@/common/context';
@@ -37,6 +37,7 @@ const benefits = [
 
 export default function SignInDialog() {
   const { signInOpen, callbackUrl, setContext } = useContext(AppContext);
+  const { data: session } = useSession();
   const [loading, setLoading] = useState('');
 
   const handleClose = () => {
@@ -48,7 +49,17 @@ export default function SignInDialog() {
 
   const handleSignIn = (providerId) => {
     setLoading(providerId);
+    try {
+      const previousAuthTime = session?.user?.analyticsAuthTime || null;
+      sessionStorage.setItem(
+        'analytics-login-pending',
+        JSON.stringify({ method: providerId, previousAuthTime }),
+      );
+    } catch {}
     signIn(providerId, { callbackUrl }).catch(() => {
+      try {
+        sessionStorage.removeItem('analytics-login-pending');
+      } catch {}
       setLoading('');
     });
   };

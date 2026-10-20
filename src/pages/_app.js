@@ -1,7 +1,7 @@
 import '@/styles/globals.css';
 import '@/styles/app.css';
 import '@/styles/animation.css';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useDarkMode } from '@/hooks/useDarkMode';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { defaultSeoConfig } from '../components/algorithm-seo/config';
@@ -9,11 +9,12 @@ import { SessionProvider } from 'next-auth/react';
 import { DefaultSeo } from 'next-seo';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppContext, { initialState } from '../common/context';
+import GoogleAnalytics from '@/components/analytics';
+import CookieConsent from '@/components/cookie-consent';
 import SignInDialog from '@/components/sign-in-dialog';
 import Layout from '@/components/layout';
 import Toast from '@/components/toast';
 import { Analytics } from '@vercel/analytics/next';
-import { GoogleAnalytics } from '@next/third-parties/google';
 import { useRouter } from 'next/router';
 import { PERSON_SCHEMA, SITE_URL } from '@/utils/constants';
 import localFont from 'next/font/local';
@@ -28,8 +29,6 @@ const nunito = localFont({
   style: 'normal',
   display: 'swap',
 });
-
-const isProd = process.env.NODE_ENV === 'production';
 
 export default function App({
   Component,
@@ -61,23 +60,6 @@ export default function App({
       }),
     [darkMode]
   );
-
-  useEffect(() => {
-    const handleClick = (event) => {
-      const button = event.target.closest('button');
-
-      if (button && window.gtag) {
-        window.gtag('event', 'button_clicked', {
-          button_text: button.textContent.trim(),
-          button_name: button.title,
-        });
-      }
-    };
-    window.addEventListener('click', handleClick);
-    return () => {
-      window.removeEventListener('click', handleClick);
-    };
-  }, [pathname]);
 
   const structuredData = {
     '@context': 'https://schema.org',
@@ -126,7 +108,8 @@ export default function App({
         openGraph={{ ...openGraph, url: canonicalUrl }}
       />
       <Analytics />
-      {isProd && <GoogleAnalytics gaId="G-CG2WRZ9YET" />}
+      <GoogleAnalytics />
+      <CookieConsent />
 
       <ThemeProvider theme={theme}>
         <CssBaseline />

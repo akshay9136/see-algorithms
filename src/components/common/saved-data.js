@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { trackEvent } from '@/common/analytics';
 import {
   Button,
   Drawer,
@@ -46,6 +47,7 @@ export default function SavedDataList({
   const handleSelect = (item) => {
     setDrawerOpen(false);
     onSelect(JSON.parse(item.data));
+    trackEvent('visualization_loaded', { input_source: 'saved' });
   };
 
   const handleDelete = (e, id) => {

@@ -39,6 +39,7 @@ export default function useMaxHeap({ saveData }) {
             animate(`.numkey${size}`, { opacity: 1 });
             yield* Tree.heapifyUp(node);
         }
+        return true;
     }
 
     async function* extract() {
@@ -48,6 +49,7 @@ export default function useMaxHeap({ saveData }) {
         yield delay;
         yield* Tree.extract();
         if (!Tree.root()) setNumbers([]);
+        return true;
     }
 
     const newTree = async (nodes) => {

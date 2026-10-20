@@ -1,20 +1,23 @@
 import { Box, Button, IconButton, Paper, Typography } from '@mui/material';
 import { PlayArrow, Pause, Refresh } from '@mui/icons-material';
 import { addPoints, randomize } from '@/helpers/convexHull';
-import { useContext, useEffect } from 'react';
-import $ from 'jquery';
-import styles from '@/styles/drawing.module.css';
-import Graph from '@/common/graph';
+import { trackVisualization } from '@/common/analytics';
 import AppContext from '@/common/context';
-import { Colors } from '@/common/constants';
+import Graph from '@/common/graph';
+import $ from 'jquery';
+import { useContext, useEffect, useRef } from 'react';
 import { newIterator } from '@/common/iterator';
+import { Colors } from '@/common/constants';
+import styles from '@/styles/drawing.module.css';
 
 var it;
 
 function AddPoints({ scope, graphRef, onStart }) {
   const { setContext, playStatus } = useContext(AppContext);
+  const runRef = useRef(null);
 
   const clear = () => {
+    runRef.current?.cancel();
     it?.exit();
     Graph.clear();
     $('.plane').off();
@@ -38,32 +41,45 @@ function AddPoints({ scope, graphRef, onStart }) {
     switch (playStatus) {
       case 0:
         $('.plane').off();
-        it = newIterator(onStart);
+        runRef.current?.cancel();
+        runRef.current = trackVisualization(1);
+        it = newIterator(runRef.current.wrap(onStart));
         resume();
         break;
       case 1:
-        it.stop();
+        runRef.current?.control('pause');
         setContext({ playStatus: -1 });
+        it.stop();
         break;
       case 2:
         $('.edge').remove();
         $('.vrtx').attr('stroke', Colors.stroke);
         $('.vrtx').attr('fill', Colors.stroke);
-        it = newIterator(onStart);
+        runRef.current?.cancel();
+        runRef.current = trackVisualization(1);
+        it = newIterator(runRef.current.wrap(onStart));
         resume();
         break;
       default:
+        runRef.current?.control('resume');
         resume();
     }
   };
 
   useEffect(() => {
     if (scope) refresh();
-    return () => it?.exit();
+    return () => {
+      runRef.current?.cancel();
+      it?.exit();
+    };
   }, [scope]);
 
   return (
-    <Box className="drawGraph" aria-label="Convex hull visualization" ref={graphRef}>
+    <Box
+      className="drawGraph"
+      aria-label="Convex hull visualization"
+      ref={graphRef}
+    >
       <Box className={styles.toolbar} mb={1} px={0.5}>
         <Typography variant="h6" mr="auto">
           Add Points

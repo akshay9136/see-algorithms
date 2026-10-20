@@ -39,7 +39,7 @@ export default function useTreeControls({
   const handleRefresh = async (data) => {
     handleClear();
     await sleep(100);
-    newTree(data);
+    await newTree(data);
   };
 
   const controls = {

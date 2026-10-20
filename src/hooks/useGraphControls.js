@@ -1,14 +1,15 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useRef } from 'react';
+import { trackEvent, trackVisualization } from '@/common/analytics';
 import { drawGraph, switchType } from '@/helpers/drawGraph';
 import { randomGraph } from '@/helpers/randomGraph';
-import { newIterator } from '@/common/iterator';
+import useUndoRedo from './useUndoRedo';
 import AppContext from '@/common/context';
 import Graph from '@/common/graph';
-import $ from 'jquery';
-import useUndoRedo from './useUndoRedo';
 import { useRouter } from 'next/router';
+import { newIterator } from '@/common/iterator';
 import { showError, sleep } from '@/common/utils';
 import { Colors } from '@/common/constants';
+import $ from 'jquery';
 
 var iterators = [], prevSrc;
 
@@ -17,6 +18,7 @@ function useGraphControls(config, props) {
   const { source, weighted, directed, scope } = config;
   const history = useUndoRedo();
   const router = useRouter();
+  const runRef = useRef(null);
   const {
     scopes,
     startHandlers = [props.onStart],
@@ -33,17 +35,23 @@ function useGraphControls(config, props) {
   const validate = () => {
     let np = Graph.totalPoints();
     let char = String.fromCharCode(64 + np);
-    let message = '';
+    let message, reason;
+
     if (np <= 1) {
       message = 'Graph cannot be empty.';
+      reason = 'empty_graph';
     } else if (source < 'A' || source > char) {
       message = 'Please enter a valid source.';
+      reason = 'invalid_source';
     } else if (!Graph.isConnected()) {
       message = 'Please draw connected Graph.';
+      reason = 'disconnected_graph';
     } else if (props.validate) {
       message = props.validate();
+      reason = 'algorithm_constraint';
     }
     if (message) {
+      trackEvent('validation_failed', { reason });
       showError(message);
       return false;
     }
@@ -69,7 +77,11 @@ function useGraphControls(config, props) {
       prevSrc = src;
     }
     $('.plane').off();
-    iterators = startHandlers.map((fn) => newIterator(fn, src));
+    runRef.current?.cancel();
+    runRef.current = trackVisualization(startHandlers.length);
+    iterators = startHandlers.map((fn) =>
+      newIterator(runRef.current.wrap(fn), src),
+    );
     resume();
   };
 
@@ -79,6 +91,7 @@ function useGraphControls(config, props) {
         if (validate()) restart();
         break;
       case 1:
+        runRef.current?.control('pause');
         iterators.forEach((it) => it.stop());
         setContext({ playStatus: -1 });
         break;
@@ -91,11 +104,13 @@ function useGraphControls(config, props) {
         if (validate()) restart();
         break;
       default:
+        runRef.current?.control('resume');
         resume();
     }
   };
 
   const cleanup = () => {
+    runRef.current?.cancel();
     $('.plane').off();
     iterators.forEach((it) => it.exit());
     resetHandlers.forEach((reset) => reset());
@@ -106,6 +121,7 @@ function useGraphControls(config, props) {
   };
 
   const handleClear = () => {
+    runRef.current?.control('reset');
     cleanup();
     drawGraph(config);
     setContext({ playStatus: 0 });
@@ -116,6 +132,7 @@ function useGraphControls(config, props) {
       const prevGraph = history.undo(scope.collect());
       Graph.initialize(prevGraph);
       scope.createGraph(prevGraph, weighted);
+      trackEvent('input_modified', { action: 'undo' });
     }
   };
 
@@ -124,6 +141,7 @@ function useGraphControls(config, props) {
       const nextGraph = history.redo(scope.collect());
       Graph.initialize(nextGraph);
       scope.createGraph(nextGraph, weighted);
+      trackEvent('input_modified', { action: 'redo' });
     }
   };
 
@@ -136,7 +154,7 @@ function useGraphControls(config, props) {
     } else {
       Graph.initialize({});
     }
-  }
+  };
 
   const refresh = () => {
     cleanup();
@@ -179,6 +197,7 @@ function useGraphControls(config, props) {
         try {
           const data = JSON.parse(atob(skeleton));
           Graph.initialize(data);
+          trackEvent('visualization_loaded', { input_source: 'shared' });
           scopes.forEach((scope) => {
             scope.createGraph(data, weighted);
           });

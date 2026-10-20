@@ -1,5 +1,5 @@
 import { CustomSeo, ListItems } from '@/components/common';
-import { Typography, Box, Link } from '@mui/material';
+import { Typography, Box, Button, Link } from '@mui/material';
 
 export default function Privacy() {
   return (
@@ -105,8 +105,21 @@ export default function Privacy() {
               keep you signed in and secure your account session.
             </Typography>
             <Typography component="li">
-              <strong>Analytics:</strong> Third-party tools such as Google
-              Analytics may collect anonymous metrics about traffic patterns.
+              <strong>Analytics:</strong> When you allow Google Analytics, it
+              measures page visits, feature interactions, and catalog search
+              text. You can change your choice here:{' '}
+              <Button
+                sx={{
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  fontSize: 'inherit',
+                }}
+                onClick={() =>
+                  window.dispatchEvent(new Event('open-analytics-settings'))
+                }
+              >
+                Analytics preferences
+              </Button>
             </Typography>
           </ListItems>
 

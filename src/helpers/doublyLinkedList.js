@@ -39,16 +39,15 @@ function doublyLinkedList({ tx, txy, bgcolor, animate }) {
     sound('pop');
     const nodeX = length(head) * STEP_SIZE;
     txy(`#box${key}`, nodeX, NODE_TOP);
-
     // arrow points right
     await txy(nextEid, nodeX - EDGE_WIDTH, NEXT_EDGE_TOP);
     $(`.arrow${key - 1}Next`).css(arrowStyle);
     animate(nextEid, { opacity: 1, width: EDGE_WIDTH });
-
     // arrow points left
     await txy(prevEid, nodeX + 10, PREV_EDGE_TOP);
     $(`.arrow${key - 1}Prev`).css(arrowStyle);
     animate(prevEid, { opacity: 1, width: EDGE_WIDTH, rotate: 180 });
+    return true;
   };
 
   const findNode = async (predicate) => {
@@ -66,10 +65,9 @@ function doublyLinkedList({ tx, txy, bgcolor, animate }) {
 
   const insertAt = async (value, k) => {
     if (k === length(head)) return insertAtTail(value);
-
     if (k > length(head) || k < 0) {
       showError('Index is out of bounds.');
-      return true;
+      return false;
     }
     const prev = await findNode((_, i) => i === k);
     const key = arr.length;
@@ -96,10 +94,9 @@ function doublyLinkedList({ tx, txy, bgcolor, animate }) {
     const newNode = { value, key, nextEid, prevEid, prev };
     newNode.next = prev.next;
     prev.next = newNode;
-    if (newNode.next) {
-      newNode.next.prev = newNode;
-    }
+    if (newNode.next) newNode.next.prev = newNode;
     arr.push(newNode);
+    return true;
   };
 
   const shiftNodes = (node, vi) => {
@@ -117,7 +114,7 @@ function doublyLinkedList({ tx, txy, bgcolor, animate }) {
   const deleteAt = async (k) => {
     if (k >= length(head) || k < 0) {
       showError('Index is out of bounds.');
-      return;
+      return false;
     }
     const node = await findNode((_, i) => i - 1 === k);
     animate(`#box${node.key}`, { opacity: 0 });
@@ -128,6 +125,7 @@ function doublyLinkedList({ tx, txy, bgcolor, animate }) {
     shiftNodes(node, k + 1);
     node.prev.next = node.next;
     if (node.next) node.next.prev = node.prev;
+    return true;
   };
 
   return { insertAtHead, insertAtTail, insertAt, deleteAt };

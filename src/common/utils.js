@@ -1,3 +1,4 @@
+import { trackEvent } from '@/common/analytics';
 import { Points } from './graph';
 import { showToast } from '../components/toast';
 import { Colors } from './constants';
@@ -65,8 +66,14 @@ function costInput(p, q, cost) {
     const handler = (e) => {
         e.stopPropagation();
         input.focus();
-        window.gtag?.('event', 'edit_cost');
     };
+    let previousValue = input.value;
+    input.addEventListener('change', () => {
+        if (input.value !== previousValue) {
+            previousValue = input.value;
+            trackEvent('input_modified', { action: 'edit_cost' });
+        }
+    });
     input.addEventListener('click', handler);
     input.addEventListener('touchend', handler);
     parent.append(input);
@@ -114,11 +121,17 @@ function traverse(node, fn) {
     }
 }
 
-function copyTreeUrl(nodes) {
+async function copyTreeUrl(nodes) {
     const json = JSON.stringify(nodes);
     const pageId = location.pathname.split('/').pop();
     const url = `${location.origin}/data-structures/embed/${pageId}?skeleton=${btoa(json)}`;
-    navigator.clipboard.writeText(url);
+    try {
+        await navigator.clipboard.writeText(url);
+    } catch {
+        showError('Could not copy tree url.');
+        return;
+    }
+    trackEvent('share_url');
     showToast({
         message: 'Tree url is copied to clipboard.',
         variant: 'success',
@@ -246,10 +259,13 @@ export const showError = (msg) => {
 };
 
 export const logError = (err, name) => {
-    window.gtag?.('event', 'error', {
-        error_name: name,
-        error_message: err?.message || 'Something went wrong',
-    });
+    const reasons = {
+        'Iterator error': 'iterator_error',
+        'AI network error': 'ai_network_error',
+        'Error parsing sorting url': 'invalid_sorting_url',
+        'Error parsing tree url': 'invalid_tree_url',
+    };
+    trackEvent('app_error', { reason: reasons[name] || 'unexpected_error' });
 };
 
 export const fetcher = async (url) => {

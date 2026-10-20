@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { trackEvent } from '@/common/analytics';
 import { logError } from '@/common/utils';
 
 const MIN_VALUE = -99;
@@ -25,12 +26,18 @@ export default function useTreeUrl() {
           if (!Array.isArray(arr)) return;
 
           if (asPath.includes('RedBlackTree')) {
-            if (arr.every((val) => isRedBlack(val))) setNodes(arr);
+            if (arr.every((val) => isRedBlack(val))) {
+              setNodes(arr);
+              trackEvent('visualization_loaded', { input_source: 'shared' });
+            }
           } else {
             const values = arr.map((val) =>
               Array.isArray(val) ? val[0] : val,
             );
-            if (values.every(isInteger)) setNodes(values);
+            if (values.every(isInteger)) {
+              setNodes(values);
+              trackEvent('visualization_loaded', { input_source: 'shared' });
+            }
           }
         }
         setReady(true);

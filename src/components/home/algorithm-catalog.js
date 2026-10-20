@@ -1,5 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Box, Button, Card, GridLegacy as Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  GridLegacy as Grid,
+  Typography,
+} from '@mui/material';
 import {
   ArrowForward,
   CompareArrows,
@@ -8,6 +14,7 @@ import {
 } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 import { catalogItems } from '@/data/catalog-items';
+import { trackEvent } from '@/common/analytics';
 import AlgorithmCard from './algorithm-card';
 import SearchBar from './search-bar';
 import Link from 'next/link';
@@ -39,14 +46,13 @@ const categoryMap = {
 };
 
 export default function AlgorithmCatalog() {
-  const router = useRouter();
-  const { asPath } = router;
   const [category, setCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const { asPath } = useRouter();
 
   useEffect(() => {
-    const _category = asPath.split('/')[1].split('#')[0];
-    if (_category) setCategory(categoryMap[_category] || 'All');
+    const cat = asPath.split('/')[1].split('#')[0];
+    if (categoryMap[cat]) setCategory(categoryMap[cat]);
   }, [asPath]);
 
   // Filter algorithms by category and search query
@@ -62,6 +68,22 @@ export default function AlgorithmCatalog() {
       return searchable.includes(query);
     });
   }, [searchQuery, category]);
+
+  useEffect(() => {
+    if (!searchQuery.trim()) return;
+    const timer = setTimeout(
+      () => trackEvent('catalog_search', { search_query: searchQuery }),
+      1200,
+    );
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  const handleCategory = (value) => {
+    if (value !== category) {
+      trackEvent('catalog_filter', { filter_category: value });
+    }
+    setCategory(value);
+  };
 
   return (
     <>
@@ -82,7 +104,7 @@ export default function AlgorithmCatalog() {
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         category={category}
-        setCategory={setCategory}
+        setCategory={handleCategory}
       />
 
       {/* Empty State */}
@@ -99,7 +121,6 @@ export default function AlgorithmCatalog() {
           }}
         >
           <Search sx={{ fontSize: 40, color: 'text.secondary' }} />
-
           <Typography variant="h6" color="text.primary" my={0.5}>
             No algorithms match your criteria
           </Typography>
@@ -109,7 +130,7 @@ export default function AlgorithmCatalog() {
           <Button
             variant="outlined"
             onClick={() => {
-              handleCategoryChange('All');
+              handleCategory('All');
               setSearchQuery('');
             }}
             sx={{ textTransform: 'none', borderRadius: 2 }}

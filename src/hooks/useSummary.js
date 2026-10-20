@@ -1,3 +1,6 @@
+import { useContext, useEffect, useRef, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import {
   Box,
   IconButton,
@@ -8,15 +11,13 @@ import {
   Typography,
 } from '@mui/material';
 import { InfoOutlined } from '@mui/icons-material';
-import { useContext, useRef, useState } from 'react';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
-import { marked } from 'marked';
-import { logError } from '@/common/utils';
 import AppContext from '@/common/context';
-import useLoadingSteps from './useLoadingSteps';
 import useCredits from './useCredits';
 import useFeedback from './useFeedback';
+import useLoadingSteps from './useLoadingSteps';
+import { logError } from '@/common/utils';
+import { trackEvent } from '@/common/analytics';
+import { marked } from 'marked';
 import { SUMMARY_COST } from '@/utils/constants';
 
 export default function useSummary() {
@@ -31,6 +32,10 @@ export default function useSummary() {
   const controlRef = useRef(null);
   const payloadRef = useRef(null);
   const loading = useLoadingSteps();
+
+  useEffect(() => {
+    return () => controlRef.current?.abort();
+  }, [pathname]);
 
   const isEmbed = pathname.includes('/embed/');
   const algoId = isEmbed
@@ -47,12 +52,14 @@ export default function useSummary() {
     const controller = new AbortController();
     const payload = JSON.stringify({ algoId, data });
     if (payloadRef.current === payload) return;
+
     controlRef.current?.abort();
     controlRef.current = controller;
     loading.start();
     setError(null);
     setFeedback(null);
-
+    trackEvent('ai_summary_requested');
+    let reason = '';
     try {
       const res = await fetch('/api/summary', {
         method: 'POST',
@@ -62,11 +69,14 @@ export default function useSummary() {
       });
 
       if (res.ok) {
-        payloadRef.current = payload;
         const html = marked(await res.text());
+        payloadRef.current = payload;
         setContent(html);
+        trackEvent('ai_summary_succeeded');
         fetchCredits();
       } else if (res.status === 402) {
+        reason = 'insufficient_credits';
+        trackEvent('feature_blocked', { feature: 'ai_summary', reason });
         setError(
           <p>
             Insufficient credits. Please{' '}
@@ -75,17 +85,22 @@ export default function useSummary() {
           </p>,
         );
       } else if (res.status === 503) {
+        reason = 'service_busy';
         setError(<p>AI service is busy. Please {tryAgain(data)}.</p>);
       } else {
+        reason = 'http_error';
         setError(<p>AI request timed out. Please {tryAgain(data)}.</p>);
       }
     } catch (err) {
       if (err.name !== 'AbortError') {
+        reason = 'network_error';
         setError(<p>Connection timed out. Please {tryAgain(data)}.</p>);
+        logError(err, 'AI request failed');
       }
-      logError(err, 'AI request cancelled');
     }
-
+    if (reason) {
+      trackEvent('ai_summary_failed', { reason });
+    }
     loading.stop();
   };
 
@@ -97,17 +112,22 @@ export default function useSummary() {
 
   const toggle = (e) => {
     if (!session) {
+      trackEvent('feature_blocked', {
+        feature: 'ai_summary',
+        reason: 'sign_in_required',
+      });
       setContext({ signInOpen: true });
     } else {
       const { checked } = e.target;
       setSummaryOn(checked);
-      window.gtag?.('event', 'ai_summary', { checked });
+      trackEvent('ai_summary_toggled', { enabled: checked });
       if (!checked) abort();
     }
   };
 
   const abort = () => {
     controlRef.current?.abort();
+    payloadRef.current = null;
     loading.stop();
     if (playStatus < 2) setContent('');
     setFeedback(null);

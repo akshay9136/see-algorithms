@@ -1,17 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {
-  Select,
-  Input,
-  Button,
-  MenuItem,
-  Typography,
   Box,
+  Button,
+  Input,
+  MenuItem,
+  Select,
+  Typography,
 } from '@mui/material';
-import styles from '@/styles/numbers.module.css';
-import useSortingUrl from '@/hooks/useSortingUrl';
-import { randomInt, showError, sleep } from '@/common/utils';
 import { NavigateNext, Pause, PlayArrow } from '@mui/icons-material';
+import { trackEvent, trackVisualization } from '@/common/analytics';
+import { randomInt, showError, sleep } from '@/common/utils';
 import { newIterator } from '@/common/iterator';
+import useSortingUrl from '@/hooks/useSortingUrl';
+import styles from '@/styles/numbers.module.css';
 
 var iterators = [];
 
@@ -19,6 +20,8 @@ function InputNumbers(props) {
   const [urlNumbers] = useSortingUrl();
   const [numbers, setNumbers] = useState([]);
   const [status, setStatus] = useState(0);
+  const inputDirty = useRef(false);
+  const runRef = useRef(null);
   const { min = 7, max = 12 } = props;
   const {
     startHandlers = [props.onStart],
@@ -36,6 +39,7 @@ function InputNumbers(props) {
       values.push(randomInt());
     }
     setNumbers(values);
+    trackEvent('input_modified', { action: 'resize' });
     props.onSelect?.(size);
   };
 
@@ -45,12 +49,21 @@ function InputNumbers(props) {
       const _numbers = numbers.slice();
       _numbers[i] = parseInt(value) || '';
       setNumbers(_numbers);
+      inputDirty.current = true;
     }
+  };
+
+  const handleBlur = () => {
+    if (inputDirty.current) {
+      trackEvent('input_modified', { action: 'edit_values' });
+    }
+    inputDirty.current = false;
   };
 
   const validate = () => {
     for (let num of numbers) {
       if (typeof num !== 'number') {
+        trackEvent('validation_failed', { reason: 'invalid_numbers' });
         showError('Please enter valid numbers.');
         return false;
       }
@@ -66,8 +79,10 @@ function InputNumbers(props) {
 
   const restart = () => {
     if (validate()) {
+      runRef.current?.cancel();
+      runRef.current = trackVisualization(startHandlers.length);
       iterators = startHandlers.map((start) =>
-        newIterator(start, numbers),
+        newIterator(runRef.current.wrap(start), numbers),
       );
       resume();
     }
@@ -75,6 +90,7 @@ function InputNumbers(props) {
 
   const handleNext = async () => {
     setStatus(1);
+    runRef.current?.control('step');
     const results = await Promise.all(iterators.map((it) => it.next()));
     const done = results.every((r) => r.done);
     setStatus(done ? 2 : -1);
@@ -86,6 +102,7 @@ function InputNumbers(props) {
         restart();
         break;
       case 1:
+        runRef.current?.control('pause');
         iterators.forEach((it) => it.stop());
         setStatus(-1);
         break;
@@ -94,11 +111,14 @@ function InputNumbers(props) {
         sleep(500).then(restart);
         break;
       default:
+        runRef.current?.control('resume');
         resume();
     }
   };
 
   const handleReset = () => {
+    runRef.current?.control('reset');
+    runRef.current?.cancel();
     setStatus(0);
     setNumbers([]);
     iterators.forEach((it) => it.exit());
@@ -133,6 +153,7 @@ function InputNumbers(props) {
               key={i}
               value={val}
               onChange={(e) => handleInput(e, i)}
+              onBlur={handleBlur}
               sx={{ width: '2.5rem', mr: 1.5 }}
             />
           ))}

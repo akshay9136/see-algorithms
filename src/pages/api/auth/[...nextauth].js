@@ -22,7 +22,10 @@ export const authOptions = {
     async session({ session, token }) {
       session.user.id = token.sub;
       session.user.provider = token.provider;
-      session.user.isAdmin = process.env.ADMIN_EMAILS?.split(',').includes(
+      session.user.analyticsAuthTime = token.analyticsAuthTime;
+      session.user.analyticsNewAccount = token.analyticsNewAccount === true;
+      const { ADMIN_EMAILS } = process.env;
+      session.user.isAdmin = ADMIN_EMAILS?.split(',').includes(
         session.user.email,
       );
       return session;
@@ -30,6 +33,16 @@ export const authOptions = {
     async jwt({ token, account }) {
       if (account) {
         token.provider = account.provider;
+        token.analyticsAuthTime = Date.now();
+        try {
+          const record = await db
+            .collection('users')
+            .doc(`${account.provider}_${token.sub}`)
+            .get();
+          token.analyticsNewAccount = !record.exists;
+        } catch {
+          token.analyticsNewAccount = false;
+        }
       }
       return token;
     },

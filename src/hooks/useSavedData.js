@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { fetcher, showError } from '@/common/utils';
+import { trackEvent } from '@/common/analytics';
 import { showToast } from '@/components/toast';
 import AppContext from '@/common/context';
 import * as R from 'ramda';
@@ -35,6 +36,10 @@ export default function useSavedData() {
 
   const saveData = async (data) => {
     if (!session) {
+      trackEvent('feature_blocked', {
+        feature: 'save_visualization',
+        reason: 'sign_in_required',
+      });
       const callbackUrl = getDataUrl(data);
       setContext({ signInOpen: true, callbackUrl });
       return;
@@ -50,6 +55,7 @@ export default function useSavedData() {
       if (res.ok) {
         const data = await res.json();
         mutate((prev) => [data, ...prev], false);
+        trackEvent('visualization_saved');
         showToast({
           message: 'Data saved successfully!',
           variant: 'success',

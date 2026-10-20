@@ -1,6 +1,8 @@
 import { useState, useContext, memo } from 'react';
 import { useGraphControls, useSavedData } from '@/hooks';
 import { useRouter } from 'next/router';
+import { trackEvent } from '@/common/analytics';
+import { showError } from '@/common/utils';
 import { showToast } from '../toast';
 import {
   Box,
@@ -65,12 +67,18 @@ function DrawGraph({
     setDirected,
   } = useGraphControls(config, { scopes, allowRefresh, ...props });
 
-  const handleCopy = () => {
+  const handleCopy = async () => {
     const weights = weighted ? scopes[0].costMatrix() : undefined;
     const json = JSON.stringify(Graph.skeleton(weights));
     const pageId = location.pathname.split('/').pop();
     const url = `${location.origin}/graph/embed/${pageId}?skeleton=${btoa(json)}`;
-    navigator.clipboard.writeText(url);
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      showError('Could not copy graph url.');
+      return;
+    }
+    trackEvent('share_url');
     showToast({
       message: 'Graph url is copied to clipboard.',
       variant: 'success',

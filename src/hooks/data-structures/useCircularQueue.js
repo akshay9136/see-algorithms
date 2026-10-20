@@ -14,24 +14,28 @@ export default function useCircularQueue() {
   async function* enqueue(num) {
     if (front === rear && size === n) {
       showError('Queue is full.');
+      return false;
     } else {
       sound('pop');
       numbers[rear] = num;
       setNumbers(numbers.slice());
       setRear((rear + 1) % n);
       setSize(size + 1);
+      return true;
     }
   }
 
   function dequeue() {
     if (front === rear && size === 0) {
       showError('Queue is empty.');
+      return false;
     } else {
       sound('pop');
       numbers[front] = null;
       setNumbers(numbers.slice());
       setFront((front + 1) % n);
       setSize(size - 1);
+      return true;
     }
   }
 
