@@ -1,19 +1,11 @@
+import { runIt } from './test-utils/iterator';
+import { Numbers } from './test-utils/common';
 import maxHeap from '@/helpers/maxHeap';
 
 jest.mock('@/common/utils', () => ({
   sound: jest.fn(),
   sleep: jest.fn().mockResolvedValue(),
 }));
-
-/**
- * Drive a generator to completion, collecting all yielded values.
- */
-async function drain(gen) {
-  let result;
-  do result = await gen.next();
-  while (!result.done);
-  return result.value;
-}
 
 describe('maxHeap helper', () => {
   let tree, mockAnim;
@@ -24,6 +16,7 @@ describe('maxHeap helper', () => {
       bgcolor: jest.fn().mockResolvedValue(),
       animate: jest.fn().mockResolvedValue(),
       txy: jest.fn().mockResolvedValue(),
+      tx: jest.fn().mockResolvedValue(),
       cleanup: jest.fn(),
       scope: {
         current: {
@@ -35,81 +28,82 @@ describe('maxHeap helper', () => {
     tree = maxHeap(mockAnim);
   });
 
-  test('inserts a single element', () => {
-    tree._insert(10);
-    expect(tree.collect()).toEqual([10]);
+  function expectHeap(expected) {
+    const values = tree.collect();
+    expect(tree.size()).toBe(expected.length);
+    expect(Numbers.sortAsc(values)).toEqual(Numbers.sortAsc(expected));
+
+    for (let i = 1; i < values.length; i++) {
+      expect(values[Math.floor((i - 1) / 2)] >= values[i]).toBe(true);
+      expect(tree.node(i).parent.key).toBe(
+        tree.node(Math.floor((i - 1) / 2)).key,
+      );
+    }
+  }
+
+  test('_insert appends in level order without automatically heapifying', () => {
+    [10, 50, 40, 20].forEach((value) => tree._insert(value));
+    expect(tree.collect()).toEqual([10, 50, 40, 20]);
+    expect(tree.size()).toBe(4);
   });
 
-  test('inserts multiple elements in level order', () => {
-    [50, 30, 40, 10, 20].forEach((n) => tree._insert(n));
-
-    // collect returns level-order values
-    expect(tree.collect()).toHaveLength(5);
-    // Max-heap property: root must be the largest value
-    expect(tree.collect()[0]).toBe(50);
+  test.each([
+    ['left child is largest', [1, 50, 40], [50, 1, 40]],
+    ['right child is largest', [1, 40, 50], [50, 40, 1]],
+    ['only a left child', [1, 50], [50, 1]],
+    [
+      'multiple levels',
+      [1, 90, 80, 70, 60, 50, 40],
+      [90, 70, 80, 1, 60, 50, 40],
+    ],
+    ['already a heap', [100, 20, 30], [100, 20, 30]],
+    ['equal values', [5, 5, 5], [5, 5, 5]],
+  ])('heapify: %s', async (_label, input, expected) => {
+    input.forEach((value) => tree._insert(value));
+    await runIt(tree.heapify(tree.root(), tree.size()));
+    expect(tree.collect()).toEqual(expected);
+    expectHeap(input);
   });
 
-  test('heapifies down correctly when root is not largest', async () => {
-    // Build a heap manually: put a small value at root
-    [10, 50, 40].forEach((k) => tree._insert(k));
-
-    const root = tree.node(0);
-    // Force root value down so heapify must swap
-    root.update({ value: 1 });
-    await drain(tree.heapify(root, tree.size()));
-
-    // bgcolor should have been called during comparisons
-    expect(mockAnim.bgcolor).toHaveBeenCalled();
+  test('heapify respects the active heap boundary', async () => {
+    [1, 40, 99].forEach((value) => tree._insert(value));
+    await runIt(tree.heapify(tree.root(), 2));
+    expect(tree.collect()).toEqual([40, 1, 99]);
   });
 
-  test('heapify does not swap when root is already largest', async () => {
-    [100, 20, 30].forEach((k) => tree._insert(k));
-    const root = tree.node(0);
-    mockAnim.bgcolor.mockClear();
-
-    await drain(tree.heapify(root, tree.size()));
-    // bgcolor should have been called to highlight the node
-    expect(mockAnim.bgcolor).toHaveBeenCalled();
+  test.each([
+    ['larger child', [10, 99], [99, 10]],
+    ['multiple levels', [100, 50, 40, 200], [200, 100, 40, 50]],
+    ['smaller child', [100, 5], [100, 5]],
+    ['equal child', [5, 5], [5, 5]],
+    ['root only', [42], [42]],
+  ])('heapify up: %s', async (_label, input, expected) => {
+    input.forEach((value) => tree._insert(value));
+    await runIt(tree.heapifyUp(tree.node(input.length - 1)));
+    expect(tree.collect()).toEqual(expected);
+    expectHeap(input);
   });
 
-  test('heapifies up when inserted child is larger than parent', async () => {
-    tree._insert(10);
-    tree._insert(5);
-    // Manually set last node to a value larger than parent
-    const last = tree.node(1);
-    last.update({ value: 99 });
-    mockAnim.bgcolor.mockClear();
-
-    await drain(tree.heapifyUp(last));
-    expect(mockAnim.bgcolor).toHaveBeenCalled();
-  });
-
-  test('heapifyUp does nothing when child is smaller than parent', async () => {
-    tree._insert(100);
-    tree._insert(5);
-    const last = tree.node(1);
-    mockAnim.bgcolor.mockClear();
-
-    await drain(tree.heapifyUp(last));
-    // bgcolor should have been called to highlight the node
-    expect(mockAnim.bgcolor).toHaveBeenCalled();
-  });
-
-  test('extracts root from a single-element heap', async () => {
+  test('extracts the only element and clears the root', async () => {
     tree._insert(42);
-    await drain(tree.extract());
-    // animate should have been called
-    expect(mockAnim.animate).toHaveBeenCalled();
+    await runIt(tree.extract());
+    expect(tree.collect()).toEqual([]);
+    expect(tree.root()).toBeNull();
     expect(tree.size()).toBe(0);
   });
 
-  test('extracts root and heapifies down on multi-element heap', async () => {
-    [50, 30, 40, 10, 20].forEach((n) => tree._insert(n));
-    const sizeBefore = tree.size();
-    mockAnim.bgcolor.mockClear();
+  test.each([[[100, 90, 80, 70, 60, 50, 40]], [[5, 5, 0, -1, -3, -4]]])(
+    'repeated extraction returns in descending order for %j',
+    async (input) => {
+      const expected = Numbers.sortDesc(input);
+      input.forEach((value) => tree._insert(value));
 
-    await drain(tree.extract());
-    expect(mockAnim.bgcolor).toHaveBeenCalled();
-    expect(tree.size()).toBe(sizeBefore - 1);
-  });
+      for (let i = 0; i < expected.length; i++) {
+        expect(tree.root().value).toBe(expected[i]);
+        await runIt(tree.extract());
+        expectHeap(expected.slice(i + 1));
+      }
+      expect(tree.root()).toBeNull();
+    },
+  );
 });

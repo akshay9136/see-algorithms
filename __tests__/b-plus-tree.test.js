@@ -1,19 +1,11 @@
 import bPlusTree from '@/helpers/bPlusTree';
+import { expectbTree } from './test-utils/multiway-tree';
+import { runIt } from './test-utils/iterator';
 
 jest.mock('@/common/utils', () => ({
   sound: jest.fn(),
   sleep: jest.fn().mockResolvedValue(),
 }));
-
-/**
- * Drive a generator to completion.
- */
-async function drain(gen) {
-  let result;
-  do result = await gen.next();
-  while (!result.done);
-  return result.value;
-}
 
 describe('bPlusTree helper', () => {
   let tree, mockAnim, updateView;
@@ -53,22 +45,24 @@ describe('bPlusTree helper', () => {
   });
 
   test('insert with animation', async () => {
-    await drain(tree.insert(10, updateView));
-    expect(updateView).toHaveBeenCalled();
+    await runIt(tree.insert(10, updateView));
+    expect(updateView).toHaveBeenCalledWith(tree.getSnapshot());
+    expect(tree.collect()).toEqual([[10]]);
 
-    await drain(tree.insert(20, updateView));
+    await runIt(tree.insert(20, updateView));
     expect(mockAnim.bgcolor).toHaveBeenCalled();
+    expect(updateView).toHaveBeenCalledWith(tree.getSnapshot());
+    expect(tree.collect()).toEqual([[10, 20]]);
 
-    await drain(tree.insert(30, updateView));
-    const leaves = tree.collect();
-    expect(leaves.length).toBe(2);
+    await runIt(tree.insert(30, updateView));
+    expect(tree.collect()).toEqual([[10, 20], [30]]);
+    expect(updateView).toHaveBeenCalledWith(tree.getSnapshot());
   });
 
   test('search finds existing value and misses non-existing', async () => {
     [10, 20, 30].forEach((k) => tree._insert(k));
-
-    expect(await drain(tree.search(30))).toBe(true);
-    expect(await drain(tree.search(40))).toBe(false);
+    expect(await runIt(tree.search(30))).toBe(true);
+    expect(await runIt(tree.search(40))).toBe(false);
   });
 
   test('getSnapshot on empty tree', () => {
@@ -77,25 +71,62 @@ describe('bPlusTree helper', () => {
     expect(tree.collect()).toEqual([]);
   });
 
-  test('handles multiple leaf splits and internal splits', async () => {
-    // Insert enough keys to trigger multiple leaf splits and an internal split
-    const keys = [10, 20, 30, 40, 50, 60, 70, 80, 90];
-    for (const key of keys) {
-      await drain(tree.insert(key, updateView));
-    }
-    const leaves = tree.collect();
-    // All keys must appear exactly once across all leaf nodes
-    const allKeys = leaves.flat();
-    expect(allKeys.sort((a, b) => a - b)).toEqual(keys);
+  describe.each([
+    ['ascending', [10, 20, 30, 40, 50, 60, 70, 80, 90]],
+    ['descending', [90, 80, 70, 60, 50, 40, 30, 20, 10]],
+    ['mixed', [30, -10, 70, 0, 50, -30, 90, 10, 60]],
+  ])('%s insertion order', (_label, keys) => {
+    test.each(['animated', 'immediate'])(
+      '%s insertion preserves tree invariants after every key',
+      async (mode) => {
+        for (const key of keys) {
+          if (mode === 'animated') {
+            await runIt(tree.insert(key, updateView));
+            expect(updateView).toHaveBeenCalledWith(tree.getSnapshot());
+          } else {
+            tree._insert(key);
+          }
+        }
+        const { nodes } = tree.getSnapshot();
+        expect(new Set(nodes.map((a) => a.y)).size >= 3).toBe(true);
+        expectbTree(tree, keys, true);
+      },
+    );
   });
 
+  test.each([
+    [10, true],
+    [20, true],
+    [30, true],
+    [40, true],
+    [50, true],
+    [60, true],
+    [70, true],
+    [80, true],
+    [90, true],
+    [0, false],
+    [15, false],
+    [35, false],
+    [95, false],
+  ])(
+    'search(%s) returns %s without changing the tree',
+    async (key, expected) => {
+      [10, 20, 30, 40, 50, 60, 70, 80, 90].forEach((value) =>
+        tree._insert(value),
+      );
+      const before = tree.getSnapshot();
+      expect(await runIt(tree.search(key))).toBe(expected);
+      expect(tree.getSnapshot()).toEqual(before);
+    },
+  );
+
   test('search returns false on empty tree', async () => {
-    expect(await drain(tree.search(99))).toBe(false);
+    expect(await runIt(tree.search(99))).toBe(false);
   });
 
   test('search in a leaf node after multiple inserts', async () => {
     [5, 15, 25, 35, 45].forEach((k) => tree._insert(k));
-    expect(await drain(tree.search(5))).toBe(true);
-    expect(await drain(tree.search(99))).toBe(false);
+    expect(await runIt(tree.search(5))).toBe(true);
+    expect(await runIt(tree.search(99))).toBe(false);
   });
 });
