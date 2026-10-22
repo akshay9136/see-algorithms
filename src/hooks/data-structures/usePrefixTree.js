@@ -1,6 +1,8 @@
-import { useState, useRef } from 'react';
-import prefixTree from '@/helpers/prefixTree';
+import { useEffect, useState, useRef } from 'react';
 import TrieCanvas from '@/components/trie-canvas';
+import prefixTree from '@/helpers/prefixTree';
+import useTreeUrl from '@/hooks/useTreeUrl';
+import useUndoRedo from '@/hooks/useUndoRedo';
 import { showError } from '@/common/utils';
 
 export default function usePrefixTree() {
@@ -10,59 +12,116 @@ export default function usePrefixTree() {
     return treeRef.current;
   };
 
+  const [word, setWord] = useState('');
+  const [running, setRunning] = useState(false);
   const [trieState, setTrieState] = useState(() => Trie().snapshot());
-  const [wordCount, setWordCount] = useState(0);
-  const [busy, setBusy] = useState(false);
+  const [words, setWords] = useState([]);
+  const [nodes, isReady] = useTreeUrl();
+  const history = useUndoRedo();
 
   const setSnapshot = (snap) => setTrieState({ ...snap });
 
-  const validate = (word) => {
+  const validate = () => {
     if (!word) showError('Please enter a word.');
     return !!word;
   };
 
-  async function insert(word) {
+  const restore = (nextWords) => {
+    treeRef.current = prefixTree();
+    nextWords.forEach((word) => treeRef.current.insert(word));
+    setSnapshot(treeRef.current.snapshot());
+    setWords(nextWords);
+  };
+
+  const refresh = (data) => {
+    history.clear();
+    const nextWords = data.map((word) => word.toLowerCase());
+    restore([...new Set(nextWords)]);
+  };
+
+  useEffect(() => {
+    // URL data initializes the Trie once it is ready.
+    if (isReady && nodes) refresh(nodes);
+  }, [nodes, isReady]);
+
+  async function insert() {
     if (!validate(word)) return;
-    setBusy(true);
     const gen = Trie().insertAnimated(word, setSnapshot);
+    setRunning(true);
     // Drive the async generator to completion
     let result = await gen.next();
     while (!result.done) result = await gen.next();
-    setWordCount((c) => c + 1);
-    setBusy(false);
+    setRunning(false);
+    setWord('');
+    history.push(words.slice());
+    setWords([...words, word]);
   }
 
-  async function search(word) {
-    if (!validate(word)) return;
-    setBusy(true);
+  async function search() {
+    if (!validate()) return;
     const gen = Trie().searchAnimated(word, setSnapshot);
+    setRunning(true);
     let result = await gen.next();
     while (!result.done) result = await gen.next();
-    setBusy(false);
+    setRunning(false);
+    setWord('');
     return result.value;
   }
 
-  async function deleteWord(word) {
+  async function deleteWord() {
+    if (!validate()) return;
     const path = await search(word);
     if (!path) return;
     const snap = Trie().deleteWord(path);
     if (snap) {
-      setTrieState({ ...snap });
-      setWordCount((c) => Math.max(0, c - 1));
+      history.push(words.slice());
+      setSnapshot(snap);
+      setWords(words.filter((val) => val !== word.toLowerCase()));
     } else {
       showError('Not a complete word.');
     }
   }
 
   function clearState() {
-    treeRef.current = prefixTree();
-    setTrieState(treeRef.current.snapshot());
-    setWordCount(0);
+    setWord('');
+    history.clear();
+    restore([]);
+  }
+
+  function undo() {
+    if (history.canUndo) {
+      restore(history.undo(words.slice()));
+    }
+  }
+
+  function redo() {
+    if (history.canRedo) {
+      restore(history.redo(words.slice()));
+    }
   }
 
   const animation = (
     <TrieCanvas nodes={trieState.nodes} edges={trieState.edges} />
   );
 
-  return { animation, insert, search, deleteWord, clearState, wordCount, busy };
+  const handlers = {
+    insert,
+    search,
+    deleteWord,
+    clearState,
+    undo,
+    redo,
+    refresh,
+  };
+
+  return {
+    animation,
+    handlers,
+    word,
+    setWord,
+    running,
+    words,
+    canUndo: history.canUndo,
+    canRedo: history.canRedo,
+  };
 }

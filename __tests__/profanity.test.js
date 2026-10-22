@@ -3,7 +3,7 @@ import { hasProfanity } from '@/utils/profanity';
 describe('Profanity Filter (hasProfanity)', () => {
   describe('Clean/valid Inputs', () => {
     test('should return false for normal programming related sentences', () => {
-      expect(hasProfanity('This is a great binary tree visualization! Help me understand.')).toBe(false);
+      expect(hasProfanity('This is a great BST visualization!')).toBe(false);
       expect(hasProfanity('How does selection sort work?')).toBe(false);
     });
 

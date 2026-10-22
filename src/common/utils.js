@@ -1,7 +1,7 @@
-import { trackEvent } from '@/common/analytics';
 import { Points } from './graph';
-import { showToast } from '../components/toast';
 import { Colors } from './constants';
+import { showToast } from '../components/toast';
+import { trackEvent } from '@/common/analytics';
 import $ from 'jquery';
 
 const mouseEvents = ['click', 'mousedown', 'mouseup', 'mousemove', 'mouseenter', 'mouseleave'];
@@ -67,10 +67,10 @@ function costInput(p, q, cost) {
         e.stopPropagation();
         input.focus();
     };
-    let previousValue = input.value;
+    let previous = input.value;
     input.addEventListener('change', () => {
-        if (input.value !== previousValue) {
-            previousValue = input.value;
+        if (input.value !== previous) {
+            previous = input.value;
             trackEvent('input_modified', { action: 'edit_cost' });
         }
     });

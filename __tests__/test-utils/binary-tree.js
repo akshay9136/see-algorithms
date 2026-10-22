@@ -5,8 +5,7 @@ export async function renderTree(Component) {
   const { container } = render(<App Component={Component} />);
   await waitFor(() => {
     // wait till the tree is rendered
-    const node = container.querySelector('.node0');
-    expect(node?.dataset).toBeDefined();
+    expect(container.querySelector('.node0')).toBeInTheDocument();
   });
   return container;
 }
@@ -21,9 +20,8 @@ export function mapInnerText(nodes) {
 
 export function testShareLink() {
   test('copies sharable link to clipboard', async () => {
-    Object.assign(navigator, {
-      clipboard: { writeText: jest.fn() },
-    });
+    Object.assign(navigator, { clipboard: { writeText: jest.fn() } });
+
     fireEvent.click(screen.getByTestId('ShareIcon'));
     expect(navigator.clipboard.writeText).toHaveBeenCalled();
     await screen.findByRole('presentation');

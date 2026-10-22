@@ -12,6 +12,9 @@ const isInteger = (n) =>
 const isRedBlack = ([val, color]) =>
   isInteger(val) && ['R', 'B'].includes(color);
 
+const isWord = (word) =>
+  typeof word === 'string' && /^[a-zA-Z]{1,15}$/.test(word);
+
 export default function useTreeUrl() {
   const [nodes, setNodes] = useState(null);
   const [ready, setReady] = useState(false);
@@ -26,24 +29,22 @@ export default function useTreeUrl() {
           if (!Array.isArray(arr)) return;
 
           if (asPath.includes('RedBlackTree')) {
-            if (arr.every((val) => isRedBlack(val))) {
-              setNodes(arr);
-              trackEvent('visualization_loaded', { input_source: 'shared' });
-            }
+            if (arr.every((val) => isRedBlack(val))) setNodes(arr);
+          } else if (asPath.includes('PrefixTree')) {
+            if (arr.every((val) => isWord(val))) setNodes(arr);
           } else {
             const values = arr.map((val) =>
               Array.isArray(val) ? val[0] : val,
             );
-            if (values.every(isInteger)) {
-              setNodes(values);
-              trackEvent('visualization_loaded', { input_source: 'shared' });
-            }
+            if (values.every(isInteger)) setNodes(values);
           }
         }
         setReady(true);
       } catch {
         logError(null, 'Error parsing tree url');
       }
+    } else if (nodes) {
+      trackEvent('visualization_loaded', { input_source: 'shared' });
     }
   }, [isReady, query, asPath, nodes]);
 

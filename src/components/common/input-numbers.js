@@ -39,7 +39,7 @@ function InputNumbers(props) {
       values.push(randomInt());
     }
     setNumbers(values);
-    trackEvent('input_modified', { action: 'resize' });
+    trackEvent('input_modified', { action: 'select' });
     props.onSelect?.(size);
   };
 

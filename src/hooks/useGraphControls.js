@@ -132,7 +132,6 @@ function useGraphControls(config, props) {
       const prevGraph = history.undo(scope.collect());
       Graph.initialize(prevGraph);
       scope.createGraph(prevGraph, weighted);
-      trackEvent('input_modified', { action: 'undo' });
     }
   };
 
@@ -141,7 +140,6 @@ function useGraphControls(config, props) {
       const nextGraph = history.redo(scope.collect());
       Graph.initialize(nextGraph);
       scope.createGraph(nextGraph, weighted);
-      trackEvent('input_modified', { action: 'redo' });
     }
   };
 

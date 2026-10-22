@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import { Visualizer as LLV } from '../LinkedList';
 import { Visualizer as DLV } from '../DoublyLinkedList';
+import { Visualizer as TrieVisualizer } from '../PrefixTree';
 import { DSInput } from '@/components/common';
 import { useRouter } from 'next/router';
 import {
@@ -47,6 +48,22 @@ export default function EmbedDataStructure() {
   if (!router.isReady) return <div>Loading...</div>;
 
   const { dataStructure } = router.query;
+
+  if (dataStructure === 'PrefixTree') {
+    return (
+      <Box position="relative" width="fit-content">
+        <TrieVisualizer />
+        <a
+          href={window.location.href.replace('/embed', '')}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="watermark"
+        >
+          See Algorithms
+        </a>
+      </Box>
+    );
+  }
 
   if (dataStructure.includes('LinkedList')) {
     return <LinkedList isDoubly={dataStructure.includes('Doubly')} />;

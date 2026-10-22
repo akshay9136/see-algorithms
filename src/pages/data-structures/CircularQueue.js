@@ -51,8 +51,6 @@ function dequeue():
         {enqueueAlgo}
         {dequeueAlgo}
       </Box>
-      <br />
-      <Divider />
     </Stack>
   );
 }

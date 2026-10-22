@@ -1,3 +1,4 @@
+import { trackEvent } from '@/common/analytics';
 import { useState } from 'react';
 
 export default function useUndoRedo() {
@@ -14,6 +15,7 @@ export default function useUndoRedo() {
       setRedoStack((prev) => [...prev, current]);
       const prevState = undoStack.pop();
       setUndoStack(undoStack.slice());
+      trackEvent('input_modified', { action: 'undo' });
       return prevState;
     }
   };
@@ -23,6 +25,7 @@ export default function useUndoRedo() {
       setUndoStack((prev) => [...prev, current]);
       const nextState = redoStack.pop();
       setRedoStack(redoStack.slice());
+      trackEvent('input_modified', { action: 'redo' });
       return nextState;
     }
   };

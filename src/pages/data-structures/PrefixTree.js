@@ -1,42 +1,12 @@
 import { Box, Button, Input, Stack, Typography } from '@mui/material';
-import { useAlgorithm } from '@/hooks';
+import { Redo, Save, Share, Undo } from '@mui/icons-material';
+import { SavedDataList } from '@/components/common';
 import { usePrefixTree } from '@/hooks/data-structures';
-import { useState } from 'react';
+import { useAlgorithm, useSavedData } from '@/hooks';
+import { copyTreeUrl } from '@/common/utils';
 
 export default function PrefixTree() {
-  const { animation, insert, search, deleteWord, clearState, wordCount, busy } =
-    usePrefixTree();
-  const [word, setWord] = useState('');
-
-  const handleChange = (e) => {
-    const clean = e.target.value.replace(/[^a-zA-Z]/g, '');
-    setWord(clean.slice(0, 15));
-  };
-
-  const handleInsert = async () => {
-    await insert(word.trim());
-    setWord('');
-  };
-
-  const handleSearch = async () => {
-    await search(word.trim());
-    setWord('');
-  };
-
-  const handleDelete = async () => {
-    await deleteWord(word.trim());
-    setWord('');
-  };
-
-  const handleClear = () => {
-    clearState();
-    setWord('');
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && !busy) handleInsert();
-  };
-
+  const { saveData, ...saveDataProps } = useSavedData();
   const [insertAlgo] = useAlgorithm(`
 function insert(root, word):
     node = root
@@ -69,86 +39,10 @@ function search(root, word):
         how many words are stored.
       </Typography>
 
-      <Stack spacing={2} width="fit-content">
-        <Typography variant="h6" component="h2">
-          Visualizer
-        </Typography>
-        <Box
-          display="flex"
-          alignItems="center"
-          flexWrap="wrap"
-          gap={1.5}
-          width="fit-content"
-        >
-          <Typography
-            component="label"
-            htmlFor="trieWordInput"
-            variant="subtitle1"
-            fontWeight={600}
-          >
-            Enter a word:
-          </Typography>
-          <Input
-            id="trieWordInput"
-            value={word}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            placeholder="e.g. apple"
-            disabled={busy}
-            inputProps={{ maxLength: 15 }}
-            sx={{ width: 150 }}
-          />
-
-          <Box display="flex" gap={1} flexWrap="wrap">
-            <Button
-              id="trieInsertBtn"
-              size="small"
-              variant="outlined"
-              onClick={handleInsert}
-              disabled={busy}
-              aria-label="Insert word"
-            >
-              Insert
-            </Button>
-            <Button
-              id="trieSearchBtn"
-              size="small"
-              variant="outlined"
-              onClick={handleSearch}
-              disabled={busy || wordCount === 0}
-              aria-label="Search word"
-            >
-              Search
-            </Button>
-            <Button
-              id="trieDeleteBtn"
-              size="small"
-              variant="outlined"
-              onClick={handleDelete}
-              disabled={busy || wordCount === 0}
-              aria-label="Delete word"
-            >
-              Delete
-            </Button>
-            <Button
-              id="trieClearBtn"
-              size="small"
-              variant="outlined"
-              color="secondary"
-              onClick={handleClear}
-              disabled={busy || wordCount === 0}
-              aria-label="Clear the Trie"
-            >
-              Clear
-            </Button>
-          </Box>
-
-          <Typography variant="body2" color="text.secondary">
-            {wordCount} word{wordCount > 1 ? 's' : ''}
-          </Typography>
-        </Box>
-        {animation}
-      </Stack>
+      <Typography variant="h6" component="h2" mb={2}>
+        Trie Visualizer
+      </Typography>
+      <Visualizer saveData={saveData} saveDataProps={saveDataProps} />
       <br />
 
       <Stack spacing={2}>
@@ -160,6 +54,119 @@ function search(root, word):
           {searchAlgo}
         </Box>
       </Stack>
+    </>
+  );
+}
+
+export function Visualizer({ saveData, saveDataProps }) {
+  const {
+    animation,
+    handlers,
+    word,
+    setWord,
+    running,
+    words,
+    wordCount = words.length,
+    canUndo,
+    canRedo,
+  } = usePrefixTree();
+
+  const handleChange = (e) => {
+    const clean = e.target.value.replace(/[^a-zA-Z]/g, '');
+    setWord(clean.slice(0, 15));
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !running) handlers.insert();
+  };
+
+  const empty = wordCount === 0;
+
+  const buttons = [
+    { text: 'Insert', onClick: handlers.insert },
+    { text: 'Search', onClick: handlers.search, disabled: empty },
+    { text: 'Delete', onClick: handlers.deleteWord, disabled: empty },
+    {
+      text: 'Clear',
+      onClick: handlers.clearState,
+      disabled: empty,
+      color: 'secondary',
+    },
+    {
+      icon: <Undo />,
+      label: 'Undo',
+      onClick: handlers.undo,
+      disabled: !canUndo,
+    },
+    {
+      icon: <Redo />,
+      label: 'Redo',
+      onClick: handlers.redo,
+      disabled: !canRedo,
+    },
+    ...(saveData
+      ? [
+          {
+            icon: <Save />,
+            label: 'Save this Trie',
+            onClick: () => saveData(words),
+            disabled: empty,
+          },
+        ]
+      : []),
+    {
+      icon: <Share fontSize="small" sx={{ height: 24 }} />,
+      label: 'Share this Trie',
+      onClick: () => copyTreeUrl(words),
+      disabled: empty,
+    },
+  ];
+
+  return (
+    <>
+      <Stack spacing={2} width="fit-content">
+        <Box width="max-content" display="flex" alignItems="center" gap={1}>
+          <Typography
+            component="label"
+            htmlFor="trieWordInput"
+            variant="subtitle1"
+            fontWeight={600}
+          >
+            Enter a word:
+          </Typography>
+
+          <Input
+            id="trieWordInput"
+            value={word}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            placeholder="e.g. apple"
+            disabled={running}
+            inputProps={{ maxLength: 15 }}
+            sx={{ width: 150 }}
+          />
+
+          {buttons.map(({ text, icon, label, disabled, onClick }) => (
+            <Button
+              key={text || label}
+              size="small"
+              variant="outlined"
+              onClick={onClick}
+              disabled={running || disabled}
+              aria-label={text || label}
+              title={label}
+              sx={{ minWidth: 40 }}
+            >
+              {icon || text}
+            </Button>
+          ))}
+        </Box>
+        {animation}
+      </Stack>
+
+      {saveDataProps && (
+        <SavedDataList onSelect={handlers.refresh} {...saveDataProps} />
+      )}
     </>
   );
 }
