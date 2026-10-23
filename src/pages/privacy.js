@@ -1,5 +1,6 @@
 import { CustomSeo, ListItems } from '@/components/common';
 import { Typography, Box, Button, Link } from '@mui/material';
+import { LEGAL_ENTITY } from '@/utils/constants';
 
 export default function Privacy() {
   return (
@@ -210,7 +211,7 @@ export default function Privacy() {
               hello@see-algorithms.com
             </Link>
           </Typography>
-          <Typography>Legal Entity: Akshay Karande</Typography>
+          <Typography>Legal Entity: {LEGAL_ENTITY}</Typography>
         </Box>
       </Box>
     </>

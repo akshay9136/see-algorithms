@@ -13,6 +13,7 @@ import {
 import { Email, GitHub } from '@mui/icons-material';
 import { CustomSeo } from '@/components/common';
 import { logError } from '@/common/utils';
+import { LEGAL_ENTITY } from '@/utils/constants';
 import emailjs from '@emailjs/browser';
 
 export default function ContactUs() {
@@ -195,7 +196,7 @@ export default function ContactUs() {
                       color="text.secondary"
                       sx={{ mt: 2 }}
                     >
-                      <strong>Legal Entity:</strong> Akshay Karande
+                      <strong>Legal Entity:</strong> {LEGAL_ENTITY}
                     </Typography>
                   </CardContent>
                 </Card>

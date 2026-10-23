@@ -1,5 +1,5 @@
 import { metaConfigs } from '@/data/configs';
-import { SITE_URL } from '@/utils/constants';
+import { SITE_AUTHOR, SITE_URL } from '@/utils/constants';
 
 export const defaultSeoConfig = {
   title: 'See Algorithms - Interactive Algorithm Visualizations',
@@ -31,7 +31,7 @@ export const defaultSeoConfig = {
     },
     {
       name: 'author',
-      content: 'Akshay Karande',
+      content: SITE_AUTHOR.name,
     },
     {
       property: 'article:author',

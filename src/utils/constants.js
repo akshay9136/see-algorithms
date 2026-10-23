@@ -33,6 +33,8 @@ export const SITE_AUTHOR = {
   github: 'https://github.com/akshay9136',
 };
 
+export const LEGAL_ENTITY = 'Akshay Vilas Karande';
+
 export const PERSON_SCHEMA = {
   '@context': 'https://schema.org',
   '@type': 'Person',

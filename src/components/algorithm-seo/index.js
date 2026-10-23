@@ -2,7 +2,7 @@ import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { getSeoConfig } from './config';
 import { algorithms } from '@/common/appData';
-import { SITE_URL } from '@/utils/constants';
+import { SITE_AUTHOR, SITE_URL } from '@/utils/constants';
 import Head from 'next/head';
 
 const AlgorithmSEO = () => {
@@ -43,7 +43,7 @@ const AlgorithmSEO = () => {
     isAccessibleForFree: true,
     author: {
       '@type': 'Person',
-      name: 'Akshay Karande',
+      name: SITE_AUTHOR.name,
       url: `${SITE_URL}/about`,
       sameAs: [
         'https://github.com/akshay9136',
@@ -52,7 +52,7 @@ const AlgorithmSEO = () => {
     },
     creator: {
       '@type': 'Person',
-      name: 'Akshay Karande',
+      name: SITE_AUTHOR.name,
       url: 'https://github.com/akshay9136',
     },
     publisher: {
