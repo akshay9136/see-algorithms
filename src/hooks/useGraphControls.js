@@ -80,7 +80,7 @@ function useGraphControls(config, props) {
     runRef.current?.cancel();
     runRef.current = trackVisualization(startHandlers.length);
     iterators = startHandlers.map((fn) =>
-      newIterator(runRef.current.wrap(fn), src),
+      newIterator(runRef.current.wrap(fn), props.scaleDelay, src),
     );
     resume();
   };

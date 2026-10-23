@@ -33,7 +33,7 @@ while queue is not empty:
           unweighted graph.
         </Typography>
 
-        <Typography variant="body2" color="text.secondary">
+        <Typography color="text.secondary" paragraph>
           Want to see BFS applied to grid pathfinding, or explore adversarial
           game-tree search?{' '}
           <Link

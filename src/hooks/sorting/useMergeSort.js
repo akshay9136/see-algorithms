@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAlgorithm, useAnimator } from '@/hooks';
+import { Numbox, SortingVisualizer } from '@/components/common';
 import { Box } from '@mui/material';
-import { Numbox } from '@/components/common';
 import { Colors } from '@/common/constants';
 import { sound, withBoxId } from '@/common/utils';
 
@@ -90,7 +90,7 @@ function merge(start, mid, end):
     const animation = (
         <Box
             className="mergeSort"
-            sx={{ minWidth: numbers.length * 60, pt: 4, mb: 3 }}
+            sx={{ minWidth: numbers.length * 60 }}
             ref={scope}
         >
             {numbers.map((num, i) => (
@@ -99,5 +99,11 @@ function merge(start, mid, end):
         </Box>
     );
 
-    return { animation, pseudocode, handleSort, handleStop };
+    const visualizer = (
+        <SortingVisualizer handleSort={handleSort} handleStop={handleStop}>
+            {animation}
+        </SortingVisualizer>
+    );
+
+    return { pseudocode, animation, visualizer, handleSort, handleStop };
 }

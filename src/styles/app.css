@@ -86,11 +86,11 @@
     margin-top: -50px;
     font-size: 12px;
     font-weight: 600;
-    color: #949494;
+    color: #666;
     text-decoration: none;
     padding: 2px 8px;
     border-radius: 4px;
-    border: 1px solid #949494;
+    border: 1px solid #666;
 }
 
 .watermark:hover {
@@ -99,8 +99,8 @@
 }
 
 .savedDataBtn {
-  position: absolute;
-  top: 28px;
+  position: fixed;
+  top: 88px;
   right: 32px;
   text-transform: none;
   font-size: 1rem;

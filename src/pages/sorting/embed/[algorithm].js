@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import { InputNumbers } from '@/components/common';
 import { useRouter } from 'next/router';
 import {
   useBubbleSort,
@@ -35,13 +34,11 @@ export default function EmbedAlgorithm() {
 }
 
 function Visualizer({ useHook }) {
-  const { animation, handleSort, handleStop } = useHook();
+  const { visualizer } = useHook();
 
   return (
     <Box position="relative">
-      <InputNumbers onStart={handleSort} onReset={handleStop} />
-      <br />
-      {animation}
+      {visualizer}
       <a
         href={window.location.href.replace('/embed', '')}
         target="_blank"

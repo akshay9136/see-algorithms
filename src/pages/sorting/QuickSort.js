@@ -1,11 +1,11 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { InputNumbers, ComplexityTable, Section } from '@/components/common';
+import { ComplexityTable, Section } from '@/components/common';
 import { useAlgorithm } from '@/hooks';
 import { useQuickSort } from '@/hooks/sorting';
 import Link from 'next/link';
 
 export default function QuickSort() {
-  const { animation, pseudocode, handleSort, handleStop } = useQuickSort();
+  const { pseudocode, visualizer } = useQuickSort();
 
   const [algorithm] = useAlgorithm(`
 function quickSort(start, end):
@@ -42,15 +42,13 @@ function quickSort(start, end):
           </Typography>
           {pseudocode}
         </Stack>
-        <Stack spacing={2}>
+        <Stack spacing={2} flex={1}>
           <Typography variant="h6" component="h2">
             Visualizer
           </Typography>
           {algorithm}
           <br />
-          <InputNumbers onStart={handleSort} onReset={handleStop} />
-          <br />
-          {animation}
+          {visualizer}
         </Stack>
       </Box>
       <Divider sx={{ my: 3 }} />

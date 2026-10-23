@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useAlgorithm, useAnimator } from '@/hooks';
-import { Numbox } from '@/components/common';
+import { Numbox, SortingVisualizer } from '@/components/common';
 import { Box } from '@mui/material';
 import { sound, withBoxId } from '@/common/utils';
 
 var arr, out, n;
 var max, exp, b;
 
-var delay = 500;
+const delay = 500;
 
 export default function useRadixSort() {
   const [numbers, setNumbers] = useState([]);
@@ -110,7 +110,7 @@ while (max / exp) > 0:
   const animation = (
     <Box
       className="radixSort"
-      sx={{ minWidth: numbers.length * 60, pt: 4 }}
+      sx={{ minWidth: numbers.length * 60 }}
       ref={scope}
     >
       <Box display="flex">
@@ -138,5 +138,11 @@ while (max / exp) > 0:
     </Box>
   );
 
-  return { animation, pseudocode, handleSort, handleStop };
+  const visualizer = (
+      <SortingVisualizer handleSort={handleSort} handleStop={handleStop}>
+          {animation}
+      </SortingVisualizer>
+  );
+
+  return { pseudocode, visualizer, handleSort, handleStop };
 }

@@ -92,7 +92,7 @@ const DSInput = forwardRef((props, ref) => {
         const [btn] = buttons;
         if (btn.animate || validate(btn)) {
           iterators = restart(buttons).map((action) =>
-            newIterator(action, number),
+            newIterator(action, props.scaleDelay, number),
           );
           resume();
         }

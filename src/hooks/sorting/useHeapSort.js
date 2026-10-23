@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useAlgorithm, useAnimator } from '@/hooks';
-import { Edge, Node, Numkey } from '@/components/common';
+import { Edge, Node, Numkey, SortingVisualizer } from '@/components/common';
+import binaryHeap from '@/helpers/maxHeap';
 import { sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import { Box } from '@mui/material';
-import binaryHeap from '@/helpers/maxHeap';
 
 var arr, Tree;
 var delay = 1000;
@@ -87,7 +87,7 @@ for i = n - 1 down to 1:
     const animation = (
         <Box
             className="heapSort"
-            sx={{ minWidth: numbers.length * 60, pt: 3, mb: 2 }}
+            sx={{ minWidth: numbers.length * 60, pt: 2 }}
             ref={scope}
         >
             {numbers.slice(1).map((_, i) => (
@@ -112,5 +112,11 @@ for i = n - 1 down to 1:
         </Box>
     );
 
-    return { animation, pseudocode, handleSort, handleStop };
+    const visualizer = (
+        <SortingVisualizer handleSort={handleSort} handleStop={handleStop}>
+            {animation}
+        </SortingVisualizer>
+    );
+
+    return { pseudocode, animation, visualizer, handleSort, handleStop };
 }

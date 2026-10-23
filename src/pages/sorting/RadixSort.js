@@ -1,5 +1,5 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { InputNumbers, ComplexityTable, Section } from '@/components/common';
+import { ComplexityTable, Section } from '@/components/common';
 import { useRadixSort } from '@/hooks/sorting';
 import Link from 'next/link';
 
@@ -23,7 +23,7 @@ const complexityData = [
 ];
 
 export default function RadixSort() {
-  const { animation, pseudocode, handleSort, handleStop } = useRadixSort();
+  const { pseudocode, visualizer } = useRadixSort();
 
   return (
     <>
@@ -38,19 +38,18 @@ export default function RadixSort() {
       </Typography>
       <Divider sx={{ my: 3 }} />
 
-      <Box display="flex" flexWrap="wrap" gap={4}>
+      <Box display="flex" flexWrap="wrap-reverse" gap={4}>
         <Stack spacing={2}>
           <Typography variant="h6" component="h2">
             Pseudocode
           </Typography>
           {pseudocode}
         </Stack>
-        <Stack spacing={2} sx={{ mb: 3 }}>
+        <Stack spacing={2} flex={1}>
           <Typography variant="h6" component="h2">
             Visualizer
           </Typography>
-          <InputNumbers onStart={handleSort} onReset={handleStop} />
-          {animation}
+          {visualizer}
         </Stack>
       </Box>
       <Divider sx={{ my: 3 }} />

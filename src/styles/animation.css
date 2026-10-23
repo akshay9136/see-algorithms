@@ -1,4 +1,5 @@
 .sorting {
+    width: 600px;
     height: 200px;
     position: relative;
 }
@@ -8,6 +9,7 @@
 .radixSort {
     position: relative;
     min-height: 300px;
+    width: 600px;
 }
 
 .huffmanTree {

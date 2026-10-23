@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAlgorithm, useAnimator } from '@/hooks';
+import { Numbox, SortingVisualizer } from '@/components/common';
 import { Box } from '@mui/material';
-import { Numbox } from '@/components/common';
 import { Colors } from '@/common/constants';
 import { sound, withBoxId } from '@/common/utils';
 
@@ -74,5 +74,11 @@ for i = 1 to (n - 1):
         </Box>
     );
 
-    return { animation, pseudocode, handleSort, handleStop };
+    const visualizer = (
+        <SortingVisualizer handleSort={handleSort} handleStop={handleStop}>
+            {animation}
+        </SortingVisualizer>
+    );
+
+    return { pseudocode, animation, visualizer, handleSort, handleStop };
 }
