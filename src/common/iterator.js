@@ -1,6 +1,6 @@
 import { logError, sleep } from './utils';
 
-export function newIterator(generator, ...args) {
+export function newIterator(generator, getDelay = (v) => v, ...args) {
   let iterator = generator(...args);
   let running = false;
   let onEnd;
@@ -14,7 +14,7 @@ export function newIterator(generator, ...args) {
           running = false;
           onEnd();
         } else if (running) {
-          sleep(value).then(loop);
+          sleep(getDelay(value)).then(loop);
         }
       })
       .catch((err) => {

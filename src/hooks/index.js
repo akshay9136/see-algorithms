@@ -1,5 +1,6 @@
 import useAlgorithm from './useAlgorithm';
 import useAnimator from './useAnimator';
+import useAnimationSpeed from './useAnimationSpeed';
 import useGraphScope from './useGraphScope';
 import useGraphControls from './useGraphControls';
 import useTreeControls from './useTreeControls';
@@ -14,6 +15,7 @@ import useDialog from './useDialog';
 export {
     useAlgorithm,
     useAnimator,
+    useAnimationSpeed,
     useGraphScope,
     useGraphControls,
     useTreeControls,

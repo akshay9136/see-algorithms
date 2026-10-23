@@ -1,67 +1,36 @@
 import styles from '@/styles/numbers.module.css';
+import { motion } from 'motion/react';
 import { memo } from 'react';
-import { motion, useDragControls } from 'motion/react';
-import InputNumbers from './input-numbers';
-import DrawGraph, { Plane } from './draw-graph';
-import CustomSeo from './custom-seo';
 import Article, { Section, ListItems } from './article';
-import ComplexityTable from './complexity-table';
 import CodeSnippet from './code-snippet';
-import SavedDataList from './saved-data';
+import ComplexityTable from './complexity-table';
+import CustomSeo from './custom-seo';
+import Draggable from './draggable';
+import DrawGraph, { Plane } from './draw-graph';
 import DSInput from './ds-input';
+import InputNumbers from './input-numbers';
+import SavedDataList from './saved-data';
+import SortingVisualizer from './sorting-visualizer';
+import SpeedControl from './speed-control';
 import Spinner from './spinner';
 
 export {
-  InputNumbers,
-  DrawGraph,
-  Plane,
-  CustomSeo,
   Article,
   Section,
   ListItems,
-  ComplexityTable,
   CodeSnippet,
-  SavedDataList,
+  ComplexityTable,
+  CustomSeo,
+  Draggable,
+  DrawGraph,
+  Plane,
   DSInput,
+  InputNumbers,
+  SavedDataList,
+  SortingVisualizer,
+  SpeedControl,
   Spinner,
 };
-
-export const Draggable = memo(
-  function ({ children }) {
-    const dragControls = useDragControls();
-
-    return (
-      <motion.div
-        onPointerDown={(e) => dragControls.start(e)}
-        style={{ 
-            width: '100%', 
-            height: '100%', 
-            touchAction: 'none', 
-            userSelect: 'none',
-            WebkitUserSelect: 'none',
-        }}
-      >
-        <motion.div
-          drag
-          dragConstraints={{ top: -100, bottom: 50, left: -200, right: 200 }}
-          dragElastic={0.2} // adds a slight spring resistance when reaching boundaries
-          dragControls={dragControls}
-          dragListener={false}
-          dragMomentum={false}
-          style={{ 
-            width: '100%', 
-            height: '100%', 
-            position: 'relative',
-            cursor: 'grab',
-          }}
-          whileDrag={{ cursor: 'grabbing' }}
-        >
-          {children}
-        </motion.div>
-      </motion.div>
-    );
-  }
-);
 
 export const Numbox = memo(
   function ({ index, value, ...rest }) {

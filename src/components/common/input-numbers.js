@@ -82,7 +82,7 @@ function InputNumbers(props) {
       runRef.current?.cancel();
       runRef.current = trackVisualization(startHandlers.length);
       iterators = startHandlers.map((start) =>
-        newIterator(runRef.current.wrap(start), numbers),
+        newIterator(runRef.current.wrap(start), props.scaleDelay, numbers),
       );
       resume();
     }

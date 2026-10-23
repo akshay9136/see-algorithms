@@ -1,4 +1,4 @@
-function newIterator(generator, ...args) {
+function newIterator(generator, getDelay, ...args) {
   let iterator = generator(...args);
   let running = false;
   let onEnd;

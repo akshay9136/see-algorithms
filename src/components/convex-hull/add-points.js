@@ -1,14 +1,14 @@
 import { Box, Button, IconButton, Paper, Typography } from '@mui/material';
 import { PlayArrow, Pause, Refresh } from '@mui/icons-material';
+import { useContext, useEffect, useRef } from 'react';
 import { addPoints, randomize } from '@/helpers/convexHull';
 import { trackVisualization } from '@/common/analytics';
+import { newIterator } from '@/common/iterator';
 import AppContext from '@/common/context';
 import Graph from '@/common/graph';
 import $ from 'jquery';
-import { useContext, useEffect, useRef } from 'react';
-import { newIterator } from '@/common/iterator';
-import { Colors } from '@/common/constants';
 import styles from '@/styles/drawing.module.css';
+import { Colors } from '@/common/constants';
 
 var it;
 

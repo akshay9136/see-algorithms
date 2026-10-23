@@ -27,8 +27,8 @@ DFS(u):
 `);
 
   return (
-    <Stack spacing={3}>
-      <Typography>
+    <Stack>
+      <Typography paragraph>
         <strong>Depth-First Search (DFS)</strong> explores a graph by going as
         deep as possible along each branch before <strong>backtracking</strong>.
         Think of it as navigating a maze by following one path to its end before
@@ -36,7 +36,7 @@ DFS(u):
         keep track of its path, making it highly effective for cycle detection,
         pathfinding, and solving puzzles.
       </Typography>
-
+      <br />
       <Box display="flex" gap={3} flexWrap="wrap">
         <Box
           sx={{

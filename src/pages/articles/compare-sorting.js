@@ -100,8 +100,7 @@ export default function CompareSorting() {
         {selected.map((id) => (
           <Box
             key={id}
-            minWidth={600}
-            padding={2}
+            padding={3}
             border="1px solid #e0e0e0"
             borderRadius={2}
           >
@@ -109,7 +108,7 @@ export default function CompareSorting() {
               variant="h6"
               fontWeight="bold"
               color="warning.main"
-              mb={2}
+              mb={4}
             >
               {ALGORITHMS.find((a) => a.id === id).name}
             </Typography>

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useAlgorithm, useAnimator } from '@/hooks';
+import { Numbox, SortingVisualizer } from '@/components/common';
 import { Box } from '@mui/material';
-import { Numbox } from '@/components/common';
 import { Colors } from '@/common/constants';
 import { sound, withBoxId } from '@/common/utils';
 
-var arr, delay = 500;
+var arr, delay = 400;
 
 export default function useSelectionSort() {
     const [numbers, setNumbers] = useState([]);
@@ -34,7 +34,7 @@ for i = 0 to (n - 1):
                 setCurrentStep('2,3');
                 bgcolor(arr[j - 1].id, Colors.white);
                 bgcolor(arr[j].id, Colors.compare);
-                yield delay;
+                yield delay * 2;
                 if (arr[j].val < arr[k].val) {
                     setCurrentStep('4');
                     sound('pop');
@@ -45,7 +45,7 @@ for i = 0 to (n - 1):
                 }
             }
             bgcolor(arr[n - 1].id, Colors.white);
-            yield delay;
+            yield delay * 2;
             if (k > i) {
                 setCurrentStep('5');
                 await ty(arr[i].id, 50);
@@ -91,5 +91,11 @@ for i = 0 to (n - 1):
         </Box>
     );
 
-    return { animation, pseudocode, handleSort, handleStop };
+    const visualizer = (
+        <SortingVisualizer handleSort={handleSort} handleStop={handleStop}>
+            {animation}
+        </SortingVisualizer>
+    );
+
+    return { pseudocode, animation, visualizer, handleSort, handleStop };
 }
