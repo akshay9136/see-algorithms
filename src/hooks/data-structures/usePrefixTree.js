@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from 'react';
-import TrieCanvas from '@/components/trie-canvas';
-import prefixTree from '@/helpers/prefixTree';
-import useTreeUrl from '@/hooks/useTreeUrl';
 import useUndoRedo from '@/hooks/useUndoRedo';
+import useTreeUrl from '@/hooks/useTreeUrl';
+import prefixTree from '@/helpers/prefixTree';
+import TrieCanvas from '@/components/trie-canvas';
 import { showError } from '@/common/utils';
 
 export default function usePrefixTree() {
@@ -13,8 +13,8 @@ export default function usePrefixTree() {
   };
 
   const [word, setWord] = useState('');
-  const [running, setRunning] = useState(false);
   const [trieState, setTrieState] = useState(() => Trie().snapshot());
+  const [running, setRunning] = useState(false);
   const [words, setWords] = useState([]);
   const [nodes, isReady] = useTreeUrl();
   const history = useUndoRedo();
