@@ -108,11 +108,11 @@ export default function CompareSorting() {
               variant="h6"
               fontWeight="bold"
               color="warning.main"
-              mb={4}
+              mb={2}
             >
               {ALGORITHMS.find((a) => a.id === id).name}
             </Typography>
-
+            <br />
             {hooks[id].animation}
           </Box>
         ))}

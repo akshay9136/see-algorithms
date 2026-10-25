@@ -37,7 +37,7 @@ function vertexLabel(p, text) {
     class: 'vtag',
     x: p.x + 20,
     y: p.y - 12,
-    fill: Colors.vertex,
+    fill: Colors.label,
     'font-size': 14,
     'font-weight': 'bold',
   };
