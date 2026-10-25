@@ -33,12 +33,13 @@ export default function SplayTree(props) {
       <Box display="flex" gap={4}>
         <Section variant="h6" title="How It Works">
           <Typography paragraph>
-            When you search, insert, or delete a node, the tree performs a
-            series of rotations called {'"splaying"'} to bring that node to the
-            root. There are three types of rotations depending on the node’s
-            position: <strong>Zig</strong> (single rotation),{' '}
-            <strong>Zig-Zig</strong> (double rotation in same direction), and{' '}
-            <strong>Zig-Zag</strong> (double rotation in opposite directions).
+            When you search, insert, or delete a node, the tree performs a{' '}
+            <Link href="/articles/splay-tree-rotations">series of rotations</Link>{' '}
+            called {'"splaying"'} to bring that node to the root. There are
+            three types of rotations depending on the node’s position:{' '}
+            <strong>Zig</strong> (single rotation), <strong>Zig-Zig</strong>{' '}
+            (double rotation in same direction), and <strong>Zig-Zag</strong>{' '}
+            (double rotation in opposite directions).
           </Typography>
           <Typography>
             After splaying, frequently accessed nodes stay near the root, making

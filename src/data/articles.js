@@ -1,5 +1,13 @@
 export const articles = [
   {
+    id: 'splay-tree-rotations',
+    title: 'Splay Tree Rotations Explained',
+    summary:
+      'Learn how Zig, Zig-Zig, and Zig-Zag rotations move accessed nodes to the root while preserving binary search order.',
+    category: 'Advanced Trees',
+    date: '2026-10-24',
+  },
+  {
     id: 'heap-index-math',
     title: 'Complete Binary Trees in Flat Arrays',
     summary:
