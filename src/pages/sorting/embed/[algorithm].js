@@ -37,7 +37,10 @@ function Visualizer({ useHook }) {
   const { visualizer } = useHook();
 
   return (
-    <Box position="relative">
+    <Box
+      position="relative"
+      sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
+    >
       {visualizer}
       <a
         href={window.location.href.replace('/embed', '')}

@@ -43,7 +43,7 @@ function Layout({ children }) {
               component="h2"
               fontWeight={600}
               color="warning.main"
-              mb={2.5}
+              mb={3}
             >
               {title}
             </Typography>

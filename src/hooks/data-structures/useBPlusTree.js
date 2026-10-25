@@ -66,7 +66,13 @@ export default function useBPlusTree(props) {
               key={node.id}
               id={node.id.slice(1)}
               initial={{ opacity: 0, x: node.x, y: node.y }}
-              animate={{ opacity: 1, ...node }}
+              animate={{
+                opacity: 1,
+                x: node.x,
+                y: node.y,
+                width: node.width,
+                height: node.height,
+              }}
               exit={{ opacity: 0 }}
               transition={transition}
               style={node.isLeaf ? styles.leaf : styles.node}
