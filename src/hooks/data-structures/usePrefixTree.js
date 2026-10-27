@@ -1,9 +1,17 @@
 import { useEffect, useState, useRef } from 'react';
-import useUndoRedo from '@/hooks/useUndoRedo';
-import useTreeUrl from '@/hooks/useTreeUrl';
+import useTreeUrl from '../useTreeUrl';
+import useUndoRedo from '../useUndoRedo';
 import prefixTree from '@/helpers/prefixTree';
 import TrieCanvas from '@/components/trie-canvas';
 import { showError } from '@/common/utils';
+
+// Drive the async generator to completion
+async function complete(gen) {
+  let result;
+  do result = await gen.next();
+  while (!result.done);
+  return result.value;
+}
 
 export default function usePrefixTree() {
   const treeRef = useRef(null);
@@ -34,7 +42,7 @@ export default function usePrefixTree() {
   };
 
   const refresh = (data) => {
-    history.clear();
+    clearState();
     const nextWords = data.map((word) => word.toLowerCase());
     restore([...new Set(nextWords)]);
   };
@@ -46,11 +54,8 @@ export default function usePrefixTree() {
 
   async function insert() {
     if (!validate(word)) return;
-    const gen = Trie().insertAnimated(word, setSnapshot);
     setRunning(true);
-    // Drive the async generator to completion
-    let result = await gen.next();
-    while (!result.done) result = await gen.next();
+    await complete(Trie().insertAnimated(word, setSnapshot));
     setRunning(false);
     setWord('');
     history.push(words.slice());
@@ -59,13 +64,12 @@ export default function usePrefixTree() {
 
   async function search() {
     if (!validate()) return;
-    const gen = Trie().searchAnimated(word, setSnapshot);
     setRunning(true);
-    let result = await gen.next();
-    while (!result.done) result = await gen.next();
+    const gen = Trie().searchAnimated(word, setSnapshot);
+    const result = await complete(gen);
     setRunning(false);
     setWord('');
-    return result.value;
+    return result;
   }
 
   async function deleteWord() {
@@ -100,10 +104,6 @@ export default function usePrefixTree() {
     }
   }
 
-  const animation = (
-    <TrieCanvas nodes={trieState.nodes} edges={trieState.edges} />
-  );
-
   const handlers = {
     insert,
     search,
@@ -113,6 +113,10 @@ export default function usePrefixTree() {
     redo,
     refresh,
   };
+
+  const animation = (
+    <TrieCanvas nodes={trieState.nodes} edges={trieState.edges} />
+  );
 
   return {
     animation,

@@ -53,7 +53,11 @@ export default function CommentBox({ topic, onSubmit }) {
         minRows={3}
         maxRows={6}
         fullWidth
-        placeholder={`Share a question or insight about this ${topic}...`}
+        placeholder={
+          topic === 'article'
+            ? `Did you find this article helpful? Share a question or insight...`
+            : `Did the visualizer help you understand this ${topic}? Share a tip, question, or insight...`
+        }
         value={comment}
         onChange={(e) => setComment(e.target.value)}
         onKeyDown={handleKeyDown}

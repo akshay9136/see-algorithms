@@ -17,6 +17,7 @@ const promptBuilders = {
   BTree: prompts.bTree,
   'B+Tree': prompts.bPlusTree,
   BinaryHeap: prompts.binaryHeap,
+  PrefixTree: prompts.prefixTree,
   HuffmanCoding: prompts.huffmanCoding,
   BFS: prompts.graphAlgorithm('Breadth-First Search'),
   DFS: prompts.graphAlgorithm('Depth-First Search (using stack)'),

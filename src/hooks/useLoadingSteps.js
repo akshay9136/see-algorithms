@@ -15,6 +15,7 @@ export default function useLoadingSteps(
   const timer = useRef(null);
 
   const start = () => {
+    clearInterval(timer.current);
     setLoading(true);
     setIndex(0);
     timer.current = setInterval(() => {

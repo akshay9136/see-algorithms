@@ -50,6 +50,7 @@ export default function useSummary() {
   const explain = async (data) => {
     if (!summaryOn) return;
     const controller = new AbortController();
+    const { signal } = controller;
     const payload = JSON.stringify({ algoId, data });
     if (payloadRef.current === payload) return;
 
@@ -65,13 +66,14 @@ export default function useSummary() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: payload,
-        signal: controller.signal,
+        signal,
       });
+      const text = res.ok ? await res.text() : '';
+      signal.throwIfAborted();
 
       if (res.ok) {
-        const html = marked(await res.text());
         payloadRef.current = payload;
-        setContent(html);
+        setContent(marked(text));
         trackEvent('ai_summary_succeeded');
         fetchCredits();
       } else if (res.status === 402) {
@@ -92,11 +94,10 @@ export default function useSummary() {
         setError(<p>AI request timed out. Please {tryAgain(data)}.</p>);
       }
     } catch (err) {
-      if (err.name !== 'AbortError') {
-        reason = 'network_error';
-        setError(<p>Connection timed out. Please {tryAgain(data)}.</p>);
-        logError(err, 'AI request failed');
-      }
+      if (signal.aborted || err.name === 'AbortError') return;
+      reason = 'network_error';
+      setError(<p>Connection timed out. Please {tryAgain(data)}.</p>);
+      logError(err, 'AI request failed');
     }
     if (reason) {
       trackEvent('ai_summary_failed', { reason });
@@ -130,6 +131,7 @@ export default function useSummary() {
     payloadRef.current = null;
     loading.stop();
     if (playStatus < 2) setContent('');
+    setError(null);
     setFeedback(null);
   };
 

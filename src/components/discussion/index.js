@@ -94,7 +94,7 @@ export default function Discussion() {
       ) : (
         <Box sx={styles.empty}>
           <ChatBubbleOutline sx={{ fontSize: 40, mb: 1, opacity: 0.4 }} />
-          <Typography fontWeight={500}>No comments yet</Typography>
+          <Typography fontWeight={500}>Start the conversation</Typography>
           <Typography variant="body2" sx={{ mt: 0.5 }}>
             Be the first to share your thoughts on this {getTopic()}.
           </Typography>
