@@ -1,5 +1,6 @@
 import db, { summaryCount } from '@/utils/firebase-utils';
-import { withAuth, withRequestBody } from '@/utils/middlewares';
+import { createResponse } from '@/utils/summary';
+import { withAuth, withMethod, withRequestBody } from '@/utils/middlewares';
 import { INITIAL_CREDITS, SUMMARY_COST } from '@/utils/constants';
 import { GoogleGenAI } from '@google/genai';
 import prompts from '@/utils/prompts';
@@ -55,18 +56,19 @@ async function handler(req, res, user) {
     return res.status(500).send('Credit check failed');
   }
 
-  let response;
-  try {
-    response = await ai.models.generateContent({
-      model: 'gemini-3.8-flash',
-      contents: buildPrompt(data),
-    });
-  } catch (err) {
-    console.error(err.message);
-    return res.status(err.status).send('AI request failed');
-  }
+  const stream = createResponse(res);
+
+  console.log('BUILD PROMPT', buildPrompt(data))
 
   try {
+    const response = await ai.models.generateContentStream({
+      model: 'gemini-3.8-flash',
+      contents: buildPrompt(data),
+      config: { abortSignal: stream.signal },
+    });
+
+    await stream.writeChunks(response);
+
     await db.runTransaction(async (txn) => {
       const userDoc = await txn.get(userRef);
       if (!userDoc.exists) {
@@ -90,12 +92,18 @@ async function handler(req, res, user) {
         createdAt: new Date().toISOString(),
       });
     });
-  } catch (err) {
-    console.error('Transaction failed:', err.message);
-  }
 
-  res.on('finish', () => summaryCount(algoId));
-  res.status(200).send(response.text);
+    res.on('finish', () => summaryCount(algoId));
+    stream.complete();
+  } catch (err) {
+    stream.reject(err);
+  } finally {
+    stream.dispose();
+  }
 }
 
-export default compose(withAuth, withRequestBody('data', 'algoId'))(handler);
+export default compose(
+  withMethod('POST'),
+  withAuth,
+  withRequestBody('data', 'algoId'),
+)(handler);

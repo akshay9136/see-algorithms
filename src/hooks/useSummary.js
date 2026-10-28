@@ -18,11 +18,13 @@ import useLoadingSteps from './useLoadingSteps';
 import { logError } from '@/common/utils';
 import { trackEvent } from '@/common/analytics';
 import { marked } from 'marked';
+import { readStream } from '@/utils/summary';
 import { SUMMARY_COST } from '@/utils/constants';
 
 export default function useSummary() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [summaryOn, setSummaryOn] = useState(false);
+  const [completed, setCompleted] = useState(false);
   const [content, setContent] = useState('');
   const [error, setError] = useState(null);
   const { playStatus, setContext } = useContext(AppContext);
@@ -53,10 +55,13 @@ export default function useSummary() {
     const { signal } = controller;
     const payload = JSON.stringify({ algoId, data });
     if (payloadRef.current === payload) return;
-
+    payloadRef.current = null;
     controlRef.current?.abort();
     controlRef.current = controller;
+    console.log('payload', payload);
     loading.start();
+    setContent('');
+    setCompleted(false);
     setError(null);
     setFeedback(null);
     trackEvent('ai_summary_requested');
@@ -68,12 +73,18 @@ export default function useSummary() {
         body: payload,
         signal,
       });
-      const text = res.ok ? await res.text() : '';
       signal.throwIfAborted();
 
       if (res.ok) {
+        let markdown = '';
+        await readStream(res.body, (chunk) => {
+          signal.throwIfAborted();
+          markdown += chunk;
+          setContent(marked(markdown));
+        });
+        signal.throwIfAborted();
         payloadRef.current = payload;
-        setContent(marked(text));
+        setCompleted(true);
         trackEvent('ai_summary_succeeded');
         fetchCredits();
       } else if (res.status === 402) {
@@ -95,14 +106,21 @@ export default function useSummary() {
       }
     } catch (err) {
       if (signal.aborted || err.name === 'AbortError') return;
-      reason = 'network_error';
-      setError(<p>Connection timed out. Please {tryAgain(data)}.</p>);
+      if (err.status === 503) {
+        reason = 'service_busy';
+        setError(<p>AI service is busy. Please {tryAgain(data)}.</p>);
+      } else {
+        reason = 'network_error';
+        setError(<p>Summary interrupted. Please {tryAgain(data)}.</p>);
+      }
       logError(err, 'AI request failed');
+    } finally {
+      if (controlRef.current === controller) loading.stop();
     }
+
     if (reason) {
       trackEvent('ai_summary_failed', { reason });
     }
-    loading.stop();
   };
 
   const tryAgain = (data) => (
@@ -127,13 +145,16 @@ export default function useSummary() {
   };
 
   const abort = () => {
-    controlRef.current?.abort();
     payloadRef.current = null;
+    controlRef.current?.abort();
     loading.stop();
     if (playStatus < 2) setContent('');
     setError(null);
+    setCompleted(false);
     setFeedback(null);
   };
+
+  const showFeedback = completed && !loading.isLoading && !error;
 
   const summary = isEmbed ? null : (
     <Stack width={500} minHeight={200}>
@@ -170,7 +191,7 @@ export default function useSummary() {
           size="small"
           checked={summaryOn}
           onChange={toggle}
-          inputProps={{ 'aria-label': 'AI Summary Toggle' }}
+          slotProps={{ input: { 'aria-label': 'AI Summary Toggle' } }}
         />
 
         <Typography variant="body2" color="text.secondary">
@@ -178,25 +199,34 @@ export default function useSummary() {
         </Typography>
       </Box>
 
-      {loading.isLoading ? (
-        <Typography variant="body2" component={Box} color="text.secondary">
-          <p>{loading.message}</p>
+      <Typography
+        variant="body2"
+        component={Box}
+        lineHeight={1.6}
+        aria-busy={loading.isLoading}
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
+      {loading.isLoading && (
+        <Typography
+          variant="body2"
+          component={Box}
+          color="text.secondary"
+          role="status"
+        >
+          <p>{content ? 'Writing summary...' : loading.message}</p>
         </Typography>
-      ) : error ? (
-        <Typography variant="body2" component={Box} color="text.secondary">
+      )}
+      {error && (
+        <Typography
+          variant="body2"
+          component={Box}
+          color="text.secondary"
+          role="alert"
+        >
           {error}
         </Typography>
-      ) : (
-        <>
-          <Typography
-            variant="body2"
-            component={Box}
-            lineHeight={1.6}
-            dangerouslySetInnerHTML={{ __html: content }}
-          />
-          {content.length > 100 && feedback}
-        </>
       )}
+      {showFeedback && content.length > 100 && feedback}
     </Stack>
   );
 

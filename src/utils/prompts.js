@@ -14,8 +14,8 @@ const searchTree = (name) => {
 You are explaining the steps to someone observing a visualization of ${name}.
 
 Context:
-- The BST variant is formed by inserting values of this array: ${JSON.stringify(keys)}.
-- Operation being performed: ${operation}, with value: ${input}
+- The BST variant BEFORE the operation, in preorder sequence: ${JSON.stringify(keys)}.
+- Operation being performed: ${operation}, with input: ${input}
 
 ${instructions}`;
 };
@@ -25,7 +25,7 @@ You are explaining the steps to someone observing a visualization of Binary Heap
 
 Context:
 - A max-heap is represented by the values in this array: ${JSON.stringify(keys)}.
-- Operation being performed: ${operation}, ${operation === 'Insert' ? `with value: ${input}` : ''}
+- Operation being performed: ${operation}, ${operation === 'Insert' ? `with input: ${input}` : ''}
 
 ${instructions}`;
 
@@ -36,7 +36,7 @@ Context:
 - The Trie currently contains these words: ${JSON.stringify(words)}.
 - Each node in the Trie represents a single character.
 - Last character node of any word is colored, indicating end of the word.
-- Operation being performed: ${operation}${input ? `, with word: "${input}"` : ''}
+- Operation being performed: ${operation}${input ? `, with input: "${input}"` : ''}
 
 ${instructions}
 - If nodes are shared between words (common prefix), point that out explicitly.`;
@@ -46,7 +46,7 @@ You are explaining the steps to someone observing a visualization of B-Tree (ord
 
 Context:
 - The current B-Tree contains these keys (level-order): ${JSON.stringify(keys)}.
-- Operation being performed: ${operation}, with value: ${input}
+- Operation being performed: ${operation}, with input: ${input}
 
 ${instructions}
 - If a node split occurs, explain the process.`;
@@ -57,7 +57,7 @@ You are explaining the steps to someone observing a visualization of B+ Tree (or
 Context:
 - The current B+ Tree leaf nodes (left to right) are: ${JSON.stringify(keys)}.
 - Each sub-array represents one leaf node, e.g. [[1,3],[5,7],[9]].
-- Operation being performed: ${operation}, with value: ${input}
+- Operation being performed: ${operation}, with input: ${input}
 - On a leaf split 2:1, the right leaf's smallest key is COPIED up to the parent.
 
 ${instructions}
