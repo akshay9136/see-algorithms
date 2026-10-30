@@ -19,6 +19,9 @@ import { useRouter } from 'next/router';
 import { PERSON_SCHEMA, SITE_URL } from '@/utils/constants';
 import localFont from 'next/font/local';
 import Head from 'next/head';
+import Script from 'next/script';
+
+const isProd = process.env.NODE_ENV === 'production';
 
 const nunito = localFont({
   src: [
@@ -110,6 +113,14 @@ export default function App({
       <Analytics />
       <GoogleAnalytics />
       <CookieConsent />
+      {isProd && hasContent && (
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7905328601622622"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      )}
 
       <ThemeProvider theme={theme}>
         <CssBaseline />

@@ -1,7 +1,5 @@
-html,
-body,
-#__next {
-  height: 100%;
+body {
+  height: 100vh;
 }
 
 .d-flex {

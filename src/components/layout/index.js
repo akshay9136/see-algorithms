@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Box, Container, Divider, Drawer, Typography } from '@mui/material';
+import AdUnit from '../ad-unit';
 import Affiliates from '../affiliates';
 import AlgorithmSEO from '../algorithm-seo';
 import Breadcrumbs from './breadcrumbs';
@@ -94,7 +95,7 @@ function Layout({ children }) {
             {children}
             {title && (
               <>
-                <Divider sx={{ mt: 4 }} />
+                <AdUnit slot="5573819826" sx={{ pt: 4 }} />
                 <InterviewQtns algorithmId={pageId} />
               </>
             )}

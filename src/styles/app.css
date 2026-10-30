@@ -1,11 +1,12 @@
 :root {
     --header-height: 60px;
-    --layout-height: calc(100% - 60px);
+    --layout-height: calc(100vh - 60px);
     --thin-border: thin solid #e5e5e5;
 }
 
 .contentRow {
     height: var(--layout-height);
+    max-height: var(--layout-height);
     flex-wrap: nowrap;
 }
 
