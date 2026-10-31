@@ -1,27 +1,33 @@
 import '@/styles/globals.css';
 import '@/styles/app.css';
 import '@/styles/animation.css';
-import { useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
 import { useDarkMode } from '@/hooks/useDarkMode';
+import { useMemo, useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { defaultSeoConfig } from '../components/algorithm-seo/config';
+import { Analytics } from '@vercel/analytics/next';
+import { CacheProvider } from '@emotion/react';
 import { SessionProvider } from 'next-auth/react';
 import { DefaultSeo } from 'next-seo';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppContext, { initialState } from '../common/context';
 import GoogleAnalytics from '@/components/analytics';
 import CookieConsent from '@/components/cookie-consent';
-import SignInDialog from '@/components/sign-in-dialog';
 import Layout from '@/components/layout';
 import Toast from '@/components/toast';
-import { Analytics } from '@vercel/analytics/next';
-import { useRouter } from 'next/router';
+import createEmotionCache from '@/utils/client-cache';
+import { defaultSeoConfig } from '@/components/algorithm-seo/config';
 import { PERSON_SCHEMA, SITE_URL } from '@/utils/constants';
 import localFont from 'next/font/local';
-import Head from 'next/head';
+import dynamic from 'next/dynamic';
 import Script from 'next/script';
+import Head from 'next/head';
 
-const isProd = process.env.NODE_ENV === 'production';
+const clientCache = createEmotionCache();
+
+const SignInDialog = dynamic(() => import('@/components/sign-in-dialog'), {
+  ssr: false,
+});
 
 const nunito = localFont({
   src: [
@@ -36,6 +42,7 @@ const nunito = localFont({
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
+  emotionCache = clientCache,
 }) {
   const [state, setState] = useState(initialState);
   const router = useRouter();
@@ -43,6 +50,7 @@ export default function App({
   const cleanPath = asPath.split('?')[0].split('#')[0];
   const canonicalUrl = SITE_URL + (cleanPath === '/' ? '' : cleanPath);
   const hasContent = pathname !== '/404';
+  const loadAdScript = hasContent && process.env.NEXT_PUBLIC_ADS_ENABLED !== 'false';
 
   const setContext = (slice) => {
     setState((prev) => ({ ...prev, ...slice }));
@@ -52,7 +60,7 @@ export default function App({
 
   const context = useMemo(
     () => ({ ...state, darkMode, toggleDarkMode, setContext }),
-    [state, darkMode, toggleDarkMode]
+    [state, darkMode, toggleDarkMode],
   );
 
   const theme = useMemo(
@@ -61,7 +69,7 @@ export default function App({
         palette: { mode: darkMode ? 'dark' : 'light' },
         typography: { fontFamily: nunito.style.fontFamily },
       }),
-    [darkMode]
+    [darkMode],
   );
 
   const structuredData = {
@@ -92,51 +100,53 @@ export default function App({
       PERSON_SCHEMA,
     ],
   };
-  
+
   const { openGraph } = defaultSeoConfig;
 
   return (
-    <SessionProvider session={session}>
-      <Head>
-        <style>{`body{ font-family: ${nunito.style.fontFamily}; }`}</style>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
-      </Head>
+    <CacheProvider value={emotionCache}>
+      <SessionProvider session={session}>
+        <Head>
+          <style>{`body{ font-family: ${nunito.style.fontFamily}; }`}</style>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+          />
+        </Head>
 
-      <DefaultSeo
-        {...defaultSeoConfig}
-        canonical={canonicalUrl}
-        openGraph={{ ...openGraph, url: canonicalUrl }}
-      />
-      <Analytics />
-      <GoogleAnalytics />
-      <CookieConsent />
-      {isProd && hasContent && (
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7905328601622622"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
+        <DefaultSeo
+          {...defaultSeoConfig}
+          canonical={canonicalUrl}
+          openGraph={{ ...openGraph, url: canonicalUrl }}
         />
-      )}
+        {loadAdScript && (
+          <Script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7905328601622622"
+            crossOrigin="anonymous"
+            strategy="lazyOnload"
+          />
+        )}
+        <Analytics />
+        <GoogleAnalytics />
+        <CookieConsent />
 
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <AppContext.Provider value={context}>
-          {Component.noLayout ? (
-            <Component {...pageProps} />
-          ) : (
-            <Layout>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <AppContext.Provider value={context}>
+            {Component.noLayout ? (
               <Component {...pageProps} />
-            </Layout>
-          )}
-          <Toast />
-          <SignInDialog />
-        </AppContext.Provider>
-      </ThemeProvider>
-    </SessionProvider>
+            ) : (
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            )}
+            <Toast />
+            {state.signInOpen && <SignInDialog />}
+          </AppContext.Provider>
+        </ThemeProvider>
+      </SessionProvider>
+    </CacheProvider>
   );
 }
 

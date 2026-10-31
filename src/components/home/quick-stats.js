@@ -58,7 +58,7 @@ export default function QuickStats() {
                 borderRadius: 2.5,
                 display: 'flex',
                 alignItems: 'center',
-                transition: 'all 0.2s ease',
+                transition: 'transform 0.2s ease',
                 '&:hover': {
                   transform: 'translateY(-2px)',
                   boxShadow: '0 6px 16px rgba(0,0,0,0.08)',

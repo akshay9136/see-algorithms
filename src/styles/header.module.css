@@ -16,7 +16,7 @@
     color: white;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     letter-spacing: 0.5px;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease;
     line-height: 1.5;
     cursor: pointer;
 }
@@ -28,7 +28,7 @@
 }
 
 .logo {
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease;
     position: relative;
     cursor: pointer;
 }
@@ -40,7 +40,7 @@
 /* Desktop Navigation Styles */
 .navButton {
     padding: 4px 12px;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease;
     text-transform: none;
     font-size: 1rem;
 }

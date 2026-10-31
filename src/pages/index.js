@@ -8,6 +8,12 @@ export default function HomePage() {
   return (
     <Container maxWidth="lg" sx={{ px: 0 }}>
       <Head>
+        <link
+          rel="preload"
+          as="image"
+          href="/videos/avl-tree-poster.webp"
+          fetchPriority="high"
+        />
         <meta
           name="impact-site-verification"
           value="a7e7b9b7-e9c4-4487-a779-71356560214e"

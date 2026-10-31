@@ -136,7 +136,7 @@ const styles = {
     boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
     border: '1px solid',
     borderColor: 'divider',
-    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+    transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
 
     '&:hover': {
       transform: 'scale(1.02)',

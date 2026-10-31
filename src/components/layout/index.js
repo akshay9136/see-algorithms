@@ -8,17 +8,23 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import AdUnit from '../ad-unit';
-import Affiliates from '../affiliates';
+import dynamic from 'next/dynamic';
 import AlgorithmSEO from '../algorithm-seo';
 import Breadcrumbs from './breadcrumbs';
-import Discussion from '../discussion';
 import Footer from './footer';
 import Header from './header';
-import InterviewQtns from '../interview-qtns';
 import Sider from './sider';
 import { algorithms } from '@/common/appData';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
+
+// Keep algorithm-only dependencies out of the shared homepage bundle.
+// Preserve server rendering for the content on routes that use it.
+const Affiliates = dynamic(() => import('../affiliates'));
+const InterviewQtns = dynamic(() => import('../interview-qtns'));
+const Discussion = dynamic(() => import('../discussion'), {
+  loading: () => <Box flex={1} maxWidth={700} />,
+});
 
 function Layout({ children }) {
   const [menuVisible, setMenuVisible] = useState(false);

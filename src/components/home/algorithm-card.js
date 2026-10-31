@@ -21,7 +21,7 @@ export default function AlgorithmCard({ algo }) {
         borderRadius: 3,
         border: '1px solid',
         borderColor: 'divider',
-        transition: 'all 0.25s ease',
+        transition: 'transform 0.25s ease',
         '&:hover': {
           transform: 'translateY(-3px)',
           boxShadow: '0 8px 24px rgba(0,0,0,0.08)',

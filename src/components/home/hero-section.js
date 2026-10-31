@@ -1,10 +1,6 @@
 import { Box, Card, GridLegacy as Grid, Typography } from '@mui/material';
 import Link from 'next/link';
 
-const PREVIEW_GIFS = [
-  { src: '/gifs/avl-tree.gif', alt: 'AVL Tree visualization' },
-];
-
 export default function HeroSection() {
   return (
     <Grid container spacing={4} alignItems="center">
@@ -55,18 +51,28 @@ export default function HeroSection() {
             Visualization Preview
           </Typography>
 
-          {PREVIEW_GIFS.map((gif, index) => (
-            <Box key={index} sx={{ width: '100%', flexShrink: 0 }}>
-              <img
-                src={gif.src}
-                alt={gif.alt}
-                style={{
-                  width: '100%',
-                  border: '1px solid #e5e5e5',
-                }}
-              />
-            </Box>
-          ))}
+          <Box sx={{ width: '100%', flexShrink: 0 }}>
+            <video
+              aria-label="AVL Tree visualization"
+              autoPlay
+              muted
+              loop
+              playsInline
+              width={800}
+              height={534}
+              poster="/videos/avl-tree-poster.webp"
+              preload="metadata"
+              style={{
+                display: 'block',
+                width: '100%',
+                height: 'auto',
+                border: '1px solid #e5e5e5',
+              }}
+            >
+              <source src="/videos/avl-tree.mp4" type="video/mp4" />
+              Your browser does not support the visualization preview video.
+            </video>
+          </Box>
 
           <Typography
             variant="body2"

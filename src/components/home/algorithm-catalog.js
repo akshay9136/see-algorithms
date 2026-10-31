@@ -213,7 +213,7 @@ const styles = {
     border: '1px solid',
     borderColor: 'divider',
     textDecoration: 'none',
-    transition: 'all 0.2s ease',
+    transition: 'transform 0.2s ease',
     '&:hover': {
       borderColor: 'primary.main',
       boxShadow: '0 4px 12px rgba(25,118,210,0.15)',

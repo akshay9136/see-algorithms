@@ -42,6 +42,12 @@ existing React Compiler readiness findings remain warnings. The compiler is not 
 Material UI stays on the 7.x release line. Existing layouts use `GridLegacy`
 (aliased as `Grid`) to preserve their sizing and spacing during the upgrade.
 
+AdSense loads after the page load event when the browser is idle. To compare
+performance without advertising and its associated consent scripts, set
+`NEXT_PUBLIC_ADS_ENABLED=false` before building (or starting the development
+server). Advertising is enabled by default. Compare production Lighthouse runs
+with the same desktop settings and a fresh browser profile.
+
 1. Clone the repository:
 
 ```bash

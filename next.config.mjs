@@ -1,8 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // ESM-only dependency; Next/Jest must transpile it (see useSummary → marked)
-  transpilePackages: ['marked'],
+  // Bundle the entire styling chain together. Transpiling only Emotion can
+  // split MUI's server imports from the app's CacheProvider in Webpack builds.
+  // marked is ESM-only and also needs transpilation (see useSummary).
+  transpilePackages: [
+    'marked',
+    '@emotion/react',
+    '@emotion/styled',
+    '@mui/material',
+    '@mui/system',
+    '@mui/styled-engine',
+    '@mui/private-theming',
+    '@mui/utils',
+  ],
 
   async headers() {
     return [
