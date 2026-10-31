@@ -58,7 +58,6 @@ export default function useSummary() {
     payloadRef.current = null;
     controlRef.current?.abort();
     controlRef.current = controller;
-    console.log('payload', payload);
     loading.start();
     setContent('');
     setCompleted(false);

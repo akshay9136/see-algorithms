@@ -47,8 +47,8 @@ export default function Discussion() {
   };
 
   return (
-    <Box component="section" maxWidth={700}>
-      <Stack direction="row" alignItems="center" gap={1} sx={{ mb: 2.5 }}>
+    <Box component="section" maxWidth={700} flex={1}>
+      <Stack direction="row" alignItems="center" gap={1} mb={2.5}>
         <Typography variant="h6">💬 &nbsp;Discussion</Typography>
         {comments.length > 0 && (
           <Chip label={comments.length} size="small" sx={styles.count} />

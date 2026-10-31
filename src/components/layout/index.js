@@ -1,5 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { Box, Container, Divider, Drawer, Typography } from '@mui/material';
+import {
+  Box,
+  Container,
+  Divider,
+  Drawer,
+  Typography,
+  useMediaQuery,
+} from '@mui/material';
 import AdUnit from '../ad-unit';
 import Affiliates from '../affiliates';
 import AlgorithmSEO from '../algorithm-seo';
@@ -23,6 +30,7 @@ function Layout({ children }) {
   const { name: title, category } = algorithms.findObj('id', pageId) || {};
 
   const scrollRef = useRef(null);
+  const showAds = useMediaQuery('(min-width:1200px)');
 
   useEffect(() => {
     setMenuVisible(false);
@@ -95,14 +103,17 @@ function Layout({ children }) {
             {children}
             {title && (
               <>
-                <AdUnit slot="5573819826" sx={{ pt: 4 }} />
+                <Divider sx={{ my: 4 }} />
                 <InterviewQtns algorithmId={pageId} />
               </>
             )}
             {pageId && (
               <>
                 <Divider sx={{ my: 3 }} />
-                <Discussion />
+                <Box display="flex" gap={3}>
+                  <Discussion />
+                  {showAds && <AdUnit key={pathname} sx={{ flex: 1 }} />}
+                </Box>
                 <Divider sx={{ my: 3 }} />
                 <Affiliates />
               </>

@@ -16,7 +16,6 @@
     padding: 2rem;
     background-color: #f8fbff;
     position: relative;
-    overflow: auto;
 }
 
 .content > p,
@@ -30,7 +29,7 @@
 
 @media (min-width: 900px) {
     .content {
-        padding: 2.5rem;
+        padding: 2.5rem 3rem;
     }
 
     .content > p,

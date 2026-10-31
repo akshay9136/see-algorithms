@@ -1,7 +1,7 @@
 import {
   Box,
   Breadcrumbs,
-  Container,
+  Container as MuiContainer,
   Divider,
   Link as MuiLink,
   Typography,
@@ -16,10 +16,12 @@ import {
 import { articles } from '@/data/articles';
 import { SITE_AUTHOR, SITE_URL } from '@/utils/constants';
 import { memo, useEffect } from 'react';
+import { useMediaQuery } from '@mui/material';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
-import NextLink from 'next/link';
+import AdUnit from '../ad-unit';
 import Head from 'next/head';
+import NextLink from 'next/link';
 
 function formatDate(iso) {
   if (!iso) return null;
@@ -30,11 +32,48 @@ function formatDate(iso) {
   });
 }
 
+const adStyle = {
+  width: 160,
+  flexShrink: 0,
+  alignSelf: 'flex-start',
+  position: 'sticky',
+  top: '50%',
+  transform: 'translateY(-50%)',
+};
+
+function Container({ children }) {
+  const { pathname } = useRouter();
+  const showAds = useMediaQuery('(min-width:1200px)');
+
+  return (
+    <Box display="flex">
+      {showAds && (
+        <AdUnit
+          key={`left-${pathname}`}
+          format="vertical"
+          fullWidth={false}
+          sx={adStyle}
+        />
+      )}
+      <MuiContainer maxWidth="md" sx={{ p: 0 }} className="article">
+        {children}
+      </MuiContainer>
+      {showAds && (
+        <AdUnit
+          key={`right-${pathname}`}
+          format="vertical"
+          fullWidth={false}
+          sx={adStyle}
+        />
+      )}
+    </Box>
+  );
+}
+
 function Article({ title, summary, children }) {
   const router = useRouter();
   const articleId = router.pathname.split('/').pop();
-  const { category, date } =
-    articles.find((a) => a.id === articleId) || {};
+  const { category, date } = articles.find((a) => a.id === articleId) || {};
 
   const pageUrl = `${SITE_URL}/articles/${articleId}`;
 
@@ -88,7 +127,7 @@ function Article({ title, summary, children }) {
   }, [category, pathname]);
 
   return (
-    <Container maxWidth="md" sx={{ p: 0 }} className="article">
+    <Container>
       <NextSeo
         title={`${title} - See Algorithms`}
         description={summary}
@@ -106,7 +145,6 @@ function Article({ title, summary, children }) {
           },
         }}
       />
-
       <Head>
         <script
           type="application/ld+json"
@@ -114,7 +152,9 @@ function Article({ title, summary, children }) {
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(breadcrumbSchema),
+          }}
         />
       </Head>
 
@@ -188,6 +228,7 @@ function Article({ title, summary, children }) {
       </Box>
 
       <Divider sx={{ my: 3 }} />
+
       {children}
     </Container>
   );
