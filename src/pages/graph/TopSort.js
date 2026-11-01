@@ -1,4 +1,4 @@
-import { DrawGraph } from '@/components/common';
+import { AdUnit, DrawGraph } from '@/components/common';
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import {
   charAt,
@@ -7,12 +7,19 @@ import {
   hasValue,
   sound,
 } from '@/common/utils';
-import { useAlgorithm, useGraphScope, useSummary } from '@/hooks';
+import {
+  useAlgorithm,
+  useBreakpoints,
+  useGraphScope,
+  useSummary,
+} from '@/hooks';
 import { Colors } from '@/common/constants';
 import Graph, { Points } from '@/common/graph';
 import Link from 'next/link';
 
 export default function TopSort() {
+  const { lgdown, xlup } = useBreakpoints();
+
   const [algorithm] = useAlgorithm(`
 indeg = indegree()
 stack = new Stack()
@@ -37,7 +44,7 @@ function indegree():
 
   return (
     <Stack spacing={2}>
-      <Typography>
+      <Typography sx={{ pb: 1 }}>
         <strong>Topological Sorting</strong> is an ordering of nodes in a
         directed acyclic graph (DAG) where each node appears before all the
         nodes it points to. It is like creating a list of tasks, ensuring that
@@ -52,9 +59,13 @@ function indegree():
       <Typography variant="h6" component="h2">
         Pseudocode
       </Typography>
-      <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
-        {algorithm}
-        {indegreeAlgo}
+      <Box display="flex" gap={3}>
+        <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
+          {algorithm}
+          {indegreeAlgo}
+        </Box>
+        {lgdown && <AdUnit sx={{ maxWidth: 200 }} />}
+        {xlup && <AdUnit sx={{ maxWidth: 500 }} format="rectangle" />}
       </Box>
       <br />
       <Visualizer />
@@ -154,7 +165,6 @@ export function Visualizer() {
         />
         <Box className="alphaGrid top-sort" />
       </Stack>
-      {summary && <Divider orientation="vertical" flexItem />}
       {summary}
     </Box>
   );

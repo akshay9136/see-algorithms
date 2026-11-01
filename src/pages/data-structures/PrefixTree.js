@@ -1,12 +1,14 @@
 import { Box, Button, Input, Stack, Typography } from '@mui/material';
 import { Redo, Save, Share, Undo } from '@mui/icons-material';
-import { SavedDataList } from '@/components/common';
+import { AdUnit, SavedDataList } from '@/components/common';
+import { useAlgorithm, useBreakpoints, useSavedData } from '@/hooks';
 import { usePrefixTree } from '@/hooks/data-structures';
-import { useAlgorithm, useSavedData } from '@/hooks';
 import { copyTreeUrl } from '@/common/utils';
 
 export default function PrefixTree() {
   const { saveData, ...saveDataProps } = useSavedData();
+  const { xlup } = useBreakpoints();
+
   const [insertAlgo] = useAlgorithm(`
 function insert(root, word):
     node = root
@@ -29,7 +31,7 @@ function search(root, word):
 
   return (
     <>
-      <Typography paragraph>
+      <Typography>
         A <strong>Trie</strong> (also called a <strong>prefix tree</strong>) is
         a tree-shaped data structure used to store strings. Each node represents
         a single character, and paths from the root spell out words. It excels
@@ -38,11 +40,15 @@ function search(root, word):
         <strong>O(L)</strong> time, where L is the word length, independent of
         how many words are stored.
       </Typography>
+      <br />
 
       <Typography variant="h6" component="h2" mb={2}>
         Trie Visualizer
       </Typography>
-      <Visualizer saveData={saveData} saveDataProps={saveDataProps} />
+      <Box display="flex" gap={3}>
+        <Visualizer saveData={saveData} saveDataProps={saveDataProps} />
+        {xlup && <AdUnit fullWidth="true" />}
+      </Box>
       <br />
 
       <Stack spacing={2}>

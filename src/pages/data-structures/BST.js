@@ -1,12 +1,13 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { DSInput, SavedDataList } from '@/components/common';
-import { useAlgorithm, useSavedData } from '@/hooks';
+import { AdUnit, DSInput, SavedDataList } from '@/components/common';
+import { useAlgorithm, useBreakpoints, useSavedData } from '@/hooks';
 import { useBinaryTree } from '@/hooks/data-structures';
 import searchTree from '@/common/searchTree';
 import Link from 'next/link';
 
 export default function BST(props) {
   const { saveData, ...saveDataProps } = useSavedData();
+  const { xlup } = useBreakpoints();
   const { animation, summary, buttons, refresh } = useBinaryTree({
     createTree: searchTree,
     hideButtons: ['Search'],
@@ -62,6 +63,7 @@ function insert(node, key):
             Pseudocode
           </Typography>
           {insertAlgo}
+          {xlup && <AdUnit sx={{ maxWidth: 300 }} format="rectangle" />}
         </Stack>
         <Stack spacing={2}>
           <DSInput {...props} buttons={buttons} />

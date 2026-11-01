@@ -1,3 +1,11 @@
+.sortingVis {
+    overflow-x: auto;
+}
+
+.MuiStack-root:has(> .sortingVis) {
+    min-width: 700px;
+}
+
 .sorting {
     width: 600px;
     height: 200px;

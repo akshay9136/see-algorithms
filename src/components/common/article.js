@@ -19,7 +19,7 @@ import { memo, useEffect } from 'react';
 import { useMediaQuery } from '@mui/material';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
-import AdUnit from '../ad-unit';
+import AdUnit from './ad-unit';
 import Head from 'next/head';
 import NextLink from 'next/link';
 
@@ -33,9 +33,9 @@ function formatDate(iso) {
 }
 
 const adStyle = {
-  width: 160,
-  flexShrink: 0,
+  maxWidth: 200,
   alignSelf: 'flex-start',
+  flexShrink: 0,
   position: 'sticky',
   top: '50%',
   transform: 'translateY(-50%)',
@@ -47,25 +47,11 @@ function Container({ children }) {
 
   return (
     <Box display="flex">
-      {showAds && (
-        <AdUnit
-          key={`left-${pathname}`}
-          format="vertical"
-          fullWidth={false}
-          sx={adStyle}
-        />
-      )}
+      {showAds && <AdUnit key={`left-${pathname}`} sx={adStyle} />}
       <MuiContainer maxWidth="md" sx={{ p: 0 }} className="article">
         {children}
       </MuiContainer>
-      {showAds && (
-        <AdUnit
-          key={`right-${pathname}`}
-          format="vertical"
-          fullWidth={false}
-          sx={adStyle}
-        />
-      )}
+      {showAds && <AdUnit key={`right-${pathname}`} sx={adStyle} />}
     </Box>
   );
 }

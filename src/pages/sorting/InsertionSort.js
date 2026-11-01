@@ -1,10 +1,12 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { ComplexityTable, Section } from '@/components/common';
+import { AdUnit, ComplexityTable, Section } from '@/components/common';
+import { useBreakpoints } from '@/hooks';
 import { useInsertionSort } from '@/hooks/sorting';
 import Link from 'next/link';
 
 export default function InsertionSort() {
   const { pseudocode, visualizer } = useInsertionSort();
+  const { lgdown } = useBreakpoints();
 
   return (
     <>
@@ -27,6 +29,7 @@ export default function InsertionSort() {
           </Typography>
           {pseudocode}
         </Stack>
+        {lgdown && <AdUnit sx={{ maxWidth: 300 }} />}
         <Stack spacing={2} flex={1}>
           <Typography variant="h6" component="h2">
             Visualizer

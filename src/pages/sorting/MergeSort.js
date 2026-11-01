@@ -1,11 +1,12 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { ComplexityTable, Section } from '@/components/common';
+import { AdUnit, ComplexityTable, Section } from '@/components/common';
+import { useAlgorithm, useBreakpoints } from '@/hooks';
 import { useMergeSort } from '@/hooks/sorting';
-import { useAlgorithm } from '@/hooks';
 import Link from 'next/link';
 
 export default function MergeSort() {
   const { pseudocode, visualizer } = useMergeSort();
+  const { lgdown } = useBreakpoints();
 
   const [algorithm] = useAlgorithm(`
 function mergeSort(start, end):
@@ -28,13 +29,14 @@ function mergeSort(start, end):
       </Typography>
       <Divider sx={{ my: 3 }} />
 
-      <Box display="flex" flexWrap="wrap-reverse" gap={4}>
+      <Box display="flex" flexWrap="wrap" gap={4}>
         <Stack spacing={2}>
           <Typography variant="h6" component="h2">
             Pseudocode
           </Typography>
           {pseudocode}
         </Stack>
+        {lgdown && <AdUnit sx={{ maxWidth: 200 }} />}
         <Stack spacing={2} flex={1}>
           <Typography variant="h6" component="h2">
             Visualizer

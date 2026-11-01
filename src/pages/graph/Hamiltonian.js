@@ -1,14 +1,16 @@
-import { DrawGraph } from '@/components/common';
+import { AdUnit, DrawGraph } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
 import { charAt, createCell, hasValue, showError, sound } from '@/common/utils';
-import { useGraphScope } from '@/hooks';
+import { useBreakpoints, useGraphScope } from '@/hooks';
 import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
 
 export default function Hamiltonian() {
+  const { xlup } = useBreakpoints();
+
   return (
     <Stack spacing={3}>
-      <Typography>
+      <Typography sx={{ pb: 1 }}>
         A <strong>Hamiltonian Cycle</strong> is a path in a graph that visits
         every node exactly once and returns to the starting node. It is closely
         related to Travelling Salesman Problem, where the goal is to find the
@@ -16,7 +18,10 @@ export default function Hamiltonian() {
         routing, scheduling, and circuit design.
       </Typography>
 
-      <Visualizer />
+      <Box display="flex" gap={3} flexWrap="wrap">
+        <Visualizer />
+        {xlup && <AdUnit sx={{ maxWidth: 500 }} />}
+      </Box>
     </Stack>
   );
 }

@@ -1,12 +1,19 @@
-import { DrawGraph } from '@/components/common';
+import { AdUnit, DrawGraph } from '@/components/common';
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import { charAt, hasValue, sound, vertexLabel } from '@/common/utils';
-import { useAlgorithm, useGraphScope, useSummary } from '@/hooks';
+import {
+  useAlgorithm,
+  useBreakpoints,
+  useGraphScope,
+  useSummary,
+} from '@/hooks';
 import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
 import Link from 'next/link';
 
 export default function Dijkstras() {
+  const { xlup } = useBreakpoints();
+
   const [algorithm] = useAlgorithm(`
 dist = map vertex -> Infinity
 dist[src] = 0
@@ -30,7 +37,7 @@ function relax(u, d):
 
   return (
     <Stack spacing={2}>
-      <Typography>
+      <Typography sx={{ pb: 1 }}>
         <strong>Dijkstra&apos;s Algorithm</strong> finds the shortest path from
         a source node to all other nodes in a graph with non-negative weights.
         It uses a <Link href="/data-structures/BinaryHeap">priority queue</Link>{' '}
@@ -44,9 +51,12 @@ function relax(u, d):
       <Typography variant="h6" component="h2">
         Pseudocode
       </Typography>
-      <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
-        {algorithm}
-        {relaxAlgo}
+      <Box display="flex" gap={3}>
+        <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
+          {algorithm}
+          {relaxAlgo}
+        </Box>
+        {xlup && <AdUnit sx={{ maxWidth: 500 }} format="rectangle" />}
       </Box>
       <br />
       <Visualizer />
@@ -146,7 +156,6 @@ export function Visualizer() {
           explain({ matrix, source });
         }}
       />
-      {summary && <Divider orientation="vertical" flexItem />}
       {summary}
     </Box>
   );

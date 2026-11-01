@@ -942,6 +942,20 @@ head = prev;`,
         </>
       ),
     },
+    {
+      question:
+        'Why can deleting a black node require rebalancing in a Red-Black Tree, while deleting a red leaf does not?',
+      answer: (
+        <>
+          A red leaf can be removed without changing the black-height on any
+          path. Removing a black node creates a{' '}
+          <Link href="/articles/deleting-rbt-node">black-height deficit</Link>;
+          a red replacement is recolored black, otherwise a double-black is
+          resolved via recoloring and rotations. It is the color of the
+          physically removed successor that determines whether fixup is needed.
+        </>
+      ),
+    },
   ],
 
   'avl-tree-vs-rbt': [

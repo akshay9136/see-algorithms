@@ -1,6 +1,9 @@
 import AppContext, { initialState } from '@/common/context';
-import Toast from '@/components/toast';
 import { useMemo, useState } from 'react';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Toast from '@/components/toast';
+
+const theme = createTheme();
 
 export default function App({ Component }) {
   const [state, setState] = useState(initialState);
@@ -12,9 +15,11 @@ export default function App({ Component }) {
   const contextValue = useMemo(() => ({ ...state, setContext }), [state]);
 
   return (
-    <AppContext.Provider value={contextValue}>
-      <Component />
-      <Toast />
-    </AppContext.Provider>
+    <ThemeProvider theme={theme}>
+      <AppContext.Provider value={contextValue}>
+        <Component />
+        <Toast />
+      </AppContext.Provider>
+    </ThemeProvider>
   );
 }

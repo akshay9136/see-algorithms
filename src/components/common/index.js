@@ -1,6 +1,7 @@
 import styles from '@/styles/numbers.module.css';
 import { motion } from 'motion/react';
 import { memo } from 'react';
+import AdUnit from './ad-unit';
 import Article, { Section, ListItems } from './article';
 import CodeSnippet from './code-snippet';
 import ComplexityTable from './complexity-table';
@@ -15,6 +16,7 @@ import SpeedControl from './speed-control';
 import Spinner from './spinner';
 
 export {
+  AdUnit,
   Article,
   Section,
   ListItems,

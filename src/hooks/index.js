@@ -1,6 +1,7 @@
 import useAlgorithm from './useAlgorithm';
 import useAnimator from './useAnimator';
 import useAnimationSpeed from './useAnimationSpeed';
+import useBreakpoints from './useBreakpoints';
 import useGraphScope from './useGraphScope';
 import useGraphControls from './useGraphControls';
 import useTreeControls from './useTreeControls';
@@ -16,6 +17,7 @@ export {
     useAlgorithm,
     useAnimator,
     useAnimationSpeed,
+    useBreakpoints,
     useGraphScope,
     useGraphControls,
     useTreeControls,

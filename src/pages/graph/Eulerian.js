@@ -15,7 +15,7 @@ import Graph from '@/common/graph';
 export default function Eulerian() {
   return (
     <Stack spacing={3}>
-      <Typography>
+      <Typography sx={{ pb: 1 }}>
         An <strong>Eulerian Cycle</strong> (or Eulerian Circuit) is a path in a
         graph that visits every <strong>edge</strong> exactly once and returns
         to the starting node. In an undirected graph, an Eulerian cycle exists
@@ -161,7 +161,6 @@ export function Visualizer() {
         />
         <Box className="alphaGrid euler-path" />
       </Stack>
-      {summary && <Divider orientation="vertical" flexItem />}
       {summary}
     </Box>
   );

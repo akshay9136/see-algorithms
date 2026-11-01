@@ -10,7 +10,7 @@ import Link from 'next/link';
 export default function BFSvsDFS() {
   return (
     <Stack spacing={3}>
-      <Typography>
+      <Typography sx={{ pb: 1 }}>
         Compare <strong>Breadth-First Search</strong> and{' '}
         <strong>Depth-First Search</strong> side-by-side to witness their
         distinct traversal patterns in real-time. While{' '}

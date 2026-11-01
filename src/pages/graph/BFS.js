@@ -1,12 +1,19 @@
-import { DrawGraph } from '@/components/common';
+import { AdUnit, DrawGraph } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
 import { charAt, createCell, hasValue, sound } from '@/common/utils';
-import { useAlgorithm, useGraphScope, useSummary } from '@/hooks';
+import {
+  useAlgorithm,
+  useBreakpoints,
+  useGraphScope,
+  useSummary,
+} from '@/hooks';
 import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
 import Link from 'next/link';
 
 export default function BFS() {
+  const { lgdown, lgup, xlup } = useBreakpoints();
+
   const [algorithm] = useAlgorithm(`
 queue = new Queue()
 queue.enq(src)
@@ -21,7 +28,7 @@ while queue is not empty:
 
   return (
     <Stack spacing={3}>
-      <Box>
+      <Box sx={{ pb: 1 }}>
         <Typography paragraph>
           <strong>Breadth-First Search (BFS)</strong> explores a graph much like
           finding connections in a social network. Starting from a source node,
@@ -33,7 +40,7 @@ while queue is not empty:
           unweighted graph.
         </Typography>
 
-        <Typography color="text.secondary" paragraph>
+        <Typography color="text.secondary">
           Want to see BFS applied to grid pathfinding, or explore adversarial
           game-tree search?{' '}
           <Link
@@ -47,14 +54,17 @@ while queue is not empty:
         </Typography>
       </Box>
 
-      <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
+      <Box display="flex" gap={3} flexWrap="wrap">
         <Stack spacing={2} pt={0.5}>
           <Typography variant="h6" component="h2">
             Pseudocode
           </Typography>
           {algorithm}
+          {lgup && <AdUnit sx={{ maxWidth: 300 }} format="rectangle" />}
         </Stack>
+        {lgdown && <AdUnit sx={{ maxWidth: 300 }} format="rectangle" />}
         <Visualizer />
+        {xlup && <AdUnit sx={{ maxWidth: 300 }} />}
       </Box>
     </Stack>
   );

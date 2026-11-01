@@ -1,12 +1,13 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { DSInput, SavedDataList } from '@/components/common';
-import { useAlgorithm, useSavedData } from '@/hooks';
+import { AdUnit, DSInput, SavedDataList } from '@/components/common';
+import { useAlgorithm, useBreakpoints, useSavedData } from '@/hooks';
 import { useMaxHeap } from '@/hooks/data-structures';
 import Link from 'next/link';
 
 export default function BinaryHeap(props) {
   const { saveData, ...saveDataProps } = useSavedData();
   const { animation, buttons, summary, refresh } = useMaxHeap({ saveData });
+  const { xlup } = useBreakpoints();
 
   const [insertAlgo] = useAlgorithm(`
 function insert(value):
@@ -42,6 +43,7 @@ function insert(value):
             Pseudocode
           </Typography>
           {insertAlgo}
+          {xlup && <AdUnit sx={{ maxWidth: 300 }} format="rectangle" />}
         </Stack>
         <Stack spacing={2}>
           <DSInput {...props} buttons={buttons} />

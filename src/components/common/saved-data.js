@@ -56,7 +56,7 @@ export default function SavedDataList({
   };
 
   return (
-    <div>
+    <>
       {session && (
         <Button
           onClick={() => setDrawerOpen(true)}
@@ -76,6 +76,6 @@ export default function SavedDataList({
         <ListItems {...rest} onSelect={handleSelect} onDelete={handleDelete} />
         <Spinner spinning={loading} />
       </Drawer>
-    </div>
+    </>
   );
 }

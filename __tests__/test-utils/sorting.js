@@ -25,7 +25,7 @@ export async function runAnimation(container, numbers) {
 
 export function testAnimation(Component, numbers = _numbers) {
   test('renders in correct order after animation', async () => {
-    const { container } = render(<Component />);
+    const { container } = render(<App Component={Component} />);
     await runAnimation(container, numbers);
     const nodes = container.querySelectorAll('.numbox');
     expect(

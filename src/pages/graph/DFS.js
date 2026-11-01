@@ -1,11 +1,18 @@
-import { DrawGraph } from '@/components/common';
+import { AdUnit, DrawGraph } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
 import { charAt, createCell, hasValue, sound } from '@/common/utils';
-import { useAlgorithm, useGraphScope, useSummary } from '@/hooks';
+import {
+  useAlgorithm,
+  useBreakpoints,
+  useGraphScope,
+  useSummary,
+} from '@/hooks';
 import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
 
 export default function DFS() {
+  const { xlup } = useBreakpoints();
+
   const [algorithm1] = useAlgorithm(`
 stack = new Stack()
 stack.push(src)
@@ -59,6 +66,7 @@ DFS(u):
           </Stack>
         </Box>
         <Visualizer />
+        {xlup && <AdUnit sx={{ maxWidth: 300 }} />}
       </Box>
     </Stack>
   );

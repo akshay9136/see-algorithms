@@ -1,5 +1,6 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { ComplexityTable, Section } from '@/components/common';
+import { AdUnit, ComplexityTable, Section } from '@/components/common';
+import { useBreakpoints } from '@/hooks';
 import { useRadixSort } from '@/hooks/sorting';
 import Link from 'next/link';
 
@@ -24,6 +25,7 @@ const complexityData = [
 
 export default function RadixSort() {
   const { pseudocode, visualizer } = useRadixSort();
+  const { lgdown } = useBreakpoints();
 
   return (
     <>
@@ -45,6 +47,7 @@ export default function RadixSort() {
           </Typography>
           {pseudocode}
         </Stack>
+        {lgdown && <AdUnit sx={{ maxWidth: 200 }} />}
         <Stack spacing={2} flex={1}>
           <Typography variant="h6" component="h2">
             Visualizer

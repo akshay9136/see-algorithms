@@ -7,7 +7,6 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import AdUnit from '../ad-unit';
 import dynamic from 'next/dynamic';
 import AlgorithmSEO from '../algorithm-seo';
 import Breadcrumbs from './breadcrumbs';
@@ -17,6 +16,7 @@ import Sider from './sider';
 import { algorithms } from '@/common/appData';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
+import { AdUnit } from '../common';
 
 // Keep algorithm-only dependencies out of the shared homepage bundle.
 // Preserve server rendering for the content on routes that use it.
@@ -118,7 +118,9 @@ function Layout({ children }) {
                 <Divider sx={{ my: 3 }} />
                 <Box display="flex" gap={3}>
                   <Discussion />
-                  {showAds && <AdUnit key={pathname} sx={{ flex: 1 }} />}
+                  {showAds && (
+                    <AdUnit key={pathname} fullWidth="true" sx={{ flex: 1 }} />
+                  )}
                 </Box>
                 <Divider sx={{ my: 3 }} />
                 <Affiliates />
