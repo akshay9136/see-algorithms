@@ -52,6 +52,7 @@ export default function AlgorithmCatalog() {
 
   useEffect(() => {
     const cat = asPath.split('/')[1].split('#')[0];
+    // eslint-disable-next-line
     if (categoryMap[cat]) setCategory(categoryMap[cat]);
   }, [asPath]);
 

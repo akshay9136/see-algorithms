@@ -154,6 +154,7 @@ Node 5 has two children → replace with 6, then delete 6`}
         </Paper>
 
         <Paper sx={styles.card}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/gifs/delete-bst-node.gif" alt="Delete Node" width="100%" />
         </Paper>
       </Section>

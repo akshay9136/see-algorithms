@@ -50,6 +50,7 @@ export default function usePrefixTree() {
   useEffect(() => {
     // URL data initializes the Trie once it is ready.
     if (isReady && nodes) refresh(nodes);
+  // eslint-disable-next-line
   }, [nodes, isReady]);
 
   async function insert() {

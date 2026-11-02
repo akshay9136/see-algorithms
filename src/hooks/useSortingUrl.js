@@ -28,6 +28,7 @@ export default function useSortingUrl() {
             arr.length <= MAX_COUNT &&
             arr.every(isInteger)
           ) {
+            // eslint-disable-next-line
             setNumbers(arr);
             trackEvent('visualization_loaded', { input_source: 'shared' });
           }

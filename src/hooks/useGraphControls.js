@@ -13,7 +13,8 @@ import $ from 'jquery';
 
 var iterators = [], prevSrc;
 
-function useGraphControls(config, props) {
+function useGraphControls(_config, props) {
+  const config = { ..._config };
   const { isDirGraph, playStatus, setContext } = useContext(AppContext);
   const { source, weighted, directed, scope } = config;
   const history = useUndoRedo();
@@ -205,6 +206,7 @@ function useGraphControls(config, props) {
       } else refresh();
     }
     return cleanup;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, scope]);
 
   return {

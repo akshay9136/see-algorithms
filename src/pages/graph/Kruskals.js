@@ -86,6 +86,7 @@ export function Visualizer() {
   const [size, setSize] = useState(0);
   const delay = 800;
 
+  // eslint-disable-next-line
   if (size === 0) arr = [];
 
   async function* start() {

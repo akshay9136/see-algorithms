@@ -29,6 +29,7 @@ function InputNumbers(props) {
   } = props;
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (urlNumbers) setNumbers(urlNumbers);
   }, [urlNumbers]);
 
@@ -125,6 +126,7 @@ function InputNumbers(props) {
     resetHandlers.forEach((reset) => reset(true));
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => handleReset, []);
 
   return (

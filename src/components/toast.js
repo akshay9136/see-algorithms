@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Snackbar } from '@mui/material';
 import { Alert } from '@mui/material';
 
@@ -8,7 +8,12 @@ function Toast() {
   const [options, setOptions] = useState({});
   const { message, variant } = options;
 
-  showToast = (options) => setOptions(options);
+  useEffect(() => {
+    showToast = setOptions;
+    return () => {
+      if (showToast === setOptions) showToast = () => {};
+    };
+  }, []);
 
   return (
     <Snackbar

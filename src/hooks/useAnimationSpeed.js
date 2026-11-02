@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 /**
  * Provides animation speed control for all visualizations.
@@ -16,14 +16,19 @@ import { useRef, useState } from 'react';
  * even when captured inside an iterator closure created before the speed changed.
  */
 export default function useAnimationSpeed() {
-    const [speed, setSpeed] = useState(1);
+  const [speed, setSpeed] = useState(1);
+  // Keep a ref in sync with the latest local state value.
+  const speedRef = useRef(speed);
 
-    // Keep a ref in sync with the latest local state value.
-    const speedRef = useRef(speed);
+  useEffect(() => {
     speedRef.current = speed;
+  }, [speed]);
 
-    // Stable function reference — always divides by the current ref value.
-    const scaleDelay = (baseDelay) => Math.round(baseDelay / speedRef.current);
+  // Stable function reference — always divides by the current ref value.
+  const scaleDelay = useCallback(
+    (baseDelay) => Math.round(baseDelay / speedRef.current),
+    [],
+  );
 
-    return { speed, setSpeed, scaleDelay };
+  return { speed, setSpeed, scaleDelay };
 }

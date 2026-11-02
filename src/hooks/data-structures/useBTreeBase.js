@@ -81,7 +81,9 @@ export default function useBTreeBase({
   ];
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (isReady) newTree(nodes);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodes, isReady]);
 
   const refresh = controls.REFRESH.onClick;

@@ -39,6 +39,7 @@ function Layout({ children }) {
   const showAds = useMediaQuery('(min-width:1200px)');
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Close the drawer when navigation completes.
     setMenuVisible(false);
     scrollRef.current?.scrollTo(0, 0);
   }, [pathname]);

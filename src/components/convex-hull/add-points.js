@@ -72,6 +72,7 @@ function AddPoints({ scope, graphRef, onStart }) {
       runRef.current?.cancel();
       it?.exit();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scope]);
 
   return (

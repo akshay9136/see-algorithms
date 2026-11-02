@@ -306,6 +306,7 @@ Step 2: Rotate Right at Grandparent Z (resolves balance):
         </ListItems>
 
         <Paper sx={styles.card}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/gifs/avl-tree.gif" alt="AVL Tree Rotations" width="100%" />
         </Paper>
 

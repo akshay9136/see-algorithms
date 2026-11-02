@@ -1,7 +1,7 @@
 import nextVitals from 'eslint-config-next/core-web-vitals';
 
 /** @type {import('eslint').Linter.Config[]} */
-export default [
+const config = [
   ...nextVitals,
   { ignores: ['coverage/**'] },
   {
@@ -17,3 +17,5 @@ export default [
     },
   },
 ];
+
+export default config;

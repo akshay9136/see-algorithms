@@ -25,6 +25,7 @@ function Sider({ selected }) {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Navigation opens the selected category; users can still expand other groups.
     if (category) setExpanded(category);
   }, [category]);
 

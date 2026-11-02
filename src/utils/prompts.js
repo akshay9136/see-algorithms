@@ -82,7 +82,7 @@ Instructions:
 - Explain the construction of the Huffman Tree and generation of codes using above input.
 ${_instructions}`;
 
-export default {
+const prompts = {
   searchTree,
   binaryHeap,
   prefixTree,
@@ -91,3 +91,5 @@ export default {
   graphAlgorithm,
   huffmanCoding,
 };
+
+export default prompts;

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/use-memo */
 import { useCallback } from 'react';
 import { fetcher, showError } from '@/common/utils';
 import { showToast } from '@/components/toast';

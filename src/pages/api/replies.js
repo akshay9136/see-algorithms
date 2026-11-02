@@ -14,7 +14,7 @@ import {
 } from '@/utils/comment-utils';
 import compose from 'ramda/src/compose';
 
-export default async function (req, res) {
+export default async function handler(req, res) {
   const handlers = {
     GET: compose(withOptionalAuth, withQueryParams('parentId'))(handleGet),
     POST: compose(withAuth, withRequestBody('parentId', 'comment'))(handlePost),

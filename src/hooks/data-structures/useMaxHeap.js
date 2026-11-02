@@ -15,6 +15,7 @@ export default function useMaxHeap({ saveData }) {
     const { txy, animate } = animator;
 
     async function* insert(num) {
+        // eslint-disable-next-line react-hooks/globals
         if (!numbers.length) Tree = maxHeap(animator);
         const keys = Tree.collect();
         explain({ keys, operation: 'Insert', input: num });
@@ -88,7 +89,9 @@ export default function useMaxHeap({ saveData }) {
     ];
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         if (nodes) newTree(nodes);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [nodes]);
 
     const animation = (

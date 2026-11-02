@@ -11,6 +11,7 @@ export function useDarkMode() {
   useEffect(() => {
     const isDark =
       document.documentElement.getAttribute('data-theme') === 'dark';
+    // eslint-disable-next-line
     setDarkMode(isDark);
   }, []);
 

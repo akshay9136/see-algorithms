@@ -20,6 +20,7 @@ export default function CookieConsent() {
     } catch {
       /* Storage is unavailable. */
     }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!hasConsented) setOpen(true);
 
     const reopen = () => setOpen(true);

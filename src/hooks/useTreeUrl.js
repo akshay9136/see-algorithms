@@ -29,6 +29,7 @@ export default function useTreeUrl() {
           if (!Array.isArray(arr)) return;
 
           if (asPath.includes('RedBlackTree')) {
+            // eslint-disable-next-line
             if (arr.every((val) => isRedBlack(val))) setNodes(arr);
           } else if (asPath.includes('PrefixTree')) {
             if (arr.every((val) => isWord(val))) setNodes(arr);

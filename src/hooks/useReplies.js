@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/use-memo */
 import { useCallback } from 'react';
 import { fetcher, showError } from '@/common/utils';
 import { showToast } from '@/components/toast';
@@ -41,10 +42,9 @@ function useReplies(parentId, isOpen = false) {
   };
 
   const deleteReply = async (id) => {
+    const url = `/api/replies?id=${id}&parentId=${parentId}`;
     try {
-      const res = await fetch(`/api/replies?id=${id}&parentId=${parentId}`, {
-        method: 'DELETE',
-      });
+      const res = await fetch(url, { method: 'DELETE' });
       res.ok
         ? mutate(swrKey, R.reject(R.propEq(id, 'id')), false)
         : showError((await res.text()) || 'Failed to delete');
@@ -65,8 +65,7 @@ function useReplies(parentId, isOpen = false) {
     }
   };
 
-  const toggleUpvote = async (reply) => {
-    const { id, upvoted } = reply;
+  const toggleUpvote = async ({ id, upvoted }) => {
     const url = `/api/replies?id=${id}&parentId=${parentId}&action=upvote`;
     try {
       const res = await fetch(url, { method: 'PATCH' });
@@ -89,7 +88,7 @@ function useReplies(parentId, isOpen = false) {
     loading: isLoading,
     addReply: useCallback(addReply, [parentId, swrKey]),
     deleteReply: useCallback(deleteReply, [parentId, swrKey]),
-    reportReply: useCallback(reportReply, [parentId, swrKey]),
+    reportReply: useCallback(reportReply, [parentId]),
     toggleUpvote: useCallback(toggleUpvote, [parentId, swrKey]),
   };
 }

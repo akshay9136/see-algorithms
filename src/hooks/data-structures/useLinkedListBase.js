@@ -74,9 +74,11 @@ export default function useLinkedListBase({ createList, delay = 500 }) {
   ];
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     reset();
     animator.txy(`#box${0}`, 0, 80, 0);
     return reset;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {

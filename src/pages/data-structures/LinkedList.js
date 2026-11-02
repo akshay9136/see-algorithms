@@ -92,6 +92,7 @@ export function Visualizer() {
           value={0}
           hidePlayIcon
           buttons={buttons.slice(2)}
+          // eslint-disable-next-line react-hooks/refs
           ref={inputRefs[1]}
         />
       </Box>

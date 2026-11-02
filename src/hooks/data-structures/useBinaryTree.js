@@ -118,7 +118,9 @@ export default function useBinaryTree({
   ];
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Initialize the imperative tree after URL hydration and DOM mount.
     if (isReady) newTree(nodes);
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- Rebuild only for URL input changes, not for recreated animation callbacks.
   }, [nodes, isReady]);
 
   const animation = (
@@ -143,6 +145,7 @@ export default function useBinaryTree({
   return {
     animation,
     summary,
+    // eslint-disable-next-line react-hooks/refs
     buttons: allButtons.filter((btn) => !hideButtons.includes(btn.text)),
     refresh: controls.REFRESH.onClick,
   };

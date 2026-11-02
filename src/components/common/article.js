@@ -109,8 +109,10 @@ function Article({ title, summary, children }) {
 
   useEffect(() => {
     const query = { category };
-    router.replace({ pathname, query }, undefined, { shallow: true });
-  }, [category, pathname]);
+    if (router.query.category !== category) {
+      router.replace({ pathname, query }, undefined, { shallow: true });
+    }
+  }, [category, pathname, router]);
 
   return (
     <Container>
@@ -240,6 +242,8 @@ export const Section = memo(function (props) {
   );
 });
 
+Section.displayName = 'Section';
+
 export const ListItems = memo(function (props) {
   const { component, sx } = props;
   return (
@@ -252,3 +256,5 @@ export const ListItems = memo(function (props) {
     </Typography>
   );
 });
+
+ListItems.displayName = 'ListItems';

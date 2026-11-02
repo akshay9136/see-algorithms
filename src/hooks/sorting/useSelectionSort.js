@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 import { Colors } from '@/common/constants';
 import { sound, withBoxId } from '@/common/utils';
 
-var arr, delay = 400;
+const delay = 400;
 
 export default function useSelectionSort() {
     const [numbers, setNumbers] = useState([]);
@@ -21,7 +21,7 @@ for i = 0 to (n - 1):
 
     async function* handleSort(values) {
         setNumbers(values);
-        arr = values.map(withBoxId);
+        const arr = values.map(withBoxId);
         const n = arr.length;
         for (let i = 0; i < n - 1; i++) {
             yield 1000;
@@ -50,7 +50,7 @@ for i = 0 to (n - 1):
                 setCurrentStep('5');
                 await ty(arr[i].id, 50);
                 sound('swap');
-                await swapMin(i, k);
+                await swapMin(arr, i, k);
             } else {
                 sound('swap');
                 await ty(arr[k].id, 0);
@@ -63,7 +63,7 @@ for i = 0 to (n - 1):
         bgcolor(arr[n - 1].id, Colors.sorted);
     }
 
-    const swapMin = async (u, v) => {
+    const swapMin = async (arr, u, v) => {
         const d = v - u;
         await Promise.all([
             tx(arr[u].id, v * 60, 0.2 * d),
@@ -76,7 +76,6 @@ for i = 0 to (n - 1):
     const handleStop = () => {
         setNumbers([]);
         setCurrentStep('');
-        arr = undefined;
     };
 
     const animation = (

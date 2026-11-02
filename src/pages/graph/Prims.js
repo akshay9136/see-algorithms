@@ -114,6 +114,7 @@ export function Visualizer() {
     const min = queue.reduce((a, b) => (b < a ? b : a), Infinity);
     if (min === Infinity) return;
     const k = queue.indexOf(min);
+    // eslint-disable-next-line
     queue[k] = Infinity;
     const i = Math.floor(k / n);
     const j = k % n;

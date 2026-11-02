@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { showError, sound } from '@/common/utils';
 import Box from '@mui/material/Box';
 
-const n = 10;
+const n = 12;
 
 export default function useCircularQueue() {
   const [numbers, setNumbers] = useState(Array(n).fill(null));
@@ -10,15 +10,15 @@ export default function useCircularQueue() {
   const [rear, setRear] = useState(0);
   const [size, setSize] = useState(0);
 
-  // eslint-disable-next-line require-yield
   async function* enqueue(num) {
     if (front === rear && size === n) {
       showError('Queue is full.');
       return false;
     } else {
       sound('pop');
-      numbers[rear] = num;
-      setNumbers(numbers.slice());
+      const prev = numbers.slice();
+      prev[rear] = num;
+      setNumbers(prev);
       setRear((rear + 1) % n);
       setSize(size + 1);
       return true;
@@ -31,8 +31,9 @@ export default function useCircularQueue() {
       return false;
     } else {
       sound('pop');
-      numbers[front] = null;
-      setNumbers(numbers.slice());
+      const prev = numbers.slice();
+      prev[front] = null;
+      setNumbers(prev);
       setFront((front + 1) % n);
       setSize(size - 1);
       return true;

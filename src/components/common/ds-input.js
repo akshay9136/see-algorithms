@@ -175,4 +175,6 @@ const DSInput = forwardRef((props, ref) => {
   );
 });
 
+DSInput.displayName = 'DSInput';
+
 export default DSInput;

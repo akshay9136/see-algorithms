@@ -55,6 +55,7 @@ export default function ShortestPathVsMST() {
         </Typography>
 
         <Paper sx={styles.card}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/gifs/dijkstras-algo.gif"
             alt="Dijkstra's Algorithm"
@@ -84,6 +85,7 @@ export default function ShortestPathVsMST() {
         </Typography>
 
         <Paper sx={styles.card}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/gifs/prims-algo.gif" alt="Prim's Algorithm" width="100%" />
         </Paper>
 

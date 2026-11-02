@@ -68,6 +68,7 @@ export default function AVLTreeVsRedBlack() {
         </Typography>
 
         <Paper sx={styles.card}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/gifs/avl-tree.gif" alt="AVL Tree" width="100%" />
         </Paper>
       </Section>
@@ -92,6 +93,7 @@ export default function AVLTreeVsRedBlack() {
         </Typography>
 
         <Paper sx={styles.card}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/gifs/red-black-tree.gif"
             alt="Red-Black Tree"

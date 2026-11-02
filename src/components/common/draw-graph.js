@@ -221,7 +221,7 @@ function DrawGraph({
   );
 }
 
-export const Plane = memo(function () {
+export const Plane = memo(function Plane() {
   return (
     <svg
       className="plane"
