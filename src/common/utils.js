@@ -261,7 +261,7 @@ export const showError = (msg) => {
 export const logError = (err, name) => {
     const reasons = {
         'Iterator error': 'iterator_error',
-        'AI network error': 'ai_network_error',
+        'AI request failed': 'ai_request_failed',
         'Error parsing sorting url': 'invalid_sorting_url',
         'Error parsing tree url': 'invalid_tree_url',
     };

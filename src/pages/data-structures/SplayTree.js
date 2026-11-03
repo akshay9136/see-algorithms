@@ -30,11 +30,17 @@ export default function SplayTree(props) {
         repeatedly looking up a small working set of identifiers.
       </Typography>
 
-      <Box display="flex" gap={4}>
+      <Box
+        display="flex"
+        flexDirection={{ xs: 'column', md: 'row' }}
+        gap={{ xs: 0, md: 4 }}
+      >
         <Section variant="h6" title="How It Works">
           <Typography paragraph>
             When you search, insert, or delete a node, the tree performs a{' '}
-            <Link href="/articles/splay-tree-rotations">series of rotations</Link>{' '}
+            <Link href="/articles/splay-tree-rotations">
+              series of rotations
+            </Link>{' '}
             called {'"splaying"'} to bring that node to the root. There are
             three types of rotations depending on the node’s position:{' '}
             <strong>Zig</strong> (single rotation), <strong>Zig-Zig</strong>{' '}

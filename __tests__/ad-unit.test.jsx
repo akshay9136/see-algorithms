@@ -2,10 +2,8 @@ import { act, render } from '@testing-library/react';
 import { AdUnit } from '../src/components/common';
 import AppContext from '../src/common/context';
 
-const renderAd = (ad) =>
-  render(
-    <AppContext.Provider value={{ adsReady: true }}>{ad}</AppContext.Provider>,
-  );
+const renderAd = (ad, adsReady = true) =>
+  render(<AppContext.Provider value={{ adsReady }}>{ad}</AppContext.Provider>);
 
 describe('AdUnit Component', () => {
   let width, observers, originalResize;
@@ -43,6 +41,37 @@ describe('AdUnit Component', () => {
     expect(observers[0].disconnect).toHaveBeenCalled();
     act(() => observers[0].callback());
     expect(window.adsbygoogle.push).toHaveBeenCalledTimes(1);
+  });
+
+  test('waits for the AdSense script even when the slot has width', () => {
+    width = 300;
+    const { container, rerender } = renderAd(<AdUnit />, false);
+    expect(container.querySelector('.adsbygoogle')).toBeNull();
+    expect(window.adsbygoogle.push).not.toHaveBeenCalled();
+    rerender(
+      <AppContext.Provider value={{ adsReady: true }}>
+        <AdUnit />
+      </AppContext.Provider>,
+    );
+    expect(window.adsbygoogle.push).toHaveBeenCalledTimes(1);
+  });
+
+  test('keeps zero-width slots out of page-wide ad requests', () => {
+    const { container } = renderAd(
+      <>
+        <AdUnit />
+        <AdUnit />
+      </>,
+    );
+    const [hiddenAd, visibleAd] = container.querySelectorAll('ins');
+    Object.defineProperty(visibleAd, 'clientWidth', { value: 300 });
+    window.adsbygoogle.push.mockImplementation(() =>
+      container.querySelector('.adsbygoogle'),
+    );
+    act(() => observers[1].callback());
+    expect(window.adsbygoogle.push).toHaveBeenCalledTimes(1);
+    expect(window.adsbygoogle.push).toHaveReturnedWith(visibleAd);
+    expect(hiddenAd).not.toHaveClass('adsbygoogle');
   });
 
   test('cancels pending initialization when unmounted', () => {

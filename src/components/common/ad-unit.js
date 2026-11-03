@@ -1,13 +1,15 @@
 import { Box } from '@mui/material';
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
+import AppContext from '@/common/context';
 
 function AdUnit({ format, fullWidth = 'false', sx }) {
+  const { adsReady } = useContext(AppContext);
   const initialized = useRef(false);
   const adRef = useRef(null);
 
   useEffect(() => {
     const ad = adRef.current;
-    if (!ad || initialized.current) return;
+    if (!adsReady || !ad || initialized.current) return;
 
     const initialize = () => {
       // Hidden or still-settling layouts cannot size a responsive ad yet.
@@ -18,9 +20,11 @@ function AdUnit({ format, fullWidth = 'false', sx }) {
       if (ad.hasAttribute('data-ad-status')) return;
 
       try {
-        window.adsbygoogle = window.adsbygoogle || [];
+        // The push is page-wide. Expose this slot only when it can be sized.
+        ad.classList.add('adsbygoogle');
         window.adsbygoogle.push({});
       } catch (error) {
+        ad.classList.remove('adsbygoogle');
         console.error('AdSense initialization failed:', error);
       }
     };
@@ -30,13 +34,12 @@ function AdUnit({ format, fullWidth = 'false', sx }) {
     initialize();
 
     return () => observer.disconnect();
-  }, []);
+  }, [adsReady]);
 
   return (
     <Box sx={sx} width="100%" minWidth="160px">
       <ins
         ref={adRef}
-        className="adsbygoogle"
         style={{ display: 'block' }}
         data-ad-client="ca-pub-7905328601622622"
         data-ad-slot="5573819826"

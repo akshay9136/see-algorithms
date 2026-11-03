@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
+import { trackEvent } from '@/common/analytics';
 
 /**
  * Restores dark mode preference on mount and provides a toggle function
@@ -19,6 +20,7 @@ export function useDarkMode() {
   const toggleDarkMode = useCallback(() => {
     setDarkMode((prev) => {
       const next = !prev;
+      trackEvent('dark_mode', { enabled: next });
       document.documentElement.setAttribute(
         'data-theme',
         next ? 'dark' : 'light',

@@ -1,9 +1,8 @@
 import '@/styles/globals.css';
 import '@/styles/app.css';
 import '@/styles/animation.css';
-import { useRouter } from 'next/router';
+import { useMemo, useState, useSyncExternalStore } from 'react';
 import { useDarkMode } from '@/hooks/useDarkMode';
-import { useMemo, useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Analytics } from '@vercel/analytics/next';
 import { CacheProvider } from '@emotion/react';
@@ -18,12 +17,15 @@ import Toast from '@/components/toast';
 import createEmotionCache from '@/utils/client-cache';
 import { defaultSeoConfig } from '@/components/algorithm-seo/config';
 import { PERSON_SCHEMA, SITE_URL } from '@/utils/constants';
+import { useRouter } from 'next/router';
 import localFont from 'next/font/local';
 import dynamic from 'next/dynamic';
-import Script from 'next/script';
 import Head from 'next/head';
+import Script from 'next/script';
 
 const clientCache = createEmotionCache();
+const siteHostname = new URL(SITE_URL).hostname;
+const subscribeToHostname = () => () => {}; // The hostname never changes within a page.
 
 const SignInDialog = dynamic(() => import('@/components/sign-in-dialog'), {
   ssr: false,
@@ -50,7 +52,12 @@ export default function App({
   const cleanPath = asPath.split('?')[0].split('#')[0];
   const canonicalUrl = SITE_URL + (cleanPath === '/' ? '' : cleanPath);
   const hasContent = pathname !== '/404';
-  const loadAdScript = hasContent && process.env.NEXT_PUBLIC_ADS_ENABLED !== 'false';
+
+  const onPublicHost = useSyncExternalStore(
+    subscribeToHostname,
+    () => window.location.hostname === siteHostname,
+    () => false,
+  );
 
   const setContext = (slice) => {
     setState((prev) => ({ ...prev, ...slice }));
@@ -102,6 +109,7 @@ export default function App({
   };
 
   const { openGraph } = defaultSeoConfig;
+  const loadAdScript = hasContent && onPublicHost;
 
   return (
     <CacheProvider value={emotionCache}>
@@ -125,6 +133,7 @@ export default function App({
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7905328601622622"
             crossOrigin="anonymous"
             strategy="lazyOnload"
+            onReady={() => setContext({ adsReady: true })}
           />
         )}
         <Analytics />

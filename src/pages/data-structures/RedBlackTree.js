@@ -30,7 +30,11 @@ export default function RedBlackTree(props) {
         deletions.
       </Typography>
 
-      <Box display="flex" gap={4}>
+      <Box
+        display="flex"
+        flexDirection={{ xs: 'column', md: 'row' }}
+        gap={{ xs: 0, md: 4 }}
+      >
         <Section variant="h6" title="How It Works">
           <Typography>
             When a node is inserted or deleted, the tree may temporarily violate

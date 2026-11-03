@@ -6,6 +6,7 @@ export const initialState = {
     signInOpen: false,
     callbackUrl: '/',
     darkMode: false,
+    adsReady: false,
 };
 
 const AppContext = createContext({

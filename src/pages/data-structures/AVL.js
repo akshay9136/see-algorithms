@@ -1,17 +1,19 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import {
+  AdUnit,
   DSInput,
   ListItems,
   SavedDataList,
   Section,
 } from '@/components/common';
-import { useAlgorithm, useSavedData } from '@/hooks';
+import { useAlgorithm, useBreakpoints, useSavedData } from '@/hooks';
 import { useBinaryTree } from '@/hooks/data-structures';
 import avlTree from '@/helpers/avlTree';
 import Link from 'next/link';
 
 export default function AVL(props) {
   const { saveData, ...saveDataProps } = useSavedData();
+  const { lgdown } = useBreakpoints();
   const { animation, summary, buttons, refresh } = useBinaryTree({
     createTree: (animator) => avlTree(animator, setCurrentStep),
     hideButtons: ['Search'],
@@ -52,7 +54,11 @@ function rebalance(node):
         worst-case time complexity of O(log n).
       </Typography>
 
-      <Box display="flex" gap={4}>
+      <Box
+        display="flex"
+        flexDirection={{ xs: 'column', md: 'row' }}
+        gap={{ xs: 0, md: 4 }}
+      >
         <Section variant="h6" title="How It Works">
           <Typography paragraph>
             Every time a node is inserted or deleted, the AVL tree checks the{' '}
@@ -96,12 +102,20 @@ function rebalance(node):
 
       <Divider sx={{ mb: 3 }} />
 
-      <Box display="flex" flexWrap="wrap" gap={4}>
+      <Box
+        display="flex"
+        flexDirection={{ xs: 'column', md: 'row' }}
+        flexWrap="wrap"
+        gap={4}
+      >
         <Stack spacing={2}>
           <Typography variant="h6" component="h2">
             Pseudocode
           </Typography>
-          {algorithm}
+          <Box display="flex" gap={3}>
+            {algorithm}
+            {lgdown && <AdUnit sx={{ maxWidth: 200 }} />}
+          </Box>
         </Stack>
         <Stack spacing={2}>
           <DSInput {...props} buttons={buttons} />

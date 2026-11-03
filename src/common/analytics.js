@@ -22,6 +22,7 @@ const fields = {
   catalog_filter: ['filter_category'],
   catalog_search: ['search_query'],
   app_error: ['reason'],
+  dark_mode: ['enabled'],
 };
 
 export function analyticsEnabled() {
