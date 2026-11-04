@@ -1,9 +1,10 @@
 import '@/styles/globals.css';
 import '@/styles/app.css';
 import '@/styles/animation.css';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useMemo, useState, useSyncExternalStore } from 'react';
 import { useDarkMode } from '@/hooks/useDarkMode';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useRouter } from 'next/router';
 import { Analytics } from '@vercel/analytics/next';
 import { CacheProvider } from '@emotion/react';
 import { SessionProvider } from 'next-auth/react';
@@ -14,12 +15,11 @@ import GoogleAnalytics from '@/components/analytics';
 import CookieConsent from '@/components/cookie-consent';
 import Layout from '@/components/layout';
 import Toast from '@/components/toast';
+import dynamic from 'next/dynamic';
+import localFont from 'next/font/local';
 import createEmotionCache from '@/utils/client-cache';
 import { defaultSeoConfig } from '@/components/algorithm-seo/config';
 import { PERSON_SCHEMA, SITE_URL } from '@/utils/constants';
-import { useRouter } from 'next/router';
-import localFont from 'next/font/local';
-import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Script from 'next/script';
 
@@ -51,7 +51,6 @@ export default function App({
   const { pathname, asPath } = router;
   const cleanPath = asPath.split('?')[0].split('#')[0];
   const canonicalUrl = SITE_URL + (cleanPath === '/' ? '' : cleanPath);
-  const hasContent = pathname !== '/404';
 
   const onPublicHost = useSyncExternalStore(
     subscribeToHostname,
@@ -108,8 +107,9 @@ export default function App({
     ],
   };
 
+  const isEmbed = pathname.includes('/embed/');
+  const loadAdScript = pathname !== '/404' && !isEmbed && onPublicHost;
   const { openGraph } = defaultSeoConfig;
-  const loadAdScript = hasContent && onPublicHost;
 
   return (
     <CacheProvider value={emotionCache}>
@@ -138,7 +138,7 @@ export default function App({
         )}
         <Analytics />
         <GoogleAnalytics />
-        <CookieConsent />
+        {!isEmbed && <CookieConsent />}
 
         <ThemeProvider theme={theme}>
           <CssBaseline />
