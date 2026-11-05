@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -16,13 +16,13 @@ export default function useDialog() {
     variant: 'info',
   });
 
-  const showDialog = (props) => {
+  const showDialog = useCallback((props) => {
     setConfig({ open: true, ...props });
-  };
+  }, []);
 
-  const hideDialog = () => {
+  const hideDialog = useCallback(() => {
     setConfig((prev) => ({ ...prev, open: false }));
-  };
+  }, []);
 
   const colors = {
     info: 'info.main',

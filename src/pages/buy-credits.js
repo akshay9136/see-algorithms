@@ -1,6 +1,8 @@
-import { useContext, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { useCredits, useDialog } from '@/hooks';
 import {
+  Alert,
   Typography,
   Button,
   Box,
@@ -14,8 +16,11 @@ import {
   ToggleButton,
 } from '@mui/material';
 import { AutoAwesomeOutlined } from '@mui/icons-material';
-import { useCredits, useDialog } from '@/hooks';
+import { getServerSession } from 'next-auth/next';
 import { PRICING_PLANS } from '@/utils/constants';
+import { validOrderId } from '@/utils/paypal';
+import { capturePaypalOrder } from '@/utils/paypal-orders';
+import { authOptions } from './api/auth/[...nextauth]';
 import AppContext from '@/common/context';
 import Script from 'next/script';
 
@@ -37,13 +42,87 @@ const styles = {
   },
 };
 
-export default function BuyCredits() {
+const paymentDialogs = {
+  CANCELLED: {
+    message: 'PayPal checkout was cancelled.',
+    variant: 'info',
+  },
+  ERROR: {
+    message:
+      'We could not confirm your payment. If you were charged, your credits will be reconciled automatically.',
+    variant: 'warning',
+  },
+  SIGN_IN_REQUIRED: {
+    message: 'Sign in to the account to confirm your payment.',
+    variant: 'info',
+  },
+  SUCCESS: {
+    title: 'Payment Successful',
+    message: 'Credits have been added to your account.',
+    variant: 'success',
+  },
+  FAILED: {
+    title: 'Payment Failed',
+    message: 'Failed to process payment. Please try again.',
+    variant: 'error',
+  },
+  PENDING: {
+    title: 'Payment Pending',
+    message: 'Credits will be added after your payment is confirmed.',
+    variant: 'warning',
+  },
+};
+
+// A return URL only triggers verification; credits come from the server's
+// authenticated capture and Firestore transaction, never the query parameters.
+export async function getServerSideProps({ req, res, query }) {
+  res.setHeader('Cache-Control', 'private, no-store');
+  if (query.paypal === 'cancelled')
+    return { props: { paymentStatus: 'CANCELLED' } };
+
+  if (query.paypal !== 'approved') return { props: {} };
+  if (!validOrderId(query.orderId))
+    return { props: { paymentStatus: 'ERROR' } };
+
+  const session = await getServerSession(req, res, authOptions);
+  if (!session?.user) {
+    return {
+      props: {
+        paymentStatus: 'SIGN_IN_REQUIRED',
+        returnUrl: `/buy-credits?paypal=approved&orderId=${encodeURIComponent(query.orderId)}`,
+      },
+    };
+  }
+
+  try {
+    const userId = `${session.user.provider}_${session.user.id}`;
+    const paymentStatus = await capturePaypalOrder(query.orderId, userId);
+    return { props: { paymentStatus } };
+  } catch (err) {
+    return { props: { paymentStatus: 'ERROR' } };
+  }
+}
+
+export default function BuyCredits({ paymentStatus, returnUrl }) {
   const [loadingId, setLoadingId] = useState(null);
-  const [currency, setCurrency] = useState('INR');
-  const { data: session } = useSession();
-  const { dialog, showDialog } = useDialog();
+  const [currency, setCurrency] = useState(paymentStatus ? 'USD' : 'INR');
   const { credits, fetchCredits } = useCredits();
+  const { dialog, showDialog } = useDialog();
+  const { data: session } = useSession();
   const { setContext } = useContext(AppContext);
+
+  const handleResult = useCallback(
+    (status) => {
+      showDialog(paymentDialogs[status] || paymentDialogs.PENDING);
+      if (status === 'SUCCESS') fetchCredits();
+    },
+    [showDialog, fetchCredits],
+  );
+
+  // PayPal returns via a new page load; Cashfree calls handleResult after checkout.
+  useEffect(() => {
+    if (paymentDialogs[paymentStatus]?.title) handleResult(paymentStatus);
+  }, [paymentStatus, handleResult]);
 
   const handlePurchase = async (plan) => {
     if (!session) {
@@ -53,6 +132,20 @@ export default function BuyCredits() {
     setLoadingId(plan.id);
 
     try {
+      if (currency === 'USD') {
+        const response = await fetch('/api/payments/paypal/create-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ planId: plan.id }),
+        });
+        const result = await response.json();
+        if (!response.ok) {
+          throw new Error(result.error || 'Unable to start PayPal checkout.');
+        }
+        window.location.assign(result.approvalUrl);
+        return;
+      }
+
       const orderRes = await fetch(
         `/api/payments/create-order?planId=${plan.id}`,
         { method: 'POST', headers: { 'Content-Type': 'application/json' } },
@@ -79,37 +172,19 @@ export default function BuyCredits() {
       });
 
       const status = await verifyRes.text();
-
-      if (status === 'SUCCESS') {
-        showDialog({
-          title: 'Payment Successful',
-          message: 'Credits have been added to your account.',
-          variant: 'success',
-        });
-        fetchCredits();
-      } else if (status === 'FAILED') {
-        showDialog({
-          title: 'Payment Failed',
-          message: 'Failed to process payment. Please try again.',
-          variant: 'error',
-        });
-      } else {
-        showDialog({
-          title: 'Payment Pending',
-          message: 'We will update your credits shortly.',
-          variant: 'warning',
-        });
-      }
+      handleResult(status);
     } catch (err) {
       showDialog({
         title: 'API Error',
         message: err.message || 'Something went wrong. Please try again.',
         variant: 'error',
       });
+    } finally {
+      setLoadingId(null);
     }
-
-    setLoadingId(null);
   };
+
+  const paymentAlert = paymentDialogs[paymentStatus];
 
   return (
     <Container sx={{ minWidth: { md: 900 }, p: 0 }}>
@@ -131,6 +206,30 @@ export default function BuyCredits() {
           </Typography>
         )}
       </Box>
+
+      {paymentAlert && (
+        <Alert
+          severity={paymentAlert.variant}
+          sx={{ mb: 3 }}
+          action={
+            paymentStatus === 'SIGN_IN_REQUIRED' && (
+              <Button
+                sx={{ width: 72, textTransform: 'none', fontWeight: 'bold' }}
+                size="small"
+                variant="outlined"
+                color="warning"
+                onClick={() =>
+                  setContext({ signInOpen: true, callbackUrl: returnUrl })
+                }
+              >
+                Sign in
+              </Button>
+            )
+          }
+        >
+          {paymentAlert.message}
+        </Alert>
+      )}
 
       <Box sx={styles.introBox}>
         <Typography
@@ -159,14 +258,15 @@ export default function BuyCredits() {
         </Typography>
       </Box>
 
-      <Box display="flex" justifyContent="center" mb={4}>
+      <Box display="flex" justifyContent="center" mb={3}>
         <ToggleButtonGroup
-          color="primary"
-          value={currency}
           exclusive
-          onChange={(e, value) => setCurrency(value)}
+          value={currency}
+          onChange={(_e, value) => {
+            if (value) setCurrency(value);
+          }}
           aria-label="Currency"
-          disabled
+          disabled={loadingId !== null}
         >
           <ToggleButton value="INR" sx={{ px: 2 }}>
             <b>INR</b>
@@ -176,6 +276,16 @@ export default function BuyCredits() {
           </ToggleButton>
         </ToggleButtonGroup>
       </Box>
+
+      <Typography
+        color="text.secondary"
+        variant="body2"
+        textAlign="center"
+        visibility={currency === 'USD' ? 'visible' : 'hidden'}
+        mb={3}
+      >
+        USD payments are processed by PayPal for international customers.
+      </Typography>
 
       <Grid container spacing={4} mb={5}>
         {PRICING_PLANS.map((plan) => (
@@ -190,7 +300,7 @@ export default function BuyCredits() {
                     <Chip
                       label="POPULAR"
                       color="secondary"
-                      sx={{ fontWeight: 'bold' }}
+                      sx={{ fontWeight: 'bold', lineHeight: 1, height: 24 }}
                     />
                   )}
                 </Box>
@@ -215,9 +325,8 @@ export default function BuyCredits() {
                 <Button
                   fullWidth
                   variant="contained"
-                  color="primary"
                   onClick={() => handlePurchase(plan)}
-                  disabled={loadingId === plan.id}
+                  disabled={loadingId !== null}
                 >
                   <strong>
                     {loadingId === plan.id ? 'Processing...' : 'Buy Now'}

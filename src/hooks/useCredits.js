@@ -7,8 +7,8 @@ export default function useCredits() {
   const email = session?.user?.email;
 
   const { data, mutate } = useSWR(email ? '/api/credits' : null, fetcher, {
-    revalidateOnFocus: false,
+    revalidateOnFocus: true,
   });
 
-  return { credits: data || null, fetchCredits: mutate };
+  return { credits: data ?? null, fetchCredits: mutate };
 }
