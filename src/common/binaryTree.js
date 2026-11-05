@@ -9,9 +9,8 @@ const nodeAngle = ({ x, parent, isLeft }) => {
     return [Math.hypot(dy, dx), isLeft ? -a : -(180 - a)];
 };
 
-function binaryTree({ tx, txy, animate, scope, cleanup }) {
-    var root, onLeft;
-    var arr = [];
+function binaryTree({ tx, txy, animate, scope, cleanup: translate }) {
+    var root, arr = [];
 
     const Node = (key) => {
         if (!arr[key]) return null;
@@ -56,17 +55,16 @@ function binaryTree({ tx, txy, animate, scope, cleanup }) {
 
     const findNode = (fn) => Node(arr.find(fn)?.key);
 
-    const setNodePath = (node) => {
-        if (!node.parent) return;
-        if (node.parent.key === root) {
-            onLeft = node.isLeft;
-            return;
-        }
-        setNodePath(node.parent);
+    const getRootSide = (node) => {
+        const { parent } = node;
+        if (!parent) return;
+        return parent.key === root ? node.isLeft : getRootSide(parent);
     };
 
-    const _cleanup = (node, t = 0.3) => {
-        setNodePath(node);
+    const fixOverlap = (node, t = 0.3) => {
+        const onLeft = getRootSide(node);
+        if (onLeft === undefined) return;
+
         const closer = findNode((a) => {
             if (a.key !== node.key && !a.deleted) {
                 const d = Points.distance(node, a);
@@ -74,46 +72,47 @@ function binaryTree({ tx, txy, animate, scope, cleanup }) {
             }
             return false;
         });
+
         if (closer) {
             const diff = node.isLeft ? closer.x - node.x : node.x - closer.x;
             const dx = diff + 60;
             node = closer.isLeft === onLeft ? node : closer;
-            const rx = subroot(node.parent);
-            shiftNode(rx, dx, t);
-            shiftRoot(rx?.parent, dx / 2, rx?.isLeft, t);
+            const rx = subroot(node.parent, onLeft);
+            shiftNode(rx, dx, onLeft, t);
+            shiftRoot(rx?.parent, dx / 2, rx?.isLeft, onLeft, t);
         }
     };
 
-    const subroot = (node) => {
+    const subroot = (node, onLeft) => {
         if (!node) return;
         if (node.key !== root) {
             if (node.isLeft === onLeft) return node;
-            return subroot(node.parent);
+            return subroot(node.parent, onLeft);
         }
     };
 
-    const shiftNode = (node, d, t) => {
+    const shiftNode = (node, d, onLeft, t) => {
         if (!node) return;
         const x2 = onLeft ? node.x - d : node.x + d;
         tx(node.id, x2, t);
         tx(node.eid, x2 + 25, t);
         node.update({ x: x2 });
-        shiftNode(node.left, d, t);
-        shiftNode(node.right, d, t);
+        shiftNode(node.left, d, onLeft, t);
+        shiftNode(node.right, d, onLeft, t);
     };
 
-    const shiftRoot = (node, d, fromLeft, t) => {
+    const shiftRoot = (node, d, fromLeft, onLeft, t) => {
         if (!node) return;
         const x2 = onLeft ? node.x - d : node.x + d;
         tx(node.id, x2, t);
         node.update({ x: x2 });
         if (node.parent) tx(node.eid, x2 + 25, t);
-        if (onLeft && !fromLeft) shiftNode(node.left, d, t);
-        if (!onLeft && fromLeft) shiftNode(node.right, d, t);
+        if (onLeft && !fromLeft) shiftNode(node.left, d, onLeft, t);
+        if (!onLeft && fromLeft) shiftNode(node.right, d, onLeft, t);
         if (node.left) append(node.left, t);
         if (node.right) append(node.right, t);
         // shift parent till root
-        shiftRoot(node.parent, d, node.isLeft, t);
+        shiftRoot(node.parent, d, node.isLeft, onLeft, t);
     };
 
     const rotateStep1 = (node, child) => {
@@ -137,14 +136,14 @@ function binaryTree({ tx, txy, animate, scope, cleanup }) {
             txy(node.eid, cx + 25, cy + 20, 1);
             node.update({ x: cx, y: cy });
             append(node, 1);
-            cleanup(child, dx, -dy, 1);
+            translate(child, dx, -dy, 1);
         } else {
             const x2 = node.x + (node.isLeft ? -dx : dx);
             const y2 = node.y + dy;
             txy(node.id, x2, y2, 1);
             txy(node.eid, x2 + 25, y2 + 20, 1);
             node.update({ x: x2, y: y2 });
-            _cleanup(node, 1);
+            fixOverlap(node, 1);
             append(node, 1);
         }
     };
@@ -188,8 +187,7 @@ function binaryTree({ tx, txy, animate, scope, cleanup }) {
             txy(node.id, node.x, node.y);
             txy(node.eid, node.x + 25, node.y + 20);
             append(node);
-            setNodePath(node);
-            _cleanup(node);
+            fixOverlap(node);
             animate(node.id, { opacity: 1 });
             animate(node.eid, { opacity: 1 });
             return node.refresh();
@@ -227,11 +225,11 @@ function binaryTree({ tx, txy, animate, scope, cleanup }) {
             if (lr) {
                 node = node.refresh();
                 lr = lr.refresh();
-                cleanup(lr, node.x - dx - lr.x, 0, 1);
+                translate(lr, node.x - dx - lr.x, 0, 1);
                 append(lr, 1);
                 this.cleanup(lr);
             }
-            cleanup(ll, lx, ly, 1);
+            translate(ll, lx, ly, 1);
             append(ll, 1);
             this.cleanup(ll);
         },
@@ -258,21 +256,17 @@ function binaryTree({ tx, txy, animate, scope, cleanup }) {
             if (rl) {
                 node = node.refresh();
                 rl = rl.refresh();
-                cleanup(rl, node.x + dx - rl.x, 0, 1);
+                translate(rl, node.x + dx - rl.x, 0, 1);
                 append(rl, 1);
                 this.cleanup(rl);
             }
-            cleanup(rr, rx, ry, 1);
+            translate(rr, rx, ry, 1);
             append(rr, 1);
             this.cleanup(rr);
         },
         append,
         cleanup(node) {
-            if (node) {
-                _cleanup(node.refresh(), 1);
-                this.cleanup(node.left);
-                this.cleanup(node.right);
-            }
+            traverse(node, (a) => fixOverlap(a.refresh(), 1));
         },
         collect(fn = (a) => a.value) {
             const nodes = [];
