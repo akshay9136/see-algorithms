@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useId, useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import {
@@ -6,11 +6,10 @@ import {
   IconButton,
   Link,
   Popover,
-  Stack,
   Switch,
   Typography,
 } from '@mui/material';
-import { InfoOutlined } from '@mui/icons-material';
+import { AutoAwesome, InfoOutlined } from '@mui/icons-material';
 import AppContext from '@/common/context';
 import useCredits from './useCredits';
 import useFeedback from './useFeedback';
@@ -34,6 +33,7 @@ export default function useSummary() {
   const controlRef = useRef(null);
   const payloadRef = useRef(null);
   const loading = useLoadingSteps();
+  const placeholderId = useId();
 
   useEffect(() => {
     return () => controlRef.current?.abort();
@@ -59,6 +59,7 @@ export default function useSummary() {
     controlRef.current?.abort();
     controlRef.current = controller;
     loading.start();
+  
     setContent('');
     setCompleted(false);
     setError(null);
@@ -140,6 +141,7 @@ export default function useSummary() {
       setSummaryOn(checked);
       trackEvent('ai_summary_toggled', { enabled: checked });
       if (!checked) abort();
+      setContent('');
     }
   };
 
@@ -154,9 +156,11 @@ export default function useSummary() {
   };
 
   const showFeedback = completed && !loading.isLoading && !error;
+  const showPlaceholder =
+    !content && !completed && !loading.isLoading && !error;
 
   const summary = isEmbed ? null : (
-    <Stack width={500} minHeight={200}>
+    <Box width={500} sx={{ maxWidth: '100%', minHeight: 200 }}>
       <Box display="flex" alignItems="center" gap={1}>
         <Typography variant="h6" component="h2">
           AI Summary
@@ -190,13 +194,45 @@ export default function useSummary() {
           size="small"
           checked={summaryOn}
           onChange={toggle}
-          slotProps={{ input: { 'aria-label': 'AI Summary Toggle' } }}
+          slotProps={{
+            input: {
+              'aria-label': 'AI Summary Toggle',
+              'aria-describedby': showPlaceholder ? placeholderId : undefined,
+            },
+          }}
         />
 
         <Typography variant="body2" color="text.secondary">
           ({SUMMARY_COST[algoId] || 3} credits)
         </Typography>
       </Box>
+
+      {showPlaceholder && (
+        <Box
+          id={placeholderId}
+          display="flex"
+          gap={1.5}
+          sx={{
+            mt: 2,
+            p: 1.5,
+            border: 1,
+            borderColor: 'divider',
+            borderRadius: 2,
+            bgcolor: 'action.hover',
+          }}
+        >
+          <AutoAwesome color="primary" fontSize="small" />
+          <Box>
+            <Typography variant="body2" fontWeight={600} gutterBottom>
+              See what happens with your input
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Get a short, step-by-step explanation of this visualization. Turn
+              on AI Summary, then start a fresh run with your input.
+            </Typography>
+          </Box>
+        </Box>
+      )}
 
       <Typography
         variant="body2"
@@ -226,7 +262,7 @@ export default function useSummary() {
         </Typography>
       )}
       {showFeedback && content.length > 100 && feedback}
-    </Stack>
+    </Box>
   );
 
   return [summary, explain, abort];

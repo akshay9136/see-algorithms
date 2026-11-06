@@ -69,7 +69,7 @@ const paymentDialogs = {
   PENDING: {
     title: 'Payment Pending',
     message: 'Credits will be added after your payment is confirmed.',
-    variant: 'warning',
+    variant: 'info',
   },
 };
 
@@ -210,7 +210,7 @@ export default function BuyCredits({ paymentStatus, returnUrl }) {
       {paymentAlert && (
         <Alert
           severity={paymentAlert.variant}
-          sx={{ mb: 3 }}
+          sx={{ width: 'fit-content', mx: 'auto', mb: 3 }}
           action={
             paymentStatus === 'SIGN_IN_REQUIRED' && (
               <Button
