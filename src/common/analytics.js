@@ -1,6 +1,8 @@
 // Only bounded, explicitly permitted fields can reach Google Analytics.
 export const GA_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-CG2WRZ9YET';
 
+const checkoutFields = ['currency', 'value', 'plan_id', 'credits', 'payment_method'];
+
 const fields = {
   visualization_start: [],
   visualization_complete: [],
@@ -17,8 +19,15 @@ const fields = {
   share_url: [],
   login: ['method'],
   sign_up: ['method'],
-  begin_checkout: ['currency', 'value', 'items'],
-  checkout_failed: ['reason'],
+  // --- Checkout funnel ---
+  // All events share the same fields so the full purchase context is available
+  // at every funnel step and GA4 reports can filter consistently.
+  checkout_started: checkoutFields,
+  checkout_progress: checkoutFields,
+  checkout_cancelled: checkoutFields,
+  checkout_failed: [...checkoutFields, 'reason'],
+  purchase: checkoutFields,
+  // --- / Checkout funnel ---
   catalog_filter: ['filter_category'],
   catalog_search: ['search_query'],
   app_error: ['reason'],

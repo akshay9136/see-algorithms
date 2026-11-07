@@ -1,8 +1,8 @@
 import db from '@/utils/firebase-utils';
+import compose from 'ramda/src/compose';
 import { withMethod, withAuth, withQueryParams } from '@/utils/middlewares';
 import { PRICING_PLANS } from '@/utils/constants';
 import { baseUrlPg } from '@/common/utils';
-import compose from 'ramda/src/compose';
 
 /**
  * Generate deterministic dummy phone  from orderId
@@ -12,7 +12,6 @@ function getPhoneNumber(orderId) {
     .map((c) => c.charCodeAt(0))
     .filter((c) => c < 100)
     .join('');
-
   return '9' + hash.slice(0, 9).padEnd(9, '0');
 }
 

@@ -1,6 +1,7 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
+import { beginCheckout, trackPaypalReturn } from '@/utils/checkout';
 import { useCredits, useDialog } from '@/hooks';
+import { useSession } from 'next-auth/react';
 import {
   Alert,
   Typography,
@@ -121,7 +122,10 @@ export default function BuyCredits({ paymentStatus, returnUrl }) {
 
   // PayPal returns via a new page load; Cashfree calls handleResult after checkout.
   useEffect(() => {
-    if (paymentDialogs[paymentStatus]?.title) handleResult(paymentStatus);
+    if (paymentDialogs[paymentStatus]?.title) {
+      handleResult(paymentStatus);
+      trackPaypalReturn(paymentStatus);
+    }
   }, [paymentStatus, handleResult]);
 
   const handlePurchase = async (plan) => {
@@ -130,6 +134,8 @@ export default function BuyCredits({ paymentStatus, returnUrl }) {
       return;
     }
     setLoadingId(plan.id);
+    const { saveForReturn, trackProgress, trackPurchase, trackFailed } =
+      beginCheckout(plan, currency);
 
     try {
       if (currency === 'USD') {
@@ -142,12 +148,14 @@ export default function BuyCredits({ paymentStatus, returnUrl }) {
         if (!response.ok) {
           throw new Error(result.error || 'Unable to start PayPal checkout.');
         }
+        saveForReturn();
+        trackProgress();
         window.location.assign(result.approvalUrl);
         return;
       }
 
       const orderRes = await fetch(
-        `/api/payments/create-order?planId=${plan.id}`,
+        `/api/payments/cashfree/create-order?planId=${plan.id}`,
         { method: 'POST', headers: { 'Content-Type': 'application/json' } },
       );
 
@@ -157,23 +165,26 @@ export default function BuyCredits({ paymentStatus, returnUrl }) {
       }
 
       const { orderId, paymentSessionId } = await orderRes.json();
-
       const cashfree = await window.Cashfree({
         mode: process.env.NODE_ENV === 'production' ? 'production' : 'sandbox',
       });
+      trackProgress();
       // Open checkout UI in modal
       await cashfree.checkout({ paymentSessionId, redirectTarget: '_modal' });
 
       // Verify payment status
-      const verifyRes = await fetch('/api/payments/verify', {
+      const verifyRes = await fetch('/api/payments/cashfree/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ orderId }),
       });
-
       const status = await verifyRes.text();
+      if (status === 'SUCCESS') trackPurchase();
+      if (status === 'FAILED') trackFailed('payment_declined');
+
       handleResult(status);
     } catch (err) {
+      trackFailed('api_error');
       showDialog({
         title: 'API Error',
         message: err.message || 'Something went wrong. Please try again.',

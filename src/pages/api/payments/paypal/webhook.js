@@ -11,7 +11,6 @@ async function handler(req, res) {
     if (!event?.id || !(await verifyPaypalWebhook(req.headers, event))) {
       return res.status(400).json({ error: 'Invalid webhook signature.' });
     }
-
     await processPaypalWebhook(event);
     return res.status(200).json({ received: true });
   } catch (error) {
