@@ -62,8 +62,8 @@ function binaryTree({ tx, txy, animate, scope, cleanup: translate }) {
     };
 
     const fixOverlap = (node, t = 0.3) => {
+        if (!node.parent) return;
         const onLeft = getRootSide(node);
-        if (onLeft === undefined) return;
 
         const closer = findNode((a) => {
             if (a.key !== node.key && !a.deleted) {

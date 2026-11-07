@@ -1,10 +1,10 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import {
   AdUnit,
-  DSInput,
   ListItems,
   SavedDataList,
   Section,
+  TreeInput,
 } from '@/components/common';
 import { useAlgorithm, useBreakpoints, useSavedData } from '@/hooks';
 import { useBinaryTree } from '@/hooks/data-structures';
@@ -118,7 +118,7 @@ function rebalance(node):
           </Box>
         </Stack>
         <Stack spacing={2}>
-          <DSInput {...props} buttons={buttons} />
+          <TreeInput {...props} buttons={buttons} />
           {animation}
           <br />
           {summary}

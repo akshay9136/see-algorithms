@@ -181,10 +181,10 @@ export default function useSummary() {
           onClose={() => setAnchorEl(null)}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
           slotProps={{
-            paper: { sx: { mt: 1, borderRadius: 2, bgcolor: '#fff9c4' } },
+            paper: { sx: { mt: 1, borderRadius: 2 } },
           }}
         >
-          <Typography sx={{ px: 1.5, py: 1 }} variant="body2">
+          <Typography sx={{ px: 2, py: 1.5 }} variant="body2">
             Get an AI-powered explanation tailored to this visualization.
             Accuracy may vary.
           </Typography>
@@ -223,7 +223,7 @@ export default function useSummary() {
         >
           <AutoAwesome color="primary" fontSize="small" />
           <Box>
-            <Typography variant="body2" fontWeight={600} gutterBottom>
+            <Typography lineHeight={1.2} fontWeight={600} gutterBottom>
               See what happens with your input
             </Typography>
             <Typography variant="body2" color="text.secondary">

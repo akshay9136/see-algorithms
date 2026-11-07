@@ -1,5 +1,5 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { DSInput, SavedDataList } from '@/components/common';
+import { SavedDataList, TreeInput } from '@/components/common';
 import { useSavedData } from '@/hooks';
 import { useBTree } from '@/hooks/data-structures';
 import Link from 'next/link';
@@ -32,7 +32,7 @@ export default function BTree(props) {
 
       <Box display="flex" flexWrap="wrap" gap={4}>
         <Stack spacing={2}>
-          <DSInput {...props} buttons={buttons} />
+          <TreeInput {...props} buttons={buttons} />
           {animation}
           <Typography variant="body2" color="text.secondary" mt={1}>
             For simplicity, the order of this B-Tree visualizer is fixed to 3.

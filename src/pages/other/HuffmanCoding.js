@@ -3,9 +3,8 @@ import { Edge, InputNumbers, Node } from '@/components/common';
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import { useAnimator, useSummary } from '@/hooks';
 import { charAt, sound, traverse } from '@/common/utils';
-import styles from '@/styles/numbers.module.css';
-import huffmanTree from '@/helpers/huffmanTree';
 import { Colors } from '@/common/constants';
+import huffmanTree from '@/helpers/huffmanTree';
 
 var queue, prompt;
 
@@ -68,7 +67,7 @@ export default function HuffmanCoding() {
   const renderInputs = () => (
     <Stack spacing={1}>
       {alphabets.length > 0 && (
-        <Box className={styles.inputNumbers}>
+        <Box className="inputRow">
           <Typography variant="subtitle1" fontWeight={600} mr={2}>
             Character:
           </Typography>

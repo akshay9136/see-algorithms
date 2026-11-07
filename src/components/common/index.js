@@ -9,6 +9,7 @@ import CustomSeo from './custom-seo';
 import Draggable from './draggable';
 import DrawGraph, { Plane } from './draw-graph';
 import DSInput from './ds-input';
+import TreeInput from './tree-input';
 import InputNumbers from './input-numbers';
 import SavedDataList from './saved-data';
 import SortingVisualizer from './sorting-visualizer';
@@ -27,6 +28,7 @@ export {
   DrawGraph,
   Plane,
   DSInput,
+  TreeInput,
   InputNumbers,
   SavedDataList,
   SortingVisualizer,

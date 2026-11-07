@@ -2,7 +2,7 @@ import { Box, Divider, Stack, Typography } from '@mui/material';
 import { muteSounds, randomKeys } from '@/common/utils';
 import { useBPlusTree, useBTree } from '@/hooks/data-structures';
 import { useEffect } from 'react';
-import DSInput from '@/components/common/ds-input';
+import { TreeInput } from '@/components/common';
 import Link from 'next/link';
 
 export default function BTreeVsBPlusTree(props) {
@@ -40,7 +40,7 @@ export default function BTreeVsBPlusTree(props) {
 
       <Box display="flex" flexWrap="wrap" gap={4} alignItems="end">
         <Stack spacing={2}>
-          <DSInput
+          <TreeInput
             {...props}
             buttons={bTreeButtons}
             allButtons={[...bTreeButtons, ...bPlusButtons]}

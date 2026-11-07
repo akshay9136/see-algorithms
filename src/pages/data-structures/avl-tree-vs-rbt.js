@@ -1,10 +1,10 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { muteSounds, randomKeys } from '@/common/utils';
-import { useBinaryTree } from '@/hooks/data-structures';
+import { TreeInput } from '@/components/common';
 import { useEffect } from 'react';
-import redBlackTree from '@/helpers/redBlackTree';
+import { useBinaryTree } from '@/hooks/data-structures';
+import { muteSounds, randomKeys } from '@/common/utils';
 import avlTree from '@/helpers/avlTree';
-import DSInput from '@/components/common/ds-input';
+import redBlackTree from '@/helpers/redBlackTree';
 import Link from 'next/link';
 
 export default function AVLvsRedBlack(props) {
@@ -46,7 +46,7 @@ export default function AVLvsRedBlack(props) {
 
       <Box display="flex" flexWrap="wrap" gap={4} alignItems="end">
         <Stack spacing={2}>
-          <DSInput
+          <TreeInput
             {...props}
             buttons={avlButtons}
             allButtons={[...avlButtons, ...rbtButtons]}

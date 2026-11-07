@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { Visualizer as LLV } from '../LinkedList';
 import { Visualizer as DLV } from '../DoublyLinkedList';
 import { Visualizer as TrieVisualizer } from '../PrefixTree';
-import { DSInput } from '@/components/common';
+import { DSInput, TreeInput } from '@/components/common';
 import { useRouter } from 'next/router';
 import {
   useBPlusTree,
@@ -86,10 +86,16 @@ export default function EmbedDataStructure() {
     return <div>Algorithm not found</div>;
   }
 
-  return <Visualizer useHook={useHook} />;
+  return (
+    <Visualizer
+      useHook={useHook}
+      useTreeInput={!['BinaryHeap', 'CircularQueue'].includes(dataStructure)}
+    />
+  );
 }
 
-function Visualizer({ useHook }) {
+function Visualizer({ useHook, useTreeInput }) {
+  const InputComponent = useTreeInput ? TreeInput : DSInput;
   const { animation, buttons } = useHook({});
 
   return (
@@ -102,7 +108,7 @@ function Visualizer({ useHook }) {
       }}
       position="relative"
     >
-      <DSInput buttons={buttons} />
+      <InputComponent buttons={buttons} />
       {animation}
       <a
         href={window.location.href.replace('/embed', '')}

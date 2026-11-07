@@ -49,6 +49,17 @@
     height: var(--layout-height);
 }
 
+.inputRow {
+    display: flex;
+    align-items: center;
+    z-index: 11;
+    width: max-content;
+}
+
+.inputRow .inputSize {
+    width: 4rem;
+    border-radius: 6px;
+}
 
 .drawGraph {
     width: max-content;

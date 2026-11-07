@@ -1,8 +1,17 @@
-import { Box, Button, Input, Stack, Typography } from '@mui/material';
-import { Redo, Save, Share, Undo } from '@mui/icons-material';
+import { useState } from 'react';
+import {
+  Box,
+  Button,
+  Input,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography,
+} from '@mui/material';
+import { PlayArrow, Redo, Save, Share, Undo } from '@mui/icons-material';
 import { AdUnit, SavedDataList } from '@/components/common';
-import { useAlgorithm, useBreakpoints, useSavedData } from '@/hooks';
 import { usePrefixTree } from '@/hooks/data-structures';
+import { useAlgorithm, useBreakpoints, useSavedData } from '@/hooks';
 import { copyTreeUrl } from '@/common/utils';
 
 export default function PrefixTree() {
@@ -65,6 +74,7 @@ function search(root, word):
 }
 
 export function Visualizer({ saveData, saveDataProps }) {
+  const [operation, setOperation] = useState('Insert');
   const {
     animation,
     handlers,
@@ -82,16 +92,23 @@ export function Visualizer({ saveData, saveDataProps }) {
     setWord(clean.slice(0, 15));
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && !running) handlers.insert();
-  };
-
   const empty = wordCount === 0;
-
-  const buttons = [
+  const toggles = [
     { text: 'Insert', onClick: handlers.insert },
     { text: 'Search', onClick: handlers.search, disabled: empty },
     { text: 'Delete', onClick: handlers.deleteWord, disabled: empty },
+  ];
+  const selected = toggles.find((button) => button.text === operation);
+  const playDisabled = running || selected.disabled;
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !playDisabled) {
+      e.preventDefault();
+      selected.onClick();
+    }
+  };
+
+  const buttons = [
     {
       text: 'Clear',
       onClick: handlers.clearState,
@@ -151,6 +168,40 @@ export function Visualizer({ saveData, saveDataProps }) {
             inputProps={{ maxLength: 15 }}
             sx={{ width: 150 }}
           />
+
+          <ToggleButtonGroup
+            exclusive
+            size="small"
+            value={operation}
+            onChange={(_, value) => {
+              if (value !== null) setOperation(value);
+            }}
+            disabled={running}
+            aria-label="Tree operation"
+          >
+            {toggles.map((button) => (
+              <ToggleButton
+                key={button.text}
+                value={button.text}
+                disabled={running || button.disabled}
+                sx={{ px: 1.5, py: 0.5, fontWeight: 600 }}
+              >
+                {button.text}
+              </ToggleButton>
+            ))}
+          </ToggleButtonGroup>
+
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={selected.onClick}
+            disabled={playDisabled}
+            aria-label="Play"
+            title="Play"
+            sx={{ minWidth: 40, px: 0 }}
+          >
+            <PlayArrow />
+          </Button>
 
           {buttons.map(({ text, icon, label, disabled, onClick }) => (
             <Button

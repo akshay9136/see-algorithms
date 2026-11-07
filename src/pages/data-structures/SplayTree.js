@@ -1,9 +1,9 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import {
-  DSInput,
   ListItems,
   SavedDataList,
   Section,
+  TreeInput,
 } from '@/components/common';
 import { useBinaryTree } from '@/hooks/data-structures';
 import { useSavedData } from '@/hooks';
@@ -80,7 +80,7 @@ export default function SplayTree(props) {
 
       <Box display="flex" flexWrap="wrap" gap={4}>
         <Stack spacing={2}>
-          <DSInput {...props} buttons={buttons} />
+          <TreeInput {...props} buttons={buttons} />
           {animation}
         </Stack>
         {summary}

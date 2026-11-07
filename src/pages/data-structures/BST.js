@@ -1,5 +1,5 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { AdUnit, DSInput, SavedDataList } from '@/components/common';
+import { AdUnit, SavedDataList, TreeInput } from '@/components/common';
 import { useAlgorithm, useBreakpoints, useSavedData } from '@/hooks';
 import { useBinaryTree } from '@/hooks/data-structures';
 import searchTree from '@/common/searchTree';
@@ -66,7 +66,7 @@ function insert(node, key):
           {xlup && <AdUnit sx={{ maxWidth: 300 }} format="rectangle" />}
         </Stack>
         <Stack spacing={2}>
-          <DSInput {...props} buttons={buttons} />
+          <TreeInput {...props} buttons={buttons} />
           {animation}
           <br />
           {summary}

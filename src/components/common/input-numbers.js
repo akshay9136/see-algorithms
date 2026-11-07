@@ -12,9 +12,8 @@ import { trackEvent, trackVisualization } from '@/common/analytics';
 import { randomInt, showError, sleep } from '@/common/utils';
 import { newIterator } from '@/common/iterator';
 import useSortingUrl from '@/hooks/useSortingUrl';
-import styles from '@/styles/numbers.module.css';
 
-var iterators = [];
+let iterators = [];
 
 function InputNumbers(props) {
   const [urlNumbers] = useSortingUrl();
@@ -130,15 +129,16 @@ function InputNumbers(props) {
   useEffect(() => handleReset, []);
 
   return (
-    <Box className={styles.inputNumbers}>
+    <Box className="inputRow">
       <Typography variant="subtitle1" fontWeight={600}>
         {!numbers.length
           ? 'Select number of elements: '
           : props.label || 'Enter numbers: '}
         &nbsp;
       </Typography>
+
       {!numbers.length ? (
-        <Select onChange={handleSelect} className={styles.select} size="small">
+        <Select onChange={handleSelect} className="inputSize" size="small">
           <MenuItem></MenuItem>
           {Array.from(Array(max - min + 1))
             .map((_, i) => min + i)
@@ -161,6 +161,7 @@ function InputNumbers(props) {
           ))}
         </Box>
       )}
+
       {numbers.length > 0 && (
         <Box display="flex" gap={1}>
           <Button

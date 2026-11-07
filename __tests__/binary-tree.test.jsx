@@ -50,6 +50,34 @@ describe('Binary search tree visualization', () => {
     expect(Object.values(nodes[6].dataset)).toEqual(['320', '230']);
   });
 
+  test('selects an operation without running it and starts it with Enter', async () => {
+    const input = screen.getByLabelText(/Enter a number/i);
+    const remove = screen.getByRole('button', { name: 'Delete' });
+    fireEvent.change(input, { target: { value: '28' } });
+    fireEvent.click(remove);
+    expect(remove).toHaveAttribute('aria-pressed', 'true');
+    expect(container.querySelectorAll('.node')).toHaveLength(6);
+    // Clicking the active option keeps it selected.
+    fireEvent.click(remove);
+    expect(remove).toHaveAttribute('aria-pressed', 'true');
+    fireEvent.keyDown(input, { key: 'Enter' });
+    expect(input).toBeDisabled();
+    expect(remove).toBeDisabled();
+    await waitFor(() => expect(remove).toBeEnabled());
+    expect(container.querySelectorAll('.node')[2].dataset.ty).toBe('110');
+    expect(screen.getByRole('button', { name: 'Undo' })).toBeEnabled();
+    expect(remove).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  test('rejects an empty value before starting playback', async () => {
+    const input = screen.getByLabelText(/Enter a number/i);
+    fireEvent.change(input, { target: { value: '' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Play' }));
+    expect(screen.getByRole('button', { name: 'Insert' })).toBeEnabled();
+    expect(container.querySelectorAll('.node')).toHaveLength(6);
+    await screen.findByText('Please enter a number.');
+  });
+
   test('deletes node at correct position', async () => {
     await deleteNode(28);
     const nodes = container.querySelectorAll('.node');
