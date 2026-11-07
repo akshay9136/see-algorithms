@@ -1,6 +1,6 @@
 import { sleep, sound } from '../common/utils';
 
-const NODE_W = 32; // effective node width used for leaf x-spacing
+const NODE_W = 36; // effective node width used for leaf x-spacing
 const V_GAP = 60; // vertical gap between levels
 const H_GAP = 40; // horizontal gap between siblings
 

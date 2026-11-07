@@ -111,7 +111,10 @@ export function Visualizer({ saveData, saveDataProps }) {
   const buttons = [
     {
       text: 'Clear',
-      onClick: handlers.clearState,
+      onClick: () => {
+        handlers.clearState();
+        setOperation('Insert');
+      },
       disabled: empty,
       color: 'secondary',
     },

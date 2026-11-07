@@ -92,7 +92,10 @@ const TreeInput = forwardRef((props, ref) => {
           key={btn.text || btn.label}
           size="small"
           variant="outlined"
-          onClick={() => handleAction(btn)}
+          onClick={() => {
+            handleAction(btn);
+            if (btn.text === 'Clear') setOperation('Insert');
+          }}
           color={btn.color || 'primary'}
           disabled={isBusy || btn.disabled}
           aria-label={btn.text || btn.label}

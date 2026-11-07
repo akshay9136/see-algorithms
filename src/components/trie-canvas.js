@@ -1,8 +1,8 @@
-import { Colors } from '@/common/constants';
-import { Paper } from '@mui/material';
+import Draggable from './common/draggable';
+import { Colors } from '../common/constants';
 import { memo } from 'react';
 
-const NODE_R = 16; // node radius
+const NODE_R = 18; // node radius
 const EMPTY_MSG = 'Insert a word to see the Trie grow';
 
 function nodeColor(node) {
@@ -15,17 +15,17 @@ function nodeColor(node) {
 }
 
 const styles = {
-  svg: { width: '100%', height: '100%' },
+  svg: { width: '100%', height: '100%', overflow: 'visible' },
   circle: { transition: 'fill 0.3s ease, stroke 0.3s ease' },
   edge: { transition: 'stroke 0.3s ease' },
-  label: { userSelect: 'none' },
+  label: { userSelect: 'none', fontWeight: 600 },
 };
 
 function TrieCanvas({ nodes, edges }) {
   const hasNodes = Boolean(nodes?.some((n) => n.char !== ''));
 
   return (
-    <Paper className="resizable">
+    <Draggable>
       <svg
         // viewBox="0 0 600 400"
         style={styles.svg}
@@ -60,17 +60,15 @@ function TrieCanvas({ nodes, edges }) {
                   fill={color}
                   stroke={node.highlighted ? color : Colors.stroke}
                   strokeWidth={1.5}
-                  className={styles.circle}
+                  style={styles.circle}
                 />
                 <text
                   x={node.x}
                   y={node.y + 1}
                   textAnchor="middle"
                   dominantBaseline="middle"
-                  className={styles.label}
+                  style={styles.label}
                   fill={Colors.label}
-                  fontSize={14}
-                  fontWeight={node.isEnd ? 700 : 500}
                 >
                   {isRoot ? 'rt' : node.char.toUpperCase()}
                 </text>
@@ -93,7 +91,7 @@ function TrieCanvas({ nodes, edges }) {
           </text>
         )}
       </svg>
-    </Paper>
+    </Draggable>
   );
 }
 

@@ -4,6 +4,7 @@ import useUndoRedo from '../useUndoRedo';
 import prefixTree from '@/helpers/prefixTree';
 import TrieCanvas from '@/components/trie-canvas';
 import { showError } from '@/common/utils';
+import { Paper } from '@mui/material';
 
 // Drive the async generator to completion
 async function complete(gen) {
@@ -116,7 +117,9 @@ export default function usePrefixTree() {
   };
 
   const animation = (
-    <TrieCanvas nodes={trieState.nodes} edges={trieState.edges} />
+    <Paper className="resizable">
+      <TrieCanvas nodes={trieState.nodes} edges={trieState.edges} />
+    </Paper>
   );
 
   return {
