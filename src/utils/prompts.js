@@ -7,7 +7,7 @@ const instructions = `Instructions:
 - Highlight important actions.`;
 
 // common instructions from line 2
-const _instructions = instructions.split('\n').slice(2).join('\n');
+const commonInst = instructions.split('\n').slice(2).join('\n');
 
 const searchTree = (name) => {
   return ({ keys, operation, input }) => `
@@ -72,7 +72,19 @@ Instructions:
 - Explain the algorithm step by step as it processes the adjacency matrix.
 - Use alphabets (A, B, C, D, ..) for the vertices.
 - Never mention numeric indices — they are implementation details not visible to the user.
-${_instructions}`;
+${commonInst}`;
+
+const depthFirstSearch = (data) => `${graphAlgorithm('Depth-First Search')(data)} 
+- Simulate the stack. Pop the top vertex, then push its unvisited outgoing neighbors in label order.
+- Mark each neighbor visited when you push it.`;
+
+const breadthFirstSearch = (data) => `${graphAlgorithm('Breadth-First Search')(data)}
+- Simulate the queue. Dequeue the front vertex, then enqueue its unvisited outgoing neighbors in label order.
+- Mark each neighbor visited when you enqueue it.`;
+
+const topologicalSort = (data) => `${graphAlgorithm('Topological Sorting')(data)}
+- Use Kahn's algorithm: start by pushing all vertices with in-degree 0.
+- Simulate the stack. Pop the top vertex, then decrement the in-degree of its outgoing neighbors.`;
 
 const huffmanCoding = (data) => `
 You are explaining an algorithm to someone observing a visualization of Huffman Coding.
@@ -81,7 +93,7 @@ Input: ${JSON.stringify(data)}
 
 Instructions:
 - Explain the construction of the Huffman Tree and generation of codes using above input.
-${_instructions}`;
+${commonInst}`;
 
 const prompts = {
   searchTree,
@@ -90,6 +102,9 @@ const prompts = {
   bTree,
   bPlusTree,
   graphAlgorithm,
+  depthFirstSearch,
+  breadthFirstSearch,
+  topologicalSort,
   huffmanCoding,
 };
 

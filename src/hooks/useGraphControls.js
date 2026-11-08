@@ -10,7 +10,7 @@ import { newIterator } from '@/common/iterator';
 import { showError, sleep } from '@/common/utils';
 import $ from 'jquery';
 
-var iterators = [], prevSrc;
+var iterators = [];
 
 function useGraphControls(_config, props) {
   const config = { ..._config };
@@ -73,10 +73,7 @@ function useGraphControls(_config, props) {
 
   const restart = () => {
     const src = source.charCodeAt(0) - 65;
-    if (playStatus === 0 || src !== prevSrc) {
-      props.explain?.(src);
-      prevSrc = src;
-    }
+    props.explain?.(src);
     scope.find('.plane').triggerHandler('mouseleave');
     $('.plane').off();
     runRef.current?.cancel();

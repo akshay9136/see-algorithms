@@ -20,9 +20,9 @@ const promptBuilders = {
   BinaryHeap: prompts.binaryHeap,
   PrefixTree: prompts.prefixTree,
   HuffmanCoding: prompts.huffmanCoding,
-  BFS: prompts.graphAlgorithm('Breadth-First Search'),
-  DFS: prompts.graphAlgorithm('Depth-First Search (using stack)'),
-  TopSort: prompts.graphAlgorithm('Topological Sorting (using stack)'),
+  BFS: prompts.breadthFirstSearch,
+  DFS: prompts.depthFirstSearch,
+  TopSort: prompts.topologicalSort,
   Dijkstras: prompts.graphAlgorithm('Dijkstras Shortest Path'),
   Prims: prompts.graphAlgorithm('Prims Minimum Spanning Tree'),
   Eulerian: prompts.graphAlgorithm('Eulerian Cycle'),
@@ -57,8 +57,6 @@ async function handler(req, res, user) {
   }
 
   const stream = createResponse(res);
-
-  console.log('BUILD PROMPT', buildPrompt(data))
 
   try {
     const response = await ai.models.generateContentStream({

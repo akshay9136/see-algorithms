@@ -27,7 +27,7 @@ export default function useSummary() {
   const [content, setContent] = useState('');
   const [error, setError] = useState(null);
   const { playStatus, setContext } = useContext(AppContext);
-  const { pathname, query } = useRouter();
+  const { pathname, query, asPath } = useRouter();
   const { data: session } = useSession();
   const { fetchCredits } = useCredits();
   const controlRef = useRef(null);
@@ -135,7 +135,7 @@ export default function useSummary() {
         feature: 'ai_summary',
         reason: 'sign_in_required',
       });
-      setContext({ signInOpen: true, callbackUrl: router.asPath });
+      setContext({ signInOpen: true, callbackUrl: asPath });
     } else {
       const { checked } = e.target;
       setSummaryOn(checked);
