@@ -135,7 +135,7 @@ export default function useSummary() {
         feature: 'ai_summary',
         reason: 'sign_in_required',
       });
-      setContext({ signInOpen: true });
+      setContext({ signInOpen: true, callbackUrl: router.asPath });
     } else {
       const { checked } = e.target;
       setSummaryOn(checked);

@@ -170,6 +170,17 @@ export function createGraphScope(container) {
       plane.children().not(':first').remove();
     },
 
+    resetView() {
+      const { vertex, edge } = getProps();
+      plane.find('.vrtx').attr({ fill: vertex.fill, stroke: vertex.stroke });
+      plane.find('.edge').attr({ stroke: edge.stroke, 'stroke-width': edge['stroke-width'] })
+        .removeAttr('stroke-dasharray stroke-dashoffset');
+      plane.find('.vtag').remove();
+      plane.find('.vlbl').css('font-size', '').each(function (i) {
+        this.textContent = charAt(65 + i);
+      });
+    },
+
     createGraph(data, weighted) {
       this.clearGraph();
       const { points, segments, directed, matrix, weights } = data;

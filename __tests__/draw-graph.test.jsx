@@ -4,11 +4,13 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import {
   clearGraph,
   renderGraph,
+  runAnimation,
   testShareLink,
   userClick,
   userDrag,
 } from './test-utils/graph';
 import Dijkstras from '@/pages/graph/Dijkstras';
+import { Colors } from '@/common/constants';
 
 describe('Graph visualization editor', () => {
   var container,
@@ -112,6 +114,47 @@ describe('Graph visualization editor', () => {
     await waitFor(() => {
       expect(selectAll('.edge')).toHaveLength(1);
     });
+  });
+
+  test('reopens the completed graph for editing and runs it again', async () => {
+    await clearGraph(container);
+    const plane = container.querySelector('.plane');
+    const getButton = (name) => screen.getByRole('button', { name });
+    const fireClick = userClick(plane);
+    fireClick(100, 100);
+    fireClick(100, 100);
+    fireClick(200, 100);
+    const cost = plane.querySelector('.cost');
+    const edge = plane.querySelector('.edge');
+    const path = edge.getAttribute('d');
+    fireEvent.change(cost, { target: { value: '007' } });
+
+    const source = screen.getByLabelText('Src');
+    fireEvent.change(source, { target: { value: 'B' } });
+    fireEvent.click(getButton('Play'));
+    expect(screen.getByTestId('PauseIcon')).toBeInTheDocument();
+    expect(getButton('Edit graph')).toBeDisabled();
+    await waitFor(() => expect(getButton('Edit graph')).toBeEnabled());
+    expect(cost).toHaveAttribute('readonly');
+    expect(edge).toHaveAttribute('stroke', Colors.visited);
+
+    fireEvent.click(getButton('Edit graph'));
+    expect(source).toHaveValue('B');
+    expect(cost).toHaveValue('007');
+    expect(cost).not.toHaveAttribute('readonly');
+    expect(edge).toHaveAttribute('d', path);
+    expect(edge).toHaveAttribute('stroke', Colors.stroke);
+    expect(selectAll('.vtag')).toHaveLength(0);
+    expect(
+      Array.from(selectAll('.vlbl'), (label) => label.textContent),
+    ).toEqual(['A', 'B']);
+    expect(getButton('Undo')).toBeEnabled();
+    fireClick(200, 100);
+    fireClick(300, 100);
+    expect(selectAll('.edge')).toHaveLength(2);
+    await runAnimation('B');
+    expect(getButton('Edit graph')).toBeEnabled();
+    expect(selectAll(`.edge[stroke="${Colors.visited}"]`)).toHaveLength(2);
   });
 
   test('renders saved data', async () => {

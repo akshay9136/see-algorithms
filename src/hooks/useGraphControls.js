@@ -8,7 +8,6 @@ import Graph from '@/common/graph';
 import { useRouter } from 'next/router';
 import { newIterator } from '@/common/iterator';
 import { showError, sleep } from '@/common/utils';
-import { Colors } from '@/common/constants';
 import $ from 'jquery';
 
 var iterators = [], prevSrc;
@@ -67,8 +66,9 @@ function useGraphControls(_config, props) {
       });
       await sleep(800);
     }
+    const run = runRef.current;
     await Promise.all(iterators.map((it) => it.start()));
-    setContext({ playStatus: 2 });
+    if (runRef.current === run) setContext({ playStatus: 2 });
   };
 
   const restart = () => {
@@ -77,6 +77,7 @@ function useGraphControls(_config, props) {
       props.explain?.(src);
       prevSrc = src;
     }
+    scope.find('.plane').triggerHandler('mouseleave');
     $('.plane').off();
     runRef.current?.cancel();
     runRef.current = trackVisualization(startHandlers.length);
@@ -84,6 +85,18 @@ function useGraphControls(_config, props) {
       newIterator(runRef.current.wrap(fn), props.scaleDelay, src),
     );
     resume();
+  };
+
+  const resetView = () => {
+    resetHandlers.forEach((reset) => reset());
+    scopes.forEach((sc) => sc.resetView());
+  };
+
+  const handleEdit = () => {
+    resetView();
+    scope.find('.plane .cost').removeAttr('readonly');
+    drawGraph(config);
+    setContext({ playStatus: 0 });
   };
 
   const handlePlay = () => {
@@ -97,11 +110,7 @@ function useGraphControls(_config, props) {
         setContext({ playStatus: -1 });
         break;
       case 2:
-        resetHandlers.forEach((fn) => fn());
-        $('.vrtx').attr('fill', Colors.vertex);
-        $('.vrtx').attr('stroke', Colors.stroke);
-        $('.edge').attr('stroke', Colors.stroke);
-        $('.edge').attr('stroke-width', 2.5);
+        resetView();
         if (validate()) restart();
         break;
       default:
@@ -112,6 +121,7 @@ function useGraphControls(_config, props) {
 
   const cleanup = () => {
     runRef.current?.cancel();
+    runRef.current = null;
     $('.plane').off();
     iterators.forEach((it) => it.exit());
     resetHandlers.forEach((reset) => reset());
@@ -211,6 +221,7 @@ function useGraphControls(_config, props) {
 
   return {
     handlePlay,
+    handleEdit,
     handleClear,
     handleUndo,
     handleRedo,

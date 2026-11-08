@@ -15,6 +15,7 @@ import {
   Typography,
 } from '@mui/material';
 import {
+  Edit,
   PlayArrow,
   Pause,
   Refresh,
@@ -57,6 +58,7 @@ function DrawGraph({
 
   const {
     handlePlay,
+    handleEdit,
     handleClear,
     handleUndo,
     handleRedo,
@@ -214,6 +216,24 @@ function DrawGraph({
 
       <Paper className="resizable" sx={{ mb: 1 }}>
         <Plane />
+        <IconButton
+          aria-label="Edit graph"
+          title="Edit graph"
+          onClick={handleEdit}
+          disabled={playStatus < 2}
+          sx={{
+            position: 'absolute',
+            top: -1,
+            left: -1,
+            border: 1,
+            borderColor: 'divider',
+            borderRadius: 2,
+            bgcolor: 'action.hover',
+            '&:hover': { bgcolor: 'action.selected' },
+          }}
+        >
+          <Edit fontSize="small" />
+        </IconButton>
       </Paper>
 
       {!isEmbed && <SavedDataList onSelect={loadSavedGraph} {...rest} />}

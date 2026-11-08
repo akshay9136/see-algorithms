@@ -71,6 +71,7 @@ Graph Input: ${JSON.stringify(data)}
 Instructions:
 - Explain the algorithm step by step as it processes the adjacency matrix.
 - Use alphabets (A, B, C, D, ..) for the vertices.
+- Never mention numeric indices — they are implementation details not visible to the user.
 ${_instructions}`;
 
 const huffmanCoding = (data) => `
