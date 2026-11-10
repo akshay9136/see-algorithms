@@ -41,7 +41,7 @@ export default function SelectionSort() {
       <Box display="flex" flexWrap="wrap" gap={4}>
         <Box flex={1}>
           <Section title="How It Works">
-            <Typography paragraph>
+            <Typography>
               Selection Sort divides the array into two logical parts: a sorted
               region at the beginning and an unsorted region at the end. In each
               iteration, the algorithm scans the entire unsorted region to find

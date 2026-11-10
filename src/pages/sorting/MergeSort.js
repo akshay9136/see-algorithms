@@ -51,7 +51,7 @@ function mergeSort(start, end):
       <Box display="flex" flexWrap="wrap" gap={4}>
         <Box flex={1}>
           <Section title="How It Works">
-            <Typography paragraph>
+            <Typography>
               Merge Sort begins by dividing the input array in half, then
               recursively divides each half until every sub-array contains just
               one element (which is trivially sorted). The &quot;conquer&quot;

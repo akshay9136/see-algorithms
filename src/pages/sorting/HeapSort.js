@@ -61,7 +61,7 @@ function heapify(i):
       <Box display="flex" flexWrap="wrap" gap={4}>
         <Box flex={1}>
           <Section title="How It Works">
-            <Typography paragraph>
+            <Typography>
               Heap Sort operates in two main phases. First, it transforms the
               input array into a <strong>Max Heap</strong> — a complete binary
               tree where every parent node is greater than or equal to its
@@ -79,12 +79,11 @@ function heapify(i):
             <Typography>
               Heap Sort is ideal when you need guaranteed O(n log n) worst-case
               performance with O(1) extra space — a combination that neither{' '}
-              <strong>Quick Sort</strong> (O(n²) worst case) nor{' '}
-              <strong>Merge Sort</strong> (O(n) extra space) can offer. It is
-              commonly used in systems with strict memory constraints. However,
-              Heap Sort is <Link href="/articles/stable-sorting">unstable</Link>{' '}
-              and tends to have worse cache performance than Quick Sort due to
-              its non-sequential memory access patterns.
+              Quick Sort nor Merge Sort can offer. It is commonly used in
+              systems with strict memory constraints. However, Heap Sort is{' '}
+              <Link href="/articles/stable-sorting">unstable</Link> and tends to
+              have worse cache performance than Quick Sort due to its
+              non-sequential memory access patterns.
             </Typography>
           </Section>
         </Box>

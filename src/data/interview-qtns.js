@@ -212,6 +212,21 @@ export const interviewQtns = {
         </>
       ),
     },
+    {
+      question:
+        'What is the difference between LSD and MSD Radix Sort, and when should you choose one over the other?',
+      answer: (
+        <>
+          <strong>LSD (Least Significant Digit)</strong> sorts from right to
+          left and requires a stable sorting algorithm across all passes. It is
+          simpler and ideal for fixed-length keys (like integers).{' '}
+          <strong>MSD (Most Significant Digit)</strong> sorts from left to right
+          and recursively subdivides buckets into sub-buckets. MSD is faster for
+          variable-length strings because it can terminate early once a prefix
+          uniquely identifies a key.
+        </>
+      ),
+    },
   ],
 
   MergeSort: [
@@ -475,7 +490,7 @@ export const interviewQtns = {
       answer: (
         <>
           Binary Min-Heap implementation yields <var>O((V + E) log V)</var>. A
-          Fibonacci Heap optimizes <code>decrease_key</code> operations to
+          Fibonacci Heap optimizes <code>decreaseKey</code> operations to
           amortized <var>O(1)</var>, improving overall time complexity to{' '}
           <var>O(E + V log V)</var>, which is superior for dense graphs where{' '}
           <var>E ≈ V²</var>.
@@ -487,11 +502,11 @@ export const interviewQtns = {
         "How does Prim's algorithm behave if the graph contains negative edge weights or disconnected components?",
       answer: (
         <>
-          Prim&apos;s algorithm works correctly with negative edge weights
-          (unlike Dijkstra). However, if the graph is disconnected, Prim&apos;s
-          will only build an MST for the connected component containing the
-          starting node. To span all components, Prim&apos;s must be launched on
-          each unvisited component (Minimum Spanning Forest).
+          Prim&apos;s algorithm works correctly with negative edge weights.
+          However, if the graph is disconnected, Prim&apos;s will only build an
+          MST for the connected component containing the starting node. To span
+          all components, Prim&apos;s must be launched on each unvisited
+          component (Minimum Spanning Forest).
         </>
       ),
     },
@@ -534,6 +549,21 @@ export const interviewQtns = {
         </>
       ),
     },
+    {
+      question:
+        'How do Path Compression and Union by Rank optimize the Disjoint Set Union (DSU) in Kruskal’s algorithm?',
+      answer: (
+        <>
+          <strong>Union by Rank</strong> attaches the shallower tree under the
+          deeper tree to keep tree height bounded by <var>O(log V)</var>.{' '}
+          <strong>Path Compression</strong> flattens the tree during{' '}
+          <code>find</code> operations by pointing visited nodes directly to the
+          root. Together, they reduce the amortized cost per DSU operation,
+          making Kruskal&apos;s overall runtime dominated by edge sorting{' '}
+          <var>O(E log E)</var>.
+        </>
+      ),
+    },
   ],
 
   Boruvkas: [
@@ -559,6 +589,20 @@ export const interviewQtns = {
           each component searches for its minimum outgoing edge independently of
           other components, these searches can be executed concurrently in
           parallel threads across multiple GPU cores.
+        </>
+      ),
+    },
+    {
+      question:
+        "What happens in Borůvka's algorithm if edge weights are not distinct, and how can cycle creation be prevented?",
+      answer: (
+        <>
+          If two edges have identical minimum weights, two components might
+          simultaneously pick edges that together create a cycle instead of an
+          acyclic tree. To prevent this, a consistent tie-breaking rule is
+          enforced, such as comparing unique edge IDs or vertex index tuples{' '}
+          <code>(u, v)</code> — ensuring all edge weights are effectively
+          strictly distinct.
         </>
       ),
     },
@@ -669,6 +713,21 @@ export const interviewQtns = {
         </>
       ),
     },
+    {
+      question:
+        'How can backtracking be optimized when searching for a Hamiltonian cycle?',
+      answer: (
+        <>
+          Key pruning heuristics include: 1) <strong>Degree check:</strong> any
+          vertex with degree &lt; 2 can never be part of a Hamiltonian cycle. 2){' '}
+          <strong>Connectivity check:</strong> after choosing an edge, verify
+          the remaining unvisited vertices remain connected to the start. 3){' '}
+          <strong>Branch-and-bound:</strong> for TSP, maintain the best total
+          cost seen so far and prune any path whose lower-bound cost exceeds
+          that best.
+        </>
+      ),
+    },
   ],
 
   Eulerian: [
@@ -682,6 +741,22 @@ export const interviewQtns = {
           vertices have an odd degree. An <strong>Eulerian Cycle</strong> is an
           Eulerian Path that starts and ends at the same vertex, which requires
           every vertex to have an even degree (0 odd degree vertices).
+        </>
+      ),
+    },
+    {
+      question:
+        "Why is Hierholzer's algorithm preferred over Fleury's algorithm for finding an Eulerian circuit?",
+      answer: (
+        <>
+          <strong>Fleury&apos;s algorithm</strong> builds the circuit edge by
+          edge, only crossing a bridge if there is no alternative. Because
+          detecting bridges requires running DFS or BFS at each step,
+          Fleury&apos;s runs in <var>O(E²)</var> time.{' '}
+          <strong>Hierholzer&apos;s algorithm</strong> traces simple cycles and
+          splices them together using a stack, running in optimal linear time{' '}
+          <var>O(V + E)</var>. Hierholzer&apos;s is therefore the universal
+          choice in production.
         </>
       ),
     },
@@ -804,6 +879,23 @@ head = prev;`,
         </>
       ),
     },
+    {
+      question: 'How do you reverse a Doubly Linked List in-place?',
+      answer: (
+        <>
+          Traverse through the list node by node. For each node, swap its{' '}
+          <code>prev</code> and <code>next</code> pointers:
+        </>
+      ),
+      codeSnippet: `let cur = head, temp = null;
+while (cur) {
+  temp = cur.prev;
+  cur.prev = cur.next;
+  cur.next = temp;
+  cur = cur.prev; // advance using swapped prev
+}
+if (temp) head = temp.prev;`,
+    },
   ],
 
   BinaryHeap: [
@@ -897,11 +989,6 @@ head = prev;`,
         </>
       ),
     },
-    {
-      question: 'What are common real-world applications of Tries?',
-      answer:
-        'Autocomplete (search engines, IDEs), IP routing via longest-prefix matching (Patricia Tries), spell checkers, and DNA/text pattern search using suffix Tries.',
-    },
   ],
 
   AVL: [
@@ -910,9 +997,10 @@ head = prev;`,
       answer: (
         <>
           The balance factor is calculated as:{' '}
-          <code>height(leftSubtree) - height(rightSubtree)</code>. In an AVL
-          tree, balance factor for every node must be within (
-          <var>-1, 0, +1</var>).
+          <code>height(left) - height(right)</code>. In an AVL tree, balance
+          factor for every node must be within [&minus;1, 0, 1]. If any
+          insertion or deletion causes the factor to become <var>+2</var> or{' '}
+          <var>&minus;2</var>, the tree restores balance using rotations.
         </>
       ),
     },
@@ -932,13 +1020,16 @@ head = prev;`,
   RedBlackTree: [
     {
       question:
-        "Why does Java's TreeMap use Red-Black Tree as its underlying data structure?",
+        'Why do standard libraries prefer Red-Black Trees over AVL Trees despite AVL having a smaller height?',
       answer: (
         <>
-          Red-Black Trees guarantee at most <var>2</var> rotations for insertion
-          and <var>3</var> rotations for deletion. This predictable low
-          rebalancing cost during tree mutations gives consistent, fast dynamic
-          insert/delete operations for general standard libraries.
+          AVL trees maintain strict height balance, which requires frequent
+          rotations during mutations — up to <var>O(log n)</var> rotations for a
+          single deletion. Red-Black trees tolerate slightly more imbalance
+          (height up to <var>2 log n</var>) but guarantee at most <var>3</var>{' '}
+          rotations on deletion. For general-purpose workloads with mixed reads
+          and writes, the lower rebalancing cost of Red-Black trees provides
+          superior overall throughput.
         </>
       ),
     },
@@ -948,11 +1039,11 @@ head = prev;`,
       answer: (
         <>
           A red leaf can be removed without changing the black-height on any
-          path. Removing a black node creates a{' '}
-          <Link href="/articles/deleting-rbt-node">black-height deficit</Link>;
-          a red replacement is recolored black, otherwise a double-black is
-          resolved via recoloring and rotations. It is the color of the
-          physically removed successor that determines whether fixup is needed.
+          path. Removing a black node creates a <strong>double-black</strong>{' '}
+          situation; a red replacement is recolored black, otherwise a
+          double-black is resolved via recoloring and rotations. It is the color
+          of the physically removed successor that determines whether fixup is
+          needed.
         </>
       ),
     },
@@ -994,6 +1085,18 @@ head = prev;`,
           Splay Trees do not store any extra balance information (like height in
           AVL or color bits in Red-Black). This saves node memory footprint
           while maintaining self-balancing properties.
+        </>
+      ),
+    },
+    {
+      question:
+        'Why does the Zig-Zig step rotate the parent first and then the node?',
+      answer: (
+        <>
+          Rotating the parent around the grandparent first halves the depth of
+          almost every node along the access path. This path-halving effect is
+          mathematically required to prove the amortized <var>O(log n)</var>{' '}
+          bound via the potential method.
         </>
       ),
     },

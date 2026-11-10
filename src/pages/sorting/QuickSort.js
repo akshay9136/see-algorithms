@@ -58,7 +58,7 @@ function quickSort(start, end):
       <Box display="flex" flexWrap="wrap" gap={4}>
         <Box flex={1}>
           <Section title="How It Works">
-            <Typography paragraph>
+            <Typography>
               Quick sort selects a pivot element from the array (commonly the
               last element). It then partitions the remaining elements into two
               sub-arrays — elements less than the pivot go to the left, and
