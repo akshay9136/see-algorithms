@@ -72,6 +72,9 @@ export default function App({
   const theme = useMemo(
     () =>
       createTheme({
+        breakpoints: {
+          values: { xs: 0, sm: 600, md: 900, lg: 1200, xl: 1536, xxl: 1920 },
+        },
         palette: { mode: darkMode ? 'dark' : 'light' },
         typography: { fontFamily: nunito.style.fontFamily },
       }),

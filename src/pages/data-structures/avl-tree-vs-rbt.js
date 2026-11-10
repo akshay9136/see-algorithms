@@ -1,7 +1,8 @@
+import { AdUnit, TreeInput } from '@/components/common';
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { TreeInput } from '@/components/common';
 import { useEffect } from 'react';
 import { useBinaryTree } from '@/hooks/data-structures';
+import { useBreakpoints } from '@/hooks';
 import { muteSounds, randomKeys } from '@/common/utils';
 import avlTree from '@/helpers/avlTree';
 import redBlackTree from '@/helpers/redBlackTree';
@@ -9,6 +10,7 @@ import Link from 'next/link';
 
 export default function AVLvsRedBlack(props) {
   const randomNodes = randomKeys();
+  const { lgup, xxldown } = useBreakpoints();
 
   const { animation: avlAnimation, buttons: avlButtons } = useBinaryTree({
     createTree: (animator) => avlTree(animator, () => {}),
@@ -44,16 +46,19 @@ export default function AVLvsRedBlack(props) {
 
       <Divider sx={{ my: 3 }} />
 
-      <Box display="flex" flexWrap="wrap" gap={4} alignItems="end">
-        <Stack spacing={2}>
-          <TreeInput
-            {...props}
-            buttons={avlButtons}
-            allButtons={[...avlButtons, ...rbtButtons]}
-          />
-          {avlAnimation}
-        </Stack>
-        {rbtAnimation}
+      <Box display="flex" gap={3}>
+        <Box display="flex" flexWrap="wrap" gap={4} alignItems="end">
+          <Stack spacing={2}>
+            <TreeInput
+              {...props}
+              buttons={avlButtons}
+              allButtons={[...avlButtons, ...rbtButtons]}
+            />
+            {avlAnimation}
+          </Stack>
+          {rbtAnimation}
+        </Box>
+        {lgup && xxldown && <AdUnit fullWidth="true" />}
       </Box>
     </>
   );

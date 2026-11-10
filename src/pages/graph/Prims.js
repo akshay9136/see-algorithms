@@ -1,9 +1,21 @@
-import { DrawGraph, ListItems } from '@/components/common';
+import {
+  AdUnit,
+  ComplexityTable,
+  DrawGraph,
+  ListItems,
+  Section,
+} from '@/components/common';
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { useAlgorithm, useGraphScope, useSummary } from '@/hooks';
+import {
+  useAlgorithm,
+  useBreakpoints,
+  useGraphScope,
+  useSummary,
+} from '@/hooks';
 import { hasValue, sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
+import Link from 'next/link';
 
 export default function Prims() {
   const [algorithm] = useAlgorithm(`
@@ -15,6 +27,7 @@ while MST does not span all vertices:
     add edge (u, v) to MST
     mark v as visited
 `);
+  const { lgup, xldown } = useBreakpoints();
 
   return (
     <Stack spacing={3}>
@@ -25,7 +38,8 @@ while MST does not span all vertices:
         inside the growing tree to a node outside of it. This greedy approach
         continues until all nodes are part of the tree, ensuring the total
         weight of all edges is as low as possible. It is perfect for problems
-        like designing cost-effective road or utility networks.
+        like designing cost-effective road, fiber-optic, or electrical utility
+        networks.
       </Typography>
 
       <Box display="flex" flexWrap="wrap" gap={4}>
@@ -35,7 +49,7 @@ while MST does not span all vertices:
           </Typography>
           {algorithm}
         </Stack>
-        <Stack spacing={2}>
+        <Stack spacing={2} flex={1}>
           <Typography variant="h6" component="h2">
             Step by Step
           </Typography>
@@ -57,10 +71,79 @@ while MST does not span all vertices:
         </Stack>
       </Box>
       <Divider />
-      <Visualizer />
+      <Box display="flex" gap={3}>
+        <Visualizer />
+        {lgup && xldown && <AdUnit sx={{ maxWidth: 300 }} />}
+      </Box>
+      <Divider />
+
+      <Box display="flex" flexWrap="wrap" gap={4}>
+        <Box flex={1}>
+          <Section title="How It Works">
+            <Typography paragraph>
+              Prim&apos;s algorithm maintains two disjoint sets of vertices:
+              those already included in the growing Minimum Spanning Tree, and
+              those not yet added. Starting from a chosen root vertex, the
+              algorithm continually examines all edges spanning the{' '}
+              <strong>boundary</strong> between the tree and the remaining
+              vertices. The minimum-weight edge crossing this cut is guaranteed
+              to belong to the MST.
+            </Typography>
+            <Typography>
+              In practical implementations, a priority queue tracks the minimum
+              known distance from the MST to each outside vertex. Whenever a new
+              vertex is absorbed into the tree, the distances to its adjacent
+              unvisited neighbors are updated via <strong>decrease-key</strong>{' '}
+              operations.
+            </Typography>
+          </Section>
+          <Section title="When to Use" sx={{ mb: 0 }}>
+            <Typography>
+              Prim&apos;s algorithm is particularly effective for{' '}
+              <strong>dense graphs</strong> where the number of edges E
+              approaches V². While a standard binary heap yields O(E log V)
+              runtime, implementing Prim&apos;s with a{' '}
+              <strong>Fibonacci heap</strong> reduces the amortized cost of{' '}
+              decrease-key operations to strictly O(1). This brings Prim&apos;s
+              overall runtime down to O(E + V log V), which is asymptotically
+              optimal and significantly outperforms{' '}
+              <Link href="/graph/Kruskals">Kruskal&apos;s algorithm</Link> on
+              dense networks.
+            </Typography>
+          </Section>
+        </Box>
+        <ComplexityTable data={complexityData} />
+      </Box>
     </Stack>
   );
 }
+
+const complexityData = [
+  {
+    type: 'With Binary Heap',
+    complexity: 'O(E log V)',
+    description:
+      'Extract-min and decrease-key operations on a binary heap take O(log V) across all edges and vertices.',
+  },
+  {
+    type: 'With Fibonacci Heap',
+    complexity: 'O(E + V log V)',
+    description:
+      'Fibonacci heap achieves O(1) amortized decrease-key operations, making Prim’s asymptotically optimal for dense graphs.',
+  },
+  {
+    type: 'Adjacency Matrix',
+    complexity: 'O(V²)',
+    description:
+      'Simple linear array scan for minimum edge; optimal for extremely dense graphs where E ≈ V².',
+  },
+  {
+    type: 'Space Complexity',
+    complexity: 'O(V + E)',
+    description:
+      'Stores graph adjacency structure and priority queue entries for all vertices.',
+  },
+];
 
 var n, w, queue, mst;
 

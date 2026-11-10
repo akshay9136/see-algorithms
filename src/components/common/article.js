@@ -250,7 +250,7 @@ export const ListItems = memo(function (props) {
     <Typography
       paragraph
       component={component || 'ul'}
-      sx={{ '& li': { mb: 1 }, ...sx }}
+      sx={{ '& li': { mb: 1 }, pt: 0.5, ...sx }}
     >
       {props.children}
     </Typography>

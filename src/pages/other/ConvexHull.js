@@ -1,13 +1,15 @@
-import { Divider, Typography } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
+import { useBreakpoints, useGraphScope } from '@/hooks';
 import Graph, { Points } from '@/common/graph';
 import AddPoints from '@/components/convex-hull/add-points';
-import { useGraphScope } from '@/hooks';
-import { svgElement } from '@/common/utils';
-import { addPoints } from '@/helpers/convexHull';
+import { AdUnit } from '@/components/common';
 import { Colors } from '@/common/constants';
+import { addPoints } from '@/helpers/convexHull';
+import { svgElement } from '@/common/utils';
 
 export default function ConvexHull(props) {
   const [scope, graphRef] = useGraphScope();
+  const { xlup } = useBreakpoints();
 
   return (
     <>
@@ -30,12 +32,15 @@ export default function ConvexHull(props) {
       </Typography>
       <Divider sx={{ my: 3 }} />
 
-      <AddPoints
-        {...props}
-        scope={scope}
-        graphRef={graphRef}
-        onStart={Visualizer(scope)}
-      />
+      <Box display="flex" gap={3}>
+        <AddPoints
+          {...props}
+          scope={scope}
+          graphRef={graphRef}
+          onStart={Visualizer(scope)}
+        />
+        {xlup && <AdUnit fullWidth="true" />}
+      </Box>
     </>
   );
 }

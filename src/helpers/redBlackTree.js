@@ -3,12 +3,13 @@ import { Colors } from '../common/constants';
 
 const delay = 500;
 
-function redBlackTree(animator) {
+function redBlackTree(animator, setCurrentStep = () => {}) {
     const Tree = searchTree(animator);
     const { bgcolor, scope, txy, animate } = animator;
 
     function* rotateRight(node) {
         const left = node.left;
+        yield delay;
         Tree.rotateRight(node);
         yield delay * 2;
         updateColor(node, 'R');
@@ -18,6 +19,7 @@ function redBlackTree(animator) {
 
     function* rotateLeft(node) {
         const right = node.right;
+        yield delay;
         Tree.rotateLeft(node);
         yield delay * 2;
         updateColor(node, 'R');
@@ -33,25 +35,34 @@ function redBlackTree(animator) {
             await bgcolor(node.id, Colors.compare);
             const pop = parent.parent;
             const uncle = pop[parent.isLeft ? 'right' : 'left'];
-            yield delay;
+            // yield delay;
             if (!uncle || uncle.color === 'B') {
                 if (parent.isLeft) {
                     if (node.isLeft) {
+                        setCurrentStep('3');
                         yield* rotateRight(pop);
                     } else {
+                        setCurrentStep('2');
                         yield* rotateLeft(parent);
+                        setCurrentStep('3');
                         yield* rotateRight(pop);
                     }
                 } else {
                     if (node.isLeft) {
+                        setCurrentStep('2');
                         yield* rotateRight(parent);
+                        setCurrentStep('3');
                         yield* rotateLeft(pop);
                     } else {
+                        setCurrentStep('3');
                         yield* rotateLeft(pop);
                     }
                 }
                 await bgcolor(node.id, Colors.white);
+                setCurrentStep('');
             } else {
+                setCurrentStep('1');
+                yield delay;
                 updateColor(parent, 'B');
                 updateColor(uncle, 'B');
                 yield delay;
@@ -60,6 +71,7 @@ function redBlackTree(animator) {
                     yield delay;
                 }
                 await bgcolor(node.id, Colors.white);
+                setCurrentStep('');
                 yield* rebalance(pop);
             }
         }
@@ -193,9 +205,11 @@ function redBlackTree(animator) {
         },
 
         async *insert(num) {
+            setCurrentStep('0');
             const node = yield* Tree.insert(num);
             updateColor(node, node.parent ? 'R' : 'B');
             yield delay;
+            setCurrentStep('');
             yield* rebalance(node);
         },
 

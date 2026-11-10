@@ -1,13 +1,15 @@
-import { DrawGraph, Plane } from '@/components/common';
+import { AdUnit, DrawGraph, Plane } from '@/components/common';
 import { Box, Stack, Typography, Paper } from '@mui/material';
 import { algoAnimation as bfsAnimation } from './BFS';
 import { algoAnimation as dfsAnimation } from './DFS';
-import { useGraphScope } from '@/hooks';
+import { useBreakpoints, useGraphScope } from '@/hooks';
 import { useEffect } from 'react';
 import { muteSounds } from '@/common/utils';
 import Link from 'next/link';
 
 export default function BFSvsDFS() {
+  const { lgup, xxldown } = useBreakpoints();
+
   return (
     <Stack spacing={3}>
       <Typography sx={{ pb: 1 }}>
@@ -21,7 +23,10 @@ export default function BFSvsDFS() {
         two fundamental algorithms compete on the same structure.
       </Typography>
 
-      <Visualizer />
+      <Box display="flex" gap={3}>
+        <Visualizer />
+        {lgup && xxldown && <AdUnit fullWidth="true" />}
+      </Box>
     </Stack>
   );
 }

@@ -1,18 +1,16 @@
 import { AdUnit, DrawGraph } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
-import { charAt, createCell, hasValue, sound } from '@/common/utils';
 import {
   useAlgorithm,
   useBreakpoints,
   useGraphScope,
   useSummary,
 } from '@/hooks';
+import { charAt, createCell, hasValue, sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
 
 export default function DFS() {
-  const { xlup } = useBreakpoints();
-
   const [algorithm1] = useAlgorithm(`
 stack = new Stack()
 stack.push(src)
@@ -24,7 +22,6 @@ while stack is not empty:
             stack.push(v)
             mark v as visited
 `);
-
   const [algorithm2] = useAlgorithm(`
 DFS(u):
   mark u as visited
@@ -32,6 +29,7 @@ DFS(u):
       if v is not visited:
           DFS(v)
 `);
+  const { xlup } = useBreakpoints();
 
   return (
     <Stack>

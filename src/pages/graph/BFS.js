@@ -1,19 +1,17 @@
 import { AdUnit, DrawGraph } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
-import { charAt, createCell, hasValue, sound } from '@/common/utils';
 import {
   useAlgorithm,
   useBreakpoints,
   useGraphScope,
   useSummary,
 } from '@/hooks';
+import { charAt, createCell, hasValue, sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
 import Link from 'next/link';
 
 export default function BFS() {
-  const { lgdown, lgup, xlup } = useBreakpoints();
-
   const [algorithm] = useAlgorithm(`
 queue = new Queue()
 queue.enq(src)
@@ -25,6 +23,7 @@ while queue is not empty:
             queue.enq(v)
             mark v as visited
 `);
+  const { lgdown, lgup, xlup } = useBreakpoints();
 
   return (
     <Stack spacing={3}>

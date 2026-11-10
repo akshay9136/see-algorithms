@@ -42,7 +42,7 @@ export default function InsertionSort() {
       <Box display="flex" flexWrap="wrap" gap={4}>
         <Box flex={1}>
           <Section title="How It Works">
-            <Typography paragraph>
+            <Typography>
               Insertion Sort starts with the second element in the array
               (considering the first element as already sorted). It picks this{' '}
               <code>key</code> element and compares it with the elements to its
@@ -55,13 +55,21 @@ export default function InsertionSort() {
             </Typography>
           </Section>
           <Section title="When to Use" sx={{ mb: 0 }}>
-            <Typography>
+            <Typography paragraph>
               Insertion Sort is ideal for small datasets, nearly sorted arrays,
-              or as a finishing step inside more complex algorithms like Timsort
-              (Python&apos;s built-in sort). Many hybrid sorting algorithms
-              switch to Insertion Sort for small sub-arrays because its low
-              overhead and cache-friendly access patterns outperform
-              divide-and-conquer algorithms at that scale.
+              or as an <strong>online algorithm</strong> where data arrives in a
+              continuous stream. Because it processes elements one at a time, it
+              can incorporate new values into an already sorted list in O(n)
+              time without requiring the complete dataset upfront.
+            </Typography>
+            <Typography>
+              It also serves as the finishing step inside more complex
+              algorithms like <strong>Timsort</strong> (Java and Python&apos;s
+              built-in sort) and <strong>Introsort</strong>. Many hybrid sorting
+              algorithms switch to Insertion Sort for small sub-arrays
+              (typically 32–64 elements) because its low overhead and
+              cache-friendly access patterns outperform divide-and-conquer
+              algorithms at that scale.
             </Typography>
           </Section>
         </Box>

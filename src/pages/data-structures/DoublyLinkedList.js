@@ -1,7 +1,12 @@
 import { Stack, Box, Typography, Divider } from '@mui/material';
+import {
+  ComplexityTable,
+  DSInput,
+  Section,
+  ListItems,
+} from '@/components/common';
 import { useDoublyLinkedList } from '@/hooks/data-structures';
 import useAlgorithm from '@/hooks/useAlgorithm';
-import DSInput from '@/components/common/ds-input';
 import Link from 'next/link';
 
 export default function DoublyLinkedList() {
@@ -54,8 +59,8 @@ function deleteAt(index):
 `);
 
   return (
-    <Stack spacing={2}>
-      <Typography>
+    <>
+      <Typography paragraph>
         A <strong>Doubly Linked List</strong> is a linear data structure where
         elements are stored in nodes, and each node points to both the next node
         and the previous node in the sequence. This allows for traversal in both
@@ -64,26 +69,113 @@ function deleteAt(index):
         the cost of extra memory for the previous pointer.
       </Typography>
 
-      <Typography variant="h6" component="h2">
-        Visualizer
-      </Typography>
-      <Visualizer />
-      <Divider />
+      <Stack spacing={2}>
+        <Typography variant="h6" component="h2">
+          Visualizer
+        </Typography>
+        <Visualizer />
+        <Divider />
+        <Typography variant="h6" component="h2">
+          Pseudocode
+        </Typography>
+        <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
+          <Stack spacing={2.5}>
+            {insertAlgo1}
+            {insertAlgo2}
+          </Stack>
+          {insertAlgo3}
+          {deleteAlgo}
+        </Box>
+      </Stack>
+      <Divider sx={{ my: 4 }} />
 
-      <Typography variant="h6" component="h2">
-        Pseudocode
-      </Typography>
-      <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
-        <Stack spacing={2.5}>
-          {insertAlgo1}
-          {insertAlgo2}
-        </Stack>
-        {insertAlgo3}
-        {deleteAlgo}
+      <Box display="flex" flexWrap="wrap" gap={4}>
+        <Box flex={1}>
+          <Section title="Key Properties">
+            <ListItems sx={{ pl: 2, mb: 0 }}>
+              <li>
+                <strong>Bidirectional Traversal:</strong> Each node maintains
+                two pointers (<code>next</code> and <code>prev</code>), enabling
+                efficient traversal in both forward and reverse directions.
+              </li>
+              <li>
+                <strong>Dynamic Allocation:</strong> Nodes are stored
+                independently across heap memory and connected via pointers,
+                eliminating the need for large contiguous memory blocks.
+              </li>
+              <li>
+                <strong>Sequential Access:</strong> Direct indexing is not
+                supported; finding an item requires linear traversal in O(n)
+                time, though searches can start from either the head or tail
+                depending on which is closer.
+              </li>
+              <li>
+                <strong>Efficient Node Removal:</strong> Any node can be
+                unlinked in strictly constant O(1) time given its direct
+                reference, without traversing to find the preceding node.
+              </li>
+              <li>
+                <strong>Memory Overhead:</strong> Each node requires extra
+                storage for two pointer references alongside the data value,
+                compared to a singly linked list.
+              </li>
+            </ListItems>
+          </Section>
+          <Section title="When to Use" sx={{ mb: 0 }}>
+            <Typography>
+              Doubly Linked Lists are essential whenever bidirectional
+              navigation is required or when items must be removed in O(1) time
+              without knowing their predecessor. They are the foundation of{' '}
+              <strong>LRU (Least Recently Used) Caches</strong> (paired with a
+              hash map to reorder nodes upon access in O(1) time), browser
+              history navigation (forward and back buttons), undo-redo managers
+              in graphic and text editors, and double-ended queues (Deques).
+            </Typography>
+          </Section>
+        </Box>
+        <ComplexityTable data={complexityData} />
       </Box>
-    </Stack>
+    </>
   );
 }
+
+const complexityData = [
+  {
+    type: 'Access by Index',
+    complexity: 'O(n)',
+    description:
+      'Can traverse from head forward or tail backward, taking O(n) worst-case steps.',
+  },
+  {
+    type: 'Search by Value',
+    complexity: 'O(n)',
+    description: 'Linear scan through the chain comparing values.',
+  },
+  {
+    type: 'Insert / Delete at Ends',
+    complexity: 'O(1)',
+    description:
+      'Updates head or tail references and neighboring pointers in constant time.',
+  },
+  {
+    type: 'Delete Given Node Pointer',
+    complexity: 'O(1)',
+    description:
+      'Immediately links node.prev to node.next without traversing to find the predecessor.',
+  },
+  {
+    type: 'Insert / Delete at Index',
+    complexity: 'O(n)',
+    description:
+      'Requires traversing to the index before executing the O(1) pointer updates.',
+  },
+  {
+    type: 'Space Complexity',
+    complexity: 'O(n)',
+    description:
+      'Requires two pointer references (prev and next) per node, doubling pointer overhead.',
+  },
+];
 
 export function Visualizer() {
   const { animation, buttons, inputRefs } = useDoublyLinkedList();

@@ -67,6 +67,7 @@ function search(root, word):
         <Box display="flex" gap={3} flexWrap="wrap">
           {insertAlgo}
           {searchAlgo}
+          {xlup && <AdUnit sx={{ maxWidth: 300 }} />}
         </Box>
       </Stack>
     </>

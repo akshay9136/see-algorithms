@@ -40,7 +40,7 @@ export default function BubbleSort() {
       <Box display="flex" flexWrap="wrap" gap={4}>
         <Box flex={1}>
           <Section title="How It Works">
-            <Typography paragraph>
+            <Typography>
               Bubble Sort begins at the start of the array and compares the
               first two elements. If the first element is greater than the
               second, they are swapped. The algorithm then moves to the next

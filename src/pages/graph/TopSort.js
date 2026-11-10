@@ -1,5 +1,5 @@
 import { AdUnit, DrawGraph } from '@/components/common';
-import { Box, Divider, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import {
   charAt,
   createCell,
@@ -64,8 +64,8 @@ function indegree():
           {algorithm}
           {indegreeAlgo}
         </Box>
-        {lgdown && <AdUnit sx={{ maxWidth: 200 }} />}
         {xlup && <AdUnit sx={{ maxWidth: 500 }} format="rectangle" />}
+        {lgdown && <AdUnit sx={{ maxWidth: 200 }} />}
       </Box>
       <br />
       <Visualizer />

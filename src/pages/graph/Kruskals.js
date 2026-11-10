@@ -1,6 +1,11 @@
-import { DrawGraph, ListItems } from '@/components/common';
+import { AdUnit, DrawGraph, ListItems } from '@/components/common';
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { useAlgorithm, useAnimator, useGraphScope } from '@/hooks';
+import {
+  useAlgorithm,
+  useAnimator,
+  useBreakpoints,
+  useGraphScope,
+} from '@/hooks';
 import { unionFindLayout } from '@/helpers/unionFind';
 import { useState } from 'react';
 import { Colors } from '@/common/constants';
@@ -20,6 +25,7 @@ for each edge (u, v):
         add (u, v) to MST
         union(u, v)
 `);
+  const { lgup, xldown } = useBreakpoints();
 
   return (
     <Stack spacing={3} width="fit-content">
@@ -73,7 +79,10 @@ for each edge (u, v):
         </Stack>
       </Box>
       <Divider />
-      <Visualizer />
+      <Box display="flex" gap={3}>
+        <Visualizer />
+        {lgup && xldown && <AdUnit sx={{ maxWidth: 300 }} />}
+      </Box>
     </Stack>
   );
 }

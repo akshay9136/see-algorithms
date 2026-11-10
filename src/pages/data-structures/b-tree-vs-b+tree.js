@@ -1,12 +1,15 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
+import { AdUnit, TreeInput } from '@/components/common';
 import { muteSounds, randomKeys } from '@/common/utils';
 import { useBPlusTree, useBTree } from '@/hooks/data-structures';
+import { useBreakpoints } from '@/hooks';
 import { useEffect } from 'react';
-import { TreeInput } from '@/components/common';
 import Link from 'next/link';
 
 export default function BTreeVsBPlusTree(props) {
   const randomNodes = randomKeys();
+  const { lgup, xxldown } = useBreakpoints();
+
   const { animation: bTreeAnimation, buttons: bTreeButtons } =
     useBTree({ randomNodes });
   const { animation: bPlusAnimation, buttons: bPlusButtons } =
@@ -38,16 +41,19 @@ export default function BTreeVsBPlusTree(props) {
 
       <Divider sx={{ my: 3 }} />
 
-      <Box display="flex" flexWrap="wrap" gap={4} alignItems="end">
-        <Stack spacing={2}>
-          <TreeInput
-            {...props}
-            buttons={bTreeButtons}
-            allButtons={[...bTreeButtons, ...bPlusButtons]}
-          />
-          {bTreeAnimation}
-        </Stack>
-        {bPlusAnimation}
+      <Box display="flex" gap={3}>
+        <Box display="flex" flexWrap="wrap" gap={4} alignItems="end">
+          <Stack spacing={2}>
+            <TreeInput
+              {...props}
+              buttons={bTreeButtons}
+              allButtons={[...bTreeButtons, ...bPlusButtons]}
+            />
+            {bTreeAnimation}
+          </Stack>
+          {bPlusAnimation}
+        </Box>
+        {lgup && xxldown && <AdUnit fullWidth="true" />}
       </Box>
     </>
   );

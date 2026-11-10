@@ -1,5 +1,5 @@
-import { DrawGraph } from '@/components/common';
-import { Box, Divider, Stack, Typography } from '@mui/material';
+import { AdUnit, DrawGraph } from '@/components/common';
+import { Box, Stack, Typography } from '@mui/material';
 import {
   charAt,
   createCell,
@@ -8,11 +8,13 @@ import {
   sound,
   vertexLabel,
 } from '@/common/utils';
-import { useGraphScope, useSummary } from '@/hooks';
+import { useBreakpoints, useGraphScope, useSummary } from '@/hooks';
 import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
 
 export default function Eulerian() {
+  const { lgup, xldown } = useBreakpoints();
+
   return (
     <Stack spacing={3}>
       <Typography sx={{ pb: 1 }}>
@@ -24,7 +26,10 @@ export default function Eulerian() {
         related to the famous Seven Bridges of Königsberg problem.
       </Typography>
 
-      <Visualizer />
+      <Box display="flex" gap={3}>
+        <Visualizer />
+        {lgup && xldown && <AdUnit sx={{ maxWidth: 300 }} />}
+      </Box>
     </Stack>
   );
 }

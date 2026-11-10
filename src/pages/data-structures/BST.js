@@ -71,6 +71,7 @@ function insert(node, key):
           <br />
           {summary}
         </Stack>
+        {xlup && <AdUnit sx={{ maxWidth: 200 }} />}
       </Box>
 
       <SavedDataList onSelect={refresh} {...saveDataProps} />
