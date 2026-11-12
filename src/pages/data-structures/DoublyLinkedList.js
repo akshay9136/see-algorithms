@@ -4,9 +4,10 @@ import {
   DSInput,
   Section,
   ListItems,
+  AdUnit,
 } from '@/components/common';
 import { useDoublyLinkedList } from '@/hooks/data-structures';
-import useAlgorithm from '@/hooks/useAlgorithm';
+import { useAlgorithm, useBreakpoints } from '@/hooks';
 import Link from 'next/link';
 
 export default function DoublyLinkedList() {
@@ -58,14 +59,16 @@ function deleteAt(index):
     prev.next = cur.next
 `);
 
+  const { lgup } = useBreakpoints();
+
   return (
     <>
-      <Typography paragraph>
+      <Typography mb={3}>
         A <strong>Doubly Linked List</strong> is a linear data structure where
         elements are stored in nodes, and each node points to both the next node
         and the previous node in the sequence. This allows for traversal in both
-        directions, making certain operations more efficient compared to a
-        singly <Link href="/data-structures/LinkedList">linked list</Link>, at
+        directions, making certain operations more efficient compared to a{' '}
+        <Link href="/data-structures/LinkedList">singly linked list</Link>, at
         the cost of extra memory for the previous pointer.
       </Typography>
 
@@ -73,8 +76,14 @@ function deleteAt(index):
         <Typography variant="h6" component="h2">
           Visualizer
         </Typography>
-        <Visualizer />
-        <Divider />
+        <Box display="flex" gap={3}>
+          <Visualizer />
+          {lgup && <AdUnit fullWidth="true" />}
+        </Box>
+      </Stack>
+      <Divider sx={{ my: 3 }} />
+
+      <Stack spacing={2}>
         <Typography variant="h6" component="h2">
           Pseudocode
         </Typography>
@@ -181,7 +190,7 @@ export function Visualizer() {
   const { animation, buttons, inputRefs } = useDoublyLinkedList();
 
   return (
-    <>
+    <Stack spacing={2}>
       <Box display="flex" flexWrap="wrap" gap={2}>
         <DSInput
           label="Insert a number:"
@@ -200,6 +209,6 @@ export function Visualizer() {
       </Box>
       <br />
       {animation}
-    </>
+    </Stack>
   );
 }

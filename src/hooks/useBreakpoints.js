@@ -2,6 +2,7 @@ import { useMediaQuery, useTheme } from "@mui/material";
 
 export default function useBreakpoints() {
   const theme = useTheme();
+  const mdup = useMediaQuery(theme.breakpoints.up('md'));
   const lgdown = useMediaQuery(theme.breakpoints.down('lg'));
   const lgup = useMediaQuery(theme.breakpoints.up('lg'));
   const xlup = useMediaQuery(theme.breakpoints.up('xl'));
@@ -9,5 +10,5 @@ export default function useBreakpoints() {
   const xxlup = useMediaQuery(theme.breakpoints.up('xxl'));
   const xxldown = useMediaQuery(theme.breakpoints.down('xxl'));
 
-  return { lgdown, lgup, xlup, xldown, xxlup, xxldown };
+  return { mdup, lgdown, lgup, xlup, xldown, xxlup, xxldown };
 }

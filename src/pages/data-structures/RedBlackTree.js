@@ -97,7 +97,7 @@ export default function RedBlackTree(props) {
 
       <Divider sx={{ mb: 3 }} />
 
-      <Box display="flex" flexWrap="wrap" gap={4}>
+      <Box display="flex" flexWrap="wrap" gap={3}>
         <Stack spacing={2}>
           <Typography component="h2" variant="h6">
             Visualizer

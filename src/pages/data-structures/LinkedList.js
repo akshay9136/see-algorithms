@@ -4,9 +4,10 @@ import {
   DSInput,
   Section,
   ListItems,
+  AdUnit,
 } from '@/components/common';
 import { useLinkedList } from '@/hooks/data-structures';
-import { useAlgorithm } from '@/hooks';
+import { useAlgorithm, useBreakpoints } from '@/hooks';
 
 export default function LinkedList() {
   const [insertAlgo1] = useAlgorithm(`
@@ -49,9 +50,11 @@ function deleteAt(index):
     prev.next = cur.next
 `);
 
+  const { lgup } = useBreakpoints();
+
   return (
     <>
-      <Typography paragraph>
+      <Typography mb={3}>
         A <strong>Linked List</strong> is a linear data structure where elements
         are stored in standalone nodes, each holding a data value and a pointer
         to the next node in sequence. Unlike arrays, linked lists do not require
@@ -65,8 +68,14 @@ function deleteAt(index):
         <Typography variant="h6" component="h2">
           Visualizer
         </Typography>
-        <Visualizer />
-        <Divider />
+        <Box display="flex" gap={3}>
+          <Visualizer />
+          {lgup && <AdUnit fullWidth="true" />}
+        </Box>
+      </Stack>
+      <Divider sx={{ my: 3 }} />
+
+      <Stack spacing={2}>
         <Typography variant="h6" component="h2">
           Pseudocode
         </Typography>
@@ -86,9 +95,9 @@ function deleteAt(index):
           <Section title="Key Properties">
             <ListItems sx={{ pl: 2, mb: 0 }}>
               <li>
-                <strong>Dynamic Size:</strong> Allocates memory dynamically for
-                individual nodes at runtime, expanding and contracting without
-                predefined capacity or costly array reallocations.
+                <strong>Dynamic Structure:</strong> Allocates memory dynamically
+                for individual nodes at runtime, expanding and contracting
+                without predefined capacity or costly array reallocations.
               </li>
               <li>
                 <strong>Non-Contiguous Storage:</strong> Nodes are stored
@@ -174,7 +183,7 @@ export function Visualizer() {
   const { animation, buttons, inputRefs } = useLinkedList();
 
   return (
-    <>
+    <Stack spacing={2}>
       <Box display="flex" flexWrap="wrap" gap={2}>
         <DSInput
           label="Insert a number:"
@@ -193,6 +202,6 @@ export function Visualizer() {
       </Box>
       <br />
       {animation}
-    </>
+    </Stack>
   );
 }

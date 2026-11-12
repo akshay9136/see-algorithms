@@ -1,7 +1,9 @@
 import { useMemo, memo } from 'react';
+import { useBreakpoints } from '@/hooks';
 import { interviewQtns as questionsMap } from '@/data/interview-qtns';
 import { Box, Typography } from '@mui/material';
 import { HelpOutline } from '@mui/icons-material';
+import { AdUnit } from '../common';
 import QuestionCard from './question-card';
 
 function InterviewQtns({
@@ -13,6 +15,7 @@ function InterviewQtns({
     () => customQuestions || questionsMap[algorithmId],
     [algorithmId, customQuestions],
   );
+  const { mdup } = useBreakpoints();
 
   if (!questionList) return null;
 
@@ -34,6 +37,9 @@ function InterviewQtns({
         {questionList.map((q, i) => (
           <QuestionCard {...q} key={`${algorithmId}_IQ_${i + 1}`} />
         ))}
+        {mdup && questionList.length === 2 && (
+          <AdUnit fullWidth="true" sx={{ minHeight: 250 }} />
+        )}
       </Box>
     </Box>
   );

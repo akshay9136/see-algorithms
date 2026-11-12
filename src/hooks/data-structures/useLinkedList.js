@@ -11,7 +11,11 @@ export default function useLinkedList() {
   });
 
   const animation = (
-    <Box ref={scope} className="sorting" overflow="auto">
+    <Box
+      ref={scope}
+      className="sorting"
+      sx={{ minWidth: 700, overflow: 'auto' }}
+    >
       {nodes.map((value, i) => (
         <motion.div key={i} id={`box${i}`} style={{ position: 'absolute' }}>
           <ToggleButtonGroup
