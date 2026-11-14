@@ -77,7 +77,7 @@ export default function HeroSection() {
           <Typography
             variant="body2"
             color="text.secondary"
-            sx={{ px: 2, mt: 0.5 }}
+            sx={{ px: 2, mt: 1 }}
           >
             Use the controls to pause/resume animations, tweak inputs, or
             generate a shareable URL for the current graph or tree.
