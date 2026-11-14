@@ -11,7 +11,7 @@ import { Pause, PlayArrow } from '@mui/icons-material';
 import useDsPlayback from '@/hooks/useDsPlayback';
 
 const TreeInput = forwardRef((props, ref) => {
-  const { number, status, setStatus, handleChange, handlePlay, handleAction } =
+  const { number, setNumber, status, handleChange, handlePlay, handleAction } =
     useDsPlayback(props);
   const [operation, setOperation] = useState('Insert');
   const toggles = props.buttons.filter((btn) => btn.validate);
@@ -20,7 +20,7 @@ const TreeInput = forwardRef((props, ref) => {
   const isBusy = status !== 0;
   const playLabel = status === 1 ? 'Pause' : 'Play';
 
-  useImperativeHandle(ref, () => ({ value: number, setStatus }));
+  useImperativeHandle(ref, () => ({ status, setNumber, setOperation }));
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !isBusy) {

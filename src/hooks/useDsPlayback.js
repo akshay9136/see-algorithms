@@ -119,5 +119,13 @@ export default function useDsPlayback(props) {
     if (!isNaN(value)) setNumber(value.length ? parseInt(value) : '');
   };
 
-  return { number, status, setStatus, handleChange, handlePlay, handleAction };
+  return {
+    number,
+    setNumber,
+    status,
+    setStatus,
+    handleChange,
+    handlePlay,
+    handleAction,
+  };
 }

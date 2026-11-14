@@ -14,12 +14,14 @@ import Link from 'next/link';
 
 export default function SplayTree(props) {
   const { saveData, ...saveDataProps } = useSavedData();
+  const { animation, summary, buttons, examplePicker, inputRef, refresh } =
+    useBinaryTree({
+      createTree: splayTree,
+      treeType: 'splay',
+      saveData,
+    });
+
   const { lgup } = useBreakpoints();
-  const { animation, summary, buttons, refresh } = useBinaryTree({
-    createTree: splayTree,
-    treeType: 'splay',
-    saveData,
-  });
 
   return (
     <>
@@ -83,10 +85,13 @@ export default function SplayTree(props) {
 
       <Box display="flex" flexWrap="wrap" gap={4}>
         <Stack spacing={2}>
-          <Typography component="h2" variant="h6">
-            Visualizer
-          </Typography>
-          <TreeInput {...props} buttons={buttons} />
+          <Box display="flex" gap={2}>
+            <Typography variant="h6" component="h2">
+              Visualizer
+            </Typography>
+            {examplePicker}
+          </Box>
+          <TreeInput ref={inputRef} buttons={buttons} />
           {animation}
         </Stack>
         {summary}

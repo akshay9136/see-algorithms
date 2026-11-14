@@ -13,6 +13,7 @@ import DSInput from './ds-input';
 import TreeInput from './tree-input';
 import InputNumbers from './input-numbers';
 import SavedDataList from './saved-data';
+import ExamplePicker from './example-picker';
 import SortingVisualizer from './sorting-visualizer';
 import SpeedControl from './speed-control';
 import Spinner from './spinner';
@@ -33,6 +34,7 @@ export {
   TreeInput,
   InputNumbers,
   SavedDataList,
+  ExamplePicker,
   SortingVisualizer,
   SpeedControl,
   Spinner,

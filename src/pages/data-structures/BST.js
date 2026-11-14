@@ -7,13 +7,13 @@ import Link from 'next/link';
 
 export default function BST(props) {
   const { saveData, ...saveDataProps } = useSavedData();
-  const { xlup } = useBreakpoints();
-  const { animation, summary, buttons, refresh } = useBinaryTree({
-    createTree: searchTree,
-    hideButtons: ['Search'],
-    treeType: 'search',
-    saveData,
-  });
+  const { animation, summary, buttons, examplePicker, inputRef, refresh } =
+    useBinaryTree({
+      createTree: searchTree,
+      hideButtons: ['Search'],
+      treeType: 'search',
+      saveData,
+    });
 
   const [insertAlgo] = useAlgorithm(`
 function insert(node, key):
@@ -28,6 +28,8 @@ function insert(node, key):
         else:
             insert(node.right, key)
 `);
+
+  const { xlup } = useBreakpoints();
 
   return (
     <>
@@ -66,7 +68,13 @@ function insert(node, key):
           {xlup && <AdUnit sx={{ maxWidth: 300 }} format="rectangle" />}
         </Stack>
         <Stack spacing={2}>
-          <TreeInput {...props} buttons={buttons} />
+          <Box display="flex" gap={2}>
+            <Typography variant="h6" component="h2">
+              Visualizer
+            </Typography>
+            {examplePicker}
+          </Box>
+          <TreeInput ref={inputRef} buttons={buttons} />
           {animation}
           <br />
           {summary}

@@ -1,8 +1,9 @@
-import { Draggable, Edge, Node } from '@/components/common';
+import { Draggable, Edge, ExamplePicker, Node } from '@/components/common';
 import { useAnimator, useSummary, useTreeControls, useTreeUrl } from '@/hooks';
 import { useEffect, useState, useRef } from 'react';
 import { randomKeys, showError, sleep } from '@/common/utils';
 import { assignColors } from '@/helpers/redBlackTree';
+import { treeExamples } from '@/data/examples';
 import Paper from '@mui/material/Paper';
 
 export default function useBinaryTree({
@@ -18,6 +19,7 @@ export default function useBinaryTree({
   const [nodes, isReady] = useTreeUrl();
   const treeRef = useRef(null);
   const deletedRef = useRef({});
+  const inputRef = useRef(null);
   const Tree = () => treeRef.current;
   const isRedBlack = treeType === 'red-black';
 
@@ -116,9 +118,11 @@ export default function useBinaryTree({
     ...(saveData ? [saveButton] : []),
     controls.SHARE,
   ];
+  // eslint-disable-next-line react-hooks/refs -- Filtering only reads labels from button descriptors.
+  const buttons = allButtons.filter((btn) => !hideButtons.includes(btn.text));
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- Initialize the imperative tree after URL hydration and DOM mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Rebuild the imperative tree after URL hydration and DOM mount.
     if (isReady) newTree(nodes);
   // eslint-disable-next-line react-hooks/exhaustive-deps -- Rebuild only for URL input changes, not for recreated animation callbacks.
   }, [nodes, isReady]);
@@ -142,9 +146,25 @@ export default function useBinaryTree({
     </Paper>
   );
 
+  const examples = treeExamples[treeType];
+  const examplePicker = examples?.length > 0 ? (
+    <ExamplePicker
+      examples={examples}
+      onSelect={({ keys, operation, value }) => {
+        if (inputRef.current?.status !== 0) return;
+        controls.REFRESH.onClick(keys);
+        const { setOperation, setNumber } = inputRef.current;
+        setOperation(operation);
+        setNumber(value);
+      }}
+    />
+  ) : null;
+
   return {
     animation,
     summary,
+    examplePicker,
+    inputRef,
     // eslint-disable-next-line react-hooks/refs
     buttons: allButtons.filter((btn) => !hideButtons.includes(btn.text)),
     refresh: controls.REFRESH.onClick,
