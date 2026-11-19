@@ -1,12 +1,12 @@
 import { AdUnit, DrawGraph } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
+import { charAt, createCell, hasValue, sound } from '@/common/utils';
 import {
   useAlgorithm,
   useBreakpoints,
   useGraphScope,
   useSummary,
 } from '@/hooks';
-import { charAt, createCell, hasValue, sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
 import Link from 'next/link';
@@ -53,12 +53,13 @@ while queue is not empty:
         </Typography>
       </Box>
 
-      <Box display="flex" gap={3} flexWrap="wrap">
+      <Box display="flex" gap={4} flexWrap="wrap">
         <Stack spacing={2} pt={0.5}>
           <Typography variant="h6" component="h2">
             Pseudocode
           </Typography>
           {algorithm}
+          <br />
           {lgup && <AdUnit sx={{ maxWidth: 300 }} format="rectangle" />}
         </Stack>
         {lgdown && <AdUnit sx={{ maxWidth: 300 }} format="rectangle" />}

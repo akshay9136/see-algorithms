@@ -7,7 +7,7 @@ import {
   Section,
   TreeInput,
 } from '@/components/common';
-import { useAlgorithm, useBreakpoints, useSavedData } from '@/hooks';
+import { useBreakpoints, useSavedData } from '@/hooks';
 import { useBPlusTree } from '@/hooks/data-structures';
 import Link from 'next/link';
 

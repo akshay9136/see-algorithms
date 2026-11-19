@@ -1,5 +1,5 @@
 import { AdUnit, DrawGraph } from '@/components/common';
-import { Box, Divider, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import { charAt, hasValue, sound, vertexLabel } from '@/common/utils';
 import {
   useAlgorithm,

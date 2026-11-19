@@ -63,6 +63,7 @@ function insert(node, key):
             Pseudocode
           </Typography>
           {insertAlgo}
+          <br />
           {xlup && <AdUnit sx={{ maxWidth: 300 }} format="rectangle" />}
         </Stack>
         <Stack spacing={2}>

@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 export default function MergeSort() {
   const { pseudocode, visualizer } = useMergeSort();
-  const { lgdown } = useBreakpoints();
+  const { xldown } = useBreakpoints();
 
   const [algorithm] = useAlgorithm(`
 function mergeSort(start, end):
@@ -36,7 +36,7 @@ function mergeSort(start, end):
           </Typography>
           {pseudocode}
         </Stack>
-        {lgdown && <AdUnit sx={{ maxWidth: 200 }} />}
+        {xldown && <AdUnit sx={{ maxWidth: 200 }} />}
         <Stack spacing={2} flex={1}>
           <Typography variant="h6" component="h2">
             Visualizer

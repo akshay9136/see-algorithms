@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 export default function BubbleSort() {
   const { pseudocode, visualizer } = useBubbleSort();
-  const { lgdown } = useBreakpoints();
+  const { xldown } = useBreakpoints();
 
   return (
     <>
@@ -27,7 +27,7 @@ export default function BubbleSort() {
           </Typography>
           {pseudocode}
         </Stack>
-        {lgdown && <AdUnit sx={{ maxWidth: 300 }} />}
+        {xldown && <AdUnit sx={{ maxWidth: 300 }} />}
         <Stack spacing={2} flex={1}>
           <Typography variant="h6" component="h2">
             Visualizer

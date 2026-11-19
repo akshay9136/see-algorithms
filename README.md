@@ -23,7 +23,7 @@
 1. **Sorting Algorithms:** Bubble Sort, Insertion Sort, Selection Sort, Heap Sort, Merge Sort, Quick Sort, Radix Sort
 2. **Graph Algorithms:** Depth-First Search (DFS), Breadth-First Search (BFS), Dijkstra’s Algorithm, Topological Sorting, Hamiltonian Cycle, Eulerian Cycle
 3. **Minimum Spanning Trees:** Prim’s, Kruskal’s, and Borůvka’s algorithms
-4. **Data Structures:** Linked List, Circular Queue, Trie (Prefix Tree), Binary Heap, Binary Search Tree (BST),AVL Tree, Red-Black Tree, Splay Tree, B-Tree, B+ Tree
+4. **Data Structures:** Linked List, Circular Queue, Trie (Prefix Tree), Binary Heap, Binary Search Tree (BST), AVL Tree, Red-Black Tree, Splay Tree, B-Tree, B+ Tree
 5. **Other Algorithms:** Convex Hull, Huffman Coding
 
 ## Local Development

@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 export default function HeapSort() {
   const { pseudocode, visualizer } = useHeapSort();
-  const { lgdown } = useBreakpoints();
+  const { xldown } = useBreakpoints();
 
   const [heapifyAlgo] = useAlgorithm(`
 function heapify(i):
@@ -46,7 +46,7 @@ function heapify(i):
           </Typography>
           {heapifyAlgo}
         </Stack>
-        {lgdown && <AdUnit sx={{ maxWidth: 200 }} />}
+        {xldown && <AdUnit sx={{ maxWidth: 200 }} />}
         <Stack spacing={2} flex={1}>
           <Typography variant="h6" component="h2">
             Visualizer

@@ -41,6 +41,7 @@
 .navButton {
     padding: 4px 12px;
     transition: transform 0.3s ease;
+    line-height: 1.5;
     text-transform: none;
     font-size: 1rem;
 }

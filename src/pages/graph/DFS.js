@@ -1,12 +1,12 @@
 import { AdUnit, DrawGraph } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
+import { charAt, createCell, hasValue, sound } from '@/common/utils';
 import {
   useAlgorithm,
   useBreakpoints,
   useGraphScope,
   useSummary,
 } from '@/hooks';
-import { charAt, createCell, hasValue, sound } from '@/common/utils';
 import { Colors } from '@/common/constants';
 import Graph from '@/common/graph';
 
@@ -42,7 +42,7 @@ DFS(u):
         pathfinding, and solving puzzles.
       </Typography>
       <br />
-      <Box display="flex" gap={3} flexWrap="wrap">
+      <Box display="flex" gap={4} flexWrap="wrap">
         <Box
           sx={{
             display: 'flex',

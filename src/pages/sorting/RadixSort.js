@@ -25,7 +25,7 @@ const complexityData = [
 
 export default function RadixSort() {
   const { pseudocode, visualizer } = useRadixSort();
-  const { lgdown } = useBreakpoints();
+  const { xldown } = useBreakpoints();
 
   return (
     <>
@@ -47,7 +47,7 @@ export default function RadixSort() {
           </Typography>
           {pseudocode}
         </Stack>
-        {lgdown && <AdUnit sx={{ maxWidth: 200 }} />}
+        {xldown && <AdUnit sx={{ maxWidth: 200 }} />}
         <Stack spacing={2} flex={1}>
           <Typography variant="h6" component="h2">
             Visualizer

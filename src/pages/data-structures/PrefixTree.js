@@ -10,8 +10,8 @@ import {
 } from '@mui/material';
 import { PlayArrow, Redo, Save, Share, Undo } from '@mui/icons-material';
 import { AdUnit, SavedDataList } from '@/components/common';
-import { usePrefixTree } from '@/hooks/data-structures';
 import { useAlgorithm, useBreakpoints, useSavedData } from '@/hooks';
+import { usePrefixTree } from '@/hooks/data-structures';
 import { copyTreeUrl } from '@/common/utils';
 
 export default function PrefixTree() {
@@ -67,7 +67,7 @@ function search(root, word):
         <Box display="flex" gap={3} flexWrap="wrap">
           {insertAlgo}
           {searchAlgo}
-          {xlup && <AdUnit sx={{ maxWidth: 300 }} />}
+          {xlup && <AdUnit sx={{ maxWidth: 300 }} format="rectangle" />}
         </Box>
       </Stack>
     </>
