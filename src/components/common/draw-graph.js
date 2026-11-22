@@ -1,5 +1,6 @@
 import { useState, useContext, memo } from 'react';
 import { useGraphControls, useSavedData } from '@/hooks';
+import { createExampleGraph, graphExamples } from '@/data/examples';
 import { useRouter } from 'next/router';
 import { trackEvent } from '@/common/analytics';
 import { showError } from '@/common/utils';
@@ -25,7 +26,8 @@ import {
   Save,
 } from '@mui/icons-material';
 import styles from '@/styles/drawing.module.css';
-import SavedDataList from '@/components/common/saved-data';
+import ExamplePicker from './example-picker';
+import SavedDataList from './saved-data';
 import AppContext from '@/common/context';
 import Graph from '@/common/graph';
 
@@ -96,14 +98,26 @@ function DrawGraph({
     saveData(Graph.skeleton(weights));
   };
 
+  const examples = graphExamples[algoId] || [];
+
   return (
     <Box className="drawGraph" aria-label="Graph controls and visualization">
       <Box className={styles.toolbar} mb={1.5} px={0.5}>
-        <Typography variant="h6" mr="auto">
-          Draw Graph
-        </Typography>
+        <Typography variant="h6">Draw Graph</Typography>
 
         <Box className={styles.buttonGroup}>
+          {examples.length > 0 && (
+            <ExamplePicker
+              examples={examples}
+              disabled={playStatus !== 0}
+              onSelect={(example) => {
+                const directed = example.directed ?? config.directed;
+                loadSavedGraph(createExampleGraph({ ...example, directed }));
+                setSource(example.source || 'A');
+              }}
+            />
+          )}
+
           {allowRefresh && (
             <IconButton
               onClick={refresh}
@@ -155,16 +169,12 @@ function DrawGraph({
             onClick={handlePlay}
             title={playStatus === 1 ? 'Pause' : 'Play'}
             aria-live="polite"
-            sx={{ minWidth: '40px', px: 1 }}
+            sx={{ minWidth: '40px' }}
           >
             {playStatus === 1 ? <Pause /> : <PlayArrow />}
           </Button>
 
-          <Button
-            variant="outlined"
-            onClick={handleClear}
-            sx={{ minWidth: '70px', py: 0.5 }}
-          >
+          <Button variant="outlined" onClick={handleClear} sx={{ px: 1.5 }}>
             CLEAR
           </Button>
 
@@ -174,7 +184,7 @@ function DrawGraph({
             disabled={!canUndo}
             title="Undo"
             aria-label="Undo"
-            sx={{ p: 0.5, minWidth: 40 }}
+            sx={{ p: '4px 8px', minWidth: 40 }}
           >
             <Undo />
           </Button>
@@ -185,7 +195,7 @@ function DrawGraph({
             disabled={!canRedo}
             title="Redo"
             aria-label="Redo"
-            sx={{ p: 0.5, minWidth: 40 }}
+            sx={{ p: '4px 8px', minWidth: 40 }}
           >
             <Redo />
           </Button>

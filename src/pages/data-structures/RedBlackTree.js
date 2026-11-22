@@ -17,12 +17,13 @@ export default function RedBlackTree(props) {
   const [currentStep, setCurrentStep] = useState('');
   const { saveData, ...saveDataProps } = useSavedData();
   const { lgup, xldown } = useBreakpoints();
-  const { animation, summary, buttons, refresh } = useBinaryTree({
-    createTree: (animator) => redBlackTree(animator, setCurrentStep),
-    hideButtons: ['Search'],
-    treeType: 'red-black',
-    saveData,
-  });
+  const { animation, summary, buttons, examplePicker, inputRef, refresh } =
+    useBinaryTree({
+      createTree: (animator) => redBlackTree(animator, setCurrentStep),
+      hideButtons: ['Search'],
+      treeType: 'red-black',
+      saveData,
+    });
 
   return (
     <>
@@ -99,10 +100,13 @@ export default function RedBlackTree(props) {
 
       <Box display="flex" flexWrap="wrap" gap={3}>
         <Stack spacing={2}>
-          <Typography component="h2" variant="h6">
-            Visualizer
-          </Typography>
-          <TreeInput {...props} buttons={buttons} />
+          <Box display="flex" gap={2}>
+            <Typography variant="h6" component="h2">
+              Visualizer
+            </Typography>
+            {examplePicker}
+          </Box>
+          <TreeInput ref={inputRef} buttons={buttons} />
           {animation}
         </Stack>
         {lgup && xldown && <AdUnit sx={{ maxWidth: 300 }} />}

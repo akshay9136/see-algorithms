@@ -181,7 +181,7 @@ function useGraphControls(_config, props) {
     cleanup();
     Graph.initialize(data);
     drawGraph(config);
-    scope.createGraph(data, weighted);
+    scopes.forEach((sc) => sc?.createGraph(data, weighted));
     setContext({
       isDirGraph: data.directed,
       playStatus: 0,

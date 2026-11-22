@@ -76,9 +76,9 @@ function deleteAt(index):
         <Typography variant="h6" component="h2">
           Visualizer
         </Typography>
-        <Box display="flex" gap={3}>
+        <Box display="flex" gap={4}>
           <Visualizer />
-          {lgup && <AdUnit fullWidth="true" />}
+          {lgup && <AdUnit sx={{ maxWidth: 500 }} />}
         </Box>
       </Stack>
       <Divider sx={{ my: 3 }} />

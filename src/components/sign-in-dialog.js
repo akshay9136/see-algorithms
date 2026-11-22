@@ -108,7 +108,7 @@ export default function SignInDialog() {
           <Stack spacing={1.5}>
             <Button
               size="large"
-              sx={{ textTransform: 'none', gap: 1 }}
+              sx={{ textTransform: 'none', fontWeight: 600, gap: 1 }}
               variant="contained"
               onClick={() => handleSignIn('google')}
               disabled={!!loading}

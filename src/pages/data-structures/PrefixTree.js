@@ -142,7 +142,7 @@ export function Visualizer({ saveData, saveDataProps }) {
         ]
       : []),
     {
-      icon: <Share fontSize="small" sx={{ height: 24 }} />,
+      icon: <Share sx={{ fontSize: 22 }} />,
       label: 'Share this Trie',
       onClick: () => copyTreeUrl(words),
       disabled: empty,
@@ -175,7 +175,6 @@ export function Visualizer({ saveData, saveDataProps }) {
 
           <ToggleButtonGroup
             exclusive
-            size="small"
             value={operation}
             onChange={(_, value) => {
               if (value !== null) setOperation(value);
@@ -188,7 +187,7 @@ export function Visualizer({ saveData, saveDataProps }) {
                 key={button.text}
                 value={button.text}
                 disabled={running || button.disabled}
-                sx={{ px: 1.5, py: 0.5, fontWeight: 600 }}
+                sx={{ p: '4px 12px', fontWeight: 600 }}
               >
                 {button.text}
               </ToggleButton>
@@ -197,12 +196,12 @@ export function Visualizer({ saveData, saveDataProps }) {
 
           <Button
             size="small"
-            variant="outlined"
+            variant="contained"
             onClick={selected.onClick}
             disabled={playDisabled}
             aria-label="Play"
             title="Play"
-            sx={{ minWidth: 40, px: 0 }}
+            sx={{ minWidth: 40, px: 1 }}
           >
             <PlayArrow />
           </Button>
@@ -210,13 +209,12 @@ export function Visualizer({ saveData, saveDataProps }) {
           {buttons.map(({ text, icon, label, disabled, onClick }) => (
             <Button
               key={text || label}
-              size="small"
               variant="outlined"
               onClick={onClick}
               disabled={running || disabled}
               aria-label={text || label}
               title={label}
-              sx={{ minWidth: 40 }}
+              sx={{ minWidth: 40, px: '10px' }}
             >
               {icon || text}
             </Button>

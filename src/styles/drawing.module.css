@@ -2,8 +2,9 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  position: relative;
+  gap: 0.5rem;
   min-width: 700px;
+  width: 700px;
 }
 
 /* Add styles for button groups */

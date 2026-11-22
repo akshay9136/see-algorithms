@@ -15,12 +15,13 @@ import Link from 'next/link';
 export default function AVL(props) {
   const { saveData, ...saveDataProps } = useSavedData();
   const { lgdown, xxlup } = useBreakpoints();
-  const { animation, summary, buttons, refresh } = useBinaryTree({
-    createTree: (animator) => avlTree(animator, setCurrentStep),
-    hideButtons: ['Search'],
-    treeType: 'avl',
-    saveData,
-  });
+  const { animation, summary, buttons, examplePicker, inputRef, refresh } =
+    useBinaryTree({
+      createTree: (animator) => avlTree(animator, setCurrentStep),
+      hideButtons: ['Search'],
+      treeType: 'avl',
+      saveData,
+    });
 
   const [algorithm, setCurrentStep] = useAlgorithm(`
 function rebalance(node):
@@ -121,10 +122,13 @@ function rebalance(node):
           </Box>
         </Stack>
         <Stack spacing={2}>
-          <Typography variant="h6" component="h2">
-            Visualizer
-          </Typography>
-          <TreeInput {...props} buttons={buttons} />
+          <Box display="flex" gap={2}>
+            <Typography variant="h6" component="h2">
+              Visualizer
+            </Typography>
+            {examplePicker}
+          </Box>
+          <TreeInput ref={inputRef} buttons={buttons} />
           {animation}
           <br />
           {summary}

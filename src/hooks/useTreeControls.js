@@ -71,7 +71,7 @@ export default function useTreeControls({
     },
 
     SHARE: {
-      icon: <Share fontSize="small" sx={{ height: 24 }} />,
+      icon: <Share sx={{ fontSize: 22 }} />,
       onClick: () => copyTreeUrl(collect()),
       disabled: !numbers.length,
       label: 'Share this tree',
