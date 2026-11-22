@@ -11,8 +11,15 @@ import { Pause, PlayArrow } from '@mui/icons-material';
 import useDsPlayback from '@/hooks/useDsPlayback';
 
 const TreeInput = forwardRef((props, ref) => {
-  const { number, status, setStatus, handleChange, handlePlay, handleAction } =
-    useDsPlayback(props);
+  const {
+    number,
+    setNumber,
+    status,
+    handleChange,
+    handlePlay,
+    handleAction,
+    handleReset,
+  } = useDsPlayback(props);
   const [operation, setOperation] = useState('Insert');
   const toggles = props.buttons.filter((btn) => btn.validate);
   const actions = props.buttons.filter((btn) => !btn.validate);
@@ -20,7 +27,13 @@ const TreeInput = forwardRef((props, ref) => {
   const isBusy = status !== 0;
   const playLabel = status === 1 ? 'Pause' : 'Play';
 
-  useImperativeHandle(ref, () => ({ value: number, setStatus }));
+  const loadExample = (op, val) => {
+    handleReset();
+    setOperation(op);
+    setNumber(val);
+  };
+
+  useImperativeHandle(ref, () => ({ loadExample }));
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !isBusy) {
@@ -37,7 +50,7 @@ const TreeInput = forwardRef((props, ref) => {
         variant="subtitle1"
         fontWeight={600}
       >
-        {props.label || 'Enter a number:'}
+        {props.label || 'Enter a number: '}
       </Typography>
 
       <Input
@@ -52,7 +65,6 @@ const TreeInput = forwardRef((props, ref) => {
 
       <ToggleButtonGroup
         exclusive
-        size="small"
         value={selected?.text || null}
         onChange={(_, value) => {
           if (value !== null) setOperation(value);
@@ -65,7 +77,7 @@ const TreeInput = forwardRef((props, ref) => {
             key={button.text}
             value={button.text}
             disabled={isBusy || button.disabled}
-            sx={{ px: 1.5, py: 0.5, fontWeight: 600 }}
+            sx={{ p: '4px 12px', fontWeight: 600 }}
           >
             {button.text}
           </ToggleButton>
@@ -75,13 +87,13 @@ const TreeInput = forwardRef((props, ref) => {
       {!props.hidePlayIcon && (
         <Button
           size="small"
-          variant="outlined"
+          variant="contained"
           onClick={() => handlePlay(selected)}
           disabled={selected.disabled}
           aria-label={playLabel}
           aria-live="polite"
           title={playLabel}
-          sx={{ minWidth: 40, px: 0 }}
+          sx={{ minWidth: 40 }}
         >
           {status === 1 ? <Pause /> : <PlayArrow />}
         </Button>
@@ -90,7 +102,6 @@ const TreeInput = forwardRef((props, ref) => {
       {actions.map((btn) => (
         <Button
           key={btn.text || btn.label}
-          size="small"
           variant="outlined"
           onClick={() => {
             handleAction(btn);
@@ -100,7 +111,7 @@ const TreeInput = forwardRef((props, ref) => {
           disabled={isBusy || btn.disabled}
           aria-label={btn.text || btn.label}
           title={btn.label}
-          sx={{ minWidth: 40 }}
+          sx={{ minWidth: 40, px: '10px' }}
         >
           {btn.icon || btn.text}
         </Button>

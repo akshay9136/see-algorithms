@@ -32,15 +32,6 @@ export default function useDsPlayback(props) {
   const runRef = useRef(null);
   const itref = useRef([]); // iterators ref
 
-  useEffect(() => {
-    return () => {
-      runRef.current?.cancel();
-      runRef.current = null;
-      itref.current.forEach((it) => it.exit());
-      itref.current = [];
-    };
-  }, []);
-
   const matchingButtons = (btn) => {
     const allButtons = props.allButtons || props.buttons;
     return allButtons.filter((b) =>
@@ -119,5 +110,24 @@ export default function useDsPlayback(props) {
     if (!isNaN(value)) setNumber(value.length ? parseInt(value) : '');
   };
 
-  return { number, status, setStatus, handleChange, handlePlay, handleAction };
+  const handleReset = () => {
+    setStatus(0);
+    runRef.current?.cancel();
+    runRef.current = null;
+    itref.current.forEach((it) => it.exit());
+    itref.current = [];
+  };
+
+  useEffect(() => handleReset, []);
+
+  return {
+    number,
+    setNumber,
+    status,
+    setStatus,
+    handleChange,
+    handlePlay,
+    handleAction,
+    handleReset,
+  };
 }

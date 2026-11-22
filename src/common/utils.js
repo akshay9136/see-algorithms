@@ -28,7 +28,7 @@ function svgElement(tag, attrs, text) {
     Object.entries(attrs).forEach(([key, value]) => {
         el.setAttribute(key, value);
     });
-    if (text) el.textContent = text;
+    if (hasValue(text)) el.textContent = text;
     return el;
 }
 

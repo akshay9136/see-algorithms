@@ -1,8 +1,10 @@
-import { Draggable, Edge, Node } from '@/components/common';
+import { Draggable, Edge, ExamplePicker, Node } from '@/components/common';
 import { useAnimator, useSummary, useTreeControls, useTreeUrl } from '@/hooks';
 import { useEffect, useState, useRef } from 'react';
+import { flushSync } from 'react-dom';
 import { randomKeys, showError, sleep } from '@/common/utils';
 import { assignColors } from '@/helpers/redBlackTree';
+import { treeExamples } from '@/data/examples';
 import Paper from '@mui/material/Paper';
 
 export default function useBinaryTree({
@@ -17,6 +19,7 @@ export default function useBinaryTree({
   const [scope, animator] = useAnimator();
   const [nodes, isReady] = useTreeUrl();
   const treeRef = useRef(null);
+  const inputRef = useRef(null);
   const deletedRef = useRef({});
   const Tree = () => treeRef.current;
   const isRedBlack = treeType === 'red-black';
@@ -69,16 +72,13 @@ export default function useBinaryTree({
   }
 
   const newTree = async (keys) => {
-    if (isRedBlack) {
-      keys = keys || assignColors(randomNodes);
-      setNumbers(keys.map((a) => a[0]));
-    } else {
-      keys = keys || randomNodes;
-      setNumbers(keys);
-    }
+    keys = keys || (isRedBlack ? assignColors(randomNodes) : randomNodes);
+    const values = isRedBlack ? keys.map(([value]) => value) : keys;
     treeRef.current = createTree(animator);
     deletedRef.current = {};
     await sleep(100);
+    // Insertion updates the rendered nodes and balance labels directly.
+    flushSync(() => setNumbers(values));
     keys.forEach((a) => Tree()._insert(a));
   };
 
@@ -118,9 +118,8 @@ export default function useBinaryTree({
   ];
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- Initialize the imperative tree after URL hydration and DOM mount.
     if (isReady) newTree(nodes);
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- Rebuild only for URL input changes, not for recreated animation callbacks.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodes, isReady]);
 
   const animation = (
@@ -142,9 +141,22 @@ export default function useBinaryTree({
     </Paper>
   );
 
+  const examples = treeExamples[treeType];
+  const examplePicker = examples?.length > 0 ? (
+    <ExamplePicker
+      examples={examples}
+      onSelect={({ keys, operation, value }) => {
+        inputRef.current.loadExample(operation, value);
+        controls.REFRESH.onClick(keys);
+      }}
+    />
+  ) : null;
+
   return {
     animation,
     summary,
+    examplePicker,
+    inputRef,
     // eslint-disable-next-line react-hooks/refs
     buttons: allButtons.filter((btn) => !hideButtons.includes(btn.text)),
     refresh: controls.REFRESH.onClick,

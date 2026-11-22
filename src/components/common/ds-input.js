@@ -47,14 +47,13 @@ const DSInput = forwardRef((props, ref) => {
       {props.buttons.map((btn) => (
         <Button
           key={btn.text || btn.label}
-          size="small"
           variant="outlined"
           onClick={() => handleAction(btn)}
           color={btn.color || 'primary'}
           disabled={isBusy || btn.disabled}
           aria-label={btn.text || btn.label}
           title={btn.label}
-          sx={{ minWidth: 40 }}
+          sx={{ minWidth: 40, px: 1.5 }}
         >
           {btn.icon || btn.text}
         </Button>

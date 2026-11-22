@@ -46,7 +46,7 @@ function doesIntersect(p1, q1, p2, q2) {
   return false;
 }
 
-export function randomGraph(np) {
+export function randomGraph(np = 6) {
   const points = randomPoints(np);
   const matrix = Array.from({ length: np }, () => []);
   const segments = [];

@@ -6,6 +6,7 @@ import {
   fromDistance,
   hasValue,
   sound,
+  vertexLabel,
 } from '@/common/utils';
 import {
   useAlgorithm,
@@ -80,8 +81,16 @@ export function Visualizer() {
   const [scope, graphRef] = useGraphScope();
   const delay = 800;
 
+  const showIndegree = () => {
+    for (let u = 0; u < Graph.totalPoints(); u++) {
+      const label = vertexLabel(Graph.point(u), indeg[u]);
+      scope.find('.vgrp').eq(u).append(label);
+    }
+  };
+
   async function* start() {
     indeg = Graph.indegree();
+    showIndegree();
     scope.find('.vrtx').attr('stroke', Colors.rejected);
     scope.find('.edge').attr('stroke', Colors.rejected);
     stack = [];
@@ -113,6 +122,7 @@ export function Visualizer() {
             scope.node(j).attr('stroke', Colors.visited);
             stack.push(j);
           }
+          scope.find('.vtag').eq(j).text(indeg[j]);
           sound('swap');
           const [p, q] = [i, j].map(Graph.point);
           const d = Points.distance(p, q);
@@ -153,6 +163,7 @@ export function Visualizer() {
           scope={scope}
           onStart={start}
           onClear={() => {
+            scope?.find('.vtag').remove();
             scope?.find('.top-sort').html('');
             abortSummary();
           }}

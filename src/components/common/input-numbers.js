@@ -165,13 +165,14 @@ function InputNumbers(props) {
       {numbers.length > 0 && (
         <Box display="flex" gap={1}>
           <Button
+            size="small"
             variant="contained"
-            startIcon={status === 1 ? <Pause /> : <PlayArrow />}
             onClick={handlePlay}
-            sx={{ padding: '4px 12px' }}
+            title={status === 1 ? 'Pause' : 'Play'}
             aria-live="polite"
+            sx={{ minWidth: '40px' }}
           >
-            Play
+            {status === 1 ? <Pause /> : <PlayArrow />}
           </Button>
           <Button
             size="small"
