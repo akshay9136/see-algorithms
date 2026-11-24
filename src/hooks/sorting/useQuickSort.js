@@ -15,10 +15,8 @@ function partition(start, end):
     pivot = arr[end]
     i = start, j = end - 1
     while i <= j:
-        if arr[i] <= pivot:
-            i = i + 1
-        else if arr[j] > pivot:
-            j = j - 1
+        if arr[i] <= pivot: i = i + 1
+        else if arr[j] > pivot: j = j - 1
         else: swap(i, j)
     if arr[i] > pivot: swap(i, end)
     return i
@@ -41,22 +39,22 @@ function partition(start, end):
                 bgcolor(arr[i++].id, Colors.white);
                 if (i <= j) {
                     bgcolor(arr[i].id, Colors.compare);
-                    setCurrentStep('4,5');
+                    setCurrentStep('4');
                 }
             } else if (arr[j].val > pivot) {
                 bgcolor(arr[j--].id, Colors.white);
                 if (j >= i) {
                     bgcolor(arr[j].id, Colors.compare);
-                    setCurrentStep('6,7');
+                    setCurrentStep('5');
                 }
             } else {
-                setCurrentStep('8');
+                setCurrentStep('6');
                 await swapNumbers(i, j);
             }
             yield delay;
         }
         if (i < end && arr[i].val > pivot) {
-            setCurrentStep('9');
+            setCurrentStep('7');
             await swapNumbers(i, end);
             yield delay / 2;
             bgcolor(arr[end].id, Colors.white);

@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 export default function QuickSort() {
   const { pseudocode, visualizer } = useQuickSort();
-  const { xldown } = useBreakpoints();
+  const { xldown, xlup } = useBreakpoints();
 
   const [algorithm] = useAlgorithm(`
 function quickSort(start, end):
@@ -41,16 +41,19 @@ function quickSort(start, end):
           <Typography variant="h6" component="h2">
             Pseudocode
           </Typography>
-          {pseudocode}
+          <Stack spacing={3} pb={2}>
+            {algorithm}
+            {pseudocode}
+          </Stack>
         </Stack>
         {xldown && <AdUnit sx={{ maxWidth: 200 }} />}
         <Stack spacing={2} flex={1}>
           <Typography variant="h6" component="h2">
             Visualizer
           </Typography>
-          {algorithm}
-          <br />
           {visualizer}
+          <br />
+          {xlup && <AdUnit fullWidth="true" />}
         </Stack>
       </Box>
       <Divider sx={{ my: 3 }} />

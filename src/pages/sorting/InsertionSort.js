@@ -29,7 +29,7 @@ export default function InsertionSort() {
           </Typography>
           {pseudocode}
         </Stack>
-        {xldown && <AdUnit sx={{ maxWidth: 300 }} />}
+        {xldown && <AdUnit sx={{ maxWidth: 300 }} format="rectangle" />}
         <Stack spacing={2} flex={1}>
           <Typography variant="h6" component="h2">
             Visualizer

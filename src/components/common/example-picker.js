@@ -1,4 +1,5 @@
 import { useId, useState } from 'react';
+import { trackEvent } from '@/common/analytics';
 import {
   Button,
   List,
@@ -51,6 +52,9 @@ function ExamplePicker({ examples, onSelect, disabled, sx }) {
                 onClick={() => {
                   setAnchorEl(null);
                   onSelect(example);
+                  trackEvent('visualization_loaded', {
+                    input_source: 'example',
+                  });
                 }}
               >
                 <ListItemText

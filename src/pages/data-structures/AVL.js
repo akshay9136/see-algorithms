@@ -14,7 +14,7 @@ import Link from 'next/link';
 
 export default function AVL(props) {
   const { saveData, ...saveDataProps } = useSavedData();
-  const { lgdown, xxlup } = useBreakpoints();
+  const { xldown, xxlup } = useBreakpoints();
   const { animation, summary, buttons, examplePicker, inputRef, refresh } =
     useBinaryTree({
       createTree: (animator) => avlTree(animator, setCurrentStep),
@@ -116,9 +116,9 @@ function rebalance(node):
           <Typography variant="h6" component="h2">
             Pseudocode
           </Typography>
-          <Box display="flex" gap={3}>
+          <Box display="flex" gap={4}>
             {algorithm}
-            {lgdown && <AdUnit sx={{ maxWidth: 200 }} />}
+            {xldown && <AdUnit sx={{ maxWidth: 200 }} />}
           </Box>
         </Stack>
         <Stack spacing={2}>

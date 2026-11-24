@@ -87,7 +87,7 @@ function deleteAt(index):
         <Typography variant="h6" component="h2">
           Pseudocode
         </Typography>
-        <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
+        <Box display="flex" gap={3} flexWrap="wrap">
           <Stack spacing={2.5}>
             {insertAlgo1}
             {insertAlgo2}

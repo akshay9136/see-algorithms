@@ -65,11 +65,7 @@ function extract():
           <Typography variant="h6" component="h2">
             Pseudocode
           </Typography>
-          <Stack
-            direction={{ xs: 'row', lg: 'column' }}
-            spacing={3}
-            alignItems="start"
-          >
+          <Stack direction={{ xs: 'row', lg: 'column' }} spacing={3}>
             {insertAlgo}
             {extractAlgo}
           </Stack>
@@ -85,6 +81,7 @@ function extract():
         </Stack>
         {xlup && <AdUnit sx={{ maxWidth: 200 }} />}
       </Box>
+
       <Divider sx={{ my: 3 }} />
 
       <Box display="flex" flexWrap="wrap" gap={4}>

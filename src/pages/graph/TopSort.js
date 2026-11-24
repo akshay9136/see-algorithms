@@ -61,7 +61,7 @@ function indegree():
         Pseudocode
       </Typography>
       <Box display="flex" gap={3}>
-        <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
+        <Box display="flex" gap={3} flexWrap="wrap">
           {algorithm}
           {indegreeAlgo}
         </Box>

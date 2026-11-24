@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { useContext, useEffect, useRef } from 'react';
 import AppContext from '@/common/context';
 
-function AdUnit({ format, fullWidth = 'false', sx }) {
+function AdUnit({ format = 'auto', fullWidth = 'false', sx }) {
   const { adsReady } = useContext(AppContext);
   const initialized = useRef(false);
   const adRef = useRef(null);
@@ -43,7 +43,7 @@ function AdUnit({ format, fullWidth = 'false', sx }) {
         style={{ display: 'block' }}
         data-ad-client="ca-pub-7905328601622622"
         data-ad-slot="5573819826"
-        data-ad-format={format || 'auto'}
+        data-ad-format={format}
         data-full-width-responsive={fullWidth}
       />
     </Box>

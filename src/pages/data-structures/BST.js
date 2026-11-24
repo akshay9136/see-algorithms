@@ -29,7 +29,7 @@ function insert(node, key):
             insert(node.right, key)
 `);
 
-  const { xlup } = useBreakpoints();
+  const { xldown, xlup } = useBreakpoints();
 
   return (
     <>
@@ -64,7 +64,14 @@ function insert(node, key):
           <Typography variant="h6" component="h2">
             Pseudocode
           </Typography>
-          {insertAlgo}
+          <Box display="flex" gap={4}>
+            {insertAlgo}
+            {xldown && (
+              <Box width={300}>
+                <AdUnit format="rectangle" />
+              </Box>
+            )}
+          </Box>
           <br />
           {xlup && <AdUnit sx={{ maxWidth: 300 }} format="rectangle" />}
         </Stack>

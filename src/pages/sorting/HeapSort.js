@@ -51,7 +51,10 @@ function heapify(i):
           <Typography variant="h6" component="h2">
             Visualizer
           </Typography>
-          {pseudocode}
+          <Box display="flex" gap={4}>
+            {pseudocode}
+            <AdUnit sx={{ maxWidth: 300 }} format="rectangle" />
+          </Box>
           <br />
           {visualizer}
         </Stack>

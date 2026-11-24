@@ -52,7 +52,7 @@ function relax(u, d):
         Pseudocode
       </Typography>
       <Box display="flex" gap={3}>
-        <Box display="flex" gap={3} flexWrap="wrap" alignItems="start">
+        <Box display="flex" gap={3} flexWrap="wrap">
           {algorithm}
           {relaxAlgo}
         </Box>

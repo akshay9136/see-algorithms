@@ -83,6 +83,7 @@
     background-color: #efefef;
     border-radius: 8px;
     width: fit-content;
+    align-self: flex-start;
 }
 
 .pseudoCode pre {

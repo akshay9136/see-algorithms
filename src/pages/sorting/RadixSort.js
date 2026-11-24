@@ -40,8 +40,8 @@ export default function RadixSort() {
       </Typography>
       <Divider sx={{ my: 3 }} />
 
-      <Box display="flex" flexWrap="wrap-reverse" gap={4}>
-        <Stack spacing={2}>
+      <Box display="flex" flexWrap="wrap" gap={4}>
+        <Stack spacing={2} pb={1}>
           <Typography variant="h6" component="h2">
             Pseudocode
           </Typography>

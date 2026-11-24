@@ -41,7 +41,10 @@ function mergeSort(start, end):
           <Typography variant="h6" component="h2">
             Visualizer
           </Typography>
-          {algorithm}
+          <Box display="flex" gap={4}>
+            {algorithm}
+            <AdUnit sx={{ maxWidth: 300 }} format="rectangle" />
+          </Box>
           <br />
           {visualizer}
         </Stack>
