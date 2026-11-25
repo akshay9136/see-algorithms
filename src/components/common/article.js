@@ -20,8 +20,8 @@ import { useMediaQuery } from '@mui/material';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import AdUnit from './ad-unit';
-import Head from 'next/head';
 import NextLink from 'next/link';
+import Head from 'next/head';
 
 function formatDate(iso) {
   if (!iso) return null;
@@ -234,7 +234,7 @@ export const Section = memo(function (props) {
       mb={variant === 'h5' ? 4 : 3}
       sx={{ flex: 1, ...sx }}
     >
-      <Typography variant={variant} component="h2" mb={1.5}>
+      <Typography variant={variant} component="h2" fontWeight={600} mb={1.5}>
         {title}
       </Typography>
       {children}

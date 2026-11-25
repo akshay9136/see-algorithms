@@ -1,14 +1,77 @@
 import {
-  Avatar,
   Box,
+  CardActionArea,
   Container,
-  Divider,
   Link as MuiLink,
   Typography,
 } from '@mui/material';
+import { AutoAwesome, LinkedIn, MovieOutlined } from '@mui/icons-material';
+import { PERSON_SCHEMA, SITE_AUTHOR } from '@/utils/constants';
+import { Section } from '@/components/common';
 import Link from 'next/link';
 import Head from 'next/head';
-import { PERSON_SCHEMA, SITE_AUTHOR } from '@/utils/constants';
+import Image from 'next/image';
+
+const authorLinks = [
+  {
+    title: 'Cosmo Curated',
+    description:
+      'Essays and visual guides on astrophysics and cosmology, for everyone curious about the universe.',
+    label: 'Explore Cosmo Curated',
+    href: 'https://cosmocurated.com/',
+    icon: AutoAwesome,
+    appearance: 'cosmoCurated',
+  },
+  {
+    title: 'CineTrail',
+    description:
+      'An AI-powered movie companion with plot breakdowns, critical reviews, and character analyses.',
+    label: 'Explore CineTrail',
+    href: 'https://cinetrail.app/',
+    icon: MovieOutlined,
+    appearance: 'cineTrail',
+  },
+];
+
+const linkedInProfile = {
+  title: 'LinkedIn',
+  description:
+    'Learn more about my software engineering experience and connect with me on LinkedIn.',
+  label: 'View LinkedIn profile',
+  href: SITE_AUTHOR.linkedIn,
+  icon: LinkedIn,
+  appearance: 'linkedIn',
+};
+
+function AuthorLinkCard({
+  title,
+  description,
+  label,
+  href,
+  icon: Icon,
+  appearance,
+}) {
+  return (
+    <CardActionArea
+      href={href}
+      aria-label={label}
+      sx={[styles.linkCard, styles.linkCardAppearance[appearance]]}
+    >
+      <Box display="flex" alignItems="center">
+        <Icon sx={{ color: 'var(--card-accent)', mr: 1 }} />
+        <Typography component="h2" variant="h6" fontWeight={600}>
+          {title}
+        </Typography>
+      </Box>
+      <Typography sx={{ color: 'var(--card-accent)' }}>
+        {description}
+      </Typography>
+      <Typography component="span" sx={styles.linkCardLabel}>
+        {label}
+      </Typography>
+    </CardActionArea>
+  );
+}
 
 export default function AuthorPage() {
   return (
@@ -26,39 +89,32 @@ export default function AuthorPage() {
         />
       </Head>
 
-      <Container maxWidth="lg" sx={{ p: 0 }}>
-        <Box display="flex" gap={2}>
-          <Avatar
-            sx={{
-              width: 60,
-              height: 60,
-              bgcolor: 'warning.main',
-              fontSize: '1.5rem',
-              fontWeight: 700,
-            }}
-          >
-            AK
-          </Avatar>
-          <Box>
-            <Typography
-              variant="h5"
-              component="h1"
-              fontWeight={700}
-              lineHeight={1.5}
-            >
+      <Container maxWidth="md" disableGutters>
+        <Box sx={styles.cardGrid}>
+          <Box component="header" sx={styles.profileHeader}>
+            <Box sx={styles.portrait}>
+              <Image
+                src={SITE_AUTHOR.image}
+                alt={SITE_AUTHOR.name}
+                width={300}
+                height={300}
+              />
+            </Box>
+            <Typography component="h1" sx={styles.profileTitle}>
               {SITE_AUTHOR.name}
             </Typography>
-            <Typography color="text.secondary">
-              Software Engineer &amp; Educator · Creator of{' '}
-              <MuiLink component={Link} href="/">
+            <Typography color="text.secondary" fontWeight={600} gridArea="bio">
+              Software engineer, educator, and creator of{' '}
+              <MuiLink component={Link} href="/" underline="always">
                 See Algorithms
               </MuiLink>
+              .
             </Typography>
           </Box>
+          <AuthorLinkCard {...linkedInProfile} />
         </Box>
-        <Divider sx={{ my: 3 }} />
 
-        <Box mb={4}>
+        <Section title="How See Algorithms started" sx={{ mt: 4 }}>
           <Typography paragraph>
             I&apos;m a Software Engineer with a deep passion for Computer
             Science education and visual learning. I believe the most intuitive
@@ -100,8 +156,95 @@ export default function AuthorPage() {
             revisiting fundamentals, <strong>See Algorithms</strong> is built to
             make that learning journey clear, engaging, and accessible.
           </Typography>
-        </Box>
+        </Section>
+
+        <Section title="My other projects" sx={{ textAlign: 'left' }}>
+          <Box sx={styles.cardGrid} mt={2.5}>
+            {authorLinks.map((link) => (
+              <AuthorLinkCard key={link.title} {...link} />
+            ))}
+          </Box>
+        </Section>
       </Container>
     </>
   );
 }
+
+const styles = {
+  cardGrid: {
+    display: 'grid',
+    gridTemplateColumns: {
+      xs: 'minmax(0, 1fr)',
+      sm: 'repeat(2, minmax(0, 1fr))',
+    },
+    gap: 2.5,
+  },
+  profileHeader: {
+    display: 'grid',
+    gridTemplateColumns: 'auto minmax(0, 1fr)',
+    gridTemplateAreas: {
+      xs: '"portrait name" "bio bio"',
+      lg: '"portrait name" "portrait bio"',
+    },
+    alignContent: 'center',
+    alignItems: 'center',
+    columnGap: { xs: 2, lg: 2.5 },
+    rowGap: { xs: 1.5, lg: 0 },
+    padding: { xs: 2.5, sm: 3 },
+    border: '1px solid',
+    borderColor: 'divider',
+    borderRadius: 3,
+    bgcolor: 'action.hover',
+  },
+  portrait: {
+    gridArea: 'portrait',
+    width: { xs: 64, sm: 80, lg: 96 },
+    borderRadius: 2.5,
+    overflow: 'hidden',
+    '& img': {
+      display: 'block',
+      width: '100%',
+      height: 'auto',
+    },
+  },
+  profileTitle: {
+    gridArea: 'name',
+    fontSize: '1.5rem',
+    fontWeight: 800,
+  },
+  linkCard: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    gap: 1,
+    padding: { xs: 2.5, sm: 3 },
+    overflow: 'hidden',
+    borderRadius: 3,
+    color: 'white',
+    '&:focus-visible': {
+      outline: '2px solid',
+      outlineColor: 'text.primary',
+      outlineOffset: 3,
+    },
+  },
+  linkCardAppearance: {
+    cosmoCurated: {
+      '--card-accent': '#eadcff',
+      background: 'radial-gradient(ellipse at top right, #493275, #211638 72%)',
+    },
+    cineTrail: {
+      '--card-accent': '#e0f2fe',
+      background: 'radial-gradient(ellipse at top right, #075985, #023755 72%)',
+    },
+    linkedIn: {
+      '--card-accent': '#dbeafe',
+      background: 'radial-gradient(ellipse at top right, #0A66C2, #0a58a8 72%)',
+    },
+  },
+  linkCardLabel: {
+    pt: 1,
+    color: 'var(--card-accent)',
+    fontWeight: 600,
+    textDecoration: 'underline',
+  },
+};

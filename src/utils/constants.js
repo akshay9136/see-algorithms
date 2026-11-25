@@ -31,6 +31,8 @@ export const SITE_AUTHOR = {
   name: 'Akshay Karande',
   url: 'https://see-algorithms.com/author',
   github: 'https://github.com/akshay9136',
+  linkedIn: 'https://www.linkedin.com/in/akshay-karande-365604130/',
+  image: '/author.jpeg',
 };
 
 export const LEGAL_ENTITY = 'Akshay Vilas Karande';
@@ -41,7 +43,8 @@ export const PERSON_SCHEMA = {
   '@id': `${SITE_URL}/#person-akshay`,
   name: SITE_AUTHOR.name,
   url: SITE_AUTHOR.url,
-  sameAs: [SITE_AUTHOR.github],
+  image: `${SITE_URL}${SITE_AUTHOR.image}`,
+  sameAs: [SITE_AUTHOR.github, SITE_AUTHOR.linkedIn],
   jobTitle: 'Software Engineer & Educator',
   worksFor: {
     '@type': 'Organization',
