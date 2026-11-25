@@ -28,6 +28,7 @@
     "@next/third-parties": "^16.4.2",
     "@vercel/analytics": "^2.0.1",
     "firebase-admin": "^14.5.0",
+    "google-auth-library": "^10.6.2",
     "jquery": "^3.7.1",
     "marked": "^17.0.6",
     "motion": "^14.1.0",

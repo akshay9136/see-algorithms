@@ -111,7 +111,8 @@ export default function App({
   };
 
   const isEmbed = pathname.includes('/embed/');
-  const loadAdScript = pathname !== '/404' && !isEmbed && onPublicHost;
+  const isAdminPage = pathname === '/admin';
+  const loadAdScript = pathname !== '/404' && !isEmbed && !isAdminPage && onPublicHost;
   const { openGraph } = defaultSeoConfig;
 
   return (
@@ -119,17 +120,21 @@ export default function App({
       <SessionProvider session={session}>
         <Head>
           <style>{`body{ font-family: ${nunito.style.fontFamily}; }`}</style>
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-          />
+          {!isAdminPage && (
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+            />
+          )}
         </Head>
 
-        <DefaultSeo
-          {...defaultSeoConfig}
-          canonical={canonicalUrl}
-          openGraph={{ ...openGraph, url: canonicalUrl }}
-        />
+        {!isAdminPage && (
+          <DefaultSeo
+            {...defaultSeoConfig}
+            canonical={canonicalUrl}
+            openGraph={{ ...openGraph, url: canonicalUrl }}
+          />
+        )}
         {loadAdScript && (
           <Script
             async
@@ -139,9 +144,13 @@ export default function App({
             onReady={() => setContext({ adsReady: true })}
           />
         )}
-        <Analytics />
-        <GoogleAnalytics />
-        {!isEmbed && <CookieConsent />}
+        {!isAdminPage && (
+          <>
+            <Analytics />
+            <GoogleAnalytics />
+            {!isEmbed && <CookieConsent />}
+          </>
+        )}
 
         <ThemeProvider theme={theme}>
           <CssBaseline />

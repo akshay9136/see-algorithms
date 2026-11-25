@@ -41,6 +41,8 @@ Open [http://localhost:3000](http://localhost:3000).
 
 The app uses Next.js, React 19, and Material UI 7. `npm run dev` uses Turbopack. Run `npm run dev:webpack` to develop with Webpack. Production builds use Webpack. Nunito is bundled locally in `src/fonts`.
 
+See [Admin analytics](docs/admin-analytics.md) for `/admin` setup, metric definitions, and tracking coverage.
+
 ## Validation
 
 Run these commands from the repository root before opening a pull request.

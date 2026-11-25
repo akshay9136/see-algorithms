@@ -64,7 +64,7 @@ const descriptions = {
   HuffmanCoding: 'Compresses data by assigning shorter bit sequences to frequent characters and longer codes to rarer ones.',
 };
 
-const getAlgorithmPath = (algo) => {
+export const getAlgorithmPath = (algo) => {
   if (algo.path) return algo.path;
   const catId = algo.category.split(' ').join('-').toLowerCase();
   return `/${catId}/${algo.id}`;

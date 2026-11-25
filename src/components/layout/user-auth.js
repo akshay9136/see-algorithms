@@ -9,7 +9,7 @@ import {
   Button,
   Divider,
 } from '@mui/material';
-import { Login, Logout, AccountBalanceWallet } from '@mui/icons-material';
+import { Login, Logout, AccountBalanceWallet, BarChartRounded } from '@mui/icons-material';
 import AppContext from '@/common/context';
 import useCredits from '@/hooks/useCredits';
 
@@ -53,6 +53,13 @@ export default function UserAuth() {
               {session.user.name}
             </Typography>
           </MenuItem>
+
+          {session.user.isAdmin && (
+            <MenuItem component="a" href="/admin" onClick={() => setAnchorEl(null)}>
+              <BarChartRounded sx={{ mr: 1 }} color="primary" />
+              Product analytics
+            </MenuItem>
+          )}
 
           <Divider />
 
