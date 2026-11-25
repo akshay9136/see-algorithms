@@ -232,7 +232,7 @@ export const Section = memo(function (props) {
       textAlign="justify"
       minWidth={300}
       mb={variant === 'h5' ? 4 : 3}
-      sx={{ flex: 1, ...sx }}
+      sx={sx}
     >
       <Typography variant={variant} component="h2" fontWeight={600} mb={1.5}>
         {title}

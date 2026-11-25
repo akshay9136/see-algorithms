@@ -48,7 +48,7 @@ export default function RadixSort() {
           {pseudocode}
         </Stack>
         {xldown && <AdUnit sx={{ maxWidth: 200 }} />}
-        <Stack spacing={2} flex={1}>
+        <Stack spacing={1.5} flex={1}>
           <Typography variant="h6" component="h2">
             Visualizer
           </Typography>

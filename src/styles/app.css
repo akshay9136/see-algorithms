@@ -82,13 +82,18 @@
     font-size: 0.9rem;
     background-color: #efefef;
     border-radius: 8px;
-    width: fit-content;
+    min-width: fit-content;
     align-self: flex-start;
 }
 
 .pseudoCode pre {
     margin: 8px 0;
     padding: 4px 24px;
+}
+
+section:has(.pseudoCode) {
+    min-width: fit-content;
+    margin-bottom: 0;
 }
 
 .watermark {

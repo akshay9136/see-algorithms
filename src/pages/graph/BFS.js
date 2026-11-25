@@ -1,4 +1,4 @@
-import { AdUnit, DrawGraph } from '@/components/common';
+import { AdUnit, DrawGraph, Section } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
 import { charAt, createCell, hasValue, sound } from '@/common/utils';
 import {
@@ -54,14 +54,10 @@ while queue is not empty:
       </Box>
 
       <Box display="flex" gap={4} flexWrap="wrap">
-        <Stack spacing={2} pt={0.5}>
-          <Typography variant="h6" component="h2">
-            Pseudocode
-          </Typography>
+        <Section title="Pseudocode" variant="h6">
           {algorithm}
-          <br />
-          {lgup && <AdUnit sx={{ maxWidth: 300 }} format="rectangle" />}
-        </Stack>
+          {lgup && <AdUnit sx={{ maxWidth: 300, mt: 4 }} format="rectangle" />}
+        </Section>
         {lgdown && <AdUnit sx={{ maxWidth: 300 }} format="rectangle" />}
         <Visualizer />
         {xlup && <AdUnit sx={{ maxWidth: 300 }} />}

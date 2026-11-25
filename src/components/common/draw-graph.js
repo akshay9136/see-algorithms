@@ -1,9 +1,9 @@
 import { useState, useContext, memo } from 'react';
 import { useGraphControls, useSavedData } from '@/hooks';
-import { createExampleGraph, graphExamples } from '@/data/examples';
+import { graphExamples } from '@/data/examples';
 import { useRouter } from 'next/router';
-import { trackEvent } from '@/common/analytics';
 import { showError } from '@/common/utils';
+import { trackEvent } from '@/common/analytics';
 import { showToast } from '../toast';
 import {
   Box,
@@ -98,7 +98,7 @@ function DrawGraph({
     saveData(Graph.skeleton(weights));
   };
 
-  const examples = graphExamples[algoId] || [];
+  // const examples = graphExamples[algoId] || [];
 
   return (
     <Box className="drawGraph" aria-label="Graph controls and visualization">
@@ -106,7 +106,7 @@ function DrawGraph({
         <Typography variant="h6">Draw Graph</Typography>
 
         <Box className={styles.buttonGroup}>
-          {examples.length > 0 && (
+          {/* {examples.length > 0 && (
             <ExamplePicker
               examples={examples}
               onSelect={(example) => {
@@ -115,7 +115,7 @@ function DrawGraph({
                 setSource(example.source || 'A');
               }}
             />
-          )}
+          )} */}
 
           {allowRefresh && (
             <IconButton

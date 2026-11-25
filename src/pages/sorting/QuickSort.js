@@ -37,17 +37,13 @@ function quickSort(start, end):
       <Divider sx={{ my: 3 }} />
 
       <Box display="flex" flexWrap="wrap" gap={4}>
-        <Stack spacing={2}>
-          <Typography variant="h6" component="h2">
-            Pseudocode
-          </Typography>
-          <Stack spacing={3} pb={2}>
-            {algorithm}
-            {pseudocode}
-          </Stack>
-        </Stack>
+        <Section title="Pseudocode" variant="h6">
+          {algorithm}
+          <br />
+          {pseudocode}
+        </Section>
         {xldown && <AdUnit sx={{ maxWidth: 200 }} />}
-        <Stack spacing={2} flex={1}>
+        <Stack spacing={1.5} flex={1}>
           <Typography variant="h6" component="h2">
             Visualizer
           </Typography>

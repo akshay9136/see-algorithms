@@ -22,14 +22,11 @@ export default function SelectionSort() {
       <Divider sx={{ my: 3 }} />
 
       <Box display="flex" flexWrap="wrap" gap={4}>
-        <Stack spacing={2}>
-          <Typography variant="h6" component="h2">
-            Pseudocode
-          </Typography>
+        <Section title="Pseudocode" variant="h6">
           {pseudocode}
-        </Stack>
+        </Section>
         {xldown && <AdUnit sx={{ maxWidth: 300 }} format="rectangle" />}
-        <Stack spacing={2} flex={1}>
+        <Stack spacing={1.5} flex={1}>
           <Typography variant="h6" component="h2">
             Visualizer
           </Typography>

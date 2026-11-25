@@ -1,4 +1,4 @@
-import { AdUnit, DrawGraph } from '@/components/common';
+import { AdUnit, DrawGraph, Section } from '@/components/common';
 import { Box, Stack, Typography } from '@mui/material';
 import { charAt, createCell, hasValue, sound } from '@/common/utils';
 import {
@@ -50,18 +50,12 @@ DFS(u):
             gap: 3,
           }}
         >
-          <Stack spacing={2}>
-            <Typography variant="h6" component="h2">
-              DFS (using stack)
-            </Typography>
+          <Section title="DFS (using stack)" variant="h6">
             {algorithm1}
-          </Stack>
-          <Stack spacing={2}>
-            <Typography variant="h6" component="h2">
-              DFS (recursive)
-            </Typography>
+          </Section>
+          <Section title="DFS (recursive)" variant="h6">
             {algorithm2}
-          </Stack>
+          </Section>
         </Box>
         <Visualizer />
         {xlup && <AdUnit sx={{ maxWidth: 300 }} />}
