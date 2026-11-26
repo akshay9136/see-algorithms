@@ -36,7 +36,7 @@ const benefits = [
 ];
 
 export default function SignInDialog() {
-  const { signInOpen, callbackUrl, setContext } = useContext(AppContext);
+  const { signInOpen, callbackUrl, darkMode, setContext } = useContext(AppContext);
   const { data: session } = useSession();
   const [loading, setLoading] = useState('');
 
@@ -85,11 +85,12 @@ export default function SignInDialog() {
         <CardContent sx={{ p: 4 }}>
           <Box sx={{ textAlign: 'center', mb: 4 }}>
             <Image
-              src="/logo.png"
+              src={darkMode ? '/logo.svg#dark' : '/logo.svg'}
               alt="See Algorithms"
               width={200}
               height={40}
               priority
+              unoptimized
             />
             <Typography
               variant="h5"

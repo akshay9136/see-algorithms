@@ -159,7 +159,7 @@ Node 5 has two children → replace with 6, then delete 6`}
         </Paper>
       </Section>
 
-      <Divider sx={{ mb: 3 }} />
+      <Divider sx={{ my: 3 }} />
 
       <Section title="Time Complexity">
         <Typography paragraph>

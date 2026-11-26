@@ -82,7 +82,7 @@
     font-size: 0.9rem;
     background-color: #efefef;
     border-radius: 8px;
-    min-width: fit-content;
+    width: fit-content;
     align-self: flex-start;
 }
 
@@ -91,7 +91,7 @@
     padding: 4px 24px;
 }
 
-section:has(.pseudoCode) {
+section:has(> .pseudoCode) {
     min-width: fit-content;
     margin-bottom: 0;
 }

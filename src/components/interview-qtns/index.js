@@ -30,7 +30,7 @@ function InterviewQtns({
       <Box
         sx={{
           columnCount: { xs: 1, md: 2 },
-          columnGap: 2.5,
+          columnGap: 3,
           '& > *': { breakInside: 'avoid', mt: 2 },
         }}
       >

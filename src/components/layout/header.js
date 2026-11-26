@@ -53,9 +53,10 @@ function Header(props) {
         />
         <Box sx={{ display: mdBlock, height: 40 }}>
           <Image
-            src="/logo.png"
-            alt="logo"
+            src={darkMode ? '/logo.svg#dark' : '/logo.svg'}
+            alt="See Algorithms"
             priority
+            unoptimized
             width="200"
             height="40"
             className={styles.logo}

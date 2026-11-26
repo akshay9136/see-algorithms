@@ -2,7 +2,7 @@
     overflow-x: auto;
 }
 
-.MuiStack-root:has(> .sortingVis) {
+div:has(> .sortingVis) {
     min-width: 700px;
 }
 
