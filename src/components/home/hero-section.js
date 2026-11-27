@@ -1,4 +1,5 @@
-import { Box, Card, GridLegacy as Grid, Typography } from '@mui/material';
+import { Box, GridLegacy as Grid, Typography } from '@mui/material';
+import Previews from './previews';
 import Link from 'next/link';
 
 export default function HeroSection() {
@@ -46,43 +47,7 @@ export default function HeroSection() {
       </Grid>
 
       <Grid item xs={12} lg={6}>
-        <Card elevation={3} sx={{ borderRadius: 2, py: 1.5 }}>
-          <Typography variant="h6" textAlign="center" sx={{ mb: 1 }}>
-            Visualization Preview
-          </Typography>
-
-          <Box sx={{ width: '100%', flexShrink: 0 }}>
-            <video
-              aria-label="AVL Tree visualization"
-              autoPlay
-              muted
-              loop
-              playsInline
-              width={800}
-              height={534}
-              poster="/videos/avl-tree-poster.webp"
-              preload="metadata"
-              style={{
-                display: 'block',
-                width: '100%',
-                height: 'auto',
-                border: '1px solid #e5e5e5',
-              }}
-            >
-              <source src="/videos/avl-tree.mp4" type="video/mp4" />
-              Your browser does not support the visualization preview video.
-            </video>
-          </Box>
-
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{ px: 2, mt: 1 }}
-          >
-            Use the controls to pause/resume animations, tweak inputs, or
-            generate a shareable URL for the current graph or tree.
-          </Typography>
-        </Card>
+        <Previews />
       </Grid>
     </Grid>
   );

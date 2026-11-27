@@ -11,7 +11,7 @@ export default function HomePage() {
         <link
           rel="preload"
           as="image"
-          href="/videos/avl-tree-poster.webp"
+          href="/videos/quick-sort.webp"
           fetchPriority="high"
         />
         <meta

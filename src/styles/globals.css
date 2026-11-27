@@ -53,6 +53,7 @@ code {
 :root {
   --color-white: #fff;
   --color-compare: #ffac1c;
+  --color-pivot: #9ec5ff;
   --color-sorted: #9acd32;
   --color-enqueue: #ffd580;
   --color-visited: #ff9800;
@@ -69,6 +70,7 @@ code {
 [data-theme='dark'] {
   --color-white: #1e2a3a;
   --color-compare: #c47a00;
+  --color-pivot: #345c95;
   --color-sorted: #4a8000;
   --color-enqueue: #4682b4;
   --color-visited: #c47a00;

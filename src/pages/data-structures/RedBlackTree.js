@@ -47,8 +47,8 @@ export default function RedBlackTree(props) {
       <Divider sx={{ my: 3 }} />
 
       <Box
-        display="flex"
-        flexDirection={{ xs: 'column', md: 'row' }}
+        display="grid"
+        gridTemplateColumns={{ xs: '1fr', md: 'repeat(2, minmax(0, 1fr))' }}
         gap={{ xs: 0, md: 4 }}
       >
         <Section variant="h6" title="How It Works">

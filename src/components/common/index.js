@@ -5,6 +5,7 @@ import AdUnit from './ad-unit';
 import AlgoSteps from './algorithm-steps';
 import Article, { Section, ListItems } from './article';
 import CodeSnippet from './code-snippet';
+import ColorLegend from './color-legend';
 import ComplexityTable from './complexity-table';
 import CustomSeo from './custom-seo';
 import Draggable from './draggable';
@@ -25,6 +26,7 @@ export {
   Section,
   ListItems,
   CodeSnippet,
+  ColorLegend,
   ComplexityTable,
   CustomSeo,
   Draggable,

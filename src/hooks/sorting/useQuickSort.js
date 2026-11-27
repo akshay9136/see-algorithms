@@ -1,11 +1,17 @@
 import { useState } from 'react';
 import { useAlgorithm, useAnimator } from '@/hooks';
-import { Numbox, SortingVisualizer } from '@/components/common';
+import { ColorLegend, Numbox, SortingVisualizer } from '@/components/common';
 import { Box } from '@mui/material';
 import { Colors } from '@/common/constants';
 import { sound, withBoxId } from '@/common/utils';
 
 var arr, delay = 800;
+
+const colorLabels = [
+    ['Pivot', Colors.pivot],
+    ['Comparing', Colors.compare],
+    ['In final position', Colors.sorted],
+];
 
 export default function useQuickSort() {
     const [numbers, setNumbers] = useState([]);
@@ -24,7 +30,7 @@ function partition(start, end):
 
     async function* divide(start, end) {
         setCurrentStep('1');
-        bgcolor(arr[end].id, Colors.sorted);
+        bgcolor(arr[end].id, Colors.pivot);
         yield delay;
         let i = start, j = end - 1;
         setCurrentStep('2');
@@ -58,9 +64,8 @@ function partition(start, end):
             await swapNumbers(i, end);
             yield delay / 2;
             bgcolor(arr[end].id, Colors.white);
-        } else {
-            bgcolor(arr[i].id, Colors.sorted);
         }
+        bgcolor(arr[i].id, Colors.sorted);
         setCurrentStep('');
         return i;
     }
@@ -80,7 +85,7 @@ function partition(start, end):
     async function* quickSort(start, end) {
         yield delay;
         if (start >= end) {
-            if (start < arr.length) {
+            if (start === end) {
                 bgcolor(arr[start].id, Colors.sorted);
             }
             return;
@@ -116,7 +121,16 @@ function partition(start, end):
     );
 
     const visualizer = (
-        <SortingVisualizer handleSort={handleSort} handleStop={handleStop}>
+        <SortingVisualizer
+            handleSort={handleSort}
+            handleStop={handleStop}
+            colorLegend={
+                <ColorLegend
+                    items={colorLabels}
+                    label="Quick Sort color legend"
+                />
+            }
+        >
             {animation}
         </SortingVisualizer>
     );

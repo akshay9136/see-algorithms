@@ -233,7 +233,7 @@ export const treeExamples = {
     {
       name: 'Deletion triggers rebalance',
       prompt: 'Delete 60. The right subtree shrinks and the root becomes left-heavy — watch the right rotation.',
-      keys: [40, 20, 60, 10, 30, 50, 70, 5, 15, 25, 35],
+      keys: [40, 20, 60, 10, 30, 50, 5, 15],
       operation: 'Delete',
       value: 60,
     },

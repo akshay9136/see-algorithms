@@ -1,9 +1,9 @@
 import useAnimationSpeed from '@/hooks/useAnimationSpeed';
 import InputNumbers from './input-numbers';
 import SpeedControl from './speed-control';
-import { Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 
-function SortingVisualizer({ handleSort, handleStop, children }) {
+function SortingVisualizer({ handleSort, handleStop, children, colorLegend }) {
   const { speed, setSpeed, scaleDelay } = useAnimationSpeed();
 
   return (
@@ -17,11 +17,10 @@ function SortingVisualizer({ handleSort, handleStop, children }) {
         <br />
         {children}
       </Stack>
-      <SpeedControl
-        value={speed}
-        onChange={setSpeed}
-        sx={{ alignSelf: 'flex-end' }}
-      />
+      <Box display="flex" mt="20px !important">
+        {colorLegend}
+        <SpeedControl value={speed} onChange={setSpeed} sx={{ ml: 'auto' }} />
+      </Box>
     </>
   );
 }

@@ -1,6 +1,7 @@
 export const Colors = {
   white: 'var(--color-white)',
   compare: 'var(--color-compare)',
+  pivot: 'var(--color-pivot)',
   sorted: 'var(--color-sorted)',
   enqueue: 'var(--color-enqueue)',
   visited: 'var(--color-visited)',
