@@ -174,10 +174,10 @@ function Article({ title, summary, children }) {
       <Typography
         variant="h4"
         component="h1"
-        gutterBottom
         color="warning.main"
+        gutterBottom
         className="article-title"
-        fontSize="1.65rem !important"
+        fontSize="1.65rem"
       >
         {title}
       </Typography>

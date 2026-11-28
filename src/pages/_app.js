@@ -1,7 +1,9 @@
 import '@/styles/globals.css';
 import '@/styles/app.css';
 import '@/styles/animation.css';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+import { getTheme, nunito } from '@/styles/theme';
 import { useMemo, useState, useSyncExternalStore } from 'react';
 import { useDarkMode } from '@/hooks/useDarkMode';
 import { useRouter } from 'next/router';
@@ -9,17 +11,15 @@ import { Analytics } from '@vercel/analytics/next';
 import { CacheProvider } from '@emotion/react';
 import { SessionProvider } from 'next-auth/react';
 import { DefaultSeo } from 'next-seo';
-import CssBaseline from '@mui/material/CssBaseline';
 import AppContext, { initialState } from '../common/context';
 import GoogleAnalytics from '@/components/analytics';
 import CookieConsent from '@/components/cookie-consent';
 import Layout from '@/components/layout';
 import Toast from '@/components/toast';
-import dynamic from 'next/dynamic';
-import localFont from 'next/font/local';
-import createEmotionCache from '@/utils/client-cache';
 import { defaultSeoConfig } from '@/components/algorithm-seo/config';
 import { PERSON_SCHEMA, SITE_URL } from '@/utils/constants';
+import createEmotionCache from '@/utils/client-cache';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Script from 'next/script';
 
@@ -29,16 +29,6 @@ const subscribeToHostname = () => () => {}; // The hostname never changes within
 
 const SignInDialog = dynamic(() => import('@/components/sign-in-dialog'), {
   ssr: false,
-});
-
-const nunito = localFont({
-  src: [
-    { path: '../fonts/nunito-variable.woff2', weight: '500' },
-    { path: '../fonts/nunito-variable.woff2', weight: '600' },
-    { path: '../fonts/nunito-variable.woff2', weight: '700' },
-  ],
-  style: 'normal',
-  display: 'swap',
 });
 
 export default function App({
@@ -69,17 +59,7 @@ export default function App({
     [state, darkMode, toggleDarkMode],
   );
 
-  const theme = useMemo(
-    () =>
-      createTheme({
-        breakpoints: {
-          values: { xs: 0, sm: 600, md: 900, lg: 1200, xl: 1536, xxl: 1920 },
-        },
-        palette: { mode: darkMode ? 'dark' : 'light' },
-        typography: { fontFamily: nunito.style.fontFamily },
-      }),
-    [darkMode],
-  );
+  const theme = useMemo(() => getTheme(darkMode), [darkMode]);
 
   const structuredData = {
     '@context': 'https://schema.org',

@@ -99,7 +99,7 @@ function Layout({ children }) {
                 <Typography
                   variant="h4"
                   component="h1"
-                  fontSize="1.65rem !important"
+                  fontSize="1.65rem"
                   color="warning.main"
                   mb={2}
                 >

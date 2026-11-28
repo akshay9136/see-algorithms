@@ -47,7 +47,7 @@ export default function AlgorithmCard({ algo }) {
           <Chip
             label={algo.timeComplexity}
             size="small"
-            sx={{ fontSize: '0.825rem !important', borderRadius: 1.5 }}
+            sx={{ fontSize: '0.825rem', fontWeight: 600, borderRadius: 1.5 }}
           />
         </Box>
 
